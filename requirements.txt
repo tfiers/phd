@@ -1,0 +1,6 @@
+numpy ~= 1.18        # Numeric arrays and related utility functions. (https://numpy.org/)
+matplotlib ~= 3.1    # Plotting. (https://matplotlib.org/)
+numba ~= 0.50        # Speeds up numeric calculations. (http://numba.pydata.org/)
+notebook ~= 6.0      # Interactive exploration and mixing code & plots. (https://jupyter.org/)
+unyt ~= 2.7          # Physical units for quantities. Can auto-add units and signal
+                     # names to plot axes. (https://unyt.readthedocs.io/)
