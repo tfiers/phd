@@ -1,7 +1,7 @@
 # IDE (PyCharm) project specific settings
 .idea
 
-# Extra Jupyter notebook saves
+# Old, manually saved versions of Jupyter notebooks
 .ipynb_checkpoints
 
 # Cached Python bytecode created when importing a module
