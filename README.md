@@ -1,4 +1,4 @@
-# ⚡ Voltage –> wiring 🕸 – The simulation
+# ⚡ Voltage-to-wiring 🕸 • The simulation
 
 In vivo connectomics -- mapping the wires between neurons based on voltage imaging recordings. Proof of concept simulation.
 
@@ -69,8 +69,4 @@ in which you can play with the notebooks that run the simulation/analysis code a
 The code depends on some external packages.
 A list of them and short descriptions of what they are used for can be found in [`requirements.txt`](/requirements.txt).
 
-I sometimes add type hints to code (Python is an optionally typed language).  
-These look like eg `t: unyt_array = ...`  
-("variable `t` is of type `unyt_array`").  
-I do this to get code completions in my IDE (namely PyCharm) when
-the IDE cannot infer the type of a variable automatically.
+More explanation of the code can be found in [`code/README.md`](code/README.md), and in the Python files themselves, as comments and docstrings.
