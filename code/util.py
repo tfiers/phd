@@ -1,11 +1,16 @@
+from copy import copy
+from dataclasses import Field, fields, is_dataclass
 from functools import wraps
+from numbers import Number
+from typing import Union
 
+import numpy as np
 from unyt import unyt_array
 
 
 def strip_input_units(original_function):
     """
-    Converts arguments to SI units and removes their unit.
+    Converts dimensioned arguments to plain numbers in base SI units.
     
     Function decorator that
     1) scales inputs of type `unyt_quantity` or `unyt_array` to their base SI value
@@ -16,14 +21,28 @@ def strip_input_units(original_function):
     faster function.
     """
 
-    def process_arg(value):
+    @wraps(original_function)
+    def modified_function(*args, **kwargs):
+        args = (process(arg) for arg in args)
+        kwargs = {key: process(arg) for key, arg in kwargs.items()}
+        return original_function(*args, **kwargs)
+
+    def process(value):
         if isinstance(value, unyt_array):
-            # `unyt_quantity` is a subclass of `unyt_array` (so we will catch both).
-            return strip(value)
+            # `unyt_quantity` is a subclass of `unyt_array`; so we will catch either.
+            return strip_units(value)
+        elif is_dataclass(value):
+            new_dataclass = copy(value)
+            for field in fields(new_dataclass):
+                field: Field
+                old_field_value = getattr(new_dataclass, field.name)
+                new_field_value = process(old_field_value)  # recurse
+                setattr(new_dataclass, field.name, new_field_value)
+            return new_dataclass
         else:
             return value
 
-    def strip(quantity: unyt_array):
+    def strip_units(quantity: unyt_array) -> Union[np.ndarray, Number]:
         if not quantity.units.is_dimensionless:
             # Convert all units to common ground.
             quantity = quantity.in_base("mks")
@@ -37,11 +56,5 @@ def strip_input_units(original_function):
             # plain Python scalars.
             value = value.item()
         return value
-
-    @wraps(original_function)
-    def modified_function(*args, **kwargs):
-        args = (process_arg(val) for val in args)
-        kwargs = {key: process_arg(val) for key, val in kwargs.items()}
-        return original_function(*args, **kwargs)
 
     return modified_function

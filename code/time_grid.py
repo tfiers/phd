@@ -1,10 +1,20 @@
-import numpy as np
-from unyt import unyt_array, ms, min, s
+from dataclasses import dataclass, field
 
-T = 1 * s  # simulation duration
-dt = 0.1 * ms  # timestep
-N = round(T / dt)  # number of simulation steps
+from numpy import linspace
+from unyt import ms, s, unyt_array, unyt_quantity
 
-# time array, for plotting
-t: unyt_array = np.linspace(0, T, N, endpoint=False)
-t.name = "Time"
+
+@dataclass
+class TimeGrid:
+    T: unyt_quantity  # simulation duration
+    dt: unyt_quantity  # timestep
+    N: int = field(init=False)  # number of simulation steps
+    t: unyt_array = field(init=False)  # time array, for plotting
+
+    def __post_init__(self):
+        self.N = int(round(self.T / self.dt))
+        self.t = linspace(0, self.T, self.N, endpoint=False)
+        self.t.name = "Time"
+
+
+time_grid = TimeGrid(T=1 * s, dt=0.1 * ms)
