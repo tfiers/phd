@@ -7,8 +7,9 @@ import numpy as np
 from numpy.random import random, seed
 from unyt import Hz
 
-from time_grid import time_grid
-from util import strip_input_units
+from .plot_style import FigSizeCalc
+from .time_grid import time_grid
+from .util import strip_input_units
 
 # Mean spiking frequency per every incoming neuron.
 f_spike = 1 * Hz
@@ -36,4 +37,6 @@ all_spikes = sum(spike_trains)
 
 
 def show():
+    plt.figure(**FigSizeCalc(fig_height_vs_width=0.2).fig_kwargs)
     plt.plot(time_grid.t, all_spikes)
+    plt.yticks([])
