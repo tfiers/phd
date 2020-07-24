@@ -1,17 +1,11 @@
-import unyt
-
-# Import all submodules into the package namespace, so we have easy access via
-# tab-completion. (Note that `from . import *` doesn't work for this purpose).
+# Import various modules and objects into the package namespace, so we have easy access
+# via tab-completion in an interactive session.
 from . import (
-    cortical_RS_neuron,
+    neuron_params,
     neuron_sim,
     plot_style,
     presynaptic_spike_train,
-    time_grid,
     util,
+    units,
 )
-
-
-# Automatically add units to axes.
-unyt.matplotlib_support()
-
+from .time_grid import time_grid

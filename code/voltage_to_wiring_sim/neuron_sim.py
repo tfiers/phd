@@ -1,11 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 import matplotlib.pyplot as plt
-import numpy as np
+from numpy import zeros, empty, ones
 from numba import jit
-from unyt import pA, unyt_array
+from unyt import unyt_array
+from voltage_to_wiring_sim.neuron_params import cortical_RS
 
-from .cortical_RS_neuron import izh_params
+from .units import pA
+from .neuron_params import IzhikevichParams
 from .time_grid import time_grid
 from .util import strip_input_units
 
@@ -18,30 +20,31 @@ class SimResult:
 
 
 @strip_input_units
-def izh_neuron(
-    g_syn, I_e, time_grid, *, C, k, v_r, v_t, v_peak, a, b, c, d
-) -> SimResult:
+def izh_neuron(time_grid, params: IzhikevichParams, g_syn=None, I_e=None,) -> SimResult:
     """
     Input I and output v: arrays of length N.
     """
-    v_t0 = v_r
-    u_t0 = 0
-    E_syn = 0
 
-    N, dt = time_grid.N, time_grid.dt  # Numba can't yet handle data classes, alas.
+    if g_syn is None:
+        g_syn = zeros(time_grid.N)
+
+    if I_e is None:
+        I_e = zeros(time_grid.N)
 
     # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
     # without any overhead due to generic Python object processing.
+    # (Numba can't yet handle data classes, alas; so we have to unpack them as
+    # arguments).
     @jit
-    def sim():
-        v = np.empty(N)
-        u = np.empty(N)
-        I_syn = np.empty(N)
-        v[0] = v_t0
-        u[0] = u_t0
+    def sim(N, dt, v_syn, k, v_r, v_t, C, a, b, v_peak, c, d):
+        v = empty(N)
+        u = empty(N)
+        I_syn = empty(N)
+        v[0] = v_r
+        u[0] = 0
         for i in range(N - 1):
-            I_syn[i] = g_syn[i] * (v[i] - E_syn)
-            dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i] + I_syn[i]) / C
+            I_syn[i] = g_syn[i] * (v[i] - v_syn)
+            dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i]) / C
             du_dt = a * (b * (v[i] - v_r) - u[i])
             v[i + 1] = v[i] + dt * dv_dt
             u[i + 1] = u[i] + dt * du_dt
@@ -51,7 +54,9 @@ def izh_neuron(
                 u[i + 1] = u[i + 1] + d
         return v, u, I_syn
 
-    v, u, I_syn = sim()
+    v, u, I_syn = sim(time_grid.N, time_grid.dt, **asdict(params))
+    
+
     # We calculate in base SI units, therefore the results are too.
     return SimResult(
         V_m=unyt_array(v, units="V", name="Membrane voltage").in_units("mV"),
@@ -61,9 +66,6 @@ def izh_neuron(
 
 
 def test():
-    constant_electrode_current = np.ones(time_grid.N) * 100 * pA
-    no_synaptic_current = np.zeros(time_grid.N)
-    sim = izh_neuron(
-        no_synaptic_current, constant_electrode_current, time_grid, **izh_params
-    )
+    constant_electrode_current = ones(time_grid.N) * 100 * pA
+    sim = izh_neuron(time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current)
     plt.plot(time_grid.t, sim.V_m)
