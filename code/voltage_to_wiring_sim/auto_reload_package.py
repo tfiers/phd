@@ -20,8 +20,8 @@ class PackageAutoReloader:
 
     def reload_package_if_modified(self):
         if (mtime := self.get_mtime()) > self.mtime_at_last_interaction:
-            self.mtime_at_last_interaction = mtime
             self.reload_package()
+        self.mtime_at_last_interaction = mtime
 
     def reload_package(self):
         """
