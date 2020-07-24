@@ -1,5 +1,6 @@
-# IDE (PyCharm) project specific settings
+# IDE (PyCharm & VS Code) project specific settings
 .idea
+.vscode
 
 # Old, manually saved versions of Jupyter notebooks
 .ipynb_checkpoints
