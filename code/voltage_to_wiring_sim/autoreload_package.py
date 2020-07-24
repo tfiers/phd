@@ -7,9 +7,10 @@ import voltage_to_wiring_sim
 
 
 class PackageAutoReloader:
-    def __init__(self, entrypoint: ModuleType):
+    def __init__(self, entrypoint: ModuleType, max_retries=8):
         self.entrypoint = entrypoint
         self.mtime_at_last_interaction = self.get_mtime()
+        self.max_retries = max_retries
 
     def get_mtime(self):
         """ Last time when any of the Python files in the package were modified. """
@@ -28,8 +29,10 @@ class PackageAutoReloader:
         belong to the same package. Reloads all such modules in depth-first order.
         """
         visited_modules = set()
+        any_errors = False
 
         def visit(module):
+            global any_errors
             if module in visited_modules:
                 return
             else:
@@ -38,14 +41,21 @@ class PackageAutoReloader:
                     for name, object in getmembers(module):
                         if (source_module := getmodule(object)) :
                             visit(source_module)
+                    try:
+                        reload(module)
+                        print(f"Reloaded {module.__name__}")
+                    except ModuleNotFoundError:
+                        any_errors = True
 
-                    reload(module)
-                    print(f"Reloaded {module.__name__}")
-
-        visit(self.entrypoint)
+        for _ in range(self.max_retries):
+            visit(self.entrypoint)
+            if any_errors:
+                any_errors = False
+                continue
+            else:
+                break
 
 
 def load_ipython_extension(ipython):
     autoreloader = PackageAutoReloader(voltage_to_wiring_sim)
     ipython.events.register("pre_execute", autoreloader.reload_package_if_modified)
-
