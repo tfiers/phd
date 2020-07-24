@@ -1,5 +1,7 @@
 from importlib import reload
+from inspect import getmembers, getmodule
 from types import ModuleType
+
 
 import voltage_to_wiring_sim
 
@@ -10,25 +12,25 @@ def load_ipython_extension(ipython):
     )
 
 
-def reload_package(main_module: ModuleType):
+def reload_package(entrypoint: ModuleType):
     """
-    Follows the import tree from `main_module` -- but only to imported modules that
+    Follows the import tree from the `entrypoint` module -- but only to modules that
     belong to the same package. Reloads all such modules in depth-first order.
     """
 
     visited_modules = set()
 
     def visit(module):
-        if (
-            module.__package__.startswith(main_module.__package__)
-            and module not in visited_modules
-        ):
+        if module not in visited_modules:
             visited_modules.add(module)
-            for name in dir(module):
-                obj = getattr(module, name)
-                if isinstance(obj, ModuleType):
-                    visit(obj)
-            reload(module)
-            print(f"Reloaded {module.__name__}")
+            if module.__package__.startswith(entrypoint.__package__):
+                for name, object in getmembers(module):
+                    if (source_module := getmodule(object)) :
+                        visit(source_module)
+                        
+                reload(module)
+                print(f"Reloaded {module.__name__}")
 
-    visit(main_module)
+    # print(f"Reloading package `{entrypoint.__package__}`", end="...")
+    visit(entrypoint)
+    # print("Done")
