@@ -7,3 +7,6 @@
 
 # Cached Python bytecode created when importing a module
 __pycache__
+
+# Installation artifact from `pip install -e`
+*.egg-info

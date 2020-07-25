@@ -54,19 +54,37 @@ Izhikevich's simple model neuron".
 ## Technical details
 
 The code is written in Python 3.8.
-<details><summary>Local setup guide</summary>
+<details><summary>Local setup from scratch</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
 specifically its small <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> installer.<br>
 Installing conda will also install Python, and the `pip` Python package installer used below.<br>
 If Python's version is not already at least 3.8 (checked with <code>python --version</code>),
 upgrade using <code>conda update python</code>.<br>
-After cloning this repository, run <code>pip install -r requirements.txt</code> in the project's root directory,
-to install the external packages on which the code depends.
+Install the Jupyter notebook server using <code>conda install notebook</code>.  
+After cloning this repository, follow the package installation instructions below.
 Finally, you can run <code>python -m notebook</code>. This will open the Jupyter app locally, in your browser,
-in which you can play with the notebooks that run the simulation/analysis code and display the results.
+in which you can play with the notebooks, which run the simulation/analysis code and display the results.
 </details>
 
 The code depends on some external packages.
-A list of them and short descriptions of what they are used for can be found in [`requirements.txt`](/requirements.txt).
+A list of them and short descriptions of what they are used for can be found in [`code/setup.py`](code/setup.py).  
 
-More explanation of the code can be found in [`code/README.md`](code/README.md), and in the Python files themselves, as comments and docstrings.
+Install the code and its dependencies by running, in the project root directory:
+```bash
+pip install -e code
+```
+This will allow you to import the code as a package into scripts and notebooks:
+```py
+import voltage_to_wiring_sim as v  # example shorthand
+```
+
+The `-e` in the installation command stands for `editable`, meaning you can change the source code (found in [`code/voltage_to_wiring_sim/`](code/voltage_to_wiring_sim/)) and use the updated code in scripts without having to reinstall the package.
+
+To allow editing of the source code while running a Jupyter notebook, run a cell with the following:
+```
+%load_ext voltage_to_wiring_sim.autoreload_package
+```
+This allows you to update the source code without having to restart the Python 'kernel' on every change.
+
+
+More explanation on the code can be found in [`code/README.md`](code/README.md), and in the Python files themselves, as comments and docstrings.
