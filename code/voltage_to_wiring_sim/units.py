@@ -1,5 +1,5 @@
 from copy import copy
-from dataclasses import Field, fields, is_dataclass
+from dataclasses import Field, fields, is_dataclass, dataclass, asdict
 from functools import wraps
 from numbers import Number
 from typing import Union
@@ -94,3 +94,15 @@ def strip_input_units(original_function):
         return original_function(*map(strip_units, args), **valmap(strip_units, kwargs))
 
     return modified_function
+
+
+@dataclass
+class QuantityCollection:
+    """ To pretty print a collection of dimensioned values. """
+
+    def __str__(self):
+        """ Invoked when calling `print()` on the dataclass. """
+        # `str()` shouldn't be necessary, but there's a bug in unyt that double-printing
+        # the unit when using just the format string.
+        lines = [f"{name} = {str(value)}" for name, value in asdict(self).items()]
+        return "\n".join(lines)

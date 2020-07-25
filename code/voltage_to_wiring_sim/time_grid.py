@@ -3,9 +3,11 @@ from dataclasses import dataclass, field
 from numpy import linspace
 from unyt import ms, s, unyt_array, unyt_quantity
 
+from .units import QuantityCollection
+
 
 @dataclass
-class TimeGrid:
+class TimeGrid(QuantityCollection):
     T: unyt_quantity  # simulation duration
     dt: unyt_quantity  # timestep
     N: int = field(init=False)  # number of simulation steps

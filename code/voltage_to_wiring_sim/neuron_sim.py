@@ -17,11 +17,11 @@ from voltage_to_wiring_sim.neuron_params import cortical_RS
 
 from .neuron_params import IzhikevichParams
 from .time_grid import TimeGrid, short_time_grid
-from .units import mV, pA, strip_units
+from .units import mV, pA, strip_units, QuantityCollection
 
 
 @dataclass
-class SimResult:
+class SimResult(QuantityCollection):
     V_m: unyt_array
     u: unyt_array
     I_syn: unyt_array

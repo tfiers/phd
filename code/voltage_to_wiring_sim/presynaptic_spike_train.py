@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 from numpy import zeros
 from numpy.random import random, seed
 from unyt import Hz
-from voltage_to_wiring_sim.units import strip_input_units
 
 from .plot_style import FigSizeCalc
 from .time_grid import short_time_grid
+from .units import strip_input_units
 
 
 # Mean spiking frequency per every incoming neuron.
@@ -31,7 +31,9 @@ def generate_spikes(f_spike, time_grid):
     return spikes
 
 
-spike_trains = [generate_spikes(f_spike, short_time_grid) for incoming_neuron in range(n_in)]
+spike_trains = [
+    generate_spikes(f_spike, short_time_grid) for incoming_neuron in range(n_in)
+]
 
 # Aggregate spikes for all incoming neurons
 all_spikes = sum(spike_trains)
