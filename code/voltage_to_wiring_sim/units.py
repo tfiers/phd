@@ -7,12 +7,11 @@ from typing import Union
 import unyt
 from multipledispatch import dispatch
 from numpy import ndarray
-
-
-# Automatically add units and signal names to axes.
 from toolz import valmap
 
+#
 
+# Automatically add units and signal names to axes.
 unyt.matplotlib_support()
 
 from unyt import unyt_array, unyt_quantity, Unit
@@ -41,7 +40,7 @@ nS = Unit("nS")
 
 # `unyt_quantity` is a subclass of `unyt_array`; so we will catch either.
 @dispatch(unyt_array)
-def strip_unit(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, ndarray]:
+def strip_units(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, ndarray]:
     """
     Converts the given quantity to base SI units (i.e. without prefix, e.g. "nA" to
     "A"), and removes the unit. The result is a plain Python scalar or NumPy array,
@@ -67,7 +66,7 @@ def strip_unit(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, ndar
 
 
 @dispatch(object)
-def strip_unit(value):
+def strip_units(value):
     """
     If the input is a dataclass, applies `strip_unit` recursively to all its fields.
     Otherwise, returns the input as is.
@@ -80,7 +79,7 @@ def strip_unit(value):
         for field in fields(new_dataclass):
             field: Field
             old_field_value = getattr(new_dataclass, field.name)
-            new_field_value = strip_unit(old_field_value)  # recurse
+            new_field_value = strip_units(old_field_value)  # recurse
             setattr(new_dataclass, field.name, new_field_value)
         return new_dataclass
     else:
@@ -92,6 +91,6 @@ def strip_input_units(original_function):
 
     @wraps(original_function)
     def modified_function(*args, **kwargs):
-        return original_function(*map(strip_unit, args), **valmap(strip_unit, kwargs))
+        return original_function(*map(strip_units, args), **valmap(strip_units, kwargs))
 
     return modified_function

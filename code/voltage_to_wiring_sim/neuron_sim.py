@@ -1,14 +1,23 @@
-from dataclasses import dataclass, asdict
+"""
+Integrate the ODE of the Izhikevich model neuron.
+
+The real work happens in `_sim()`.
+
+The other code strips units from quantities (for speed during calculation), adds them
+back after, and tests the results.
+"""
+from dataclasses import asdict, dataclass
 
 import matplotlib.pyplot as plt
-from numpy import zeros, empty, ones
 from numba import jit
-from unyt import unyt_array
+from numpy import empty, ones, zeros
+from toolz import valmap
+from unyt import assert_allclose_units, unyt_array
 from voltage_to_wiring_sim.neuron_params import cortical_RS
 
-from .units import pA, strip_input_units
 from .neuron_params import IzhikevichParams
-from .time_grid import short_time_grid, TimeGrid
+from .time_grid import TimeGrid, short_time_grid
+from .units import mV, pA, strip_units
 
 
 @dataclass
@@ -28,12 +37,12 @@ class SimResult:
         self.I_syn.convert_to_units("pA")
 
 
-@strip_input_units
 def simulate_izh_neuron(
     time_grid: TimeGrid,
     params: IzhikevichParams,
     g_syn: unyt_array = None,
     I_e: unyt_array = None,
+    num_test_iterations: int = 3,
 ) -> SimResult:
 
     if g_syn is None:
@@ -42,38 +51,41 @@ def simulate_izh_neuron(
     if I_e is None:
         I_e = zeros(time_grid.N) * pA
 
-    # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
-    # without any overhead due to generic Python object processing.
-    # (Numba can't yet handle data classes, alas; so we have to unpack them, as
-    # arguments).
-    @jit
-    def sim(N, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d):
-        v = empty(N)
-        u = empty(N)
-        I_syn = empty(N)
-        v[0] = v_r
-        u[0] = 0
-        for i in range(N - 1):
-            I_syn[i] = g_syn[i] * (v[i] - v_syn)
-            dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i]) / C
-            du_dt = a * (b * (v[i] - v_r) - u[i])
-            # First order ('Euler') ODE integration.
-            v[i + 1] = v[i] + dt * dv_dt
-            u[i + 1] = u[i] + dt * du_dt
-            if v[i + 1] >= v_peak:
-                v[i] = v_peak
-                v[i + 1] = c
-                u[i + 1] = u[i + 1] + d
-        return v, u, I_syn
+    def output_arrays(num_timesteps):
+        return dict(
+            v=empty(num_timesteps) * mV,
+            u=empty(num_timesteps) * pA,
+            I_syn=empty(num_timesteps) * pA,
+        )
 
-    v, u, I_syn = sim(time_grid.N, time_grid.dt, **asdict(params))
+    # Create a keyword argument dictionary to pass to `_sim()`. (Numba can't yet handle
+    # data classes, alas; so we have to unpack them as separate arguments).
+    sim_args = dict(dt=time_grid.dt, g_syn=g_syn, I_e=I_e, **asdict(params))
 
-    # We calculate in base SI units, therefore the results are too.
-    return SimResult(
-        V_m=unyt_array(v, units="V"),
+    # Run the simulation for a limited number of iterations, but with all units kept in
+    # place.
+    test_sim_args = dict(**sim_args, **output_arrays(num_timesteps=num_test_iterations))
+    V_m_test, u_test, I_syn_test = _sim(**test_sim_args)
+
+    # Run the simulation for the entire time grid, but with units stripped off.
+    fast_sim_args = valmap(
+        strip_units, dict(**sim_args, **output_arrays(num_timesteps=time_grid.N))
+    )
+    V_m, u, I_syn = _sim_fast(**fast_sim_args)
+    # We gave the simulation base SI units, therefore the results are in base units too.
+    result = SimResult(
+        V_m=unyt_array(V_m, units="V"),
         u=unyt_array(u, units="A"),
         I_syn=unyt_array(I_syn, units="A"),
     )
+
+    # Test whether the fast, unitless simulation gives the same results as the
+    # simulation with units.
+    assert_allclose_units(V_m_test, result.V_m[:num_test_iterations])
+    assert_allclose_units(u_test, result.u[:num_test_iterations])
+    assert_allclose_units(I_syn_test, result.I_syn[:num_test_iterations])
+
+    return result
 
 
 def test():
@@ -82,3 +94,36 @@ def test():
         short_time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current
     )
     plt.plot(short_time_grid.t, sim.V_m)
+
+
+# Pure Python/Numpy function that can be compiled to compact machine code by Numba,
+# without any overhead due to generic Python object processing.
+def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d):
+    """
+    v, u, I_syn:  empty arrays of length N, that will be filled during simulation, and
+                  returned.
+    g_syn, I_e: input arrays of length N.
+    dt:           timestep (scalar).
+    [other args]: scalars; see IzhikevichParams.
+    """
+    # fmt: off
+    v[0] = v_r
+    u[0] = 0
+    calc_I_syn = lambda g_syn, v, v_syn: g_syn * (v - v_syn)
+    I_syn[0] = calc_I_syn(g_syn[0], v[0], v_syn)
+    for i in range(len(v) - 1):
+        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i]) / C
+        du_dt = a * (b * (v[i] - v_r) - u[i])
+        # First order ('Euler') ODE integration.
+        v[i+1] = v[i] + dt * dv_dt
+        u[i+1] = u[i] + dt * du_dt
+        I_syn[i+1] = calc_I_syn(g_syn[i+1], v[i+1], v_syn)
+        if v[i+1] >= v_peak:
+            v[i] = v_peak
+            v[i+1] = c
+            u[i+1] = u[i+1] + d
+    return v, u, I_syn
+    # fmt: on
+
+
+_sim_fast = jit(_sim)

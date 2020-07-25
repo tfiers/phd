@@ -18,4 +18,4 @@ class TimeGrid:
         self.t.name = "Time"
 
 
-short_time_grid = TimeGrid(T=0.5 * s, dt=0.5 * ms)
+short_time_grid = TimeGrid(T=1 * s, dt=0.1 * ms)

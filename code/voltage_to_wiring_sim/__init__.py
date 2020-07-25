@@ -5,7 +5,7 @@ from . import (
     neuron_sim,
     plot_style,
     presynaptic_spike_train,
-    util,
     units,
+    time_grid,
 )
 from .time_grid import short_time_grid
