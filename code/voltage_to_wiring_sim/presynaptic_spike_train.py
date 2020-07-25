@@ -9,7 +9,7 @@ from unyt import Hz
 from voltage_to_wiring_sim.units import strip_input_units
 
 from .plot_style import FigSizeCalc
-from .time_grid import time_grid
+from .time_grid import short_time_grid
 
 
 # Mean spiking frequency per every incoming neuron.
@@ -31,7 +31,7 @@ def generate_spikes(f_spike, time_grid):
     return spikes
 
 
-spike_trains = [generate_spikes(f_spike, time_grid) for incoming_neuron in range(n_in)]
+spike_trains = [generate_spikes(f_spike, short_time_grid) for incoming_neuron in range(n_in)]
 
 # Aggregate spikes for all incoming neurons
 all_spikes = sum(spike_trains)
@@ -39,5 +39,5 @@ all_spikes = sum(spike_trains)
 
 def show():
     plt.figure(**FigSizeCalc(fig_height_vs_width=0.2).fig_kwargs)
-    plt.plot(time_grid.t, all_spikes)
+    plt.plot(short_time_grid.t, all_spikes)
     plt.yticks([])

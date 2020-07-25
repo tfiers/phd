@@ -8,4 +8,4 @@ from . import (
     util,
     units,
 )
-from .time_grid import time_grid
+from .time_grid import short_time_grid

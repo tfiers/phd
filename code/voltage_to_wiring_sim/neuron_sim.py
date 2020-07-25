@@ -8,29 +8,39 @@ from voltage_to_wiring_sim.neuron_params import cortical_RS
 
 from .units import pA, strip_input_units
 from .neuron_params import IzhikevichParams
-from .time_grid import time_grid, TimeGrid
+from .time_grid import short_time_grid, TimeGrid
 
 
 @dataclass
 class SimResult:
     V_m: unyt_array
-    I_syn: unyt_array
     u: unyt_array
+    I_syn: unyt_array
+
+    def __post_init__(self):
+        self.V_m.name = "Membrane voltage"
+        self.V_m.convert_to_units("mV")
+
+        self.u.name = "Slow current 'u'"
+        self.u.convert_to_units("pA")
+
+        self.I_syn.name = "Synaptic current"
+        self.I_syn.convert_to_units("pA")
 
 
 @strip_input_units
-def izh_neuron(
-    time_grid: TimeGrid, params: IzhikevichParams, g_syn=None, I_e=None
+def simulate_izh_neuron(
+    time_grid: TimeGrid,
+    params: IzhikevichParams,
+    g_syn: unyt_array = None,
+    I_e: unyt_array = None,
 ) -> SimResult:
-    """
-    Input I and output v: arrays of length N.
-    """
 
     if g_syn is None:
-        g_syn = zeros(time_grid.N)
+        g_syn = zeros(time_grid.N) * pA
 
     if I_e is None:
-        I_e = zeros(time_grid.N)
+        I_e = zeros(time_grid.N) * pA
 
     # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
     # without any overhead due to generic Python object processing.
@@ -47,6 +57,7 @@ def izh_neuron(
             I_syn[i] = g_syn[i] * (v[i] - v_syn)
             dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i]) / C
             du_dt = a * (b * (v[i] - v_r) - u[i])
+            # First order ('Euler') ODE integration.
             v[i + 1] = v[i] + dt * dv_dt
             u[i + 1] = u[i] + dt * du_dt
             if v[i + 1] >= v_peak:
@@ -59,13 +70,15 @@ def izh_neuron(
 
     # We calculate in base SI units, therefore the results are too.
     return SimResult(
-        V_m=unyt_array(v, units="V", name="Membrane voltage").in_units("mV"),
-        u=unyt_array(u, units="A", name="Slow current 'u'").in_units("pA"),
-        I_syn=unyt_array(I_syn, units="A", name="Synaptic current").in_units("pA"),
+        V_m=unyt_array(v, units="V"),
+        u=unyt_array(u, units="A"),
+        I_syn=unyt_array(I_syn, units="A"),
     )
 
 
 def test():
-    constant_electrode_current = ones(time_grid.N) * 100 * pA
-    sim = izh_neuron(time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current)
-    plt.plot(time_grid.t, sim.V_m)
+    constant_electrode_current = ones(short_time_grid.N) * 100 * pA
+    sim = simulate_izh_neuron(
+        short_time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current
+    )
+    plt.plot(short_time_grid.t, sim.V_m)
