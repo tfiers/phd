@@ -21,10 +21,11 @@ setup(
     # higher minor version. According to semantic versioning [https://semver.org], this
     # means: your packages should have no backwards incompatible changes (i.e. this
     # package's code should keep running in your environment), but new features and
-    # bugfixes are allowed in your packages. If the packages in your current environment
-    # can't match these requirements, install in a new conda environment (or
-    # alternatively, a new virtualenv or pipenv):
+    # bugfixes are allowed in your packages. (Note that major version 0 packages may
+    # introduce breaking changes in minor versions). If the packages in your current
+    # environment can't match these requirements, install in a new conda environment:
     # [https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html]
+    # (or alternatively, a new virtualenv or pipenv).
     #
     # fmt: off
     install_requires=(
@@ -43,5 +44,10 @@ setup(
                               # likely to happen when manually converting units. Also,
                               # auto-adds units and signal names to plot axes.
                               # [https://unyt.readthedocs.io]
+        "multipledispatch ~= 0.6",  # Used in `units.py` to call a different version of
+                              # `strip_units()` depending on the input type.
+                              # [https://pypi.org/project/multipledispatch]
+        "toolz ~= 0.10",      # Utility functions for dictionaries.
+                              # [https://github.com/pytoolz/toolz]
     )
 )

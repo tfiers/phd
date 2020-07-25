@@ -3,13 +3,14 @@
 # spiking more than once in the same small timebin `dt`).
 
 import matplotlib.pyplot as plt
-import numpy as np
+from numpy import zeros
 from numpy.random import random, seed
 from unyt import Hz
+from voltage_to_wiring_sim.units import strip_input_units
 
 from .plot_style import FigSizeCalc
 from .time_grid import time_grid
-from .util import strip_input_units
+
 
 # Mean spiking frequency per every incoming neuron.
 f_spike = 1 * Hz
@@ -24,7 +25,7 @@ seed(0)
 
 @strip_input_units
 def generate_spikes(f_spike, time_grid):
-    spikes = np.zeros(time_grid.N)
+    spikes = zeros(time_grid.N)
     for i in range(time_grid.N):
         spikes[i] = f_spike * time_grid.dt > random()
     return spikes

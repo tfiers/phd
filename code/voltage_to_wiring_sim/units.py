@@ -1,6 +1,18 @@
+from copy import copy
+from dataclasses import Field, fields, is_dataclass
+from functools import wraps
+from numbers import Number
+from typing import Union
+
 import unyt
+from multipledispatch import dispatch
+from numpy import ndarray
+
 
 # Automatically add units and signal names to axes.
+from toolz import valmap
+
+
 unyt.matplotlib_support()
 
 from unyt import unyt_array, unyt_quantity, Unit
@@ -25,3 +37,61 @@ except:
 
 S = Unit("S")
 nS = Unit("nS")
+
+
+# `unyt_quantity` is a subclass of `unyt_array`; so we will catch either.
+@dispatch(unyt_array)
+def strip_unit(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, ndarray]:
+    """
+    Converts the given quantity to base SI units (i.e. without prefix, e.g. "nA" to
+    "A"), and removes the unit. The result is a plain Python scalar or NumPy array,
+    which removes overhead when used in calculation, yielding a faster calculation.
+    """
+
+    if not quantity.units.is_dimensionless:
+        # Convert all units to common ground. (mks = meter-kilogram-second).
+        quantity = quantity.in_base("mks")
+    # `in_base()` always returns a float datatype -- but for eg counts we want to
+    # keep the integer datatype. Thus we don't call `in_base` for dimensionless
+    # datatypes. (Dimensionless quantities needn't be converted anyway).
+
+    # Get plain NumPy array, without units.
+    value = quantity.value
+
+    if value.ndim == 0:
+        # Numba doesn't like zero-dimensional NumPy arrays. So convert those to
+        # plain Python scalars.
+        value = value.item()
+
+    return value
+
+
+@dispatch(object)
+def strip_unit(value):
+    """
+    If the input is a dataclass, applies `strip_unit` recursively to all its fields.
+    Otherwise, returns the input as is.
+    
+    (If the input is a dimensioned quantity, it should have been dispatched to the other
+    version of `strip_unit`).
+    """
+    if is_dataclass(value):
+        new_dataclass = copy(value)
+        for field in fields(new_dataclass):
+            field: Field
+            old_field_value = getattr(new_dataclass, field.name)
+            new_field_value = strip_unit(old_field_value)  # recurse
+            setattr(new_dataclass, field.name, new_field_value)
+        return new_dataclass
+    else:
+        return value
+
+
+def strip_input_units(original_function):
+    """ Function decorator applying `strip_unit` to all arguments. """
+
+    @wraps(original_function)
+    def modified_function(*args, **kwargs):
+        return original_function(*map(strip_unit, args), **valmap(strip_unit, kwargs))
+
+    return modified_function

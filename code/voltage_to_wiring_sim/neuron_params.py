@@ -7,7 +7,7 @@ from .units import mV, ms, nS, pA, pF, unyt_quantity
 @dataclass
 class IzhikevichParams:
     C:      unyt_quantity   # Capacitance
-    k:      unyt_quantity   # A relative conductance derived from neuron's I-V curve.
+    k:      unyt_quantity   # A voltage-dependent conductance derived from neuron's I-V curve.
     v_r:    unyt_quantity   # Resting potential
     v_t:    unyt_quantity   # "Instantenous" threshold. (Approximate firing threshold)
     v_peak: unyt_quantity   # Spike cut-off voltage

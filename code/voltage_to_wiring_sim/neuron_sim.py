@@ -6,10 +6,9 @@ from numba import jit
 from unyt import unyt_array
 from voltage_to_wiring_sim.neuron_params import cortical_RS
 
-from .units import pA
+from .units import pA, strip_input_units
 from .neuron_params import IzhikevichParams
-from .time_grid import time_grid
-from .util import strip_input_units
+from .time_grid import time_grid, TimeGrid
 
 
 @dataclass
@@ -20,7 +19,9 @@ class SimResult:
 
 
 @strip_input_units
-def izh_neuron(time_grid, params: IzhikevichParams, g_syn=None, I_e=None,) -> SimResult:
+def izh_neuron(
+    time_grid: TimeGrid, params: IzhikevichParams, g_syn=None, I_e=None
+) -> SimResult:
     """
     Input I and output v: arrays of length N.
     """
@@ -33,10 +34,10 @@ def izh_neuron(time_grid, params: IzhikevichParams, g_syn=None, I_e=None,) -> Si
 
     # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
     # without any overhead due to generic Python object processing.
-    # (Numba can't yet handle data classes, alas; so we have to unpack them as
+    # (Numba can't yet handle data classes, alas; so we have to unpack them, as
     # arguments).
     @jit
-    def sim(N, dt, v_syn, k, v_r, v_t, C, a, b, v_peak, c, d):
+    def sim(N, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d):
         v = empty(N)
         u = empty(N)
         I_syn = empty(N)
@@ -55,7 +56,6 @@ def izh_neuron(time_grid, params: IzhikevichParams, g_syn=None, I_e=None,) -> Si
         return v, u, I_syn
 
     v, u, I_syn = sim(time_grid.N, time_grid.dt, **asdict(params))
-    
 
     # We calculate in base SI units, therefore the results are too.
     return SimResult(
