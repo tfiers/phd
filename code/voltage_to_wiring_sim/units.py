@@ -9,7 +9,6 @@ from multipledispatch import dispatch
 from numpy import ndarray
 from toolz import valmap
 
-#
 
 # Automatically add units and signal names to axes.
 unyt.matplotlib_support()

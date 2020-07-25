@@ -89,7 +89,7 @@ def simulate_izh_neuron(
 
 
 def test():
-    constant_electrode_current = ones(short_time_grid.N) * 100 * pA
+    constant_electrode_current = ones(short_time_grid.N) * 60 * pA
     sim = simulate_izh_neuron(
         short_time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current
     )
@@ -112,7 +112,7 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     calc_I_syn = lambda g_syn, v, v_syn: g_syn * (v - v_syn)
     I_syn[0] = calc_I_syn(g_syn[0], v[0], v_syn)
     for i in range(len(v) - 1):
-        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_e[i]) / C
+        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] + I_e[i]) / C
         du_dt = a * (b * (v[i] - v_r) - u[i])
         # First order ('Euler') ODE integration.
         v[i+1] = v[i] + dt * dv_dt
