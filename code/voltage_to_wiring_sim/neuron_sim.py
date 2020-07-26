@@ -6,7 +6,10 @@ The real work happens in `_sim()`.
 The other code strips units from quantities (for speed during calculation), adds them
 back after, and tests the results.
 """
+from contextlib import contextmanager
 from dataclasses import asdict, dataclass
+from time import time
+from typing import Optional
 
 import matplotlib.pyplot as plt
 from numba import jit
@@ -42,7 +45,7 @@ def simulate_izh_neuron(
     params: IzhikevichParams,
     g_syn: unyt_array = None,
     I_e: unyt_array = None,
-    num_test_iterations: int = 3,
+    num_test_iterations: Optional[int] = None,
 ) -> SimResult:
 
     if g_syn is None:
@@ -62,10 +65,14 @@ def simulate_izh_neuron(
     # data classes, alas; so we have to unpack them as separate arguments).
     sim_args = dict(dt=time_grid.dt, g_syn=g_syn, I_e=I_e, **asdict(params))
 
-    # Run the simulation for a limited number of iterations, but with all units kept in
-    # place.
-    test_sim_args = dict(**sim_args, **output_arrays(num_timesteps=num_test_iterations))
-    V_m_test, u_test, I_syn_test = _sim(**test_sim_args)
+    if num_test_iterations is not None:
+        # Run the simulation for a limited number of iterations, but with all units kept
+        # in place.
+        test_sim_args = dict(
+            **sim_args, **output_arrays(num_timesteps=num_test_iterations)
+        )
+        with report_duration("test simulation with units"):
+            V_m_test, u_test, I_syn_test = _sim(**test_sim_args)
 
     # Run the simulation for the entire time grid, but with units stripped off.
     fast_sim_args = valmap(
@@ -79,19 +86,33 @@ def simulate_izh_neuron(
         I_syn=unyt_array(I_syn, units="A"),
     )
 
-    # Test whether the fast, unitless simulation gives the same results as the
-    # simulation with units.
-    assert_allclose_units(V_m_test, result.V_m[:num_test_iterations])
-    assert_allclose_units(u_test, result.u[:num_test_iterations])
-    assert_allclose_units(I_syn_test, result.I_syn[:num_test_iterations])
+    if num_test_iterations is not None:
+        # Test whether the fast, unitless simulation gives the same results as the
+        # simulation with units.
+        assert_allclose_units(V_m_test, result.V_m[:num_test_iterations])
+        assert_allclose_units(u_test, result.u[:num_test_iterations])
+        assert_allclose_units(I_syn_test, result.I_syn[:num_test_iterations])
 
     return result
+
+
+@contextmanager
+def report_duration(action_description: str):
+    print("Running", action_description, end=" … ")
+    t0 = time()
+    yield
+    duration = time() - t0
+    print(f"✔ ({duration:.2g} s)")
 
 
 def test():
     constant_electrode_current = ones(short_time_grid.N) * 60 * pA
     sim = simulate_izh_neuron(
-        short_time_grid, cortical_RS, g_syn=None, I_e=constant_electrode_current
+        short_time_grid,
+        cortical_RS,
+        g_syn=None,
+        I_e=constant_electrode_current,
+        num_test_iterations=short_time_grid.N,
     )
     plt.plot(short_time_grid.t, sim.V_m)
 
@@ -126,4 +147,4 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     # fmt: on
 
 
-_sim_fast = jit(_sim)
+_sim_fast = jit(_sim,)
