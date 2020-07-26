@@ -2,7 +2,7 @@ from copy import copy
 from dataclasses import Field, fields, is_dataclass, dataclass, asdict
 from functools import wraps
 from numbers import Number
-from typing import Union
+from typing import Any, Union
 
 import unyt
 from multipledispatch import dispatch
@@ -37,7 +37,22 @@ S = Unit("S")
 nS = Unit("nS")
 
 
-# `unyt_quantity` is a subclass of `unyt_array`; so we will catch either.
+@dataclass
+class QuantityCollection:
+    """ A collection of dimensioned values, with pretty printing ability. """
+
+    def __str__(self):
+        """ Invoked when calling `print()` on the dataclass. """
+        # `str()` shouldn't be necessary, but there's a bug in unyt that double-prints
+        # the unit when using just the format string.
+        lines = [f"{name} = {str(value)}" for name, value in asdict(self).items()]
+        return "\n".join(lines)
+
+
+# Call a different version of `strip_units()` depending on the input type.
+
+# `unyt_quantity` is a subclass of `unyt_array`; so we will catch either with this
+# dispatch command.
 @dispatch(unyt_array)
 def strip_units(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, ndarray]:
     """
@@ -64,44 +79,24 @@ def strip_units(quantity: Union[unyt_quantity, unyt_array]) -> Union[Number, nda
     return value
 
 
+@dispatch(QuantityCollection)
+def strip_units(dataclass: QuantityCollection) -> QuantityCollection:
+    new = copy(dataclass)
+    for name, value in asdict(dataclass).items():
+        setattr(new, name, strip_units(value))
+    return new
+
+
 @dispatch(object)
-def strip_units(value):
-    """
-    If the input is a dataclass, applies `strip_unit` recursively to all its fields.
-    Otherwise, returns the input as is.
-    
-    (If the input is a dimensioned quantity, it should have been dispatched to the other
-    version of `strip_unit`).
-    """
-    if is_dataclass(value):
-        new_dataclass = copy(value)
-        for field in fields(new_dataclass):
-            field: Field
-            old_field_value = getattr(new_dataclass, field.name)
-            new_field_value = strip_units(old_field_value)  # recurse
-            setattr(new_dataclass, field.name, new_field_value)
-        return new_dataclass
-    else:
-        return value
+def strip_units(value: Any) -> Any:
+    return value
 
 
 def strip_input_units(original_function):
-    """ Function decorator applying `strip_unit` to all arguments. """
+    """ Function decorator that applies `strip_unit` to all arguments. """
 
     @wraps(original_function)
     def modified_function(*args, **kwargs):
         return original_function(*map(strip_units, args), **valmap(strip_units, kwargs))
 
     return modified_function
-
-
-@dataclass
-class QuantityCollection:
-    """ To pretty print a collection of dimensioned values. """
-
-    def __str__(self):
-        """ Invoked when calling `print()` on the dataclass. """
-        # `str()` shouldn't be necessary, but there's a bug in unyt that double-printing
-        # the unit when using just the format string.
-        lines = [f"{name} = {str(value)}" for name, value in asdict(self).items()]
-        return "\n".join(lines)

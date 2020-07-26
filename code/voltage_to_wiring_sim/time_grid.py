@@ -10,8 +10,8 @@ from .units import QuantityCollection
 class TimeGrid(QuantityCollection):
     T: unyt_quantity  # simulation duration
     dt: unyt_quantity  # timestep
-    N: int = field(init=False)  # number of simulation steps
-    t: unyt_array = field(init=False)  # time array, for plotting
+    N: int = None  # number of simulation steps
+    t: unyt_array = None  # time array, for plotting
 
     def __post_init__(self):
         self.N = int(round(self.T / self.dt))
