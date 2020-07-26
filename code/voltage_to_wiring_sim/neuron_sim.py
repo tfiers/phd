@@ -20,7 +20,7 @@ from voltage_to_wiring_sim.neuron_params import cortical_RS
 
 from .neuron_params import IzhikevichParams
 from .time_grid import TimeGrid, short_time_grid
-from .units import mV, pA, strip_units, QuantityCollection
+from .units import mV, ms, pA, strip_units, QuantityCollection
 
 
 @dataclass
@@ -45,53 +45,34 @@ def simulate_izh_neuron(
     params: IzhikevichParams,
     g_syn: unyt_array = None,
     I_e: unyt_array = None,
-    num_test_iterations: Optional[int] = None,
+    fast: bool = True,
 ) -> SimResult:
-
-    if g_syn is None:
-        g_syn = zeros(time_grid.N) * pA
-
-    if I_e is None:
-        I_e = zeros(time_grid.N) * pA
-
-    def output_arrays(num_timesteps):
-        return dict(
-            v=empty(num_timesteps) * mV,
-            u=empty(num_timesteps) * pA,
-            I_syn=empty(num_timesteps) * pA,
-        )
 
     # Create a keyword argument dictionary to pass to `_sim()`. (Numba can't yet handle
     # data classes, alas; so we have to unpack them as separate arguments).
-    sim_args = dict(dt=time_grid.dt, g_syn=g_syn, I_e=I_e, **asdict(params))
+    sim_args = dict(
+        v=empty(time_grid.N) * mV,
+        u=empty(time_grid.N) * pA,
+        I_syn=empty(time_grid.N) * pA,
+        dt=time_grid.dt,
+        g_syn=g_syn if g_syn is not None else zeros(time_grid.N) * pA,
+        I_e=I_e if I_e is not None else zeros(time_grid.N) * pA,
+        **asdict(params),
+    )
 
-    if num_test_iterations is not None:
-        # Run the simulation for a limited number of iterations, but with all units kept
-        # in place.
-        test_sim_args = dict(
-            **sim_args, **output_arrays(num_timesteps=num_test_iterations)
+    if fast:
+        sim_args = valmap(strip_units, sim_args)
+        V_m, u, I_syn = _sim_fast(**sim_args)
+        # We gave the simulation base SI units, therefore the results are in base units
+        # too.
+        return SimResult(
+            V_m=unyt_array(V_m, units="V"),
+            u=unyt_array(u, units="A"),
+            I_syn=unyt_array(I_syn, units="A"),
         )
-        with report_duration("test simulation with units"):
-            V_m_test, u_test, I_syn_test = _sim(**test_sim_args)
-
-    # Run the simulation for the entire time grid, but with units stripped off.
-    fast_sim_args = valmap(
-        strip_units, dict(**sim_args, **output_arrays(num_timesteps=time_grid.N))
-    )
-    V_m, u, I_syn = _sim_fast(**fast_sim_args)
-    # We gave the simulation base SI units, therefore the results are in base units too.
-    result = SimResult(
-        V_m=unyt_array(V_m, units="V"),
-        u=unyt_array(u, units="A"),
-        I_syn=unyt_array(I_syn, units="A"),
-    )
-
-    if num_test_iterations is not None:
-        # Test whether the fast, unitless simulation gives the same results as the
-        # simulation with units.
-        assert_allclose_units(V_m_test, result.V_m[:num_test_iterations])
-        assert_allclose_units(u_test, result.u[:num_test_iterations])
-        assert_allclose_units(I_syn_test, result.I_syn[:num_test_iterations])
+    else:
+        V_m, u, I_syn = _sim(**sim_args)
+        return SimResult(V_m, u, I_syn)
 
     return result
 
@@ -106,15 +87,23 @@ def report_duration(action_description: str):
 
 
 def test():
-    constant_electrode_current = ones(short_time_grid.N) * 60 * pA
-    sim = simulate_izh_neuron(
-        short_time_grid,
-        cortical_RS,
-        g_syn=None,
-        I_e=constant_electrode_current,
-        num_test_iterations=short_time_grid.N,
-    )
-    plt.plot(short_time_grid.t, sim.V_m)
+    test_time_grid = TimeGrid(T=200 * ms, dt=0.1 * ms)
+    # Constant electrode current
+    constant_input = ones(test_time_grid.N) * 80 * pA
+    with report_duration("simulation, without stripping units"):
+        sim_with_units = simulate_izh_neuron(
+            test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, fast=False
+        )
+    with report_duration("stripping units + simulation"):
+        sim_fast = simulate_izh_neuron(
+            test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, fast=True
+        )
+    # Require results to differ by no more than 1%
+    rtol = 0.01
+    assert_allclose_units(sim_fast.V_m, sim_with_units.V_m, rtol)
+    assert_allclose_units(sim_fast.u, sim_with_units.u, rtol)
+    assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn, rtol)
+    plt.plot(test_time_grid.t, sim_fast.V_m)
 
 
 # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
