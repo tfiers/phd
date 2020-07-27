@@ -16,8 +16,7 @@ class TimeGrid(QuantityCollection):
     def __post_init__(self):
         self.N = int(round(self.T / self.dt))
         self.t = linspace(0, self.T, self.N, endpoint=False)
-        self.t.convert_to_units(ms)
         self.t.name = "Time"
 
 
-short_time_grid = TimeGrid(T=1 * s, dt=0.1 * ms)
+short_time_grid = TimeGrid(T=(1 * s).in_units(ms), dt=0.1 * ms)

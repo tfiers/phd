@@ -1,5 +1,5 @@
 from copy import copy
-from dataclasses import Field, fields, is_dataclass, dataclass, asdict
+from dataclasses import asdict, dataclass
 from functools import wraps
 from numbers import Number
 from typing import Any, Union
@@ -9,6 +9,10 @@ from multipledispatch import dispatch
 from numpy import ndarray
 from toolz import valmap
 
+from .util import report_duration
+
+
+#
 
 # Automatically add units and signal names to axes.
 unyt.matplotlib_support()

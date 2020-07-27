@@ -47,7 +47,10 @@ setup(
         "multipledispatch ~= 0.6",  # Used in `units.py` to call a different version of
                               # `strip_units()` depending on the input type.
                               # [https://pypi.org/project/multipledispatch]
-        "toolz ~= 0.10",      # Utility functions for dictionaries.
+        "toolz ~= 0.10",      # `valmap` to apply a function to a dictionary's values.
                               # [https://github.com/pytoolz/toolz]
+        "joblib ~= 0.16",     # Computing `spike_trains` only once, instead of every
+                              # time the module is reloaded.
+                              # [https://joblib.readthedocs.io/]
     )
 )

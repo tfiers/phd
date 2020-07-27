@@ -10,3 +10,6 @@ __pycache__
 
 # Installation artifact from `pip install -e`
 *.egg-info
+
+# Function call cache directory
+joblib

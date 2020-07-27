@@ -6,21 +6,18 @@ The real work happens in `_sim()`.
 The other code strips units from quantities (for speed during calculation), adds them
 back after, and tests the results.
 """
-from contextlib import contextmanager
 from dataclasses import asdict, dataclass
-from time import time
-from typing import Optional
 
 import matplotlib.pyplot as plt
 from numba import jit
 from numpy import empty, ones, zeros
 from toolz import valmap
 from unyt import assert_allclose_units, unyt_array
-from voltage_to_wiring_sim.neuron_params import cortical_RS
 
-from .neuron_params import IzhikevichParams
-from .time_grid import TimeGrid, short_time_grid
-from .units import mV, ms, pA, strip_units, QuantityCollection
+from .neuron_params import IzhikevichParams, cortical_RS
+from .time_grid import TimeGrid
+from .units import QuantityCollection, mV, ms, pA, strip_units
+from .util import report_duration
 
 
 @dataclass
@@ -33,7 +30,7 @@ class SimResult(QuantityCollection):
         self.V_m.name = "Membrane voltage"
         self.V_m.convert_to_units("mV")
 
-        self.u.name = "Slow current 'u'"
+        self.u.name = "Slow current, u"
         self.u.convert_to_units("pA")
 
         self.I_syn.name = "Synaptic current"
@@ -77,24 +74,15 @@ def simulate_izh_neuron(
     return result
 
 
-@contextmanager
-def report_duration(action_description: str):
-    print("Running", action_description, end=" … ")
-    t0 = time()
-    yield
-    duration = time() - t0
-    print(f"✔ ({duration:.2g} s)")
-
-
 def test():
     test_time_grid = TimeGrid(T=200 * ms, dt=0.1 * ms)
     # Constant electrode current
     constant_input = ones(test_time_grid.N) * 80 * pA
-    with report_duration("simulation, without stripping units"):
+    with report_duration("Running simulation, without stripping units"):
         sim_with_units = simulate_izh_neuron(
             test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, fast=False
         )
-    with report_duration("stripping units + simulation"):
+    with report_duration("Stripping units + running simulation"):
         sim_fast = simulate_izh_neuron(
             test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, fast=True
         )
@@ -112,7 +100,7 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     """
     v, u, I_syn:  empty arrays of length N, that will be filled during simulation, and
                   returned.
-    g_syn, I_e: input arrays of length N.
+    g_syn, I_e:   input arrays of length N.
     dt:           timestep (scalar).
     [other args]: scalars; see IzhikevichParams.
     """
@@ -121,17 +109,20 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     u[0] = 0
     calc_I_syn = lambda g_syn, v, v_syn: g_syn * (v - v_syn)
     I_syn[0] = calc_I_syn(g_syn[0], v[0], v_syn)
+    
     for i in range(len(v) - 1):
-        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] + I_e[i]) / C
+        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
         du_dt = a * (b * (v[i] - v_r) - u[i])
         # First order ('Euler') ODE integration.
         v[i+1] = v[i] + dt * dv_dt
         u[i+1] = u[i] + dt * du_dt
-        I_syn[i+1] = calc_I_syn(g_syn[i+1], v[i+1], v_syn)
         if v[i+1] >= v_peak:
             v[i] = v_peak
             v[i+1] = c
             u[i+1] = u[i+1] + d
+    
+        I_syn[i+1] = calc_I_syn(g_syn[i+1], v[i+1], v_syn)
+    
     return v, u, I_syn
     # fmt: on
 

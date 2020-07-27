@@ -4,6 +4,7 @@ from pathlib import Path
 from types import ModuleType
 
 import voltage_to_wiring_sim
+from voltage_to_wiring_sim.util import report_duration
 
 
 class PackageAutoReloader:
@@ -43,17 +44,17 @@ class PackageAutoReloader:
                             visit(source_module)
                     try:
                         reload(module)
-                        print(f"Reloaded {module.__name__}")
                     except ModuleNotFoundError:
                         any_errors = True
 
-        for _ in range(self.max_retries):
-            visit(self.entrypoint)
-            if any_errors:
-                any_errors = False
-                continue
-            else:
-                break
+        with report_duration(f"Reloading {self.entrypoint}"):
+            for _ in range(self.max_retries):
+                visit(self.entrypoint)
+                if any_errors:
+                    any_errors = False
+                    continue
+                else:
+                    break
 
 
 def load_ipython_extension(ipython):
