@@ -1,0 +1,9 @@
+# Book settings
+title: Voltage-to-Wiring Sim
+author: Tomas Fiers
+repository:
+  url: https://github.com/tfiers/voltage-to-wiring-sim
+html:
+  use_repository_button: true
+execute:
+  execute_notebooks: off

@@ -13,3 +13,6 @@ __pycache__
 
 # Function call cache directory
 joblib
+
+# Jupyter Book html output directory
+_build
