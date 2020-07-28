@@ -44,13 +44,12 @@ setup(
                               # likely to happen when manually converting units. Also,
                               # auto-adds units and signal names to plot axes.
                               # [https://unyt.readthedocs.io]
-        "multipledispatch ~= 0.6",  # Used in `units.py` to call a different version of
-                              # `strip_units()` depending on the input type.
+        "multipledispatch ~= 0.6",  # Used in `unyt_mod.py` to call a different version
+                              # of `as_raw_data()` depending on the input type.
                               # [https://pypi.org/project/multipledispatch]
         "toolz ~= 0.10",      # `valmap` to apply a function to a dictionary's values.
                               # [https://github.com/pytoolz/toolz]
-        "joblib ~= 0.16",     # Computing `spike_trains` only once, instead of every
-                              # time the module is reloaded.
+        "joblib ~= 0.16",     # Unused as of now.
                               # [https://joblib.readthedocs.io/]
     )
 )

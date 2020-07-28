@@ -3,18 +3,20 @@
 # spiking more than once in the same small timebin `dt`).
 
 import matplotlib.pyplot as plt
-from joblib import Memory
+from numba import jit
 from numpy import zeros
 from numpy.random import random, seed
-from unyt import Hz
 
 from .plot_style import FigSizeCalc
-from .time_grid import short_time_grid
-from .units import strip_input_units
+from .time_grid import TimeGrid, short_time_grid
+from .units import Hz, Quantity, inputs_as_raw_data
+
 
 #
 
 # Mean spiking frequency per every incoming neuron.
+
+
 f_spike = 1 * Hz
 
 # Number of incoming neurons
@@ -25,19 +27,20 @@ n_in = 20
 seed(0)
 
 
-@strip_input_units
-def generate_spike_train(f_spike, time_grid):
-    spikes = zeros(time_grid.N)
-    for i in range(time_grid.N):
-        spikes[i] = f_spike * time_grid.dt > random()
+@inputs_as_raw_data
+@jit
+def _gen_spike_train(f_spike, N, dt):
+    spikes = zeros(N)
+    for i in range(N):
+        spikes[i] = f_spike * dt > random()
     return spikes
 
 
-memory = Memory(".", verbose=False)
+def generate_spike_train(f_spike: Quantity, tg: TimeGrid):
+    return _gen_spike_train(f_spike, tg.N, tg.dt)
 
 
-@memory.cache
-def generate_spike_trains(N):
+def generate_spike_trains(N: int):
     return [
         generate_spike_train(f_spike, short_time_grid) for incoming_neuron in range(N)
     ]

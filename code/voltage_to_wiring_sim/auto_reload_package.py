@@ -39,6 +39,9 @@ class PackageAutoReloader:
             else:
                 visited_modules.add(module)
                 if module.__package__.startswith(self.entrypoint.__package__):
+                    # Get module in which each object is defined, instead of just
+                    # finding all names that are a module. This is to catch also `from
+                    # xx import yy` modules, and not just the `import xx` modules.
                     for name, object in getmembers(module):
                         if (source_module := getmodule(object)) :
                             visit(source_module)

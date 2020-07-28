@@ -1,28 +1,28 @@
 from dataclasses import dataclass
 
-from .units import QuantityCollection, mV, ms, nS, pA, pF, unyt_quantity
+from .units import Quantity, QuantityCollection, mV, ms, nS, pA, pF
 
 
 # fmt: off
 
 @dataclass
 class IzhikevichParams(QuantityCollection):
-    C:      unyt_quantity   # Capacitance
-    k:      unyt_quantity   # A voltage-dependent conductance derived from neuron's I-V curve.
-    v_r:    unyt_quantity   # Resting potential
-    v_t:    unyt_quantity   # "Instantenous" threshold. (Approximate firing threshold)
-    v_peak: unyt_quantity   # Spike cut-off voltage
-    a:      unyt_quantity   # 1 / time constant of dominant slow current (`u`; K⁺)
-    b:      unyt_quantity   # A conductance derived from neuron's I-V curve
-    c:      unyt_quantity   # Reset potential
-    d:      unyt_quantity   # Free parameter ("net current activated during spike").
-    v_syn:  unyt_quantity   # Synaptic reversal potential
+    C:      Quantity   # Capacitance
+    k:      Quantity   # A voltage-dependent conductance derived from neuron's I-V curve.
+    v_r:    Quantity   # Resting potential
+    v_t:    Quantity   # "Instantenous" threshold. (Approximate firing threshold)
+    v_peak: Quantity   # Spike cut-off voltage
+    a:      Quantity   # 1 / time constant of dominant slow current (`u`; K⁺)
+    b:      Quantity   # A conductance derived from neuron's I-V curve
+    c:      Quantity   # Reset potential
+    d:      Quantity   # Free parameter ("net current activated during spike").
+    v_syn:  Quantity   # Synaptic reversal potential
 
 
 # Cortical regular spiking (RS) neuron.
 cortical_RS = IzhikevichParams(
     C = 100*pF,
-    k = 0.7*nS/mV,
+    k = 0.7*(nS/mV),
     b = -2*nS,
     v_r    = -60*mV,
     v_t    = -40*mV,
