@@ -3,7 +3,17 @@ title: Voltage-to-Wiring Sim
 author: Tomas Fiers
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
-html:
-  use_repository_button: true
+  path_to_book: notebooks
 execute:
   execute_notebooks: off
+launch_buttons:
+  binderhub_url: https://notebooks.gesis.org/binder
+html:
+  use_repository_button: true
+  use_edit_page_button: true
+  extra_navbar: |
+    <div id="build-status">
+      [build status]
+    </div>
+  extra_footer: |
+    <script src="https://hypothes.is/embed.js" async></script>
