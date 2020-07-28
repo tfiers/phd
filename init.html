@@ -188,12 +188,22 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing np, mpl, plt … ✔
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Importing unyt&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot; … &quot;</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">unyt</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✔&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing unyt … ✔
 </pre></div>
 </div>
 </div>
@@ -206,11 +216,30 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing code package (voltage_to_wiring_sim), as `v` … ✔
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.units</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Imported * from v.units&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Imported * from v.units
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RS</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">cortical_RS</span>
+<span class="n">tg</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">short_time_grid</span>
+<span class="n">izh_neuron</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">neuron_sim</span><span class="o">.</span><span class="n">simulate_izh_neuron</span>
 </pre></div>
 </div>
 </div>
@@ -237,30 +266,12 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">precision</span> <span class="o">%.</span><span class="mi">4</span><span class="n">G</span>
 
 <span class="k">def</span> <span class="nf">set_np_precision</span><span class="p">(</span><span class="n">digits</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="c1"># This allows eg `array([1000, 1E+05, 0.111])`</span>
     <span class="n">np</span><span class="o">.</span><span class="n">set_printoptions</span><span class="p">(</span><span class="n">formatter</span><span class="o">=</span><span class="p">{</span>
         <span class="s1">&#39;float_kind&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;.</span><span class="si">{</span><span class="n">digits</span><span class="si">}</span><span class="s1">G&#39;</span><span class="p">),</span>
     <span class="p">})</span>
 
 <span class="n">set_np_precision</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">To see the source code responsible for this notebook:</span>
-
-<span class="s2">- Go to</span>
-<span class="s2">  https://github.com/tfiers/voltage-to-wiring-sim/tree/master/notebooks</span>
-
-<span class="s2">- In the file listing, click the commit message </span>
-<span class="s2">  next to this notebook&#39;s name</span>
-
-<span class="s2">- Click the &quot;Browse files&quot; button.</span>
-
-<span class="s2">This shows the entire repository as it was </span>
-<span class="s2">when this notebook was last modified.&quot;&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

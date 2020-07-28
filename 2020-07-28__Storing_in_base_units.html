@@ -166,7 +166,19 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prototyping">
+   Prototyping
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#new-codebase-test">
+   New codebase test
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -189,34 +201,15 @@ user interaction time. That is, when:</p>
 <p>This notebook prototypes this solution.</p>
 <p>(Alternative solutions we don’t explore here:</p>
 <ul class="simple">
-<li><p>use Brian, which has it’s own unit system builtin.</p></li>
+<li><p>use Brian, which has its own unit system builtin.</p></li>
 <li><p>program in Julia</p></li>
 </ul>
 <p>).</p>
+<div class="section" id="prototyping">
+<h2>Prototyping<a class="headerlink" href="#prototyping" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="n">init</span><span class="o">.</span><span class="n">ipynb</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing np, mpl, plt … ✔
-Importing unyt … ✔
-Importing code package (voltage_to_wiring_sim), as `v` … ✔
-Imported * from v.units
-
-To see the source code responsible for this notebook:
-
-- Go to
-  https://github.com/tfiers/voltage-to-wiring-sim/tree/master/notebooks
-
-- In the file listing, click the commit message 
-  next to this notebook&#39;s name
-
-- Click the &quot;Browse files&quot; button.
-
-This shows the entire repository as it was 
-when this notebook was last modified.
 </pre></div>
 </div>
 </div>
@@ -337,7 +330,7 @@ when this notebook was last modified.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-28__Storing_in_base_units_6_0.png" src="_images/2020-07-28__Storing_in_base_units_6_0.png" />
+<img alt="_images/2020-07-28__Storing_in_base_units_7_0.png" src="_images/2020-07-28__Storing_in_base_units_7_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -347,11 +340,210 @@ when this notebook was last modified.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-28__Storing_in_base_units_7_0.png" src="_images/2020-07-28__Storing_in_base_units_7_0.png" />
+<img alt="_images/2020-07-28__Storing_in_base_units_8_0.png" src="_images/2020-07-28__Storing_in_base_units_8_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Unit</span><span class="p">(</span><span class="n">unyt</span><span class="o">.</span><span class="n">Unit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__mul__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unyt_quantity</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">unyt_array</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">Quantity</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span>
+
+<span class="n">mV</span> <span class="o">=</span> <span class="n">Unit</span><span class="p">(</span><span class="s1">&#39;mV&#39;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Array(4.0 mV, stored in V, float64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">ndarray_view</span><span class="p">()</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">ndview</span> <span class="o">==</span> <span class="n">a</span><span class="o">.</span><span class="n">d</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="n">ndview</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array(0.004)
+</pre></div>
+</div>
 </div>
 </div>
 <p>It all works nicely :)</p>
 <p>I will now integrate this code in the codebase.</p>
+</div>
+<div class="section" id="new-codebase-test">
+<h2>New codebase test<a class="headerlink" href="#new-codebase-test" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="n">init</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing np, mpl, plt … ✔
+Importing unyt … ✔
+Importing code package (voltage_to_wiring_sim), as `v` … ✔
+Imported * from v.units
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">neuron_sim</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Simulations with and without units yield equal results.
+</pre></div>
+</div>
+<img alt="_images/2020-07-28__Storing_in_base_units_16_1.png" src="_images/2020-07-28__Storing_in_base_units_16_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>TimeGrid
+--------
+T = 1000.0 ms
+dt = 0.1 ms
+N = 10000
+t = [0 0.1 0.2 ... 999.7 999.8 999.9] ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span> <span class="o">=</span> <span class="n">izh_neuron</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">RS</span><span class="p">,</span> <span class="n">I_e</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">pA</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>SimResult
+---------
+V_m = [-60 -59.92 -59.84 ... -53.76 -53.75 -53.74] mV
+u = [0 0 -0.00048 ... 10 9.933 9.866] pA
+I_syn = [-0 -0 -0 ... -0 -0 -0] pA
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span><span class="o">.</span><span class="n">V_m</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>Array([-60 -59.92 -59.84] mV, stored in V, float64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">value</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-none notranslate"><div class="highlight"><pre><span></span>array([-0.06, -0.05992, -0.05984])
+</pre></div>
+</div>
+</div>
+</div>
+<p>👍</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">V_m</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2020-07-28__Storing_in_base_units_22_0.png" src="_images/2020-07-28__Storing_in_base_units_22_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">u</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2020-07-28__Storing_in_base_units_23_0.png" src="_images/2020-07-28__Storing_in_base_units_23_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">presynaptic_spike_train</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2020-07-28__Storing_in_base_units_24_0.png" src="_images/2020-07-28__Storing_in_base_units_24_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
+<span class="n">sts</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">presynaptic_spike_train</span><span class="o">.</span><span class="n">generate_spike_trains</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 78.8 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">izh_neuron</span><span class="p">(</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">TimeGrid</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="nb">min</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="o">*</span><span class="n">ms</span><span class="p">),</span>
+    <span class="n">params</span><span class="o">=</span><span class="n">RS</span><span class="p">,</span>
+    <span class="n">I_e</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">pA</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 682 ms
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 
