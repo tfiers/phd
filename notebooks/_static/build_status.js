@@ -5,16 +5,22 @@ function updateStatus() {
     .then(res => res.json())
     .then(obj => {
         let status = obj["workflow_runs"][0]["status"]
-        let text
+        let div = document.querySelector("#build-status")
+        let oldText = div.textContent
+        let newText
+        const BUILDING = "new version building …"
         if (status == "completed") {
-            text = "latest version"
-            setTimeout(updateStatus, 60*1000);
+            if (oldText == BUILDING) {
+                newText = "reload to get latest version"
+            } else {
+                newText = "latest version"
+                setTimeout(updateStatus, 60*1000);
+            }
         } else {
-            text = "new version building …"
+            newText = BUILDING
             setTimeout(updateStatus, 500);
         }
-        div = document.querySelector("#build-status")
-        div.textContent = text
+        div.textContent = newText
         div.title = `Last checked: ${(new Date()).toLocaleTimeString()}`
     })
 }
