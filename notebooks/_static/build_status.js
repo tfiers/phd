@@ -13,7 +13,9 @@ function updateStatus() {
             text = "new version building …"
             setTimeout(updateStatus, 500);
         }
-        document.querySelector("#build-status").textContent = text
+        div = document.querySelector("#build-status")
+        div.textContent = text
+        div.title = `Last checked: ${(new Date()).toLocaleTimeString()}`
     })
 }
 
