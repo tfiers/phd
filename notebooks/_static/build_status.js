@@ -1,27 +1,36 @@
 url = "https://api.github.com/repos/tfiers/voltage-to-wiring-sim/actions/runs"
 
+let was_building = false
+
+function writeStatus(text) {
+    let div = document.querySelector("#build-status")
+    div.innerHTML = text
+    div.title = `Last checked: ${(new Date()).toLocaleTimeString()}`
+}
+
 function updateStatus() {
     fetch(url)
     .then(res => res.json())
     .then(obj => {
-        let status = obj["workflow_runs"][0]["status"]
-        let div = document.querySelector("#build-status")
-        let oldText = div.textContent
-        let newText
-        const BUILDING = "new version building …"
+        let last_run = obj["workflow_runs"][0]
+        let status = last_run["status"]
         if (status == "completed") {
-            if (oldText == BUILDING) {
-                newText = "reload to get latest version"
+            if (was_building) {
+                writeStatus("reload to get latest version")
             } else {
-                newText = "latest version"
-                setTimeout(updateStatus, 60*1000);
+                writeStatus("latest version")
+                setTimeout(updateStatus, 60 * 1000);
             }
         } else {
-            newText = BUILDING
-            setTimeout(updateStatus, 500);
+            fetch(last_run["jobs_url"])
+            .then(res => res.json())
+            .then(obj => {
+                let live_logs = obj["jobs"][0]["html_url"]
+                writeStatus(`<a href="${live_logs}">new version building …</a>`)
+                was_building = true
+                setTimeout(updateStatus, 2 * 1000);
+            })
         }
-        div.textContent = newText
-        div.title = `Last checked: ${(new Date()).toLocaleTimeString()}`
     })
 }
 
