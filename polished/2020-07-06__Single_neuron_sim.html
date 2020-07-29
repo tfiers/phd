@@ -7,27 +7,27 @@
     <meta charset="utf-8" />
     <title>2020-07-06 • Single neuron simulation &#8212; Voltage-to-Wiring Sim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
-    <link href="_static/css/index.css" rel="stylesheet">
-    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
-    <script src="_static/togglebutton.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/mystnb.js"></script>
-    <script src="_static/build_status.js"></script>
-    <script src="_static/resize_retina_figures.js"></script>
-    <script src="_static/sphinx-book-theme.js"></script>
+    <link href="../_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mystnb.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/sphinx-book-theme.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
@@ -38,15 +38,26 @@
         const thebe_selector_input = "pre"
         const thebe_selector_output = ".output"
     </script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Initialization notebook" href="init.html" />
-    <link rel="prev" title="2020-07-05 • Izhikevich paper testing" href="2020-07-05__Izhikevich_paper_accomp.html" />
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/polished/2020-07-06__Single_neuron_sim.html" />
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2020-07-29 • Spike-triggered averaging" href="2020-07-29__STA.html" />
+    <link rel="prev" title="Polished notebooks" href="index.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://tfiers.github.io/voltage-to-wiring-sim/polished/2020-07-06__Single_neuron_sim.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="2020-07-06 • Single neuron simulation" />
+<meta property="og:description" content="2020-07-06 • Single neuron simulation  Introduction  I want to test whether we can recover connections..  between simulated neurons  under ‘realistic’ voltage i" />
+
+
+<meta name="twitter:card" content="summary">
 
 
   </head>
@@ -59,7 +70,7 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="index.html">
+<a class="navbar-brand text-wrap" href="../index.html">
   
   
   <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
@@ -67,37 +78,63 @@
 </a>
 </div>
 
-<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+<form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="current nav sidenav_l1">
+  <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
-   2020-07-05 • Izhikevich paper testing
+  <a class="reference internal" href="../index.html">
+   Readme
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   2020-07-06 • Single neuron simulation
-  </a>
- </li>
+</ul>
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="init.html">
+  <a class="reference internal" href="../init.html">
    Initialization notebook
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
-   2020-07-27 • Synaptic conductances
+  <a class="reference internal" href="../unpolished/index.html">
+   Unpolished notebooks
   </a>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unpolished/2020-07-05__Izhikevich_paper_accomp.html">
+     2020-07-05 • Izhikevich paper testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unpolished/2020-07-28__Storing_in_base_units.html">
+     2020-07-28 • Storing values in base units
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../unpolished/2020-07-27__Synaptic_conductances.html">
+     2020-07-27 • Synaptic conductances
+    </a>
+   </li>
+  </ul>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
-   2020-07-28 • Storing values in base units
+ <li class="toctree-l1 current active">
+  <a class="reference internal" href="index.html">
+   Polished notebooks
   </a>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     2020-07-06 • Single neuron simulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2020-07-29__STA.html">
+     2020-07-29 • Spike-triggered averaging
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -144,7 +181,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/2020-07-06__Single_neuron_sim.ipynb"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/polished/2020-07-06__Single_neuron_sim.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
@@ -163,8 +200,11 @@
             href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn"
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
-        
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/master/notebooks/2020-07-06__Single_neuron_sim.ipynb"><button
+        <a class="issues-button"
+            href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fpolished/2020-07-06__Single_neuron_sim.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/master/notebooks/polished/2020-07-06__Single_neuron_sim.ipynb"><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
@@ -183,10 +223,10 @@
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/master?urlpath=tree/notebooks/2020-07-06__Single_neuron_sim.ipynb"><button type="button"
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/master?urlpath=tree/notebooks/polished/2020-07-06__Single_neuron_sim.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
-                    src="_static/images/logo_binder.svg"
+                    src="../_static/images/logo_binder.svg"
                     alt="Interact on binder">Binder</button></a>
         
         
@@ -344,7 +384,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_11_0.png" src="_images/2020-07-06__Single_neuron_sim_11_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_11_0.png" src="../_images/2020-07-06__Single_neuron_sim_11_0.png" />
 </div>
 </div>
 </div>
@@ -401,7 +441,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_19_0.png" src="_images/2020-07-06__Single_neuron_sim_19_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_19_0.png" src="../_images/2020-07-06__Single_neuron_sim_19_0.png" />
 </div>
 </div>
 </div>
@@ -433,7 +473,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_22_0.png" src="_images/2020-07-06__Single_neuron_sim_22_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_22_0.png" src="../_images/2020-07-06__Single_neuron_sim_22_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -444,7 +484,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_23_0.png" src="_images/2020-07-06__Single_neuron_sim_23_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_23_0.png" src="../_images/2020-07-06__Single_neuron_sim_23_0.png" />
 </div>
 </div>
 </div>
@@ -458,7 +498,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_25_0.png" src="_images/2020-07-06__Single_neuron_sim_25_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_25_0.png" src="../_images/2020-07-06__Single_neuron_sim_25_0.png" />
 </div>
 </div>
 </div>
@@ -480,7 +520,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/2020-07-06__Single_neuron_sim_27_0.png" src="_images/2020-07-06__Single_neuron_sim_27_0.png" />
+<img alt="../_images/2020-07-06__Single_neuron_sim_27_0.png" src="../_images/2020-07-06__Single_neuron_sim_27_0.png" />
 </div>
 </div>
 </div>
@@ -499,7 +539,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./."
+            path: "./polished"
         },
         predefinedOutput: true
     }
@@ -514,8 +554,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="2020-07-05__Izhikevich_paper_accomp.html" title="previous page">2020-07-05 • Izhikevich paper testing</a>
-    <a class='right-next' id="next-link" href="init.html" title="next page">Initialization notebook</a>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">Polished notebooks</a>
+    <a class='right-next' id="next-link" href="2020-07-29__STA.html" title="next page">2020-07-29 • Spike-triggered averaging</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
@@ -538,7 +578,7 @@
       </div>
     </div>
 
-    <script src="_static/js/index.js"></script>
+    <script src="../_static/js/index.js"></script>
     
   </body>
 </html>

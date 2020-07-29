@@ -48,6 +48,6 @@ For a graphical overview of this profile, including an estimated call graph ("wh
 snakeviz temp.profile
 ```
 
-`$$time` simply times the run duration of a code block.
-
-`$$timeit` repeatedly runs a code block to get accurate timing results and statistics.
+Two more useful magics:
+- `$$time` simply times the run duration of a code block.
+- `$$timeit` repeatedly runs a code block to get accurate timing results and statistics.
