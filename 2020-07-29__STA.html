@@ -212,6 +212,30 @@
                 
   <div class="section" id="spike-triggered-averaging">
 <h1>2020-07-29 • Spike-triggered averaging<a class="headerlink" href="#spike-triggered-averaging" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="n">init</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Importing np, mpl, plt … ✔
+Importing unyt … ✔
+Importing code package (voltage_to_wiring_sim), as `v` … ✔
+Imported * from v.units
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RS</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">cortical_RS</span>
+<span class="n">sim</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">neuron_sim</span><span class="o">.</span><span class="n">simulate_izh_neuron</span>
+<span class="n">tg</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">TimeGrid</span><span class="p">(</span><span class="n">T</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="nb">min</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.1</span><span class="o">*</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
