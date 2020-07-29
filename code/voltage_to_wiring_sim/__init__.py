@@ -4,7 +4,7 @@ from . import (
     neuron_params,
     neuron_sim,
     plot_style,
-    presynaptic_spike_train,
+    spike_train,
     units,
     time_grid,
 )

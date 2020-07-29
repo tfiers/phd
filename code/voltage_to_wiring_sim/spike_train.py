@@ -12,18 +12,18 @@ from .time_grid import TimeGrid
 from .units import Hz, Quantity, inputs_as_raw_data, ms, s
 
 
-def generate_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:
+def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:
     """
     Simulate a Poisson spiking neuron.
     :param f_spike:  Mean spiking frequency
     :return: Array of length `time_grid.N`. "1" at spike times, "0" elsewhere.
     """
-    return _gen_spike_train(time_grid.N, time_grid.dt, f_spike)
+    return _gen_Poisson_spikes(time_grid.N, time_grid.dt, f_spike)
 
 
 @inputs_as_raw_data
 @jit
-def _gen_spike_train(N, dt, f_spike):
+def _gen_Poisson_spikes(N, dt, f_spike):
     spikes = zeros(N)
     for i in range(N):
         spikes[i] = f_spike * dt > random()
@@ -35,7 +35,7 @@ def test():
     n_in = 20
     tg = TimeGrid(1 * s, 0.1 * ms)
     spike_trains = [
-        generate_spike_train(tg, f_spike) for incoming_neuron in range(n_in)
+        generate_Poisson_spike_train(tg, f_spike) for incoming_neuron in range(n_in)
     ]
     # Aggregate spikes for all incoming neurons
     all_spikes = sum(spike_trains)

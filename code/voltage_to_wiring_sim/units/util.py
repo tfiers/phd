@@ -35,6 +35,7 @@ class QuantityCollection:
 # Call a different version of `as_raw_data()` depending on the input type.
 
 
+# This must come before @dispatch(Array), as Quantity is a subclass of Array.
 @dispatch(Quantity)
 def as_raw_data(quantity: Quantity) -> Number:
     return quantity.item()
