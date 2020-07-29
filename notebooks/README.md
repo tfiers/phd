@@ -9,28 +9,45 @@ For a full treatment, see the first chapter of Jake VanderPlas's excellent "Pyth
 
 Onto the tips.
 
-In a code cell:
+### Object inspection
+With the cursor in a code cell:
  - Use `tab` for a list of available objects, and for completion of partially typed names.
  - Use `shift-tab` with the cursor on a Python object to get help on that object (eg a method's call signature and docstring).
+
+Another way to get help on an object is to prepend its name by `?`, and then run the cell:
+```
+?np
+```
+This can also be used to get help on IPython 'magics' (see {ref}`below <debugging>` for examples of magics):
+```
+?%%prun
+```
+
+Two question marks yield the source code of an object:
+```
+??v.neuron_sim.simulate_izh_neuron
+```
+
+
+(debugging)=
+### Debugging
+After a code crash, run a cell containing `%debug` to enter a debugger in post-mortem mode, allowing you to inspect variables in your crashed code. In this debugger, type `h` for a list of possible commnds. (Eg. `u` takes you up one frame in the stack trace).
+
+
+(timing-and-profiling)=
+### Timing and profiling
 
 A code block can be profiled using the cell magic `prun`:
 ```ipython
 %%prun
-# [slow code you want to investigate]:
-# which called functions specifically are slow?
+# [slow code]
 ```
-This will show, for each function, the total time spent in that function (`cumtime`), and the total time spent in that function minus time spent in subcalls (`tottime`).
+This will show, for each called function, the total time spent in that function (`cumtime`), and the total time spent in that function minus time spent in subcalls (`tottime`).
 For a graphical overview of this profile, including an estimated call graph ("which function called which?"), install [snakeviz](https://jiffyclub.github.io/snakeviz/), and use `%%prun -D temp.profile`. Then, in a shell, run
 ```bash
 snakeviz temp.profile
 ```
 
-Get help on a Python object or an IPython magic with `?`:
-```ipython
-?%%prun
-```
+`$$time` simply times the run duration of a code block.
 
-Two question marks yield the source code:
-```
-??v.neuron_sim.simulate_izh_neuron
-```
+`$$timeit` repeatedly runs a code block to get accurate timing results and statistics.
