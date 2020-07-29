@@ -16,6 +16,3 @@ class TimeGrid(QuantityCollection):
         self.N = int(round(self.T / self.dt))
         t: unyt_array = linspace(0, self.T, self.N, endpoint=False)
         self.t = Array(t.in_units(self.T.display_units), name="Time")
-
-
-short_time_grid = TimeGrid(T=(1 * s).in_units(ms), dt=0.1 * ms)
