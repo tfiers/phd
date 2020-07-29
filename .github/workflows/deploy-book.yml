@@ -1,4 +1,4 @@
-name: deploy-book
+name: deploy-book--workflow
 
 # Only run this when anything in notebooks/ on the master branch changes
 on:
@@ -9,7 +9,7 @@ on:
 
 # This job installs dependencies, build the book, and pushes it to `gh-pages`
 jobs:
-  deploy-book:
+  deploy-book--job:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -37,4 +37,4 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         # Specify workdir again (this is not a `run` command, so the default wd set
         # above is not used).
-        publish_dir: notebook/_build/html
+        publish_dir: notebooks/_build/html
