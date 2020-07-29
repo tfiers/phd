@@ -185,7 +185,14 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#jupyter-notebook-tips">
+   Jupyter notebook tips
+  </a>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -197,7 +204,37 @@
   <div class="section" id="readme">
 <h1>Readme<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h1>
 <p>Some notebooks (eg <code class="docutils literal notranslate"><span class="pre">2020-07-05__Izhikevich_paper_accomp.ipynb</span></code>) include interactive widgets: sliders to play with the arguments of a function and see the effect in a live updated plot. Instal <a class="reference external" href="https://ipywidgets.readthedocs.io/en/latest/index.html">Jupyter Widgets / ipywidgets</a> to make this work.</p>
+<div class="section" id="jupyter-notebook-tips">
+<h2>Jupyter notebook tips<a class="headerlink" href="#jupyter-notebook-tips" title="Permalink to this headline">¶</a></h2>
+<p>This is a short overview of tricks.<br />
+For a full treatment, see the first chapter of Jake VanderPlas’s excellent “Python for Data Science Handbook”, which is freely available online <a class="reference external" href="https://jakevdp.github.io/PythonDataScienceHandbook/#Table-of-Contents">here</a>. (That chapter describes IPython. IPython is the project out of which Jupyter grew, and the current main technology behind Jupyter Python notebooks).</p>
+<p>Onto the tips.</p>
+<p>In a code cell:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">tab</span></code> for a list of available objects, and for completion of partially typed names.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">shift-tab</span></code> with the cursor on a Python object to get help on that object (eg a method’s call signature and docstring).</p></li>
+</ul>
+<p>A code block can be profiled using the cell magic <code class="docutils literal notranslate"><span class="pre">prun</span></code>:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="o">%%prun</span>
+<span class="c1"># [slow code you want to investigate]:</span>
+<span class="c1"># which called functions specifically are slow?</span>
+</pre></div>
+</div>
+<p>This will show, for each function, the total time spent in that function (<code class="docutils literal notranslate"><span class="pre">cumtime</span></code>), and the total time spent in that function minus time spent in subcalls (<code class="docutils literal notranslate"><span class="pre">tottime</span></code>).
+For a graphical overview of this profile, including an estimated call graph (“which function called which?”), install <a class="reference external" href="https://jiffyclub.github.io/snakeviz/">snakeviz</a>, and use <code class="docutils literal notranslate"><span class="pre">%%prun</span> <span class="pre">-D</span> <span class="pre">temp.profile</span></code>. Then, in a shell, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>snakeviz temp.profile
+</pre></div>
+</div>
+<p>Get help on a Python object or an IPython magic with <code class="docutils literal notranslate"><span class="pre">?</span></code>:</p>
+<div class="highlight-ipython notranslate"><div class="highlight"><pre><span></span><span class="o">?</span>%%prun
+</pre></div>
+</div>
+<p>Two question marks yield the source code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>??v.neuron_sim.simulate_izh_neuron
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
