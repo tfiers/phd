@@ -12,14 +12,18 @@ def run_jb_cmd(cmd):
 
 def expand_subsections():
     # r+ = text file in read & write mode.
-    with open("_toc.yml", mode="r+") as f:
+    toc_filename = "_toc.yml"
+    with open(toc_filename, mode="r+") as f:
         toc = yaml.safe_load(f)
         for file in toc["sections"]:
             if "sections" in file:
                 file["expand_sections"] = True
         f.seek(0)
         f.truncate()
-        yaml.safe_dump(toc, f)
+        print(f"{toc_filename} after processing:")
+        print(yaml.dump(toc))
+        print("")
+        yaml.dump(toc, f)
 
 
 run_jb_cmd("clean")
