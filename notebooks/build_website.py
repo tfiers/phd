@@ -10,8 +10,7 @@ def run_jb_cmd(cmd):
     run(["jupyter-book", cmd, "."], stdout=sys.stdout, stderr=sys.stderr)
 
 
-def expand_subsections():
-    # r+ = text file in read & write mode.
+def expand_toc_subsections():
     toc_file = "_toc.yml"
     with open(toc_file) as f:
         toc_string_in = f.read()
@@ -28,5 +27,5 @@ def expand_subsections():
 
 run_jb_cmd("clean")
 run_jb_cmd("toc")
-expand_subsections()
+expand_toc_subsections()
 run_jb_cmd("build")
