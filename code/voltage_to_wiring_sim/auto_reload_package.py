@@ -38,11 +38,15 @@ class PackageAutoReloader:
                 return
             else:
                 visited_modules.add(module)
-                if module.__package__.startswith(self.entrypoint.__package__):
-                    # Get module in which each object is defined, instead of just
-                    # finding all names that are a module. This is to catch also `from
-                    # xx import yy` modules, and not just the `import xx` modules.
+                if (
+                    module.__package__.startswith(self.entrypoint.__package__)
+                    and module.__name__ != __name__  # don't reload ourself
+                ):
                     for name, object in getmembers(module):
+                        # Get module in which each object is defined, instead of just
+                        # finding all names that are a module. This is to catch also
+                        # `from xx import yy` modules, and not just the `import xx`
+                        # modules.
                         if (source_module := getmodule(object)) :
                             visit(source_module)
                     try:
@@ -60,6 +64,17 @@ class PackageAutoReloader:
                     break
 
 
+autoreloader = PackageAutoReloader(voltage_to_wiring_sim)
+
+
 def load_ipython_extension(ipython):
-    autoreloader = PackageAutoReloader(voltage_to_wiring_sim)
     ipython.events.register("pre_execute", autoreloader.reload_package_if_modified)
+
+
+def unload_ipython_extension(ipython):
+    try:
+        ipython.events.unregister(
+            "pre_execute", autoreloader.reload_package_if_modified
+        )
+    except:
+        pass
