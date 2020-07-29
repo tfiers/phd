@@ -3,13 +3,12 @@
 # spiking more than once in the same small timebin `dt`).
 
 import matplotlib.pyplot as plt
-from numba import jit
-from numpy import ndarray, zeros
+from numpy import ndarray
 from numpy.random import random
 
 from .plot_style import figsize
 from .time_grid import TimeGrid
-from .units import Hz, Quantity, inputs_as_raw_data, ms, s
+from .units import Hz, Quantity, ms, s
 
 
 def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:
@@ -18,16 +17,7 @@ def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndar
     :param f_spike:  Mean spiking frequency
     :return: Array of length `time_grid.N`. "1" at spike times, "0" elsewhere.
     """
-    return _gen_Poisson_spikes(time_grid.N, time_grid.dt, f_spike)
-
-
-@inputs_as_raw_data
-@jit
-def _gen_Poisson_spikes(N, dt, f_spike):
-    spikes = zeros(N)
-    for i in range(N):
-        spikes[i] = f_spike * dt > random()
-    return spikes
+    return f_spike * time_grid.dt > random(time_grid.N)
 
 
 def test():
