@@ -7,8 +7,8 @@ def figsize(
     aspect: float = 0.62, width: int = 500, rel_text_size: float = 1.33,
 ):
     """
-    :return:  A dictionary with keys "figsize" and "dpi" that can be passed as **kwargs
-              to matplotlib figure creation methods.
+    :return: A dictionary with keys "figsize" and "dpi" that can be passed as **kwargs
+             to matplotlib figure creation methods.
 
     :param aspect:  Fig height / fig width.
     :param width:  Pixel width of figure.
