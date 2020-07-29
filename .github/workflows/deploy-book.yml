@@ -24,15 +24,15 @@ jobs:
         python-version: 3.7
 
     - name: Install dependencies
-      run: pip install jupyter-book
+      run: pip install -r requirements.txt
 
-    # Build the book
+    # Generate table of contents and build the book
     - name: Build the book
-      run: jupyter-book build .
+      run: python build_website.py
 
     # Push the book's HTML to gh-pages branch
     - name: GitHub Pages action
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./notebooks/_build/html
+        publish_dir: _build/html

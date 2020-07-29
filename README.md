@@ -2,6 +2,9 @@
 
 In vivo connectomics -- mapping the wires between neurons based on voltage imaging recordings. Proof of concept simulation.
 
+👉 Website with rendered notebooks & documentation: https://tfiers.github.io/voltage-to-wiring-sim
+
+(There's some text below that is out of date).
 
 ## How to navigate this project
 
@@ -88,3 +91,7 @@ This allows you to update the source code without having to restart the Python '
 
 
 More explanation on the code can be found in [`code/README.md`](code/README.md), and in the Python files themselves, as comments and docstrings.
+
+## Licenses
+
+The favicon for the website is © 2020 The Jupyter Book Community, licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).

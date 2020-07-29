@@ -9,8 +9,12 @@ execute:
 launch_buttons:
   binderhub_url: https://notebooks.gesis.org/binder
 html:
+  favicon: _static/favicon.ico
+  home_page_in_navbar: true
+  baseurl: https://tfiers.github.io/voltage-to-wiring-sim
   use_repository_button: true
   use_edit_page_button: true
+  use_issues_button: true
   extra_navbar: |
     <div id="build-status">
       [build status]
