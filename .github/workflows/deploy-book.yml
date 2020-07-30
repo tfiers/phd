@@ -1,11 +1,11 @@
 name: deploy-book-workflow
 
-# Only run when anything on the master branch, in the `notebooks` directory, changes
+# Only run when anything on the master branch, in the `website` directory, changes
 on:
   push:
     branches:
     - master
-    - notebooks/**
+    - website/**
 
 # Install dependencies, build the book, and push it to `gh-pages`
 jobs:
@@ -24,19 +24,19 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/pip
-        key: ${{ hashFiles('notebooks/requirements.txt') }}
+        key: ${{ hashFiles('website/requirements.txt') }}
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        pip install -r notebooks/requirements.txt
+        pip install -r website/requirements.txt
 
     - name: Generate & process table of contents, and build the book
-      working-directory: notebooks
+      working-directory: website
       run: python build_website.py
 
     - name: Push the book's HTML to gh-pages branch
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: notebooks/_build/html
+        publish_dir: website/_build/html
