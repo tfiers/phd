@@ -1,20 +1,18 @@
-file: md/home
-sections:
+- file: md/home
 
-- file: md/readme/index
-  expand_sections: true
+- chapter: About
   sections:
-  - file: md/readme/running_code
+  - file: md/reader_guide
+  - file: md/executing_code
 
-- file: md/reports_index
-  expand_sections: true
+- chapter: Reports
   sections:
   - file: notebooks/2020-07-06__Single_neuron_sim
   - file: notebooks/2020-07-29__STA
 
-- file: md/unpolished_nbs_index
-  expand_sections: true
+- chapter: Unpolished notebooks
   sections:
+  - file: md/unpolished_notebooks_intro
   - file: notebooks/init
   - file: notebooks/2020-07-05__Izhikevich_paper_accomp
   - file: notebooks/2020-07-27__Synaptic_conductances

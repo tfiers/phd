@@ -1,2 +1,1 @@
-jupyter-book == 0.7.1
-pyyaml
+jupyter-book == 0.7.3

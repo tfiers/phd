@@ -1,5 +1,38 @@
-# Running code yourself
+# Executing code
 
+You can not only read the notebooks on this website, you can also run them and play with the data inside.
+
+There are two ways to do this:
+
+1. Locally on your computer.
+2. In the cloud, without having to install anything.
+
+
+## Running locally
+
+See this repository's [README](https://github.com/tfiers/voltage-to-wiring-sim#readme) for installation instructions.
+
+
+(running-in-the-cloud)=
+## Running in the cloud
+
+The technology making this option possible is called '[Binder](https://mybinder.org/)'.
+
+````{margin}
+```{caution}
+Any edits made to the code or the notebooks in a running Binder server will not be persisted.
+```
+````
+Each notebook on this website contains a link (behind the <i class="fas fa-rocket"></i> icon at the top of the notebook page) to launch a Binder server. Binder will check out the repository from GitHub and install all necessary dependencies, including our custom code base. When those operations are finished, you can interact with the notebook.
+
+```{admonition} Slow launch?
+:class: tip
+For each new commit to the repository, a new Docker image needs to be created on the Binder server. Therefore, the first time the Binder app is launched after a new commit, startup will be slower than for subsequent launches.
+```
+```{admonition} Why not Google Colab?
+:class: tip
+Google Colab does not play well with non-self-contained notebooks; i.e. those needing custom dependencies and, especially, loading code from Python files outside the notebook. Hence we do not use it, despite its boons.
+```
 
 
 ## Jupyter notebook tips
@@ -49,5 +82,5 @@ snakeviz temp.profile
 ```
 
 Two more useful magics:
-- `$$time` simply times the run duration of a code block.
-- `$$timeit` repeatedly runs a code block to get accurate timing results and statistics.
+- `$$time` simply measures the run duration of a code block.
+- `$$timeit` repeatedly runs a code block to get accurate timing measurements and statistics.
