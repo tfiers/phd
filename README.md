@@ -7,7 +7,7 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 <br>
 
-## Installation instructions
+## Installation
 
 The code is written in Python 3.8.
 <details><summary>Local setup from scratch</summary>
@@ -29,7 +29,10 @@ Install the code and its dependencies by running, in the project root directory:
 ```bash
 pip install -e .
 ```
-This will allow you to import the code as a package into scripts and notebooks:
+
+## Usage
+
+You should now be able to import the code as a package into scripts and notebooks:
 ```py
 import voltage_to_wiring_sim as v  # example shorthand
 ```
@@ -46,7 +49,7 @@ This allows you to update the source code without having to restart the Python '
 (This is not foolproof yet, and a kernel restart may still be needed for certain changes.
 But editing for example a module-level function should work fine).
 
-More explanation on the code can be found in [`code/README.md`](code/README.md), and in the Python files themselves, as comments and docstrings.
+More explanation on the code can be found in [`code/README.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/master/code#readme), and in the Python files themselves, as comments and docstrings.
 
 
 <br>
