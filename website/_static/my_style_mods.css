@@ -1,0 +1,15 @@
+/*
+Default chapter headings & 'top level' pages are too large:
+TOC is a map, so you should get overview of (large parts of) the TOC without having to scroll.
+*/
+p.caption { font-size: 1.15em !important }
+ul.sidenav_l1 { font-size: 0.8em }
+
+/* Inline code not red, but rather as on GitHub / in Roam.  */
+code {
+    color: black;
+    background-color: rgba(27,31,35,.05);
+    border-radius: 6px;
+    padding: .11em .35em;
+    border: 1px solid #eee;
+}
