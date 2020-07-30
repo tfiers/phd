@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+SOURCE_DIR = "code"
+
 
 setup(
     name="voltage_to_wiring_sim",
@@ -12,7 +14,8 @@ setup(
     author="Tomas Fiers",
     author_email="tomas.fiers@gmail.com",
     license="MIT",
-    packages=find_packages(),
+    package_dir={"": SOURCE_DIR},
+    packages=find_packages(where=SOURCE_DIR),
     #
     # A list of Python packages on which this package depends.
     #
