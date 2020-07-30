@@ -1,19 +1,18 @@
-file: home
+file: markdown_pages/home
 sections:
 
-- file: readme/index
+- file: markdown_pages/readme/index
   expand_sections: true
   sections:
-  - file: readme/project_organisation
-  - file: readme/running_code
+  - file: markdown_pages/readme/running_code
 
-- file: polished/index
+- file: markdown_pages/reports_index
   expand_sections: true
   sections:
   - file: notebooks/2020-07-06__Single_neuron_sim
   - file: notebooks/2020-07-29__STA
 
-- file: unpolished/index
+- file: markdown_pages/unpolished_nbs_index
   expand_sections: true
   sections:
   - file: notebooks/init

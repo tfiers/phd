@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate & process table of contents, and build the book
       working-directory: website
-      run: python build_website.py
+      run: python build.py
 
     - name: Push the book's HTML to gh-pages branch
       uses: peaceiris/actions-gh-pages@v3.6.1
