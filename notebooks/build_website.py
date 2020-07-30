@@ -26,6 +26,6 @@ def expand_toc_subsections():
 
 
 run_jb_cmd("clean")
-run_jb_cmd("toc")
-expand_toc_subsections()
+# run_jb_cmd("toc")
+# expand_toc_subsections()
 run_jb_cmd("build")

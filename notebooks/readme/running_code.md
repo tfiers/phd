@@ -1,6 +1,6 @@
-# Readme
+# Running code yourself
 
-Some notebooks (eg `2020-07-05__Izhikevich_paper_accomp.ipynb`) include interactive widgets: sliders to play with the arguments of a function and see the effect in a live updated plot. Instal [Jupyter Widgets / ipywidgets](https://ipywidgets.readthedocs.io/en/latest/index.html) to make this work.
+
 
 ## Jupyter notebook tips
 
