@@ -20,13 +20,13 @@ setup(
     # A list of Python packages on which this package depends.
     #
     # The `~=` operator specifies that your installed packages, with versions
-    # "major.minor.xyz", must have the same major version as given here, but can have a
-    # higher minor version. According to semantic versioning [https://semver.org], this
-    # means: your packages should have no backwards incompatible changes (i.e. this
-    # package's code should keep running in your environment), but new features and
-    # bugfixes are allowed in your packages. (Note that major version 0 packages may
-    # introduce breaking changes in minor versions). If the packages in your current
-    # environment can't match these requirements, install in a new conda environment:
+    # "major.minor.xyz", must have the same major version as given here, but can
+    # have a higher minor version. (See [https://semver.org] for what this means
+    # for 'allowed' differences between your packages and the packages with
+    # which this code was developed).
+    #
+    # If the packages in your current environment can't match these
+    # requirements, install in a new conda environment:
     # [https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html]
     # (or alternatively, a new virtualenv or pipenv).
     #
@@ -52,7 +52,7 @@ setup(
                               # [https://pypi.org/project/multipledispatch]
         "toolz ~= 0.10",      # `valmap` to apply a function to a dictionary's values.
                               # [https://github.com/pytoolz/toolz]
-        "joblib ~= 0.16",     # Unused as of now.
+        "joblib ~= 0.16",     # (Currently unused).
                               # [https://joblib.readthedocs.io/]
     )
 )
