@@ -10,22 +10,12 @@ from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
 from numba import jit
-from numpy import (
-    empty,
-    median,
-    ones,
-    percentile,
-    printoptions,
-    set_printoptions,
-    zeros,
-    abs,
-)
+from numpy import empty, ones, zeros
 from unyt import assert_allclose_units
 
 from .neuron_params import IzhikevichParams, cortical_RS
 from .time_grid import TimeGrid
 from .units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
-from .util import report_duration
 
 
 @dataclass
