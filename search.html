@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/my_style_mods.css" />
     <link rel="stylesheet" type="text/css" href="_static/jupyter-sphinx.css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,6 +34,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <script src="_static/searchtools.js"></script>
     <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/search.html" />
     <link rel="shortcut icon" href="_static/favicon.ico"/>
@@ -79,62 +88,70 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+  <p class="caption">
+ <span class="caption-text">
+  About
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="md/readme/index.html">
-   Read me
+  <a class="reference internal" href="md/reader_guide.html">
+   Guide to the reader
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="md/readme/running_code.html">
-     Running code yourself
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="md/reports_index.html">
-   Reports
+  <a class="reference internal" href="md/executing_code.html">
+   Executing code
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/2020-07-06__Single_neuron_sim.html">
-     2020-07-06 • Single neuron simulation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/2020-07-29__STA.html">
-     2020-07-29 • Spike-triggered averaging
-    </a>
-   </li>
-  </ul>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Reports
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/2020-07-06__Single_neuron_sim.html">
+   2020-07-06 • Single neuron simulation
+  </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="md/unpolished_nbs_index.html">
-   Unpolished notebooks
+  <a class="reference internal" href="notebooks/2020-07-29__STA.html">
+   2020-07-29 • Spike-triggered averaging
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/init.html">
-     Initialization notebook
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/2020-07-05__Izhikevich_paper_accomp.html">
-     2020-07-05 • Izhikevich paper testing
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/2020-07-27__Synaptic_conductances.html">
-     2020-07-27 • Synaptic conductances
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks/2020-07-28__Storing_in_base_units.html">
-     2020-07-28 • Storing values in base units
-    </a>
-   </li>
-  </ul>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished notebooks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="md/unpolished_notebooks_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/init.html">
+   Initialisation notebook
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 • Izhikevich paper testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/2020-07-27__Synaptic_conductances.html">
+   2020-07-27 • Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="notebooks/2020-07-28__Storing_in_base_units.html">
+   2020-07-28 • Storing values in base units
+  </a>
  </li>
 </ul>
 

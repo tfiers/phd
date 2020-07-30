@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Home &#8212; Voltage-to-Wiring Sim</title>
+    <title>Voltage-to-wiring, the simulation &#8212; Voltage-to-Wiring Sim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css" />
@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css" />
     <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
@@ -31,11 +33,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.18.0/dist/embed-amd.js"></script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/md/home.html" />
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Read me" href="readme/index.html" />
+    <link rel="next" title="Guide to the reader" href="reader_guide.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
@@ -44,8 +53,8 @@
 <!-- Opengraph tags -->
 <meta property="og:url"         content="https://tfiers.github.io/voltage-to-wiring-sim/md/home.html" />
 <meta property="og:type"        content="article" />
-<meta property="og:title"       content="Home" />
-<meta property="og:description" content="Home  " />
+<meta property="og:title"       content="Voltage-to-wiring, the simulation" />
+<meta property="og:description" content="Voltage-to-wiring, the simulation  The topic of this website is that of my PhD research:  In vivo connectomics: mapping the wires between neurons based on volta" />
 
 
 <meta name="twitter:card" content="summary">
@@ -75,62 +84,70 @@
 </form>
 
 <nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-  <ul class="nav sidenav_l1">
+  <p class="caption">
+ <span class="caption-text">
+  About
+ </span>
+</p>
+<ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="readme/index.html">
-   Read me
+  <a class="reference internal" href="reader_guide.html">
+   Guide to the reader
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="readme/running_code.html">
-     Running code yourself
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="reports_index.html">
-   Reports
+  <a class="reference internal" href="executing_code.html">
+   Executing code
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/2020-07-06__Single_neuron_sim.html">
-     2020-07-06 • Single neuron simulation
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/2020-07-29__STA.html">
-     2020-07-29 • Spike-triggered averaging
-    </a>
-   </li>
-  </ul>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Reports
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/2020-07-06__Single_neuron_sim.html">
+   2020-07-06 • Single neuron simulation
+  </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="unpolished_nbs_index.html">
-   Unpolished notebooks
+  <a class="reference internal" href="../notebooks/2020-07-29__STA.html">
+   2020-07-29 • Spike-triggered averaging
   </a>
-  <ul>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/init.html">
-     Initialization notebook
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/2020-07-05__Izhikevich_paper_accomp.html">
-     2020-07-05 • Izhikevich paper testing
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/2020-07-27__Synaptic_conductances.html">
-     2020-07-27 • Synaptic conductances
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../notebooks/2020-07-28__Storing_in_base_units.html">
-     2020-07-28 • Storing values in base units
-    </a>
-   </li>
-  </ul>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished notebooks
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="unpolished_notebooks_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/init.html">
+   Initialisation notebook
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 • Izhikevich paper testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/2020-07-27__Synaptic_conductances.html">
+   2020-07-27 • Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/2020-07-28__Storing_in_base_units.html">
+   2020-07-28 • Storing values in base units
+  </a>
  </li>
 </ul>
 
@@ -222,7 +239,16 @@
             <i class="fas fa-list"></i> On this page
         </div>
         <nav id="bd-toc-nav">
-            
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neuron-model">
+   Neuron model
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
+</ul>
+
         </nav>
     </div>
 </div>
@@ -231,12 +257,46 @@
         
               <div>
                 
-  <div class="section" id="home">
-<h1>Home<a class="headerlink" href="#home" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="voltage-to-wiring-the-simulation">
+<h1>Voltage-to-wiring, the simulation<a class="headerlink" href="#voltage-to-wiring-the-simulation" title="Permalink to this headline">¶</a></h1>
+<p>The topic of this website is that of my PhD research:</p>
+<blockquote>
+<div><p>In vivo connectomics: mapping the wires between neurons based on voltage imaging recordings.</p>
+</div></blockquote>
+<p>We are currently exploring this idea using simulations.</p>
+<p>This website serves as an archive for my experiments, and a
+hub for discussing them with my supervisors.</p>
+<div class="section" id="neuron-model">
+<h2>Neuron model<a class="headerlink" href="#neuron-model" title="Permalink to this headline">¶</a></h2>
+<p>Model and parameters are from Humphries 2006, <em>“Understanding and using Izhikevich’s simple model neuron”</em>.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
 <div class="toctree-wrapper compound">
 </div>
 </div>
+</div>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./md"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -246,7 +306,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="readme/index.html" title="next page">Read me</a>
+    <a class='right-next' id="next-link" href="reader_guide.html" title="next page">Guide to the reader</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
