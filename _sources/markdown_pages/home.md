@@ -1,5 +1,0 @@
-# Home
-
-```{meta}
-:test: yes
-```
