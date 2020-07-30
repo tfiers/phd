@@ -10,5 +10,3 @@ def run_jb_cmd(cmd):
 
 run_jb_cmd("clean")
 run_jb_cmd("build")
-
-
