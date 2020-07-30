@@ -5,12 +5,14 @@ Proof of concept simulation.
 
 For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge/%F0%9F%9A%80_open_website-green)](https://tfiers.github.io/voltage-to-wiring-sim)
 
+
 <br>
 
 ## Installation
 
 The code is written in Python 3.8.
-<details><summary>Local setup from scratch</summary>
+
+<details><summary>Local setup from scratch (Conda, Python, and Jupyter)</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
 specifically its small <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> installer.<br>
 Installing conda will also install Python, and the `pip` Python package installer used below.<br>
@@ -22,13 +24,16 @@ Finally, you can run <code>python -m notebook</code>. This will open the Jupyter
 in which you can play with the notebooks, which run the simulation/analysis code and display the results.
 </details>
 
-The code depends on some external packages.\
-A list of them and short descriptions of what they are used for can be found in [`setup.py`](setup.py).  
+[`setup.py`](setup.py) contains a list of external packages on which this code depends,
+including short descriptions of what each is used for.
 
-Install the code and its dependencies by running, in the project root directory:
+Install the code and these dependencies by running, in the project root directory:
 ```bash
 pip install -e .
 ```
+
+
+<br>
 
 ## Usage
 
@@ -58,3 +63,4 @@ More explanation on the code can be found in [`code/README.md`](https://github.c
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
 licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).
+
