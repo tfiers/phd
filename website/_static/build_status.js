@@ -28,7 +28,7 @@ function updateStatus() {
                 let live_logs = obj["jobs"][0]["html_url"]
                 writeStatus(`<a href="${live_logs}">new version building …</a>`)
                 was_building = true
-                setTimeout(updateStatus, 2 * 1000);
+                setTimeout(updateStatus, 1 * 1000);
             })
         }
     })
