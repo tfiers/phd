@@ -1,15 +1,16 @@
-name: deploy-book-workflow
+name: deploy-website-workflow
 
 # Only run when anything on the master branch, in the `website` directory, changes
 on:
   push:
     branches:
     - master
+    paths:
     - website/**
 
-# Install dependencies, build the book, and push it to `gh-pages`
+# Install dependencies, build the book, and push it to `gh-pages` branch.
 jobs:
-  deploy-book-job:
+  deploy-website-job:
     runs-on: ubuntu-latest
     steps:
 
