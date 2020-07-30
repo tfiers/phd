@@ -6,8 +6,8 @@ The way this website is organised follows from my research workflow.
 ## Workflow
 
 ```{margin}
-A Jupyter notebook is a combination of code snippets and their output.
-They may also contain explanatory text and be organised in subsections.
+A Jupyter notebook is a combination of code snippets and their outputs (mostly plots).
+It may also contain explanatory text, and be organised in subsections.
 ```
 
  1. Whenever I want to test something or prototype new work, I do this in a new [Jupyter notebook](https://jupyter.org/). You can browse past such notebooks under the "Unpolished notebooks" folder in the menu.
@@ -38,4 +38,8 @@ When logged in, you can write a comment on that piece of text.
 The Hypothesis sidebar also allows you to make page-wide notes, and to see and reply to others' annotations.
 
 Hypothesis annotations belong to a 'group'. By default, they go in the 'Public' group.
-I made a private group for this project, which you can join [here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring).
+I made a private group for this project, which you can [join here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring).
+
+You can also directly suggest edits to a page (via a GitHub pull request), by clicking on
+"<i class="fas fa-pencil-alt"></i> suggest edit" 
+behind the GitHub icon <i class="fab fa-github"></i> at the top of the page.
