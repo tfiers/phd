@@ -4,6 +4,7 @@ Integrate the ODE of the Izhikevich model neuron.
 The real work happens in `_sim_izh()`.
 """
 from dataclasses import dataclass
+from functools import partial
 
 import matplotlib.pyplot as plt
 from numba import jit
@@ -32,7 +33,7 @@ def simulate_izh_neuron(
     params: IzhikevichParams,
     g_syn: Array = None,
     I_e: Array = None,
-    numba: bool = True,
+    calc_with_units: bool = False,
 ) -> SimResult:
 
     if g_syn is None:
@@ -44,10 +45,12 @@ def simulate_izh_neuron(
     u = empty(time_grid.N) * pA
     I_syn = empty(time_grid.N) * pA
 
-    if numba:
-        _sim_izh = inputs_as_raw_data(jit(_sim_izh))
+    if calc_with_units:
+        f = _sim_izh
+    else:  # Compile with Numba
+        f = inputs_as_raw_data(jit(_sim_izh))
 
-    _sim_izh(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
+    f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
 
     return SimResult(V_m, u, I_syn)
 
@@ -75,23 +78,19 @@ def _sim_izh(
                 v[i - 1] = v_peak
                 v[i] = c
                 u[i] += d
-        
         I_syn[i] = g_syn[i] * (v[i] - v_syn)
 
 # fmt: on
 
 
 def test():
-    test_time_grid = TimeGrid(T=200 * ms, dt=0.5 * ms)
-    constant_input = ones(test_time_grid.N) * 80 * pA
-    sim_with_units = simulate_izh_neuron(
-        test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, numba=False
-    )
-    sim_fast = simulate_izh_neuron(
-        test_time_grid, cortical_RS, I_e=constant_input, g_syn=None, numba=True
-    )
+    tg = TimeGrid(T=200 * ms, dt=0.5 * ms)
+    constant_input = ones(tg.N) * 80 * pA
+    f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
+    sim_with_units = f(calc_with_units=True)
+    sim_fast = f(calc_with_units=False)
     assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
     assert_allclose_units(sim_fast.u, sim_with_units.u)
     assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
     print("Simulations with and without units yield equal results.")
-    plt.plot(test_time_grid.t, sim_fast.V_m)
+    plt.plot(tg.t, sim_fast.V_m)

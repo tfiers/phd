@@ -10,7 +10,7 @@ def calc_synaptic_conductance(
     spikes: Array,
     Δg_syn: Quantity,
     τ_syn: Quantity,
-    numba: bool = False,
+    calc_with_units: bool = False,
 ):
     """
     :param time_grid
@@ -20,9 +20,11 @@ def calc_synaptic_conductance(
     :return:  Array of length N, `g_syn`
     """
     g_syn = empty(time_grid.N) * nS
-    if numba:
-        _calc_g_syn = inputs_as_raw_data(jit(_calc_g_syn))
-    _calc_g_syn(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
+    if calc_with_units:
+        f = _calc_g_syn
+    else:
+        f = inputs_as_raw_data(jit(_calc_g_syn))
+    f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
     return g_syn
 
 
