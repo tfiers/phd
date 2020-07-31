@@ -73,8 +73,8 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     # fmt: off
     v[0] = v_r
     u[0] = 0
-    calc_I_syn = lambda g_syn, v, v_syn: g_syn * (v - v_syn)
-    I_syn[0] = calc_I_syn(g_syn[0], v[0], v_syn)
+    calc_I_syn = lambda i: g_syn[i] * (v[i] - v_syn)
+    I_syn[0] = calc_I_syn(0)
     
     for i in range(len(v) - 1):
         dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
@@ -87,7 +87,7 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
             v[i+1] = c
             u[i+1] = u[i+1] + d
     
-        I_syn[i+1] = calc_I_syn(g_syn[i+1], v[i+1], v_syn)
+        I_syn[i+1] = calc_I_syn(i)
 
     # fmt: on
 
