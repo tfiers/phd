@@ -1,10 +1,7 @@
 """
 Integrate the ODE of the Izhikevich model neuron.
 
-The real work happens in `_sim()`.
-
-The other code strips units from quantities (for speed during calculation), adds them
-back after, and tests the results.
+The real work happens in `_sim_izh()`.
 """
 from dataclasses import dataclass
 
@@ -13,7 +10,7 @@ from numba import jit
 from numpy import empty, ones, zeros
 from unyt import assert_allclose_units
 
-from .neuron_params import IzhikevichParams, cortical_RS
+from .params import IzhikevichParams, cortical_RS
 from .time_grid import TimeGrid
 from .units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
 
@@ -47,52 +44,41 @@ def simulate_izh_neuron(
     u = empty(time_grid.N) * pA
     I_syn = empty(time_grid.N) * pA
 
-    # Create a keyword argument dictionary to pass to `_sim()`. (Numba can't yet handle
-    # data classes, alas; so we have to unpack them as separate arguments).
-    sim_args = dict(v=V_m, u=u, I_syn=I_syn, dt=time_grid.dt, g_syn=g_syn, I_e=I_e)
-    sim_args.update(params.asdict())
-
     if numba:
-        _sim_fast(**sim_args)
-    else:
-        _sim(**sim_args)
+        _sim_izh = inputs_as_raw_data(jit(_sim_izh))
+
+    _sim_izh(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
 
     return SimResult(V_m, u, I_syn)
 
 
 # Pure Python/Numpy function that can be compiled to compact machine code by Numba,
 # without any overhead due to generic Python object processing.
-def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d):
-    """
-    v, u, I_syn:  empty arrays of length N, that will be filled (in place) during
-                    simulation.
-    g_syn, I_e:   input arrays of length N.
-    dt:           timestep (scalar).
-    [other args]: scalars; see IzhikevichParams.
-    """
-    # fmt: off
-    v[0] = v_r
-    u[0] = 0
-    calc_I_syn = lambda i: g_syn[i] * (v[i] - v_syn)
-    I_syn[0] = calc_I_syn(0)
-
+# fmt: off
+def _sim_izh(
+        v, u, I_syn,  # Empty arrays of length N, filled in place during simulation.
+        g_syn, I_e,  # Input arrays of length N.
+        dt,  # Timestep (scalar).
+        v_syn, v_r, k, v_t,
+        C, a, b, v_peak, c, d  # Scalars. See `IzhikevichParams` dataclass.
+):
     dv_dt = lambda i: (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
     du_dt = lambda i: a * (b * (v[i] - v_r) - u[i])
-    
-    # ODE integration.
-    for i in range(len(v) - 1):
-        v[i+1] = v[i] + dt * dv_dt(i)
-        u[i+1] = u[i] + dt * du_dt(i)
-        if v[i+1] >= v_peak:
-            v[i] = v_peak
-            v[i+1] = c
-            u[i+1] = u[i+1] + d
-        I_syn[i+1] = calc_I_syn(i)
+    for i in range(len(v)):
+        if i == 0:
+            v[i] = v_r
+            u[i] = 0
+        else:
+            v[i] = v[i - 1] + dt * dv_dt(i - 1)
+            u[i] = u[i - 1] + dt * du_dt(i - 1)
+            if v[i] >= v_peak:
+                v[i - 1] = v_peak
+                v[i] = c
+                u[i] += d
+        
+        I_syn[i] = g_syn[i] * (v[i] - v_syn)
 
-    # fmt: on
-
-
-_sim_fast = inputs_as_raw_data(jit(_sim))
+# fmt: on
 
 
 def test():
