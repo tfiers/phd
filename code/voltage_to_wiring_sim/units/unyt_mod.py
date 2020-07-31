@@ -1,8 +1,10 @@
 """
 Extensions to the unyt package.
 """
+from typing import Set
 
 import unyt
+from numpy import ndarray
 from unyt import unyt_array, unyt_quantity
 
 
@@ -35,6 +37,9 @@ class Unit(unyt.Unit):
         else:
             # We're making a compound unit (`nS/mV` eg).
             return Unit(obj)
+
+
+custom_units: Set[Unit] = set()
 
 
 class Array(unyt_array):
@@ -72,7 +77,14 @@ class Array(unyt_array):
             obj = obj.astype("float64")
             # mks = meter-kilogram-system = base (i.e. prefixless) SI units.
             obj.convert_to_base("mks")
+            obj._simplify_units()
         return obj
+
+    def _simplify_units(self):
+        """ Simplify `A²s³/kg/m²` to `S` """
+        for custom_unit in custom_units:
+            if custom_unit.get_mks_equivalent() == self.units:
+                self.units = custom_unit
 
     def __array_finalize__(self, obj):
         # Make sure array slices are also Arrays/Quantities.
@@ -80,7 +92,7 @@ class Array(unyt_array):
         self.display_units = getattr(obj, "display_units", None)
 
     @property
-    def in_display_units(self):
+    def in_display_units(self) -> unyt_array:
         if self.units.is_dimensionless:
             # Keep integer datatype. (See note on dimensionless quantities in __new__).
             return unyt_array(self)
@@ -88,6 +100,12 @@ class Array(unyt_array):
             # Note that we can't return `self.to(self.display_units)` here, as that
             # would convert to base units again (in __new__).
             return unyt_array(self).to(self.display_units)
+
+    @property
+    def display_data(self) -> ndarray:
+        return self.in_display_units.value
+
+    dd = display_data
 
     def __repr__(self):
         clsname = self.__class__.__name__

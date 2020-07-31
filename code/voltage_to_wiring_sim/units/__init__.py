@@ -1,6 +1,6 @@
 import unyt
 
-from .unyt_mod import Array, Quantity, Unit, unyt_array, unyt_quantity
+from .unyt_mod import Array, Quantity, Unit, custom_units, unyt_array, unyt_quantity
 from .util import as_raw_data, QuantityCollection, inputs_as_raw_data
 
 
@@ -21,4 +21,5 @@ except:
     pass
 
 S = Unit("S")
+custom_units.add(S)
 nS = Unit("nS")
