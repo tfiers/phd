@@ -75,18 +75,18 @@ def _sim(v, u, I_syn, g_syn, I_e, dt, v_r, v_syn, k, v_t, C, a, b, v_peak, c, d)
     u[0] = 0
     calc_I_syn = lambda i: g_syn[i] * (v[i] - v_syn)
     I_syn[0] = calc_I_syn(0)
+
+    dv_dt = lambda i: (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
+    du_dt = lambda i: a * (b * (v[i] - v_r) - u[i])
     
+    # ODE integration.
     for i in range(len(v) - 1):
-        dv_dt = (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
-        du_dt = a * (b * (v[i] - v_r) - u[i])
-        # First order ('Euler') ODE integration.
-        v[i+1] = v[i] + dt * dv_dt
-        u[i+1] = u[i] + dt * du_dt
+        v[i+1] = v[i] + dt * dv_dt(i)
+        u[i+1] = u[i] + dt * du_dt(i)
         if v[i+1] >= v_peak:
             v[i] = v_peak
             v[i+1] = c
             u[i+1] = u[i+1] + d
-    
         I_syn[i+1] = calc_I_syn(i)
 
     # fmt: on
