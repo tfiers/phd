@@ -2,13 +2,13 @@
 # spike times. (Approximate Poisson because we ignore the possibility of a neuron
 # spiking more than once in the same small timebin `dt`).
 
-import matplotlib.pyplot as plt
 from numpy import ndarray
 from numpy.random import random
 
 from .plot_style import figsize
 from .time_grid import TimeGrid
 from .units import Hz, Quantity, ms, s
+from .util import subplots
 
 
 def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:
@@ -20,6 +20,14 @@ def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndar
     return f_spike * time_grid.dt > random(time_grid.N)
 
 
+def plot(t, spike_train, *plot_args, **plot_kwargs):
+    fig, ax = subplots(**figsize(aspect=0.05, width=600))
+    ax.plot(t, spike_train, *plot_args, **plot_kwargs)
+    ax.axes.get_yaxis().set_visible(False)
+    ax.spines["left"].set_visible(False)
+    return fig, ax
+
+
 def test():
     f_spike = 1 * Hz
     n_in = 20
@@ -29,7 +37,4 @@ def test():
     ]
     # Aggregate spikes for all incoming neurons
     all_spikes = sum(spike_trains)
-    fig, ax = plt.subplots(**figsize(aspect=0.2))
-    ax.plot(tg.t, all_spikes)
-    ax.axes.get_yaxis().set_visible(False)
-    ax.spines["left"].set_visible(False)
+    plot(tg.t.in_units(ms), all_spikes)

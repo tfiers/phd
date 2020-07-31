@@ -1,7 +1,11 @@
 from contextlib import contextmanager
 from time import time
+from typing import Sequence, Tuple, Union
 
+import matplotlib.pyplot as plt
 import numpy
+from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 
 @contextmanager
@@ -19,3 +23,11 @@ def fix_rng_seed(seed=0):
     script run, and thus get same results.
     """
     numpy.random.seed(seed)
+
+
+# Add return types to plt.subplots (for autocompletion in IDE).
+def subplots(**kwargs) -> Tuple[Figure, Union[Axes, Sequence[Axes]]]:
+    return plt.subplots(**kwargs)
+
+
+subplots.__doc__ = plt.subplots.__doc__
