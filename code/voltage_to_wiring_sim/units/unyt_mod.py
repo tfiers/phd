@@ -1,6 +1,7 @@
 """
 Extensions to the unyt package.
 """
+from numbers import Number
 from typing import Set
 
 import unyt
@@ -118,11 +119,14 @@ class Array(unyt_array):
         if self.units.is_dimensionless:
             return f"{self.value} (dimensionless)"
         else:
-            return str(self.in_display_units)
+            # Default unyt format is float, bah.
+            return format(self.in_display_units, ".4G")
 
 
 class Quantity(Array, unyt_quantity):
-    pass
+    @property
+    def display_data(self) -> Number:
+        return self.in_display_units.item()
 
 
 #
