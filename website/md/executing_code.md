@@ -16,11 +16,11 @@ See this repository's [README](https://github.com/tfiers/voltage-to-wiring-sim#r
 (running-in-the-cloud)=
 ## Running in the cloud
 
-The technology making this option possible is called '[Binder](https://mybinder.org/)'.
+The technology making this possible is called '[Binder](https://mybinder.org/)'.
 
 ````{margin}
 ```{caution}
-Any edits made to the code or the notebooks in a running Binder server will not be persisted.
+Don't rely on a Binder server for anything you want to last – each session is terminated after a short period of inactivity.
 ```
 ````
 Each notebook on this website contains a link (behind the <i class="fas fa-rocket"></i> icon at the top of the notebook page) to launch a Binder server. Binder will check out the repository from GitHub and install all necessary dependencies, including our custom code base. When those operations are finished, you can interact with the notebook.
