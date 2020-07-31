@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from numpy import linspace
 
-from .units import Array, Quantity, QuantityCollection, ms, s, unyt_array
+from .units import Array, Quantity, QuantityCollection, unyt_array
 
 
 @dataclass

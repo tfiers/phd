@@ -24,7 +24,7 @@ class SimResult(QuantityCollection):
 
     def __post_init__(self):
         self.V_m.name = "Membrane voltage"
-        self.u.name = "Slow current, u"
+        self.u.name = '"Slow current", u (pA)'
         self.I_syn.name = "Synaptic current"
 
 
@@ -48,7 +48,7 @@ def simulate_izh_neuron(
     if calc_with_units:
         f = _sim_izh
     else:  # Compile with Numba
-        f = inputs_as_raw_data(jit(_sim_izh))
+        f = inputs_as_raw_data(jit(_sim_izh, cache=True))
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
 
@@ -72,10 +72,10 @@ def _sim_izh(
             v[i] = v_r
             u[i] = 0
         else:
-            v[i] = v[i - 1] + dt * dv_dt(i - 1)
-            u[i] = u[i - 1] + dt * du_dt(i - 1)
+            v[i] = v[i-1] + dt * dv_dt(i-1)
+            u[i] = u[i-1] + dt * du_dt(i-1)
             if v[i] >= v_peak:
-                v[i - 1] = v_peak
+                v[i-1] = v_peak
                 v[i] = c
                 u[i] += d
         I_syn[i] = g_syn[i] * (v[i] - v_syn)
