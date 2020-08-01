@@ -375,7 +375,7 @@ Imported * from v.util and from v.units
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 2.26 s
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 3.2 s
 </pre></div>
 </div>
 </div>
@@ -489,7 +489,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 473 ms
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 427 ms
 </pre></div>
 </div>
 </div>
@@ -511,7 +511,7 @@ v_syn = 0 mV
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SNR</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">spike_height</span> <span class="o">=</span> <span class="n">RS</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">RS</span><span class="o">.</span><span class="n">v_r</span>
+<span class="n">spike_height</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">params</span><span class="o">.</span><span class="n">v_r</span>
 
 <span class="n">σ_noise</span> <span class="o">=</span> <span class="n">spike_height</span> <span class="o">/</span> <span class="n">SNR</span>
 <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">σ_noise</span>
@@ -715,7 +715,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 22.8 s
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 21 s
 </pre></div>
 </div>
 </div>
