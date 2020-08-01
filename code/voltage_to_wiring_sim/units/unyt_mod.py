@@ -119,14 +119,20 @@ class Array(unyt_array):
         if self.units.is_dimensionless:
             return f"{self.value} (dimensionless)"
         else:
-            # Default unyt format is float, bah.
-            return format(self.in_display_units, ".4G")
+            return str(self.in_display_units)
 
 
 class Quantity(Array, unyt_quantity):
     @property
     def display_data(self) -> Number:
         return self.in_display_units.item()
+    
+    def __str__(self):
+        if self.units.is_dimensionless:
+            return f"{self.value:.4G} (dimensionless)"
+        else:
+            # Default unyt format is float, bah.
+            return format(self.in_display_units, ".4G")
 
 
 #
