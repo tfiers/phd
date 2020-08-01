@@ -55,7 +55,7 @@
 <meta property="og:url"         content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2020-07-29__STA.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="2020-07-29 • Spike-triggered averaging" />
-<meta property="og:description" content="2020-07-29 • Spike-triggered averaging  %run init.ipynb  Importing np, mpl, plt … ✔ Importing unyt … ✔ Importing code package (voltage_to_wiring_sim), as `v` … " />
+<meta property="og:description" content="2020-07-29 • Spike-triggered averaging  Imports & time grid  %run init.ipynb  Importing np, mpl, plt … ✔ Importing unyt … ✔ Importing code package (voltage_to_w" />
 
 
 <meta name="twitter:card" content="summary">
@@ -259,6 +259,11 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports-time-grid">
+   Imports &amp; time grid
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#spike-trains">
    Spike trains
   </a>
@@ -289,12 +294,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#connected-vs-unconnected">
-   Connected
-   <em>
-    vs
-   </em>
-   unconnected
+  <a class="reference internal nav-link" href="#plot-average-windows-of-all-spike-trains">
+   Plot average windows of all spike trains
   </a>
  </li>
 </ul>
@@ -309,6 +310,8 @@
                 
   <div class="section" id="spike-triggered-averaging">
 <h1>2020-07-29 • Spike-triggered averaging<a class="headerlink" href="#spike-triggered-averaging" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="imports-time-grid">
+<h2>Imports &amp; time grid<a class="headerlink" href="#imports-time-grid" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">run</span> <span class="n">init</span><span class="o">.</span><span class="n">ipynb</span>
@@ -331,8 +334,10 @@ Imported * from v.util and from v.units
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="spike-trains">
 <h2>Spike trains<a class="headerlink" href="#spike-trains" title="Permalink to this headline">¶</a></h2>
+<p>‘Network’ definition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">N_in</span> <span class="o">=</span> <span class="mi">30</span>
@@ -406,7 +411,7 @@ Most time is spent in numpy’s <code class="docutils literal notranslate"><span
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_14_0.png" src="../_images/2020-07-29__STA_14_0.png" />
+<img alt="../_images/2020-07-29__STA_16_0.png" src="../_images/2020-07-29__STA_16_0.png" />
 </div>
 </div>
 <p>All connected presynaptic neurons:</p>
@@ -419,7 +424,7 @@ Most time is spent in numpy’s <code class="docutils literal notranslate"><span
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_16_0.png" src="../_images/2020-07-29__STA_16_0.png" />
+<img alt="../_images/2020-07-29__STA_18_0.png" src="../_images/2020-07-29__STA_18_0.png" />
 </div>
 </div>
 </div>
@@ -444,7 +449,7 @@ Most time is spent in numpy’s <code class="docutils literal notranslate"><span
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_20_0.png" src="../_images/2020-07-29__STA_20_0.png" />
+<img alt="../_images/2020-07-29__STA_22_0.png" src="../_images/2020-07-29__STA_22_0.png" />
 </div>
 </div>
 </div>
@@ -494,7 +499,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_24_0.png" src="../_images/2020-07-29__STA_24_0.png" />
+<img alt="../_images/2020-07-29__STA_26_0.png" src="../_images/2020-07-29__STA_26_0.png" />
 </div>
 </div>
 </div>
@@ -517,7 +522,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_27_0.png" src="../_images/2020-07-29__STA_27_0.png" />
+<img alt="../_images/2020-07-29__STA_29_0.png" src="../_images/2020-07-29__STA_29_0.png" />
 </div>
 </div>
 </div>
@@ -601,7 +606,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_39_0.png" src="../_images/2020-07-29__STA_39_0.png" />
+<img alt="../_images/2020-07-29__STA_41_0.png" src="../_images/2020-07-29__STA_41_0.png" />
 </div>
 </div>
 <p>And some more:</p>
@@ -619,7 +624,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_41_0.png" src="../_images/2020-07-29__STA_41_0.png" />
+<img alt="../_images/2020-07-29__STA_43_0.png" src="../_images/2020-07-29__STA_43_0.png" />
 </div>
 </div>
 </div>
@@ -643,7 +648,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_43_0.png" src="../_images/2020-07-29__STA_43_0.png" />
+<img alt="../_images/2020-07-29__STA_45_0.png" src="../_images/2020-07-29__STA_45_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -653,12 +658,12 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_44_0.png" src="../_images/2020-07-29__STA_44_0.png" />
+<img alt="../_images/2020-07-29__STA_46_0.png" src="../_images/2020-07-29__STA_46_0.png" />
 </div>
 </div>
 </div>
-<div class="section" id="connected-vs-unconnected">
-<h2>Connected <em>vs</em> unconnected<a class="headerlink" href="#connected-vs-unconnected" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="plot-average-windows-of-all-spike-trains">
+<h2>Plot average windows of all spike trains<a class="headerlink" href="#plot-average-windows-of-all-spike-trains" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">time</span>
@@ -701,7 +706,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_48_0.png" src="../_images/2020-07-29__STA_48_0.png" />
+<img alt="../_images/2020-07-29__STA_50_0.png" src="../_images/2020-07-29__STA_50_0.png" />
 </div>
 </div>
 <p>Next steps: describe influence of <code class="docutils literal notranslate"><span class="pre">N_in</span></code>, <code class="docutils literal notranslate"><span class="pre">p_connected</span></code>, <code class="docutils literal notranslate"><span class="pre">SNR</span></code>, ..</p>
