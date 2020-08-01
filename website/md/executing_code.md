@@ -20,7 +20,7 @@ The technology making this possible is called '[Binder](https://mybinder.org/)'.
 
 ````{margin}
 ```{caution}
-Don't rely on a Binder server for anything you want to last – each session is terminated after a short period of inactivity.
+Don't rely on a Binder server for anything you want to last – each session is terminated after 10' of inactivity.
 ```
 ````
 Each notebook on this website contains a link (behind the <i class="fas fa-rocket"></i> icon at the top of the notebook page) to launch a Binder server. Binder will check out the repository from GitHub and install all necessary dependencies, including our custom code base. When those operations are finished, you can interact with the notebook.
