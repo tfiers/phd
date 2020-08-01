@@ -375,7 +375,7 @@ Imported * from v.util and from v.units
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 2.13 s
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 2.26 s
 </pre></div>
 </div>
 </div>
@@ -427,10 +427,12 @@ Most time is spent in numpy’s <code class="docutils literal notranslate"><span
 <img alt="../_images/2020-07-29__STA_18_0.png" src="../_images/2020-07-29__STA_18_0.png" />
 </div>
 </div>
+<p>Note that some time bins contain more than one spike.<br />
+(The simulator handles this, by increasing synaptic conductance by an integer multiple of <code class="docutils literal notranslate"><span class="pre">Δg_syn</span></code> in that timebin).</p>
 </div>
 <div class="section" id="synaptic-conductance">
 <h2>Synaptic conductance<a class="headerlink" href="#synaptic-conductance" title="Permalink to this headline">¶</a></h2>
-<p>Also see the previous notebook <a class="reference internal" href="2020-07-27__Synaptic_conductances.html"><span class="doc">2020-07-27 • Synaptic conductances</span></a>.</p>
+<p>See the previous notebook <a class="reference internal" href="2020-07-27__Synaptic_conductances.html"><span class="doc">2020-07-27 • Synaptic conductances</span></a> for some more explanation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Δg_syn</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span>
@@ -449,7 +451,7 @@ Most time is spent in numpy’s <code class="docutils literal notranslate"><span
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_22_0.png" src="../_images/2020-07-29__STA_22_0.png" />
+<img alt="../_images/2020-07-29__STA_23_0.png" src="../_images/2020-07-29__STA_23_0.png" />
 </div>
 </div>
 </div>
@@ -487,7 +489,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 462 ms
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 473 ms
 </pre></div>
 </div>
 </div>
@@ -499,7 +501,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_26_0.png" src="../_images/2020-07-29__STA_26_0.png" />
+<img alt="../_images/2020-07-29__STA_27_0.png" src="../_images/2020-07-29__STA_27_0.png" />
 </div>
 </div>
 </div>
@@ -509,7 +511,7 @@ v_syn = 0 mV
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SNR</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">spike_height</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">params</span><span class="o">.</span><span class="n">v_r</span>
+<span class="n">spike_height</span> <span class="o">=</span> <span class="n">RS</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">RS</span><span class="o">.</span><span class="n">v_r</span>
 
 <span class="n">σ_noise</span> <span class="o">=</span> <span class="n">spike_height</span> <span class="o">/</span> <span class="n">SNR</span>
 <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">σ_noise</span>
@@ -522,7 +524,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_29_0.png" src="../_images/2020-07-29__STA_29_0.png" />
+<img alt="../_images/2020-07-29__STA_30_0.png" src="../_images/2020-07-29__STA_30_0.png" />
 </div>
 </div>
 </div>
@@ -585,8 +587,13 @@ v_syn = 0 mV
     
     <span class="n">windows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">windows</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">windows</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">Vm_noisy</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">in_units</span><span class="p">(</span><span class="n">mV</span><span class="p">)</span>
-        
-<span class="n">windows__example</span> <span class="o">=</span> <span class="n">make_windows</span><span class="p">(</span><span class="n">spike_indices__example</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">windows__example</span> <span class="o">=</span> <span class="n">make_windows</span><span class="p">(</span><span class="n">spike_indices__example</span><span class="p">)</span>
 <span class="n">windows__example</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
@@ -601,12 +608,12 @@ v_syn = 0 mV
 <p>An example spike-triggered window:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">window_tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">windows</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]);</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">window_tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">windows__example</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_41_0.png" src="../_images/2020-07-29__STA_41_0.png" />
+<img alt="../_images/2020-07-29__STA_43_0.png" src="../_images/2020-07-29__STA_43_0.png" />
 </div>
 </div>
 <p>And some more:</p>
@@ -617,14 +624,41 @@ v_syn = 0 mV
 <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_axes</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_axes</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">row</span> <span class="o">+</span> <span class="n">col</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">window_tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">windows</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">window_tg</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">windows__example</span><span class="p">[</span><span class="n">i</span><span class="p">,:])</span>
         <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">row</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">col</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_43_0.png" src="../_images/2020-07-29__STA_43_0.png" />
+<img alt="../_images/2020-07-29__STA_45_0.png" src="../_images/2020-07-29__STA_45_0.png" />
+</div>
+</div>
+<p>Note that the windows considerably overlap. (We see the same postsynaptic spikes here multiple times).</p>
+<p>This is to be expected, as the mean time between a presynaptic spike..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">Quantity</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">f_spike</span><span class="p">)</span><span class="o">.</span><span class="n">in_units</span><span class="p">(</span><span class="n">ms</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>50 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>.. is shorter than the window length.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">window_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>100 ms
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -648,7 +682,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_45_0.png" src="../_images/2020-07-29__STA_45_0.png" />
+<img alt="../_images/2020-07-29__STA_51_0.png" src="../_images/2020-07-29__STA_51_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -658,7 +692,7 @@ v_syn = 0 mV
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_46_0.png" src="../_images/2020-07-29__STA_46_0.png" />
+<img alt="../_images/2020-07-29__STA_52_0.png" src="../_images/2020-07-29__STA_52_0.png" />
 </div>
 </div>
 </div>
@@ -680,8 +714,10 @@ v_syn = 0 mV
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-none notranslate"><div class="highlight"><pre><span></span>Wall time: 8.28 s
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -704,9 +740,6 @@ v_syn = 0 mV
 <span class="n">fig</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2020-07-29__STA_50_0.png" src="../_images/2020-07-29__STA_50_0.png" />
 </div>
 </div>
 <p>Next steps: describe influence of <code class="docutils literal notranslate"><span class="pre">N_in</span></code>, <code class="docutils literal notranslate"><span class="pre">p_connected</span></code>, <code class="docutils literal notranslate"><span class="pre">SNR</span></code>, ..</p>
