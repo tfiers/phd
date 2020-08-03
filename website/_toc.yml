@@ -15,5 +15,9 @@
   sections:
   - file: md/unpolished_notebooks_intro
   - file: notebooks/init
+  - file: notebooks/2020-08-03__units_from_scratch
+    sections:
+      - file: notebooks/2020-08-03__Signal_prototype__Synaptic_conductances
+      - file: notebooks/2020-08-03__Signal_prototype__STA
   - file: notebooks/2020-07-28__Storing_in_base_units
   - file: notebooks/2020-07-05__Izhikevich_paper_accomp
