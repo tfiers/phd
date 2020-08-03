@@ -24,7 +24,7 @@ class SimResult(QuantityCollection):
 
     def __post_init__(self):
         self.V_m.name = "Membrane voltage"
-        self.u.name = '"Slow current", u (pA)'
+        self.u.name = '"Slow current", u'
         self.I_syn.name = "Synaptic current"
 
 
