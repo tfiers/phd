@@ -59,10 +59,10 @@ def simulate_izh_neuron(
 # without any overhead due to generic Python object processing.
 # fmt: off
 def _sim_izh(
-        v, u, I_syn,  # Empty arrays of length N, filled in place during simulation.
-        g_syn, I_e,  # Input arrays of length N.
-        dt,  # Timestep (scalar).
-        v_syn, v_r, k, v_t,
+    v, u, I_syn,  # Empty arrays of length N, filled in place during simulation.
+    g_syn, I_e,  # Input arrays of length N.
+    dt,  # Timestep (scalar).
+    v_syn, v_r, k, v_t,
         C, a, b, v_peak, c, d  # Scalars. See `IzhikevichParams` dataclass.
 ):
     dv_dt = lambda i: (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
