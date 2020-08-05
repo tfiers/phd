@@ -1,10 +1,8 @@
-from IPython.lib.pretty import PrettyPrinter
 from numpy import add, array2string, asarray, divide, multiply, ndarray, subtract
 
 from .unit import Unit
+from .ipython_integration import _make_ipython_print_str
 
-
-#
 
 _DIY_HELP_TEXT = (
     "You can get the raw, unitless data (a plain Numpy array) "
@@ -63,12 +61,18 @@ class Array:
     #
     # Text representation
 
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}"
+            f'({self.data_in_display_units}, "{self.display_unit}")'
+        )
+
     def __str__(self):
         return format(self)
 
     def __format__(self, format_spec: str) -> str:
-        # The empty string is the default spec when no spec is given in `format(x)` or
-        # `f"{x}"`.
+        # When no spec is given in `format(x)` (or equivalently, in `f"{x}"`),
+        # `format_spec` will be the empty string.
         if format_spec == "":
             format_spec = ".4G"
         arr_str = array2string(
@@ -77,9 +81,7 @@ class Array:
         )
         return f"{arr_str} {self.display_unit}"
 
-    # IPython/Jupyter
-    def _repr_pretty_(self, p: PrettyPrinter, _cycle: bool):
-        p.text(format(self))
+    _repr_pretty_ = _make_ipython_print_str
 
     #
     #

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from IPython.lib.pretty import PrettyPrinter
+from .ipython_integration import _make_ipython_print_str
 
 
 @dataclass
@@ -43,13 +43,12 @@ class Unit:
 
     #
     #
-    # Text representation in IPython/Jupyter
+    # Text representation
     #
-    def _repr_pretty_(self, p: PrettyPrinter, _cycle: bool):
-        p.text(str(self))
-
     def __str__(self):
         return self.name
+
+    _repr_pretty_ = _make_ipython_print_str
 
     #
     #
