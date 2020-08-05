@@ -173,3 +173,7 @@ class Array:
     __imul__ = __mul__
     __itruediv__ = __truediv__
     __rtruediv__ = __truediv__
+
+
+class Quantity(Array):
+    pass

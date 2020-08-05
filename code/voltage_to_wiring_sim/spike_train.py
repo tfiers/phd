@@ -7,7 +7,7 @@ from numpy.random import random
 
 from .plot_style import figsize
 from .time_grid import TimeGrid
-from .units import Hz, Quantity, ms, s
+from .units import Hz, Quantity, ms, second
 from .util import subplots
 
 
@@ -31,9 +31,9 @@ def plot(t, spike_train, *plot_args, **plot_kwargs):
 def test():
     f_spike = 1 * Hz
     n_in = 20
-    tg = TimeGrid(1 * s, 0.1 * ms)
+    tg = TimeGrid(1 * second, 0.1 * ms)
     spike_trains = [
-        generate_Poisson_spike_train(tg, f_spike) for incoming_neuron in range(n_in)
+        generate_Poisson_spike_train(tg, f_spike) for _incoming_neuron in range(n_in)
     ]
     # Aggregate spikes for all incoming neurons
     all_spikes = sum(spike_trains)
