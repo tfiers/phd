@@ -1,0 +1,4 @@
+# Ignore Jupyter Notebooks in GitHub language statistics widget
+# (.ipynb's are so large they drown out everything else).
+# 'linguist' is GitHub's language detection tool.
+*.ipynb linguist-documentation
