@@ -1,8 +1,7 @@
-import numpy as np
 from numpy import allclose
 
-from .array import Array
-from .unit import Unit, milli, nano
+from voltage_to_wiring_sim.units import Unit, milli, nano
+
 
 volt = Unit("V")
 mV = volt.with_prefix(milli)
