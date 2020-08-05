@@ -18,8 +18,8 @@ nano = Prefix("n", 1e-9)
 pico = Prefix("p", 1e-12)
 
 
-# (The following `noinspection` PyCharm directive is because it does not recognize a
-# dataclass's init params in the class docstring).
+# (We apply the following `noinspection` PyCharm directive because PyCharm does not
+# recognize a dataclass's init params in the class docstring).
 # noinspection PyUnresolvedReferences
 @dataclass
 class Unit:
@@ -79,14 +79,14 @@ class Unit:
 
     # other * self
     def __rmul__(self, other):
-        from arr import Array
+        from .array import Array
 
         # 3 * mV
         return Array(other, display_unit=self)
 
     # other / self
     def __rtruediv__(self, other):
-        from arr import Array
+        from .array import Array
 
         # 1 / ms
         new_base_unit = Unit(f"/ {self.base_unit.name}")

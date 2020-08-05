@@ -1,9 +1,8 @@
 import numpy as np
 from numpy import allclose
 
-from arr import Array
-from unit import Unit, milli, nano
-
+from .array import Array
+from .unit import Unit, milli, nano
 
 volt = Unit("V")
 mV = volt.with_prefix(milli)
@@ -52,7 +51,7 @@ amu = [3, 1, 5] * nV
 
 smu2 = 2 * smu
 smu2
-(smu+smu)
+(smu + smu)
 # amu2 =
 # amu_plus
 # assert 2 * smu == smu + smu

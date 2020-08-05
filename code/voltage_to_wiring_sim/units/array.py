@@ -1,7 +1,7 @@
 from IPython.lib.pretty import PrettyPrinter
 from numpy import add, array2string, asarray, divide, multiply, ndarray, subtract
 
-from unit import Unit
+from .unit import Unit
 
 
 #
@@ -67,7 +67,9 @@ class Array:
         return format(self)
 
     def __format__(self, format_spec: str) -> str:
-        if format_spec == "":  # The empty string is the default spec in `format()`.
+        # The empty string is the default spec when no spec is given in `format(x)` or
+        # `f"{x}"`.
+        if format_spec == "":
             format_spec = ".4G"
         arr_str = array2string(
             self.data_in_display_units,
