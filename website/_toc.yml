@@ -3,7 +3,7 @@
 - chapter: About
   sections:
   - file: md/reader_guide
-  - file: md/annotations
+  - file: md/comments
   - file: md/executing_code
 
 - chapter: Reports
