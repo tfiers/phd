@@ -39,7 +39,9 @@ When logged in, you can write a comment on that piece of text.
 The Hypothesis sidebar also allows you to make page-wide notes, and to see and reply to others' annotations.
 
 Hypothesis annotations belong to a 'group'. By default, they go in the 'Public' group.
-I made a private group for this project, which you can **[join here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring)**.
+I made a private group for this project, which you can join
+[here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring),
+or on the {doc}`next page </md/comments>`.
 
 You can also directly suggest edits to a page (via a GitHub pull request), by clicking on
 "<i class="fas fa-pencil-alt"></i> suggest edit" 
