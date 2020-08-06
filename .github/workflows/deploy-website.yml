@@ -32,7 +32,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         pip install -r website/requirements.txt
 
-    - name: Generate & process table of contents, and build the book
+    - name: Build the book
       working-directory: website
       run: python build.py
 
