@@ -1,13 +1,18 @@
 title: Voltage-to-Wiring Sim
 author: Tomas Fiers
+
 exclude_patterns: ["**/README.md"]
+
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
   path_to_book: website
+
 execute:
   execute_notebooks: off
+
 launch_buttons:
   binderhub_url: https://notebooks.gesis.org/binder
+
 html:
   favicon: _static/favicon.ico
   home_page_in_navbar: false
