@@ -29,6 +29,7 @@ where the repository is rolled back to that commit,
 so that the source code can be viewed, and the notebook executed, at that point in history.
 
 
+(giving-feedback-in-context)=
 ## Giving feedback in context
 
 When you select some text on any page of this website, there should appear a popover with an "Annotate" option.
@@ -38,7 +39,7 @@ When logged in, you can write a comment on that piece of text.
 The Hypothesis sidebar also allows you to make page-wide notes, and to see and reply to others' annotations.
 
 Hypothesis annotations belong to a 'group'. By default, they go in the 'Public' group.
-I made a private group for this project, which you can [join here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring).
+I made a private group for this project, which you can **[join here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring)**.
 
 You can also directly suggest edits to a page (via a GitHub pull request), by clicking on
 "<i class="fas fa-pencil-alt"></i> suggest edit" 
