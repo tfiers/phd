@@ -18,7 +18,7 @@ See this repository's [README](https://github.com/tfiers/voltage-to-wiring-sim#r
 
 The technology making this possible is called '[Binder](https://mybinder.org/)'.
 
-```{note}
+```{error}
 Binder cannot run GitHub repositories that are private, as our repository currently is. Therefore you'll have to run locally as long as the repo is private.
 ```
 
@@ -88,3 +88,10 @@ snakeviz temp.profile
 Two more useful magics:
 - `$$time` simply measures the run duration of a code block.
 - `$$timeit` repeatedly runs a code block to get accurate timing measurements and statistics.
+
+
+### Greek variable names
+
+Type for example "`\Sigma`"+`tab` in a Python Jupyter notebook (or in an IPython REPL) to get "`Σ`".
+
+An alternative, that works in all applications, is to use a 'compose key' tool. Those give you shortcuts to input Unicode characters anywhere. See [this guide](http://sjbyrnes.com/unicode.html) for a how to on Linux and Windows, and a cheat sheet for common technical symbols.
