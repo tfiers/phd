@@ -18,6 +18,10 @@ See this repository's [README](https://github.com/tfiers/voltage-to-wiring-sim#r
 
 The technology making this possible is called '[Binder](https://mybinder.org/)'.
 
+```{note}
+Binder cannot run GitHub repositories that are private, as our repository currently is. Therefore you'll have to run locally as long as the repo is private.
+```
+
 ````{margin}
 ```{caution}
 Don't rely on a Binder server for anything you want to last – each session is terminated after 10' of inactivity.
