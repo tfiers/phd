@@ -12,7 +12,7 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 The code is written in Python 3.8.
 
-<details><summary>Local setup from scratch (Conda, Python, and Jupyter)</summary>
+<details><summary>Local setup from scratch (Python and Jupyter, using Conda)</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
 specifically its small <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> installer.<br>
 Installing conda will also install Python, and the `pip` Python package installer used below.<br>
