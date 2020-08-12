@@ -9,8 +9,6 @@ objects.
 
 # fmt: off
 
-
-
 # Utility class to report what we do in this script
 
 from IPython.display import display_markdown, clear_output
@@ -20,15 +18,15 @@ class MarkdownPrinter:
     def __init__(self):
         self.displayed_texts: List[str] = []
     
-    def print(self, text: str, append=False):
-        if append:
+    def print(self, text: str, on_new_line=True):
+        if on_new_line:
+            display_markdown(text, raw=True)
+            self.displayed_texts.append(text)
+        elif _on_same_line_as_last := not on_new_line:
             self.displayed_texts[-1] += text
             clear_output()
             for t in self.displayed_texts:
                 display_markdown(t, raw=True)
-        else:
-            self.displayed_texts.append(text)
-            display_markdown(text, raw=True)
 
 md = MarkdownPrinter()
 
@@ -37,13 +35,12 @@ md.print("Importing `np`, `mpl`, `plt`  … ")
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-md.print("✔", append=True)
-
+md.print("✔", on_new_line=False)
 
 
 md.print("Importing package `voltage_to_wiring_sim` as `v` … ")
 import voltage_to_wiring_sim as v
-md.print("✔", append=True)
+md.print("✔", on_new_line=False)
 
 
 from voltage_to_wiring_sim.util import *
