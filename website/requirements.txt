@@ -1,2 +1,3 @@
 jupyter-book == 0.7.3
+sphinx-book-theme == 0.0.34  # This version still has [faded-out sidebar except on mouseover].
 lxml ~= 4.5
