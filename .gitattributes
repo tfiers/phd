@@ -2,3 +2,7 @@
 # (.ipynb's are so large they drown out everything else).
 # 'linguist' is GitHub's language detection tool.
 *.ipynb linguist-documentation
+
+# This option auto-converts Windows (CRLF) line endings into UNIX (LF) line endings in
+# newly added files.
+* text=auto eol=lf
