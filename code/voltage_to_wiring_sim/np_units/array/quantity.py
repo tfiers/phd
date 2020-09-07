@@ -1,9 +1,18 @@
-from .array import Array
+from .array import Array, create_new_Array_or_Quantity
 from ..type_aliases import Scalar
 from ..unit import Unit
 
 
 class Quantity(Array):
+    """
+    A scalar number with a physical unit.
+
+    See `Array`.
+    """
+
+    def __new__(cls, value, *args, **kwargs):
+        return create_new_Array_or_Quantity(value)
+
     def __init__(
         self,
         value: Scalar,

@@ -13,6 +13,8 @@ from .quantity import Quantity
 from ..type_aliases import ArrayLike
 from ..unit import BaseUnit, Unit
 
+def create_new_Array_or_Quantity(numeric_data) -> Either[Quantity, Array]: ...
+
 class Array(NDArrayOperatorsMixin):
 
     data: np.ndarray

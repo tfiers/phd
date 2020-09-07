@@ -11,6 +11,21 @@ class UnitError(Exception):
     pass
 
 
+def create_new_Array_or_Quantity(numeric_data):
+    """
+    Create either an new `Array` or a new `Quantity`, depending on the dimension of the
+    given data.
+    """
+    from .quantity import Quantity
+
+    if isinstance(numeric_data, scalar_types) or (
+        isinstance(numeric_data, np.ndarray) and numeric_data.ndim == 0
+    ):
+        return object.__new__(Quantity)
+    else:
+        return object.__new__(Array)
+
+
 class Array(NDArrayOperatorsMixin):
     """
     A NumPy array with a physical unit.
@@ -36,28 +51,10 @@ class Array(NDArrayOperatorsMixin):
     data: np.ndarray
     display_unit: Unit
 
-    def __new__(cls, *args, **kwargs):
-        """
-        When invoking `Array(..)` or `Quantity(..)`, create either an `Array` or a
-        `Quantity`, depending on the dimension of the given numeric data.
-        """
-        from .quantity import Quantity
-
-        # As we use this constructor for both `Array()` and `Quantity()`, we need to
-        # handle either's `__init__` arguments ("data" or "value").
-        if "data" in kwargs:
-            number_or_array = kwargs["data"]
-        elif "value" in kwargs:
-            number_or_array = kwargs["value"]
-        else:
-            number_or_array = args[0]
-
-        if isinstance(number_or_array, scalar_types) or (
-            isinstance(number_or_array, np.ndarray) and number_or_array.ndim == 0
-        ):
-            return object.__new__(Quantity)
-        else:
-            return object.__new__(Array)
+    def __new__(cls, data, *args, **kwargs):
+        # Note that `__new__`'s signature must match that of `__init__` (also in
+        # `Quantity`).
+        return create_new_Array_or_Quantity(data)
 
     def __init__(
         self,
