@@ -4,7 +4,7 @@ from numpy import empty
 
 from .spike_train import generate_Poisson_spike_train
 from .time_grid import TimeGrid
-from .units import Array, Hz, Quantity, inputs_as_raw_data, ms, nS
+from .np_units import Array, Hz, Quantity, inputs_as_raw_data, ms, nS
 
 
 def calc_synaptic_conductance(

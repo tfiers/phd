@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from numpy import linspace
 
-from .units import Array, Quantity, QuantityCollection
+from .np_units import Array, Quantity, QuantityCollection
 
 
 @dataclass
@@ -13,6 +13,6 @@ class TimeGrid(QuantityCollection):
     t: Array = None  # time array, for plotting
 
     def __post_init__(self):
-        self.N = int(round(self.T / self.dt))
+        self.N = round(self.T / self.dt)
         t = linspace(0, self.T, self.N, endpoint=False)
         self.t = Array(t.in_units(self.T.display_units), name="Time")

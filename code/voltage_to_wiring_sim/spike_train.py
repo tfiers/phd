@@ -7,7 +7,7 @@ from numpy.random import random
 
 from .plot_style import figsize
 from .time_grid import TimeGrid
-from .units import Hz, Quantity, ms, second
+from .np_units import Hz, Quantity, ms, second
 from .util import subplots
 
 

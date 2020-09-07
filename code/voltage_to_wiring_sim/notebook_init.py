@@ -44,23 +44,23 @@ md.print("✔", on_new_line=False)
 
 
 from voltage_to_wiring_sim.util import *
-from voltage_to_wiring_sim.units import *
+from voltage_to_wiring_sim.np_units import *
 md.print("Imported `*` from `v.util` and from `v.units` ✔")
 
 
 # Bookkeeping, see below.
-existing_names = dir()
+_existing_names = dir()
 
 # Import some commonly used methods and other objects directly into the global namespace
-from .neuron_sim import simulate_izh_neuron
-from .plot_style import figsize
-from .spike_train import generate_Poisson_spike_train
-from .synapses import calc_synaptic_conductance
-from .time_grid import TimeGrid
+from voltage_to_wiring_sim.neuron_sim import simulate_izh_neuron
+from voltage_to_wiring_sim.plot_style import figsize
+from voltage_to_wiring_sim.spike_train import generate_Poisson_spike_train
+from voltage_to_wiring_sim.synapses import calc_synaptic_conductance
+from voltage_to_wiring_sim.time_grid import TimeGrid
 
 # /bookkeeping, and reporting of what's newly imported
-new_names = set(dir()) - set(existing_names) - {'existing_names'}
-md.print(f"Imported {', '.join([f'`{name}`' for name in new_names])} ✔")
+new_names = set(dir()) - set(_existing_names) - {'_existing_names'}
+md.print(f"Imported {', '.join(f'`{name}`' for name in new_names)} ✔")
 
 
 # The following allows you to edit the source code while running a notebook, and then
@@ -69,11 +69,12 @@ md.print(f"Imported {', '.join([f'`{name}`' for name in new_names])} ✔")
 # Note that this isn't foolproof, and kernel restarts may still be required.
 from IPython import get_ipython
 ipython = get_ipython()
-ipython.run_line_magic("reload_ext", "autoreload")
-ipython.run_line_magic("autoreload", "2")
-# Exclude ourself from autoreloading, to avoid an exponential recursive import monster.
-ipython.run_line_magic("aimport", "-voltage_to_wiring_sim.notebook_init")
-md.print("Setup autoreload ✔")
+if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
+    ipython.run_line_magic("reload_ext", "autoreload")
+    ipython.run_line_magic("autoreload", "2")
+    # Exclude ourself from autoreloading, to avoid an exponential recursive import monster.
+    ipython.run_line_magic("aimport", "-voltage_to_wiring_sim.notebook_init")
+    md.print("Setup autoreload ✔")
 
 
 # If the last expression of a code cell is eg `product = 3 * 7`, and the cell is run,

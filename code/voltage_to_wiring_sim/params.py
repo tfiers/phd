@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .units import Quantity, QuantityCollection, mV, ms, nS, pA, pF
+from .np_units import Quantity, QuantityCollection, mV, ms, nS, pA, pF
 
 
 # fmt: off

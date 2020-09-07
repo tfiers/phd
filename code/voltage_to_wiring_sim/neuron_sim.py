@@ -12,7 +12,7 @@ from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
 from .time_grid import TimeGrid
-from .units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
+from .np_units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
 
 
 @dataclass
@@ -54,7 +54,7 @@ def simulate_izh_neuron(
     return SimResult(V_m, u, I_syn)
 
 
-# Pure Python/Numpy function that can be compiled to compact machine code by Numba,
+# Pure Python/NumPy function that can be compiled to compact machine code by Numba,
 # without any overhead due to generic Python object processing.
 # fmt: off
 def _sim_izh(
