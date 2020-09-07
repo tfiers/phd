@@ -14,11 +14,11 @@ class UnitError(Exception):
 class Array(NDArrayOperatorsMixin):
     """
     A NumPy array with a physical unit.
-    
-    This class is a wrapper around a NumPy `ndarray`, augmented with a `Unit` (named
-    `display_unit`). The data is stored -- and calculations with the data are done -- in
-    the `base_unit` of this `display_unit`. The `display_unit` is only used at Array
-    creation time and when printing the Array.
+
+    This class is a wrapper around a NumPy `ndarray` (the `data` attribute), augmented
+    with a `Unit` (the `display_unit` attribute). The data is stored -- and calculations
+    with the data are done -- in the `base_unit` of this `display_unit`. The
+    `display_unit` is only used at Array creation time and when printing the Array.
     """
 
     # See "Writing custom array containers"[1] from the NumPy manual for info on this
@@ -38,14 +38,16 @@ class Array(NDArrayOperatorsMixin):
 
     def __new__(cls, *args, **kwargs):
         """
-        Create either an `Array` or a `Quantity` depending on the dimension of the given
-        numeric data.
+        When invoking `Array(..)` or `Quantity(..)`, create either an `Array` or a
+        `Quantity`, depending on the dimension of the given numeric data.
         """
         from .quantity import Quantity
 
-        if "data" in kwargs:  # parameter name in `Array.__init__`
+        # As we use this constructor for both `Array()` and `Quantity()`, we need to
+        # handle either's `__init__` arguments ("data" or "value").
+        if "data" in kwargs:
             number_or_array = kwargs["data"]
-        elif "value" in kwargs:  # parameter name in `Quantity.__init__`
+        elif "value" in kwargs:
             number_or_array = kwargs["value"]
         else:
             number_or_array = args[0]
@@ -58,7 +60,10 @@ class Array(NDArrayOperatorsMixin):
             return object.__new__(Array)
 
     def __init__(
-        self, data, display_unit: Unit, data_are_given_in_display_units: bool = True,
+        self,
+        data,
+        display_unit: Unit,
+        data_are_given_in_display_units: bool = True,
     ):
         """
         :param data:  Array-like.
