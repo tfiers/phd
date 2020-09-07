@@ -73,7 +73,7 @@ class Array(NDArrayOperatorsMixin):
         """
         data_as_array = np.asarray(data)
         if not issubclass(data_as_array.dtype.type, np.number):
-            raise TypeError(f'Input data must be numeric. Got "{data_as_array}"')
+            raise TypeError(f'Input data must be numeric. Got "{repr(data_as_array)}"')
         if data_are_given_in_display_units:
             self.data = data_as_array * display_unit.conversion_factor
         else:
