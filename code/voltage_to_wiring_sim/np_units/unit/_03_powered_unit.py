@@ -21,7 +21,6 @@ class PoweredUnit(Unit):
 
         if power == 0:
             from ._02_simple_unit import dimensionless
-
             return dimensionless
 
         elif power == 1:
@@ -58,8 +57,8 @@ class PoweredUnit(Unit):
     def _power_as_superscript(self) -> str:
         # Transform eg the int `-87` to the string `"⁻⁸⁷"`.
         superscript_chars = "⁰¹²³⁴⁵⁶⁷⁸⁹"
-        power_digits = str(abs(self.power))
-        output_chars = [superscript_chars[int(digit)] for digit in power_digits]
+        digits = str(abs(self.power))
+        output_chars = [superscript_chars[int(digit)] for digit in digits]
         if self.power < 0:
             output_chars.insert(0, "⁻")
         return "".join(output_chars)
