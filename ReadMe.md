@@ -12,7 +12,7 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 The code is written in Python 3.8.
 
-<details><summary>[Installing Python and Jupyter, using conda])</summary>
+<details><summary>[How to install Python and Jupyter, using 'conda'])</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
 specifically its small <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> installer.<br>
 Installing conda will also install Python, and the `pip` Python package installer used below.<br>
@@ -31,6 +31,10 @@ Install the code and these dependencies by running, in the project root director
 ```bash
 pip install -e .
 ```
+(The `-e` stands for `editable`, meaning you can change the source code 
+— found in [`code/voltage_to_wiring_sim/`](code/voltage_to_wiring_sim/) — 
+and then use this updated code in your scripts and notebooks, without having to reinstall
+the package).
 
 
 <br>
@@ -42,19 +46,16 @@ You should now be able to import the code as a package into scripts and notebook
 import voltage_to_wiring_sim as v  # example shorthand
 ```
 
-The `-e` in the installation command stands for `editable`, meaning you can change the source code 
-(found in [`code/voltage_to_wiring_sim/`](code/voltage_to_wiring_sim/)) 
-and use the updated code in scripts without having to reinstall the package.
-
-To allow editing of the source code while running a Jupyter notebook, run a cell with the following:
-```ipython3
-%load_ext voltage_to_wiring_sim.auto_reload_package
+Get going quickly in a Jupyter notebook (or an IPython REPL session), by running:
+```py
+from voltage_to_wiring_sim.notebook_init import *`
 ```
-This allows you to update the source code without having to restart the Python 'kernel' on every change.\
-(This is not foolproof yet, and a kernel restart may still be needed for certain changes.
-But editing for example a module-level function should work fine).
+This preloads packages (`import numpy as np`, etc), configures IPython (like enabling
+`%autoreload`), and populates the namespace with some useful objects from our package.
 
-More explanation on the code can be found in [`code/README.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/master/code#readme), and in the Python files themselves, as comments and docstrings.
+
+More explanation on the code can be found in [`code/ReadMe.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/master/code#readme),
+and in the Python files themselves, as comments and docstrings.
 
 
 <br>
