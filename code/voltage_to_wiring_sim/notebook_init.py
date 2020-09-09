@@ -9,12 +9,12 @@ objects.
 
 # fmt: off
 
-# Utility class to report what we do in this script
-
 from IPython.display import display_markdown, clear_output
 from typing import List
 
 class MarkdownPrinter:
+    ''' Utility class to report what we do in this script. '''
+    
     def __init__(self):
         self.displayed_texts: List[str] = []
     
@@ -22,7 +22,7 @@ class MarkdownPrinter:
         if on_new_line:
             display_markdown(text, raw=True)
             self.displayed_texts.append(text)
-        elif _on_same_line_as_last := not on_new_line:
+        else:  # On same line as last `print` call.
             self.displayed_texts[-1] += text
             clear_output()
             for t in self.displayed_texts:
@@ -80,7 +80,7 @@ if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
 # If the last expression of a code cell is eg `product = 3 * 7`, and the cell is run,
 # IPython prints nothing, by default. Here, we make it print the result (`21`).
 # This avoids having to type an extra line with just `product` to see the result.
-# (Such a print can still be suppressed by ending the line with `;`).
+# (Prints can still be suppressed by ending the line with `;`).
 from IPython.core.interactiveshell import InteractiveShell
 InteractiveShell.ast_node_interactivity = "last_expr_or_assign"
 
