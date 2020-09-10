@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
     <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
-    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css">
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -22,14 +21,14 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/mystnb.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.18.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -134,11 +133,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../md/unpolished_notebooks_intro.html">
    Intro
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2020-08-03__units_from_scratch.html">
-   2020-08-03 &#8226; Signal API prototype: units from scratch
   </a>
  </li>
  <li class="toctree-l1">
@@ -280,14 +274,14 @@
 <h2>init<a class="headerlink" href="#init" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">config</span> <span class="n">InteractiveShell</span><span class="o">.</span><span class="n">ast_node_interactivity</span> <span class="o">=</span> <span class="s1">'last_expr_or_assign'</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">config</span> InteractiveShell.ast_node_interactivity = 'last_expr_or_assign'
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span><span class="p">,</span> <span class="n">interact_manual</span>
@@ -300,14 +294,14 @@
 <h2>n(t) for <span class="math notranslate nohighlight">\(\dot{V}=0\)</span> (testing SymPy)<a class="headerlink" href="#n-t-for-dot-v-0-testing-sympy" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tau</span><span class="p">,</span> <span class="n">n_inf</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">'&#964;, n_\infty, t'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tau</span><span class="p">,</span> <span class="n">n_inf</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">'&#964;, n_\infty, t'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="s1">'n'</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Function</span><span class="p">(</span><span class="s1">'n'</span><span class="p">)(</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -318,7 +312,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ndot</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ndot</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -329,7 +323,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">V_nullcline__n</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">ndot</span><span class="p">,</span> <span class="p">(</span><span class="n">n_inf</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V_nullcline__n</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Eq</span><span class="p">(</span><span class="n">ndot</span><span class="p">,</span> <span class="p">(</span><span class="n">n_inf</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">tau</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -340,7 +334,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sym</span><span class="o">.</span><span class="n">dsolve</span><span class="p">(</span><span class="n">V_nullcline__n</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sym</span><span class="o">.</span><span class="n">dsolve</span><span class="p">(</span><span class="n">V_nullcline__n</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -354,7 +348,7 @@
 <h2>n(V) for <span class="math notranslate nohighlight">\(\dot{V} = 0\)</span><a class="headerlink" href="#n-v-for-dot-v-0" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">V_1_2</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">g_L</span><span class="p">,</span> <span class="n">E_L</span><span class="p">,</span> <span class="n">g_Na</span><span class="p">,</span> <span class="n">E_Na</span><span class="p">,</span> <span class="n">g_K</span><span class="p">,</span> <span class="n">E_K</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">V_1_2</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">g_L</span><span class="p">,</span> <span class="n">E_L</span><span class="p">,</span> <span class="n">g_Na</span><span class="p">,</span> <span class="n">E_Na</span><span class="p">,</span> <span class="n">g_K</span><span class="p">,</span> <span class="n">E_K</span><span class="p">):</span>
     
     <span class="k">def</span> <span class="nf">m_inf</span><span class="p">(</span><span class="n">V</span><span class="p">):</span>
         <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">V_1_2</span><span class="o">-</span><span class="n">V</span><span class="p">)</span><span class="o">/</span><span class="n">k</span><span class="p">))</span>
@@ -379,7 +373,7 @@
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">interact_manual</span><span class="p">(</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">interact_manual</span><span class="p">(</span>
     <span class="n">plot</span><span class="p">,</span>
     <span class="n">V_1_2</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span>
     <span class="n">k</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
@@ -406,7 +400,7 @@
 (a is in 1/ms).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">izh_neuron</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v_r</span><span class="p">,</span> <span class="n">v_t</span><span class="p">,</span> <span class="n">v_peak</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">izh_neuron</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v_r</span><span class="p">,</span> <span class="n">v_t</span><span class="p">,</span> <span class="n">v_peak</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">I</span><span class="p">):</span>
     
     <span class="n">dv_dt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span><span class="n">u</span><span class="p">:</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v_t</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">+</span> <span class="n">I</span><span class="p">)</span><span class="o">/</span><span class="n">C</span>
     <span class="n">du_dt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">v</span><span class="p">,</span><span class="n">u</span><span class="p">:</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v_r</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
@@ -438,7 +432,7 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cortical_RS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">v_r</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">v_t</span><span class="o">=-</span><span class="mi">40</span><span class="p">,</span> <span class="n">v_peak</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">b</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="mi">50</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cortical_RS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">v_r</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">v_t</span><span class="o">=-</span><span class="mi">40</span><span class="p">,</span> <span class="n">v_peak</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">b</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="mi">50</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">cortical_IB</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">v_r</span><span class="o">=-</span><span class="mi">75</span><span class="p">,</span> <span class="n">v_t</span><span class="o">=-</span><span class="mi">45</span><span class="p">,</span> <span class="n">v_peak</span><span class="o">=</span><span class="mi">35</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="mi">56</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">130</span><span class="p">)</span>
 <span class="n">cortical_CH</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">C</span><span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">v_r</span><span class="o">=-</span><span class="mi">60</span><span class="p">,</span> <span class="n">v_t</span><span class="o">=-</span><span class="mi">40</span><span class="p">,</span> <span class="n">v_peak</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=-</span><span class="mi">40</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
 
