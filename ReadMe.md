@@ -54,7 +54,7 @@ This preloads packages (`import numpy as np`, etc), configures IPython (like ena
 `%autoreload`), and populates the namespace with some useful objects from our package.
 
 
-More explanation on the code can be found in [`code/ReadMe.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/master/code#readme),
+More explanation on the code can be found in [`code/ReadMe.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/main/code#readme),
 and in the Python files themselves, as comments and docstrings.
 
 
@@ -63,5 +63,5 @@ and in the Python files themselves, as comments and docstrings.
 ## Licenses
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
-licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).
+licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/main/LICENSE).
 

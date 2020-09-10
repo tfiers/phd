@@ -1,10 +1,10 @@
 name: deploy-website-workflow
 
-# Only run when anything on the master branch, in the `website` directory, changes
+# Only run when anything on the main branch, in the `website` directory, changes
 on:
   push:
     branches:
-    - master
+    - main
     paths:
     - website/**
 
