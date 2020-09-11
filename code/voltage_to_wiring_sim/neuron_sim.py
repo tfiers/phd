@@ -9,10 +9,11 @@ from functools import partial
 import matplotlib.pyplot as plt
 from numba import jit
 from numpy import empty, ones, zeros
+from unyt import assert_allclose_units
 
 from .params import IzhikevichParams, cortical_RS
 from .time_grid import TimeGrid
-from .np_units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
+from .units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
 
 
 @dataclass

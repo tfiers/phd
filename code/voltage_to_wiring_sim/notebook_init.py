@@ -29,9 +29,8 @@ print("Imported package `voltage_to_wiring_sim` as `v`")
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-# from voltage_to_wiring_sim.util import *
-
-# from voltage_to_wiring_sim.units import *
+from voltage_to_wiring_sim.util import *
+from voltage_to_wiring_sim.units import *
 
 print("Imported `*` from `v.util` and from `v.units`")
 # ────────────────────────────────────────────────────────────────────────────────────╯

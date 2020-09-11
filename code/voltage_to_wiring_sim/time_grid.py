@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from numpy import linspace
 
-from .np_units import Array, Quantity, QuantityCollection
+from .units import Array, Quantity, QuantityCollection, unyt_array
 
 
 @dataclass
@@ -14,5 +14,5 @@ class TimeGrid(QuantityCollection):
 
     def __post_init__(self):
         self.N = round(self.T / self.dt)
-        t = linspace(0, self.T, self.N, endpoint=False)
+        t: unyt_array = linspace(0, self.T, self.N, endpoint=False)
         self.t = Array(t.in_units(self.T.display_units), name="Time")
