@@ -1,6 +1,6 @@
 from preload import preload
 
-preload(["numpy", "matplotlib.pyplot"])
+preload(["numpy", "matplotlib", "matplotlib.pyplot"])
 
 
 from .neuron_sim import simulate_izh_neuron
