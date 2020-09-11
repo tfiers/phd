@@ -50,8 +50,8 @@ Get going quickly in a Jupyter notebook (or an IPython REPL session), by running
 ```py
 from voltage_to_wiring_sim.notebook_init import *
 ```
-This preloads packages (`import numpy as np`, etc), configures IPython (like enabling
-`%autoreload`), and populates the namespace with some useful objects from our package.
+This imports useful packages (`numpy as np`, `voltage_to_wiring_sim as v`, etc), and configures IPython (like enabling
+`%autoreload`, 'retina' figures, nice number formatting, etc).
 
 
 More explanation on the code can be found in [`code/ReadMe.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/main/code#readme),
