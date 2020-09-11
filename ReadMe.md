@@ -48,7 +48,7 @@ import voltage_to_wiring_sim as v  # example shorthand
 
 Get going quickly in a Jupyter notebook (or an IPython REPL session), by running:
 ```py
-from voltage_to_wiring_sim.notebook_init import *`
+from voltage_to_wiring_sim.notebook_init import *
 ```
 This preloads packages (`import numpy as np`, etc), configures IPython (like enabling
 `%autoreload`), and populates the namespace with some useful objects from our package.
