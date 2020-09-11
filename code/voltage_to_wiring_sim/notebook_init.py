@@ -3,38 +3,44 @@ Get going in a Jupyter notebook (or an IPython REPL session), by running:
 ```
 from voltage_to_wiring_sim.notebook_init import *`
 ```
-This preloads packages, configures IPython, and populates the namespace with some useful
-objects.
 """
 
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 print("Imported `np`, `mpl`, `plt")
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
 
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 import voltage_to_wiring_sim as v
 
 print("Imported package `voltage_to_wiring_sim` as `v`")
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
 
-from voltage_to_wiring_sim.util import *
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# from voltage_to_wiring_sim.util import *
 
 # from voltage_to_wiring_sim.units import *
 
 print("Imported `*` from `v.util` and from `v.units`")
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # The following allows you to edit the source code while running a notebook, and then
 # use this updated code in the notebook, without having to restart the kernel on every
 # code change.
@@ -46,13 +52,17 @@ ipython = get_ipython()
 if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
     ipython.run_line_magic("reload_ext", "autoreload")
     ipython.run_line_magic("autoreload", "2")
-    # Exclude ourself from autoreloading, to avoid an exponential recursive import monster.
+    # Exclude ourself from autoreloading, to avoid an exponential recursive import
+    # monster.
     ipython.run_line_magic("aimport", "-voltage_to_wiring_sim.notebook_init")
     print("Setup autoreload")
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # If the last expression of a code cell is eg `product = 3 * 7`, and the cell is run,
 # IPython prints nothing, by default. Here, we make it print the result (`21`).
 # This avoids having to type an extra line with just `product` to see the result.
@@ -61,19 +71,25 @@ if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
 from IPython.core.interactiveshell import InteractiveShell
 
 InteractiveShell.ast_node_interactivity = "last_expr_or_assign"
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # Double resolution plots (without taking up twice as much screen space).
 
 from IPython.display import set_matplotlib_formats
 
 set_matplotlib_formats("retina")
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # Print precision for (floating point) numbers.
 
 
@@ -87,12 +103,17 @@ def set_np_precision(digits=4):
 
 
 set_np_precision()
+# ────────────────────────────────────────────────────────────────────────────────────╯
 
 
-# -------------------------------------------------------------------------------------
+#
 
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # Utility function from the Python standard library.
 # Given a function, returns a copy of that function, but with some arguments already
 # applied.
 
 from functools import partial
+
+# ────────────────────────────────────────────────────────────────────────────────────╯
