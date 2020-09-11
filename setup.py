@@ -54,5 +54,7 @@ setup(
                               # [https://github.com/pytoolz/toolz]
         "joblib ~= 0.16",     # (Currently unused).
                               # [https://joblib.readthedocs.io/]
+        "preload ~= 2.1",     # Preload heavy imports, with user feedback.
+                              # [https://github.com/tfiers/preload]
     )
 )
