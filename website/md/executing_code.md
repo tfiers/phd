@@ -87,8 +87,8 @@ snakeviz temp.profile
 ```
 
 Two more useful magics:
-- `$$time` simply measures the run duration of a code block.
-- `$$timeit` repeatedly runs a code block to get accurate timing measurements and statistics.
+- `%%time` simply measures the run duration of a code block.
+- `%%timeit` repeatedly runs a code block to get accurate timing measurements and statistics.
 
 
 ### Greek variable names
