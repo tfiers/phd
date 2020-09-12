@@ -6,6 +6,7 @@ exclude_patterns: ["**/README.md"]
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
   path_to_book: website
+  branch: main
 
 execute:
   execute_notebooks: off
