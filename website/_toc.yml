@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2020-09-10__STA_for_different_PSP_shapes
     - file: notebooks/2020-07-29__STA
     - file: notebooks/2020-07-27__Synaptic_conductances
     - file: notebooks/2020-07-06__Single_neuron_sim

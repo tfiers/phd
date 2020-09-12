@@ -11,7 +11,7 @@ A = Unit("A")
 pA = Unit("pA")
 ms = Unit("ms")
 second = Unit("s")
-min = Unit("min")
+minute = Unit("min")
 Hz = Unit("Hz")
 
 try:
