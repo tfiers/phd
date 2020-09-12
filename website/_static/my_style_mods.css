@@ -14,6 +14,7 @@ code {
     border: 1px solid #eee;
 }
 
+/* For hypothesis annotations overview embed */
 iframe {
     width: 100%;
     height: 55em;
