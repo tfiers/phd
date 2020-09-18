@@ -62,6 +62,31 @@ if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# Reproducibility info dump
+
+if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
+    print("\nReproducibility info. This notebook was last run on/with:\n")
+    ipython.run_line_magic("reload_ext", "watermark")
+    ipython.run_line_magic(
+        "watermark",
+        (
+            " -h"  # Computer name (hostname)
+            " -m"  # Machine info: cpu, OS, compiler used to compile Python.
+            " -v"  # Python and IPython version
+            " -iv"  # Versions of imported packages (doesn't seem to work from this
+                    # script).
+            " -rgb"  # Git repo, commit hash, and branch
+            " -ntz"  # Named date, time, and timezone
+        ),
+    )
+    print("")
+# ────────────────────────────────────────────────────────────────────────────────────╯
+
+
+#
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # If the last expression of a code cell is eg `product = 3 * 7`, and the cell is run,
 # IPython prints nothing, by default. Here, we make it print the result (`21`).
 # This avoids having to type an extra line with just `product` to see the result.

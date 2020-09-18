@@ -56,5 +56,10 @@ setup(
                               # [https://joblib.readthedocs.io/]
         "preload ~= 2.1",     # Preload heavy imports, with user feedback.
                               # [https://github.com/tfiers/preload]
+        "watermark ~= 2.0",   # Prints info about execution environment of notebooks in
+                              # those notebooks, to make them more reproducible in the
+                              # future. Prints eg datetime, package versions, machine
+                              # info, git commit info.
+                              # [https://github.com/rasbt/watermark]
     )
 )
