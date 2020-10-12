@@ -10,6 +10,13 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 ## Installation
 
+Download the code from this repository:
+```
+$ cd your_projects_folder
+$ git clone git@github.com:tfiers/voltage-to-wiring-sim.git
+$ cd voltage-to-wiring-sim
+```
+
 The code is written in Python 3.8.
 
 <details><summary>[How to install Python and Jupyter, using 'conda']</summary>
