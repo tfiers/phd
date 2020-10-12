@@ -17,8 +17,8 @@ It may also contain explanatory text, and be organised in subsections.
 
 ## Past notebooks & old code versions
 
-The codebase thus gradually grows and changes. As a result, past notebooks will not 'work' anymore with the newest code version.
-The notebook will use functions and modules that have been renamed or don't exist anymore, and executing the notebook will yield an error.
+The codebase thus gradually grows and changes. As a result, past notebooks will not 'work' anymore with the newest code version:
+the notebook will use functions and modules that have been renamed or don't exist anymore, and executing the notebook will thus yield an error.
 
 ```{margin}
 See {ref}`running-in-the-cloud` for more on Binder.
