@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-SOURCE_DIR = "code"
+SOURCE_DIR = "codebase"
 
 
 setup(

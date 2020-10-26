@@ -34,7 +34,7 @@ Install the code and these dependencies by running, in the project root director
 pip install -e .
 ```
 (The `-e` stands for `editable`, meaning you can change the source code 
-— found in [`code/voltage_to_wiring_sim/`](code/voltage_to_wiring_sim/) — 
+— found in [`code/voltage_to_wiring_sim/`](codebase/voltage_to_wiring_sim/) — 
 and then use this updated code in your scripts and notebooks, without having to reinstall
 the package).
 
