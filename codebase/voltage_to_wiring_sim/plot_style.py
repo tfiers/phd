@@ -4,7 +4,9 @@ import matplotlib as mpl
 
 
 def figsize(
-    aspect: float = 0.62, width: int = 500, rel_text_size: float = 1.33,
+    aspect: float = 0.62,
+    width: int = 500,
+    rel_text_size: float = 1.33,
 ):
     """
     :return: A dictionary with keys "figsize" and "dpi" that can be passed as **kwargs
