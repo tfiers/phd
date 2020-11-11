@@ -167,13 +167,6 @@
 
  <!-- To handle the deprecated key -->
 
-<div class="navbar_extra_footer">
-  <div id="build-status">
-  [build status]
-</div>
-
-</div>
-
 </div>
 
 
@@ -328,7 +321,7 @@
 <p>This notebook is similar to <a class="reference internal" href="2020-07-29__STA.html"><span class="doc">2020-07-29 &#8226; Spike-triggered averaging</span></a>, <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html"><span class="doc">2020-09-10 &#8226; STA for &#8800; PSP shapes</span></a>, and <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html"><span class="doc">2020-09-18 &#8226; Clip spikes before STA</span></a>.</p>
 <p>We still wonder whether the bump in the STA is due to averaging post synaptic potentials (PSPs), or postsynaptic spikes.</p>
 <p>We clipped the signal, but this still kept the ramp-up of the membrane potential right before a spike. It might be this ramp-up that caused the bump (instead of PSPs).</p>
-<p>Here we try to get rid of that ramp-up by deleting the VI signal around each spike, by replacing it by a constant value (the median signal value).</p>
+<p>Here we try to get rid of that ramp-up by deleting the VI signal around each spike (replacing it with <code class="docutils literal notranslate"><span class="pre">NaN</span></code> [&#8220;not a number&#8221;]).</p>
 <p>We then repeat the STA window procedure to see if the bump is still there, or not.</p>
 <div class="section" id="nothing-new-here">
 <h2>Nothing new here<a class="headerlink" href="#nothing-new-here" title="Permalink to this headline">&#182;</a></h2>
@@ -343,11 +336,11 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
- - numpy &#8230; (0.28 s)
- - matplotlib.pyplot &#8230; (0.49 s)
- - numba &#8230; (0.37 s)
- - sympy &#8230; (0.39 s)
- - unyt &#8230; (1.03 s)
+ - numpy &#8230; (0.44 s)
+ - matplotlib.pyplot &#8230; (0.57 s)
+ - numba &#8230; (0.71 s)
+ - sympy &#8230; (0.71 s)
+ - unyt &#8230; (1.07 s)
 
 Imported `np`, `mpl`, `plt
 Imported package `voltage_to_wiring_sim` as `v`
@@ -356,7 +349,7 @@ Setup autoreload
 
 Reproducibility info. This notebook was last run on/with:
 
-Fri Oct 23 2020 17:38:10 Romance Daylight Time 
+Mon Oct 26 2020 10:47:13 Romance Standard Time 
 
 CPython 3.8.3
 IPython 7.18.1
@@ -369,7 +362,7 @@ processor  : Intel64 Family 6 Model 142 Stepping 12, GenuineIntel
 CPU cores  : 8
 interpreter: 64bit
 host name  : yoga
-Git hash   : 6872a12c6b6cb764d4daa6093c7f19d03f33e376
+Git hash   : 531bc468b35e14e2c5748ac51a380d0f70575615
 Git repo   : git@github.com:tfiers/voltage-to-wiring-sim.git
 Git branch : main
 </pre></div>
