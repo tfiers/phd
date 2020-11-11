@@ -12,7 +12,7 @@ pA = pico * ampere
 
 # Reassignment trick to make PyCharm IDE:
 #  - Not complain about unused imports
-#  - In other modules, suggest importing these objects from this module instead of from
+#  - In other modules, suggest importing these objects from this module, instead of from
 #    their original packages.
 Array, Quantity, add_unit_support = Array, Quantity, add_unit_support
 minute, Hz = minute, Hz

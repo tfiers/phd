@@ -30,9 +30,8 @@ print("Imported package `voltage_to_wiring_sim` as `v`")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 from voltage_to_wiring_sim.support.units import *
-from voltage_to_wiring_sim.support.util import *
 
-print("Imported `*` from `v.util` and from `v.units`")
+print("Imported `*` from `v.support.units`")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
@@ -141,3 +140,10 @@ set_np_precision()
 from functools import partial
 
 # ────────────────────────────────────────────────────────────────────────────────────╯
+
+
+# Reassignment trick to stop PyCharm from complaining about unused imports:
+mpl, plt = mpl, plt
+v = v
+Quantity = Quantity
+partial = partial
