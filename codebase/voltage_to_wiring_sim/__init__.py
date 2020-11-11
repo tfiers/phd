@@ -9,4 +9,4 @@ from .synapses import calc_synaptic_conductance
 from .support.plot_style import figsize
 from .support.time_grid import TimeGrid
 from .support.scalebar import add_scalebar
-from .support.util import fix_rng_seed
+from .support.util import fix_rng_seed, pprint

@@ -3,7 +3,7 @@ Integrate the ODE of the Izhikevich model neuron.
 
 The real work happens in `_sim_izh()`.
 """
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from functools import partial
 
 import matplotlib.pyplot as plt
@@ -14,11 +14,10 @@ from unyt import assert_allclose_units
 from .params import IzhikevichParams, cortical_RS
 from .support.time_grid import TimeGrid
 from .support.units import Array, add_unit_support, mV, ms, pA
-from .support.util import QuantityCollection
 
 
 @dataclass
-class SimResult(QuantityCollection):
+class SimResult:
     V_m: Array
     u: Array
     I_syn: Array
@@ -51,7 +50,7 @@ def simulate_izh_neuron(
     else:  # Compile with Numba
         f = add_unit_support(jit(_sim_izh, cache=True))
 
-    f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
+    f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
 
     return SimResult(V_m, u, I_syn)
 

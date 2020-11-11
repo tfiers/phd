@@ -1,13 +1,12 @@
 from dataclasses import dataclass
 
 from .support.units import Quantity, mV, ms, nS, pA, pF
-from .support.util import QuantityCollection
 
 
 # fmt: off
 
 @dataclass
-class IzhikevichParams(QuantityCollection):
+class IzhikevichParams:
     C:      Quantity   # Capacitance
     k:      Quantity   # A voltage-dependent conductance derived from neuron's I-V curve.
     v_r:    Quantity   # Resting potential

@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from typing import Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
@@ -7,20 +7,19 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 
-@dataclass
-class QuantityCollection:
-    """ A collection of dimensioned values, with pretty printing ability. """
-
-    def __str__(self):
-        """ Invoked when calling `print()` on the dataclass. """
-        subclass_name = self.__class__.__name__
-        lines = [
-            subclass_name,
-            "-" * len(subclass_name),
-        ]
-        for name, value in asdict(self):
-            lines.append(f"{name} = {str(value)}")
-        return "\n".join(lines)
+def pprint(dataclass):
+    """
+    Pretty-prints a dataclass as a table of its fields and their values, and with the
+    class name as header.
+    """
+    dataclass_name = dataclass.__class__.__name__
+    lines = [
+        dataclass_name,
+        "-" * len(dataclass_name),
+    ]
+    for name, value in asdict(dataclass):
+        lines.append(f"{name} = {str(value)}")
+    return "\n".join(lines)
 
 
 def fix_rng_seed(seed=0):
