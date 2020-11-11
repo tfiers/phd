@@ -34,7 +34,7 @@ Install the code and these dependencies by running, in the project root director
 pip install -e .
 ```
 (The `-e` stands for `editable`, meaning you can change the source code 
-— found in [`code/voltage_to_wiring_sim/`](codebase/voltage_to_wiring_sim/) — 
+— found in [`codebase/voltage_to_wiring_sim/`](codebase/voltage_to_wiring_sim/) — 
 and then use this updated code in your scripts and notebooks, without having to reinstall
 the package).
 
@@ -50,14 +50,14 @@ import voltage_to_wiring_sim as v  # example shorthand
 
 Get going quickly in a Jupyter notebook (or an IPython REPL session), by running:
 ```py
-from voltage_to_wiring_sim.notebook_init import *
+from voltage_to_wiring_sim.support.notebook_init import *
 ```
-This imports useful packages (`numpy as np`, `voltage_to_wiring_sim as v`, etc), and configures IPython (like enabling
-`%autoreload`, 'retina' figures, nice number formatting, etc).
+This imports useful packages (`numpy as np`, `voltage_to_wiring_sim as v`, etc), and 
+configures IPython (like enabling `%autoreload`, 'retina' figures, nice number formatting, etc).
 
 
-More explanation on the code can be found in [`code/ReadMe.md`](https://github.com/tfiers/voltage-to-wiring-sim/tree/main/code#readme),
-and in the Python files themselves, as comments and docstrings.
+More explanation on the code can be found in the [Python files](codebase/voltage_to_wiring_sim/) 
+themselves in, as comments and docstrings.
 
 
 <br>
@@ -66,4 +66,3 @@ and in the Python files themselves, as comments and docstrings.
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
 licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/main/LICENSE).
-

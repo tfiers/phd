@@ -1,7 +1,7 @@
 """
 Get going in a Jupyter notebook (or an IPython REPL session), by running:
 ```
-from voltage_to_wiring_sim.notebook_init import *`
+from voltage_to_wiring_sim.support.notebook_init import *`
 ```
 """
 
