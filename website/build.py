@@ -22,8 +22,7 @@ META_TAG_STRS = (
 def add_meta_tags_to_all_pages():
     html_file_paths = map(str, Path("./_build/html/").glob("**/*.html"))
     parser = etree.HTMLParser()
-    # Must convert generator to tuple, as we'll use it more than once
-    meta_tags = tuple(map(etree.fromstring, META_TAG_STRS))
+    meta_tags = [etree.fromstring(tag) for tag in META_TAG_STRS]
     for html_file_path in html_file_paths:
         try:
             tree = etree.parse(html_file_path, parser)
