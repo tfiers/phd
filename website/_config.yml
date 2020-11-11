@@ -1,8 +1,6 @@
 title: Voltage-to-Wiring Sim
 author: Tomas Fiers
 
-exclude_patterns: ["**/README.md"]
-
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
   path_to_book: website

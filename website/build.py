@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+import shutil
 import sys
 from pathlib import Path
 from subprocess import run
@@ -7,7 +7,18 @@ from subprocess import run
 from lxml import etree
 
 
-def run_jb_cmd(cmd):
+def copy_down_notebooks_dir():
+    # I like my `notebooks/` dir to be top level (next to `codebase/` and `website/`).
+    # But JupyterBook / Sphinx then can't find it. Hence copy it down to the website/
+    # dir on build.
+    try:
+        shutil.copytree("../notebooks", "notebooks", dirs_exist_ok=True)
+    except shutil.Error:
+        pass
+        # A "permission denied" error is raised on my machine, but the operation
+        # succeeds succesfully anyway. So we ignore this error.
+
+def run_jupyterbook_cmd(cmd):
     run(["jupyter-book", cmd, "."], stdout=sys.stdout, stderr=sys.stderr)
 
 
@@ -35,6 +46,7 @@ def add_meta_tags_to_all_pages():
             print(f"Could not add meta tags to {html_file_path}")
 
 
-run_jb_cmd("clean")
-run_jb_cmd("build")
+copy_down_notebooks_dir()
+run_jupyterbook_cmd("clean")
+run_jupyterbook_cmd("build")
 add_meta_tags_to_all_pages()

@@ -14,8 +14,5 @@ __pycache__
 # Cache directory storing results of slow Python function calls
 joblib
 
-# Jupyter Book html output directory
-_build
-
 # Annoying files placed by Windows in every Google Drive folder (specifying folder icon)
 desktop.ini
