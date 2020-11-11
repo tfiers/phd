@@ -1,16 +1,15 @@
-name: deploy-website-workflow
+name: deploy-website
 
-# Only run when anything on the main branch, in the `website` directory, changes
+# Only run when anything in the `website` or `notebooks` directories changes
 on:
   push:
-    branches:
-    - main
     paths:
-    - website/**
+      - notebooks/**
+      - website/**
 
 # Install dependencies, build the book, and push it to `gh-pages` branch.
 jobs:
-  deploy-website-job:
+  build:
     runs-on: ubuntu-latest
     steps:
 
