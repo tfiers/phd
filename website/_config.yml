@@ -22,9 +22,9 @@ html:
   use_edit_page_button: true
   use_issues_button: true
   google_analytics_id: "UA-121684982-2"
-  extra_navbar: |
-    <div id="build-status">
-      [build status]
-    </div>
+#  extra_navbar: |
+#    <div id="build-status">
+#      [build status]
+#    </div>
   extra_footer: |
     <script src="https://hypothes.is/embed.js" async></script>
