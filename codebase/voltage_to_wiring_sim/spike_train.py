@@ -5,10 +5,10 @@
 from numpy import ndarray
 from numpy.random import random
 
-from .plot_style import figsize
-from .time_grid import TimeGrid
-from .units import Hz, Quantity, ms, second
-from .util import subplots
+from .support.plot_style import figsize
+from voltage_to_wiring_sim.support.time_grid import TimeGrid
+from .support.units import Hz, Quantity, ms, second
+from .support.util import subplots
 
 
 def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:

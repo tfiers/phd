@@ -3,8 +3,8 @@ from numba import jit
 from numpy import empty
 
 from .spike_train import generate_Poisson_spike_train
-from .time_grid import TimeGrid
-from .units import Array, Hz, Quantity, inputs_as_raw_data, ms, nS
+from .support.time_grid import TimeGrid
+from .support.units import Array, Hz, Quantity, ms, nS, add_unit_support
 
 
 def calc_synaptic_conductance(
@@ -26,7 +26,7 @@ def calc_synaptic_conductance(
     if calc_with_units:
         f = _calc_g_syn
     else:
-        f = inputs_as_raw_data(jit(_calc_g_syn, cache=True))
+        f = add_unit_support(jit(_calc_g_syn, cache=True))
     f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
     return g_syn
 

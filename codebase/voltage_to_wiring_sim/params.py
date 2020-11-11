@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from .units import Quantity, QuantityCollection, mV, ms, nS, pA, pF
+from .support.units import Quantity, mV, ms, nS, pA, pF
+from .support.util import QuantityCollection
 
 
 # fmt: off

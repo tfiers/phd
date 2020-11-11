@@ -12,8 +12,9 @@ from numpy import empty, ones, zeros
 from unyt import assert_allclose_units
 
 from .params import IzhikevichParams, cortical_RS
-from .time_grid import TimeGrid
-from .units import Array, QuantityCollection, inputs_as_raw_data, mV, ms, pA
+from .support.time_grid import TimeGrid
+from .support.units import Array, add_unit_support, mV, ms, pA
+from .support.util import QuantityCollection
 
 
 @dataclass
@@ -48,7 +49,7 @@ def simulate_izh_neuron(
     if calc_with_units:
         f = _sim_izh
     else:  # Compile with Numba
-        f = inputs_as_raw_data(jit(_sim_izh, cache=True))
+        f = add_unit_support(jit(_sim_izh, cache=True))
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **params.asdict())
 

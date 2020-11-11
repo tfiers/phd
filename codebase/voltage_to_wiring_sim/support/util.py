@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from dataclasses import asdict, dataclass
 from time import time
 from typing import Sequence, Tuple, Union
 
@@ -8,7 +9,23 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from mpl_toolkits.axes_grid1.anchored_artists import AnchoredSizeBar
 
-from voltage_to_wiring_sim.units import Quantity
+from .units import Quantity
+
+
+@dataclass
+class QuantityCollection:
+    """ A collection of dimensioned values, with pretty printing ability. """
+
+    def __str__(self):
+        """ Invoked when calling `print()` on the dataclass. """
+        subclass_name = self.__class__.__name__
+        lines = [
+            subclass_name,
+            "-" * len(subclass_name),
+        ]
+        for name, value in asdict(self):
+            lines.append(f"{name} = {str(value)}")
+        return "\n".join(lines)
 
 
 @contextmanager
@@ -63,7 +80,7 @@ def add_scalebar(
 
     scalebar = AnchoredSizeBar(
         transform=ax.transData,
-        size=length.item(),
+        size=length.value,
         label=str(length),
         loc=anchor,
         bbox_to_anchor=(x, y),

@@ -21,9 +21,7 @@ setup(
     #
     # The `~=` operator specifies that your installed packages, with versions
     # "major.minor.xyz", must have the same major version as given here, but can
-    # have a higher minor version. (See [https://semver.org] for what this means
-    # for 'allowed' differences between your packages and the packages with
-    # which this code was developed).
+    # have a higher minor version.
     #
     # If the packages in your current environment can't match these
     # requirements, install in a new conda environment:
@@ -42,19 +40,14 @@ setup(
                               # it can compile it to lean machine code (instead of
                               # having to invoke the powerful-but-slow Python
                               # interpreter on every line). [http://numba.pydata.org]
-        "unyt ~= 2.7",        # Physical units for quantities, such as neuron model
+        "unitlib",            # Physical units for quantities, such as neuron model
                               # parameters. Used to safeguard against the mistakes
                               # likely to happen when manually converting units. Also,
                               # auto-adds units and signal names to plot axes.
-                              # [https://unyt.readthedocs.io]
-        "multipledispatch ~= 0.6",  # Used in `unyt_mod.py` to call a different version
-                              # of `as_raw_data()` depending on the input type.
-                              # [https://pypi.org/project/multipledispatch]
-        "toolz ~= 0.10",      # `valmap` to apply a function to a dictionary's values.
-                              # [https://github.com/pytoolz/toolz]
+                              # [https://github.com/tfiers/unitlib]
         "joblib ~= 0.16",     # (Currently unused).
                               # [https://joblib.readthedocs.io/]
-        "preload ~= 2.1",     # Preload heavy imports, with user feedback.
+        "preload ~= 2.1",     # Print what's happening during slow imports.
                               # [https://github.com/tfiers/preload]
         "watermark ~= 2.0",   # Prints info about execution environment of notebooks in
                               # those notebooks, to make them more reproducible in the
