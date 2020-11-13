@@ -11,7 +11,7 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-print("Imported `np`, `mpl`, `plt")
+print("Imported `np`, `mpl`, `plt`")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
@@ -21,7 +21,7 @@ print("Imported `np`, `mpl`, `plt")
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 import voltage_to_wiring_sim as v
 
-print("Imported package `voltage_to_wiring_sim` as `v`")
+print("Imported codebase (`voltage_to_wiring_sim`) as `v`")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
@@ -54,31 +54,6 @@ if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
     # monster.
     ipython.run_line_magic("aimport", "-voltage_to_wiring_sim.notebook_init")
     print("Setup autoreload")
-# ────────────────────────────────────────────────────────────────────────────────────╯
-
-
-#
-
-
-# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
-# Reproducibility info dump
-
-if ipython:  # Allow running as a script too (i.e. not in a notebook or REPL).
-    print("\nReproducibility info. This notebook was last run on/with:\n")
-    ipython.run_line_magic("reload_ext", "watermark")
-    ipython.run_line_magic(
-        "watermark",
-        (
-            " -h"  # Computer name (hostname)
-            " -m"  # Machine info: cpu, OS, compiler used to compile Python.
-            " -v"  # Python and IPython version
-            " -iv"  # Versions of imported packages (doesn't seem to work from this
-                    # script).
-            " -rgb"  # Git repo, commit hash, and branch
-            " -ntz"  # Named date, time, and timezone
-        ),
-    )
-    print("")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 

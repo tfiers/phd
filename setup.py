@@ -49,10 +49,7 @@ setup(
                               # [https://joblib.readthedocs.io/]
         "preload ~= 2.1",     # Print what's happening during slow imports.
                               # [https://github.com/tfiers/preload]
-        "watermark ~= 2.0",   # Prints info about execution environment of notebooks in
-                              # those notebooks, to make them more reproducible in the
-                              # future. Prints eg datetime, package versions, machine
-                              # info, git commit info.
-                              # [https://github.com/rasbt/watermark]
+        "py-cpuinfo ~= 7.0",  # Used in reproducibility.py
+                              # [https://github.com/workhorsy/py-cpuinfo]
     )
 )
