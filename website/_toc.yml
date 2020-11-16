@@ -18,5 +18,6 @@
 - chapter: Unpolished notebooks
   sections:
   - file: md/unpolished_notebooks_intro
+  - file: notebooks/2020-11-16__analytical_PSP
   - file: notebooks/2020-07-28__Storing_in_base_units
   - file: notebooks/2020-07-05__Izhikevich_paper_accomp
