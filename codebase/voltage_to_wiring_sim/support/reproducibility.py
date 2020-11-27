@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 from functools import partial
 from getpass import getuser
@@ -35,9 +36,9 @@ def print_reproducibility_info(verbose=False):
 def print_when_who_where():
     now = datetime.now(timezone)
     print_md(
-        f"This cell was last run {now:on **%a %d %b** %Y, at %H:%M (UTC%z)},<br>"
+        f"This cell was last run by `{getuser()}` on `{gethostname()}`<br>"
+        f"{now:on **%a %d %b** %Y, at %H:%M (UTC%z)}."
         #   See [https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes]
-        f"by `{getuser()}` on `{gethostname()}`."
     )
 
 
@@ -62,18 +63,18 @@ def print_git_status():
 
 def print_platform_info():
     print_md("Platform:")
-    print(python_implementation(), python_version())
-    print(platform(terse=True))
+    print(f"{platform(terse=True)}")  # OS
+    print(f"{python_implementation()} {python_version()} ({sys.executable})")
     print(get_cpu_info()["brand_raw"])  # Takes a sec.
 
 
 def print_package_versions():
     root_package_name = __package__.split(".")[0]
     print_md(f"Dependencies of `{root_package_name}` and their installed versions:")
-    deps = get_pip_show_value(root_package_name, "Requires: ").split(", ")
+    deps = get__pip_show__value(root_package_name, "Requires: ").split(", ")
     for package_name in deps:
         print(format(package_name, "<20"), end=" ")
-        version = get_pip_show_value(package_name, "Version: ")
+        version = get__pip_show__value(package_name, "Version: ")
         print(version)
 
 
@@ -85,7 +86,7 @@ def get_cmd_output(*args, **kwargs) -> str:
     return completed_process.stdout
 
 
-def get_pip_show_value(package_name: str, key: str) -> str:
+def get__pip_show__value(package_name: str, key: str) -> str:
     for line in get_cmd_output(f"pip show {package_name}").splitlines():
         if line.startswith(key):
             return line[len(key) :]
