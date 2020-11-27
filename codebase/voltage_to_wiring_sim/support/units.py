@@ -42,3 +42,6 @@ Quantity = number
 
 def add_unit_support(f):
     return f
+
+# Stub to mock a future "Signal" np.ndarray / unitlib.Array wrapper class.
+Signal = Array
