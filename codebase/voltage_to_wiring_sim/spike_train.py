@@ -25,6 +25,7 @@ def plot(t, spike_train, *plot_args, **plot_kwargs):
     ax.plot(t, spike_train, *plot_args, **plot_kwargs)
     ax.axes.get_yaxis().set_visible(False)
     ax.spines["left"].set_visible(False)
+    ax.set_xlabel("Time (s)")
     return fig, ax
 
 
@@ -37,4 +38,6 @@ def test():
     ]
     # Aggregate spikes for all incoming neurons
     all_spikes = sum(spike_trains)
-    plot(tg.t.in_units(ms), all_spikes)
+    # plot(tg.t.in_units(ms), all_spikes)
+    fig, ax = plot(tg.t / ms, all_spikes)
+    ax.set_xlabel("Time (ms)")

@@ -40,7 +40,7 @@ setup(
                               # it can compile it to lean machine code (instead of
                               # having to invoke the powerful-but-slow Python
                               # interpreter on every line). [http://numba.pydata.org]
-        "unitlib",            # Physical units for quantities, such as neuron model
+        # "unitlib",            # Physical units for quantities, such as neuron model
                               # parameters. Used to safeguard against the mistakes
                               # likely to happen when manually converting units. Also,
                               # auto-adds units and signal names to plot axes.

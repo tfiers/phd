@@ -1,6 +1,6 @@
 from preload import preload
 
-preload(["numpy", "matplotlib.pyplot", "numba", "unitlib"])
+preload(["numpy", "matplotlib.pyplot", "numba"])
 
 print("Importing from submodules (compiling numba functions)", end=" … ")
 
@@ -12,5 +12,8 @@ from .support.time_grid import TimeGrid
 from .support.scalebar import add_scalebar
 from .support.util import fix_rng_seed, pprint
 from .support.reproducibility import print_reproducibility_info
+
+# noinspection PyUnresolvedReferences
+from . import neuron_sim, params, spike_train, synapses, support
 
 print('✔\n')

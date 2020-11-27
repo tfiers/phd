@@ -1,4 +1,4 @@
-from matplotlib.pyplot import plot
+import matplotlib.pyplot as plt
 from numba import jit
 from numpy import empty
 
@@ -22,7 +22,7 @@ def calc_synaptic_conductance(
     :return:  Array of length N, `g_syn`
     """
     g_syn = empty(time_grid.N) * nS
-    g_syn.name = "Synaptic conductance"
+    # g_syn.name = "Synaptic conductance"
     if calc_with_units:
         f = _calc_g_syn
     else:
@@ -48,4 +48,5 @@ def test():
     Δg_syn = 2 * nS
     τ_syn = 7 * ms
     g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, calc_with_units=True)
-    plot(tg.t, g_syn)
+    plt.plot(tg.t / ms, g_syn)
+    plt.xlabel("Time (ms)")

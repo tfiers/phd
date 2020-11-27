@@ -9,7 +9,6 @@ from functools import partial
 import matplotlib.pyplot as plt
 from numba import jit
 from numpy import empty, ones, zeros
-from unyt import assert_allclose_units
 
 from .params import IzhikevichParams, cortical_RS
 from .support.time_grid import TimeGrid
@@ -22,10 +21,10 @@ class SimResult:
     u: Array
     I_syn: Array
 
-    def __post_init__(self):
-        self.V_m.name = "Membrane voltage"
-        self.u.name = '"Slow current", u'
-        self.I_syn.name = "Synaptic current"
+    # def __post_init__(self):
+    #     self.V_m.name = "Membrane voltage"
+    #     self.u.name = '"Slow current", u'
+    #     self.I_syn.name = "Synaptic current"
 
 
 def simulate_izh_neuron(
@@ -89,8 +88,9 @@ def test():
     f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
     sim_with_units = f(calc_with_units=True)
     sim_fast = f(calc_with_units=False)
-    assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
-    assert_allclose_units(sim_fast.u, sim_with_units.u)
-    assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
-    print("Simulations with and without units yield equal results.")
-    plt.plot(tg.t, sim_fast.V_m)
+    # assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
+    # assert_allclose_units(sim_fast.u, sim_with_units.u)
+    # assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
+    # print("Simulations with and without units yield equal results.")
+    plt.plot(tg.t / ms, sim_fast.V_m)
+    plt.xlabel("Time (ms)")

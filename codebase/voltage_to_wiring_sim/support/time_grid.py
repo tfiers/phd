@@ -15,4 +15,4 @@ class TimeGrid:
     def __post_init__(self):
         self.N = round(self.T / self.dt)
         self.t = linspace(0, self.T, self.N, endpoint=False)
-        self.t.name = "Time"
+        # self.t.name = "Time"
