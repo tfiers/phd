@@ -17,9 +17,9 @@ def pprint(dataclass):
         dataclass_name,
         "-" * len(dataclass_name),
     ]
-    for name, value in asdict(dataclass):
+    for name, value in asdict(dataclass).items():
         lines.append(f"{name} = {str(value)}")
-    return "\n".join(lines)
+    print("\n".join(lines))
 
 
 def fix_rng_seed(seed=0):
