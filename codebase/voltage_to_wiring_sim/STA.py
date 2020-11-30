@@ -42,17 +42,9 @@ def calculate_STA(
     return STA
 
 
-def plot_STA(
-    VI_signal: Signal,
-    spike_train: np.ndarray,
-    main_tg: TimeGrid,
-    window_tg: TimeGrid,
-    ax=None,
-    **kwargs
-):
+def plot_STA(STA: Signal, window_tg: TimeGrid, ax=None, **kwargs):
     if ax is None:
         fig, ax = plt.subplots()
-    STA = calculate_STA(VI_signal, spike_train, main_tg, window_tg)
     ax.plot(window_tg.t / ms, STA / mV, **kwargs)
     ax.set_xlabel("Time after spike (ms)")
     ax.set_ylabel("Spike triggered <VI signal> (mV)")
