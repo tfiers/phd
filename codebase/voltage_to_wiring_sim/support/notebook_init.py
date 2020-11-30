@@ -91,16 +91,21 @@ set_matplotlib_formats("retina")
 # Print precision for (floating point) numbers.
 
 
-def set_np_precision(digits=4):
+def set_print_precision(digits=4):
     # The ".4G" format allows eg `array([1000, 1E+05, 0.111])`
+    number_format = f".{digits}G"
+    # Print precision for plain Python numbers..
+    if ipython:
+        ipython.run_line_magic("precision", "%" + number_format)
+    # ..and for NumPy.
     np.set_printoptions(
         formatter={
-            "float_kind": lambda x: format(x, f".{digits}G"),
+            "float_kind": lambda x: format(x, number_format),
         }
     )
 
 
-set_np_precision()
+set_print_precision()
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
