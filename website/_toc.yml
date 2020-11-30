@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2020-11-27__permutation_test
     - file: notebooks/2020-10-23__Delete_around_spike
     - file: notebooks/2020-09-18__Clip_spikes_before_STA
     - file: notebooks/2020-09-10__STA_for_different_PSP_shapes
