@@ -45,8 +45,10 @@ setup(
                               # likely to happen when manually converting units. Also,
                               # auto-adds units and signal names to plot axes.
                               # [https://github.com/tfiers/unitlib]
-        "joblib ~= 0.16",     # (Currently unused).
+        # "joblib ~= 0.16",     # (Currently unused).
                               # [https://joblib.readthedocs.io/]
+        "seaborn ~= 0.10",    # Extension of Matplotlib for statistical data viz.
+                              # [https://seaborn.pydata.org/]
         "preload ~= 2.1",     # Print what's happening during slow imports.
                               # [https://github.com/tfiers/preload]
         "py-cpuinfo ~= 7.0",  # Used in reproducibility.py
