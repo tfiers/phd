@@ -13,13 +13,14 @@ def pprint(dataclass):
     class name as header.
     """
     dataclass_name = dataclass.__class__.__name__
-    lines = [
+    header_lines = [
         dataclass_name,
         "-" * len(dataclass_name),
     ]
-    for name, value in asdict(dataclass).items():
-        lines.append(f"{name} = {str(value)}")
-    print("\n".join(lines))
+    content_lines = [
+        f"{name} = {str(value)}" for name, value in asdict(dataclass).items()
+    ]
+    print("\n".join(header_lines + content_lines))
 
 
 def fix_rng_seed(seed=0):
