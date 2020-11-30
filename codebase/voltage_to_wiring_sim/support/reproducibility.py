@@ -44,7 +44,7 @@ def print_when_who_where():
 
 def print_last_commit_link():
     last_commit_hash = get_cmd_output("git rev-parse HEAD")
-    last_commit_timestamp = get_cmd_output('git log -1 --format="%at"')
+    last_commit_timestamp = get_cmd_output('git log -1 --format=%at')
     last_commit_datetime = datetime.fromtimestamp(int(last_commit_timestamp), timezone)
     print_md(
         f"[Last git commit]({REPO_URL}/tree/{last_commit_hash}) "
@@ -78,11 +78,11 @@ def print_package_versions():
         print(version)
 
 
-def get_cmd_output(*args, **kwargs) -> str:
+def get_cmd_output(cmd, **kwargs) -> str:
     # We don't use `check_output`, as that function raises an error on non-zero return
     # codes. `run` does not. (`pip show unitlib` returns code 120).
     kwargs.update(capture_output=True, text=True)
-    completed_process = run(*args, **kwargs)
+    completed_process = run(cmd.split(), **kwargs)
     return completed_process.stdout
 
 
