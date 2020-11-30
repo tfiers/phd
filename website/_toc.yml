@@ -19,6 +19,7 @@
 - chapter: Unpolished notebooks
   sections:
   - file: md/unpolished_notebooks_intro
+  - file: notebooks/2020-11-30__speedup
   - file: notebooks/2020-11-27__factor_out_STA
   - file: notebooks/2020-11-16__analytical_PSP
   - file: notebooks/2020-07-28__Storing_in_base_units
