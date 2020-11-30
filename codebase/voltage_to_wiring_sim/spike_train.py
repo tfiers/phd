@@ -2,12 +2,13 @@
 # spike times. (Approximate Poisson because we ignore the possibility of a neuron
 # spiking more than once in the same small timebin `dt`).
 
+import numpy as np
 from numpy import ndarray
 from numpy.random import random
 
 from .support.plot_style import figsize
-from voltage_to_wiring_sim.support.time_grid import TimeGrid
-from .support.units import Hz, Quantity, ms, second
+from .support.time_grid import TimeGrid
+from .support.units import Hz, Quantity, ms, second, Signal
 from .support.util import subplots
 
 
@@ -20,7 +21,19 @@ def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndar
     return f_spike * time_grid.dt > random(time_grid.N)
 
 
-def plot(t, spike_train, *plot_args, **plot_kwargs):
+def spike_train_to_indices(spike_train: Signal) -> np.ndarray:
+    # `nonzero` returns a tuple (one element for each array dimension).
+    (spike_indices,) = np.nonzero(spike_train)
+    return spike_indices
+
+
+def spike_train_from_indices(spike_indices: np.ndarray, time_grid: TimeGrid) -> Signal:
+    output = np.zeros(time_grid.N)
+    output[spike_indices] = 1
+    return output
+
+
+def plot(t, spike_train: Signal, *plot_args, **plot_kwargs):
     fig, ax = subplots(**figsize(aspect=0.05, width=600))
     ax.plot(t, spike_train, *plot_args, **plot_kwargs)
     ax.axes.get_yaxis().set_visible(False)
