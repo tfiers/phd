@@ -12,14 +12,15 @@ from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
 from .support.time_grid import TimeGrid
-from .support.units import Array, add_unit_support, mV, ms, pA
+from .support.units import add_unit_support, mV, ms, pA
+from .support.data_types import Signal
 
 
 @dataclass
 class SimResult:
-    V_m: Array
-    u: Array
-    I_syn: Array
+    V_m: Signal
+    u: Signal
+    I_syn: Signal
 
     # def __post_init__(self):
     #     self.V_m.name = "Membrane voltage"
@@ -30,8 +31,8 @@ class SimResult:
 def simulate_izh_neuron(
     time_grid: TimeGrid,
     params: IzhikevichParams,
-    g_syn: Array = None,
-    I_e: Array = None,
+    g_syn: Signal = None,
+    I_e: Signal = None,
     calc_with_units: bool = False,
 ) -> SimResult:
 

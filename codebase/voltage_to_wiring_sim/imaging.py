@@ -1,6 +1,6 @@
 import numpy as np
-from voltage_to_wiring_sim.params import IzhikevichParams
-from voltage_to_wiring_sim.support.units import Signal
+from .params import IzhikevichParams
+from .support.data_types import Signal
 
 def add_VI_noise(
     voltage_trace: Signal,

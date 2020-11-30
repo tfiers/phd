@@ -58,5 +58,7 @@ setup(
                                # [https://github.com/tfiers/preload]
         "py-cpuinfo ~= 7.0",   # Used in reproducibility.py
                                # [https://github.com/workhorsy/py-cpuinfo]
+        "nptyping ~= 1.3",     # Type hints for NumPy arrays.
+                               # [https://pypi.org/project/nptyping/].
     )
 )

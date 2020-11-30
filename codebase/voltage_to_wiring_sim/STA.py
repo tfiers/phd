@@ -1,7 +1,6 @@
 """
 Spike-triggered averaging.
 """
-from typing import List
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,37 +8,8 @@ from numba import njit
 
 from .spike_train import spike_train_to_indices
 from .support.time_grid import TimeGrid
-from .support.units import Signal, mV, ms
-
-
-def make_windows(
-    VI_signal: Signal,
-    spike_indices: np.ndarray,
-    main_tg: TimeGrid,
-    window_tg: TimeGrid,
-) -> np.ndarray:
-    return _make_windows(VI_signal, spike_indices, main_tg.N, window_tg.N)
-
-
-@njit(cache=True)
-def _make_windows(
-    VI_signal: np.ndarray,
-    spike_indices: np.ndarray,
-    main_N,
-    window_N,
-) -> np.ndarray:
-
-    num_windows = len(spike_indices)
-    windows = np.empty((num_windows, window_N))
-    for i in range(num_windows):
-        start_ix = spike_indices[i]
-        end_ix = start_ix + window_N
-        if end_ix < main_N:
-            windows[i, :] = VI_signal[start_ix:end_ix]
-        else:
-            num_windows -= 1
-
-    return windows[:num_windows, :]
+from .support.units import mV, ms
+from .support.data_types import Signal
 
 
 def calculate_STA(
@@ -59,8 +29,8 @@ def calculate_STA(
 def _calc_STA(
     VI_signal: np.ndarray,
     spike_indices: np.ndarray,
-    main_N,
-    window_N,
+    main_N: int,
+    window_N: int,
 ) -> np.ndarray:
     num_windows = len(spike_indices)
     STA = np.zeros(window_N)

@@ -8,8 +8,9 @@ from numpy.random import random
 
 from .support.plot_style import figsize
 from .support.time_grid import TimeGrid
-from .support.units import Hz, Quantity, ms, second, Signal
+from .support.units import Hz, Quantity, ms, second
 from .support.util import subplots
+from .support.data_types import SpikeIndices, Signal
 
 
 def generate_Poisson_spike_train(time_grid: TimeGrid, f_spike: Quantity) -> ndarray:
