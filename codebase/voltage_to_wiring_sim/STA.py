@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numba import njit
 
-from .spike_train import spike_train_to_indices
+from .spike_trains import spike_train_to_indices
 from .support.time_grid import TimeGrid
 from .support.units import mV, ms
 from .support.data_types import Signal

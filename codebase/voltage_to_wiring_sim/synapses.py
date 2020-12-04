@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from numba import jit
 from numpy import empty
 
-from .spike_train import generate_Poisson_spike_train
+from .spike_trains import generate_Poisson_spike_train
 from .support.time_grid import TimeGrid
 from .support.units import Array, Hz, Quantity, ms, nS, add_unit_support
 
