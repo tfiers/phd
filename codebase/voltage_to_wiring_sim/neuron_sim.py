@@ -7,7 +7,7 @@ from dataclasses import asdict, dataclass
 from functools import partial
 
 import matplotlib.pyplot as plt
-from numba import jit
+from numba import njit
 from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
@@ -48,7 +48,7 @@ def simulate_izh_neuron(
     if calc_with_units:
         f = _sim_izh
     else:  # Compile with Numba
-        f = add_unit_support(jit(_sim_izh, cache=True))
+        f = add_unit_support(njit(_sim_izh, cache=True))
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
 

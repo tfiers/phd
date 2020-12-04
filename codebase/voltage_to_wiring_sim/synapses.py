@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from numba import jit
+from numba import njit
 from numpy import empty
 
 from .spike_trains import generate_Poisson_spike_train
@@ -26,7 +26,7 @@ def calc_synaptic_conductance(
     if calc_with_units:
         f = _calc_g_syn
     else:
-        f = add_unit_support(jit(_calc_g_syn, cache=True))
+        f = add_unit_support(njit(_calc_g_syn, cache=True))
     f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
     return g_syn
 
