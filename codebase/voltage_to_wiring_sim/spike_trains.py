@@ -25,7 +25,7 @@ def generate_Poisson_spikes(
     λ = spike_rate
     β = 1 / λ
     # We don't know how many spikes we need to generate to get to the end of the
-    # simulatio. Hence our strategy is to generate a bunch of spikes, check if we have
+    # simulation. Hence our strategy is to generate a bunch of spikes, check if we have
     # enough, and if not, generate a bunch more and repeat.
     expected_num_spikes = simulation_duration / spike_rate
     num_new_spikes_per_iteration = round(expected_num_spikes)
