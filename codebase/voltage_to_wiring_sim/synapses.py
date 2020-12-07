@@ -15,7 +15,7 @@ def calc_synaptic_conductance(
     calc_with_units: bool = False,
 ) -> Array:
     """
-    :param time_grid
+    :param time_grid:  For how long and with which timestep do we simulate?
     :param spikes:  Integer array of length N: # spikes in each timebin.
     :param Δg_syn:  Increase in synaptic conductance per spike.
     :param τ_syn:  Synaptic conductance decay time constant.
