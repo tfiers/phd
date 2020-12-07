@@ -12,7 +12,10 @@ from .support.units import Hz, Quantity, ms, second
 from .support.util import subplots
 
 
-def generate_Poisson_spikes(time_grid: TimeGrid, spike_rate: Quantity) -> SpikeTimes:
+def generate_Poisson_spikes(
+    spike_rate: Quantity,
+    simulation_duration: Quantity,
+) -> SpikeTimes:
     """
     Create a list of Poisson-distributed spike times by drawing inter-spike-intervals
     from an exponential distribution. The spikes are ordered (increasing in time).
@@ -21,10 +24,10 @@ def generate_Poisson_spikes(time_grid: TimeGrid, spike_rate: Quantity) -> SpikeT
     # by a rate, λ.
     λ = spike_rate
     β = 1 / λ
-    # We don't know how many spikes we need to generate to get to the end of the time
-    # grid. Hence our strategy is to generate a bunch of spikes, check if we have
+    # We don't know how many spikes we need to generate to get to the end of the
+    # simulatio. Hence our strategy is to generate a bunch of spikes, check if we have
     # enough, and if not, generate a bunch more and repeat.
-    expected_num_spikes = time_grid.duration / spike_rate
+    expected_num_spikes = simulation_duration / spike_rate
     num_new_spikes_per_iteration = round(expected_num_spikes)
     spike_times = []
     get_last_spike = lambda: spike_times[-1]
@@ -36,10 +39,10 @@ def generate_Poisson_spikes(time_grid: TimeGrid, spike_rate: Quantity) -> SpikeT
             start_offset=0 * second if is_first_iteration else get_last_spike(),
         )
         spike_times = np.concatenate((spike_times, new_spike_times))
-        if get_last_spike() >= time_grid.duration:
+        if get_last_spike() >= simulation_duration:
             # We have now generated enough spikes. In fact, we have too many. Select and
             # return a subset.
-            spike_falls_within_time_grid = spike_times < time_grid.duration
+            spike_falls_within_time_grid = spike_times < simulation_duration
             selected_spike_times = spike_times[spike_falls_within_time_grid]
             return selected_spike_times
         else:
