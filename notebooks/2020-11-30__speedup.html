@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
-    <title>2020-11-27 &#8226; Permutation test for \(p(\)connected\()\) &#8212; Voltage-to-Wiring Sim</title>
+    <title>2020-11-30 &#8226; Speedup spikes &amp; STA calc &#8212; Voltage-to-Wiring Sim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css">
@@ -36,22 +36,22 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2020-11-27__permutation_test.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2020-11-30__speedup.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2020-10-23 &#8226; Delete signal around spikes before STA" href="2020-10-23__Delete_around_spike.html">
-    <link rel="prev" title="Executing code" href="../md/executing_code.html">
+    <link rel="next" title="2020-11-27 &#8226; Factoring out windowing &amp; averaging code" href="2020-11-27__factor_out_STA.html">
+    <link rel="prev" title="Intro" href="../md/unpolished_notebooks_intro.html">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2020-11-27__permutation_test.html">
+<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2020-11-30__speedup.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2020-11-27 &#8226; Permutation test for p(connected)">
-<meta property="og:description" content="2020-11-27 &#8226; Permutation test for p(connected)  Imports &amp; time grid  from voltage_to_wiring_sim.support.notebook_init import *  Preloading:  - numpy &#8230; (0.19 s) ">
+<meta property="og:title" content="2020-11-30 &#8226; Speedup spikes &amp; STA calc">
+<meta property="og:description" content="2020-11-30 &#8226; Speedup spikes &amp; STA calc  A notebook based on 2020-11-27 &#8226; Permutation test for p(connected), in which we try to speed-up spike train generation &amp;">
 
 
 <meta name="twitter:card" content="summary">
@@ -108,9 +108,9 @@
   Reports
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
    2020-11-27 &#8226; Permutation test for
    <span class="math notranslate nohighlight">
     \(p(\)
@@ -157,14 +157,14 @@
   Unpolished notebooks
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../md/unpolished_notebooks_intro.html">
    Intro
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2020-11-30__speedup.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2020-11-30 &#8226; Speedup spikes &amp; STA calc
   </a>
  </li>
@@ -222,7 +222,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2020-11-27__permutation_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2020-11-30__speedup.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -234,8 +234,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2020-11-27__permutation_test.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2020-11-27__permutation_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2020-11-30__speedup.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2020-11-30__speedup.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -249,7 +249,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2020-11-27__permutation_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2020-11-30__speedup.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -292,8 +292,8 @@
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#imaging-model">
-     Imaging model
+    <a class="reference internal nav-link" href="#noise">
+     Noise
     </a>
    </li>
   </ul>
@@ -306,33 +306,6 @@
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#spike-triggered-windowing-averaging">
    Spike-triggered windowing &amp; averaging
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#peak-height-of-sta">
-   Peak height of STA
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#p-value">
-   p-value
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#as-proportion">
-     As proportion
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#as-integral-of-kde">
-     (As integral of KDE)
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#some-feedback-from-code-review">
-   Some feedback from code review
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -350,8 +323,9 @@
         
               <div>
                 
-  <div class="section" id="permutation-test-for-p-connected">
-<h1>2020-11-27 &#8226; Permutation test for <span class="math notranslate nohighlight">\(p(\)</span>connected<span class="math notranslate nohighlight">\()\)</span><a class="headerlink" href="#permutation-test-for-p-connected" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="speedup-spikes-sta-calc">
+<h1>2020-11-30 &#8226; Speedup spikes &amp; STA calc<a class="headerlink" href="#speedup-spikes-sta-calc" title="Permalink to this headline">&#182;</a></h1>
+<p>A notebook based on <a class="reference internal" href="2020-11-27__permutation_test.html"><span class="doc">2020-11-27 &#8226; Permutation test for p(connected)</span></a>, in which we try to speed-up spike train generation &amp; shufflin, and STA calculation.</p>
 <div class="section" id="imports-time-grid">
 <h2>Imports &amp; time grid<a class="headerlink" href="#imports-time-grid" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -362,9 +336,9 @@
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
- - numpy &#8230; (0.19 s)
- - matplotlib.pyplot &#8230; (0.30 s)
- - numba &#8230; (0.45 s)
+ - numpy &#8230; (0.11 s)
+ - matplotlib.pyplot &#8230; (0.23 s)
+ - numba &#8230; (0.30 s)
 
 Importing from submodules (compiling numba functions) &#8230; &#10004;
 
@@ -383,10 +357,14 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 30 Nov</strong> 2020, at 15:59 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/ce8c28fc39f4d126056f206a74c3a044f7dffb84">Last git commit</a> (Mon 30 Nov 2020, 12:19).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 30 Nov</strong> 2020, at 13:58 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/64001b5adeb85d137a3ee36ee272b7f6ae95ab05">Last git commit</a> (Mon 30 Nov 2020, 13:44).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span>  <span class="n">notebooks</span><span class="o">/</span><span class="mi">2020</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">11</span><span class="n">__unitlib</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M codebase/voltage_to_wiring_sim/STA.py
+ M codebase/voltage_to_wiring_sim/__init__.py
+ M codebase/voltage_to_wiring_sim/spike_train.py
+A  notebooks/2020-11-11__unitlib.ipynb
+?? notebooks/2020-11-30__speedup.ipynb
 </pre></div>
 </div>
 </div>
@@ -403,7 +381,6 @@ Setup autoreload
 <h2>Generate VI signal<a class="headerlink" href="#generate-vi-signal" title="Permalink to this headline">&#182;</a></h2>
 <div class="section" id="spike-trains">
 <h3>Spike trains<a class="headerlink" href="#spike-trains" title="Permalink to this headline">&#182;</a></h3>
-<p>&#8216;Network&#8217; definition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_in</span> <span class="o">=</span> <span class="mi">30</span>
@@ -420,7 +397,6 @@ Setup autoreload
 </div>
 </div>
 </div>
-<p>Have all incoming neurons spike with the same mean frequency, for now.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_spike</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">Hz</span><span class="p">;</span>
@@ -446,7 +422,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 1.95 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 1.77 s
 </pre></div>
 </div>
 </div>
@@ -458,7 +434,6 @@ Setup autoreload
 </div>
 </div>
 </div>
-<p>Inspect a time excerpt..</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_slice</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minute</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">second</span>
@@ -475,7 +450,6 @@ Setup autoreload
 </div>
 </div>
 </div>
-<p>..of one presynaptic neuron:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_spike_train_excerpt</span><span class="p">(</span><span class="n">spike_train</span><span class="p">):</span>
@@ -491,10 +465,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_18_0.png" src="../_images/2020-11-27__permutation_test_18_0.png">
+<img alt="../_images/2020-11-30__speedup_15_0.png" src="../_images/2020-11-30__speedup_15_0.png">
 </div>
 </div>
-<p>All connected presynaptic neurons:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_incoming_spikes</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">spike_trains_connected</span><span class="p">)</span>
@@ -504,15 +477,12 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_20_0.png" src="../_images/2020-11-27__permutation_test_20_0.png">
+<img alt="../_images/2020-11-30__speedup_16_0.png" src="../_images/2020-11-30__speedup_16_0.png">
 </div>
 </div>
-<p>Note that some time bins contain more than one spike.<br>
-(The simulator handles this, by increasing synaptic conductance by an integer multiple of <code class="docutils literal notranslate"><span class="pre">&#916;g_syn</span></code> in that timebin).</p>
 </div>
 <div class="section" id="synaptic-conductance">
 <h3>Synaptic conductance<a class="headerlink" href="#synaptic-conductance" title="Permalink to this headline">&#182;</a></h3>
-<p>See the previous notebook <a class="reference internal" href="2020-07-27__Synaptic_conductances.html"><span class="doc">2020-07-27 &#8226; Synaptic conductances</span></a> for some more explanation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">&#916;g_syn</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span>
@@ -531,7 +501,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_25_0.png" src="../_images/2020-11-27__permutation_test_25_0.png">
+<img alt="../_images/2020-11-30__speedup_19_0.png" src="../_images/2020-11-30__speedup_19_0.png">
 </div>
 </div>
 </div>
@@ -569,7 +539,7 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 246 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 240 ms
 </pre></div>
 </div>
 </div>
@@ -581,13 +551,12 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_29_0.png" src="../_images/2020-11-27__permutation_test_29_0.png">
+<img alt="../_images/2020-11-30__speedup_23_0.png" src="../_images/2020-11-30__speedup_23_0.png">
 </div>
 </div>
 </div>
-<div class="section" id="imaging-model">
-<h3>Imaging model<a class="headerlink" href="#imaging-model" title="Permalink to this headline">&#182;</a></h3>
-<p>As in <a class="reference internal" href="2020-07-06__Single_neuron_sim.html"><span class="doc">2020-07-06 &#8226; Single neuron simulation</span></a>.</p>
+<div class="section" id="noise">
+<h3>Noise<a class="headerlink" href="#noise" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Vm_noisy</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">add_VI_noise</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V_m</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
@@ -597,7 +566,7 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_32_0.png" src="../_images/2020-11-27__permutation_test_32_0.png">
+<img alt="../_images/2020-11-30__speedup_25_0.png" src="../_images/2020-11-30__speedup_25_0.png">
 </div>
 </div>
 </div>
@@ -636,11 +605,86 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 23.4 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 14 s
 </pre></div>
 </div>
 </div>
 </div>
+<p>So this is slow. Speedup by shuffling not the entire time-series, but only the <em>inter-spike intervals</em> (as suggested by Mark).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ISI</span><span class="p">(</span><span class="n">spike_train</span><span class="p">):</span>
+    <span class="sd">'''</span>
+<span class="sd">    Inter-spike intervals, in number of samples.</span>
+<span class="sd">    First element is not strictly an ISI, but rather the time of </span>
+<span class="sd">    the first spike after beginning of the time-series.</span>
+<span class="sd">    '''</span>
+    <span class="n">spike_indices</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">spike_train_to_indices</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+    <span class="n">ISI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">spike_indices</span><span class="p">,</span> <span class="n">prepend</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">ISI</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ISI_original</span> <span class="o">=</span> <span class="n">ISI</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([757,  64, 249, ..., 221,  53, 881], dtype=int64)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ISI_to_spike_indices</span><span class="p">(</span><span class="n">ISI</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">ISI</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">shuffled_spike_trains_</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">ISI_shuffled</span> <span class="o">=</span> <span class="n">ISI_original</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">ISI_shuffled</span><span class="p">)</span>  <span class="c1"># in-place</span>
+    <span class="n">spike_indices_shuffled</span> <span class="o">=</span> <span class="n">ISI_to_spike_indices</span><span class="p">(</span><span class="n">ISI_shuffled</span><span class="p">)</span>
+    <span class="n">spike_train_shuffled</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">spike_train_from_indices</span><span class="p">(</span><span class="n">spike_indices_shuffled</span><span class="p">,</span> <span class="n">tg</span><span class="p">)</span>
+    <span class="n">shuffled_spike_trains_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spike_train_shuffled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 708 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>that&#8217;s 20x speedup :)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">shuffled_spike_ix_</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+    <span class="n">ISI_shuffled</span> <span class="o">=</span> <span class="n">ISI_original</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">ISI_shuffled</span><span class="p">)</span>  <span class="c1"># in-place</span>
+    <span class="n">spike_indices_shuffled</span> <span class="o">=</span> <span class="n">ISI_to_spike_indices</span><span class="p">(</span><span class="n">ISI_shuffled</span><span class="p">)</span>
+    <span class="n">shuffled_spike_ix_</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spike_indices_shuffled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 34 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>Not using full spike trains (but only indices) yields another 20x speedup.</p>
 <p>Inspect a few shuffled spike trains.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -650,9 +694,22 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_40_0.png" src="../_images/2020-11-27__permutation_test_40_0.png">
-<img alt="../_images/2020-11-27__permutation_test_40_1.png" src="../_images/2020-11-27__permutation_test_40_1.png">
-<img alt="../_images/2020-11-27__permutation_test_40_2.png" src="../_images/2020-11-27__permutation_test_40_2.png">
+<img alt="../_images/2020-11-30__speedup_41_0.png" src="../_images/2020-11-30__speedup_41_0.png">
+<img alt="../_images/2020-11-30__speedup_41_1.png" src="../_images/2020-11-30__speedup_41_1.png">
+<img alt="../_images/2020-11-30__speedup_41_2.png" src="../_images/2020-11-30__speedup_41_2.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="n">plot_spike_train_excerpt</span><span class="p">(</span><span class="n">shuffled_spike_trains_</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2020-11-30__speedup_42_0.png" src="../_images/2020-11-30__speedup_42_0.png">
+<img alt="../_images/2020-11-30__speedup_42_1.png" src="../_images/2020-11-30__speedup_42_1.png">
+<img alt="../_images/2020-11-30__speedup_42_2.png" src="../_images/2020-11-30__speedup_42_2.png">
 </div>
 </div>
 <p>Real spike train again:</p>
@@ -663,14 +720,14 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_42_0.png" src="../_images/2020-11-27__permutation_test_42_0.png">
+<img alt="../_images/2020-11-30__speedup_44_0.png" src="../_images/2020-11-30__speedup_44_0.png">
 </div>
 </div>
 <p>Same number of spikes in all:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">num_spikes</span><span class="p">(</span><span class="n">spike_train</span><span class="p">):</span>
-    <span class="n">spike_indices</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">get_spike_indices</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+    <span class="n">spike_indices</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">spike_train_to_indices</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">spike_indices</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -693,7 +750,34 @@ v_syn = 0.0
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">num_spikes</span><span class="p">(</span><span class="n">shuffled_spike_trains_</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12020
+12020
+12020
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span><span class="p">(</span><span class="n">spike_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12020
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">shuffled_spike_ix_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -760,216 +844,113 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 9.14 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 8.36 s
 </pre></div>
 </div>
 </div>
 </div>
-<p>Plot STA&#8217;s of the original spike train (top left) and three shuffled spike trains:</p>
+<p>Now with numba JIT&#8217;ted <code class="docutils literal notranslate"><span class="pre">make_windows</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">original_ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">window_tg</span><span class="p">,</span> <span class="n">original_ax</span><span class="p">)</span>
-<span class="n">ylabel</span> <span class="o">=</span> <span class="n">original_ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">get_label</span><span class="p">()</span>
-<span class="n">ylabel</span><span class="o">.</span><span class="n">set_horizontalalignment</span><span class="p">(</span><span class="s1">'right'</span><span class="p">)</span>
-
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">window_tg</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%prun</span> -D temp.profile
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_58_0.png" src="../_images/2020-11-27__permutation_test_58_0.png">
-</div>
-</div>
-</div>
-<div class="section" id="peak-height-of-sta">
-<h2>Peak height of STA<a class="headerlink" href="#peak-height-of-sta" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">shuffled_STA_peak_heights</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">STA</span> <span class="ow">in</span> <span class="n">shuffled_STAs</span><span class="p">:</span>
-    <span class="n">shuffled_STA_peak_heights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
-<span class="n">shuffled_STA_peak_heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">shuffled_STA_peak_heights</span><span class="p">);</span>
-    <span class="c1"># Convert list to numpy array for division or comparison with scalars later.</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+*** Profile stats marshalled to file 'temp.profile'. 
 </pre></div>
 </div>
 </div>
 </div>
+<p>(Time was like 6.4 seconds).</p>
+<p>Now with creating 2D ndarray directly, instead of Python list of arrays:</p>
+<p>(pure python:)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">original_STA_peak_height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">original_STA</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Let&#8217;s look at the distribution of peak heights.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>  <span class="c1"># Extension of matplotlib for statistical data viz.</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Shuffled spike trains only:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist_ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">distplot</span><span class="p">(</span><span class="n">shuffled_STA_peak_heights</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">kde</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rug</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-<span class="c1">#   KDE=False means that the y-axis labels give count in each bin. (Otherwise, it's a density).</span>
-<span class="n">dist_ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"STA peak height (mV)"</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_65_0.png" src="../_images/2020-11-27__permutation_test_65_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 7.75 s
+</pre></div>
 </div>
 </div>
-<p>Add original spike train:</p>
+</div>
+<p>(njit):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dist_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">original_STA_peak_height</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">)</span>
-<span class="n">dist_ax</span><span class="o">.</span><span class="n">figure</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_67_0.png" src="../_images/2020-11-27__permutation_test_67_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 5.11 s
+</pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="p-value">
-<h2>p-value<a class="headerlink" href="#p-value" title="Permalink to this headline">&#182;</a></h2>
-<div class="section" id="as-proportion">
-<h3>As proportion<a class="headerlink" href="#as-proportion" title="Permalink to this headline">&#182;</a></h3>
-<p>If we define p-value as proportion of shuffled STA peak heights higher than the original, we get, of course:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_proportion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">shuffled_STA_peak_heights</span> <span class="o">&gt;</span> <span class="n">original_STA_peak_height</span><span class="p">)</span> <span class="o">/</span> <span class="n">S</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%prun</span> -D temp.profile2
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+*** Profile stats marshalled to file 'temp.profile2'. 
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="as-integral-of-kde">
-<h3>(As integral of KDE)<a class="headerlink" href="#as-integral-of-kde" title="Permalink to this headline">&#182;</a></h3>
-<p>We can fit a distribution to the H0 peak heights to get another type of p-value.</p>
-<p>We choose a kernel-density estimate (KDE), i.e. a non-paramteric distribution (except hyperparams).
-(See here for code explanation: https://jakevdp.github.io/PythonDataScienceHandbook/05.13-kernel-density-estimation.html#Kernel-Density-Estimation-in-Practice)</p>
+<p>Don&#8217;t create windows list; calc mean (sum) immediately:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KernelDensity</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kde</span> <span class="o">=</span> <span class="n">KernelDensity</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">'gaussian'</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">mV</span><span class="p">)</span>
-<span class="n">kde</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">shuffled_STA_peak_heights</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>  <span class="c1"># `fit` expects 2D array.</span>
-
-<span class="k">def</span> <span class="nf">plot_KDE</span><span class="p">(</span><span class="n">xrange</span><span class="p">):</span>  <span class="c1"># xrange given in mV</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xrange</span><span class="p">)</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">kde</span><span class="o">.</span><span class="n">score_samples</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>  <span class="c1"># `score_samples` returns log of prob.</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">original_STA_peak_height</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
-
-<span class="n">plot_KDE</span><span class="p">(</span><span class="n">dist_ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">());</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_75_0.png" src="../_images/2020-11-27__permutation_test_75_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 725 ms
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_KDE</span><span class="p">((</span><span class="o">-</span><span class="mf">45.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">45.5</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%prun</span> -D temp.profile3
+<span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">train</span> <span class="ow">in</span> <span class="n">shuffled_spike_trains</span><span class="p">:</span>
+    <span class="n">shuffled_STAs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2020-11-27__permutation_test_76_0.png" src="../_images/2020-11-27__permutation_test_76_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pdf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">kde</span><span class="o">.</span><span class="n">score_samples</span><span class="p">([[</span><span class="n">x</span><span class="p">]]))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-
-<span class="n">pdf</span><span class="p">(</span><span class="n">original_STA_peak_height</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.209E-68
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+*** Profile stats marshalled to file 'temp.profile3'. 
 </pre></div>
 </div>
 </div>
 </div>
-<p>p-value is area under the curve to the right of original spike train peak STA height.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Docs: https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.quad.html</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">quad</span><span class="p">(</span><span class="n">pdf</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">original_STA_peak_height</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span><span class="p">)</span>
-<span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.099E-75, 2.186E-75)
-</pre></div>
-</div>
-</div>
-</div>
-<p>The absolute error is larger than the estimated integral. The result is thus not reliable.</p>
-<p>Anyway, from the plots it&#8217;s clear that this p-value is very small.</p>
-<p>Next steps: describe influence of <code class="docutils literal notranslate"><span class="pre">N_in</span></code>, <code class="docutils literal notranslate"><span class="pre">p_connected</span></code>, <code class="docutils literal notranslate"><span class="pre">SNR</span></code>, &#8230; on p-value.</p>
-<p>repeat for all connected/unconnected spike trains</p>
-</div>
-</div>
-<div class="section" id="some-feedback-from-code-review">
-<h2>Some feedback from code review<a class="headerlink" href="#some-feedback-from-code-review" title="Permalink to this headline">&#182;</a></h2>
-<p>(see also supervision record 30th nov).</p>
-<p>Three stages of pipeline:</p>
-<ol class="simple">
-<li><p>neuron model</p></li>
-<li><p>VI model</p></li>
-<li><p>test</p></li>
-</ol>
-<p>Noise both for neuron and for inputs.</p>
-<p>Lit on statistics of non-recorded spike trains noise</p>
-<p>p &lt; 0.01</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="n">S</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.01
-</pre></div>
-</div>
-</div>
-</div>
+<p>Ok, this is good improvement.</p>
+<p>If we know also get rid of full spike trains and replace them with spike indices, we&#8217;re good.</p>
+<p>(0.4 s in njitted direct <code class="docutils literal notranslate"><span class="pre">_calc_STA</span></code>, 0.3 s in np.nonzero (i.e. <code class="docutils literal notranslate"><span class="pre">v.get_spike_indices</span></code>).</p>
 </div>
 <div class="section" id="repro-info">
 <h2>Repro info<a class="headerlink" href="#repro-info" title="Permalink to this headline">&#182;</a></h2>
@@ -980,11 +961,15 @@ v_syn = 0.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 30 Nov</strong> 2020, at 16:01 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/ce8c28fc39f4d126056f206a74c3a044f7dffb84">Last git commit</a> (Mon 30 Nov 2020, 12:19).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 30 Nov</strong> 2020, at 15:13 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/48f883a909295f924ed704cd77a6d0367217feb8">Last git commit</a> (Mon 30 Nov 2020, 14:39).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span>  <span class="n">notebooks</span><span class="o">/</span><span class="mi">2020</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">11</span><span class="n">__unitlib</span><span class="o">.</span><span class="n">ipynb</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2020</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">27</span><span class="n">__permutation_test</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M codebase/voltage_to_wiring_sim/STA.py
+A  notebooks/2020-11-11__unitlib.ipynb
+?? notebooks/2020-11-30__speedup.ipynb
+?? notebooks/temp.profile
+?? notebooks/temp.profile2
+?? notebooks/temp.profile3
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -1037,8 +1022,8 @@ py-cpuinfo           7.0.0
     
     <div class="prev-next-bottom">
         
-    <a class="left-prev" id="prev-link" href="../md/executing_code.html" title="previous page">Executing code</a>
-    <a class="right-next" id="next-link" href="2020-10-23__Delete_around_spike.html" title="next page">2020-10-23 &#8226; Delete signal around spikes before STA</a>
+    <a class="left-prev" id="prev-link" href="../md/unpolished_notebooks_intro.html" title="previous page">Intro</a>
+    <a class="right-next" id="next-link" href="2020-11-27__factor_out_STA.html" title="next page">2020-11-27 &#8226; Factoring out windowing &amp; averaging code</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
