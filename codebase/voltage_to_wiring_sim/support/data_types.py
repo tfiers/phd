@@ -17,8 +17,3 @@ SpikeIndices = NewType("SpikeIndices", NDArray[(num_spikes,), int])
 
 
 InterSpikeIntervals = NewType("InterSpikeIntervals", NDArray[(num_spikes,), float])
-
-
-Signal = NewType("Signal", NDArray[(num_samples,), float])
-#   Stub to mock a future wrapper class of np.ndarray / unitlib.Array, with information
-#   about sampling frequency / timestep.

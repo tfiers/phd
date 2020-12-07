@@ -5,7 +5,7 @@
 import numpy as np
 from numpy import ndarray
 
-from .support.data_types import InterSpikeIntervals, Signal, SpikeTimes
+from .support.data_types import InterSpikeIntervals, SpikeTimes
 from .support.plot_style import figsize
 from .support.time_grid import TimeGrid
 from .support.units import Hz, Quantity, ms, second

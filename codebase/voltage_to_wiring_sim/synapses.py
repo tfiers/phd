@@ -5,6 +5,7 @@ from numpy import empty
 from .spike_trains import generate_Poisson_spike_train
 from .support.time_grid import TimeGrid
 from .support.units import Array, Hz, Quantity, ms, nS, add_unit_support
+from .support.signal import Signal
 
 
 def calc_synaptic_conductance(
@@ -13,7 +14,7 @@ def calc_synaptic_conductance(
     Δg_syn: Quantity,
     τ_syn: Quantity,
     calc_with_units: bool = False,
-) -> Array:
+) -> Signal:
     """
     :param time_grid:  For how long and with which timestep do we simulate?
     :param spikes:  Integer array of length N: # spikes in each timebin.
@@ -28,7 +29,7 @@ def calc_synaptic_conductance(
     else:
         f = add_unit_support(njit(_calc_g_syn, cache=True))
     f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
-    return g_syn
+    return Signal(g_syn, time_grid.dt)
 
 
 def _calc_g_syn(g_syn, dt, spikes, Δg_syn, τ_syn):

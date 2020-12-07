@@ -13,7 +13,7 @@ from numpy import empty, ones, zeros
 from .params import IzhikevichParams, cortical_RS
 from .support.time_grid import TimeGrid
 from .support.units import add_unit_support, mV, ms, pA
-from .support.data_types import Signal
+from .support.signal import Signal
 
 
 @dataclass

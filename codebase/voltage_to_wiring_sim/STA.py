@@ -9,7 +9,7 @@ from numba import njit
 from .spike_trains import spike_train_to_indices
 from .support.time_grid import TimeGrid
 from .support.units import mV, ms
-from .support.data_types import Signal
+from .support.signal import Signal
 
 
 def calculate_STA(
@@ -22,7 +22,7 @@ def calculate_STA(
     # windows = make_windows(VI_signal, spike_indices, main_tg, window_tg)
     # STA = np.mean(windows, axis=0)
     STA = _calc_STA(VI_signal, spike_indices, main_tg.N, window_tg.N)
-    return STA
+    return Signal(STA, window_tg.dt)
 
 
 @njit(cache=True)
