@@ -4,12 +4,12 @@ Spike-triggered averaging.
 
 import matplotlib.pyplot as plt
 import numpy as np
-from numba import njit
 
 from .spike_trains import spike_train_to_indices
+from .support import compile_to_machine_code
+from .support.signal import Signal
 from .support.time_grid import TimeGrid
 from .support.units import mV, ms
-from .support.signal import Signal
 
 
 def calculate_STA(
@@ -22,7 +22,7 @@ def calculate_STA(
     return Signal(STA, window_tg.dt)
 
 
-@njit(cache=True)
+@compile_to_machine_code
 def _calc_STA(
     VI_signal: np.ndarray,
     spike_indices: np.ndarray,

@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from numba import njit
 from numpy import empty
 
 from .spike_trains import generate_Poisson_spike_train
-from .support.time_grid import TimeGrid
-from .support.units import Array, Hz, Quantity, ms, nS, add_unit_support
+from .support import compile_to_machine_code
 from .support.signal import Signal
+from .support.time_grid import TimeGrid
+from .support.units import Array, Hz, Quantity, add_unit_support, ms, nS
 
 
 def calc_synaptic_conductance(
@@ -27,7 +27,7 @@ def calc_synaptic_conductance(
     if calc_with_units:
         f = _calc_g_syn
     else:
-        f = add_unit_support(njit(_calc_g_syn, cache=True))
+        f = add_unit_support(compile_to_machine_code(_calc_g_syn))
     f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
     return Signal(g_syn, time_grid.dt)
 

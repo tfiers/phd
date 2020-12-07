@@ -7,13 +7,13 @@ from dataclasses import asdict, dataclass
 from functools import partial
 
 import matplotlib.pyplot as plt
-from numba import njit
 from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
+from .support import compile_to_machine_code
+from .support.signal import Signal
 from .support.time_grid import TimeGrid
 from .support.units import add_unit_support, mV, ms, pA
-from .support.signal import Signal
 
 
 @dataclass
@@ -48,7 +48,7 @@ def simulate_izh_neuron(
     if calc_with_units:
         f = _sim_izh
     else:  # Compile with Numba
-        f = add_unit_support(njit(_sim_izh, cache=True))
+        f = add_unit_support(compile_to_machine_code(_sim_izh))
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
 

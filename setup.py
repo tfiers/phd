@@ -34,12 +34,13 @@ setup(
                                # manipulate them. [https://numpy.org]
         "matplotlib ~= 3.1",   # Plotting. [https://matplotlib.org]
         "numba ~= 0.50",       # Speeds up custom numeric calculations, such as the
-                               # Izhikevich ODE integration. Given a function, Numba
-                               # assumes the function only processes numeric arrays (and
-                               # not arbitrary, general purpose Python objects), so that
-                               # it can compile it to lean machine code (instead of
-                               # having to invoke the powerful-but-slow Python
-                               # interpreter on every line). [http://numba.pydata.org]
+                               # Izhikevich ODE integration. Given a Python function,
+                               # Numba assumes the function only processes numeric
+                               # arrays (and not arbitrary, general purpose Python
+                               # objects), so that it can compile it to lean machine
+                               # code (instead of having to invoke the powerful-but-slow
+                               # Python interpreter on every line). It so approaches
+                               # C or Julia performance. [http://numba.pydata.org]
         # "unitlib",             # Physical units for quantities, such as neuron model
                                # parameters. Used to safeguard against the mistakes
                                # likely to happen when manually converting units. Also,

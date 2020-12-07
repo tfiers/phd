@@ -1,7 +1,9 @@
+import functools
 from dataclasses import asdict
-from typing import Sequence, Tuple, Union
+from typing import Callable, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
+import numba
 import numpy
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
@@ -32,8 +34,21 @@ def fix_rng_seed(seed=0):
 
 
 # Add return types to plt.subplots (for autocompletion in IDE).
-def subplots(**kwargs) -> Tuple[Figure, Union[Axes, Sequence[Axes]]]:
+
+OneOrMoreAxes = Union[Axes, Sequence[Axes]]
+
+
+def subplots(**kwargs) -> Tuple[Figure, OneOrMoreAxes]:
     return plt.subplots(**kwargs)
 
 
-subplots.__doc__ = plt.subplots.__doc__
+functools.update_wrapper(subplots, plt.subplots)
+
+
+# A clearer name for the numba `(n)jit` call.
+def compile_to_machine_code(function: Callable) -> Callable:
+    # In 'nopython' mode, the function is compiled to run entirely without the Python
+    # interpreter (if possible; otherwise an error is thrown at compile time).
+    jit_compiled_function = numba.jit(function, nopython=True, cache=True)
+    functools.update_wrapper(jit_compiled_function, function)
+    return jit_compiled_function
