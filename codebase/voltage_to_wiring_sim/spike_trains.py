@@ -15,7 +15,7 @@ from .support.util import subplots
 def generate_Poisson_spikes(time_grid: TimeGrid, spike_rate: Quantity) -> SpikeTimes:
     """
     Create a list of Poisson-distributed spike times by drawing inter-spike-intervals
-    from an exponential distribution. The spike are ordered (increasing in time).
+    from an exponential distribution. The spikes are ordered (increasing in time).
     """
     # Exponential distributions are either parametrized by a scale, β, or equivalently,
     # by a rate, λ.
