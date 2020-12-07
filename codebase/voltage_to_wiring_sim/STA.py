@@ -15,13 +15,10 @@ from .support.signal import Signal
 def calculate_STA(
     VI_signal: Signal,
     spike_train: np.ndarray,
-    main_tg: TimeGrid,
     window_tg: TimeGrid,
 ) -> Signal:
     spike_indices = spike_train_to_indices(spike_train)
-    # windows = make_windows(VI_signal, spike_indices, main_tg, window_tg)
-    # STA = np.mean(windows, axis=0)
-    STA = _calc_STA(VI_signal, spike_indices, main_tg.N, window_tg.N)
+    STA = _calc_STA(VI_signal, spike_indices, window_tg.N)
     return Signal(STA, window_tg.dt)
 
 
@@ -29,15 +26,14 @@ def calculate_STA(
 def _calc_STA(
     VI_signal: np.ndarray,
     spike_indices: np.ndarray,
-    main_N: int,
-    window_N: int,
+    window_length: int,
 ) -> np.ndarray:
     num_windows = len(spike_indices)
-    STA = np.zeros(window_N)
+    STA = np.zeros(window_length)
     for i in range(num_windows):
         start_ix = spike_indices[i]
-        end_ix = start_ix + window_N
-        if end_ix < main_N:
+        end_ix = start_ix + window_length
+        if end_ix < len(VI_signal):
             STA += VI_signal[start_ix:end_ix]
         else:
             num_windows -= 1
