@@ -10,9 +10,7 @@ import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
-from .support import compile_to_machine_code
-from .support.signal import Signal
-from .support.time_grid import TimeGrid
+from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import add_unit_support, mV, ms, pA
 
 

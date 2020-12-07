@@ -1,7 +1,7 @@
 import numpy as np
 
 from .params import IzhikevichParams
-from .support.signal import Signal
+from .support import Signal
 
 
 def add_VI_noise(

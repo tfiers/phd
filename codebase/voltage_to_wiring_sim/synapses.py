@@ -2,9 +2,7 @@ import matplotlib.pyplot as plt
 from numpy import empty
 
 from .spike_trains import generate_Poisson_spike_train
-from .support import compile_to_machine_code
-from .support.signal import Signal
-from .support.time_grid import TimeGrid
+from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import Array, Hz, Quantity, add_unit_support, ms, nS
 
 
