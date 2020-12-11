@@ -29,7 +29,7 @@ def generate_Poisson_spikes(
     # enough, and if not, generate a bunch more and repeat.
     expected_num_spikes = simulation_duration / spike_rate
     num_new_spikes_per_iteration = round(expected_num_spikes)
-    spike_times = []
+    spike_times: np.ndarray = []
     get_last_spike = lambda: spike_times[-1]
     is_first_iteration = True
     while True:
