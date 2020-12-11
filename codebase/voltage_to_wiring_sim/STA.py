@@ -5,7 +5,6 @@ Spike-triggered averaging.
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .spike_trains import spike_train_to_indices
 from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import mV, ms
 

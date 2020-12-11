@@ -5,7 +5,7 @@ preload(["numpy", "matplotlib.pyplot", "numba"])
 print("Importing from submodules (compiling numba functions)", end=" … ")
 
 from .neuron_sim import simulate_izh_neuron
-from .spike_trains import generate_Poisson_spike_train
+from .spike_trains import generate_Poisson_spikes
 from .synapses import calc_synaptic_conductance
 from .imaging import add_VI_noise
 from .STA import calculate_STA, plot_STA

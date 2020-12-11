@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from numpy import empty
 
-from .spike_trains import generate_Poisson_spike_train
+from .spike_trains import generate_Poisson_spikes
 from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import Array, Hz, Quantity, add_unit_support, ms, nS
 
@@ -43,7 +43,7 @@ def _calc_g_syn(g_syn, dt, spikes, Δg_syn, τ_syn):
 
 def test():
     tg = TimeGrid(T=300 * ms, dt=0.1 * ms)
-    spikes = generate_Poisson_spike_train(tg, f_spike=30 * Hz)
+    spikes = generate_Poisson_spikes(30 * Hz, tg.duration)
     Δg_syn = 2 * nS
     τ_syn = 7 * ms
     g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, calc_with_units=True)
