@@ -1,13 +1,12 @@
 # We use the same approach as in eg Dayan & Abott to generate (approximate) Poisson
 # spike times. (Approximate Poisson because we ignore the possibility of a neuron
 # spiking more than once in the same small timebin `dt`).
+from typing import Optional, Tuple
 
 import numpy as np
-from numpy import ndarray
 
 from .support.data_types import InterSpikeIntervals, SpikeTimes
 from .support.plot_style import figsize
-from .support.time_grid import TimeGrid
 from .support.units import Hz, Quantity, ms, second
 from .support.util import subplots
 
@@ -58,9 +57,22 @@ def to_spike_train(
     return spike_train
 
 
-def plot(t, spike_train: "Signal", *plot_args, **plot_kwargs):
+TimeSlice = Tuple[Quantity, Quantity]
+
+
+def plot(
+    spike_train: SpikeTimes,
+    time_range: Optional[TimeSlice] = None,
+    **eventplot_kwargs,
+):
     fig, ax = subplots(**figsize(aspect=0.05, width=600))
-    ax.plot(t, spike_train, *plot_args, **plot_kwargs)
+    if time_range is None:
+        spikes_to_plot = spike_train
+    else:
+        start, stop = time_range
+        subset_mask = np.logical_and(start < spike_train, spike_train < stop)
+        spikes_to_plot = spike_train[subset_mask]
+    ax.eventplot(spikes_to_plot, **eventplot_kwargs)
     ax.axes.get_yaxis().set_visible(False)
     ax.spines["left"].set_visible(False)
     ax.set_xlabel("Time (s)")
@@ -68,14 +80,12 @@ def plot(t, spike_train: "Signal", *plot_args, **plot_kwargs):
 
 
 def test():
-    f_spike = 1 * Hz
     n_in = 20
-    tg = TimeGrid(1 * second, 0.1 * ms)
     spike_trains = [
-        generate_Poisson_spike_train(tg, f_spike) for _incoming_neuron in range(n_in)
+        generate_Poisson_spikes(spike_rate=1 * Hz, simulation_duration=1 * second)
+        for _incoming_neuron in range(n_in)
     ]
     # Aggregate spikes for all incoming neurons
-    all_spikes = sum(spike_trains)
-    # plot(tg.t.in_units(ms), all_spikes)
-    fig, ax = plot(tg.t / ms, all_spikes)
+    all_spikes = np.concatenate(spike_trains)
+    fig, ax = plot(all_spikes / ms)
     ax.set_xlabel("Time (ms)")
