@@ -72,6 +72,7 @@ def plot(
         start, stop = time_range
         subset_mask = np.logical_and(start < spike_train, spike_train < stop)
         spikes_to_plot = spike_train[subset_mask]
+        ax.set_xlim(*time_range)
     ax.eventplot(spikes_to_plot, **eventplot_kwargs)
     ax.axes.get_yaxis().set_visible(False)
     ax.spines["left"].set_visible(False)
