@@ -1,48 +1,61 @@
 import matplotlib.pyplot as plt
-from numpy import empty
+import numpy as np
 
 from .spike_trains import generate_Poisson_spikes
-from .support import Signal, TimeGrid, compile_to_machine_code
-from .support.units import Array, Hz, Quantity, add_unit_support, ms, nS
+from .support import TimeGrid, compile_to_machine_code
+from .support.signal import Signal, strip_NDArrayWrapper_inputs
+from .support.data_types import SpikeTimes
+from .support.units import Hz, Quantity, ms, nS
 
 
 def calc_synaptic_conductance(
     time_grid: TimeGrid,
-    spikes: Array,
+    spike_times: SpikeTimes,
     Δg_syn: Quantity,
     τ_syn: Quantity,
     calc_with_units: bool = False,
 ) -> Signal:
     """
     :param time_grid:  For how long and with which timestep do we simulate?
-    :param spikes:  Integer array of length N: # spikes in each timebin.
+    :param spike_times:
     :param Δg_syn:  Increase in synaptic conductance per spike.
     :param τ_syn:  Synaptic conductance decay time constant.
     :return:  Array of length N, `g_syn`
     """
-    g_syn = empty(time_grid.N) * nS
+    g_syn = np.empty(time_grid.N) * nS
     # g_syn.name = "Synaptic conductance"
+    sorted_spike_times = np.sort(spike_times)
+    spike_indices = np.round(sorted_spike_times / time_grid.dt).astype(int)
+    #   (We don't put this in the compiled function as np.round(x) won't work yet with
+    #   Numba without the `out=` argument. https://github.com/numba/numba/issues/4439).
     if calc_with_units:
         f = _calc_g_syn
     else:
-        f = add_unit_support(compile_to_machine_code(_calc_g_syn))
-    f(g_syn, time_grid.dt, spikes, Δg_syn, τ_syn)
+        f = strip_NDArrayWrapper_inputs(compile_to_machine_code(_calc_g_syn))
+    f(g_syn, time_grid.dt, spike_indices, Δg_syn, τ_syn)
     return Signal(g_syn, time_grid.dt)
 
 
-def _calc_g_syn(g_syn, dt, spikes, Δg_syn, τ_syn):
+def _calc_g_syn(g_syn, dt, spike_indices, Δg_syn, τ_syn):
+    num_spikes = len(spike_indices)
+    num_processed_spikes = 0
     dgsyn_dt = lambda i: -g_syn[i] / τ_syn  # Exponential decay.
     for i in range(len(g_syn)):
         if i == 0:
             g_syn[i] = 0
         else:
             g_syn[i] = g_syn[i - 1] + dt * dgsyn_dt(i - 1)
-
-        g_syn[i] += spikes[i] * Δg_syn
+        # Add conductance bump for every spike that falls within the current time bin i.
+        while (
+            num_processed_spikes < num_spikes
+            and spike_indices[num_processed_spikes] == i
+        ):
+            g_syn[i] += Δg_syn
+            num_processed_spikes += 1
 
 
 def test():
-    tg = TimeGrid(T=300 * ms, dt=0.1 * ms)
+    tg = TimeGrid(duration=300 * ms, dt=0.1 * ms)
     spikes = generate_Poisson_spikes(30 * Hz, tg.duration)
     Δg_syn = 2 * nS
     τ_syn = 7 * ms

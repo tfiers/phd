@@ -10,8 +10,9 @@ import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
-from .support import Signal, TimeGrid, compile_to_machine_code
-from .support.units import add_unit_support, mV, ms, pA
+from .support import TimeGrid, compile_to_machine_code
+from .support.signal import Signal, strip_NDArrayWrapper_inputs
+from .support.units import mV, ms, pA
 
 
 @dataclass
@@ -46,7 +47,7 @@ def simulate_izh_neuron(
     if calc_with_units:
         f = _sim_izh
     else:  # Compile with Numba
-        f = add_unit_support(compile_to_machine_code(_sim_izh))
+        f = strip_NDArrayWrapper_inputs(compile_to_machine_code(_sim_izh))
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
 
@@ -82,7 +83,7 @@ def _sim_izh(
 
 
 def test():
-    tg = TimeGrid(T=200 * ms, dt=0.5 * ms)
+    tg = TimeGrid(duration=200 * ms, dt=0.5 * ms)
     constant_input = ones(tg.N) * 80 * pA
     f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
     sim_with_units = f(calc_with_units=True)
