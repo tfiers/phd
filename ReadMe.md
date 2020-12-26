@@ -62,6 +62,25 @@ themselves in, as comments and docstrings.
 
 <br>
 
+## Tests
+
+Some modules contain small `test()` functions to showcase how the module is used.
+These are to be run manually (and not with an automated test runner like pytest).
+
+Instructions on how to run/debug these in PyCharm:
+1. Create a scratch file.
+2. In it, `import voltage_to_wiring_sim as v` and call `v.synapses.test()`, e.g.
+3. Run/debug this scratch file.
+
+To run in a notebook, just do the second step. 
+
+The reason for this verbosity is that modules shouldn't be run as scripts (it's also not
+easy -- it errors e.g. on relative imports) -- but I still wanted my test code to be
+close to the code that it's testing/showcasing.
+
+
+<br>
+
 ## Licenses
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
