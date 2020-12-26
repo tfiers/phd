@@ -2,8 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .spike_trains import generate_Poisson_spikes
-from .support import TimeGrid, compile_to_machine_code
-from .support.signal import Signal, strip_NDArrayWrapper_inputs
+from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.data_types import SpikeTimes
 from .support.units import Hz, Quantity, ms, nS
 
@@ -13,7 +12,7 @@ def calc_synaptic_conductance(
     spike_times: SpikeTimes,
     Δg_syn: Quantity,
     τ_syn: Quantity,
-    calc_with_units: bool = False,
+    pure_python=False,
 ) -> Signal:
     """
     :param time_grid:  For how long and with which timestep do we simulate?
@@ -28,10 +27,10 @@ def calc_synaptic_conductance(
     spike_indices = np.round(sorted_spike_times / time_grid.dt).astype(int)
     #   (We don't put this in the compiled function as np.round(x) won't work yet with
     #   Numba without the `out=` argument. https://github.com/numba/numba/issues/4439).
-    if calc_with_units:
+    if pure_python:
         f = _calc_g_syn
     else:
-        f = strip_NDArrayWrapper_inputs(compile_to_machine_code(_calc_g_syn))
+        f = compile_to_machine_code(_calc_g_syn)
     f(g_syn, time_grid.dt, spike_indices, Δg_syn, τ_syn)
     return Signal(g_syn, time_grid.dt)
 
@@ -59,6 +58,6 @@ def test():
     spikes = generate_Poisson_spikes(30 * Hz, tg.duration)
     Δg_syn = 2 * nS
     τ_syn = 7 * ms
-    g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, calc_with_units=True)
+    g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, pure_python=True)
     plt.plot(tg.t / ms, g_syn)
     plt.xlabel("Time (ms)")

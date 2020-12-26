@@ -10,8 +10,7 @@ import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
 from .params import IzhikevichParams, cortical_RS
-from .support import TimeGrid, compile_to_machine_code
-from .support.signal import Signal, strip_NDArrayWrapper_inputs
+from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import mV, ms, pA
 
 
@@ -32,7 +31,7 @@ def simulate_izh_neuron(
     params: IzhikevichParams,
     g_syn: Signal = None,
     I_e: Signal = None,
-    calc_with_units: bool = False,
+    pure_python = False,
 ) -> SimResult:
 
     if g_syn is None:
@@ -44,10 +43,10 @@ def simulate_izh_neuron(
     u = empty(time_grid.N) * pA
     I_syn = empty(time_grid.N) * pA
 
-    if calc_with_units:
+    if pure_python:
         f = _sim_izh
     else:  # Compile with Numba
-        f = strip_NDArrayWrapper_inputs(compile_to_machine_code(_sim_izh))
+        f = compile_to_machine_code(_sim_izh)
 
     f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
 
@@ -86,8 +85,8 @@ def test():
     tg = TimeGrid(duration=200 * ms, dt=0.5 * ms)
     constant_input = ones(tg.N) * 80 * pA
     f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
-    sim_with_units = f(calc_with_units=True)
-    sim_fast = f(calc_with_units=False)
+    sim_with_units = f(pure_python=True)
+    sim_fast = f(pure_python=False)
     # assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
     # assert_allclose_units(sim_fast.u, sim_with_units.u)
     # assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)

@@ -8,6 +8,8 @@ import numpy
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
+from .array_wrapper import strip_NDArrayWrapper_inputs
+
 
 def pprint(dataclass):
     """
@@ -50,5 +52,8 @@ def compile_to_machine_code(function: Callable) -> Callable:
     # In 'nopython' mode, the function is compiled to run entirely without the Python
     # interpreter (if possible; otherwise an error is thrown at compile time).
     jit_compiled_function = numba.jit(function, nopython=True, cache=True)
-    functools.update_wrapper(jit_compiled_function, function)
-    return jit_compiled_function
+    # Numba cannot work with our custom array wrapper classes -- only with pure
+    # ndarrays. Hence we unwrap such inputs, if present.
+    final_function = strip_NDArrayWrapper_inputs(jit_compiled_function)
+    functools.update_wrapper(final_function, function)
+    return final_function
