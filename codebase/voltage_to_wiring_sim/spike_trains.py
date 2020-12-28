@@ -65,6 +65,17 @@ def to_indices(spike_times: SpikeTimes, dt: Quantity) -> SpikeIndices:
     return np.round(spike_times / dt).astype(int)
 
 
+def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
+    ISIs = to_ISIs(spike_train)
+    shuffled_trains = []
+    for i in range(num_shuffles):
+        shuffled_ISIs = np.random.permutation(ISIs)
+        # We don't use `np.random.shuffle` as that's in place (`permutation` calls
+        # `shuffle` anyway).
+        shuffled_trains.append(to_spike_train(shuffled_ISIs))
+    return shuffled_trains
+
+
 def plot(
     spike_train: SpikeTimes,
     time_range: Optional[TimeSlice] = None,
