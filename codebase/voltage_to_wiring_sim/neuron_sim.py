@@ -34,21 +34,24 @@ def simulate_izh_neuron(
     pure_python = False,
 ) -> SimResult:
 
-    if g_syn is None:
-        g_syn = zeros(time_grid.N) * pA
-    if I_e is None:
-        I_e = zeros(time_grid.N) * pA
+    N = time_grid.N
+    dt = time_grid.timestep
 
-    V_m = empty(time_grid.N) * mV
-    u = empty(time_grid.N) * pA
-    I_syn = empty(time_grid.N) * pA
+    if g_syn is None:
+        g_syn = Signal(zeros(N) * pA, dt)
+    if I_e is None:
+        I_e = Signal(zeros(N) * pA, dt)
+
+    V_m = Signal(empty(N) * mV, dt)
+    u = Signal(empty(N) * pA, dt)
+    I_syn = Signal(empty(N) * pA, dt)
 
     if pure_python:
         f = _sim_izh
     else:  # Compile with Numba
         f = compile_to_machine_code(_sim_izh)
 
-    f(V_m, u, I_syn, g_syn, I_e, time_grid.timestep, **asdict(params))
+    f(V_m, u, I_syn, g_syn, I_e, dt, **asdict(params))
 
     return SimResult(V_m, u, I_syn)
 
