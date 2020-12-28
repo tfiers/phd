@@ -51,7 +51,7 @@ class NDArrayWrapper(np.lib.mixins.NDArrayOperatorsMixin):
 
     def __setitem__(self, index, value):
         self.data[index] = np.asarray(value)
-        
+
     def _create_derived_instance(self, new_data: np.ndarray) -> NDArrayWrapper:
         """
         Create an instance of this object's class with different `data` but otherwise
