@@ -6,17 +6,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .support import Signal, TimeGrid, compile_to_machine_code
-from .support.units import mV, ms
+from .support.data_types import SpikeTimes
+from .support.units import mV, ms, Quantity
+from .spike_trains import to_indices
 
 
 def calculate_STA(
     VI_signal: Signal,
-    spike_train: np.ndarray,
-    window_tg: TimeGrid,
+    spike_times: SpikeTimes,
+    window_duration: Quantity
 ) -> Signal:
-    spike_indices = spike_train_to_indices(spike_train)
+    dt = VI_signal.timestep
+    spike_indices = to_indices(spike_times, dt)
+    window_tg = TimeGrid(window_duration, dt)
     STA = _calc_STA(VI_signal, spike_indices, window_tg.N)
-    return Signal(STA, window_tg.timestep)
+    return Signal(STA, dt)
 
 
 @compile_to_machine_code
