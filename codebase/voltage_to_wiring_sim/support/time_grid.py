@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from numpy import linspace
+import numpy as np
 
 from .units import Array, Quantity
 
@@ -14,5 +14,5 @@ class TimeGrid:
 
     def __post_init__(self):
         self.N = round(self.duration / self.dt)
-        self.t = linspace(0, self.duration, self.N, endpoint=False)
+        self.t = np.linspace(0, self.duration, self.N, endpoint=False)
         # self.t.name = "Time"
