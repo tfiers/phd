@@ -7,14 +7,14 @@ from .support.data_types import SpikeTimes
 from .support.units import Array, Quantity
 
 
-def generate_connection_test_data(
+def test_connection(
     spike_train: SpikeTimes,
-    num_shuffles: int,
     VI_signal: Signal,
     window_duration: Quantity,
-) -> ConnectionTestData:
+    num_shuffles: int,
+) -> tuple[ConnectionTestData, ConnectionTestSummary]:
     """
-    Generate the data needed to test the following hypothesis:
+    Generate the data to test the following hypothesis:
 
         The neuron that generated `spike_train` is connected to the neuron from which
         `VI_signal` was recorded.
@@ -30,22 +30,18 @@ def generate_connection_test_data(
 
 @dataclass
 class ConnectionTestData:
-    """ Maximum heights of STA windows (see `generate_connection_test_data`). """
+    """ Maximum heights of STA windows (see `test_connection`). """
 
     peak_height: Quantity
     shuffled_peak_heights: Array
-
-
-def summarise_connection_test(test_data: ConnectionTestData) -> ConnectionTestSummary:
-    ...
 
 
 @dataclass
 class ConnectionTestSummary:
     """
     Summarizing values calculated from `ConnectionTestData`. The p-value is the
-    probability of the null hypothesis (see `generate_connection_test_data`), given the
-    spike train and VI data.
+    probability of the null hypothesis (see `test_connection`), given the spike train
+    and VI data.
     """
 
     p_value: float
