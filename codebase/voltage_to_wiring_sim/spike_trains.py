@@ -1,8 +1,8 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 
-from .support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices
+from .support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices, TimeSlice
 from .support.plot_style import figsize
 from .support.units import Hz, Quantity, ms, second
 from .support.util import subplots
@@ -63,9 +63,6 @@ def to_ISIs(spike_train: SpikeTimes) -> InterSpikeIntervals:
 
 def to_indices(spike_times: SpikeTimes, dt: Quantity) -> SpikeIndices:
     return np.round(spike_times / dt).astype(int)
-
-
-TimeSlice = Tuple[Quantity, Quantity]
 
 
 def plot(
