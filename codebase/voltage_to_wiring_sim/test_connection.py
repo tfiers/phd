@@ -12,7 +12,7 @@ def test_connection(
     VI_signal: Signal,
     window_duration: Quantity,
     num_shuffles: int,
-) -> tuple[ConnectionTestData, ConnectionTestSummary]:
+) -> tuple[TestData, TestSummary]:
     """
     Generate the data to test the following hypothesis:
 
@@ -29,7 +29,7 @@ def test_connection(
 
 
 @dataclass
-class ConnectionTestData:
+class TestData:
     """ Maximum heights of STA windows (see `test_connection`). """
 
     peak_height: Quantity
@@ -37,7 +37,7 @@ class ConnectionTestData:
 
 
 @dataclass
-class ConnectionTestSummary:
+class TestSummary:
     """
     Summarizing values calculated from `ConnectionTestData`. The p-value is the
     probability of the null hypothesis (see `test_connection`), given the spike train
