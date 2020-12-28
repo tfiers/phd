@@ -37,9 +37,10 @@ def _calc_STA(
     return STA / num_windows
 
 
-def plot_STA(STA: Signal, window_tg: TimeGrid, ax=None, **kwargs):
+def plot_STA(STA: Signal, ax=None, **kwargs):
     if ax is None:
         fig, ax = plt.subplots()
-    ax.plot(window_tg.t / ms, STA / mV, **kwargs)
+    
+    ax.plot(STA.time / ms, STA / mV, **kwargs)
     ax.set_xlabel("Time after spike (ms)")
     ax.set_ylabel("Spike triggered <VI signal> (mV)")

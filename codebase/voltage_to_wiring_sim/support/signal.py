@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 
-from .units import Quantity
+import numpy as np
+
 from .array_wrapper import NDArrayWrapper
+from .units import Array, Quantity, second
 
 
 @dataclass
@@ -15,3 +17,11 @@ class Signal(NDArrayWrapper):
     """
 
     timestep: Quantity
+
+    @property
+    def duration(self) -> Quantity:
+        return self.size / self.timestep
+
+    @property
+    def time(self, start=0 * second) -> Array:
+        return np.linspace(start, start + self.duration, num=self.size)
