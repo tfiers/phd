@@ -16,7 +16,7 @@ def test_connection(
     VI_signal: Signal,
     window_duration: Quantity,
     num_shuffles: int,
-) -> tuple[(TestData, TestSummary)]:
+) -> ConnectionTestResult:
     """
     Generate the data to test the following hypothesis:
 
@@ -32,59 +32,49 @@ def test_connection(
 
     shuffled_spike_trains = shuffle(spike_train, num_shuffles)
 
-    def STA_peak_height(spike_train):
+    def calc_STA_max(spike_train):
         STA_window = calculate_STA(VI_signal, spike_train, window_duration)
         return np.max(STA_window)
 
-    original_peak_height = STA_peak_height(spike_train)
-    shuffled_peak_heights = np.array(
-        STA_peak_height(shuffled_spike_train)
+    original_train_STA_max = calc_STA_max(spike_train)
+    shuffled_trains_STA_max = np.array(
+        calc_STA_max(shuffled_spike_train)
         for shuffled_spike_train in shuffled_spike_trains
     )
 
-    num_shuffled_peaks_larger = np.sum(shuffled_peak_heights > original_peak_height)
-    if num_shuffled_peaks_larger == 0:
+    num_shuffled_train_STAs_larger = np.sum(shuffled_trains_STA_max > original_train_STA_max)
+    if num_shuffled_train_STAs_larger == 0:
         p_value = 1 / num_shuffles
         p_value_type = PValueType.LIMIT
     else:
-        p_value = num_shuffled_peaks_larger / num_shuffles
+        p_value = num_shuffled_train_STAs_larger / num_shuffles
         p_value_type = PValueType.EQUAL
 
-    mean_shuffled_peak_height = np.mean(shuffled_peak_heights)
-    relative_peak_height = original_peak_height / mean_shuffled_peak_height
+    mean_shuffled_STA_max = np.mean(shuffled_trains_STA_max)
+    relative_STA_max = original_train_STA_max / mean_shuffled_STA_max
 
-    return TestData(
+    return ConnectionTestResult(
         shuffled_spike_trains,
-        original_peak_height,
-        shuffled_peak_heights,
-    ), TestSummary(
+        original_train_STA_max,
+        shuffled_trains_STA_max,
         p_value,
         p_value_type,
-        mean_shuffled_peak_height,
-        relative_peak_height,
+        mean_shuffled_STA_max,
+        relative_STA_max,
     )
 
 
 @dataclass
-class TestData:
+class ConnectionTestResult:
     shuffled_spike_trains: list[SpikeTimes]
-    original_peak_height: Quantity
+    original_train_STA_max: Quantity
     #    Maximum height of STA window using original spike train.
-    shuffled_peak_heights: Array
+    shuffled_trains_STA_max: Array
     #    Maximum heights of STA windows using shuffled spike trains.
-
-
-@dataclass
-class TestSummary:
-    """
-    Summarizing values calculated from `TestData`. The p-value is the probability of the
-    null hypothesis (see `test_connection`), given the spike train and VI data.
-    """
-
-    p_value: float
+    p_value: float  # p(H0 | data)
     p_value_type: PValueType
-    mean_shuffled_peak_height: Quantity
-    relative_peak_height: float
+    mean_shuffled_STA_max: Quantity
+    relative_STA_max: float
 
 
 class PValueType:
