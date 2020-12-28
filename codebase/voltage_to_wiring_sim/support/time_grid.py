@@ -9,10 +9,12 @@ from .units import Array, Quantity
 class TimeGrid:
     duration: Quantity  # simulation duration
     timestep: Quantity  # timestep
-    N: int = None  # number of simulation steps
-    t: Array = None  # time array, for plotting
+    N: int = ...  # number of simulation steps
 
     def __post_init__(self):
         self.N = round(self.duration / self.timestep)
-        self.t = np.linspace(0, self.duration, self.N, endpoint=False)
-        # self.t.name = "Time"
+
+    @property
+    def time(self) -> Array:
+        """ time array, for plotting """
+        return np.linspace(0, self.duration, self.N, endpoint=False)

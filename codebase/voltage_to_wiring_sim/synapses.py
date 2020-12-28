@@ -59,5 +59,5 @@ def test():
     Δg_syn = 2 * nS
     τ_syn = 7 * ms
     g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, pure_python=True)
-    plt.plot(tg.t / ms, g_syn)
+    plt.plot(tg.time / ms, g_syn)
     plt.xlabel("Time (ms)")

@@ -91,5 +91,5 @@ def test():
     # assert_allclose_units(sim_fast.u, sim_with_units.u)
     # assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
     # print("Simulations with and without units yield equal results.")
-    plt.plot(tg.t / ms, sim_fast.V_m)
+    plt.plot(tg.time / ms, sim_fast.V_m)
     plt.xlabel("Time (ms)")
