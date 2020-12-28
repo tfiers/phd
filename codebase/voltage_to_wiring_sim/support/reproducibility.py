@@ -6,7 +6,6 @@ from platform import platform, python_implementation, python_version
 from socket import gethostname
 from subprocess import run
 
-from IPython.core.display import display_markdown
 from cpuinfo import get_cpu_info
 
 
@@ -16,7 +15,14 @@ REPO_URL = "https://github.com/tfiers/voltage-to-wiring-sim"
 timezone = datetime.now().astimezone().tzinfo  # Weird that this long hack is necessary,
 #                                              # Python stdlib.
 
-print_md = partial(display_markdown, raw=True)
+try:
+    # noinspection PyUnresolvedReferences
+    from IPython.core.display import display_markdown
+
+    print_md = partial(display_markdown, raw=True)
+    
+except ImportError:
+    print_md = print
 
 
 def print_reproducibility_info(verbose=False):
@@ -44,7 +50,7 @@ def print_when_who_where():
 
 def print_last_commit_link():
     last_commit_hash = get_cmd_output("git rev-parse HEAD")
-    last_commit_timestamp = get_cmd_output('git log -1 --format=%at')
+    last_commit_timestamp = get_cmd_output("git log -1 --format=%at")
     last_commit_datetime = datetime.fromtimestamp(int(last_commit_timestamp), timezone)
     print_md(
         f"[Last git commit]({REPO_URL}/tree/{last_commit_hash}) "
