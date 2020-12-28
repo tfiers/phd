@@ -7,12 +7,12 @@ from .support.data_types import SpikeTimes
 from .support.units import Array, Quantity
 
 
-def test_connection(
+def generate_connection_test_data(
     spike_train: SpikeTimes,
-    VI_signal: Signal,
     num_shuffles: int,
+    VI_signal: Signal,
     window_duration: Quantity,
-) -> TestData:
+) -> ConnectionTestData:
     """
     Generate the data needed to test the following hypothesis:
 
@@ -29,22 +29,23 @@ def test_connection(
 
 
 @dataclass
-class TestData:
-    """ Maximum heights of STA windows (see `test_connection`). """
+class ConnectionTestData:
+    """ Maximum heights of STA windows (see `generate_connection_test_data`). """
 
     peak_height: Quantity
     shuffled_peak_heights: Array
 
 
-def summarise_connection_test(test_data: TestData) -> TestSummary:
+def summarise_connection_test(test_data: ConnectionTestData) -> ConnectionTestSummary:
     ...
 
 
 @dataclass
-class TestSummary:
+class ConnectionTestSummary:
     """
-    Summarizing values calculated from `TestData`. The p-value is the probability of the
-    null hypothesis (see `test_connection`), given the spike train and VI data.
+    Summarizing values calculated from `ConnectionTestData`. The p-value is the
+    probability of the null hypothesis (see `generate_connection_test_data`), given the
+    spike train and VI data.
     """
 
     p_value: float
