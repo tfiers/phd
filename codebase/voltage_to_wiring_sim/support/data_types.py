@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-from typing import Any, NewType
+from typing import Any, NewType, Tuple
 
 from nptyping import NDArray
 
@@ -20,4 +18,4 @@ SpikeIndices = NewType("SpikeIndices", NDArray[(num_spikes,), int])
 
 InterSpikeIntervals = NewType("InterSpikeIntervals", NDArray[(num_spikes,), float])
 
-TimeSlice = tuple[(Quantity, Quantity)]  # (start, stop) times.
+TimeSlice = Tuple[(Quantity, Quantity)]  # (start, stop) times.
