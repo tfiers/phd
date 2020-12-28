@@ -54,7 +54,7 @@ def _calc_g_syn(g_syn, dt, spike_indices, Δg_syn, τ_syn):
 
 
 def test():
-    tg = TimeGrid(duration=300 * ms, dt=0.1 * ms)
+    tg = TimeGrid(duration=300 * ms, timestep=0.1 * ms)
     spikes = generate_Poisson_spikes(30 * Hz, tg.duration)
     Δg_syn = 2 * nS
     τ_syn = 7 * ms

@@ -85,7 +85,7 @@ def _sim_izh(
 
 
 def test():
-    tg = TimeGrid(duration=200 * ms, dt=0.5 * ms)
+    tg = TimeGrid(duration=200 * ms, timestep=0.5 * ms)
     constant_input = ones(tg.N) * 80 * pA
     f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
     sim_with_units = f(pure_python=True)
