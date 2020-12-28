@@ -1,11 +1,8 @@
-# We use the same approach as in eg Dayan & Abott to generate (approximate) Poisson
-# spike times. (Approximate Poisson because we ignore the possibility of a neuron
-# spiking more than once in the same small timebin `dt`).
 from typing import Optional, Tuple
 
 import numpy as np
 
-from .support.data_types import InterSpikeIntervals, SpikeTimes
+from .support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices
 from .support.plot_style import figsize
 from .support.units import Hz, Quantity, ms, second
 from .support.util import subplots
@@ -53,8 +50,19 @@ def to_spike_train(
     ISIs: InterSpikeIntervals,
     start_offset: Quantity = 0 * second,
 ) -> SpikeTimes:
-    spike_train = start_offset + np.cumsum(ISIs)
-    return spike_train
+    return start_offset + np.cumsum(ISIs)
+
+
+def to_ISIs(spike_train: SpikeTimes) -> InterSpikeIntervals:
+    """
+    First element is not strictly an ISI, but rather the time of the first spike after
+    the beginning of the time-series.
+    """
+    return np.diff(spike_train, prepend=[0])
+
+
+def to_indices(spike_times: SpikeTimes, dt: Quantity) -> SpikeIndices:
+    return np.round(spike_times / dt).astype(int)
 
 
 TimeSlice = Tuple[Quantity, Quantity]

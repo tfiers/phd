@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .spike_trains import generate_Poisson_spikes
+from .spike_trains import generate_Poisson_spikes, to_indices
 from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.data_types import SpikeTimes
 from .support.units import Hz, Quantity, ms, nS
@@ -24,7 +24,7 @@ def calc_synaptic_conductance(
     g_syn = np.empty(time_grid.N) * nS
     # g_syn.name = "Synaptic conductance"
     sorted_spike_times = np.sort(spike_times)
-    spike_indices = np.round(sorted_spike_times / time_grid.dt).astype(int)
+    spike_indices = to_indices(sorted_spike_times, time_grid.timestep)
     #   (We don't put this in the compiled function as np.round(x) won't work yet with
     #   Numba without the `out=` argument. https://github.com/numba/numba/issues/4439).
     if pure_python:
