@@ -6,3 +6,4 @@ def test__run_embedded_tests():
     v.synapses.test()
     v.neuron_sim.test()
     v.connection_test.test()
+
