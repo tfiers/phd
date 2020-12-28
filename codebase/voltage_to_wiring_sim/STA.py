@@ -16,7 +16,7 @@ def calculate_STA(
 ) -> Signal:
     spike_indices = spike_train_to_indices(spike_train)
     STA = _calc_STA(VI_signal, spike_indices, window_tg.N)
-    return Signal(STA, window_tg.dt)
+    return Signal(STA, window_tg.timestep)
 
 
 @compile_to_machine_code

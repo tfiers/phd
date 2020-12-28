@@ -48,7 +48,7 @@ def simulate_izh_neuron(
     else:  # Compile with Numba
         f = compile_to_machine_code(_sim_izh)
 
-    f(V_m, u, I_syn, g_syn, I_e, time_grid.dt, **asdict(params))
+    f(V_m, u, I_syn, g_syn, I_e, time_grid.timestep, **asdict(params))
 
     return SimResult(V_m, u, I_syn)
 

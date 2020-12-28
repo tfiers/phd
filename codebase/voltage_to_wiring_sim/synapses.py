@@ -31,8 +31,8 @@ def calc_synaptic_conductance(
         f = _calc_g_syn
     else:
         f = compile_to_machine_code(_calc_g_syn)
-    f(g_syn, time_grid.dt, spike_indices, Δg_syn, τ_syn)
-    return Signal(g_syn, time_grid.dt)
+    f(g_syn, time_grid.timestep, spike_indices, Δg_syn, τ_syn)
+    return Signal(g_syn, time_grid.timestep)
 
 
 def _calc_g_syn(g_syn, dt, spike_indices, Δg_syn, τ_syn):
