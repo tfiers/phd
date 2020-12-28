@@ -36,27 +36,30 @@ class NDArrayWrapper(np.lib.mixins.NDArrayOperatorsMixin):
 
     def __array_ufunc__(self, ufunc, _method, *inputs, **kwargs):
         np_result = ufunc(*(np.asarray(arg) for arg in inputs), **kwargs)
-        new_wrapper = self._create_derived_instance(new_data=np_result)
-        return new_wrapper
+        return self._create_derived_object(np_result)
 
     def __array_function__(self, function, _types, args, kwargs):
         np_result = function(*(np.asarray(arg) for arg in args), **kwargs)
-        new_wrapper = self._create_derived_instance(new_data=np_result)
-        return new_wrapper
+        return self._create_derived_object(np_result)
 
     def __getitem__(self, index):
         data_slice = self.data[index]
-        new_wrapper = self._create_derived_instance(new_data=data_slice)
-        return new_wrapper
+        return self._create_derived_object(data_slice)
 
     def __setitem__(self, index, value):
         self.data[index] = np.asarray(value)
 
-    def _create_derived_instance(self, new_data: np.ndarray) -> NDArrayWrapper:
+    def __len__(self):
+        return len(self.data)
+
+    def _create_derived_object(self, new_data: np.ndarray):
         """
-        Create an instance of this object's class with different `data` but otherwise
-        the same property values. `NDArrayWrapper` subclasses which do not store all
-        their properties via the dataclass mechanism should reimplement this method.
+        Defines the object returned by indexing (`__getitem__`) and by NumPy ufuncs
+        (`+`, `>`, …) and functions (`mean`, `max`, …).
+
+        This implementation creates a new instance of this object's class, with
+        different `data`, but otherwise the same property values -- given that these
+        properties are stored by the dataclasss mechanism.
         """
         properties = dataclasses.asdict(self)
         properties.update(data=new_data)

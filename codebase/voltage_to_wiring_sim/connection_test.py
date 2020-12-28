@@ -38,11 +38,12 @@ def test_connection(
 
     original_train_STA_max = calc_STA_max(spike_train)
     shuffled_trains_STA_max = np.array(
-        calc_STA_max(shuffled_spike_train)
-        for shuffled_spike_train in shuffled_spike_trains
+        [calc_STA_max(train) for train in shuffled_spike_trains]
     )
 
-    num_shuffled_train_STAs_larger = np.sum(shuffled_trains_STA_max > original_train_STA_max)
+    num_shuffled_train_STAs_larger = np.sum(
+        shuffled_trains_STA_max > original_train_STA_max
+    )
     if num_shuffled_train_STAs_larger == 0:
         p_value = 1 / num_shuffles
         p_value_type = PValueType.LIMIT
@@ -51,7 +52,7 @@ def test_connection(
         p_value_type = PValueType.EQUAL
 
     mean_shuffled_STA_max = np.mean(shuffled_trains_STA_max)
-    relative_STA_max = original_train_STA_max / mean_shuffled_STA_max
+    original_vs_shuffled_STA_max = original_train_STA_max / mean_shuffled_STA_max
 
     return ConnectionTestResult(
         shuffled_spike_trains,
@@ -60,7 +61,7 @@ def test_connection(
         p_value,
         p_value_type,
         mean_shuffled_STA_max,
-        relative_STA_max,
+        original_vs_shuffled_STA_max,
     )
 
 
@@ -74,9 +75,19 @@ class ConnectionTestResult:
     p_value: float  # p(H0 | data)
     p_value_type: PValueType
     mean_shuffled_STA_max: Quantity
-    relative_STA_max: float
+    original_vs_shuffled_STA_max: float
 
 
 class PValueType:
     LIMIT = "<"
     EQUAL = "="
+
+
+def test():
+    import voltage_to_wiring_sim as v
+    from voltage_to_wiring_sim.support.units import second, ms, Hz, nS
+    tg = v.TimeGrid(duration=1 * second, timestep=0.2 * ms)
+    st = v.generate_Poisson_spikes(spike_rate=30 * Hz, simulation_duration=tg.duration)
+    g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9*nS, τ_syn=0.7*ms)
+    sim = v.simulate_izh_neuron(tg, v.params.cortical_RS, g_syn)
+    test_connection(st, sim.V_m, window_duration=80 * ms, num_shuffles=10)
