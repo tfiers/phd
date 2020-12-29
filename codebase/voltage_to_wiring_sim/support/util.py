@@ -1,5 +1,6 @@
 import functools
 import reprlib
+from textwrap import fill
 from dataclasses import asdict
 from typing import Callable, Sequence, Tuple, Union
 
@@ -17,6 +18,10 @@ def pprint(dataclass):
     Pretty-prints a dataclass as a table of its fields and their values, and with the
     class name as header.
     """
+
+    ddict = asdict(dataclass)
+    len_longest_key = max(len(key) for key in ddict.keys())
+
     dataclass_name = dataclass.__class__.__name__
     header_lines = [
         dataclass_name,
@@ -27,12 +32,15 @@ def pprint(dataclass):
         if isinstance(value, float):
             return format(value, ".4G")
         else:
-            return reprlib.repr(value)  # reprlib abbreviates long lists
+            return fill(
+                reprlib.repr(value),  # reprlib abbreviates long lists
+                subsequent_indent=(len_longest_key + 4) * " ",
+            )
 
     content_lines = [
-        f"{name} = {pprint(value)}" for name, value in asdict(dataclass).items()
+        f"{name:>{len_longest_key}} = {pprint(value)}" for name, value in ddict.items()
     ]
-    
+
     print("\n".join(header_lines + content_lines))
 
 
