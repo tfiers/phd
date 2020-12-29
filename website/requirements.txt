@@ -1,3 +1,4 @@
 jupyter-book == 0.7.3
 sphinx-book-theme == 0.0.34  # This version still has [faded-out sidebar except on mouseover].
 lxml ~= 4.5
+sphinxcontrib-bibtex<2.0.0  # Fix for failing jb build [https://github.com/executablebooks/jupyter-book/issues/1137#issuecomment-743993738]
