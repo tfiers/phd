@@ -16,7 +16,7 @@ def test_connection(
     VI_signal: Signal,
     window_duration: Quantity,
     num_shuffles: int,
-) -> ConnectionTestResult:
+) -> tuple[(ConnectionTestData, ConnectionTestSummary)]:
     """
     Generate the data to test the following hypothesis:
 
@@ -32,50 +32,53 @@ def test_connection(
 
     shuffled_spike_trains = shuffle(spike_train, num_shuffles)
 
-    def calc_STA_max(spike_train):
+    def calc_STA_height(spike_train):
         STA_window = calculate_STA(VI_signal, spike_train, window_duration)
-        return np.max(STA_window)
+        return np.max(STA_window) - np.min(STA_window)
 
-    original_train_STA_max = calc_STA_max(spike_train)
-    shuffled_trains_STA_max = np.array(
-        [calc_STA_max(train) for train in shuffled_spike_trains]
+    original_STA_height = calc_STA_height(spike_train)
+    shuffled_STA_heights = np.array(
+        [calc_STA_height(train) for train in shuffled_spike_trains]
     )
 
-    num_shuffled_train_STAs_larger = np.sum(
-        shuffled_trains_STA_max > original_train_STA_max
-    )
-    if num_shuffled_train_STAs_larger == 0:
+    num_shuffled_STAs_larger = np.sum(shuffled_STA_heights > original_STA_height)
+    if num_shuffled_STAs_larger == 0:
         p_value = 1 / num_shuffles
         p_value_type = PValueType.LIMIT
     else:
-        p_value = num_shuffled_train_STAs_larger / num_shuffles
+        p_value = num_shuffled_STAs_larger / num_shuffles
         p_value_type = PValueType.EQUAL
 
-    mean_shuffled_STA_max = np.mean(shuffled_trains_STA_max)
-    original_vs_shuffled_STA_max = original_train_STA_max / mean_shuffled_STA_max
+    shuffled_STA_height_mean = np.mean(shuffled_STA_heights)
+    relative_STA_height = original_STA_height / shuffled_STA_height_mean
 
-    return ConnectionTestResult(
+    return ConnectionTestData(
         shuffled_spike_trains,
-        original_train_STA_max,
-        shuffled_trains_STA_max,
+        original_STA_height,
+        shuffled_STA_heights,
+        shuffled_STA_height_mean,
+    ), ConnectionTestSummary(
         p_value,
         p_value_type,
-        mean_shuffled_STA_max,
-        original_vs_shuffled_STA_max,
+        relative_STA_height,
     )
 
 
 @dataclass
-class ConnectionTestResult:
+class ConnectionTestData:
     shuffled_spike_trains: list[SpikeTimes]
-    original_train_STA_max: Quantity
+    original_STA_height: Quantity
     #    Maximum height of STA window using original spike train.
-    shuffled_trains_STA_max: Array
+    shuffled_STA_heights: Array
     #    Maximum heights of STA windows using shuffled spike trains.
+    shuffled_STA_height_mean: Quantity
+
+
+@dataclass
+class ConnectionTestSummary:
     p_value: float  # p(H0 | data)
     p_value_type: PValueType
-    mean_shuffled_STA_max: Quantity
-    original_vs_shuffled_STA_max: float
+    relative_STA_height: float
 
 
 class PValueType:
@@ -86,8 +89,9 @@ class PValueType:
 def test():
     import voltage_to_wiring_sim as v
     from voltage_to_wiring_sim.support.units import second, ms, Hz, nS
+
     tg = v.TimeGrid(duration=1 * second, timestep=0.2 * ms)
     st = v.generate_Poisson_spikes(spike_rate=30 * Hz, simulation_duration=tg.duration)
-    g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9*nS, τ_syn=0.7*ms)
+    g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9 * nS, τ_syn=0.7 * ms)
     sim = v.simulate_izh_neuron(tg, v.params.cortical_RS, g_syn)
     test_connection(st, sim.V_m, window_duration=80 * ms, num_shuffles=10)
