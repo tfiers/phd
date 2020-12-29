@@ -1,5 +1,4 @@
-# Run the full test suite (in `tests/`) on every push of Python code 
-# to GitHub, on a range of Python versions and OS'es.
+# Run tests (in `codebase/tests/`) on every push of Python code to GitHub.
 
 name: CI
 

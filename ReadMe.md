@@ -65,18 +65,24 @@ themselves in, as comments and docstrings.
 ## Tests
 
 Some modules contain small `test()` functions to showcase how the module is used.
-These are to be run manually (and not with an automated test runner like pytest).
 
 Instructions on how to run/debug these in PyCharm:
 1. Create a scratch file.
 2. In it, `import voltage_to_wiring_sim as v` and call `v.synapses.test()`, e.g.
 3. Run/debug this scratch file.
 
-To run in a notebook, just do the second step. 
+To run them in a notebook, just do the second step. 
 
-The reason for this verbosity is that modules shouldn't be run as scripts (it's also not
+> The reason for this verbosity is that modules shouldn't be run as scripts (it's also not
 easy -- it errors e.g. on relative imports) -- but I still wanted my test code to be
 close to the code that it's testing/showcasing.
+
+These test functions are also run automatically on every push of code to GitHub
+([results](https://github.com/tfiers/voltage-to-wiring-sim/actions?query=workflow%3ACI),
+[workflow file](https://github.com/tfiers/voltage-to-wiring-sim/blob/main/.github/workflows/CI.yml)).
+This is not a test of the scientific correctness of the code (there are no `assert`
+statements). Rather, it is a check that the code still runs without runtime errors after
+introducing changes to it (i.e. it's a smoke test or integration test).
 
 
 <br>
