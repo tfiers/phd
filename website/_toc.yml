@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2020-12-11__KS_test_exponential_distribution
     - file: notebooks/2020-11-27__permutation_test
     - file: notebooks/2020-10-23__Delete_around_spike
     - file: notebooks/2020-09-18__Clip_spikes_before_STA
@@ -19,6 +20,7 @@
 - chapter: Unpolished notebooks
   sections:
   - file: md/unpolished_notebooks_intro
+  - file: notebooks/2020-11-30__speedup__spike_indices
   - file: notebooks/2020-11-30__speedup
   - file: notebooks/2020-11-27__factor_out_STA
   - file: notebooks/2020-11-16__analytical_PSP
