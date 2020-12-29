@@ -22,9 +22,17 @@ def pprint(dataclass):
         dataclass_name,
         "-" * len(dataclass_name),
     ]
+
+    def pprint(value):
+        if isinstance(value, float):
+            return format(value, ".4G")
+        else:
+            return reprlib.repr(value)  # reprlib abbreviates long lists
+
     content_lines = [
-        f"{name} = {reprlib.repr(value)}" for name, value in asdict(dataclass).items()
-    ]  # reprlib abbreviates long lists
+        f"{name} = {pprint(value)}" for name, value in asdict(dataclass).items()
+    ]
+    
     print("\n".join(header_lines + content_lines))
 
 
