@@ -4,6 +4,7 @@ Spike-triggered averaging.
 
 import matplotlib.pyplot as plt
 import numpy as np
+from numba import prange
 
 from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.data_types import SpikeTimes
@@ -23,7 +24,7 @@ def calculate_STA(
     return Signal(STA, dt)
 
 
-@compile_to_machine_code
+@compile_to_machine_code(parallel=True)
 def _calc_STA(
     VI_signal: np.ndarray,
     spike_indices: np.ndarray,
@@ -31,7 +32,7 @@ def _calc_STA(
 ) -> np.ndarray:
     num_windows = len(spike_indices)
     STA = np.zeros(window_length)
-    for i in range(num_windows):
+    for i in prange(num_windows):
         start_ix = spike_indices[i]
         end_ix = start_ix + window_length
         if end_ix < len(VI_signal):
