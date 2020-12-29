@@ -1,4 +1,5 @@
 import functools
+import reprlib
 from dataclasses import asdict
 from typing import Callable, Sequence, Tuple, Union
 
@@ -22,8 +23,8 @@ def pprint(dataclass):
         "-" * len(dataclass_name),
     ]
     content_lines = [
-        f"{name} = {str(value)}" for name, value in asdict(dataclass).items()
-    ]
+        f"{name} = {reprlib.repr(value)}" for name, value in asdict(dataclass).items()
+    ]  # reprlib abbreviates long lists
     print("\n".join(header_lines + content_lines))
 
 
