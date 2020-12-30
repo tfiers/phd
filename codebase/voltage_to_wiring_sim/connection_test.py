@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+from matplotlib.axes import Axes
 
 from .STA import calculate_STA
 from .spike_trains import shuffle
@@ -84,6 +85,30 @@ class ConnectionTestSummary:
 class PValueType:
     LIMIT = "<"
     EQUAL = "="
+
+
+def plot(data: ConnectionTestData, bins=12):
+    import seaborn as sns
+    from voltage_to_wiring_sim.support.units import mV
+
+    ax: Axes = sns.rugplot(
+        data.shuffled_STA_heights / mV,
+        label="Shuffled spike trains",
+    )
+    sns.distplot(
+        data.shuffled_STA_heights / mV,
+        bins=bins,
+        kde=False,  # Make y-axis labels give count in each bin. (Instead of a density).
+        ax=ax,
+    )
+    ax.axvline(
+        data.original_STA_height / mV,
+        color="C1",
+        label="Real spike train",
+    )
+    ax.set_xlabel("STA height (mV)")
+    ax.legend()
+    return ax.figure, ax
 
 
 def test():
