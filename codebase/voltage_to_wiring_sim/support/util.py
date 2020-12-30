@@ -6,7 +6,7 @@ from typing import Callable, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numba
-import numpy
+import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
@@ -49,7 +49,7 @@ def fix_rng_seed(seed=0):
     Set seed of random number generator, to generate same random sequence in every
     script run, and thus get same results.
     """
-    numpy.random.seed(seed)
+    np.random.seed(seed)
 
 
 # Add return types to plt.subplots (for autocompletion in IDE).
