@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2020_12_30__test_all_connections
     - file: notebooks/2020-12-11__KS_test_exponential_distribution
     - file: notebooks/2020-11-27__permutation_test
     - file: notebooks/2020-10-23__Delete_around_spike

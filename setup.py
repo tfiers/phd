@@ -61,5 +61,7 @@ setup(
                                # [https://github.com/workhorsy/py-cpuinfo]
         "nptyping ~= 1.3",     # Type hints for NumPy arrays.
                                # [https://pypi.org/project/nptyping/].
+        "tqdm ~= 4.55",        # Progress meter & timing info for slow loops.
+                               # [https://github.com/tqdm/tqdm].
     )
 )
