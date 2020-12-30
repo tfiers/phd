@@ -287,8 +287,28 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-exponential-distribution">
-   Test exponential distribution
+  <a class="reference internal nav-link" href="#inter-spike-intervals">
+   Inter-spike intervals
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fit-exponential">
+   Fit exponential
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#qq-plot">
+   QQ plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cdf-comparison">
+   CDF comparison
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kolmogorov-smirnov-test">
+   Kolmogorov-Smirnov test
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -446,8 +466,8 @@ Setup autoreload
 </div>
 </div>
 </div>
-<div class="section" id="test-exponential-distribution">
-<h2>Test exponential distribution<a class="headerlink" href="#test-exponential-distribution" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="inter-spike-intervals">
+<h2>Inter-spike intervals<a class="headerlink" href="#inter-spike-intervals" title="Permalink to this headline">&#182;</a></h2>
 <p>Aight.</p>
 <p>Check if spike train&#8217;s are really Poisson; and thus that ISI&#8217;s are exponentially distributed.</p>
 <div class="cell docutils container">
@@ -468,7 +488,9 @@ Setup autoreload
 <img alt="../_images/2020-12-11__KS_test_exponential_distribution_18_0.png" src="../_images/2020-12-11__KS_test_exponential_distribution_18_0.png">
 </div>
 </div>
-<p>Fit exponential:</p>
+</div>
+<div class="section" id="fit-exponential">
+<h2>Fit exponential<a class="headerlink" href="#fit-exponential" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">expon</span>
@@ -497,7 +519,9 @@ Setup autoreload
 <img alt="../_images/2020-12-11__KS_test_exponential_distribution_21_0.png" src="../_images/2020-12-11__KS_test_exponential_distribution_21_0.png">
 </div>
 </div>
-<p>QQ plot</p>
+</div>
+<div class="section" id="qq-plot">
+<h2>QQ plot<a class="headerlink" href="#qq-plot" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_quantiles</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># i.e. we'll plot percentiles</span>
@@ -525,7 +549,9 @@ Setup autoreload
 </div>
 </div>
 <p>Straight line: it fits &#128558;.</p>
-<p>CDF comparison</p>
+</div>
+<div class="section" id="cdf-comparison">
+<h2>CDF comparison<a class="headerlink" href="#cdf-comparison" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -601,6 +627,9 @@ Setup autoreload
 <img alt="../_images/2020-12-11__KS_test_exponential_distribution_30_0.png" src="../_images/2020-12-11__KS_test_exponential_distribution_30_0.png">
 </div>
 </div>
+</div>
+<div class="section" id="kolmogorov-smirnov-test">
+<h2>Kolmogorov-Smirnov test<a class="headerlink" href="#kolmogorov-smirnov-test" title="Permalink to this headline">&#182;</a></h2>
 <p>Quantify distance between CDF&#8217;s with (two-sided) Kolmogorov-Smirnov test.</p>
 <p>KS test statistic is maximum vertical distance between CDF&#8217;s.<br>
 p-value is calculated based on this statistic and the <a class="reference external" href="https://www.wikiwand.com/en/Kolmogorov%E2%80%93Smirnov_test#/Kolmogorov_distribution">Kolmogorov distribution</a>
