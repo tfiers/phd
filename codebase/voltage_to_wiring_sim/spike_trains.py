@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Optional
 
 import numpy as np
+from matplotlib.axes import Axes
 
 from .support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices, TimeSlice
 from .support.plot_style import figsize
@@ -81,9 +82,13 @@ def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
 def plot(
     spike_train: SpikeTimes,
     time_range: Optional[TimeSlice] = None,
+    ax: Optional[Axes] = None,
     **eventplot_kwargs,
 ):
-    fig, ax = subplots(**figsize(aspect=0.05, width=600))
+    if ax:
+        fig = ax.figure
+    else:
+        fig, ax = subplots(**figsize(aspect=20, width=600))
     if time_range is None:
         spikes_to_plot = spike_train
     else:
