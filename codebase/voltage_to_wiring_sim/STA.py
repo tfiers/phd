@@ -30,15 +30,15 @@ def _calc_STA(
     spike_indices: np.ndarray,
     window_length: int,
 ) -> np.ndarray:
-    num_windows = len(spike_indices)
+    num_spikes = len(spike_indices)
+    num_windows = 0
     STA = np.zeros(window_length)
-    for i in prange(num_windows):
+    for i in prange(num_spikes):
         start_ix = spike_indices[i]
         end_ix = start_ix + window_length
         if end_ix < len(VI_signal):
             STA += VI_signal[start_ix:end_ix]
-        else:
-            num_windows -= 1
+            num_windows += 1
     return STA / num_windows
 
 
