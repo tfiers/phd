@@ -23,7 +23,7 @@ class Signal(NDArrayWrapper):
 
     @property
     def duration(self) -> Quantity:
-        return self.size / self.timestep
+        return self.size * self.timestep
 
     @property
     def time(self, start=0 * second) -> Array:
