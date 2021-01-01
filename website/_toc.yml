@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2021_01_01__vary_params
     - file: notebooks/2020_12_30__test_all_connections
     - file: notebooks/2020-12-11__KS_test_exponential_distribution
     - file: notebooks/2020-11-27__permutation_test
