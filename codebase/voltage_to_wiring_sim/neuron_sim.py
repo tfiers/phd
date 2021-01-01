@@ -9,7 +9,7 @@ from functools import partial
 import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
-from .params import IzhikevichParams, cortical_RS
+from .neuron_params import IzhikevichParams, cortical_RS
 from .support import Signal, TimeGrid, compile_to_machine_code
 from .support.units import mV, ms, pA
 

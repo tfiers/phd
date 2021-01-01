@@ -16,6 +16,6 @@ from .support.scalebar import add_scalebar
 from .support.util import fix_rng_seed, pprint
 from .support.reproducibility import print_reproducibility_info
 
-from . import params  # to satisfy PyCharm in connection_test.py > test()
+from . import neuron_params  # to satisfy PyCharm in connection_test.py > test()
 
 print("✔\n")

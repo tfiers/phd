@@ -1,6 +1,6 @@
 import numpy as np
 
-from .params import IzhikevichParams
+from .neuron_params import IzhikevichParams
 from .support import Signal
 
 

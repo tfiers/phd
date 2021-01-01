@@ -118,5 +118,5 @@ def test():
     tg = v.TimeGrid(duration=1 * second, timestep=0.2 * ms)
     st = v.generate_Poisson_spikes(spike_rate=30 * Hz, simulation_duration=tg.duration)
     g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9 * nS, τ_syn=0.7 * ms)
-    sim = v.simulate_izh_neuron(tg, v.params.cortical_RS, g_syn)
+    sim = v.simulate_izh_neuron(tg, v.neuron_params.cortical_RS, g_syn)
     test_connection(st, sim.V_m, window_duration=80 * ms, num_shuffles=10)
