@@ -15,7 +15,7 @@ from .support.units import mV, ms, pA
 
 
 @dataclass
-class SimResult:
+class IzhikevichOutput:
     V_m: Signal
     u: Signal
     I_syn: Signal
@@ -32,7 +32,7 @@ def simulate_izh_neuron(
     g_syn: Signal = None,
     I_e: Signal = None,
     pure_python = False,
-) -> SimResult:
+) -> IzhikevichOutput:
 
     N = time_grid.N
     dt = time_grid.timestep
@@ -53,7 +53,7 @@ def simulate_izh_neuron(
 
     f(V_m, u, I_syn, g_syn, I_e, dt, **asdict(params))
 
-    return SimResult(V_m, u, I_syn)
+    return IzhikevichOutput(V_m, u, I_syn)
 
 
 # Pure Python/NumPy function that can be compiled to compact machine code by Numba,
