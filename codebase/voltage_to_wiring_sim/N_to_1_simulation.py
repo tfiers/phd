@@ -7,20 +7,23 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 from .imaging import add_VI_noise
 from .neuron_params import IzhikevichParams, cortical_RS
 from .neuron_sim import IzhikevichOutput, simulate_izh_neuron
-from .spike_trains import SpikeTimes, generate_Poisson_spikes
+from .spike_trains import SpikeTimes, generate_Poisson_spikes, plot as plot_spike_train
 from .support import Signal, TimeGrid
-from .support.units import Hz, Quantity, minute, ms, nS
+from .support.plot_style import figsize
+from .support.units import Hz, Quantity, minute, ms, nS, mV
 from .synapses import calc_synaptic_conductance
 
 
 @dataclass
 class N_to_1_SimParams:
     time_grid: TimeGrid
-    num_incoming_spike_trains: int
+    num_incoming_spike_trains: int  # i.e. the "N" from the class/module name.
     spike_rate: Quantity  # same for each spike train
     Δg_syn: Quantity
     τ_syn: Quantity
@@ -69,3 +72,64 @@ class N_to_1_SimResult:
     g_syn: Signal
     izh_output: IzhikevichOutput
     VI_signal: Signal
+
+
+def plot(sim_result: N_to_1_SimResult, zoom: TimeGrid):
+    fig: Figure = plt.figure(**figsize(width=700, aspect=1.8))
+    ax_layout = [
+        [[["selected_train"], ["all_spikes"]], "V_m"],
+        ["g_syn", "VI_sig"],
+    ]
+    axes = fig.subplot_mosaic(ax_layout)
+    plot_spike_train(
+        sim_result.spike_trains[0],
+        zoom.bounds,
+        axes["selected_train"],
+    )
+    axes["selected_train"].set(
+        title="One spike train",
+        xlabel="",
+        xticklabels=[],
+    )
+    plot_spike_train(
+        sim_result.all_incoming_spikes,
+        zoom.bounds,
+        axes["all_spikes"],
+    )
+    axes["all_spikes"].set(
+        title="All incoming spikes",
+        xlabel="",
+        xticklabels=[],
+    )
+    axes["V_m"].plot(
+        zoom.time,
+        sim_result.izh_output.V_m[zoom.i_slice] / mV,
+    )
+    axes["V_m"].set(
+        ylabel="$V_{mem}$ (mV)",
+        xticklabels=[],
+        xlim=zoom.bounds,
+    )
+    axes["VI_sig"].plot(
+        zoom.time,
+        sim_result.VI_signal[zoom.i_slice] / mV,
+    )
+    axes["VI_sig"].set(
+        xlabel="Time (s)",
+        ylabel="VI signal",
+        xlim=zoom.bounds,
+    )
+    axes["g_syn"].plot(
+        zoom.time,
+        sim_result.g_syn[zoom.i_slice] / nS,
+    )
+    axes["g_syn"].set(
+        xlabel="Time (s)",
+        ylabel="$G_{syn}$ (nS)",
+        xlim=zoom.bounds,
+    )
+    plt.tight_layout()  # Fix ylabels of right subplots overlapping with left subplots
+    # Spike train plots are too high: their titles overlap each other.
+    for ax in (axes["selected_train"], axes["all_spikes"]):
+        bb = ax.get_position()
+        ax.set_position([bb.x0, bb.y0, bb.width, bb.height * 0.4])
