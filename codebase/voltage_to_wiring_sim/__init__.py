@@ -2,7 +2,7 @@ from preload import preload
 
 preload(["numpy", "matplotlib.pyplot", "numba"])
 
-print("Importing from submodules (compiling numba functions)", end=" … ")
+print("Importing from submodules", end=" … ")
 
 from .neuron_sim import simulate_izh_neuron
 from .spike_trains import generate_Poisson_spikes
