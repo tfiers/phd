@@ -22,6 +22,7 @@
 - chapter: Unpolished notebooks
   sections:
   - file: md/unpolished_notebooks_intro
+  - file: notebooks/2021_01_02__full_network_sim_tryout
   - file: notebooks/2020_01_01__debug_parallel_calc_STA
   - file: notebooks/2020-11-30__speedup__spike_indices
   - file: notebooks/2020-11-30__speedup
