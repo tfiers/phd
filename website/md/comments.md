@@ -9,6 +9,9 @@ You can filter the results (eg only showing comments from one user) by clicking 
 ```{margin} Note
 The embedded iframe may not work ("Sorry, but your session has expired. Please go back and try again").
 In that case, simply [📑 open the link](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring) in a new tab.
+Also, here is the link for
+[Public annotations on this website](https://hypothes.is/search?q=url%3Ahttps%3A%2F%2Ftfiers.github.io%2Fvoltage-to-wiring-sim%2F*)
+(our comments are split between the private and the public channel).
 ```
 
 <iframe src="https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring"></iframe>
