@@ -8,8 +8,8 @@
 
 - chapter: Reports
   sections:
-    - file: notebooks/2021_01_01__vary_params
-    - file: notebooks/2020_12_30__test_all_connections
+    - file: notebooks/2021-01-01__vary_params
+    - file: notebooks/2020-12-30__test_all_connections
     - file: notebooks/2020-12-11__KS_test_exponential_distribution
     - file: notebooks/2020-11-27__permutation_test
     - file: notebooks/2020-10-23__Delete_around_spike
@@ -22,8 +22,8 @@
 - chapter: Unpolished notebooks
   sections:
   - file: md/unpolished_notebooks_intro
-  - file: notebooks/2021_01_02__full_network_sim_tryout
-  - file: notebooks/2020_01_01__debug_parallel_calc_STA
+  - file: notebooks/2021-01-02__full_network_sim_tryout
+  - file: notebooks/2020-01-01__debug_parallel_calc_STA
   - file: notebooks/2020-11-30__speedup__spike_indices
   - file: notebooks/2020-11-30__speedup
   - file: notebooks/2020-11-27__factor_out_STA
