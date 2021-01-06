@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
-    <title>Intro &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-01-06 &#8226; ROC &#8212; Voltage-to-Wiring Sim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css">
@@ -36,22 +36,20 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/md/unpolished_notebooks_intro.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-06__ROC.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2020-01-02 &#8226; Trying out a full network simulation" href="../notebooks/2021-01-02__full_network_sim_tryout.html">
-    <link rel="prev" title="2020-07-06 &#8226; Single neuron simulation" href="../notebooks/2020-07-06__Single_neuron_sim.html">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/md/unpolished_notebooks_intro.html">
+<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-06__ROC.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Intro">
-<meta property="og:description" content="Intro  Readers are not expected to make sense of these.&lt;br /&gt; Peruse at your own risk, here be dragons, &amp;c.">
+<meta property="og:title" content="2021-01-06 &#8226; ROC">
+<meta property="og:description" content="2021-01-06 &#8226; ROC  Calculate &amp; draw an ROC curve for connecton detection performance in the N-to-1 simulation.">
 
 
 <meta name="twitter:card" content="summary">
@@ -88,17 +86,17 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="reader_guide.html">
+  <a class="reference internal" href="../md/reader_guide.html">
    Guide to the reader
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="comments.html">
+  <a class="reference internal" href="../md/comments.html">
    Readers&#8217; comments
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="executing_code.html">
+  <a class="reference internal" href="../md/executing_code.html">
    Executing code
   </a>
  </li>
@@ -110,12 +108,12 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2021-01-01__vary_params.html">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
    2021-01-01 &#8226; Influence of simulation params on connection test
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-12-30__test_all_connections.html">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
    2020-12-30 &#8226; Test connection of
    <em>
     all
@@ -124,12 +122,12 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-12-11__KS_test_exponential_distribution.html">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
    2020-12-11 &#8226; KS test exponential distribution
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-11-27__permutation_test.html">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
    2020-11-27 &#8226; Permutation test for
    <span class="math notranslate nohighlight">
     \(p(\)
@@ -141,32 +139,32 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-10-23__Delete_around_spike.html">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
    2020-10-23 &#8226; Delete signal around spikes before STA
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-09-18__Clip_spikes_before_STA.html">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
    2020-09-18 &#8226; Clip spikes before STA
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-09-10__STA_for_different_PSP_shapes.html">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
    2020-09-10 &#8226; STA for &#8800; PSP shapes
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-07-29__STA.html">
+  <a class="reference internal" href="2020-07-29__STA.html">
    2020-07-29 &#8226; Spike-triggered averaging
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-07-27__Synaptic_conductances.html">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
    2020-07-27 &#8226; Synaptic conductances
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-07-06__Single_neuron_sim.html">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
    2020-07-06 &#8226; Single neuron simulation
   </a>
  </li>
@@ -176,19 +174,19 @@
   Unpolished notebooks
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../md/unpolished_notebooks_intro.html">
    Intro
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2021-01-02__full_network_sim_tryout.html">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
    2020-01-02 &#8226; Trying out a full network simulation
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-01-01__debug_parallel_calc_STA.html">
+  <a class="reference internal" href="2020-01-01__debug_parallel_calc_STA.html">
    2021-01-01 &#8226; Debug parallel
    <code class="docutils literal notranslate">
     <span class="pre">
@@ -198,32 +196,32 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-11-30__speedup__spike_indices.html">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
    2020-11-30 &#8226; Sparse spike trains
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-11-30__speedup.html">
+  <a class="reference internal" href="2020-11-30__speedup.html">
    2020-11-30 &#8226; Speedup spikes &amp; STA calc
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-11-27__factor_out_STA.html">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
    2020-11-27 &#8226; Factoring out windowing &amp; averaging code
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-11-16__analytical_PSP.html">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
    2020-11-16 Searching for an analytical form for the PSP
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-07-28__Storing_in_base_units.html">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
    2020-07-28 &#8226; Storing values in base units
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../notebooks/2020-07-05__Izhikevich_paper_accomp.html">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
    2020-07-05 &#8226; Izhikevich paper testing
   </a>
  </li>
@@ -261,7 +259,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/md/unpolished_notebooks_intro.md"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.md</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-01-06__ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -273,8 +271,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fmd/unpolished_notebooks_intro.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/md/unpolished_notebooks_intro.md"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-01-06__ROC.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-01-06__ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -283,6 +281,18 @@
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
 
         <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-01-06__ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
     </div>
 
@@ -301,10 +311,9 @@
         
               <div>
                 
-  <div class="section" id="intro">
-<h1>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">&#182;</a></h1>
-<p>Readers are not expected to make sense of these.<br>
-Peruse at your own risk, here be dragons, &amp;c.</p>
+  <div class="section" id="roc">
+<h1>2021-01-06 &#8226; ROC<a class="headerlink" href="#roc" title="Permalink to this headline">&#182;</a></h1>
+<p>Calculate &amp; draw an ROC curve for connecton detection performance in the N-to-1 simulation.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -320,7 +329,7 @@ Peruse at your own risk, here be dragons, &amp;c.</p>
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./md"
+            path: "./notebooks"
         },
         predefinedOutput: true
     }
@@ -335,8 +344,6 @@ Peruse at your own risk, here be dragons, &amp;c.</p>
     
     <div class="prev-next-bottom">
         
-    <a class="left-prev" id="prev-link" href="../notebooks/2020-07-06__Single_neuron_sim.html" title="previous page">2020-07-06 &#8226; Single neuron simulation</a>
-    <a class="right-next" id="next-link" href="../notebooks/2021-01-02__full_network_sim_tryout.html" title="next page">2020-01-02 &#8226; Trying out a full network simulation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
