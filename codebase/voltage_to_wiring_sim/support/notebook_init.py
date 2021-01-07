@@ -10,8 +10,9 @@ from voltage_to_wiring_sim.support.notebook_init import *`
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-print("Imported `np`, `mpl`, `plt`")
+print("Imported `np`, `mpl`, `plt`, `sns`")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
@@ -123,7 +124,7 @@ from functools import partial
 
 
 # Reassignment trick to stop PyCharm from complaining about unused imports:
-mpl, plt = mpl, plt
+mpl, plt, sns = mpl, plt, sns
 v = v
 Quantity = Quantity
 partial = partial

@@ -1,6 +1,6 @@
 from preload import preload
 
-preload(["numpy", "matplotlib.pyplot", "numba"])
+preload(["numpy", "numba", "matplotlib.pyplot", "seaborn"])
 
 print("Importing from submodules", end=" … ")
 
