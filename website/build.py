@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import shutil
 import sys
+from contextlib import contextmanager
+from dataclasses import dataclass
 from pathlib import Path
 from subprocess import run
 
@@ -18,35 +20,83 @@ def copy_down_notebooks_dir():
         # A "permission denied" error is raised on my machine, but the operation
         # succeeds succesfully anyway. So we ignore this error.
 
+
 def run_jupyterbook_cmd(cmd):
     run(["jupyter-book", cmd, "."], stdout=sys.stdout, stderr=sys.stderr)
 
 
-META_TAG_STRS = (
+google_meta_tags = (
     # Direct search engines to not index this page.
     '<meta name="robots" content="noindex" />',
     # Prove to Google we own this website.
     '<meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU" />',
 )
 
-
-def add_meta_tags_to_all_pages():
-    html_file_paths = map(str, Path("./_build/html/").glob("**/*.html"))
-    parser = etree.HTMLParser()
-    meta_tags = [etree.fromstring(tag) for tag in META_TAG_STRS]
-    for html_file_path in html_file_paths:
-        try:
-            tree = etree.parse(html_file_path, parser)
-            head = tree.find("head")
-            for meta_tag in meta_tags:
-                head.append(meta_tag)
-            tree.write(html_file_path, method="html")
-            print(f"Added meta tags to {html_file_path}")
-        except:
-            print(f"Could not add meta tags to {html_file_path}")
+built_html_dir = Path("./_build/html/")
 
 
-copy_down_notebooks_dir()
-run_jupyterbook_cmd("clean")
-run_jupyterbook_cmd("build")
-add_meta_tags_to_all_pages()
+def add_google_meta_tags_to_all_pages():
+    for path in built_html_dir.glob("**/*.html"):
+        with edit_html(path) as tree:
+            for tag in google_meta_tags:
+                add_to_head(tag, tree)
+
+
+@dataclass
+class RenamedPage:
+    old_path: str
+    new_path: str
+
+
+renamed_pages = (
+    RenamedPage(
+        "notebooks/2021_01_01__vary_params.html",
+        "notebooks/2021-01-01__vary_params.html",
+    ),
+    RenamedPage(
+        "notebooks/2020_12_30__test_all_connections.html",
+        "notebooks/2020-12-30__test_all_connections.html",
+    ),
+)
+
+website_url = "https://tfiers.github.io/voltage-to-wiring-sim/"
+
+
+def add_link_tag_to_renamed_pages():  # to retain Hypothesis annotations
+    for page in renamed_pages:
+        with edit_html(built_html_dir / page.new_path) as tree:
+            existing_link_tag = tree.find('//link[@rel="canonical"]')
+            existing_link_tag.getparent().remove(existing_link_tag)
+            add_to_head(
+                f'<link rel="canonical" href="{website_url + page.old_path}" />',
+                tree,
+            )
+
+
+parser = etree.HTMLParser()
+
+
+@contextmanager
+def edit_html(file_path) -> etree.ElementTree:
+    file_path_str = str(file_path)
+    tree = etree.parse(file_path_str, parser)
+    try:
+        yield tree
+    except Exception as e:
+        print(f"Error editing {file_path}:", e)
+    finally:
+        tree.write(file_path_str, method="html")
+        print(f"Wrote to {file_path}")
+
+
+def add_to_head(tag, tree):
+    head = tree.find("head")
+    head.append(etree.fromstring(tag))
+
+
+if __name__ == "__main__":
+    copy_down_notebooks_dir()
+    run_jupyterbook_cmd("clean")
+    run_jupyterbook_cmd("build")
+    add_google_meta_tags_to_all_pages()
+    add_link_tag_to_renamed_pages()
