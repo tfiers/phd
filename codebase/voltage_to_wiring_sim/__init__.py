@@ -18,4 +18,4 @@ from .support.reproducibility import print_reproducibility_info
 
 from . import neuron_params, N_to_1_simulation
 
-print("✔\n")
+print("✔")
