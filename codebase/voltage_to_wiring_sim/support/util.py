@@ -1,7 +1,7 @@
 import functools
 import reprlib
 from textwrap import fill
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from typing import Callable, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
@@ -13,14 +13,14 @@ from matplotlib.figure import Figure
 from .array_wrapper import strip_NDArrayWrapper_inputs
 
 
-def pprint(dataclass):
+def pprint(dataclass, values=True):
     """
     Pretty-prints a dataclass as a table of its fields and their values, and with the
     class name as header.
     """
 
     ddict = asdict(dataclass)
-    len_longest_key = max(len(key) for key in ddict.keys())
+    len_longest_name = max(len(name) for name in ddict.keys())
 
     dataclass_name = dataclass.__class__.__name__
     header_lines = [
@@ -34,12 +34,19 @@ def pprint(dataclass):
         else:
             return fill(
                 reprlib.repr(value),  # reprlib abbreviates long lists
-                subsequent_indent=(len_longest_key + 4) * " ",
+                subsequent_indent=(len_longest_name + 4) * " ",
             )
 
-    content_lines = [
-        f"{name:>{len_longest_key}} = {pprint(value)}" for name, value in ddict.items()
-    ]
+    if values:
+        content_lines = [
+            f"{name:>{len_longest_name}} = {pprint(value)}"
+            for name, value in ddict.items()
+        ]
+    else:
+        content_lines = [
+            f"{field.name:<{len_longest_name}}: {field.type}"
+            for field in fields(dataclass)
+        ]
 
     print("\n".join(header_lines + content_lines))
 
