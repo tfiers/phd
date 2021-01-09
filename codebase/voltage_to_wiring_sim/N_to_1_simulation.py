@@ -23,7 +23,8 @@ from .synapses import calc_synaptic_conductance
 @dataclass
 class N_to_1_SimParams:
     time_grid: TimeGrid
-    num_incoming_spike_trains: int  # i.e. the "N" from the class/module name.
+    num_spike_trains: int
+    p_connected: float
     spike_rate: Quantity  # same for each spike train
     Δg_syn: Quantity
     τ_syn: Quantity
@@ -33,7 +34,8 @@ class N_to_1_SimParams:
 
 default_params = N_to_1_SimParams(
     time_grid=TimeGrid(duration=10 * minute, timestep=0.1 * ms),
-    num_incoming_spike_trains=15,
+    num_spike_trains=30,
+    p_connected=0.5,
     spike_rate=20 * Hz,
     Δg_syn=0.8 * nS,
     τ_syn=7 * ms,
@@ -45,11 +47,15 @@ default_params = N_to_1_SimParams(
 def simulate(params: N_to_1_SimParams) -> N_to_1_SimResult:
 
     # 1. Biology model
-    spike_trains = [
+    all_spike_trains = [
         generate_Poisson_spikes(params.spike_rate, params.time_grid.duration)
-        for _ in range(params.num_incoming_spike_trains)
+        for _ in range(params.num_spike_trains)
     ]
-    all_incoming_spikes = np.concatenate(spike_trains)
+    num_connected = round(params.p_connected * params.num_spike_trains)
+    connected_spike_trains = all_spike_trains[:num_connected]
+    unconnected_spike_trains = all_spike_trains[num_connected:]
+
+    all_incoming_spikes = np.concatenate(connected_spike_trains)
     g_syn = calc_synaptic_conductance(
         params.time_grid, all_incoming_spikes, params.Δg_syn, params.τ_syn
     )
@@ -61,13 +67,21 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimResult:
     )
 
     return N_to_1_SimResult(
-        spike_trains, all_incoming_spikes, g_syn, izh_output, VI_signal
+        all_spike_trains,
+        connected_spike_trains,
+        unconnected_spike_trains,
+        all_incoming_spikes,
+        g_syn,
+        izh_output,
+        VI_signal,
     )
 
 
 @dataclass
 class N_to_1_SimResult:
-    spike_trains: list[SpikeTimes]
+    all_spike_trains: list[SpikeTimes]
+    connected_spike_trains: list[SpikeTimes]
+    unconnected_spike_trains: list[SpikeTimes]
     all_incoming_spikes: SpikeTimes
     g_syn: Signal
     izh_output: IzhikevichOutput
@@ -82,7 +96,7 @@ def plot(sim_result: N_to_1_SimResult, zoom: TimeGrid):
     ]
     axes = fig.subplot_mosaic(ax_layout)
     plot_spike_train(
-        sim_result.spike_trains[0],
+        sim_result.all_spike_trains[0],
         zoom.bounds,
         axes["selected_train"],
     )
