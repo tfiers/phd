@@ -30,3 +30,6 @@ class TimeGrid:
         """ to index into a Signal with the same timestep """
         index_bounds = np.round(self.bounds / self.timestep).astype(int)
         return slice(*index_bounds)
+
+    def zoom(self, start: Quantity, duration: Quantity):
+        return TimeGrid(duration, self.timestep, start)
