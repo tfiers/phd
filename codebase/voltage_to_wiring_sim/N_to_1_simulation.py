@@ -5,10 +5,12 @@ imaging.py.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure
+from nptyping import NDArray
 
 from .imaging import add_VI_noise
 from .neuron_params import IzhikevichParams, cortical_RS
@@ -44,16 +46,18 @@ default_params = N_to_1_SimParams(
 )
 
 
-def simulate(params: N_to_1_SimParams) -> N_to_1_SimResult:
+def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
 
     # 1. Biology model
-    all_spike_trains = [
+    spike_trains_list = [
         generate_Poisson_spikes(params.spike_rate, params.time_grid.duration)
         for _ in range(params.num_spike_trains)
     ]
+    spike_trains = np.array(spike_trains_list, dtype=object)
     num_connected = round(params.p_connected * params.num_spike_trains)
-    connected_spike_trains = all_spike_trains[:num_connected]
-    unconnected_spike_trains = all_spike_trains[num_connected:]
+    is_connected = np.zeros(params.num_spike_trains, dtype=bool)
+    is_connected[:num_connected] = True
+    connected_spike_trains = spike_trains[is_connected]
 
     all_incoming_spikes = np.concatenate(connected_spike_trains)
     g_syn = calc_synaptic_conductance(
@@ -66,10 +70,9 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimResult:
         izh_output.V_m, params.neuron_params, params.imaging_spike_SNR
     )
 
-    return N_to_1_SimResult(
-        all_spike_trains,
-        connected_spike_trains,
-        unconnected_spike_trains,
+    return N_to_1_SimData(
+        spike_trains,
+        is_connected,
         all_incoming_spikes,
         g_syn,
         izh_output,
@@ -77,18 +80,20 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimResult:
     )
 
 
+num_spike_trains = Any
+
+
 @dataclass
-class N_to_1_SimResult:
-    all_spike_trains: list[SpikeTimes]
-    connected_spike_trains: list[SpikeTimes]
-    unconnected_spike_trains: list[SpikeTimes]
+class N_to_1_SimData:
+    spike_trains: NDArray[(num_spike_trains,), SpikeTimes]
+    is_connected: NDArray[(num_spike_trains,), bool]
     all_incoming_spikes: SpikeTimes
     g_syn: Signal
     izh_output: IzhikevichOutput
     VI_signal: Signal
 
 
-def plot(sim_result: N_to_1_SimResult, zoom: TimeGrid):
+def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
     fig: Figure = plt.figure(**figsize(width=700, aspect=1.8))
     ax_layout = [
         [[["selected_train"], ["all_spikes"]], "V_m"],
@@ -96,7 +101,7 @@ def plot(sim_result: N_to_1_SimResult, zoom: TimeGrid):
     ]
     axes = fig.subplot_mosaic(ax_layout)
     plot_spike_train(
-        sim_result.all_spike_trains[0],
+        sim_result.spike_trains[0],
         zoom.bounds,
         axes["selected_train"],
     )
