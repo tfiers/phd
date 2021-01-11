@@ -1,14 +1,7 @@
-from __future__ import annotations
-
-from typing import Optional
-
 import numpy as np
-from matplotlib.axes import Axes
 
-from ..support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices, TimeSlice
-from ..support.plot_style import figsize
+from ..support.spike_train import SpikeTimes, plot_spike_train, to_spike_train
 from ..support.units import Hz, Quantity, ms, second
-from ..support.util import subplots
 
 
 def generate_Poisson_spikes(
@@ -49,49 +42,6 @@ def generate_Poisson_spikes(
             continue
 
 
-def to_spike_train(
-    ISIs: InterSpikeIntervals,
-    start_offset: Quantity = 0 * second,
-) -> SpikeTimes:
-    return start_offset + np.cumsum(ISIs)
-
-
-def to_ISIs(spike_train: SpikeTimes) -> InterSpikeIntervals:
-    """
-    First element is not strictly an ISI, but rather the time of the first spike after
-    the beginning of the time-series.
-    """
-    return np.diff(spike_train, prepend=[0])
-
-
-def to_indices(spike_times: SpikeTimes, dt: Quantity) -> SpikeIndices:
-    return np.round(spike_times / dt).astype(int)
-
-
-def plot(
-    spike_train: SpikeTimes,
-    time_range: Optional[TimeSlice] = None,
-    ax: Optional[Axes] = None,
-    **eventplot_kwargs,
-):
-    if ax:
-        fig = ax.figure
-    else:
-        fig, ax = subplots(**figsize(aspect=20, width=600))
-    if time_range is None:
-        spikes_to_plot = spike_train
-    else:
-        start, stop = time_range
-        subset_mask = np.logical_and(start < spike_train, spike_train < stop)
-        spikes_to_plot = spike_train[subset_mask]
-        ax.set_xlim(*time_range)
-    ax.eventplot(spikes_to_plot, **eventplot_kwargs)
-    ax.axes.get_yaxis().set_visible(False)
-    ax.spines["left"].set_visible(False)
-    ax.set_xlabel("Time (s)")
-    return fig, ax
-
-
 def test():
     n_in = 20
     spike_trains = [
@@ -100,5 +50,5 @@ def test():
     ]
     # Aggregate spikes for all incoming neurons
     all_spikes = np.concatenate(spike_trains)
-    fig, ax = plot(all_spikes / ms)
+    fig, ax = plot_spike_train(all_spikes / ms)
     ax.set_xlabel("Time (ms)")

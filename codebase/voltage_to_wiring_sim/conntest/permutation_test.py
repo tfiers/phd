@@ -6,9 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .STA import calculate_STA
-from ..sim.spike_trains import to_ISIs, to_spike_train
 from ..support import Signal
-from ..support.data_types import SpikeTimes
+from ..support.spike_train import SpikeTimes, to_ISIs, to_spike_train
 from ..support.units import Array, Quantity
 
 

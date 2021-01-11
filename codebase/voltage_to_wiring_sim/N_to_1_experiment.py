@@ -15,14 +15,11 @@ from nptyping import NDArray
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
-from .sim.spike_trains import (
-    SpikeTimes,
-    generate_Poisson_spikes,
-    plot as plot_spike_train,
-)
+from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
 from .support import Signal, TimeGrid
 from .support.plot_style import figsize
+from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
 
 

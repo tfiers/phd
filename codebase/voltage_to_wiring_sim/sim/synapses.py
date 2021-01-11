@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .spike_trains import generate_Poisson_spikes, to_indices
+from .poisson_spikes import generate_Poisson_spikes
 from ..support import Signal, TimeGrid, compile_to_machine_code
-from ..support.data_types import SpikeTimes
+from ..support.spike_train import SpikeTimes, to_indices
 from ..support.units import Hz, Quantity, ms, nS
 
 

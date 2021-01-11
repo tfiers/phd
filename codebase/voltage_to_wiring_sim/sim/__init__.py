@@ -1,1 +1,1 @@
-from . import neuron_params, spike_trains, izhikevich_neuron, synapses
+from . import neuron_params, poisson_spikes, izhikevich_neuron, synapses

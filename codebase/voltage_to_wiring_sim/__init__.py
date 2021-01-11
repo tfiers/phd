@@ -4,7 +4,7 @@ preload(["numpy", "numba", "matplotlib.pyplot", "seaborn"])
 
 print("Importing from submodules", end=" … ")
 
-from .sim.spike_trains import generate_Poisson_spikes
+from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
 from .sim.izhikevich_neuron import simulate_izh_neuron
 from .sim.imaging import add_VI_noise
