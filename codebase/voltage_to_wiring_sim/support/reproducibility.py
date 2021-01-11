@@ -20,7 +20,7 @@ try:
     from IPython.core.display import display_markdown
 
     print_md = partial(display_markdown, raw=True)
-    
+
 except ImportError:
     print_md = print
 

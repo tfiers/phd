@@ -31,7 +31,7 @@ def simulate_izh_neuron(
     params: IzhikevichParams,
     g_syn: Signal = None,
     I_e: Signal = None,
-    pure_python = False,
+    pure_python=False,
 ) -> IzhikevichOutput:
 
     N = time_grid.N

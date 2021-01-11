@@ -14,7 +14,7 @@ from ..support.units import mV, ms, Quantity
 def calculate_STA(
     VI_signal: Signal,
     spike_times: SpikeTimes,
-    window_duration: Quantity
+    window_duration: Quantity,
 ) -> Signal:
     dt = VI_signal.timestep
     spike_indices = to_indices(spike_times, dt)
@@ -44,7 +44,7 @@ def _calc_STA(
 def plot_STA(STA: Signal, ax=None, **kwargs):
     if ax is None:
         fig, ax = plt.subplots()
-    
+
     ax.plot(STA.time / ms, STA / mV, **kwargs)
     ax.set_xlabel("Time after spike (ms)")
     ax.set_ylabel("Spike triggered <VI signal> (mV)")
