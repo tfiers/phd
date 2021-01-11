@@ -2,10 +2,10 @@
 
 name: CI
 
-# Avoid markdown or notebook edits triggering the testing machine.
+# Avoid website or notebook edits triggering the testing machine.
 on:
   push:
-    paths-ignore: [ '**.ipynb', '**.md' ]
+    paths: [ 'codebase/**' ]
 
 jobs:
   pytest:
