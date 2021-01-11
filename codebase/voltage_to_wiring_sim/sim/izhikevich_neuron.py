@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
 from .neuron_params import IzhikevichParams, cortical_RS
-from .support import Signal, TimeGrid, compile_to_machine_code
-from .support.units import mV, ms, pA
+from ..support import Signal, TimeGrid, compile_to_machine_code
+from ..support.units import mV, ms, pA
 
 
 @dataclass

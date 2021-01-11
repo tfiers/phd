@@ -5,10 +5,10 @@ from typing import Optional
 import numpy as np
 from matplotlib.axes import Axes
 
-from .support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices, TimeSlice
-from .support.plot_style import figsize
-from .support.units import Hz, Quantity, ms, second
-from .support.util import subplots
+from ..support.data_types import InterSpikeIntervals, SpikeTimes, SpikeIndices, TimeSlice
+from ..support.plot_style import figsize
+from ..support.units import Hz, Quantity, ms, second
+from ..support.util import subplots
 
 
 def generate_Poisson_spikes(
@@ -66,17 +66,6 @@ def to_ISIs(spike_train: SpikeTimes) -> InterSpikeIntervals:
 
 def to_indices(spike_times: SpikeTimes, dt: Quantity) -> SpikeIndices:
     return np.round(spike_times / dt).astype(int)
-
-
-def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
-    ISIs = to_ISIs(spike_train)
-    shuffled_trains = []
-    for i in range(num_shuffles):
-        shuffled_ISIs = np.random.permutation(ISIs)
-        # We don't use `np.random.shuffle` as that's in place (`permutation` calls
-        # `shuffle` anyway).
-        shuffled_trains.append(to_spike_train(shuffled_ISIs))
-    return shuffled_trains
 
 
 def plot(

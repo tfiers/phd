@@ -7,19 +7,23 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.figure import Figure
 from nptyping import NDArray
 
-from .imaging import add_VI_noise
-from .neuron_params import IzhikevichParams, cortical_RS
-from .neuron_sim import IzhikevichOutput, simulate_izh_neuron
-from .spike_trains import SpikeTimes, generate_Poisson_spikes, plot as plot_spike_train
+from .sim.imaging import add_VI_noise
+from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
+from .sim.neuron_params import IzhikevichParams, cortical_RS
+from .sim.spike_trains import (
+    SpikeTimes,
+    generate_Poisson_spikes,
+    plot as plot_spike_train,
+)
+from .sim.synapses import calc_synaptic_conductance
 from .support import Signal, TimeGrid
 from .support.plot_style import figsize
-from .support.units import Hz, Quantity, minute, ms, nS, mV
-from .synapses import calc_synaptic_conductance
+from .support.units import Hz, Quantity, mV, minute, ms, nS
 
 
 @dataclass

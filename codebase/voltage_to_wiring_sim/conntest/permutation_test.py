@@ -6,10 +6,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .STA import calculate_STA
-from .spike_trains import shuffle
-from .support import Signal
-from .support.data_types import SpikeTimes
-from .support.units import Array, Quantity
+from ..sim.spike_trains import to_ISIs, to_spike_train
+from ..support import Signal
+from ..support.data_types import SpikeTimes
+from ..support.units import Array, Quantity
+
+
+def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
+    ISIs = to_ISIs(spike_train)
+    shuffled_trains = []
+    for i in range(num_shuffles):
+        shuffled_ISIs = np.random.permutation(ISIs)
+        # We don't use `np.random.shuffle` as that's in place (`permutation` calls
+        # `shuffle` anyway).
+        shuffled_trains.append(to_spike_train(shuffled_ISIs))
+    return shuffled_trains
 
 
 def test_connection(
@@ -122,5 +133,5 @@ def test():
     tg = v.TimeGrid(duration=1 * second, timestep=0.2 * ms)
     st = v.generate_Poisson_spikes(spike_rate=30 * Hz, simulation_duration=tg.duration)
     g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9 * nS, τ_syn=0.7 * ms)
-    sim = v.simulate_izh_neuron(tg, v.neuron_params.cortical_RS, g_syn)
+    sim = v.simulate_izh_neuron(tg, v.sim.neuron_params.cortical_RS, g_syn)
     test_connection(st, sim.V_m, window_duration=80 * ms, num_shuffles=10)

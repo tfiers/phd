@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .support.units import Quantity, mV, ms, nS, pA, pF
+from ..support.units import Quantity, mV, ms, nS, pA, pF
 
 
 # fmt: off

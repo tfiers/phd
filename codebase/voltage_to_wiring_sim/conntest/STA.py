@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numba import prange
 
-from .support import Signal, TimeGrid, compile_to_machine_code
-from .support.data_types import SpikeTimes
-from .support.units import mV, ms, Quantity
-from .spike_trains import to_indices
+from ..support import Signal, TimeGrid, compile_to_machine_code
+from ..support.data_types import SpikeTimes
+from ..support.units import mV, ms, Quantity
+from ..sim.spike_trains import to_indices
 
 
 def calculate_STA(

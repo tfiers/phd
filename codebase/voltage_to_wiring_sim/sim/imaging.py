@@ -1,7 +1,7 @@
 import numpy as np
 
 from .neuron_params import IzhikevichParams
-from .support import Signal
+from ..support import Signal
 
 
 def add_VI_noise(
