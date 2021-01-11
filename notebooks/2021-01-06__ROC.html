@@ -389,13 +389,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 11 Jan</strong> 2021, at 00:16 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/f4782f8513136341d7132440cea8b9926671362c">Last git commit</a> (Sun 10 Jan 2021, 02:10).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">06</span><span class="n">__ROC</span><span class="o">.</span><span class="n">ipynb</span>
-</pre></div>
-</div>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 11 Jan</strong> 2021, at 01:52 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/cf7b78350885d7e1b6847f713a034ebbcdc516c1">Last git commit</a> (Mon 11 Jan 2021, 01:08).</p>
+<p>No uncommitted changes</p>
 </div>
 </div>
 </div>
@@ -411,7 +407,7 @@ Setup autoreload
     <span class="n">&#916;g_syn</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
     <span class="n">&#964;_syn</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
     <span class="n">neuron_params</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">neuron_params</span><span class="o">.</span><span class="n">cortical_RS</span><span class="p">,</span>
-    <span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -481,7 +477,7 @@ VI_signal          : Signal
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 23.71it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 23.66it/s]
 </pre></div>
 </div>
 </div>
@@ -503,9 +499,9 @@ VI_signal          : Signal
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False, False, False, False,  True, False, False, False, False,
-       False, False, False,  True, False,  True, False, False, False,
-       False,  True, False, False, False, False, False, False, False,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ True,  True,  True,  True, False,  True, False, False,  True,
+       False,  True,  True, False,  True,  True, False, False, False,
+       False, False,  True, False, False, False, False, False, False,
        False, False, False])
 </pre></div>
 </div>
@@ -566,15 +562,15 @@ VI_signal          : Signal
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ClassificationEvaluation
 ------------------------
- is_TP = array([False,...False, False])
+ is_TP = array([ True,...False, False])
  is_FP = array([False,...False, False])
  is_TN = array([False,... True,  True])
- is_FN = array([ True,...False, False])
-num_TP = 3
+ is_FN = array([False,...False, False])
+num_TP = 10
 num_FP = 1
 num_TN = 14
-num_FN = 12
-   TPR = 0.2
+num_FN = 5
+   TPR = 0.6667
    FPR = 0.06667
 </pre></div>
 </div>
