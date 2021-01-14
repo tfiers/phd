@@ -45,7 +45,7 @@ class Signal(NDArrayWrapper):
         if new_data.size == 1:
             return new_data
         else:
-            return super()._create_derived_object(new_data)
+            return Signal(new_data, self.timestep)
 
 
 def to_bounds(t_start: Quantity, duration: Quantity) -> Array:

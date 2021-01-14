@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import dataclasses
 from dataclasses import dataclass
 from functools import wraps
 
@@ -56,14 +55,8 @@ class NDArrayWrapper(np.lib.mixins.NDArrayOperatorsMixin):
         """
         Defines the object returned by indexing (`__getitem__`) and by NumPy ufuncs
         (`+`, `>`, …) and functions (`mean`, `max`, …).
-
-        This implementation creates a new instance of this object's class, with
-        different `data`, but otherwise the same property values -- given that these
-        properties are stored by the dataclasss mechanism.
         """
-        properties = dataclasses.asdict(self)
-        properties.update(data=new_data)
-        return self.__class__(**properties)
+        raise NotImplementedError
 
 
 def strip_NDArrayWrapper_inputs(function):
