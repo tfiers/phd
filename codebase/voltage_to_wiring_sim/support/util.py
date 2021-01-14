@@ -1,7 +1,9 @@
 import functools
 import reprlib
-from textwrap import fill
+import sys
 from dataclasses import asdict, fields
+from functools import partial
+from textwrap import fill
 from typing import Callable, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
@@ -9,8 +11,14 @@ import numba
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from tqdm import tqdm
 
 from .array_wrapper import strip_NDArrayWrapper_inputs
+
+
+timed_loop = partial(tqdm, file=sys.stdout)
+# By default, tqdm writes its progress bar to stderr ("stdout should only be used for
+# program output"). But stderr gives red bg in jupyter nbs which is not nice.
 
 
 def pprint(dataclass, values=True):

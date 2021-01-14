@@ -11,15 +11,17 @@ import numpy as np
 from matplotlib.figure import Figure
 from nptyping import NDArray
 
+from .conntest.permutation_test import test_connection
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, to_bounds, plot_signal
+from .support import Signal, plot_signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
+from .support.util import timed_loop
 
 
 @dataclass
@@ -88,17 +90,36 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
     )
 
 
-num_spike_trains = Any
+NumSpikeTrains = Any
 
 
 @dataclass
 class N_to_1_SimData:
-    spike_trains: NDArray[(num_spike_trains,), SpikeTimes]
-    is_connected: NDArray[(num_spike_trains,), bool]
+    spike_trains: NDArray[(NumSpikeTrains,), SpikeTimes]
+    is_connected: NDArray[(NumSpikeTrains,), bool]
     all_incoming_spikes: SpikeTimes
     g_syn: Signal
     izh_output: IzhikevichOutput
     VI_signal: Signal
+
+
+def first_connected_train_index(sim_data: N_to_1_SimData) -> int:
+    return np.nonzero(sim_data.is_connected)[0][0]
+
+
+def test_connections(sim_data: N_to_1_SimData):
+    test_data = []
+    test_summaries = []
+    for spike_train in timed_loop(sim_data.spike_trains, "Testing connections"):
+        data, summary = test_connection(
+            spike_train,
+            sim_data.VI_signal,
+            window_duration=100 * ms,
+            num_shuffles=100,
+        )
+        test_data.append(data)
+        test_summaries.append(summary)
+    return test_data, test_summaries
 
 
 def sim_and_eval():
@@ -113,13 +134,14 @@ def plot_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     ]
     axes = fig.subplot_mosaic(ax_layout)
     bounds = to_bounds(t_start, duration)
+    selected_spike_train = first_connected_train_index(sim_data)
     plot_spike_train(
-        sim_data.spike_trains[0],
+        sim_data.spike_trains[selected_spike_train],
         bounds,
         axes["selected_train"],
     )
     axes["selected_train"].set(
-        title="One spike train",
+        title=f"Spike train #{selected_spike_train}",
         xlabel="",
         xticklabels=[],
     )
