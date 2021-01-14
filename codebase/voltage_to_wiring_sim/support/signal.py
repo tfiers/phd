@@ -6,7 +6,7 @@ from typing import Union
 import numpy as np
 
 from .array_wrapper import NDArrayWrapper
-from .units import Array, Quantity
+from .units import Array, Quantity, second
 
 
 @dataclass
@@ -20,6 +20,7 @@ class Signal(NDArrayWrapper):
     """
 
     timestep: Quantity
+    t_start: Quantity = 0 * second
 
     @property
     def duration(self) -> Quantity:
@@ -27,13 +28,16 @@ class Signal(NDArrayWrapper):
 
     @property
     def time(self) -> Signal:
-        data = np.linspace(0, self.duration, num=self.size, endpoint=False)
+        data = np.linspace(
+            *to_bounds(self.t_start, self.duration), num=self.size, endpoint=False
+        )
         return Signal(data, self.timestep)
 
     def slice(self, t_start: Quantity, duration: Quantity) -> Signal:
-        time_bounds = to_bounds(t_start, duration)
+        time_bounds = to_bounds(t_start, duration) - self.t_start
         index_bounds = np.round(time_bounds / self.timestep).astype(int)
-        return self[slice(*index_bounds)]
+        slice_data = self.data[slice(*index_bounds)]
+        return Signal(slice_data, self.timestep, t_start)
 
     def _create_derived_object(self, new_data: np.ndarray) -> Union[Signal, np.number]:
         # Taking e.g. `max` or `mean` from a Signal, or slicing a single element from
@@ -50,3 +54,13 @@ def to_bounds(t_start: Quantity, duration: Quantity) -> Array:
 
 def to_num_timesteps(duration: Quantity, timestep: Quantity) -> int:
     return round(duration / timestep)
+
+
+def plot_signal(signal: Signal, ax=None, time_units=second, **plot_kwargs):
+
+    from ..support.util import subplots
+
+    if ax == None:
+        _, ax = subplots()
+    ax.plot(signal.time / time_units, signal, **plot_kwargs)
+    return ax

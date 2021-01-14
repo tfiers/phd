@@ -16,7 +16,7 @@ from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, to_bounds
+from .support import Signal, to_bounds, plot_signal
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
@@ -105,7 +105,7 @@ def sim_and_eval():
     ...
 
 
-def plot_slice(sim_result: N_to_1_SimData, t_start: Quantity, duration: Quantity):
+def plot_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     fig: Figure = plt.figure(**figsize(width=700, aspect=1.8))
     ax_layout = [
         [[["selected_train"], ["all_spikes"]], "V_m"],
@@ -114,7 +114,7 @@ def plot_slice(sim_result: N_to_1_SimData, t_start: Quantity, duration: Quantity
     axes = fig.subplot_mosaic(ax_layout)
     bounds = to_bounds(t_start, duration)
     plot_spike_train(
-        sim_result.spike_trains[0],
+        sim_data.spike_trains[0],
         bounds,
         axes["selected_train"],
     )
@@ -124,7 +124,7 @@ def plot_slice(sim_result: N_to_1_SimData, t_start: Quantity, duration: Quantity
         xticklabels=[],
     )
     plot_spike_train(
-        sim_result.all_incoming_spikes,
+        sim_data.all_incoming_spikes,
         bounds,
         axes["all_spikes"],
     )
@@ -133,31 +133,27 @@ def plot_slice(sim_result: N_to_1_SimData, t_start: Quantity, duration: Quantity
         xlabel="",
         xticklabels=[],
     )
-    axes["V_m"].plot(
-        zoom.time,
-        sim_result.izh_output.V_m[zoom.i_slice] / mV,
+    plot_signal(
+        sim_data.izh_output.V_m.slice(t_start, duration) / mV,
+        axes["V_m"],
     )
     axes["V_m"].set(
         ylabel="$V_{mem}$ (mV)",
         xticklabels=[],
         xlim=bounds,
     )
-    axes["VI_sig"].plot(
-        zoom.time,
-        sim_result.VI_signal[zoom.i_slice] / mV,
-    )
-    axes["VI_sig"].plot(
-        sim_result.VI_signal.slice(t_start, duration).time,
-        sim_result.VI_signal.slice(t_start, duration) / mV,
+    plot_signal(
+        sim_data.VI_signal.slice(t_start, duration) / mV,
+        axes["VI_sig"],
     )
     axes["VI_sig"].set(
         xlabel="Time (s)",
         ylabel="VI signal",
         xlim=bounds,
     )
-    axes["g_syn"].plot(
-        zoom.time,
-        sim_result.g_syn[zoom.i_slice] / nS,
+    plot_signal(
+        sim_data.g_syn.slice(t_start, duration) / nS,
+        axes["g_syn"],
     )
     axes["g_syn"].set(
         xlabel="Time (s)",
