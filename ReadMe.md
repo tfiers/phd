@@ -91,4 +91,4 @@ introducing changes to it (i.e. it's a smoke test or integration test).
 ## Licenses
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
-licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/main/LICENSE).
+licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).
