@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numba import prange
 
-from ..support import Signal, TimeGrid, compile_to_machine_code
+from ..support import Signal, compile_to_machine_code, to_num_timesteps
 from ..support.spike_train import SpikeTimes, to_indices
-from ..support.units import mV, ms, Quantity
+from ..support.units import Quantity, mV, ms
 
 
 def calculate_STA(
@@ -18,8 +18,8 @@ def calculate_STA(
 ) -> Signal:
     dt = VI_signal.timestep
     spike_indices = to_indices(spike_times, dt)
-    window_tg = TimeGrid(window_duration, dt)
-    STA = _calc_STA(VI_signal, spike_indices, window_tg.N)
+    window_length = to_num_timesteps(window_duration, dt)
+    STA = _calc_STA(VI_signal, spike_indices, window_length)
     return Signal(STA, dt)
 
 

@@ -16,7 +16,7 @@ from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, TimeGrid
+from .support import Signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
@@ -24,7 +24,8 @@ from .support.units import Hz, Quantity, mV, minute, ms, nS
 
 @dataclass
 class N_to_1_SimParams:
-    time_grid: TimeGrid
+    sim_duration: Quantity
+    timestep: Quantity
     num_spike_trains: int
     p_connected: float
     spike_rate: Quantity  # same for each spike train
@@ -35,7 +36,8 @@ class N_to_1_SimParams:
 
 
 default_params = N_to_1_SimParams(
-    time_grid=TimeGrid(duration=10 * minute, timestep=0.1 * ms),
+    sim_duration=10 * minute,
+    timestep=0.1 * ms,
     num_spike_trains=30,
     p_connected=0.5,
     spike_rate=20 * Hz,
@@ -50,7 +52,7 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
 
     # 1. Biology model
     spike_trains_list = [
-        generate_Poisson_spikes(params.spike_rate, params.time_grid.duration)
+        generate_Poisson_spikes(params.spike_rate, params.sim_duration)
         for _ in range(params.num_spike_trains)
     ]
     spike_trains = np.array(spike_trains_list, dtype=object)
@@ -61,9 +63,15 @@ def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
 
     all_incoming_spikes = np.concatenate(connected_spike_trains)
     g_syn = calc_synaptic_conductance(
-        params.time_grid, all_incoming_spikes, params.Δg_syn, params.τ_syn
+        params.sim_duration,
+        params.timestep,
+        all_incoming_spikes,
+        params.Δg_syn,
+        params.τ_syn,
     )
-    izh_output = simulate_izh_neuron(params.time_grid, params.neuron_params, g_syn)
+    izh_output = simulate_izh_neuron(
+        params.sim_duration, params.timestep, params.neuron_params, g_syn
+    )
 
     # 2. Imaging model
     VI_signal = add_VI_noise(
@@ -97,16 +105,17 @@ def sim_and_eval():
     ...
 
 
-def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
+def plot_slice(sim_result: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     fig: Figure = plt.figure(**figsize(width=700, aspect=1.8))
     ax_layout = [
         [[["selected_train"], ["all_spikes"]], "V_m"],
         ["g_syn", "VI_sig"],
     ]
     axes = fig.subplot_mosaic(ax_layout)
+    bounds = to_bounds(t_start, duration)
     plot_spike_train(
         sim_result.spike_trains[0],
-        zoom.bounds,
+        bounds,
         axes["selected_train"],
     )
     axes["selected_train"].set(
@@ -116,7 +125,7 @@ def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
     )
     plot_spike_train(
         sim_result.all_incoming_spikes,
-        zoom.bounds,
+        bounds,
         axes["all_spikes"],
     )
     axes["all_spikes"].set(
@@ -131,16 +140,20 @@ def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
     axes["V_m"].set(
         ylabel="$V_{mem}$ (mV)",
         xticklabels=[],
-        xlim=zoom.bounds,
+        xlim=bounds,
     )
     axes["VI_sig"].plot(
         zoom.time,
         sim_result.VI_signal[zoom.i_slice] / mV,
     )
+    axes["VI_sig"].plot(
+        sim_result.VI_signal.slice(t_start, duration).time,
+        sim_result.VI_signal.slice(t_start, duration) / mV,
+    )
     axes["VI_sig"].set(
         xlabel="Time (s)",
         ylabel="VI signal",
-        xlim=zoom.bounds,
+        xlim=bounds,
     )
     axes["g_syn"].plot(
         zoom.time,
@@ -149,7 +162,7 @@ def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
     axes["g_syn"].set(
         xlabel="Time (s)",
         ylabel="$G_{syn}$ (nS)",
-        xlim=zoom.bounds,
+        xlim=bounds,
     )
     plt.tight_layout()  # Fix ylabels of right subplots overlapping with left subplots
     # Spike train plots are too high: their titles overlap each other.

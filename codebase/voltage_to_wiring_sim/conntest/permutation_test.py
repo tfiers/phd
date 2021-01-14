@@ -129,8 +129,13 @@ def test():
     import voltage_to_wiring_sim as v
     from voltage_to_wiring_sim.support.units import second, ms, Hz, nS
 
-    tg = v.TimeGrid(duration=1 * second, timestep=0.2 * ms)
-    st = v.generate_Poisson_spikes(spike_rate=30 * Hz, simulation_duration=tg.duration)
-    g_syn = v.calc_synaptic_conductance(tg, st, Δg_syn=0.9 * nS, τ_syn=0.7 * ms)
-    sim = v.simulate_izh_neuron(tg, v.sim.neuron_params.cortical_RS, g_syn)
-    test_connection(st, sim.V_m, window_duration=80 * ms, num_shuffles=10)
+    sim_duration = 1 * second
+    timestep = 0.2 * ms
+    spike_train = v.generate_Poisson_spikes(30 * Hz, sim_duration)
+    g_syn = v.calc_synaptic_conductance(
+        sim_duration, timestep, spike_train, Δg_syn=0.9 * nS, τ_syn=0.7 * ms
+    )
+    sim = v.simulate_izh_neuron(
+        sim_duration, timestep, v.sim.neuron_params.cortical_RS, g_syn
+    )
+    test_connection(spike_train, sim.V_m, window_duration=80 * ms, num_shuffles=10)

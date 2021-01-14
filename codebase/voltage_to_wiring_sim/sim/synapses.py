@@ -2,37 +2,37 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .poisson_spikes import generate_Poisson_spikes
-from ..support import Signal, TimeGrid, compile_to_machine_code
+from ..support import Signal, compile_to_machine_code, to_num_timesteps
 from ..support.spike_train import SpikeTimes, to_indices
 from ..support.units import Hz, Quantity, ms, nS
 
 
 def calc_synaptic_conductance(
-    time_grid: TimeGrid,
+    sim_duration: Quantity,
+    timestep: Quantity,
     spike_times: SpikeTimes,
     Δg_syn: Quantity,
     τ_syn: Quantity,
     pure_python=False,
 ) -> Signal:
     """
-    :param time_grid:  For how long and with which timestep do we simulate?
-    :param spike_times:
     :param Δg_syn:  Increase in synaptic conductance per spike.
     :param τ_syn:  Synaptic conductance decay time constant.
     :return:  Array of length N, `g_syn`
     """
-    g_syn = np.empty(time_grid.N) * nS
+    num_timesteps = to_num_timesteps(sim_duration, timestep)
+    g_syn = np.empty(num_timesteps) * nS
     # g_syn.name = "Synaptic conductance"
     sorted_spike_times = np.sort(spike_times)
-    spike_indices = to_indices(sorted_spike_times, time_grid.timestep)
+    spike_indices = to_indices(sorted_spike_times, timestep)
     #   (We don't put this in the compiled function as np.round(x) won't work yet with
     #   Numba without the `out=` argument. https://github.com/numba/numba/issues/4439).
     if pure_python:
         f = _calc_g_syn
     else:
         f = compile_to_machine_code(_calc_g_syn)
-    f(g_syn, time_grid.timestep, spike_indices, Δg_syn, τ_syn)
-    return Signal(g_syn, time_grid.timestep)
+    f(g_syn, timestep, spike_indices, Δg_syn, τ_syn)
+    return Signal(g_syn, timestep)
 
 
 def _calc_g_syn(g_syn, dt, spike_indices, Δg_syn, τ_syn):
@@ -54,10 +54,13 @@ def _calc_g_syn(g_syn, dt, spike_indices, Δg_syn, τ_syn):
 
 
 def test():
-    tg = TimeGrid(duration=300 * ms, timestep=0.1 * ms)
-    spikes = generate_Poisson_spikes(30 * Hz, tg.duration)
+    sim_duration = 300 * ms
+    timestep = 0.1 * ms
+    spikes = generate_Poisson_spikes(30 * Hz, sim_duration)
     Δg_syn = 2 * nS
     τ_syn = 7 * ms
-    g_syn = calc_synaptic_conductance(tg, spikes, Δg_syn, τ_syn, pure_python=True)
-    plt.plot(tg.time / ms, g_syn)
+    g_syn = calc_synaptic_conductance(
+        sim_duration, timestep, spikes, Δg_syn, τ_syn, pure_python=True
+    )
+    plt.plot(g_syn.time / ms, g_syn)
     plt.xlabel("Time (ms)")

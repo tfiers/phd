@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 from numpy import empty, ones, zeros
 
 from .neuron_params import IzhikevichParams, cortical_RS
-from ..support import Signal, TimeGrid, compile_to_machine_code
-from ..support.units import mV, ms, pA
+from ..support import Signal, compile_to_machine_code, to_num_timesteps
+from ..support.units import mV, ms, pA, Quantity
 
 
 @dataclass
@@ -27,31 +27,31 @@ class IzhikevichOutput:
 
 
 def simulate_izh_neuron(
-    time_grid: TimeGrid,
+    sim_duration: Quantity,
+    timestep: Quantity,
     params: IzhikevichParams,
     g_syn: Signal = None,
     I_e: Signal = None,
     pure_python=False,
 ) -> IzhikevichOutput:
 
-    N = time_grid.N
-    dt = time_grid.timestep
+    num_timesteps = to_num_timesteps(sim_duration, timestep)
 
     if g_syn is None:
-        g_syn = Signal(zeros(N) * pA, dt)
+        g_syn = Signal(zeros(num_timesteps) * pA, timestep)
     if I_e is None:
-        I_e = Signal(zeros(N) * pA, dt)
+        I_e = Signal(zeros(num_timesteps) * pA, timestep)
 
-    V_m = Signal(empty(N) * mV, dt)
-    u = Signal(empty(N) * pA, dt)
-    I_syn = Signal(empty(N) * pA, dt)
+    V_m = Signal(empty(num_timesteps) * mV, timestep)
+    u = Signal(empty(num_timesteps) * pA, timestep)
+    I_syn = Signal(empty(num_timesteps) * pA, timestep)
 
     if pure_python:
         f = _sim_izh
     else:
         f = compile_to_machine_code(_sim_izh)
 
-    f(V_m, u, I_syn, g_syn, I_e, dt, **asdict(params))
+    f(V_m, u, I_syn, g_syn, I_e, timestep, **asdict(params))
 
     return IzhikevichOutput(V_m, u, I_syn)
 
@@ -85,14 +85,23 @@ def _sim_izh(
 
 
 def test():
-    tg = TimeGrid(duration=200 * ms, timestep=0.5 * ms)
-    constant_input = ones(tg.N) * 80 * pA
-    f = partial(simulate_izh_neuron, tg, cortical_RS, I_e=constant_input, g_syn=None)
+    sim_duration = 200 * ms
+    timestep = 0.5 * ms
+    N = to_num_timesteps(sim_duration, timestep)
+    constant_input = ones(N) * 80 * pA
+    f = partial(
+        simulate_izh_neuron,
+        sim_duration,
+        timestep,
+        cortical_RS,
+        I_e=constant_input,
+        g_syn=None,
+    )
     sim_with_units = f(pure_python=True)
     sim_fast = f(pure_python=False)
     # assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
     # assert_allclose_units(sim_fast.u, sim_with_units.u)
     # assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
     # print("Simulations with and without units yield equal results.")
-    plt.plot(tg.time / ms, sim_fast.V_m)
+    plt.plot(sim_fast.V_m.time / ms, sim_fast.V_m)
     plt.xlabel("Time (ms)")
