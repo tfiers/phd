@@ -4,7 +4,7 @@ import sys
 from dataclasses import asdict, fields
 from functools import partial
 from textwrap import fill
-from typing import Callable, Sequence, Tuple, Union
+from typing import Callable, Optional, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numba
@@ -77,6 +77,13 @@ def subplots(**kwargs) -> Tuple[Figure, OneOrMoreAxes]:
 
 
 functools.update_wrapper(subplots, plt.subplots)
+
+
+def create_if_None(ax: Optional[Axes], **subplots_kwargs):
+    if ax is None:
+        _, ax = subplots(**subplots_kwargs)
+    return ax
+
 
 
 # A clearer name for the numba `(n)jit` call.

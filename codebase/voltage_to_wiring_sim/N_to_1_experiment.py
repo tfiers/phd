@@ -8,10 +8,12 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from nptyping import NDArray
 
-from .conntest.permutation_test import test_connection
+from .conntest.permutation_test import ConnectionTestSummary, test_connection
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
@@ -21,7 +23,7 @@ from .support import Signal, plot_signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
-from .support.util import timed_loop
+from .support.util import create_if_None, timed_loop
 
 
 @dataclass
@@ -103,7 +105,7 @@ class N_to_1_SimData:
     VI_signal: Signal
 
 
-def first_connected_train_index(sim_data: N_to_1_SimData) -> int:
+def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
@@ -126,7 +128,7 @@ def sim_and_eval():
     ...
 
 
-def plot_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
+def plot_sim_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     fig: Figure = plt.figure(**figsize(width=700, aspect=1.8))
     ax_layout = [
         [[["selected_train"], ["all_spikes"]], "V_m"],
@@ -134,7 +136,7 @@ def plot_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     ]
     axes = fig.subplot_mosaic(ax_layout)
     bounds = to_bounds(t_start, duration)
-    selected_spike_train = first_connected_train_index(sim_data)
+    selected_spike_train = get_index_of_first_connected_train(sim_data)
     plot_spike_train(
         sim_data.spike_trains[selected_spike_train],
         bounds,
@@ -187,3 +189,26 @@ def plot_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quantity):
     for ax in (axes["selected_train"], axes["all_spikes"]):
         bb = ax.get_position()
         ax.set_position([bb.x0, bb.y0, bb.width, bb.height * 0.4])
+
+
+def plot_p_values(test_summaries: list[ConnectionTestSummary], ax: Axes = None):
+    p_values = [summary.p_value for summary in test_summaries]
+    ax = create_if_None(ax, **figsize(aspect=3))
+    sns.histplot(p_values, binwidth=0.01, zorder=1.6, ax=ax)
+    ax.set(
+        xlabel="p-value",
+        ylabel="Nr. of spike trains",
+        xlim=[0, 1],
+    )
+
+
+def plot_relative_STA_heights(
+    test_summaries: list[ConnectionTestSummary], ax: Axes = None
+):
+    rel_heights = [summary.relative_STA_height for summary in test_summaries]
+    ax = create_if_None(ax, **figsize(aspect=3))
+    sns.histplot(rel_heights, binwidth=0.02, zorder=1.6, ax=ax)
+    ax.set(
+        xlabel="STA height / mean shuffled STA height",
+        ylabel="Nr. of spike trains",
+    )

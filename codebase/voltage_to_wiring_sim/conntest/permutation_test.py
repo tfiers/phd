@@ -112,27 +112,26 @@ def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
     if ax is None:
         _, ax = plt.subplots(**figsize(aspect=2.2))
 
+    rug_height = 0.08
     sns.histplot(
         data.shuffled_STA_heights / mV,
         ax=ax,
         color="C1",
         alpha=0.3,
-        zorder=2,
+        zorder=1.6,
     )
     sns.rugplot(
         data.shuffled_STA_heights / mV,
         label="Shuffled spike trains",
         ax=ax,
         color="C1",
-        zorder=3,
-        height=0.1,
+        height=rug_height,
     )
     ax.axvline(
         data.original_STA_height / mV,
         color="C0",
         label="Real spike train",
-        zorder=3,
-        ymax=0.1,
+        ymax=rug_height,
         linewidth=2,
     )
     ax.set_xlabel("STA height (mV)")
