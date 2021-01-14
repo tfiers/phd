@@ -4,6 +4,7 @@ Spike-triggered averaging.
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 from numba import prange
 
 from ..support import Signal, compile_to_machine_code, to_num_timesteps
@@ -41,10 +42,11 @@ def _calc_STA(
     return STA / num_windows
 
 
-def plot_STA(STA: Signal, ax=None, **kwargs):
+def plot_STA(STA: Signal, ax: Axes = None, **kwargs):
     if ax is None:
-        fig, ax = plt.subplots()
+        _, ax = plt.subplots()
 
     ax.plot(STA.time / ms, STA / mV, **kwargs)
     ax.set_xlabel("Time after spike (ms)")
     ax.set_ylabel("Spike triggered <VI signal> (mV)")
+    return ax

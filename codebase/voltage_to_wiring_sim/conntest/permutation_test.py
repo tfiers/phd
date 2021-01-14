@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from random import choice, sample
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 
-from .STA import calculate_STA
+from .STA import calculate_STA, plot_STA
 from ..support import Signal
+from ..support.plot_style import figsize
 from ..support.spike_train import SpikeTimes, to_ISIs, to_spike_train
 from ..support.units import Array, Quantity
 
@@ -102,31 +105,46 @@ class PValueType:
     EQUAL = "="
 
 
-def plot(data: ConnectionTestData, bins=12, ax=None):
+def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
     import seaborn as sns
     from voltage_to_wiring_sim.support.units import mV
 
     if ax is None:
-        _, ax = plt.subplots()
+        _, ax = plt.subplots(**figsize(aspect=2.2))
 
+    sns.histplot(
+        data.shuffled_STA_heights / mV,
+        ax=ax,
+        color="C1",
+        alpha=0.3,
+        zorder=2,
+    )
     sns.rugplot(
         data.shuffled_STA_heights / mV,
         label="Shuffled spike trains",
         ax=ax,
-    )
-    sns.distplot(
-        data.shuffled_STA_heights / mV,
-        bins=bins,
-        kde=False,  # Make y-axis labels give count in each bin. (Instead of a density).
-        ax=ax,
+        color="C1",
+        zorder=3,
+        height=0.1,
     )
     ax.axvline(
         data.original_STA_height / mV,
-        color="C1",
+        color="C0",
         label="Real spike train",
+        zorder=3,
+        ymax=0.1,
+        linewidth=2,
     )
     ax.set_xlabel("STA height (mV)")
+    ax.set_ylabel("Bin size")
     ax.legend()
+    return ax
+
+
+def plot_STAs(data: ConnectionTestData, ax: Axes = None, num_shuffled=8):
+    for STA in sample(data.shuffled_STAs, num_shuffled):
+        ax = plot_STA(STA, ax, color="C1", alpha=0.4)
+    plot_STA(data.original_STA, ax, color="C0")
     return ax
 
 
