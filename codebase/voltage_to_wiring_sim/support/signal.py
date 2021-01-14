@@ -40,10 +40,13 @@ class Signal(NDArrayWrapper):
         return Signal(slice_data, self.timestep, t_start)
 
     def _create_derived_object(self, new_data: np.ndarray) -> Union[Signal, np.number]:
-        # Taking e.g. `max` or `mean` from a Signal, or slicing a single element from
-        # it, returns a plain number, i.e. not something that contains timestep info.
         if new_data.size == 1:
+            # Taking e.g. `max` or `mean` from a Signal, or slicing a single element from
+            # it, should return a plain number, i.e. not something that contains timestep
+            # info.
             return new_data
+        elif new_data.size == self.size:
+            return Signal(new_data, self.timestep, self.t_start)
         else:
             return Signal(new_data, self.timestep)
 
