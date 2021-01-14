@@ -364,19 +364,14 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Wed 13 Jan</strong> 2021, at 21:12 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/b21d47debc937fddc08145f01a90d2f37a0e88df">Last git commit</a> (Mon 11 Jan 2021, 19:34).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M codebase/voltage_to_wiring_sim/N_to_1_experiment.py
- M codebase/voltage_to_wiring_sim/__init__.py
-?? notebooks/2021-01-13__multiple_ROC.ipynb
-</pre></div>
-</div>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 14 Jan</strong> 2021, at 19:00 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/347155fa5334f5ff9fc2976fdf293a0b35db1a93">Last git commit</a> (Thu 14 Jan 2021, 18:59).</p>
+<p>No uncommitted changes</p>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">N_to_1_SimParams</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">sim_and_eval</span><span class="p">,</span> <span class="n">plot</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">N_to_1_SimParams</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">sim_and_eval</span><span class="p">,</span> <span class="n">plot_slice</span>
 </pre></div>
 </div>
 </div>
@@ -393,13 +388,9 @@ Setup autoreload
 <h2>Base parameters<a class="headerlink" href="#base-parameters" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time_grid</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">TimeGrid</span><span class="p">(</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
-    <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
-<span class="p">)</span>
-
-<span class="n">sim_params</span> <span class="o">=</span> <span class="n">N_to_1_SimParams</span><span class="p">(</span>
-    <span class="n">time_grid</span><span class="o">=</span><span class="n">time_grid</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">N_to_1_SimParams</span><span class="p">(</span>
+    <span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
+    <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
     <span class="n">num_spike_trains</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">p_connected</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
     <span class="n">spike_rate</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">Hz</span><span class="p">,</span>
@@ -421,7 +412,7 @@ Setup autoreload
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">time_grid</span><span class="o">.</span><span class="n">zoom</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">3.05</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=.</span><span class="mi">02</span> <span class="o">*</span> <span class="n">second</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_slice</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mf">3.05</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=.</span><span class="mi">02</span> <span class="o">*</span> <span class="n">second</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
