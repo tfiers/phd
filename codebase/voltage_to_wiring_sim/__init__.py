@@ -10,6 +10,7 @@ from .sim.izhikevich_neuron import simulate_izh_neuron
 from .sim.imaging import add_VI_noise
 from .conntest.STA import calculate_STA, plot_STA
 from .support import plot_signal
+from .support.spike_train import plot_spike_train
 from .support.plot_style import figsize
 from .support.scalebar import add_scalebar
 from .support.util import fix_rng_seed, pprint
