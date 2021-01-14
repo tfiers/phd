@@ -364,9 +364,15 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 14 Jan</strong> 2021, at 19:00 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/347155fa5334f5ff9fc2976fdf293a0b35db1a93">Last git commit</a> (Thu 14 Jan 2021, 18:59).</p>
-<p>No uncommitted changes</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 00:24 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/4a95f342a6f06b7b6fe4f5fcdf76a7bbcb372fb1">Last git commit</a> (Thu 14 Jan 2021, 23:47).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">conntest</span><span class="o">/</span><span class="n">permutation_test</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">util</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -412,12 +418,107 @@ Setup autoreload
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_slice</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mf">3.05</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=.</span><span class="mi">02</span> <span class="o">*</span> <span class="n">second</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_slice</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/2021-01-13__multiple_ROC_10_0.png" src="../_images/2021-01-13__multiple_ROC_10_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:06&lt;00:00,  4.68it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">td</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">permutation_test</span><span class="o">.</span><span class="n">plot_STAs</span><span class="p">(</span><span class="n">td</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_13_0.png" src="../_images/2021-01-13__multiple_ROC_13_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">permutation_test</span><span class="o">.</span><span class="n">plot_STA_heights</span><span class="p">(</span><span class="n">td</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_14_0.png" src="../_images/2021-01-13__multiple_ROC_14_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">plot_p_values</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_15_0.png" src="../_images/2021-01-13__multiple_ROC_15_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">plot_relative_STA_heights</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_16_0.png" src="../_images/2021-01-13__multiple_ROC_16_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 14 Jan</strong> 2021, at 23:44 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/42543b0f525ec7169850c69252d824659facbc66">Last git commit</a> (Thu 14 Jan 2021, 23:40).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<p>Platform:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
+CPython 3.8.6 (C:\conda\python.exe)
+Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+</pre></div>
+</div>
+<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.5
+matplotlib           3.3.3
+numba                0.52.0
+seaborn              0.11.1
+scipy                1.6.0
+scikit-learn         0.24.0
+preload              2.2
+py-cpuinfo           7.0.0
+nptyping             1.4.0
+tqdm                 4.56.0
+</pre></div>
+</div>
 </div>
 </div>
 </div>
