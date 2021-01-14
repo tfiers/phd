@@ -43,14 +43,15 @@ def test_connection(
 
     shuffled_spike_trains = shuffle(spike_train, num_shuffles)
 
-    def calc_STA_height(spike_train):
-        STA_window = calculate_STA(VI_signal, spike_train, window_duration)
+    def calc_STA(spike_train):
+        return calculate_STA(VI_signal, spike_train, window_duration)
         return np.max(STA_window) - np.min(STA_window)
 
-    original_STA_height = calc_STA_height(spike_train)
-    shuffled_STA_heights = np.array(
-        [calc_STA_height(train) for train in shuffled_spike_trains]
-    )
+    original_STA = calc_STA(spike_train)
+    shuffled_STAs = [calc_STA(train) for train in shuffled_spike_trains]
+
+    original_STA_height = np.ptp(original_STA)
+    shuffled_STA_heights = np.array([np.ptp(window) for window in shuffled_STAs])
 
     num_shuffled_STAs_larger = np.sum(shuffled_STA_heights > original_STA_height)
     if num_shuffled_STAs_larger == 0:
@@ -65,6 +66,8 @@ def test_connection(
 
     return ConnectionTestData(
         shuffled_spike_trains,
+        original_STA,
+        shuffled_STAs,
         original_STA_height,
         shuffled_STA_heights,
         shuffled_STA_height_mean,
@@ -78,6 +81,8 @@ def test_connection(
 @dataclass
 class ConnectionTestData:
     shuffled_spike_trains: list[SpikeTimes]
+    original_STA: Signal
+    shuffled_STAs: list[Signal]
     original_STA_height: Quantity
     #    Maximum height of STA window using original spike train.
     shuffled_STA_heights: Array
