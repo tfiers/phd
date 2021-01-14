@@ -8,6 +8,7 @@
 
 - chapter: Reports
   sections:
+    - file: notebooks/2021-01-13__multiple_ROC
     - file: notebooks/2021-01-06__ROC
     - file: notebooks/2021-01-01__vary_params
     - file: notebooks/2020-12-30__test_all_connections

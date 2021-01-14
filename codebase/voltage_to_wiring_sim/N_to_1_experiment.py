@@ -1,6 +1,5 @@
 """
-Wrapper/pipeline/workflow combining spike_trains.py, synapses.py, neuron_sim.py, and
-imaging.py.
+Pipeline combining the sim/ and conntest/ packages.
 """
 from __future__ import annotations
 
@@ -92,6 +91,10 @@ class N_to_1_SimData:
     g_syn: Signal
     izh_output: IzhikevichOutput
     VI_signal: Signal
+
+
+def sim_and_eval():
+    ...
 
 
 def plot(sim_result: N_to_1_SimData, zoom: TimeGrid):
