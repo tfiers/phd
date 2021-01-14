@@ -48,7 +48,7 @@ setup(
                                # [https://github.com/tfiers/unitlib]
         # "joblib ~= 0.16",      # (Currently unused).
                                # [https://joblib.readthedocs.io/]
-        "seaborn ~= 0.10",     # Extension of Matplotlib for statistical data viz.
+        "seaborn ~= 0.11",     # Extension of Matplotlib for statistical data viz.
                                # [https://seaborn.pydata.org/]
         "scipy ~= 1.5",        # Numerical utilities (peak finding, integration,
                                # interpolation, optimisation, ...).
