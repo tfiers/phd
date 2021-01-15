@@ -331,6 +331,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-one-parameter">
+   Vary one parameter
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reproducibility">
    Reproducibility
   </a>
@@ -374,12 +379,10 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 21:05 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/46827d80d5c71ab91f21ba423085193088434741">Last git commit</a> (Fri 15 Jan 2021, 19:50).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 22:11 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/ac93c3c585356364e13ba717361968cc6e4e7ff2">Last git commit</a> (Fri 15 Jan 2021, 22:07).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">conntest</span><span class="o">/</span><span class="n">classification</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">sim</span><span class="o">/</span><span class="n">izhikevich_neuron</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </div>
@@ -403,8 +406,8 @@ Setup autoreload
 <h2>Base parameters<a class="headerlink" href="#base-parameters" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">N_to_1_SimParams</span><span class="p">(</span>
-    <span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span> <span class="o">=</span> <span class="n">N_to_1_SimParams</span><span class="p">(</span>
+    <span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
     <span class="n">timestep</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
     <span class="n">num_spike_trains</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="n">p_connected</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
@@ -412,7 +415,8 @@ Setup autoreload
     <span class="n">&#916;g_syn</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
     <span class="n">&#964;_syn</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
     <span class="n">neuron_params</span> <span class="o">=</span> <span class="n">cortical_RS</span><span class="p">,</span>
-    <span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">rng_seed</span><span class="o">=</span><span class="mi">1800</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -420,7 +424,7 @@ Setup autoreload
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_params</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">base_params</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -437,12 +441,25 @@ Setup autoreload
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">izhikevich_neuron</span><span class="o">.</span><span class="n">show_output_spike_stats</span><span class="p">(</span><span class="n">sim_data</span><span class="o">.</span><span class="n">izh_output</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_11_0.png" src="../_images/2021-01-13__multiple_ROC_11_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 11 Hz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:06&lt;00:00,  4.32it/s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 19.79it/s]
 </pre></div>
 </div>
 </div>
@@ -454,8 +471,8 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_12_0.png" src="../_images/2021-01-13__multiple_ROC_12_0.png">
-<img alt="../_images/2021-01-13__multiple_ROC_12_1.png" src="../_images/2021-01-13__multiple_ROC_12_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_13_0.png" src="../_images/2021-01-13__multiple_ROC_13_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_13_1.png" src="../_images/2021-01-13__multiple_ROC_13_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -472,7 +489,164 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_14_0.png" src="../_images/2021-01-13__multiple_ROC_14_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_15_0.png" src="../_images/2021-01-13__multiple_ROC_15_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="vary-one-parameter">
+<h2>Vary one parameter<a class="headerlink" href="#vary-one-parameter" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">test_connections</span>
+<span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification</span> <span class="kn">import</span> <span class="n">sweep_threshold</span>
+
+<span class="k">def</span> <span class="nf">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">):</span>
+        <span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">)</span>
+    <span class="n">classifs</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">classifs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SNRs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="n">SNRs</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SNR: </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="n">SNR</span>
+    <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1
+Sim: &#8230; (0.534 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 17.89it/s]
+
+SNR: 2
+Sim: &#8230; (0.866 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 20.13it/s]
+
+SNR: 4
+Sim: &#8230; (0.508 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 20.23it/s]
+
+SNR: 8
+Sim: &#8230; (0.545 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 18.61it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ROC</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">plot_ROC</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">SNR</span><span class="p">,</span> <span class="n">classifs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">SNRs</span><span class="p">,</span> <span class="n">thr_sweeps</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_ROC</span><span class="p">(</span><span class="n">classifs</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span>
+                  <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"SNR = </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                  <span class="n">marker</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">"C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_20_0.png" src="../_images/2021-01-13__multiple_ROC_20_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">AUC</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">):</span>
+    <span class="n">TPRs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">TPR</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">thr_sweep</span><span class="p">]</span>
+    <span class="n">FPRs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">thr_sweep</span><span class="p">]</span>
+    <span class="n">AUC</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># this is not the same as `np.trapz` e.g.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">FPRs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">AUC</span> <span class="o">+=</span> <span class="p">(</span><span class="n">FPRs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">FPRs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">TPRs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">AUC</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">SNR</span><span class="o">=</span><span class="n">SNRs</span><span class="p">,</span> <span class="n">AUC</span><span class="o">=</span><span class="p">[</span><span class="n">AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SNR</th>
+      <th>AUC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.702222</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0.893333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4</td>
+      <td>0.933333</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"SNR"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_23_0.png" src="../_images/2021-01-13__multiple_ROC_23_0.png">
 </div>
 </div>
 </div>
@@ -485,11 +659,10 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 15:58 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/6779b97f0d729b392195fc4d577d050f2659870f">Last git commit</a> (Fri 15 Jan 2021, 15:34).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 22:33 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d056b88f9d20ae39eb0a31cf170894702af7a935">Last git commit</a> (Fri 15 Jan 2021, 22:28).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">reproducibility</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -639,9 +812,7 @@ powershell_shortcut       0.0.1                         3
 preload                   2.2                      pypi_0    pypi
 prometheus_client         0.9.0              pyhd3deb0d_0    conda-forge
 prompt-toolkit            3.0.10             pyha770c72_0    conda-forge
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>puprelease                1.6.1                     dev_0    &lt;develop&gt;
+puprelease                1.6.1                     dev_0    &lt;develop&gt;
 py                        1.10.0             pyhd3deb0d_0    conda-forge
 py-cpuinfo                7.0.0                    pypi_0    pypi
 pycosat                   0.6.3           py38h294d835_1006    conda-forge
@@ -669,7 +840,9 @@ pyzmq                     20.0.0           py38h7a0e47e_1    conda-forge
 qt                        5.12.9               h5909a2a_3    conda-forge
 readme-renderer           28.0                     pypi_0    pypi
 regex                     2020.11.13       py38h294d835_1    conda-forge
-reproc                    14.2.1               h8ffe710_0    conda-forge
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reproc                    14.2.1               h8ffe710_0    conda-forge
 reproc-cpp                14.2.1               h0e60522_0    conda-forge
 requests                  2.25.1             pyhd3deb0d_0    conda-forge
 requests-toolbelt         0.9.1                    pypi_0    pypi
