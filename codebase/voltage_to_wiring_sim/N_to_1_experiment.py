@@ -8,19 +8,20 @@ from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from nptyping import NDArray
 
+from .conntest.classification import Classification, plot_ROC, plot_classifications
 from .conntest.permutation_test import (
     ConnectionTestData,
     ConnectionTestSummary,
-    test_connection,
-    plot_STAs,
     plot_STA_heights,
+    plot_STAs,
+    test_connection,
 )
-from .conntest.classification import Classification, plot_classifications, plot_ROC
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
@@ -205,6 +206,21 @@ def _connected_labels(sim_data: N_to_1_SimData) -> list[str]:
     ]
 
 
+def pass_df(seaborn_f, x=None, y=None, hue=None, **kwargs):
+    # Seaborn requires pandas DataFrames as input (passing simple vectors seems at first
+    # to be supported, but results in stupid bugs, e.g. `stack="multiple"` does not work
+    # for `sns.histplot(x=vector_A, hue=vector_B)`).
+    # This function abstracts the boilerplate of creating such dataframes. (I don't like
+    # working with pandas DataFrames, as they offer no autocompletion on column names.
+    # So I avoid them as much as possible).
+    df = pd.DataFrame({"a": x, "b": y, "c": hue})
+    ax = seaborn_f(data=df, x="a", y="b", hue="c", **kwargs)
+    # Remove "a", "b", "c" labels.
+    ax.set(xlabel=None, ylabel=None)
+    ax.legend_.set_title(None)
+    return ax
+
+
 def plot_p_values(
     test_summaries: list[ConnectionTestSummary],
     sim_data: N_to_1_SimData,
@@ -212,7 +228,8 @@ def plot_p_values(
 ):
     p_values = [summary.p_value for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(
+    pass_df(
+        sns.histplot,
         x=p_values,
         hue=_connected_labels(sim_data),
         multiple="stack",
@@ -234,7 +251,8 @@ def plot_relative_STA_heights(
 ):
     rel_heights = [summary.relative_STA_height for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(
+    pass_df(
+        sns.histplot,
         x=rel_heights,
         hue=_connected_labels(sim_data),
         multiple="stack",
@@ -279,3 +297,4 @@ def plot_classifications_with_ROC(classifications: list[Classification]):
     )
     plot_classifications(classifications, left_ax)
     plot_ROC(classifications, right_ax)
+    left_ax.set_ylabel("Spike train")
