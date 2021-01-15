@@ -7,11 +7,16 @@ from dataclasses import asdict, dataclass
 from functools import partial
 
 import matplotlib.pyplot as plt
-from numpy import empty, ones, zeros
+import numpy as np
+import seaborn as sns
+from matplotlib.axes import Axes
 
 from .neuron_params import IzhikevichParams, cortical_RS
 from ..support import Signal, compile_to_machine_code, to_num_timesteps
-from ..support.units import mV, ms, pA, Quantity
+from ..support.plot_style import figsize
+from ..support.spike_train import SpikeTimes, to_ISIs
+from ..support.units import Quantity, mV, ms, pA
+from ..support.util import create_if_None
 
 
 @dataclass
@@ -19,6 +24,7 @@ class IzhikevichOutput:
     V_m: Signal
     u: Signal
     I_syn: Signal
+    spike_times: SpikeTimes
 
     # def __post_init__(self):
     #     self.V_m.name = "Membrane voltage"
@@ -38,22 +44,23 @@ def simulate_izh_neuron(
     num_timesteps = to_num_timesteps(sim_duration, timestep)
 
     if g_syn is None:
-        g_syn = Signal(zeros(num_timesteps) * pA, timestep)
+        g_syn = Signal(np.zeros(num_timesteps) * pA, timestep)
     if I_e is None:
-        I_e = Signal(zeros(num_timesteps) * pA, timestep)
+        I_e = Signal(np.zeros(num_timesteps) * pA, timestep)
 
-    V_m = Signal(empty(num_timesteps) * mV, timestep)
-    u = Signal(empty(num_timesteps) * pA, timestep)
-    I_syn = Signal(empty(num_timesteps) * pA, timestep)
+    V_m = Signal(np.empty(num_timesteps) * mV, timestep)
+    u = Signal(np.empty(num_timesteps) * pA, timestep)
+    I_syn = Signal(np.empty(num_timesteps) * pA, timestep)
 
     if pure_python:
         f = _sim_izh
     else:
         f = compile_to_machine_code(_sim_izh)
 
-    f(V_m, u, I_syn, g_syn, I_e, timestep, **asdict(params))
+    spikes = f(V_m, u, I_syn, g_syn, I_e, timestep, **asdict(params))
+    spike_times = np.array(spikes) * timestep
 
-    return IzhikevichOutput(V_m, u, I_syn)
+    return IzhikevichOutput(V_m, u, I_syn, spike_times)
 
 
 # Pure Python/NumPy function that can be compiled to compact machine code by Numba,
@@ -68,6 +75,7 @@ def _sim_izh(
 ):
     dv_dt = lambda i: (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
     du_dt = lambda i: a * (b * (v[i] - v_r) - u[i])
+    spikes = []
     for i in range(len(v)):
         if i == 0:
             v[i] = v_r
@@ -76,19 +84,33 @@ def _sim_izh(
             v[i] = v[i-1] + dt * dv_dt(i-1)
             u[i] = u[i-1] + dt * du_dt(i-1)
             if v[i] >= v_peak:
+                spikes.append(i)
                 v[i-1] = v_peak
                 v[i] = c
                 u[i] += d
         I_syn[i] = g_syn[i] * (v[i] - v_syn)
+    return spikes
 
 # fmt: on
+
+
+def show_output_spike_stats(output: IzhikevichOutput, ax: Axes = None):
+    ISIs = to_ISIs(output.spike_times)
+    ax = create_if_None(ax, **figsize(aspect=4))
+    sns.histplot(ISIs / ms, ax=ax)
+    ax.set_xlabel("Inter-spike interval (ms)")
+    ax.set_ylabel("# spike pairs")
+    ax.set_xlim(left=0)
+    plt.show()
+    print(f"Output spike rate (1 / median ISI): {1 / np.median(ISIs):.3G} Hz")
+    return ax
 
 
 def test():
     sim_duration = 200 * ms
     timestep = 0.5 * ms
     N = to_num_timesteps(sim_duration, timestep)
-    constant_input = ones(N) * 80 * pA
+    constant_input = np.ones(N) * 80 * pA
     f = partial(
         simulate_izh_neuron,
         sim_duration,
