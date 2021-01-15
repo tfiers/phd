@@ -11,8 +11,9 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
 
-print("Imported `np`, `mpl`, `plt`, `sns`")
+print("Imported `np`, `mpl`, `plt`, `sns`, `pd`")
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
@@ -124,7 +125,7 @@ from functools import partial
 
 
 # Reassignment trick to stop PyCharm from complaining about unused imports:
-mpl, plt, sns = mpl, plt, sns
+mpl, plt, sns, pd = mpl, plt, sns, pd
 v = v
 Quantity = Quantity
 partial = partial
