@@ -258,8 +258,10 @@ def plot_conntest(
     )
     plot_STAs(test_data[selected_spike_train], fig1_ax_left)
     plot_STA_heights(test_data[selected_spike_train], fig1_ax_right)
-    title_kwargs = dict(ha="left", va="baseline", x=0.08, y=1)
-    fig1.suptitle(f"Spike train #{selected_spike_train}", **title_kwargs)
+    title_kwargs = dict(ha="left", va="baseline")
+    fig1.suptitle(
+        f"Spike train #{selected_spike_train}", x=0.06, y=0.97, **title_kwargs
+    )
 
     fig2, (fig2_ax_left, fig2_ax_right) = subplots(
         ncols=2, **figsize(aspect=5, width=800)
@@ -267,4 +269,4 @@ def plot_conntest(
     plot_p_values(test_summaries, sim_data, fig2_ax_left)
     plot_relative_STA_heights(test_summaries, sim_data, fig2_ax_right)
     fig2_ax_right.legend_.remove()
-    fig2.suptitle("All spike trains", **title_kwargs)
+    fig2.suptitle("All spike trains", x=0.08, y=1, **title_kwargs)

@@ -46,5 +46,5 @@ def plot_STA(STA: Signal, ax: Axes = None, **kwargs):
     ax = create_if_None(ax)
     ax.plot(STA.time / ms, STA / mV, **kwargs)
     ax.set_xlabel("Time after spike (ms)")
-    ax.set_ylabel("Spike triggered <VI signal> (mV)")
+    ax.set_ylabel("STA of VI signal (mV)")
     return ax
