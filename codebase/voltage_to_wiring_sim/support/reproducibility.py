@@ -1,3 +1,4 @@
+import importlib.metadata
 import sys
 from datetime import datetime
 from functools import partial
@@ -80,7 +81,7 @@ def print_package_versions():
     deps = get__pip_show__value(root_package_name, "Requires: ").split(", ")
     for package_name in deps:
         print(format(package_name, "<20"), end=" ")
-        version = get__pip_show__value(package_name, "Version: ")
+        version = importlib.metadata.version(package_name)
         print(version)
 
 
