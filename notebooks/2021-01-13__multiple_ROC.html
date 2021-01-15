@@ -379,10 +379,11 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 22:11 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/ac93c3c585356364e13ba717361968cc6e4e7ff2">Last git commit</a> (Fri 15 Jan 2021, 22:07).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 23:31 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e92d8ec129733e2f72ad1e227f3564d805396e24">Last git commit</a> (Fri 15 Jan 2021, 23:28).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">sim</span><span class="o">/</span><span class="n">izhikevich_neuron</span><span class="o">.</span><span class="n">py</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
 </pre></div>
 </div>
 </div>
@@ -459,7 +460,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 19.79it/s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:03&lt;00:00,  9.89it/s]
 </pre></div>
 </div>
 </div>
@@ -497,8 +498,8 @@ Setup autoreload
 <h2>Vary one parameter<a class="headerlink" href="#vary-one-parameter" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">test_connections</span>
-<span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification</span> <span class="kn">import</span> <span class="n">sweep_threshold</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_connections</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">test_connections</span> 
+<span class="n">sweep_threshold</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">sweep_threshold</span>
 
 <span class="k">def</span> <span class="nf">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
     <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">):</span>
@@ -520,6 +521,13 @@ Setup autoreload
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -535,20 +543,22 @@ Setup autoreload
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1
-Sim: &#8230; (0.534 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 17.89it/s]
+Sim: &#8230; (0.605 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.75it/s]
 
 SNR: 2
-Sim: &#8230; (0.866 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 20.13it/s]
+Sim: &#8230; (0.502 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 25.76it/s]
 
 SNR: 4
-Sim: &#8230; (0.508 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 20.23it/s]
+Sim: &#8230; (0.499 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.93it/s]
 
 SNR: 8
-Sim: &#8230; (0.545 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 18.61it/s]
+Sim: &#8230; (0.639 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 25.55it/s]
+
+Wall time: 7.04 s
 </pre></div>
 </div>
 </div>
@@ -568,7 +578,7 @@ Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#960
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_20_0.png" src="../_images/2021-01-13__multiple_ROC_20_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_21_0.png" src="../_images/2021-01-13__multiple_ROC_21_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -618,17 +628,17 @@ Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#960
     <tr>
       <th>0</th>
       <td>1</td>
-      <td>0.702222</td>
+      <td>0.688889</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2</td>
-      <td>0.893333</td>
+      <td>0.853333</td>
     </tr>
     <tr>
       <th>2</th>
       <td>4</td>
-      <td>0.933333</td>
+      <td>1.000000</td>
     </tr>
     <tr>
       <th>3</th>
@@ -646,7 +656,7 @@ Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#960
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_23_0.png" src="../_images/2021-01-13__multiple_ROC_23_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_24_0.png" src="../_images/2021-01-13__multiple_ROC_24_0.png">
 </div>
 </div>
 </div>
@@ -659,10 +669,11 @@ Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#960
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 22:33 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d056b88f9d20ae39eb0a31cf170894702af7a935">Last git commit</a> (Fri 15 Jan 2021, 22:28).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 23:32 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e92d8ec129733e2f72ad1e227f3564d805396e24">Last git commit</a> (Fri 15 Jan 2021, 23:28).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -833,16 +844,16 @@ python-dateutil           2.8.1                      py_0    conda-forge
 python_abi                3.8                      1_cp38    conda-forge
 pytz                      2020.5             pyhd8ed1ab_0    conda-forge
 pywin32                   228              py38h294d835_1    conda-forge
-pywin32-ctypes            0.2.0                    pypi_0    pypi
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pywin32-ctypes            0.2.0                    pypi_0    pypi
 pywinpty                  0.5.7            py38h32f6830_1    conda-forge
 pyyaml                    5.3.1            py38h294d835_2    conda-forge
 pyzmq                     20.0.0           py38h7a0e47e_1    conda-forge
 qt                        5.12.9               h5909a2a_3    conda-forge
 readme-renderer           28.0                     pypi_0    pypi
 regex                     2020.11.13       py38h294d835_1    conda-forge
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>reproc                    14.2.1               h8ffe710_0    conda-forge
+reproc                    14.2.1               h8ffe710_0    conda-forge
 reproc-cpp                14.2.1               h0e60522_0    conda-forge
 requests                  2.25.1             pyhd3deb0d_0    conda-forge
 requests-toolbelt         0.9.1                    pypi_0    pypi
