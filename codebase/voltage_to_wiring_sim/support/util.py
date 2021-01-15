@@ -1,9 +1,11 @@
 import functools
 import reprlib
 import sys
+from contextlib import contextmanager
 from dataclasses import asdict, fields
 from functools import partial
 from textwrap import fill
+from time import time
 from typing import Callable, Optional, Sequence, Tuple, Union
 
 import matplotlib.pyplot as plt
@@ -65,6 +67,15 @@ def fix_rng_seed(seed=0):
     script run, and thus get same results.
     """
     np.random.seed(seed)
+
+
+@contextmanager
+def time_op(description: str):
+    print(f"{description}: ", end="… ")
+    t0 = time()
+    yield
+    dt = time() - t0
+    print(f"({dt:.3g} s)")
 
 
 # Add return types to plt.subplots (for autocompletion in IDE).
