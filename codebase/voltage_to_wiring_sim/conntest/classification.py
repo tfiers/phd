@@ -78,7 +78,7 @@ def sweep_threshold(
 ) -> list[Classification]:
     results = []
     p_values = [summary.p_value for summary in conntest_summaries]
-    thresholds = np.unique([0] + p_values + [1])
+    thresholds = np.unique([0] + p_values)
     for p_value_threshold in thresholds:
         is_classified_as_connected = apply_threshold(
             conntest_summaries, p_value_threshold
@@ -91,7 +91,7 @@ def sweep_threshold(
     return results
 
 
-def plot_threshold_sweep(classifications: list[Classification], ax: Axes = None):
+def plot_classifications(classifications: list[Classification], ax: Axes = None):
     # We'll draw a matrix with four colours.
     # cols = p-value threshold
     # rows = pre-post-pairs
@@ -139,7 +139,7 @@ def plot_threshold_sweep(classifications: list[Classification], ax: Axes = None)
     ax.legend(handles=legend_patches)
 
     ax.set_xlabel("p-value threshold")
-    ax.set_ylabel("(pre-post) pair")
+    ax.set_ylabel("(pre-post)-pair")
 
     return ax
 
@@ -156,3 +156,18 @@ class EvalLabels(Enum):
     FN = "False negatives"
     TN = "True negatives"
     FP = "False positives"
+
+
+def plot_ROC(classifications: list[Classification], ax: Axes = None):
+    TPRs = [c.evaluation.TPR for c in classifications]
+    FPRs = [c.evaluation.FPR for c in classifications]
+    ax = create_if_None(ax)
+    ax.step(FPRs, TPRs, "k.-", where="post", clip_on=False)
+    ax.set_aspect("equal")
+    ax.set(
+        xlabel="FP / # not connected",
+        ylabel="TP / # connected",
+        xlim=(0, 1),
+        ylim=(0, 1),
+    )
+    return ax

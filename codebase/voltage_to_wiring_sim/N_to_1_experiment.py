@@ -20,6 +20,7 @@ from .conntest.permutation_test import (
     plot_STAs,
     plot_STA_heights,
 )
+from .conntest.classification import Classification, plot_classifications, plot_ROC
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
@@ -270,3 +271,11 @@ def plot_conntest(
     plot_relative_STA_heights(test_summaries, sim_data, fig2_ax_right)
     fig2_ax_right.legend_.remove()
     fig2.suptitle("All spike trains", x=0.08, y=1, **title_kwargs)
+
+
+def plot_classifications_with_ROC(classifications: list[Classification]):
+    fig, (left_ax, right_ax) = subplots(
+        ncols=2, **figsize(aspect=3, width=800), gridspec_kw=dict(width_ratios=[2, 1])
+    )
+    plot_classifications(classifications, left_ax)
+    plot_ROC(classifications, right_ax)
