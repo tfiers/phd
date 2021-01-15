@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from random import choice, sample
+from random import sample
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -48,7 +48,6 @@ def test_connection(
 
     def calc_STA(spike_train):
         return calculate_STA(VI_signal, spike_train, window_duration)
-        return np.max(STA_window) - np.min(STA_window)
 
     original_STA = calc_STA(spike_train)
     shuffled_STAs = [calc_STA(train) for train in shuffled_spike_trains]
