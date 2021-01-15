@@ -191,24 +191,51 @@ def plot_sim_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quanti
         ax.set_position([bb.x0, bb.y0, bb.width, bb.height * 0.4])
 
 
-def plot_p_values(test_summaries: list[ConnectionTestSummary], ax: Axes = None):
+def _connected_labels(sim_data: N_to_1_SimData) -> list[str]:
+    return [
+        "Connected" if connected else "Not connected"
+        for connected in sim_data.is_connected
+    ]
+
+
+def plot_p_values(
+    test_summaries: list[ConnectionTestSummary],
+    sim_data: N_to_1_SimData,
+    ax: Axes = None,
+):
     p_values = [summary.p_value for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(p_values, binwidth=0.01, ax=ax)
+    sns.histplot(
+        x=p_values,
+        hue=_connected_labels(sim_data),
+        multiple="stack",
+        binwidth=0.01,
+        ax=ax,
+    )
     ax.set(
         xlabel="p-value",
         ylabel="Nr. of spike trains",
         xlim=[0, 1],
     )
+    return ax
 
 
 def plot_relative_STA_heights(
-    test_summaries: list[ConnectionTestSummary], ax: Axes = None
+    test_summaries: list[ConnectionTestSummary],
+    sim_data: N_to_1_SimData,
+    ax: Axes = None,
 ):
     rel_heights = [summary.relative_STA_height for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(rel_heights, binwidth=0.02, ax=ax)
+    sns.histplot(
+        x=rel_heights,
+        hue=_connected_labels(sim_data),
+        multiple="stack",
+        binwidth=0.02,
+        ax=ax,
+    )
     ax.set(
         xlabel="STA height / mean shuffled STA height",
         ylabel="Nr. of spike trains",
     )
+    return ax
