@@ -1,11 +1,12 @@
-import importlib.metadata
 import sys
+import re
 from datetime import datetime
 from functools import partial
 from getpass import getuser
 from platform import platform, python_implementation, python_version, system
 from socket import gethostname
 from subprocess import run
+from importlib.metadata import version, requires
 
 
 REPO_URL = "https://github.com/tfiers/voltage-to-wiring-sim"
@@ -76,11 +77,23 @@ def print_platform_info():
 def print_package_versions():
     root_package_name = __package__.split(".")[0]
     print_md(f"Dependencies of `{root_package_name}` and their installed versions:")
-    deps = get__pip_show__value(root_package_name, "Requires: ").split(", ")
+    deps = [_extract_package_name(line) for line in requires(root_package_name)]
     for package_name in deps:
         print(format(package_name, "<20"), end=" ")
-        version = importlib.metadata.version(package_name)
-        print(version)
+        print(version(package_name))
+
+
+def _extract_package_name(requirement_line):
+    # Examples of 'requires' lines:
+    #   numpy~=1.18
+    #   jupyter-client (>=5.3.4)
+    #   ipykernel
+    #   nbsphinx ; extra == 'docs'
+    #   Send2Trash
+    #   sphinxcontrib-github-alt ; extra == 'docs'
+    #
+    # We extract the first letters, digits, and dashes at the start of the line.
+    return re.findall("^[\w\d-]*", requirement_line)[0]
 
 
 def get_cpu_name():
@@ -115,11 +128,3 @@ def get_cmd_output(cmd, **kwargs) -> str:
     kwargs.update(capture_output=True, text=True)
     completed_process = run(cmd.split(), **kwargs)
     return completed_process.stdout
-
-
-def get__pip_show__value(package_name: str, key: str) -> str:
-    for line in get_cmd_output(f"pip show {package_name}").splitlines():
-        if line.startswith(key):
-            return line[len(key) :]
-        else:
-            continue
