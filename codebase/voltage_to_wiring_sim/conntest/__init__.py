@@ -1,1 +1,1 @@
-from . import permutation_test
+from . import permutation_test, STA, classification
