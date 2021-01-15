@@ -52,7 +52,7 @@ def test_connection(
     original_STA = calc_STA(spike_train)
     shuffled_STAs = [calc_STA(train) for train in shuffled_spike_trains]
 
-    original_STA_height = np.ptp(original_STA)
+    original_STA_height = np.ptp(original_STA)  # ptp = peak-to-peak = max - min
     shuffled_STA_heights = np.array([np.ptp(window) for window in shuffled_STAs])
 
     num_shuffled_STAs_larger = np.sum(shuffled_STA_heights > original_STA_height)
