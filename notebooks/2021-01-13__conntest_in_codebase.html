@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8">
-    <title>2021-01-13 &#8226; Multiple ROC&#8217;s &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-01-13 &#8226; Connection test plot functions &#8212; Voltage-to-Wiring Sim</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
     <link href="../_static/css/index.css" rel="stylesheet">
     <link rel="stylesheet" href="../_static/sphinx-book-theme.css" type="text/css">
@@ -36,22 +36,22 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-13__multiple_ROC.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-13__conntest_in_codebase.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-01-06 &#8226; ROC" href="2021-01-06__ROC.html">
-    <link rel="prev" title="Executing code" href="../md/executing_code.html">
+    <link rel="next" title="2020-01-02 &#8226; Trying out a full network simulation" href="2021-01-02__full_network_sim_tryout.html">
+    <link rel="prev" title="Intro" href="../md/unpolished_notebooks_intro.html">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
 
 
 <!-- Opengraph tags -->
-<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-13__multiple_ROC.html">
+<meta property="og:url" content="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-01-13__conntest_in_codebase.html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2021-01-13 &#8226; Multiple ROC&#8217;s">
-<meta property="og:description" content="2021-01-13 &#8226; Multiple ROC&#8217;s  Here we repeat the simulation multiple times (each time varying one parameter), and for each repetition calculate an ROC curve (and">
+<meta property="og:title" content="2021-01-13 &#8226; Connection test plot functions">
+<meta property="og:description" content="2021-01-13 &#8226; Connection test plot functions  Integrated plot functions from recent notebooks (plotting overlaid STAs, height-, p-value-, and rel height distribu">
 
 
 <meta name="twitter:card" content="summary">
@@ -108,9 +108,9 @@
   Reports
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
    2021-01-13 &#8226; Multiple ROC&#8217;s
   </a>
  </li>
@@ -186,14 +186,14 @@
   Unpolished notebooks
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
   <a class="reference internal" href="../md/unpolished_notebooks_intro.html">
    Intro
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2021-01-13 &#8226; Connection test plot functions
   </a>
  </li>
@@ -276,7 +276,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2021-01-13__multiple_ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-01-13__conntest_in_codebase.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -288,8 +288,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-01-13__multiple_ROC.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-01-13__multiple_ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-01-13__conntest_in_codebase.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-01-13__conntest_in_codebase.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -303,7 +303,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-01-13__multiple_ROC.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-01-13__conntest_in_codebase.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -345,9 +345,9 @@
         
               <div>
                 
-  <div class="section" id="multiple-roc-s">
-<h1>2021-01-13 &#8226; Multiple ROC&#8217;s<a class="headerlink" href="#multiple-roc-s" title="Permalink to this headline">&#182;</a></h1>
-<p>Here we repeat the simulation multiple times (each time varying one parameter), and for each repetition calculate an ROC curve (and associated area under that curve): how well could we classify all (spike_train, VI_signal)-pairs as connected or unconnected, for a range of p-value thresholds?</p>
+  <div class="section" id="connection-test-plot-functions">
+<h1>2021-01-13 &#8226; Connection test plot functions<a class="headerlink" href="#connection-test-plot-functions" title="Permalink to this headline">&#182;</a></h1>
+<p>Integrated plot functions from recent notebooks (plotting overlaid STAs, height-, p-value-, and rel height distributions, and ROC curve) in codebase. This notebook showcases them, including a new four-coloured classification matrix plot.</p>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -432,7 +432,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_10_0.png" src="../_images/2021-01-13__multiple_ROC_10_0.png">
+<img alt="../_images/2021-01-13__conntest_in_codebase_10_0.png" src="../_images/2021-01-13__conntest_in_codebase_10_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -454,8 +454,8 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_12_0.png" src="../_images/2021-01-13__multiple_ROC_12_0.png">
-<img alt="../_images/2021-01-13__multiple_ROC_12_1.png" src="../_images/2021-01-13__multiple_ROC_12_1.png">
+<img alt="../_images/2021-01-13__conntest_in_codebase_12_0.png" src="../_images/2021-01-13__conntest_in_codebase_12_0.png">
+<img alt="../_images/2021-01-13__conntest_in_codebase_12_1.png" src="../_images/2021-01-13__conntest_in_codebase_12_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -472,7 +472,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_14_0.png" src="../_images/2021-01-13__multiple_ROC_14_0.png">
+<img alt="../_images/2021-01-13__conntest_in_codebase_14_0.png" src="../_images/2021-01-13__conntest_in_codebase_14_0.png">
 </div>
 </div>
 </div>
@@ -752,8 +752,8 @@ zstd                      1.4.8                h4e2f164_1    conda-forge
     
     <div class="prev-next-bottom">
         
-    <a class="left-prev" id="prev-link" href="../md/executing_code.html" title="previous page">Executing code</a>
-    <a class="right-next" id="next-link" href="2021-01-06__ROC.html" title="next page">2021-01-06 &#8226; ROC</a>
+    <a class="left-prev" id="prev-link" href="../md/unpolished_notebooks_intro.html" title="previous page">Intro</a>
+    <a class="right-next" id="next-link" href="2021-01-02__full_network_sim_tryout.html" title="next page">2020-01-02 &#8226; Trying out a full network simulation</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
