@@ -24,14 +24,14 @@ from .conntest.permutation_test import (
 )
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
-from .sim.neuron_params import IzhikevichParams, cortical_RS
+from .sim.neuron_params import IzhikevichParams
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
 from .support import Signal, plot_signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
-from .support.units import Hz, Quantity, mV, minute, ms, nS
-from .support.util import create_if_None, subplots, timed_loop
+from .support.units import Quantity, mV, ms, nS
+from .support.util import create_if_None, fix_rng_seed, subplots, timed_loop
 
 
 @dataclass
@@ -45,22 +45,13 @@ class N_to_1_SimParams:
     τ_syn: Quantity
     neuron_params: IzhikevichParams
     imaging_spike_SNR: float
-
-
-default_params = N_to_1_SimParams(
-    sim_duration=10 * minute,
-    timestep=0.1 * ms,
-    num_spike_trains=30,
-    p_connected=0.5,
-    spike_rate=20 * Hz,
-    Δg_syn=0.8 * nS,
-    τ_syn=7 * ms,
-    neuron_params=cortical_RS,
-    imaging_spike_SNR=10,
-)
+    rng_seed: int = None
 
 
 def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
+
+    if params.rng_seed is not None:
+        fix_rng_seed(params.rng_seed)
 
     # 1. Biology model
     spike_trains_list = [
