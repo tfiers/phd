@@ -118,7 +118,6 @@ def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
         ax=ax,
         color="C1",
         alpha=0.3,
-        zorder=1.6,
     )
     sns.rugplot(
         data.shuffled_STA_heights / mV,

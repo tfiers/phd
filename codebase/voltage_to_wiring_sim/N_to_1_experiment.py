@@ -194,7 +194,7 @@ def plot_sim_slice(sim_data: N_to_1_SimData, t_start: Quantity, duration: Quanti
 def plot_p_values(test_summaries: list[ConnectionTestSummary], ax: Axes = None):
     p_values = [summary.p_value for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(p_values, binwidth=0.01, zorder=1.6, ax=ax)
+    sns.histplot(p_values, binwidth=0.01, ax=ax)
     ax.set(
         xlabel="p-value",
         ylabel="Nr. of spike trains",
@@ -207,7 +207,7 @@ def plot_relative_STA_heights(
 ):
     rel_heights = [summary.relative_STA_height for summary in test_summaries]
     ax = create_if_None(ax, **figsize(aspect=3))
-    sns.histplot(rel_heights, binwidth=0.02, zorder=1.6, ax=ax)
+    sns.histplot(rel_heights, binwidth=0.02, ax=ax)
     ax.set(
         xlabel="STA height / mean shuffled STA height",
         ylabel="Nr. of spike trains",

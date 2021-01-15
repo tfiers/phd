@@ -39,6 +39,7 @@ paint = {
                                  # on Twitter).
     "axes.grid": True,
     "grid.color": "0.85",  # Very light gray
+    "axes.axisbelow": True,  # Grid below patches (like histogram bars), not on top.
     "ytick.left": False,  # No ticks, but still labels
     "xtick.bottom": False,
     "xtick.color": "0.4",
