@@ -158,11 +158,14 @@ class EvalLabels(Enum):
     FP = "False positives"
 
 
-def plot_ROC(classifications: list[Classification], ax: Axes = None):
+def plot_ROC(classifications: list[Classification], ax: Axes = None, **kwargs):
     TPRs = [c.evaluation.TPR for c in classifications]
     FPRs = [c.evaluation.FPR for c in classifications]
     ax = create_if_None(ax)
-    ax.step(FPRs, TPRs, "k.-", where="post", clip_on=False)
+    step_kwargs = dict(marker=".")
+    step_kwargs.update(kwargs)
+    ax.step(FPRs, TPRs, where="post", clip_on=False, **step_kwargs)
+    ax.fill_between(FPRs, TPRs, step="post", alpha=0.1, color="grey")
     ax.set_aspect("equal")
     ax.set(
         xlabel="FP / # not connected",
