@@ -57,8 +57,6 @@ setup(
                                # [https://scikit-learn.org/]
         "preload ~= 2.1",      # Print what's happening during slow imports.
                                # [https://github.com/tfiers/preload]
-        "py-cpuinfo ~= 7.0",   # Used in reproducibility.py
-                               # [https://github.com/workhorsy/py-cpuinfo]
         "nptyping ~= 1.3",     # Type hints for NumPy arrays.
                                # [https://pypi.org/project/nptyping/].
         "tqdm ~= 4.55",        # Progress meter & timing info for slow loops.

@@ -3,11 +3,9 @@ import sys
 from datetime import datetime
 from functools import partial
 from getpass import getuser
-from platform import platform, python_implementation, python_version
+from platform import platform, python_implementation, python_version, system
 from socket import gethostname
 from subprocess import run
-
-from cpuinfo import get_cpu_info
 
 
 REPO_URL = "https://github.com/tfiers/voltage-to-wiring-sim"
@@ -72,7 +70,7 @@ def print_platform_info():
     print_md("Platform:")
     print(f"{platform(terse=True)}")  # OS
     print(f"{python_implementation()} {python_version()} ({sys.executable})")
-    print(get_cpu_info()["brand_raw"])  # Takes a sec.
+    print(get_cpu_name())
 
 
 def print_package_versions():
@@ -83,6 +81,32 @@ def print_package_versions():
         print(format(package_name, "<20"), end=" ")
         version = importlib.metadata.version(package_name)
         print(version)
+
+
+def get_cpu_name():
+    os_type = system()
+
+    if os_type == "Linux":
+        with open("/proc/cpuinfo") as f:
+            lines = f.readlines()
+        line = next(l for l in lines if l.startswith("model name"))
+        cpu_name = line.split(": ")[1].strip()
+
+    elif os_type == "Windows":
+        import winreg
+
+        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
+        key = winreg.OpenKey(reg, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
+        cpu_name, _ = winreg.QueryValueEx(key, "ProcessorNameString")
+        reg.Close()
+
+    elif os_type == "Darwin":  # MacOS
+        cpu_name = get_cmd_output("sysctl -n machdep.cpu.brand_string").strip()
+
+    else:
+        cpu_name = "CPU unknown"
+
+    return cpu_name
 
 
 def get_cmd_output(cmd, **kwargs) -> str:
