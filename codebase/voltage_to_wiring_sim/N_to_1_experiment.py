@@ -13,7 +13,13 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from nptyping import NDArray
 
-from .conntest.permutation_test import ConnectionTestSummary, test_connection
+from .conntest.permutation_test import (
+    ConnectionTestData,
+    ConnectionTestSummary,
+    test_connection,
+    plot_STAs,
+    plot_STA_heights,
+)
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams, cortical_RS
@@ -23,7 +29,7 @@ from .support import Signal, plot_signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Hz, Quantity, mV, minute, ms, nS
-from .support.util import create_if_None, timed_loop
+from .support.util import create_if_None, subplots, timed_loop
 
 
 @dataclass
@@ -239,3 +245,26 @@ def plot_relative_STA_heights(
         ylabel="Nr. of spike trains",
     )
     return ax
+
+
+def plot_conntest(
+    test_data: list[ConnectionTestData],
+    test_summaries: list[ConnectionTestSummary],
+    sim_data: N_to_1_SimData,
+):
+    selected_spike_train = get_index_of_first_connected_train(sim_data)
+    fig1, (fig1_ax_left, fig1_ax_right) = subplots(
+        ncols=2, **figsize(aspect=3, width=800)
+    )
+    plot_STAs(test_data[selected_spike_train], fig1_ax_left)
+    plot_STA_heights(test_data[selected_spike_train], fig1_ax_right)
+    title_kwargs = dict(ha="left", va="baseline", x=0.08, y=1)
+    fig1.suptitle(f"Spike train #{selected_spike_train}", **title_kwargs)
+
+    fig2, (fig2_ax_left, fig2_ax_right) = subplots(
+        ncols=2, **figsize(aspect=5, width=800)
+    )
+    plot_p_values(test_summaries, sim_data, fig2_ax_left)
+    plot_relative_STA_heights(test_summaries, sim_data, fig2_ax_right)
+    fig2_ax_right.legend_.remove()
+    fig2.suptitle("All spike trains", **title_kwargs)

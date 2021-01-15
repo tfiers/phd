@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from random import sample
 
-import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.axes import Axes
 
@@ -12,6 +11,7 @@ from ..support import Signal
 from ..support.plot_style import figsize
 from ..support.spike_train import SpikeTimes, to_ISIs, to_spike_train
 from ..support.units import Array, Quantity
+from ..support.util import create_if_None
 
 
 def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
@@ -108,9 +108,7 @@ def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
     import seaborn as sns
     from voltage_to_wiring_sim.support.units import mV
 
-    if ax is None:
-        _, ax = plt.subplots(**figsize(aspect=2.2))
-
+    ax = create_if_None(ax, **figsize(aspect=2.2))
     rug_height = 0.08
     sns.histplot(
         data.shuffled_STA_heights / mV,
@@ -133,7 +131,7 @@ def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
         linewidth=2,
     )
     ax.set_xlabel("STA height (mV)")
-    ax.set_ylabel("Bin size")
+    ax.set_ylabel("Nr. of shuffled trains")
     ax.legend()
     return ax
 
