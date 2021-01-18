@@ -331,8 +331,13 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#vary-one-parameter">
-   Vary one parameter
+  <a class="reference internal nav-link" href="#vary-snr">
+   Vary SNR
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-recording-duration">
+   Vary recording duration
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -379,18 +384,14 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 23:31 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e92d8ec129733e2f72ad1e227f3564d805396e24">Last git commit</a> (Fri 15 Jan 2021, 23:28).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
-</pre></div>
-</div>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 18 Jan</strong> 2021, at 16:00 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/b6358ab6c8dada1382e20c5553931f979c57156c">Last git commit</a> (Fri 15 Jan 2021, 23:41).</p>
+<p>No uncommitted changes</p>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">N_to_1_SimParams</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">sim_and_eval</span><span class="p">,</span> <span class="n">plot_sim_slice</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.N_to_1_experiment</span> <span class="kn">import</span> <span class="n">N_to_1_SimParams</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">plot_sim_slice</span>
 </pre></div>
 </div>
 </div>
@@ -460,7 +461,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:03&lt;00:00,  9.89it/s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:02&lt;00:00, 10.65it/s]
 </pre></div>
 </div>
 </div>
@@ -494,8 +495,10 @@ Setup autoreload
 </div>
 </div>
 </div>
-<div class="section" id="vary-one-parameter">
-<h2>Vary one parameter<a class="headerlink" href="#vary-one-parameter" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="vary-snr">
+<h2>Vary SNR<a class="headerlink" href="#vary-snr" title="Permalink to this headline">&#182;</a></h2>
+<p>(Voltage imaging signal-to-noise ratio).</p>
+<p>Remember: recording duration is 1 minute, and median reported VI SNR from the literature is 10.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_connections</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">test_connections</span> 
@@ -543,22 +546,22 @@ Setup autoreload
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1
-Sim: &#8230; (0.605 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.75it/s]
+Sim: &#8230; (0.45 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.00it/s]
 
 SNR: 2
-Sim: &#8230; (0.502 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 25.76it/s]
+Sim: &#8230; (0.642 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 27.03it/s]
 
 SNR: 4
-Sim: &#8230; (0.499 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.93it/s]
+Sim: &#8230; (0.482 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.33it/s]
 
 SNR: 8
-Sim: &#8230; (0.639 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 25.55it/s]
+Sim: &#8230; (0.482 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.27it/s]
 
-Wall time: 7.04 s
+Wall time: 6.64 s
 </pre></div>
 </div>
 </div>
@@ -658,6 +661,152 @@ Wall time: 7.04 s
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/2021-01-13__multiple_ROC_24_0.png" src="../_images/2021-01-13__multiple_ROC_24_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="vary-recording-duration">
+<h2>Vary recording duration<a class="headerlink" href="#vary-recording-duration" title="Permalink to this headline">&#182;</a></h2>
+<p>Remember: SNR here is 2, and VI photobleaching has time constant of ~10 minutes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">durations</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="mi">30</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span>
+    <span class="mi">1</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
+    <span class="mi">2</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
+    <span class="mi">4</span> <span class="o">*</span> <span class="n">minute</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">T_min</span><span class="si">:</span><span class="s2">.2G</span><span class="si">}</span><span class="s2"> minute</span><span class="si">{</span><span class="s1">''</span> <span class="k">if</span> <span class="n">T_min</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">'s'</span><span class="si">}</span><span class="s2">"</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duration: </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">sim_duration</span> <span class="o">=</span> <span class="n">T</span>
+    <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Duration: 0.5 minutes
+Sim: &#8230; (0.603 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:00&lt;00:00, 31.67it/s]
+
+Duration: 1 minute
+Sim: &#8230; (0.481 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.52it/s]
+
+Duration: 2 minutes
+Sim: &#8230; (0.528 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:02&lt;00:00, 13.89it/s]
+
+Duration: 4 minutes
+Sim: &#8230; (0.76 s)
+Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:04&lt;00:00,  7.10it/s]
+
+Wall time: 11.1 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">classifs</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">durations</span><span class="p">,</span> <span class="n">thr_sweeps</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_ROC</span><span class="p">(</span><span class="n">classifs</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span>
+                  <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"T = </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                  <span class="n">marker</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span>
+                  <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">"C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_30_0.png" src="../_images/2021-01-13__multiple_ROC_30_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+    <span class="n">recording_duration</span><span class="o">=</span><span class="p">[</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">],</span>
+    <span class="n">AUC</span><span class="o">=</span><span class="p">[</span><span class="n">AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">])</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>recording_duration</th>
+      <th>AUC</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.5 minutes</td>
+      <td>0.742222</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1 minute</td>
+      <td>0.853333</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2 minutes</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4 minutes</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"recording_duration"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_32_0.png" src="../_images/2021-01-13__multiple_ROC_32_0.png">
 </div>
 </div>
 </div>
