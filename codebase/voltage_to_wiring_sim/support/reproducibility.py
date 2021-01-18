@@ -97,6 +97,7 @@ def _extract_package_name(requirement_line):
 
 
 def get_cpu_name():
+    
     os_type = system()
 
     if os_type == "Linux":
@@ -106,11 +107,11 @@ def get_cpu_name():
         cpu_name = line.split(": ")[1].strip()
 
     elif os_type == "Windows":
-        import winreg
+        from winreg import ConnectRegistry, OpenKey, QueryValueEx, HKEY_LOCAL_MACHINE
 
-        reg = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
-        key = winreg.OpenKey(reg, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
-        cpu_name, _ = winreg.QueryValueEx(key, "ProcessorNameString")
+        reg = ConnectRegistry(None, HKEY_LOCAL_MACHINE)  # 'None': local pc, not remote
+        key = OpenKey(reg, r"HARDWARE\DESCRIPTION\System\CentralProcessor\0")
+        cpu_name, _ = QueryValueEx(key, "ProcessorNameString")
         reg.Close()
 
     elif os_type == "Darwin":  # MacOS
