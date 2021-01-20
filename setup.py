@@ -51,5 +51,6 @@ setup(
         "preload ~= 2.1",       # Print what's happening during slow imports.
         "nptyping ~= 1.3",      # Type hints (shape, data type) for NumPy arrays.
         "tqdm ~= 4.55",         # Progress meter & timing info for slow loops.
+        "dask ~= 2021.1",       # Parallelisation over cores & work visualisation.
     )
 )

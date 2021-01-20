@@ -16,3 +16,6 @@ joblib
 
 # Annoying files placed by Windows in every Google Drive folder (specifying folder icon)
 desktop.ini
+
+# Locks used for work parallelization over cores
+dask-worker-space
