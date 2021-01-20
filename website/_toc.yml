@@ -26,7 +26,7 @@
   - file: md/unpolished_notebooks_intro
   - file: notebooks/2021-01-13__conntest_in_codebase
   - file: notebooks/2021-01-02__full_network_sim_tryout
-  - file: notebooks/2020-01-01__debug_parallel_calc_STA
+  - file: notebooks/2021-01-01__debug_parallel_calc_STA
   - file: notebooks/2020-11-30__speedup__spike_indices
   - file: notebooks/2020-11-30__speedup
   - file: notebooks/2020-11-27__factor_out_STA
