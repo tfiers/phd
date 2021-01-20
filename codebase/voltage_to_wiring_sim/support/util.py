@@ -18,9 +18,19 @@ from tqdm import tqdm
 from .array_wrapper import strip_NDArrayWrapper_inputs
 
 
-timed_loop = partial(tqdm, file=sys.stdout)
+with_progress_bar = partial(tqdm, file=sys.stdout)
 # By default, tqdm writes its progress bar to stderr ("stdout should only be used for
 # program output"). But stderr gives red bg in jupyter nbs which is not nice.
+
+
+@contextmanager
+def time_op(description: str, end="\n"):
+    print(f"{description}: ", end="… ")
+    t0 = time()
+    yield
+    dt = time() - t0
+    duration_str = f"{dt:.2g} s"
+    print(f"{duration_str:<6}", end=end)
 
 
 def pprint(dataclass, values=True):
@@ -69,15 +79,6 @@ def fix_rng_seed(seed=0):
     np.random.seed(seed)
 
 
-@contextmanager
-def time_op(description: str):
-    print(f"{description}: ", end="… ")
-    t0 = time()
-    yield
-    dt = time() - t0
-    print(f"({dt:.3g} s)")
-
-
 # Add return types to plt.subplots (for autocompletion in IDE).
 
 OneOrMoreAxes = Union[Axes, Sequence[Axes]]
@@ -94,7 +95,6 @@ def create_if_None(ax: Optional[Axes], **subplots_kwargs):
     if ax is None:
         _, ax = subplots(**subplots_kwargs)
     return ax
-
 
 
 # A clearer name for the numba `(n)jit` call.
