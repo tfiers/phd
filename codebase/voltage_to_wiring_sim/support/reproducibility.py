@@ -37,6 +37,7 @@ def print_reproducibility_info(verbose=False):
     if verbose:
         print_platform_info()
         print_package_versions()
+        print_conda_env()
 
 
 def print_when_who_where():
@@ -83,6 +84,11 @@ def print_package_versions():
         print(version(package_name))
 
 
+def print_conda_env():
+    print_md("Full conda list:")
+    print(get_cmd_output("conda list"))
+
+
 def _extract_package_name(requirement_line):
     # Examples of 'requires' lines:
     #   numpy~=1.18
@@ -97,7 +103,7 @@ def _extract_package_name(requirement_line):
 
 
 def get_cpu_name():
-    
+
     os_type = system()
 
     if os_type == "Linux":
@@ -123,7 +129,7 @@ def get_cpu_name():
     return cpu_name
 
 
-def get_cmd_output(cmd, **kwargs) -> str:
+def get_cmd_output(cmd: str, **kwargs) -> str:
     # We don't use `check_output`, as that function raises an error on non-zero return
     # codes. `run` does not. (`pip show unitlib` returns code 120).
     kwargs.update(capture_output=True, text=True)
