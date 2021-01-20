@@ -14,7 +14,7 @@ setup(
     author="Tomas Fiers",
     author_email="tomas.fiers@gmail.com",
     license="MIT",
-    package_dir={"": SOURCE_DIR},
+    package_dir={"": SOURCE_DIR},  # `""` means "root package"
     packages=find_packages(where=SOURCE_DIR),
     #
     # A list of Python packages on which this package depends.
@@ -30,36 +30,26 @@ setup(
     #
     # fmt: off
     install_requires=(
-        "numpy ~= 1.18",       # Fast numeric arrays and functions to generate/
-                               # manipulate them. [https://numpy.org]
-        "matplotlib ~= 3.1",   # Plotting. [https://matplotlib.org]
-        "numba ~= 0.50",       # Speeds up custom numeric calculations, such as the
-                               # Izhikevich ODE integration. Given a Python function,
-                               # Numba assumes the function only processes numeric
-                               # arrays (and not arbitrary, general purpose Python
-                               # objects), so that it can compile it to lean machine
-                               # code (instead of having to invoke the powerful-but-slow
-                               # Python interpreter on every line). It so approaches
-                               # C or Julia performance. [http://numba.pydata.org]
-        # "unitlib",             # Physical units for quantities, such as neuron model
-                               # parameters. Used to safeguard against the mistakes
-                               # likely to happen when manually converting units. Also,
-                               # auto-adds units and signal names to plot axes.
-                               # [https://github.com/tfiers/unitlib]
-        # "joblib ~= 0.16",      # (Currently unused).
-                               # [https://joblib.readthedocs.io/]
-        "seaborn ~= 0.11",     # Extension of Matplotlib for statistical data viz.
-                               # [https://seaborn.pydata.org/]
-        "scipy ~= 1.5",        # Numerical utilities (peak finding, integration,
-                               # interpolation, optimisation, ...).
-                               # [https://docs.scipy.org/doc/scipy/reference/]
-        "scikit-learn ~= 0.23",# Machine learning (used for kernel density estimation).
-                               # [https://scikit-learn.org/]
-        "preload ~= 2.1",      # Print what's happening during slow imports.
-                               # [https://github.com/tfiers/preload]
-        "nptyping ~= 1.3",     # Type hints for NumPy arrays.
-                               # [https://pypi.org/project/nptyping/].
-        "tqdm ~= 4.55",        # Progress meter & timing info for slow loops.
-                               # [https://github.com/tqdm/tqdm].
+        "numpy ~= 1.18",        # Fast numeric arrays and functions to generate/
+                                # manipulate them.
+        "matplotlib ~= 3.1",    # Plotting.
+        "numba ~= 0.50",        # Speeds up custom numeric calculations, such as the
+                                # Izhikevich ODE integration. Given a Python function,
+                                # Numba assumes the function only processes numeric
+                                # arrays (and not arbitrary, general purpose Python
+                                # objects), so that it can compile it to lean machine
+                                # code (instead of having to invoke the
+                                # powerful-but-slow Python interpreter on every line).
+                                # It so approaches C or Julia performance.
+        # "unitlib",            # Store & display *physical units* along numbers &
+                                # arrays.
+        "joblib ~= 0.16",       # On-disk function cache to avoid re-doing work.
+        "seaborn ~= 0.11",      # Extension of Matplotlib for statistical data viz.
+        "scipy ~= 1.5",         # Numerical utilities (peak finding, integration,
+                                # interpolation, optimisation, ...).
+        "scikit-learn ~= 0.23", # Machine learning (used for kernel density estimation).
+        "preload ~= 2.1",       # Print what's happening during slow imports.
+        "nptyping ~= 1.3",      # Type hints (shape, data type) for NumPy arrays.
+        "tqdm ~= 4.55",         # Progress meter & timing info for slow loops.
     )
 )
