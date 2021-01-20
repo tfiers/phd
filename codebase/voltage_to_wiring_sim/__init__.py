@@ -1,8 +1,6 @@
-# coding: utf-8
-
 from preload import preload
 
-# preload(["numpy", "numba", "matplotlib.pyplot", "seaborn"])
+preload(["numpy", "numba", "matplotlib.pyplot", "seaborn"])
 
 print("Importing from submodules", end=" … ")
 
@@ -20,4 +18,4 @@ from .support.reproducibility import print_reproducibility_info
 
 from . import N_to_1_experiment, sim, support, conntest
 
-print("done")
+print("✔")

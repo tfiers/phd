@@ -4,7 +4,6 @@ Pipeline combining the sim/ and conntest/ packages.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import partial
 from typing import Any
 
 import matplotlib.pyplot as plt
@@ -14,7 +13,6 @@ import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from nptyping import NDArray
-from dask.distributed import Client
 
 from .conntest.classification import Classification, plot_ROC, plot_classifications
 from .conntest.permutation_test import (
@@ -110,22 +108,21 @@ def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
-def test_connections(sim_data: N_to_1_SimData, dask_client: Client = None):
-    test_conn = partial(
-        test_connection,
-        VI_signal=sim_data.VI_signal,
-        window_duration=100 * ms,
-        num_shuffles=100,
-    )
-    if dask_client:
-        futures = dask_client.map(test_conn, sim_data.spike_trains)
-        results = dask_client.gather(futures)
-    else:
-        iterable = with_progress_bar(sim_data.spike_trains, "Testing connections")
-        results = [test_conn(spike_train) for spike_train in iterable]
-
-    test_data, test_summaries = zip(*results)
-    #   i.e. `zip((d1, s1), (d2, s2), (d3,  s3), …)`
+def test_connections(sim_data: N_to_1_SimData, progress_bar=True):
+    test_data = []
+    test_summaries = []
+    iterable = sim_data.spike_trains
+    if progress_bar:
+        iterable = with_progress_bar(iterable, "Testing connections")
+    for spike_train in iterable:
+        data, summary = test_connection(
+            spike_train,
+            sim_data.VI_signal,
+            window_duration=100 * ms,
+            num_shuffles=100,
+        )
+        test_data.append(data)
+        test_summaries.append(summary)
     return test_data, test_summaries
 
 
