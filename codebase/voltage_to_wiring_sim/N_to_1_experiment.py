@@ -31,7 +31,7 @@ from .support import Signal, plot_signal, to_bounds
 from .support.plot_style import figsize
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Quantity, mV, ms, nS
-from .support.util import create_if_None, fix_rng_seed, subplots, with_progress_bar
+from .support.util import create_if_None, fix_rng_seed, subplots, with_progress_meter
 
 
 @dataclass
@@ -108,13 +108,10 @@ def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
-def test_connections(sim_data: N_to_1_SimData, progress_bar=True):
+def test_connections(sim_data: N_to_1_SimData):
     test_data = []
     test_summaries = []
-    iterable = sim_data.spike_trains
-    if progress_bar:
-        iterable = with_progress_bar(iterable, "Testing connections")
-    for spike_train in iterable:
+    for spike_train in with_progress_meter(sim_data.spike_trains):
         data, summary = test_connection(
             spike_train,
             sim_data.VI_signal,

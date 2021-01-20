@@ -1,9 +1,7 @@
 import functools
 import reprlib
-import sys
 from contextlib import contextmanager
 from dataclasses import asdict, fields
-from functools import partial
 from textwrap import fill
 from time import time
 from typing import Callable, Optional, Sequence, Tuple, Union
@@ -13,24 +11,56 @@ import numba
 import numpy as np
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from tqdm import tqdm
 
 from .array_wrapper import strip_NDArrayWrapper_inputs
 
 
-with_progress_bar = partial(tqdm, file=sys.stdout)
-# By default, tqdm writes its progress bar to stderr ("stdout should only be used for
-# program output"). But stderr gives red bg in jupyter nbs which is not nice.
-
-
 @contextmanager
 def time_op(description: str, end="\n"):
-    print(f"{description}: ", end="… ")
+    bsprint(f"{description}: ", end="")
     t0 = time()
     yield
     dt = time() - t0
-    duration_str = f"{dt:.2g} s"
-    print(f"{duration_str:<6}", end=end)
+    duration_str = f"[{dt:.2g} s]"
+    bsprint(f"{duration_str:<8}", end=end)
+
+
+def with_progress_meter(sequence, end=" "):
+    # We don't use the standard solution, `tqdm`, as it adds a trailing newline and can
+    # thus not be integrated in a gradual, one-line printing context.
+    total = len(sequence)
+    for i, item in enumerate(sequence):
+        meter_str = f"{i}/{total}"
+        bsprint(meter_str, end="")
+        yield item
+        bsprinter.backspace(len(meter_str))
+    bsprint(f"{total}/{total}", end=end)
+
+
+class BackspaceablePrinter:
+    # Printing backspace characters (`\b`) does not work in Jupyter Notebooks
+    # [https://github.com/jupyter/notebook/issues/2892].
+    # Hence we emulate it by erasing the entire line (which does work), and reprinting
+    # what was already there. The goal? Progress meters (see `with_progress_meter`).
+
+    def __init__(self):
+        self.last_line = ""
+
+    def print(self, msg: str, end="\n"):
+        """ Use if you later want to be able to backspace in the same line."""
+        full_msg = msg + end
+        if "\n" in full_msg:
+            self.last_line = ""
+        self.last_line += full_msg.split("\n")[-1]
+        print(full_msg, end="")
+
+    def backspace(self, num=1):
+        self.last_line = self.last_line[:-num]
+        print(f"\r{self.last_line}", end="")
+
+
+bsprinter = BackspaceablePrinter()
+bsprint = bsprinter.print
 
 
 def pprint(dataclass, values=True):
