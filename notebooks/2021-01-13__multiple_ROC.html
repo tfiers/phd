@@ -21,8 +21,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/sphinx-book-theme.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -203,7 +203,7 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="2020-01-01__debug_parallel_calc_STA.html">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
    2021-01-01 &#8226; Debug parallel
    <code class="docutils literal notranslate">
     <span class="pre">
@@ -384,9 +384,15 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Mon 18 Jan</strong> 2021, at 16:00 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/b6358ab6c8dada1382e20c5553931f979c57156c">Last git commit</a> (Fri 15 Jan 2021, 23:41).</p>
-<p>No uncommitted changes</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 21 Jan</strong> 2021, at 00:14 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/9f3f403bf0b099777732dd279a914ffebc00381c">Last git commit</a> (Wed 20 Jan 2021, 20:22).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">util</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -461,7 +467,7 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:02&lt;00:00, 10.65it/s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30/30 
 </pre></div>
 </div>
 </div>
@@ -505,9 +511,10 @@ Setup autoreload
 <span class="n">sweep_threshold</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">sweep_threshold</span>
 
 <span class="k">def</span> <span class="nf">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">):</span>
         <span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-    <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Conntest"</span><span class="p">):</span>
+        <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">)</span>
     <span class="n">classifs</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">classifs</span>
 </pre></div>
@@ -535,33 +542,20 @@ Setup autoreload
 <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="n">SNRs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SNR: </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">bsprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SNR: </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
     <span class="n">params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="n">SNR</span>
     <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1
-Sim: &#8230; (0.45 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.00it/s]
-
-SNR: 2
-Sim: &#8230; (0.642 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 27.03it/s]
-
-SNR: 4
-Sim: &#8230; (0.482 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.33it/s]
-
-SNR: 8
-Sim: &#8230; (0.482 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 26.27it/s]
-
-Wall time: 6.64 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.58 s] | Conntest: 30/30 [1.2 s] 
+SNR: 2 | Sim: [0.49 s] | Conntest: 30/30 [1.1 s] 
+SNR: 4 | Sim: [0.59 s] | Conntest: 30/30 [1.1 s] 
+SNR: 8 | Sim: [0.56 s] | Conntest: 30/30 [1.2 s] 
+Wall time: 6.84 s
 </pre></div>
 </div>
 </div>
@@ -682,6 +676,7 @@ Wall time: 6.64 s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+    <span class="n">T_min</span> <span class="o">=</span> <span class="n">T</span> <span class="o">/</span> <span class="n">minute</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">T_min</span><span class="si">:</span><span class="s2">.2G</span><span class="si">}</span><span class="s2"> minute</span><span class="si">{</span><span class="s1">''</span> <span class="k">if</span> <span class="n">T_min</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="s1">'s'</span><span class="si">}</span><span class="s2">"</span>
 </pre></div>
 </div>
@@ -694,32 +689,19 @@ Wall time: 6.64 s
 <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duration: </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">bsprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Recording duration: </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;11</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
     <span class="n">params</span><span class="o">.</span><span class="n">sim_duration</span> <span class="o">=</span> <span class="n">T</span>
     <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Duration: 0.5 minutes
-Sim: &#8230; (0.603 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:00&lt;00:00, 31.67it/s]
-
-Duration: 1 minute
-Sim: &#8230; (0.481 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:01&lt;00:00, 24.52it/s]
-
-Duration: 2 minutes
-Sim: &#8230; (0.528 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:02&lt;00:00, 13.89it/s]
-
-Duration: 4 minutes
-Sim: &#8230; (0.76 s)
-Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| 30/30 [00:04&lt;00:00,  7.10it/s]
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.58 s] | Conntest: 30/30 [0.94 s]
+Recording duration: 1 minute    | Sim: [0.51 s] | Conntest: 30/30 [1.2 s] 
+Recording duration: 2 minutes   | Sim: [0.65 s] | Conntest: 30/30 [2.2 s] 
+Recording duration: 4 minutes   | Sim: [0.64 s] | Conntest: 30/30 [4.2 s] 
 Wall time: 11.1 s
 </pre></div>
 </div>
@@ -812,18 +794,17 @@ Wall time: 11.1 s
 </div>
 <div class="section" id="reproducibility">
 <h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 15 Jan</strong> 2021, at 23:32 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e92d8ec129733e2f72ad1e227f3564d805396e24">Last git commit</a> (Fri 15 Jan 2021, 23:28).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 21 Jan</strong> 2021, at 00:24 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/138134f3c4900076cf177f048b1eec4d419abe07">Last git commit</a> (Thu 21 Jan 2021, 00:18).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">reproducibility</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -844,213 +825,229 @@ nptyping             1.4.0
 tqdm                 4.56.0
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell tag_output_scroll docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>conda list
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># packages in environment at C:\conda:
-#
-# Name                    Version                   Build  Channel
-appdirs                   1.4.4              pyh9f0ad1d_0    conda-forge
-argon2-cffi               20.1.0           py38h294d835_2    conda-forge
-async_generator           1.10                       py_0    conda-forge
-atomicwrites              1.4.0              pyh9f0ad1d_0    conda-forge
-attrs                     20.3.0             pyhd3deb0d_0    conda-forge
-backcall                  0.2.0              pyh9f0ad1d_0    conda-forge
-backports                 1.0                        py_2    conda-forge
-backports.functools_lru_cache 1.6.1                      py_0    conda-forge
-black                     20.8b1                     py_1    conda-forge
-bleach                    3.2.1              pyh9f0ad1d_0    conda-forge
-brotlipy                  0.7.0           py38h294d835_1001    conda-forge
-bzip2                     1.0.8                h8ffe710_4    conda-forge
-ca-certificates           2020.12.5            h5b45459_0    conda-forge
-certifi                   2020.12.5        py38haa244fe_1    conda-forge
-cffi                      1.14.4           py38hd8c33c5_1    conda-forge
-chardet                   4.0.0            py38haa244fe_1    conda-forge
-click                     7.1.2              pyh9f0ad1d_0    conda-forge
-colorama                  0.4.4              pyh9f0ad1d_0    conda-forge
-conda                     4.9.2            py38haa244fe_0    conda-forge
-conda-package-handling    1.7.2            py38h8934438_0    conda-forge
-console_shortcut          0.1.1                         4  
-cryptography              3.3.1            py38hd8c33c5_1    conda-forge
-cycler                    0.10.0                     py_2    conda-forge
-dataclasses               0.7                pyhb2cacf7_7    conda-forge
-decorator                 4.4.2                      py_0    conda-forge
-defusedxml                0.6.0                      py_0    conda-forge
-docutils                  0.16                     pypi_0    pypi
-entrypoints               0.3             pyhd8ed1ab_1003    conda-forge
-freetype                  2.10.4               h546665d_0    conda-forge
-icu                       68.1                 h0e60522_0    conda-forge
-idna                      2.10               pyh9f0ad1d_0    conda-forge
-importlib-metadata        3.4.0            py38haa244fe_0    conda-forge
-importlib_metadata        3.4.0                hd8ed1ab_0    conda-forge
-iniconfig                 1.1.1              pyh9f0ad1d_0    conda-forge
-intel-openmp              2020.3             h57928b3_311    conda-forge
-ipykernel                 5.4.2            py38h7b7c402_0    conda-forge
-ipython                   7.19.0           py38hc5df569_0    conda-forge
-ipython_genutils          0.2.0                      py_1    conda-forge
-ipywidgets                7.6.3              pyhd3deb0d_0    conda-forge
-jedi                      0.17.2           py38haa244fe_1    conda-forge
-jinja2                    2.11.2             pyh9f0ad1d_0    conda-forge
-joblib                    1.0.0              pyhd8ed1ab_0    conda-forge
-jpeg                      9d                   h8ffe710_0    conda-forge
-jsonschema                3.2.0                      py_2    conda-forge
-jupyter_client            6.1.11             pyhd8ed1ab_1    conda-forge
-jupyter_contrib_core      0.3.3                      py_2    conda-forge
-jupyter_contrib_nbextensions 0.5.1            py38h32f6830_1    conda-forge
-jupyter_core              4.7.0            py38haa244fe_0    conda-forge
-jupyter_highlight_selected_word 0.2.0           py38h32f6830_1002    conda-forge
-jupyter_latex_envs        1.4.6           py38h32f6830_1001    conda-forge
-jupyter_nbextensions_configurator 0.4.1            py38h32f6830_2    conda-forge
-jupyterlab_pygments       0.1.2              pyh9f0ad1d_0    conda-forge
-jupyterlab_widgets        1.0.0              pyhd8ed1ab_1    conda-forge
-jupytray                  0.7.post10+dirty           dev_0    &lt;develop&gt;
-keyring                   21.8.0                   pypi_0    pypi
-kiwisolver                1.3.1            py38hbd9d945_1    conda-forge
-krb5                      1.17.2               hbae68bd_0    conda-forge
-libarchive                3.5.1                hf621db8_1    conda-forge
-libblas                   3.9.0                     7_mkl    conda-forge
-libcblas                  3.9.0                     7_mkl    conda-forge
-libclang                  11.0.1          default_h5c34c98_0    conda-forge
-libcurl                   7.71.1               h4b64cdc_8    conda-forge
-libiconv                  1.16                 he774522_0    conda-forge
-liblapack                 3.9.0                     7_mkl    conda-forge
-libpng                    1.6.37               h1d00b33_2    conda-forge
-libsodium                 1.0.18               h8d14728_1    conda-forge
-libsolv                   0.7.16               h200bbdf_0    conda-forge
-libssh2                   1.9.0                hb06d900_5    conda-forge
-libtiff                   4.2.0                hc10be44_0    conda-forge
-libxml2                   2.9.10               hf5bbc77_3    conda-forge
-libxslt                   1.1.33               h65864e5_2    conda-forge
-llvmlite                  0.35.0           py38h57a6900_1    conda-forge
-lxml                      4.6.2            py38h292cb97_1    conda-forge
-lz4-c                     1.9.3                h8ffe710_0    conda-forge
-lzo                       2.10              he774522_1000    conda-forge
-m2w64-gcc-libgfortran     5.3.0                         6    conda-forge
-m2w64-gcc-libs            5.3.0                         7    conda-forge
-m2w64-gcc-libs-core       5.3.0                         7    conda-forge
-m2w64-gmp                 6.1.0                         2    conda-forge
-m2w64-libwinpthread-git   5.0.0.4634.697f757               2    conda-forge
-mamba                     0.7.8            py38hdd88130_0    conda-forge
-markupsafe                1.1.1            py38h294d835_3    conda-forge
-matplotlib-base           3.3.3            py38h34ddff4_0    conda-forge
-menuinst                  1.4.16           py38he774522_1  
-mistune                   0.8.4           py38h294d835_1003    conda-forge
-mkl                       2020.4             hb70f87d_311    conda-forge
-more-itertools            8.6.0              pyhd8ed1ab_0    conda-forge
-mpmath                    1.1.0                      py_0    conda-forge
-msys2-conda-epoch         20160418                      1    conda-forge
-mypy_extensions           0.4.3            py38haa244fe_3    conda-forge
-nb_conda_kernels          2.3.1            py38haa244fe_0    conda-forge
-nbclient                  0.5.1                      py_0    conda-forge
-nbconvert                 6.0.7            py38haa244fe_3    conda-forge
-nbformat                  5.0.8                      py_0    conda-forge
-nest-asyncio              1.4.3              pyhd8ed1ab_0    conda-forge
-notebook                  6.2.0            py38haa244fe_0    conda-forge
-nptyping                  1.4.0                    pypi_0    pypi
-numba                     0.52.0           py38h4c96930_0    conda-forge
-numpy                     1.19.5           py38h0cc643e_1    conda-forge
-olefile                   0.46               pyh9f0ad1d_1    conda-forge
-openssl                   1.1.1i               h8ffe710_0    conda-forge
-packaging                 20.8               pyhd3deb0d_0    conda-forge
-pandas                    1.2.0            py38h4c96930_1    conda-forge
-pandoc                    2.11.3.2             h8ffe710_0    conda-forge
-pandocfilters             1.4.2                      py_1    conda-forge
-parso                     0.7.1              pyh9f0ad1d_0    conda-forge
-pathspec                  0.8.1              pyhd3deb0d_0    conda-forge
-patsy                     0.5.1                      py_0    conda-forge
-pickleshare               0.7.5                   py_1003    conda-forge
-pillow                    8.1.0            py38hf7ce48b_1    conda-forge
-pip                       20.3.3             pyhd8ed1ab_0    conda-forge
-pkginfo                   1.6.1                    pypi_0    pypi
-pluggy                    0.13.1           py38haa244fe_4    conda-forge
-powershell_shortcut       0.0.1                         3  
-preload                   2.2                      pypi_0    pypi
-prometheus_client         0.9.0              pyhd3deb0d_0    conda-forge
-prompt-toolkit            3.0.10             pyha770c72_0    conda-forge
-puprelease                1.6.1                     dev_0    &lt;develop&gt;
-py                        1.10.0             pyhd3deb0d_0    conda-forge
-py-cpuinfo                7.0.0                    pypi_0    pypi
-pycosat                   0.6.3           py38h294d835_1006    conda-forge
-pycparser                 2.20               pyh9f0ad1d_2    conda-forge
-pygments                  2.7.3              pyhd8ed1ab_0    conda-forge
-pyopenssl                 20.0.1             pyhd8ed1ab_0    conda-forge
-pyparsing                 2.4.7              pyh9f0ad1d_0    conda-forge
-pyqt                      5.12.3           py38haa244fe_7    conda-forge
-pyqt-impl                 5.12.3           py38h885f38d_7    conda-forge
-pyqt5-sip                 4.19.18          py38h885f38d_7    conda-forge
-pyqtchart                 5.12             py38h885f38d_7    conda-forge
-pyqtwebengine             5.12.1           py38h885f38d_7    conda-forge
-pyrsistent                0.17.3           py38h294d835_2    conda-forge
-pysocks                   1.7.1            py38haa244fe_3    conda-forge
-pytest                    6.2.1            py38haa244fe_1    conda-forge
-python                    3.8.6           h7840368_4_cpython    conda-forge
-python-dateutil           2.8.1                      py_0    conda-forge
-python_abi                3.8                      1_cp38    conda-forge
-pytz                      2020.5             pyhd8ed1ab_0    conda-forge
-pywin32                   228              py38h294d835_1    conda-forge
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>pywin32-ctypes            0.2.0                    pypi_0    pypi
-pywinpty                  0.5.7            py38h32f6830_1    conda-forge
-pyyaml                    5.3.1            py38h294d835_2    conda-forge
-pyzmq                     20.0.0           py38h7a0e47e_1    conda-forge
-qt                        5.12.9               h5909a2a_3    conda-forge
-readme-renderer           28.0                     pypi_0    pypi
-regex                     2020.11.13       py38h294d835_1    conda-forge
-reproc                    14.2.1               h8ffe710_0    conda-forge
-reproc-cpp                14.2.1               h0e60522_0    conda-forge
-requests                  2.25.1             pyhd3deb0d_0    conda-forge
-requests-toolbelt         0.9.1                    pypi_0    pypi
-rfc3986                   1.4.0                    pypi_0    pypi
-ruamel_yaml               0.15.80         py38h294d835_1003    conda-forge
-scikit-learn              0.24.0           py38ha09990b_0    conda-forge
-scipy                     1.6.0            py38h5f893b4_0    conda-forge
-seaborn                   0.11.1               h57928b3_0    conda-forge
-seaborn-base              0.11.1             pyhd8ed1ab_0    conda-forge
-send2trash                1.5.0                      py_0    conda-forge
-setuptools                49.6.0           py38haa244fe_3    conda-forge
-setuptools-scm            5.0.1                    pypi_0    pypi
-six                       1.15.0             pyh9f0ad1d_0    conda-forge
-snakeviz                  2.1.0              pyh9f0ad1d_0    conda-forge
-sqlite                    3.34.0               h8ffe710_0    conda-forge
-statsmodels               0.12.1           py38h347fdf6_2    conda-forge
-sympy                     1.7.1            py38haa244fe_1    conda-forge
-terminado                 0.9.2            py38haa244fe_0    conda-forge
-testpath                  0.4.4                      py_0    conda-forge
-threadpoolctl             2.1.0              pyh5ca1d4c_0    conda-forge
-tk                        8.6.10               h8ffe710_1    conda-forge
-toml                      0.10.2             pyhd8ed1ab_0    conda-forge
-tornado                   6.1              py38h294d835_1    conda-forge
-tqdm                      4.56.0             pyhd8ed1ab_0    conda-forge
-traitlets                 5.0.5                      py_0    conda-forge
-twine                     3.3.0                    pypi_0    pypi
-typed-ast                 1.4.2            py38h294d835_0    conda-forge
-typing_extensions         3.7.4.3                    py_0    conda-forge
-typish                    1.9.1                    pypi_0    pypi
-urllib3                   1.26.2             pyhd8ed1ab_0    conda-forge
-vc                        14.2                 hb210afc_2    conda-forge
-voltage-to-wiring-sim     0.1                       dev_0    &lt;develop&gt;
-vs2015_runtime            14.28.29325          h5e1d092_0    conda-forge
-wcwidth                   0.2.5              pyh9f0ad1d_2    conda-forge
-webencodings              0.5.1                      py_1    conda-forge
-wheel                     0.36.2             pyhd3deb0d_0    conda-forge
-widgetsnbextension        3.5.1            py38haa244fe_4    conda-forge
-win_inet_pton             1.1.0            py38haa244fe_2    conda-forge
-wincertstore              0.2             py38haa244fe_1006    conda-forge
-winpty                    0.4.3                         4    conda-forge
-winshell                  0.6                      pypi_0    pypi
-xz                        5.2.5                h62dcd97_1    conda-forge
-yaml                      0.2.5                he774522_0    conda-forge
-zeromq                    4.3.3                h0e60522_3    conda-forge
-zipp                      3.4.0                      py_0    conda-forge
-zlib                      1.2.11            h62dcd97_1010    conda-forge
-zstd                      1.4.8                h4e2f164_1    conda-forge
+<p>Full conda list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># packages in environment at C:\conda:</span>
+<span class="c1">#</span>
+<span class="c1"># Name                    Version                   Build  Channel</span>
+<span class="n">anyio</span>                     <span class="mf">2.0</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38haa244fe_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">appdirs</span>                   <span class="mf">1.4</span><span class="o">.</span><span class="mi">4</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">argon2</span><span class="o">-</span><span class="n">cffi</span>               <span class="mf">20.1</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">async_generator</span>           <span class="mf">1.10</span>                       <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">atomicwrites</span>              <span class="mf">1.4</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">attrs</span>                     <span class="mf">20.3</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">babel</span>                     <span class="mf">2.9</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backcall</span>                  <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backports</span>                 <span class="mf">1.0</span>                        <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backports</span><span class="o">.</span><span class="n">functools_lru_cache</span> <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">black</span>                     <span class="mf">20.8</span><span class="n">b1</span>                     <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">bleach</span>                    <span class="mf">3.2</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">bokeh</span>                     <span class="mf">2.2</span><span class="o">.</span><span class="mi">3</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">brotlipy</span>                  <span class="mf">0.7</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">bzip2</span>                     <span class="mf">1.0</span><span class="o">.</span><span class="mi">8</span>                <span class="n">h8ffe710_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>           <span class="mf">2020.12</span><span class="o">.</span><span class="mi">5</span>            <span class="n">h5b45459_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">certifi</span>                   <span class="mf">2020.12</span><span class="o">.</span><span class="mi">5</span>        <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cffi</span>                      <span class="mf">1.14</span><span class="o">.</span><span class="mi">4</span>           <span class="n">py38hd8c33c5_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">chardet</span>                   <span class="mf">4.0</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">click</span>                     <span class="mf">7.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cloudpickle</span>               <span class="mf">1.6</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">colorama</span>                  <span class="mf">0.4</span><span class="o">.</span><span class="mi">4</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">conda</span>                     <span class="mf">4.9</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">conda</span><span class="o">-</span><span class="n">package</span><span class="o">-</span><span class="n">handling</span>    <span class="mf">1.7</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h8934438_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">console_shortcut</span>          <span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span>                         <span class="mi">4</span>  
+<span class="n">cryptography</span>              <span class="mf">3.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38hd8c33c5_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cycler</span>                    <span class="mf">0.10</span><span class="o">.</span><span class="mi">0</span>                     <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cytoolz</span>                   <span class="mf">0.11</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">dask</span>                      <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>           <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">dask</span><span class="o">-</span><span class="n">core</span>                 <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>           <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">dataclasses</span>               <span class="mf">0.7</span>                <span class="n">pyhb2cacf7_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">decorator</span>                 <span class="mf">4.4</span><span class="o">.</span><span class="mi">2</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">defusedxml</span>                <span class="mf">0.6</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">distributed</span>               <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>         <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">docutils</span>                  <span class="mf">0.16</span>                     <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">entrypoints</span>               <span class="mf">0.3</span>             <span class="n">pyhd8ed1ab_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">freetype</span>                  <span class="mf">2.10</span><span class="o">.</span><span class="mi">4</span>               <span class="n">h546665d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">fsspec</span>                    <span class="mf">0.8</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">heapdict</span>                  <span class="mf">1.0</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">icu</span>                       <span class="mf">68.1</span>                 <span class="n">h0e60522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">idna</span>                      <span class="mf">2.10</span>               <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">importlib</span><span class="o">-</span><span class="n">metadata</span>        <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">importlib_metadata</span>        <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span>                <span class="n">hd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">iniconfig</span>                 <span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">intel</span><span class="o">-</span><span class="n">openmp</span>              <span class="mf">2020.3</span>             <span class="n">h57928b3_311</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipykernel</span>                 <span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h7b7c402_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipython</span>                   <span class="mf">7.19</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38hc5df569_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipython_genutils</span>          <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipywidgets</span>                <span class="mf">7.6</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jedi</span>                      <span class="mf">0.17</span><span class="o">.</span><span class="mi">2</span>           <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jinja2</span>                    <span class="mf">2.11</span><span class="o">.</span><span class="mi">2</span>             <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">joblib</span>                    <span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jpeg</span>                      <span class="mi">9</span><span class="n">d</span>                   <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">json5</span>                     <span class="mf">0.9</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jsonschema</span>                <span class="mf">3.2</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_client</span>            <span class="mf">6.1</span><span class="o">.</span><span class="mi">11</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_contrib_core</span>      <span class="mf">0.3</span><span class="o">.</span><span class="mi">3</span>                      <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_contrib_nbextensions</span> <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h32f6830_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_core</span>              <span class="mf">4.7</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_highlight_selected_word</span> <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h32f6830_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_latex_envs</span>        <span class="mf">1.4</span><span class="o">.</span><span class="mi">6</span>           <span class="n">py38h32f6830_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_nbextensions_configurator</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h32f6830_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_server</span>            <span class="mf">1.2</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab</span>                <span class="mf">3.0</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab</span><span class="o">-</span><span class="n">classic</span>        <span class="mf">0.1</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab_pygments</span>       <span class="mf">0.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab_server</span>         <span class="mf">2.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab_widgets</span>        <span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupytray</span>                  <span class="mf">0.7</span><span class="o">.</span><span class="n">post10</span><span class="o">+</span><span class="n">dirty</span>           <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
+<span class="n">keyring</span>                   <span class="mf">21.8</span><span class="o">.</span><span class="mi">0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">kiwisolver</span>                <span class="mf">1.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38hbd9d945_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">krb5</span>                      <span class="mf">1.17</span><span class="o">.</span><span class="mi">2</span>               <span class="n">hbae68bd_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libarchive</span>                <span class="mf">3.5</span><span class="o">.</span><span class="mi">1</span>                <span class="n">hf621db8_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libblas</span>                   <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libcblas</span>                  <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libclang</span>                  <span class="mf">11.0</span><span class="o">.</span><span class="mi">1</span>          <span class="n">default_h5c34c98_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libcurl</span>                   <span class="mf">7.71</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h4b64cdc_8</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libiconv</span>                  <span class="mf">1.16</span>                 <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">liblapack</span>                 <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libpng</span>                    <span class="mf">1.6</span><span class="o">.</span><span class="mi">37</span>               <span class="n">h1d00b33_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libsodium</span>                 <span class="mf">1.0</span><span class="o">.</span><span class="mi">18</span>               <span class="n">h8d14728_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libsolv</span>                   <span class="mf">0.7</span><span class="o">.</span><span class="mi">16</span>               <span class="n">h200bbdf_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libssh2</span>                   <span class="mf">1.9</span><span class="o">.</span><span class="mi">0</span>                <span class="n">hb06d900_5</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libtiff</span>                   <span class="mf">4.2</span><span class="o">.</span><span class="mi">0</span>                <span class="n">hc10be44_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libxml2</span>                   <span class="mf">2.9</span><span class="o">.</span><span class="mi">10</span>               <span class="n">hf5bbc77_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libxslt</span>                   <span class="mf">1.1</span><span class="o">.</span><span class="mi">33</span>               <span class="n">h65864e5_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">llvmlite</span>                  <span class="mf">0.35</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h57a6900_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">locket</span>                    <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">lxml</span>                      <span class="mf">4.6</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h292cb97_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">lz4</span><span class="o">-</span><span class="n">c</span>                     <span class="mf">1.9</span><span class="o">.</span><span class="mi">3</span>                <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">lzo</span>                       <span class="mf">2.10</span>              <span class="n">he774522_1000</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libgfortran</span>     <span class="mf">5.3</span><span class="o">.</span><span class="mi">0</span>                         <span class="mi">6</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libs</span>            <span class="mf">5.3</span><span class="o">.</span><span class="mi">0</span>                         <span class="mi">7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libs</span><span class="o">-</span><span class="n">core</span>       <span class="mf">5.3</span><span class="o">.</span><span class="mi">0</span>                         <span class="mi">7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gmp</span>                 <span class="mf">6.1</span><span class="o">.</span><span class="mi">0</span>                         <span class="mi">2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">libwinpthread</span><span class="o">-</span><span class="n">git</span>   <span class="mf">5.0</span><span class="o">.</span><span class="mf">0.4634</span><span class="o">.</span><span class="mi">697</span><span class="n">f757</span>               <span class="mi">2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mamba</span>                     <span class="mf">0.7</span><span class="o">.</span><span class="mi">8</span>            <span class="n">py38hdd88130_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">markupsafe</span>                <span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h294d835_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">matplotlib</span><span class="o">-</span><span class="n">base</span>           <span class="mf">3.3</span><span class="o">.</span><span class="mi">3</span>            <span class="n">py38h34ddff4_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">menuinst</span>                  <span class="mf">1.4</span><span class="o">.</span><span class="mi">16</span>           <span class="n">py38he774522_1</span>  
+<span class="n">mistune</span>                   <span class="mf">0.8</span><span class="o">.</span><span class="mi">4</span>           <span class="n">py38h294d835_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mkl</span>                       <span class="mf">2020.4</span>             <span class="n">hb70f87d_311</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">more</span><span class="o">-</span><span class="n">itertools</span>            <span class="mf">8.6</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mpmath</span>                    <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">msgpack</span><span class="o">-</span><span class="n">python</span>            <span class="mf">1.0</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38hbd9d945_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">msys2</span><span class="o">-</span><span class="n">conda</span><span class="o">-</span><span class="n">epoch</span>         <span class="mi">20160418</span>                      <span class="mi">1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mypy_extensions</span>           <span class="mf">0.4</span><span class="o">.</span><span class="mi">3</span>            <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nb_conda_kernels</span>          <span class="mf">2.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbclassic</span>                 <span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbclient</span>                  <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbconvert</span>                 <span class="mf">6.0</span><span class="o">.</span><span class="mi">7</span>            <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbformat</span>                  <span class="mf">5.0</span><span class="o">.</span><span class="mi">8</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nest</span><span class="o">-</span><span class="n">asyncio</span>              <span class="mf">1.4</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">notebook</span>                  <span class="mf">6.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nptyping</span>                  <span class="mf">1.4</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">numba</span>                     <span class="mf">0.52</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h4c96930_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">numpy</span>                     <span class="mf">1.19</span><span class="o">.</span><span class="mi">5</span>           <span class="n">py38h0cc643e_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">olefile</span>                   <span class="mf">0.46</span>               <span class="n">pyh9f0ad1d_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">openssl</span>                   <span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">i</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">packaging</span>                 <span class="mf">20.8</span>               <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandas</span>                    <span class="mf">1.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h4c96930_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandoc</span>                    <span class="mf">2.11</span><span class="o">.</span><span class="mf">3.2</span>             <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandocfilters</span>             <span class="mf">1.4</span><span class="o">.</span><span class="mi">2</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">parso</span>                     <span class="mf">0.7</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">partd</span>                     <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pathspec</span>                  <span class="mf">0.8</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">patsy</span>                     <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pickleshare</span>               <span class="mf">0.7</span><span class="o">.</span><span class="mi">5</span>                   <span class="n">py_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pillow</span>                    <span class="mf">8.1</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38hf7ce48b_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pip</span>                       <span class="mf">20.3</span><span class="o">.</span><span class="mi">3</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pkginfo</span>                   <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pluggy</span>                    <span class="mf">0.13</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38haa244fe_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">powershell_shortcut</span>       <span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span>                         <span class="mi">3</span>  
+<span class="n">preload</span>                   <span class="mf">2.2</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">prometheus_client</span>         <span class="mf">0.9</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">prompt</span><span class="o">-</span><span class="n">toolkit</span>            <span class="mf">3.0</span><span class="o">.</span><span class="mi">10</span>             <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">psutil</span>                    <span class="mf">5.8</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">puprelease</span>                <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                     <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
+<span class="n">py</span>                        <span class="mf">1.10</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">py</span><span class="o">-</span><span class="n">cpuinfo</span>                <span class="mf">7.0</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pycosat</span>                   <span class="mf">0.6</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38h294d835_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pycparser</span>                 <span class="mf">2.20</span>               <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pygments</span>                  <span class="mf">2.7</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyopenssl</span>                 <span class="mf">20.0</span><span class="o">.</span><span class="mi">1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyparsing</span>                 <span class="mf">2.4</span><span class="o">.</span><span class="mi">7</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt</span>                      <span class="mf">5.12</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38haa244fe_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt</span><span class="o">-</span><span class="n">impl</span>                 <span class="mf">5.12</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38h885f38d_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt5</span><span class="o">-</span><span class="n">sip</span>                 <span class="mf">4.19</span><span class="o">.</span><span class="mi">18</span>          <span class="n">py38h885f38d_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqtchart</span>                 <span class="mf">5.12</span>             <span class="n">py38h885f38d_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqtwebengine</span>             <span class="mf">5.12</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38h885f38d_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyrsistent</span>                <span class="mf">0.17</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38h294d835_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pysocks</span>                   <span class="mf">1.7</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pytest</span>                    <span class="mf">6.2</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python</span>                    <span class="mf">3.8</span><span class="o">.</span><span class="mi">6</span>           <span class="n">h7840368_4_cpython</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python</span><span class="o">-</span><span class="n">dateutil</span>           <span class="mf">2.8</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python_abi</span>                <span class="mf">3.8</span>                      <span class="mi">1</span><span class="n">_cp38</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pytz</span>                      <span class="mf">2020.5</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pywin32</span>                   <span class="mi">228</span>              <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pywin32</span><span class="o">-</span><span class="n">ctypes</span>            <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pywinpty</span>                  <span class="mf">0.5</span><span class="o">.</span><span class="mi">7</span>            <span class="n">py38h32f6830_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyyaml</span>                    <span class="mf">5.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h294d835_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyzmq</span>                     <span class="mf">20.0</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h7a0e47e_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">qt</span>                        <span class="mf">5.12</span><span class="o">.</span><span class="mi">9</span>               <span class="n">h5909a2a_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">readme</span><span class="o">-</span><span class="n">renderer</span>           <span class="mf">28.0</span>                     <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">regex</span>                     <span class="mf">2020.11</span><span class="o">.</span><span class="mi">13</span>       <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">reproc</span>                    <span class="mf">14.2</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">reproc</span><span class="o">-</span><span class="n">cpp</span>                <span class="mf">14.2</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h0e60522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">requests</span>                  <span class="mf">2.25</span><span class="o">.</span><span class="mi">1</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">requests</span><span class="o">-</span><span class="n">toolbelt</span>         <span class="mf">0.9</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">rfc3986</span>                   <span class="mf">1.4</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">ruamel_yaml</span>               <span class="mf">0.15</span><span class="o">.</span><span class="mi">80</span>         <span class="n">py38h294d835_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span>              <span class="mf">0.24</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38ha09990b_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">scipy</span>                     <span class="mf">1.6</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h5f893b4_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">seaborn</span>                   <span class="mf">0.11</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">seaborn</span><span class="o">-</span><span class="n">base</span>              <span class="mf">0.11</span><span class="o">.</span><span class="mi">1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">send2trash</span>                <span class="mf">1.5</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">setuptools</span>                <span class="mf">49.6</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">setuptools</span><span class="o">-</span><span class="n">scm</span>            <span class="mf">5.0</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">six</span>                       <span class="mf">1.15</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">snakeviz</span>                  <span class="mf">2.1</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sniffio</span>                   <span class="mf">1.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sortedcontainers</span>          <span class="mf">2.3</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sqlite</span>                    <span class="mf">3.34</span><span class="o">.</span><span class="mi">0</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">statsmodels</span>               <span class="mf">0.12</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38h347fdf6_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sympy</span>                     <span class="mf">1.7</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tblib</span>                     <span class="mf">1.6</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">terminado</span>                 <span class="mf">0.9</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">testpath</span>                  <span class="mf">0.4</span><span class="o">.</span><span class="mi">4</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">threadpoolctl</span>             <span class="mf">2.1</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyh5ca1d4c_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tk</span>                        <span class="mf">8.6</span><span class="o">.</span><span class="mi">10</span>               <span class="n">h8ffe710_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">toml</span>                      <span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">toolz</span>                     <span class="mf">0.11</span><span class="o">.</span><span class="mi">1</span>                     <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tornado</span>                   <span class="mf">6.1</span>              <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tqdm</span>                      <span class="mf">4.56</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">traitlets</span>                 <span class="mf">5.0</span><span class="o">.</span><span class="mi">5</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">twine</span>                     <span class="mf">3.3</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">typed</span><span class="o">-</span><span class="n">ast</span>                 <span class="mf">1.4</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h294d835_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typing_extensions</span>         <span class="mf">3.7</span><span class="o">.</span><span class="mf">4.3</span>                    <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typish</span>                    <span class="mf">1.9</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">urllib3</span>                   <span class="mf">1.26</span><span class="o">.</span><span class="mi">2</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">vc</span>                        <span class="mf">14.2</span>                 <span class="n">hb210afc_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>     <span class="mf">0.1</span>                       <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
+<span class="n">vs2015_runtime</span>            <span class="mf">14.28</span><span class="o">.</span><span class="mi">29325</span>          <span class="n">h5e1d092_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wcwidth</span>                   <span class="mf">0.2</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">webencodings</span>              <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wheel</span>                     <span class="mf">0.36</span><span class="o">.</span><span class="mi">2</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">widgetsnbextension</span>        <span class="mf">3.5</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">win_inet_pton</span>             <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wincertstore</span>              <span class="mf">0.2</span>             <span class="n">py38haa244fe_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">windows</span><span class="o">-</span><span class="n">curses</span>            <span class="mf">2.2</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">winpty</span>                    <span class="mf">0.4</span><span class="o">.</span><span class="mi">3</span>                         <span class="mi">4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">winshell</span>                  <span class="mf">0.6</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">xz</span>                        <span class="mf">5.2</span><span class="o">.</span><span class="mi">5</span>                <span class="n">h62dcd97_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">yaml</span>                      <span class="mf">0.2</span><span class="o">.</span><span class="mi">5</span>                <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zeromq</span>                    <span class="mf">4.3</span><span class="o">.</span><span class="mi">3</span>                <span class="n">h0e60522_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zict</span>                      <span class="mf">2.0</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zipp</span>                      <span class="mf">3.4</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zlib</span>                      <span class="mf">1.2</span><span class="o">.</span><span class="mi">11</span>            <span class="n">h62dcd97_1010</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zstd</span>                      <span class="mf">1.4</span><span class="o">.</span><span class="mi">8</span>                <span class="n">h4e2f164_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 </pre></div>
 </div>
 </div>
