@@ -49,11 +49,12 @@ class BackspaceablePrinter:
         self.last_line = ""
 
     def print(self, msg: str, end="\n"):
-        """ Use if you later want to be able to backspace in the same line."""
+        """ Use if you want to be able to later backspace in the same line. """
         full_msg = msg + end
         if "\n" in full_msg:
-            self.last_line = ""
-        self.last_line += full_msg.split("\n")[-1]
+            self.last_line = full_msg.split("\n")[-1]
+        else:
+            self.last_line += full_msg
         print(full_msg, end="", flush=True)
 
     def backspace(self, num=1):
