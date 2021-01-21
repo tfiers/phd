@@ -101,7 +101,10 @@ def print_package_versions():
 
 def print_conda_env():
     print_md("Full conda list:")
-    print(get_cmd_output("conda list"))
+    conda_list_output = get_cmd_output("conda list")
+    print_md(f"```\n{conda_list_output}```")
+    #   print_md (instead of plain `print`) gives 'syntax highlighting' i.e. purty
+    #   colors for version numbers and 'commented out' header.
 
 
 def _extract_package_name(requirement_line):
