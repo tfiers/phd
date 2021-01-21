@@ -4,6 +4,7 @@ Pipeline combining the sim/ and conntest/ packages.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import partial
 from typing import Any
 
 import matplotlib.pyplot as plt
@@ -108,10 +109,14 @@ def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
-def test_connections(sim_data: N_to_1_SimData):
+def test_connections(sim_data: N_to_1_SimData, inline_meter=False):
     test_data = []
     test_summaries = []
-    for spike_train in with_progress_meter(sim_data.spike_trains):
+    if inline_meter:
+        meter = partial(with_progress_meter, end=" ")
+    else:
+        meter = partial(with_progress_meter, description="Testing connections")
+    for spike_train in meter(sim_data.spike_trains):
         data, summary = test_connection(
             spike_train,
             sim_data.VI_signal,

@@ -25,9 +25,11 @@ def time_op(description: str, end="\n"):
     bsprint(f"{duration_str:<8}", end=end)
 
 
-def with_progress_meter(sequence, end=" "):
+def with_progress_meter(sequence, description=None, end="\n"):
     # We don't use the standard solution, `tqdm`, as it adds a trailing newline and can
     # thus not be integrated in a gradual, one-line printing context.
+    if description:
+        bsprint(f"{description}: ", end="")
     total = len(sequence)
     for i, item in enumerate(sequence):
         meter_str = f"{i}/{total}"
@@ -52,11 +54,12 @@ class BackspaceablePrinter:
         if "\n" in full_msg:
             self.last_line = ""
         self.last_line += full_msg.split("\n")[-1]
-        print(full_msg, end="")
+        print(full_msg, end="", flush=True)
 
     def backspace(self, num=1):
         self.last_line = self.last_line[:-num]
         print(f"\r{self.last_line}", end="")
+        # This is the exact incantation :p. Cannot `flush` or print line in new `print`.
 
 
 bsprinter = BackspaceablePrinter()
