@@ -31,41 +31,56 @@ def print_reproducibility_info(verbose=False):
     Meant to be run in IPython / a Jupyter Notebook.
     Based on https://github.com/rasbt/watermark.
     """
-    print_when_who_where()
-    print_last_commit_link()
-    print_git_status()
+    most_important_messages = (
+        get_when_who_where(verbose),
+        get_last_commit_info(),
+        get_git_status(verbose),
+    )
     if verbose:
+        for message in most_important_messages:
+            print_md(message)
         print_platform_info()
         print_package_versions()
         print_conda_env()
+    else:
+        print_md("\n".join(most_important_messages))
 
 
-def print_when_who_where():
+def get_when_who_where(verbose):
     now = datetime.now(timezone)
-    print_md(
-        f"This cell was last run by `{getuser()}` on `{gethostname()}`<br>"
+    message = (
+        f"This cell was last run by `{getuser()}` on `{gethostname()}`"
+        f"{'<br>' if verbose else ' '}"
         f"{now:on **%a %d %b** %Y, at %H:%M (UTC%z)}."
         #   See [https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes]
+        f"{'<br>' if not verbose else ''}"  # Newline before git info (in same md cell).
     )
+    return message
 
 
-def print_last_commit_link():
+def get_last_commit_info():
     last_commit_hash = get_cmd_output("git rev-parse HEAD")
     last_commit_timestamp = get_cmd_output("git log -1 --format=%at")
     last_commit_datetime = datetime.fromtimestamp(int(last_commit_timestamp), timezone)
-    print_md(
+    message = (
         f"[Last git commit]({REPO_URL}/tree/{last_commit_hash}) "
         f"({last_commit_datetime:%a %d %b %Y, %H:%M})."
     )
+    return message
 
 
-def print_git_status():
+def get_git_status(verbose):
     git_root_dir = get_cmd_output("git rev-parse --show-toplevel").strip()
     git_status = get_cmd_output("git status -s", cwd=git_root_dir)
     if git_status.strip() == "":
-        print_md("No uncommitted changes")
+        message = "No uncommitted changes."
     else:
-        print_md(f"Uncommited changes to:\n```\n{git_status}```")
+        if verbose:
+            message = f"Uncommited changes to:\n```\n{git_status}```"
+        else:
+            N = len(git_status.strip().split("\n"))
+            message = f"Uncommited changes to {N} file{'s' if N > 1 else ''}."
+    return message
 
 
 def print_platform_info():
