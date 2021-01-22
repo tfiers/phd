@@ -168,8 +168,8 @@ def plot_ROC(classifications: list[Classification], ax: Axes = None, **kwargs):
     ax.fill_between(FPRs, TPRs, step="post", alpha=0.1, color="grey")
     ax.set_aspect("equal")
     ax.set(
-        xlabel="FP / # not connected",
-        ylabel="TP / # connected",
+        xlabel="#FP / #unconnected",
+        ylabel="#TP / #connected",
         xlim=(0, 1),
         ylim=(0, 1),
     )
