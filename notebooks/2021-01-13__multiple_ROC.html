@@ -384,9 +384,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Thu 21 Jan</strong> 2021, at 01:04 (UTC+0100).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/1cabafb29fe4e2469e6037bcdc147003226e9a7e">Last git commit</a> (Thu 21 Jan 2021, 00:25).
-Uncommited changes to 4 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Sat 23 Jan</strong> 2021, at 14:50 (UTC+0100).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/0d81e31824fb350298ba47b6e904b00f56e86b6e">Last git commit</a> (Sat 23 Jan 2021, 02:31).
+Uncommited changes to 7 files.</p>
 </div>
 </div>
 <div class="cell docutils container">
@@ -536,7 +536,7 @@ Uncommited changes to 4 files.</p>
 <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">SNR</span> <span class="ow">in</span> <span class="n">SNRs</span><span class="p">:</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">bsprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SNR: </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">bprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SNR: </span><span class="si">{</span><span class="n">SNR</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
     <span class="n">params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="n">SNR</span>
     <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -545,11 +545,11 @@ Uncommited changes to 4 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.46 s] | Conntest: 30/30 [1.2 s] 
-SNR: 2 | Sim: [0.61 s] | Conntest: 30/30 [1.2 s] 
-SNR: 4 | Sim: [0.5 s]  | Conntest: 30/30 [1.3 s] 
-SNR: 8 | Sim: [0.5 s]  | Conntest: 30/30 [1.2 s] 
-Wall time: 7.02 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.023 s] | Conntest: 30/30 [0.82 s]
+SNR: 2 | Sim: [0.023 s] | Conntest: 30/30 [0.76 s]
+SNR: 4 | Sim: [0.025 s] | Conntest: 30/30 1/30[0.75 s]
+SNR: 8 | Sim: [0.021 s] | Conntest: 30/30 [0.73 s]
+Wall time: 3.2 s
 </pre></div>
 </div>
 </div>
@@ -683,7 +683,7 @@ Wall time: 7.02 s
 <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">:</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">bsprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Recording duration: </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;11</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">bprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Recording duration: </span><span class="si">{</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="si">:</span><span class="s2">&lt;11</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
     <span class="n">params</span><span class="o">.</span><span class="n">sim_duration</span> <span class="o">=</span> <span class="n">T</span>
     <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
@@ -692,11 +692,11 @@ Wall time: 7.02 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.44 s] | Conntest: 30/30 [0.86 s]
-Recording duration: 1 minute    | Sim: [0.49 s] | Conntest: 30/30 [1.2 s] 
-Recording duration: 2 minutes   | Sim: [0.66 s] | Conntest: 30/30 [2.1 s] 
-Recording duration: 4 minutes   | Sim: [0.63 s] | Conntest: 30/30 [4.2 s] 
-Wall time: 10.9 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.014 s] | Conntest: [0.4 s] 
+Recording duration: 1 minute    | Sim: [0.024 s] | Conntest: [0.41 s]
+Recording duration: 2 minutes   | Sim: [0.044 s] | Conntest: [0.56 s]
+Recording duration: 4 minutes   | Sim: [0.077 s] | Conntest: [0.55 s]
+Wall time: 2.13 s
 </pre></div>
 </div>
 </div>
@@ -795,13 +795,9 @@ Wall time: 10.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 21 Jan</strong> 2021, at 01:20 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/ebb034fa2c0fd0eee31da193e328e67756694ed2">Last git commit</a> (Thu 21 Jan 2021, 01:19).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">reproducibility</span><span class="o">.</span><span class="n">py</span>
- <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
-</pre></div>
-</div>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 21 Jan</strong> 2021, at 13:49 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/458dcc5e21c4d3b7f9c7070c29d4e84b766ac785">Last git commit</a> (Thu 21 Jan 2021, 01:20).</p>
+<p>No uncommitted changes.</p>
 <p>Platform:</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
 CPython 3.8.6 (C:\conda\python.exe)
