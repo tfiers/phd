@@ -28,8 +28,8 @@ from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, fix_rng_seed, plot_signal, to_bounds
-from .support.plot_util import new_plot_if_None, figsize, subplots
+from .support import Signal, cache_to_disk, fix_rng_seed, plot_signal, to_bounds
+from .support.plot_util import figsize, new_plot_if_None, subplots
 from .support.printing import with_progress_meter
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Quantity, mV, ms, nS
@@ -49,6 +49,7 @@ class N_to_1_SimParams:
     rng_seed: int = None
 
 
+@cache_to_disk
 def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
 
     if params.rng_seed is not None:
@@ -109,6 +110,7 @@ def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
+@cache_to_disk
 def test_connections(sim_data: N_to_1_SimData, inline_meter=False):
     test_data = []
     test_summaries = []

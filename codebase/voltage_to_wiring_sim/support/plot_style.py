@@ -51,5 +51,3 @@ def reset_and_apply():
     # reverting previously set properties).
     mpl.rcParams.update(original_rcParams)
     mpl.rcParams.update(new_style)
-
-reset_and_apply()

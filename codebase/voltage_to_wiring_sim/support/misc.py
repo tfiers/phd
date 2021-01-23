@@ -3,8 +3,13 @@ from typing import Callable
 
 import numba
 import numpy as np
+import joblib
 
 from .array_wrapper import strip_NDArrayWrapper_inputs
+
+
+joblib_cache = joblib.Memory(location='.', verbose=1)
+cache_to_disk = joblib_cache.cache
 
 
 def fix_rng_seed(seed=0):
