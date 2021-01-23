@@ -39,7 +39,7 @@ setup(
         #                   compile it to lean machine # code (instead of having to
         #                   invoke the powerful-but-slow Python interpreter on every
         #                   line). It so approaches C or Julia performance.
-        "unitlib",  # Store & display *physical units* along numbers & arrays. A package
+        # "unitlib",  # Store & display *physical units* along numbers & arrays. A package
         #             I made, that is not ready.
         "joblib ~= 0.16",  # On-disk function cache to avoid re-doing work.
         "seaborn ~= 0.11",  # Extension of Matplotlib for statistical data viz.
