@@ -8,10 +8,9 @@ from matplotlib.axes import Axes
 
 from .STA import calculate_STA, plot_STA
 from ..support import Signal
-from ..support.plot_style import figsize
+from ..support.plot_util import new_plot_if_None, figsize
 from ..support.spike_train import SpikeTimes, to_ISIs, to_spike_train
 from ..support.units import Array, Quantity
-from ..support.util import create_if_None
 
 
 def shuffle(spike_train: SpikeTimes, num_shuffles: int) -> list[SpikeTimes]:
@@ -108,7 +107,7 @@ def plot_STA_heights(data: ConnectionTestData, ax: Axes = None):
     import seaborn as sns
     from voltage_to_wiring_sim.support.units import mV
 
-    ax = create_if_None(ax, **figsize(aspect=2.2))
+    ax = new_plot_if_None(ax, **figsize(aspect=2.2))
     rug_height = 0.08
     sns.histplot(
         data.shuffled_STA_heights / mV,

@@ -4,9 +4,8 @@ import numpy as np
 from matplotlib.axes import Axes
 from nptyping import NDArray
 
-from .plot_style import figsize
 from .units import Quantity, second
-from .util import subplots
+from .plot_util import subplots, figsize
 
 
 NumSpikes = Any

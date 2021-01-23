@@ -61,7 +61,7 @@ def to_num_timesteps(duration: Quantity, timestep: Quantity) -> int:
 
 def plot_signal(signal: Signal, ax=None, time_units=second, **plot_kwargs):
 
-    from ..support.util import subplots
+    from ..support.plot_util import subplots
 
     if ax == None:
         _, ax = subplots()

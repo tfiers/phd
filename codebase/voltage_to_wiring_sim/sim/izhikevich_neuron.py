@@ -13,10 +13,9 @@ from matplotlib.axes import Axes
 
 from .neuron_params import IzhikevichParams, cortical_RS
 from ..support import Signal, compile_to_machine_code, to_num_timesteps
-from ..support.plot_style import figsize
 from ..support.spike_train import SpikeTimes, to_ISIs
 from ..support.units import Quantity, mV, ms, pA
-from ..support.util import create_if_None
+from ..support.plot_util import new_plot_if_None, figsize
 
 
 @dataclass
@@ -96,7 +95,7 @@ def _sim_izh(
 
 def show_output_spike_stats(output: IzhikevichOutput, ax: Axes = None):
     ISIs = to_ISIs(output.spike_times)
-    ax = create_if_None(ax, **figsize(aspect=4))
+    ax = new_plot_if_None(ax, **figsize(aspect=4))
     sns.histplot(ISIs / ms, ax=ax)
     ax.set_xlabel("Inter-spike interval (ms)")
     ax.set_ylabel("# spike pairs")

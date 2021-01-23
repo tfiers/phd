@@ -12,7 +12,7 @@ from matplotlib.patches import Patch
 from nptyping import NDArray
 
 from .permutation_test import ConnectionTestSummary
-from ..support.util import create_if_None
+from ..support.plot_util import new_plot_if_None
 
 
 NumPrePostPairs = Any
@@ -111,7 +111,7 @@ def plot_classifications(classifications: list[Classification], ax: Axes = None)
             else:
                 color = to_rgb("black")
             matrix[pair_nr, threshold_nr] = color
-    ax = create_if_None(ax)
+    ax = new_plot_if_None(ax)
     ax.imshow(matrix, aspect="auto")
 
     # Draw a border around each cell (using the 'minor' grid)
@@ -161,7 +161,7 @@ class EvalLabels(Enum):
 def plot_ROC(classifications: list[Classification], ax: Axes = None, **kwargs):
     TPRs = [c.evaluation.TPR for c in classifications]
     FPRs = [c.evaluation.FPR for c in classifications]
-    ax = create_if_None(ax)
+    ax = new_plot_if_None(ax)
     step_kwargs = dict(marker=".")
     step_kwargs.update(kwargs)
     ax.step(FPRs, TPRs, where="post", clip_on=False, **step_kwargs)

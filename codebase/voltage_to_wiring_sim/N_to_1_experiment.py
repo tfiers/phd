@@ -28,11 +28,11 @@ from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams
 from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, plot_signal, to_bounds
-from .support.plot_style import figsize
+from .support import Signal, fix_rng_seed, plot_signal, to_bounds
+from .support.plot_util import new_plot_if_None, figsize, subplots
+from .support.printing import with_progress_meter
 from .support.spike_train import SpikeTimes, plot_spike_train
 from .support.units import Quantity, mV, ms, nS
-from .support.util import create_if_None, fix_rng_seed, subplots, with_progress_meter
 
 
 @dataclass
@@ -223,7 +223,7 @@ def plot_p_values(
     ax: Axes = None,
 ):
     p_values = [summary.p_value for summary in test_summaries]
-    ax = create_if_None(ax, **figsize(aspect=3))
+    ax = new_plot_if_None(ax, **figsize(aspect=3))
     pass_df(
         sns.histplot,
         x=p_values,
@@ -246,7 +246,7 @@ def plot_relative_STA_heights(
     ax: Axes = None,
 ):
     rel_heights = [summary.relative_STA_height for summary in test_summaries]
-    ax = create_if_None(ax, **figsize(aspect=3))
+    ax = new_plot_if_None(ax, **figsize(aspect=3))
     pass_df(
         sns.histplot,
         x=rel_heights,
