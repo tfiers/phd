@@ -341,6 +341,16 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-p-connected">
+   Vary
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     p_connected
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reproducibility">
    Reproducibility
   </a>
@@ -384,9 +394,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Mon 25 Jan</strong> 2021, at 18:36 (UTC+0100).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e435b9d0c4c31cdb8870b1c1028afa53a1e5f9a5">Last git commit</a> (Sat 23 Jan 2021, 16:50).
-Uncommited changes to 1 file.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Mon 25 Jan</strong> 2021, at 19:19 (UTC+0100).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e6bc8918af183e7656615a51da53da33458b5703">Last git commit</a> (Mon 25 Jan 2021, 18:45).
+Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell docutils container">
@@ -540,11 +550,11 @@ Uncommited changes to 1 file.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.021 s] | Conntest: [0.41 s]
-SNR: 2 | Sim: [0.019 s] | Conntest: [0.51 s]
-SNR: 4 | Sim: [0.02 s] | Conntest: [0.41 s]
-SNR: 8 | Sim: [0.021 s] | Conntest: [0.41 s]
-Wall time: 1.88 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.026 s] | Conntest: [0.42 s]
+SNR: 2 | Sim: [0.021 s] | Conntest: [0.51 s]
+SNR: 4 | Sim: [0.027 s] | Conntest: [0.42 s]
+SNR: 8 | Sim: [0.025 s] | Conntest: [0.47 s]
+Wall time: 1.98 s
 </pre></div>
 </div>
 </div>
@@ -570,7 +580,7 @@ Wall time: 1.88 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">AUC</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calc_AUC</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">):</span>
     <span class="n">TPRs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">TPR</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">thr_sweep</span><span class="p">]</span>
     <span class="n">FPRs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">thr_sweep</span><span class="p">]</span>
     <span class="n">AUC</span> <span class="o">=</span> <span class="mi">0</span>
@@ -584,7 +594,7 @@ Wall time: 1.88 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">SNR</span><span class="o">=</span><span class="n">SNRs</span><span class="p">,</span> <span class="n">AUC</span><span class="o">=</span><span class="p">[</span><span class="n">AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">SNR</span><span class="o">=</span><span class="n">SNRs</span><span class="p">,</span> <span class="n">AUC</span><span class="o">=</span><span class="p">[</span><span class="n">calc_AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]))</span>
 </pre></div>
 </div>
 </div>
@@ -674,8 +684,23 @@ Wall time: 1.88 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rec_param_label</span> <span class="o">=</span> <span class="s2">"Recording duration"</span>
-<span class="n">rec_value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">];</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">ParamVariation</span><span class="p">:</span>
+    <span class="n">param</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">param_label</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="n">value_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+        
+<span class="n">rec_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="s2">"sim_duration"</span><span class="p">,</span>
+    <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"Recording duration"</span><span class="p">,</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">durations</span><span class="p">,</span>
+    <span class="n">value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">],</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -684,26 +709,26 @@ Wall time: 1.88 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">replace</span>
 
-<span class="k">def</span> <span class="nf">vary_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">param_label</span><span class="p">,</span> <span class="n">value_labels</span><span class="p">):</span>
-    <span class="n">max_label_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">value_labels</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">vary_param</span><span class="p">(</span><span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">):</span>
+    <span class="n">max_label_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">])</span>
     <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">val_label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">value_labels</span><span class="p">):</span>
-        <span class="n">v</span><span class="o">.</span><span class="n">bprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">param_label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val_label</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">max_label_len</span><span class="si">}}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">param</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">val_label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pv</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">):</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">bprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val_label</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">max_label_len</span><span class="si">}}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">pv</span><span class="o">.</span><span class="n">param</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
         <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">thr_sweeps</span>
 
-<span class="o">%</span><span class="k">time</span> rec_sweeps = vary_param("sim_duration", durations, rec_param_label, rec_value_labels)
+<span class="o">%</span><span class="k">time</span> rec_sweeps = vary_param(rec_variation)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.012 s] | Conntest: [0.57 s]
-Recording duration: 1 minute    | Sim: [0.02 s] | Conntest: [0.44 s]
-Recording duration: 2 minutes   | Sim: [0.041 s] | Conntest: [0.48 s]
-Recording duration: 4 minutes   | Sim: [0.073 s] | Conntest: [0.57 s]
-Wall time: 2.28 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.019 s] | Conntest: [0.39 s]
+Recording duration: 1 minute    | Sim: [0.018 s] | Conntest: [0.42 s]
+Recording duration: 2 minutes   | Sim: [0.042 s] | Conntest: [0.56 s]
+Recording duration: 4 minutes   | Sim: [0.078 s] | Conntest: [0.57 s]
+Wall time: 2.18 s
 </pre></div>
 </div>
 </div>
@@ -712,35 +737,84 @@ Wall time: 2.28 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ROC</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">plot_ROC</span>
 
-<span class="k">def</span> <span class="nf">plot_sweeps</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">param_label</span><span class="p">,</span> <span class="n">value_labels</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot_sweeps</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">):</span>
     
     <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">))</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">))]</span>
     
     <span class="c1"># ROC</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">value_labels</span><span class="p">)):</span>
-        <span class="n">plot_ROC</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span>
-                 <span class="n">left_ax</span><span class="p">,</span>
-                 <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
-                 <span class="n">marker</span><span class="o">=</span><span class="s1">'.'</span><span class="p">,</span>
-                 <span class="n">color</span><span class="o">=</span><span class="sa">f</span><span class="s2">"C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">sweep</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+        <span class="n">plot_ROC</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">left_ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
     
     <span class="c1"># AUC barplot</span>
-    <span class="n">AUCs</span> <span class="o">=</span> <span class="p">[</span><span class="n">AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">param_label</span><span class="p">:</span> <span class="n">value_labels</span><span class="p">,</span> <span class="s2">"AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">right_ax</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">right_ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">AUCs</span><span class="p">):</span>
-        <span class="n">right_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">".2G"</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">)</span>
-    <span class="n">right_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.5</span><span class="p">);</span>
+    <span class="n">AUCs</span> <span class="o">=</span> <span class="p">[</span><span class="n">calc_AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="s2">"AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">right_ax</span><span class="p">)</span>
+    <span class="n">y_bottom</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">right_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">y_bottom</span><span class="p">);</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">right_ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">AUCs</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">AUC</span> <span class="o">&gt;</span> <span class="n">y_bottom</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">AUC</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y_bottom</span>
+        <span class="n">right_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">AUC</span><span class="p">,</span> <span class="s2">".2G"</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span>
 
 
-<span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span> <span class="o">=</span> <span class="n">plot_sweeps</span><span class="p">(</span><span class="n">rec_sweeps</span><span class="p">,</span> <span class="n">rec_param_label</span><span class="p">,</span> <span class="n">rec_value_labels</span><span class="p">);</span>
+<span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span> <span class="o">=</span> <span class="n">plot_sweeps</span><span class="p">(</span><span class="n">rec_sweeps</span><span class="p">,</span> <span class="n">rec_variation</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/2021-01-13__multiple_ROC_32_0.png" src="../_images/2021-01-13__multiple_ROC_32_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="vary-p-connected">
+<h2>Vary <code class="docutils literal notranslate"><span class="pre">p_connected</span></code><a class="headerlink" href="#vary-p-connected" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pconn_values</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">7</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">22</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="o">/</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">pconn_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="s2">"p_connected"</span><span class="p">,</span>
+    <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"Spike trains connected"</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="n">pconn_values</span><span class="p">,</span>
+    <span class="n">value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">val</span><span class="si">:</span><span class="s2">.2G</span><span class="si">}</span><span class="s2">%"</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">pconn_values</span><span class="p">],</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> pconn_sweeps = vary_param(pconn_variation)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Spike trains connected: 3.3% | Sim: [0.022 s] | Conntest: [0.42 s]
+Spike trains connected: 10%  | Sim: [0.02 s] | Conntest: [0.55 s]
+Spike trains connected: 17%  | Sim: [0.023 s] | Conntest: [0.42 s]
+Spike trains connected: 23%  | Sim: [0.02 s] | Conntest: [0.43 s]
+Spike trains connected: 33%  | Sim: [0.02 s] | Conntest: [0.5 s] 
+Spike trains connected: 50%  | Sim: [0.02 s] | Conntest: [0.41 s]
+Spike trains connected: 73%  | Sim: [0.019 s] | Conntest: [0.42 s]
+Spike trains connected: 97%  | Sim: [0.021 s] | Conntest: [0.49 s]
+Wall time: 3.92 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sweeps</span><span class="p">(</span><span class="n">pconn_sweeps</span><span class="p">,</span> <span class="n">pconn_variation</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_36_0.png" src="../_images/2021-01-13__multiple_ROC_36_0.png">
 </div>
 </div>
 </div>
