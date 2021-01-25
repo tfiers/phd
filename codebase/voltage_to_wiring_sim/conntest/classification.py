@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+from warnings import warn
 
 import numpy as np
 import seaborn as sns
@@ -44,8 +45,18 @@ def evaluate_classification(
     num_FP = np.sum(is_FP)
     num_TN = np.sum(is_TN)
     num_FN = np.sum(is_FN)
-    TPR = num_TP / (num_TP + num_FN)
-    FPR = num_FP / (num_FP + num_TN)
+    num_positive = num_TP + num_FN
+    num_negative = num_FP + num_TN
+    if num_positive > 0:
+        TPR = num_TP / num_positive
+    else:
+        warn("No connected (pre,post)-pairs. TPR is meaningless.")
+        TPR = np.nan
+    if num_negative > 0:
+        FPR = num_FP / num_negative
+    else:
+        warn("No unconnected (pre,post)-pairs. FPR is meaningless.")
+        FPR = np.nan
     return ClassificationEvaluation(
         is_TP, is_FP, is_TN, is_FN, num_TP, num_FP, num_TN, num_FN, TPR, FPR
     )
