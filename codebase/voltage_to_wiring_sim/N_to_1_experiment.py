@@ -110,8 +110,12 @@ def get_index_of_first_connected_train(sim_data: N_to_1_SimData) -> int:
     return np.nonzero(sim_data.is_connected)[0][0]
 
 
-@cache_to_disk
-def test_connections(sim_data: N_to_1_SimData, inline_meter=False):
+@cache_to_disk(ignore=["inline_meter"])
+def test_connections(
+    sim_data: N_to_1_SimData,
+    inline_meter=False,
+    return_only_summaries=False,  # Test data takes time & disk space to cache.
+):
     test_data = []
     test_summaries = []
     if inline_meter:
@@ -127,7 +131,10 @@ def test_connections(sim_data: N_to_1_SimData, inline_meter=False):
         )
         test_data.append(data)
         test_summaries.append(summary)
-    return test_data, test_summaries
+    if return_only_summaries:
+        return test_summaries
+    else:
+        return test_data, test_summaries
 
 
 def sim_and_eval():

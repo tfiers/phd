@@ -11,7 +11,7 @@ def time_op(description: str, end="\n"):
     t0 = time()
     yield
     dt = time() - t0
-    duration_str = f"[{dt:.2g} s]"
+    duration_str = f"[{dt:.2f} s]"
     bprint(f"{duration_str:<8}", end=end)
 
 
