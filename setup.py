@@ -41,11 +41,11 @@ setup(
         #                   line). It so approaches C or Julia performance.
         # "unitlib",  # Store & display *physical units* along numbers & arrays. A package
         #             I made, that is not ready.
-        "joblib ~= 0.16",  # On-disk function cache to avoid re-doing work.
+        "joblib ~= 1.0",  # On-disk function cache to avoid re-doing work.
         "seaborn ~= 0.11",  # Extension of Matplotlib for statistical data viz.
         "scipy ~= 1.5",  # Numerical utilities (peak finding, integration,
         #                  interpolation, optimisation, ...).
-        "scikit-learn ~= 0.23",  # Machine learning (used for kernel density estimation).
+        "scikit-learn ~= 0.24",  # Machine learning (used for kernel density estimation).
         "preload ~= 2.1",  # Print what's happening during slow imports.
         "nptyping ~= 1.3",  # Type hints (shape, data type) for NumPy arrays.
         "tqdm ~= 4.55",  # Progress meter & timing info for slow loops.
