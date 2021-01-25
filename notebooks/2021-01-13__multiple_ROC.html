@@ -349,6 +349,35 @@
     </span>
    </code>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inspect-some-simulations">
+     Inspect some simulations
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#spike-trains-connected">
+       2 spike trains connected:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id1">
+       6 spike trains connected:
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       27 spike trains connected:
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#question">
+     Question
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reproducibility">
@@ -394,8 +423,8 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Mon 25 Jan</strong> 2021, at 19:19 (UTC+0100).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/e6bc8918af183e7656615a51da53da33458b5703">Last git commit</a> (Mon 25 Jan 2021, 18:45).
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Tue 26 Jan</strong> 2021, at 00:04 (UTC+0100).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/3d74dc2001b603385f3c5016b85cf30a35bdf3c0">Last git commit</a> (Mon 25 Jan 2021, 21:43).
 Uncommited changes to 2 files.</p>
 </div>
 </div>
@@ -434,9 +463,18 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 </div>
+<p>Note the medium short recording and low imaging SNR.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">base_params</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.7s, 0.0min
 </pre></div>
 </div>
 </div>
@@ -448,7 +486,7 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_10_0.png" src="../_images/2021-01-13__multiple_ROC_10_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_11_0.png" src="../_images/2021-01-13__multiple_ROC_11_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -458,7 +496,7 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_11_0.png" src="../_images/2021-01-13__multiple_ROC_11_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_12_0.png" src="../_images/2021-01-13__multiple_ROC_12_0.png">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 11 Hz
 </pre></div>
 </div>
@@ -470,6 +508,29 @@ Uncommited changes to 2 files.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr...)
+Testing connections: 30/30/309/3014/3016/3018/3019/3024/3025/3027/3028/30
+_________________________________________________test_connections - 3.7s, 0.1min
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -478,8 +539,8 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_13_0.png" src="../_images/2021-01-13__multiple_ROC_13_0.png">
-<img alt="../_images/2021-01-13__multiple_ROC_13_1.png" src="../_images/2021-01-13__multiple_ROC_13_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_14_0.png" src="../_images/2021-01-13__multiple_ROC_14_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_14_1.png" src="../_images/2021-01-13__multiple_ROC_14_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -496,7 +557,7 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_15_0.png" src="../_images/2021-01-13__multiple_ROC_15_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_16_0.png" src="../_images/2021-01-13__multiple_ROC_16_0.png">
 </div>
 </div>
 </div>
@@ -513,7 +574,7 @@ Uncommited changes to 2 files.</p>
     <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">):</span>
         <span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Conntest"</span><span class="p">):</span>
-        <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">inline_meter</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">inline_meter</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_only_summaries</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">classifs</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">classifs</span>
 </pre></div>
@@ -550,11 +611,95 @@ Uncommited changes to 2 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.026 s] | Conntest: [0.42 s]
-SNR: 2 | Sim: [0.021 s] | Conntest: [0.51 s]
-SNR: 4 | Sim: [0.027 s] | Conntest: [0.42 s]
-SNR: 8 | Sim: [0.025 s] | Conntest: [0.47 s]
-Wall time: 1.98 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=1, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.68 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+SNR: 1 | Sim: [0.68 s] | Conntest: 29/30/3010/3012/3014/3019/3021/3023/3024/3026/3027/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
+[1.46 s]
+SNR: 2 | Sim: [0.02 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+SNR: 2 | Sim: [0.02 s] | Conntest: 30/30 308/309/3010/3011/3012/3013/3014/3015/3018/3019/3020/3021/3028/3029/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.61 s]
+SNR: 4 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=4, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.57 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+SNR: 4 | Sim: [0.57 s] | Conntest: 30/30 305/306/3020/3022/3028/30_________________________________________________test_connections - 1.3s, 0.0min
+[1.50 s]
+SNR: 8 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=8, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.64 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+SNR: 8 | Sim: [0.64 s] | Conntest: 28/3016/3022/3025/3029/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
+[1.52 s]
+Wall time: 8.03 s
 </pre></div>
 </div>
 </div>
@@ -575,7 +720,7 @@ Wall time: 1.98 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_22_0.png" src="../_images/2021-01-13__multiple_ROC_22_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_23_0.png" src="../_images/2021-01-13__multiple_ROC_23_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -625,12 +770,12 @@ Wall time: 1.98 s
     <tr>
       <th>0</th>
       <td>1</td>
-      <td>0.684444</td>
+      <td>0.688889</td>
     </tr>
     <tr>
       <th>1</th>
       <td>2</td>
-      <td>0.853333</td>
+      <td>0.880000</td>
     </tr>
     <tr>
       <th>2</th>
@@ -654,7 +799,7 @@ Wall time: 1.98 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_25_0.png" src="../_images/2021-01-13__multiple_ROC_25_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_26_0.png" src="../_images/2021-01-13__multiple_ROC_26_0.png">
 </div>
 </div>
 </div>
@@ -684,22 +829,29 @@ Wall time: 1.98 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">replace</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">'T'</span><span class="p">)</span>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ParamVariation</span><span class="p">:</span>
     <span class="n">param</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">param_label</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
-    <span class="n">value_labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
-        
+    <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+    <span class="n">value_formatter</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">T</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paramsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
+                          <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value_formatter</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+
+
 <span class="n">rec_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
     <span class="n">param</span> <span class="o">=</span> <span class="s2">"sim_duration"</span><span class="p">,</span>
     <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"Recording duration"</span><span class="p">,</span>
     <span class="n">values</span> <span class="o">=</span> <span class="n">durations</span><span class="p">,</span>
-    <span class="n">value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">format_duration</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">durations</span><span class="p">],</span>
+    <span class="n">value_formatter</span> <span class="o">=</span> <span class="n">format_duration</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -707,57 +859,125 @@ Wall time: 1.98 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">replace</span>
-
-<span class="k">def</span> <span class="nf">vary_param</span><span class="p">(</span><span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_and_eval_variations</span><span class="p">(</span><span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">):</span>
     <span class="n">max_label_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">])</span>
     <span class="n">thr_sweeps</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">val_label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pv</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">val_label</span><span class="p">,</span> <span class="n">params</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pv</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="n">pv</span><span class="o">.</span><span class="n">paramsets</span><span class="p">):</span>
         <span class="n">v</span><span class="o">.</span><span class="n">bprint</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val_label</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">max_label_len</span><span class="si">}}</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" | "</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">pv</span><span class="o">.</span><span class="n">param</span><span class="p">:</span> <span class="n">val</span><span class="p">})</span>
         <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
         <span class="n">thr_sweeps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">thr_sweeps</span>
 
-<span class="o">%</span><span class="k">time</span> rec_sweeps = vary_param(rec_variation)
+<span class="o">%</span><span class="k">time</span> rec_sweeps = sim_and_eval_variations(rec_variation)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.019 s] | Conntest: [0.39 s]
-Recording duration: 1 minute    | Sim: [0.018 s] | Conntest: [0.42 s]
-Recording duration: 2 minutes   | Sim: [0.042 s] | Conntest: [0.56 s]
-Recording duration: 4 minutes   | Sim: [0.078 s] | Conntest: [0.57 s]
-Wall time: 2.18 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=30, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.64 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 29.872108]),
+       array([ 0.040476, ..., 29.968529]),
+       array([ 0.098069, ..., 29.967759]),
+       array([2.901317e-02, ..., 2.992447e+01]),
+       array([2.308437e-02, ..., 2.999131e+01]),
+       array([ 0.06117, ..., 29.98819]),
+       array([ 0.10202 , ..., 29.975054]),
+       array([3.619138e-03, ..., 2.999336e+01]),
+       array([1.804159e-03, ..., 2.996971e+01]),
+       array([1.574506e-02, ..., 2.998944e+01]),
+       array([2.595895e-02, ..., 2.992979e+01]),
+       array([3.275398e-03, ..., 2.998744e+01]),
+       array([ 0.079626, ..., 29.950022]),
+       array([8.657796e-03, ..., 2.994836e+01]),
+       array([1.475929e-..., inline_meter=True, return_only_summaries=True)
+Recording duration: 0.5 minutes | Sim: [0.64 s] | Conntest: 28/30/309/3010/3012/3013/3015/3016/3017/3019/3020/3024/3025/3026/3029/3030/30 _________________________________________________test_connections - 0.8s, 0.0min
+[0.99 s]
+Recording duration: 1 minute    | Sim: [0.03 s] | Conntest: [0.04 s]
+Recording duration: 2 minutes   | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=120, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.73 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([8.114804e-02, ..., 1.198797e+02]),
+       array([6.116996e-02, ..., 1.198873e+02]),
+       array([3.619138e-03, ..., 1.199743e+02]),
+       array([8.657796e-03, ..., 1.199272e+02]),
+       array([4.062607e-02, ..., 1.199489e+02]),
+       array([1.381760e-02, ..., 1.199918e+02]),
+       array([5.620939e-03, ..., 1.198919e+02]),
+       array([  0.154084, ..., 119.946687]),
+       array([1.557648e-02, ..., 1.199962e+02]),
+       array([2.706139e-02, ..., 1.199865e+02]),
+       array([8.552052e-03, ..., 1.199849e+02]),
+       array([7.597553e-03, ..., 1.199992e+02]),
+       array([7.773634e-02, ..., 1.199827e+02]),
+       array([  0.162187, ..., 119.9498..., inline_meter=True, return_only_summaries=True)
+Recording duration: 2 minutes   | Sim: [0.73 s] | Conntest: 30/30 _________________________________________________test_connections - 2.5s, 0.0min
+[2.80 s]
+Recording duration: 4 minutes   | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=240, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.9s, 0.0min
+[0.99 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([8.114804e-02, ..., 2.398847e+02]),
+       array([5.938746e-03, ..., 2.399240e+02]),
+       array([1.580631e-02, ..., 2.399609e+02]),
+       array([1.381760e-02, ..., 2.399932e+02]),
+       array([1.540836e-01, ..., 2.399582e+02]),
+       array([1.557648e-02, ..., 2.399462e+02]),
+       array([1.358094e-01, ..., 2.399537e+02]),
+       array([3.105475e-02, ..., 2.399735e+02]),
+       array([1.494585e-02, ..., 2.399681e+02]),
+       array([3.665244e-02, ..., 2.399855e+02]),
+       array([1.223778e-02, ..., 2.399877e+02]),
+       array([3.508583e-02, ..., 2.399447e+02]),
+       array([4.434552e-02, ..., 2.399872e+02]),
+       array([5.058557e-02, ..., 2...., inline_meter=True, return_only_summaries=True)
+Recording duration: 4 minutes   | Sim: [0.99 s] | Conntest: 30/30 5/3020/30_________________________________________________test_connections - 5.2s, 0.1min
+[5.61 s]
+Wall time: 11.9 s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_ROC</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">plot_ROC</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">barplot_AUC</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">AUCs</span> <span class="o">=</span> <span class="p">[</span><span class="n">calc_AUC</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span> <span class="k">for</span> <span class="n">thr_sweep</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="s2">"AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">plot_util</span><span class="o">.</span><span class="n">new_plot_if_None</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'black'</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">y_bottom</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">y_bottom</span><span class="p">)</span>
+    <span class="c1"># Print AUC values as text on bar</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">AUCs</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">AUC</span> <span class="o">&lt;</span> <span class="n">y_bottom</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y_bottom</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">AUC</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">AUC</span><span class="p">,</span> <span class="s2">".2G"</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">text_size</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
 
+        
+<span class="n">plot_ROC</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">plot_ROC</span>
+        
 <span class="k">def</span> <span class="nf">plot_sweeps</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">):</span>
     
     <span class="n">_</span><span class="p">,</span> <span class="p">(</span><span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">))</span>
+    <span class="n">num_sweeps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">)</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">))]</span>
     
-    <span class="c1"># ROC</span>
     <span class="k">for</span> <span class="n">sweep</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
         <span class="n">plot_ROC</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">left_ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
     
-    <span class="c1"># AUC barplot</span>
-    <span class="n">AUCs</span> <span class="o">=</span> <span class="p">[</span><span class="n">calc_AUC</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="s2">"AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">right_ax</span><span class="p">)</span>
-    <span class="n">y_bottom</span> <span class="o">=</span> <span class="mf">0.5</span>
-    <span class="n">right_ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">y_bottom</span><span class="p">);</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">right_ax</span><span class="o">.</span><span class="n">get_xticks</span><span class="p">(),</span> <span class="n">AUCs</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">AUC</span> <span class="o">&gt;</span> <span class="n">y_bottom</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">AUC</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">y_bottom</span>
-        <span class="n">right_ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">AUC</span><span class="p">,</span> <span class="s2">".2G"</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">'bottom'</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">barplot_AUC</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">pv</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">right_ax</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span>
 
@@ -767,7 +987,7 @@ Wall time: 2.18 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_32_0.png" src="../_images/2021-01-13__multiple_ROC_32_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_33_0.png" src="../_images/2021-01-13__multiple_ROC_33_0.png">
 </div>
 </div>
 </div>
@@ -775,13 +995,13 @@ Wall time: 2.18 s
 <h2>Vary <code class="docutils literal notranslate"><span class="pre">p_connected</span></code><a class="headerlink" href="#vary-p-connected" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pconn_values</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">7</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">10</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">15</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">22</span><span class="o">/</span><span class="mi">30</span><span class="p">,</span> <span class="mi">29</span><span class="o">/</span><span class="mi">30</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_connected</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">29</span><span class="p">)</span>  <span class="c1"># / 30</span>
 
 <span class="n">pconn_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
     <span class="n">param</span> <span class="o">=</span> <span class="s2">"p_connected"</span><span class="p">,</span>
-    <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"Spike trains connected"</span><span class="p">,</span>
-    <span class="n">values</span><span class="o">=</span><span class="n">pconn_values</span><span class="p">,</span>
-    <span class="n">value_labels</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">val</span><span class="si">:</span><span class="s2">.2G</span><span class="si">}</span><span class="s2">%"</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">pconn_values</span><span class="p">],</span>
+    <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"# spike trains connected (/30)"</span><span class="p">,</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">num_connected</span><span class="p">)</span> <span class="o">/</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="n">value_formatter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)),</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -789,20 +1009,180 @@ Wall time: 2.18 s
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> pconn_sweeps = vary_param(pconn_variation)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> pconn_sweeps = sim_and_eval_variations(pconn_variation)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Spike trains connected: 3.3% | Sim: [0.022 s] | Conntest: [0.42 s]
-Spike trains connected: 10%  | Sim: [0.02 s] | Conntest: [0.55 s]
-Spike trains connected: 17%  | Sim: [0.023 s] | Conntest: [0.42 s]
-Spike trains connected: 23%  | Sim: [0.02 s] | Conntest: [0.43 s]
-Spike trains connected: 33%  | Sim: [0.02 s] | Conntest: [0.5 s] 
-Spike trains connected: 50%  | Sim: [0.02 s] | Conntest: [0.41 s]
-Spike trains connected: 73%  | Sim: [0.019 s] | Conntest: [0.42 s]
-Spike trains connected: 97%  | Sim: [0.021 s] | Conntest: [0.49 s]
-Wall time: 3.92 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.03333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.65 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 1  | Sim: [0.65 s] | Conntest: 30/30 306/3013/3016/3017/3019/3020/3023/3024/3029/30_________________________________________________test_connections - 1.8s, 0.0min
+[1.95 s]
+# spike trains connected (/30): 2  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.06666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.61 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 2  | Sim: [0.61 s] | Conntest: 29/30/306/307/308/3013/3017/3020/3022/3023/3026/3027/3028/3030/30 _________________________________________________test_connections - 1.7s, 0.0min
+[1.86 s]
+# spike trains connected (/30): 3  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.1, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.66 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 3  | Sim: [0.66 s] | Conntest: 27/30/3010/3011/3013/3020/3021/3028/3029/3030/30 _________________________________________________test_connections - 1.6s, 0.0min
+[1.77 s]
+# spike trains connected (/30): 5  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.16666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.68 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 5  | Sim: [0.68 s] | Conntest: 30/30 304/309/3010/3012/3015/30_________________________________________________test_connections - 1.8s, 0.0min
+[1.98 s]
+# spike trains connected (/30): 7  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.23333333333333334, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.74 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 7  | Sim: [0.74 s] | Conntest: 30/30 3015/30_________________________________________________test_connections - 1.6s, 0.0min
+[1.85 s]
+# spike trains connected (/30): 10 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.3333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.74 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 10 | Sim: [0.74 s] | Conntest: 30/30 306/307/308/3011/3012/30_________________________________________________test_connections - 1.6s, 0.0min
+[1.77 s]
+# spike trains connected (/30): 15 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.64 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 29 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.66 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 29 | Sim: [0.66 s] | Conntest: 30/30 309/3011/3012/3018/3025/3027/30_________________________________________________test_connections - 1.7s, 0.0min
+[1.85 s]
+Wall time: 18.5 s
 </pre></div>
 </div>
 </div>
@@ -814,8 +1194,714 @@ Wall time: 3.92 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-13__multiple_ROC_36_0.png" src="../_images/2021-01-13__multiple_ROC_36_0.png">
+<img alt="../_images/2021-01-13__multiple_ROC_37_0.png" src="../_images/2021-01-13__multiple_ROC_37_0.png">
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pconn_variation_full</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">pconn_variation</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span> <span class="o">/</span> <span class="mi">30</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>(We don&#8217;t try 0 connected, as then TPR becomes meaningless: there are no positives and thus no true positives.<br>
+Same for all 30 connected, where FPR becomes meaningless: there are no negatives and thus no false positives).</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">pconn_sweeps_full</span> <span class="o">=</span> <span class="n">sim_and_eval_variations</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 2  | Sim: [0.06 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 3  | Sim: [0.06 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 4  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.13333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.64 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 4  | Sim: [0.64 s] | Conntest: 28/30/308/309/3013/3014/3017/3020/3021/3022/3023/3029/3030/30 _________________________________________________test_connections - 1.5s, 0.0min
+[1.71 s]
+# spike trains connected (/30): 5  | Sim: [0.09 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 6  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.2, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.59 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 6  | Sim: [0.59 s] | Conntest: 28/30/304/306/3012/3013/3014/3018/3022/3024/3025/3029/3030/30 _________________________________________________test_connections - 1.5s, 0.0min
+[1.65 s]
+# spike trains connected (/30): 7  | Sim: [0.06 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 8  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.26666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.58 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 8  | Sim: [0.58 s] | Conntest: 30/30 307/309/3010/3013/3014/3015/3016/3024/3025/3026/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.59 s]
+# spike trains connected (/30): 9  | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.3, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.61 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 9  | Sim: [0.61 s] | Conntest: 28/30/3012/3013/3022/3024/3029/3030/30 _________________________________________________test_connections - 1.8s, 0.0min
+[1.96 s]
+# spike trains connected (/30): 10 | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 11 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.36666666666666664, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.7s, 0.0min
+[0.77 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 11 | Sim: [0.77 s] | Conntest: 30/30 5/3016/3017/3018/3019/3020/3021/3022/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.56 s]
+# spike trains connected (/30): 12 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.4, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.60 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 12 | Sim: [0.60 s] | Conntest: 30/30 308/3015/30_________________________________________________test_connections - 1.5s, 0.0min
+[1.68 s]
+# spike trains connected (/30): 13 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.43333333333333335, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.7s, 0.0min
+[0.82 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 13 | Sim: [0.82 s] | Conntest: 29/30/305/308/309/3010/3012/3014/3016/3017/3018/3020/3021/3022/3023/3025/3026/3027/3028/3030/30 _________________________________________________test_connections - 1.4s, 0.0min
+[1.58 s]
+# spike trains connected (/30): 14 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.4666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.61 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 14 | Sim: [0.61 s] | Conntest: 30/30 7/3018/3019/3020/3029/30_________________________________________________test_connections - 1.5s, 0.0min
+[1.68 s]
+# spike trains connected (/30): 15 | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 16 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.67 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 16 | Sim: [0.67 s] | Conntest: 30/30 306/308/3019/3021/3026/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.63 s]
+# spike trains connected (/30): 17 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.69 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 17 | Sim: [0.69 s] | Conntest: 30/30 306/307/3010/3011/3012/3016/3017/3020/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.63 s]
+# spike trains connected (/30): 18 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.7s, 0.0min
+[0.78 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 18 | Sim: [0.78 s] | Conntest: 30/30 309/3010/3014/3027/30_________________________________________________test_connections - 1.5s, 0.0min
+[1.72 s]
+# spike trains connected (/30): 19 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.63 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 19 | Sim: [0.63 s] | Conntest: 30/30 3018/3022/3023/30_________________________________________________test_connections - 1.8s, 0.0min
+[2.00 s]
+# spike trains connected (/30): 20 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.62 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 20 | Sim: [0.62 s] | Conntest: 30/30 307/308/3012/3016/3029/30_________________________________________________test_connections - 1.5s, 0.0min
+[1.68 s]
+# spike trains connected (/30): 21 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.7s, 0.0min
+[0.77 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 21 | Sim: [0.77 s] | Conntest: 30/30 306/3011/3012/3013/3014/3015/30_________________________________________________test_connections - 1.6s, 0.0min
+[1.81 s]
+# spike trains connected (/30): 22 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.60 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 22 | Sim: [0.60 s] | Conntest: 29/30/305/308/3018/3019/3020/3025/3028/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
+[1.53 s]
+# spike trains connected (/30): 23 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.71 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 23 | Sim: [0.71 s] | Conntest: 30/30 305/306/307/3011/3012/3017/3018/3019/3020/3023/3024/3026/3027/3028/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.56 s]
+# spike trains connected (/30): 24 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.6s, 0.0min
+[0.72 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 24 | Sim: [0.72 s] | Conntest: 30/30 305/306/307/3010/3012/3014/3015/3016/3017/3023/3026/3027/30_________________________________________________test_connections - 1.4s, 0.0min
+[1.60 s]
+# spike trains connected (/30): 25 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8333333333333334, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.64 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 25 | Sim: [0.64 s] | Conntest: 30/30 2/3013/3015/3016/3017/3019/30_________________________________________________test_connections - 1.7s, 0.0min
+[1.85 s]
+# spike trains connected (/30): 26 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 0.5s, 0.0min
+[0.63 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 26 | Sim: [0.63 s] | Conntest: 30/30 3010/3015/3016/3017/3026/30_________________________________________________test_connections - 1.6s, 0.0min
+[1.77 s]
+# spike trains connected (/30): 27 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 1.0s, 0.0min
+[1.13 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 27 | Sim: [1.13 s] | Conntest: 30/30 306/3012/3015/3016/3017/3027/30_________________________________________________test_connections - 2.2s, 0.0min
+[2.42 s]
+# spike trains connected (/30): 28 | Sim: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
+simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
+_________________________________________________________simulate - 2.6s, 0.0min
+[2.74 s] | Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True, return_only_summaries=True)
+# spike trains connected (/30): 28 | Sim: [2.74 s] | Conntest: 30/30 3010/3024/3025/3026/3027/30_________________________________________________test_connections - 1.5s, 0.0min
+[1.76 s]
+# spike trains connected (/30): 29 | Sim: [0.11 s] | Conntest: [0.05 s]
+Wall time: 54.2 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Running this the first time, with 19 of the 29 param values not run yet &#8211; i.e. only 10 where loaded from disk cache &#8211; took 44 seconds).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">barplot_AUC</span><span class="p">(</span><span class="n">pconn_sweeps_full</span><span class="p">,</span> <span class="n">pconn_variation_full</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_42_0.png" src="../_images/2021-01-13__multiple_ROC_42_0.png">
+</div>
+</div>
+<div class="section" id="inspect-some-simulations">
+<h3>Inspect some simulations<a class="headerlink" href="#inspect-some-simulations" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show_output_spike_stats</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">izhikevich_neuron</span><span class="o">.</span><span class="n">show_output_spike_stats</span>
+<span class="n">plot_conntest</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">plot_conntest</span>
+<span class="n">plot_classifications_with_ROC</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">plot_classifications_with_ROC</span>
+
+<span class="k">def</span> <span class="nf">sim_eval_plot</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Sim"</span><span class="p">):</span>
+        <span class="n">sim_data</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">plot_sim_slice</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">)</span>
+    <span class="n">show_output_spike_stats</span><span class="p">(</span><span class="n">sim_data</span><span class="o">.</span><span class="n">izh_output</span><span class="p">)</span>
+    
+    <span class="k">with</span> <span class="n">v</span><span class="o">.</span><span class="n">time_op</span><span class="p">(</span><span class="s2">"Conntest"</span><span class="p">):</span>
+        <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">inline_meter</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plot_conntest</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span><span class="p">,</span> <span class="n">sim_data</span><span class="p">)</span>
+    
+    <span class="n">classifs</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)</span>
+    <span class="n">plot_classifications_with_ROC</span><span class="p">(</span><span class="n">classifs</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sim_data</span><span class="p">,</span> <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span><span class="p">,</span> <span class="n">classifs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="spike-trains-connected">
+<h4>2 spike trains connected:<a class="headerlink" href="#spike-trains-connected" title="Permalink to this headline">&#182;</a></h4>
+<p>No output spikes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.08 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_47_1.png" src="../_images/2021-01-13__multiple_ROC_47_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_47_2.png" src="../_images/2021-01-13__multiple_ROC_47_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): NAN Hz
+Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True)
+Conntest: 1/30
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\conda\lib\site-packages\numpy\core\fromnumeric.py:3372: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+C:\conda\lib\site-packages\numpy\core\_methods.py:170: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conntest: 30/30 306/309/3011/3012/3013/3014/3015/3019/30_________________________________________________test_connections - 8.6s, 0.1min
+[8.83 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_47_6.png" src="../_images/2021-01-13__multiple_ROC_47_6.png">
+<img alt="../_images/2021-01-13__multiple_ROC_47_7.png" src="../_images/2021-01-13__multiple_ROC_47_7.png">
+<img alt="../_images/2021-01-13__multiple_ROC_47_8.png" src="../_images/2021-01-13__multiple_ROC_47_8.png">
+</div>
+</div>
+<p>We could make a better detector by looking at the slope of the first ~20 ms of the STA,
+somehow denoised.</p>
+<p>Or maybe a local median filter over the STA, then still take ptp (max-min) ?</p>
+</div>
+<div class="section" id="id1">
+<h4>6 spike trains connected:<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.10 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_50_1.png" src="../_images/2021-01-13__multiple_ROC_50_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_50_2.png" src="../_images/2021-01-13__multiple_ROC_50_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 0.553 Hz
+Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True)
+Conntest: 30/30 304/305/3017/3020/3021/3022/3027/30_________________________________________________test_connections - 3.1s, 0.1min
+[3.31 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_50_4.png" src="../_images/2021-01-13__multiple_ROC_50_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_50_5.png" src="../_images/2021-01-13__multiple_ROC_50_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_50_6.png" src="../_images/2021-01-13__multiple_ROC_50_6.png">
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>27 spike trains connected:<a class="headerlink" href="#id2" title="Permalink to this headline">&#182;</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">26</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.10 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_52_1.png" src="../_images/2021-01-13__multiple_ROC_52_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_52_2.png" src="../_images/2021-01-13__multiple_ROC_52_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 24.2 Hz
+Conntest: ________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
+test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
+       array([4.047632e-02, ..., 5.999138e+01]),
+       array([2.308437e-02, ..., 5.997569e+01]),
+       array([ 0.10202 , ..., 59.830451]),
+       array([3.619138e-03, ..., 5.998988e+01]),
+       array([5.938746e-03, ..., 5.998703e+01]),
+       array([3.275398e-03, ..., 5.999955e+01]),
+       array([8.657796e-03, ..., 5.996975e+01]),
+       array([1.277288e-02, ..., 5.993291e+01]),
+       array([ 0.078316, ..., 59.97234 ]),
+       array([1.143608e-02, ..., 5.995545e+01]),
+       array([1.381760e-02, ..., 5.999123e+01]),
+       array([5.620939e-03, ..., 5.992123e+01]),
+       array([ 0.154084, ..., 59.961818]),
+       arr..., inline_meter=True)
+Conntest: 26/30/308/309/3010/3011/3012/3016/3019/3022/3025/3027/3028/3029/3030/30 _________________________________________________test_connections - 2.2s, 0.0min
+[2.40 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_52_4.png" src="../_images/2021-01-13__multiple_ROC_52_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_52_5.png" src="../_images/2021-01-13__multiple_ROC_52_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_52_6.png" src="../_images/2021-01-13__multiple_ROC_52_6.png">
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="question">
+<h3>Question<a class="headerlink" href="#question" title="Permalink to this headline">&#182;</a></h3>
+<p>Why do the simulations with low <code class="docutils literal notranslate"><span class="pre">p_connected</span></code> have low AUC? There are still EPSPs that can be averaged.</p>
+<p>The increase in AUC with increasing <code class="docutils literal notranslate"><span class="pre">p_connected</span></code> suspiciously coincides with the appearance of output spikes.</p>
+<p>So is STA bump due to spikes after all?<br>
+Weird cause I found <a class="reference internal" href="2020-10-23__Delete_around_spike.html"><span class="doc">2020-10-23 &#8226; Delete signal around spikes before STA</span></a> sufficiently convincing: deleting 60 ms before each output spike to 20 ms after.
+That notebook did have 10 minute recording duration &amp; SNR 10 though (here: 1 minute &amp; SNR 2).</p>
 </div>
 </div>
 <div class="section" id="reproducibility">
@@ -827,9 +1913,13 @@ Wall time: 3.92 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Thu 21 Jan</strong> 2021, at 13:49 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/458dcc5e21c4d3b7f9c7070c29d4e84b766ac785">Last git commit</a> (Thu 21 Jan 2021, 01:20).</p>
-<p>No uncommitted changes.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Tue 26 Jan</strong> 2021, at 00:06 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/3d74dc2001b603385f3c5016b85cf30a35bdf3c0">Last git commit</a> (Mon 25 Jan 2021, 21:43).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+ <span class="n">M</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
 <p>Platform:</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
 CPython 3.8.6 (C:\conda\python.exe)
@@ -840,12 +1930,15 @@ Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.5
 matplotlib           3.3.3
 numba                0.52.0
+unitlib              0.3
+joblib               1.0.0
 seaborn              0.11.1
 scipy                1.6.0
-scikit-learn         0.24.0
+scikit-learn         0.24.1
 preload              2.2
 nptyping             1.4.0
 tqdm                 4.56.0
+dask                 2021.1.0
 </pre></div>
 </div>
 <p>Full conda list:</p>
@@ -863,7 +1956,7 @@ tqdm                 4.56.0
 <span class="n">backports</span>                 <span class="mf">1.0</span>                        <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">backports</span><span class="o">.</span><span class="n">functools_lru_cache</span> <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">black</span>                     <span class="mf">20.8</span><span class="n">b1</span>                     <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">bleach</span>                    <span class="mf">3.2</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">bleach</span>                    <span class="mf">3.2</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyh44b312d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">bokeh</span>                     <span class="mf">2.2</span><span class="o">.</span><span class="mi">3</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">brotlipy</span>                  <span class="mf">0.7</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">bzip2</span>                     <span class="mf">1.0</span><span class="o">.</span><span class="mi">8</span>                <span class="n">h8ffe710_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -879,17 +1972,19 @@ tqdm                 4.56.0
 <span class="n">console_shortcut</span>          <span class="mf">0.1</span><span class="o">.</span><span class="mi">1</span>                         <span class="mi">4</span>  
 <span class="n">cryptography</span>              <span class="mf">3.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38hd8c33c5_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">cycler</span>                    <span class="mf">0.10</span><span class="o">.</span><span class="mi">0</span>                     <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">cytoolz</span>                   <span class="mf">0.11</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cytoolz</span>                   <span class="mf">0.11</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h294d835_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">dask</span>                      <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>           <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">dask</span><span class="o">-</span><span class="n">core</span>                 <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>           <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">dataclasses</span>               <span class="mf">0.7</span>                <span class="n">pyhb2cacf7_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">decorator</span>                 <span class="mf">4.4</span><span class="o">.</span><span class="mi">2</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">defusedxml</span>                <span class="mf">0.6</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">distributed</span>               <span class="mf">2021.1</span><span class="o">.</span><span class="mi">0</span>         <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">distributed</span>               <span class="mf">2021.1</span><span class="o">.</span><span class="mi">1</span>         <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">docutils</span>                  <span class="mf">0.16</span>                     <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">entrypoints</span>               <span class="mf">0.3</span>             <span class="n">pyhd8ed1ab_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">freetype</span>                  <span class="mf">2.10</span><span class="o">.</span><span class="mi">4</span>               <span class="n">h546665d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">freetype</span>                  <span class="mf">2.10</span><span class="o">.</span><span class="mi">4</span>               <span class="n">h546665d_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">fsspec</span>                    <span class="mf">0.8</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">gitdb</span>                     <span class="mf">4.0</span><span class="o">.</span><span class="mi">5</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">gitpython</span>                 <span class="mf">3.1</span><span class="o">.</span><span class="mi">12</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">heapdict</span>                  <span class="mf">1.0</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">icu</span>                       <span class="mf">68.1</span>                 <span class="n">h0e60522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">idna</span>                      <span class="mf">2.10</span>               <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -898,7 +1993,7 @@ tqdm                 4.56.0
 <span class="n">iniconfig</span>                 <span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">intel</span><span class="o">-</span><span class="n">openmp</span>              <span class="mf">2020.3</span>             <span class="n">h57928b3_311</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">ipykernel</span>                 <span class="mf">5.4</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h7b7c402_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">ipython</span>                   <span class="mf">7.19</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38hc5df569_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipython</span>                   <span class="mf">7.19</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38hc5df569_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">ipython_genutils</span>          <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">ipywidgets</span>                <span class="mf">7.6</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jedi</span>                      <span class="mf">0.17</span><span class="o">.</span><span class="mi">2</span>           <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -910,13 +2005,14 @@ tqdm                 4.56.0
 <span class="n">jupyter_client</span>            <span class="mf">6.1</span><span class="o">.</span><span class="mi">11</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyter_contrib_core</span>      <span class="mf">0.3</span><span class="o">.</span><span class="mi">3</span>                      <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyter_contrib_nbextensions</span> <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h32f6830_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">jupyter_core</span>              <span class="mf">4.7</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">jupyter_highlight_selected_word</span> <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h32f6830_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_core</span>              <span class="mf">4.7</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_highlight_selected_word</span> <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38haa244fe_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyter_latex_envs</span>        <span class="mf">1.4</span><span class="o">.</span><span class="mi">6</span>           <span class="n">py38h32f6830_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">jupyter_nbextensions_configurator</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h32f6830_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_nbextensions_configurator</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38haa244fe_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyter_server</span>            <span class="mf">1.2</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyterlab</span>                <span class="mf">3.0</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyterlab</span><span class="o">-</span><span class="n">classic</span>        <span class="mf">0.1</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab</span><span class="o">-</span><span class="n">sublime</span>        <span class="mf">0.4</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">jupyterlab_pygments</span>       <span class="mf">0.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyterlab_server</span>         <span class="mf">2.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyterlab_widgets</span>        <span class="mf">1.0</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -924,16 +2020,16 @@ tqdm                 4.56.0
 <span class="n">keyring</span>                   <span class="mf">21.8</span><span class="o">.</span><span class="mi">0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">kiwisolver</span>                <span class="mf">1.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38hbd9d945_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">krb5</span>                      <span class="mf">1.17</span><span class="o">.</span><span class="mi">2</span>               <span class="n">hbae68bd_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">libarchive</span>                <span class="mf">3.5</span><span class="o">.</span><span class="mi">1</span>                <span class="n">hf621db8_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libarchive</span>                <span class="mf">3.5</span><span class="o">.</span><span class="mi">1</span>                <span class="n">h8686738_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libblas</span>                   <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libcblas</span>                  <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">libclang</span>                  <span class="mf">11.0</span><span class="o">.</span><span class="mi">1</span>          <span class="n">default_h5c34c98_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libclang</span>                  <span class="mf">11.0</span><span class="o">.</span><span class="mi">1</span>          <span class="n">default_h5c34c98_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libcurl</span>                   <span class="mf">7.71</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h4b64cdc_8</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libiconv</span>                  <span class="mf">1.16</span>                 <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">liblapack</span>                 <span class="mf">3.9</span><span class="o">.</span><span class="mi">0</span>                     <span class="mi">7</span><span class="n">_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libpng</span>                    <span class="mf">1.6</span><span class="o">.</span><span class="mi">37</span>               <span class="n">h1d00b33_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libsodium</span>                 <span class="mf">1.0</span><span class="o">.</span><span class="mi">18</span>               <span class="n">h8d14728_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">libsolv</span>                   <span class="mf">0.7</span><span class="o">.</span><span class="mi">16</span>               <span class="n">h200bbdf_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libsolv</span>                   <span class="mf">0.7</span><span class="o">.</span><span class="mi">17</span>               <span class="n">h7755175_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libssh2</span>                   <span class="mf">1.9</span><span class="o">.</span><span class="mi">0</span>                <span class="n">hb06d900_5</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libtiff</span>                   <span class="mf">4.2</span><span class="o">.</span><span class="mi">0</span>                <span class="n">hc10be44_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libxml2</span>                   <span class="mf">2.9</span><span class="o">.</span><span class="mi">10</span>               <span class="n">hf5bbc77_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -963,7 +2059,8 @@ tqdm                 4.56.0
 <span class="n">nbclassic</span>                 <span class="mf">0.2</span><span class="o">.</span><span class="mi">6</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nbclient</span>                  <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nbconvert</span>                 <span class="mf">6.0</span><span class="o">.</span><span class="mi">7</span>            <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">nbformat</span>                  <span class="mf">5.0</span><span class="o">.</span><span class="mi">8</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbdime</span>                    <span class="mf">2.1</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbformat</span>                  <span class="mf">5.1</span><span class="o">.</span><span class="mi">2</span>              <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nest</span><span class="o">-</span><span class="n">asyncio</span>              <span class="mf">1.4</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">notebook</span>                  <span class="mf">6.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nptyping</span>                  <span class="mf">1.4</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
@@ -972,8 +2069,8 @@ tqdm                 4.56.0
 <span class="n">olefile</span>                   <span class="mf">0.46</span>               <span class="n">pyh9f0ad1d_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">openssl</span>                   <span class="mf">1.1</span><span class="o">.</span><span class="mi">1</span><span class="n">i</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">packaging</span>                 <span class="mf">20.8</span>               <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pandas</span>                    <span class="mf">1.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h4c96930_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pandoc</span>                    <span class="mf">2.11</span><span class="o">.</span><span class="mf">3.2</span>             <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandas</span>                    <span class="mf">1.2</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h4c96930_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandoc</span>                    <span class="mf">2.11</span><span class="o">.</span><span class="mi">4</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pandocfilters</span>             <span class="mf">1.4</span><span class="o">.</span><span class="mi">2</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">parso</span>                     <span class="mf">0.7</span><span class="o">.</span><span class="mi">1</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">partd</span>                     <span class="mf">1.1</span><span class="o">.</span><span class="mi">0</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -981,20 +2078,20 @@ tqdm                 4.56.0
 <span class="n">patsy</span>                     <span class="mf">0.5</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pickleshare</span>               <span class="mf">0.7</span><span class="o">.</span><span class="mi">5</span>                   <span class="n">py_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pillow</span>                    <span class="mf">8.1</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38hf7ce48b_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pip</span>                       <span class="mf">20.3</span><span class="o">.</span><span class="mi">3</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pip</span>                       <span class="mf">21.0</span>               <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pkginfo</span>                   <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">pluggy</span>                    <span class="mf">0.13</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38haa244fe_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">powershell_shortcut</span>       <span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span>                         <span class="mi">3</span>  
 <span class="n">preload</span>                   <span class="mf">2.2</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">prometheus_client</span>         <span class="mf">0.9</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">prompt</span><span class="o">-</span><span class="n">toolkit</span>            <span class="mf">3.0</span><span class="o">.</span><span class="mi">10</span>             <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">prompt</span><span class="o">-</span><span class="n">toolkit</span>            <span class="mf">3.0</span><span class="o">.</span><span class="mi">14</span>             <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">psutil</span>                    <span class="mf">5.8</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">puprelease</span>                <span class="mf">1.6</span><span class="o">.</span><span class="mi">1</span>                     <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
 <span class="n">py</span>                        <span class="mf">1.10</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">py</span><span class="o">-</span><span class="n">cpuinfo</span>                <span class="mf">7.0</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">pycosat</span>                   <span class="mf">0.6</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38h294d835_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pycparser</span>                 <span class="mf">2.20</span>               <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pygments</span>                  <span class="mf">2.7</span><span class="o">.</span><span class="mi">3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pygments</span>                  <span class="mf">2.7</span><span class="o">.</span><span class="mi">4</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyopenssl</span>                 <span class="mf">20.0</span><span class="o">.</span><span class="mi">1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyparsing</span>                 <span class="mf">2.4</span><span class="o">.</span><span class="mi">7</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyqt</span>                      <span class="mf">5.12</span><span class="o">.</span><span class="mi">3</span>           <span class="n">py38haa244fe_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -1009,11 +2106,11 @@ tqdm                 4.56.0
 <span class="n">python</span><span class="o">-</span><span class="n">dateutil</span>           <span class="mf">2.8</span><span class="o">.</span><span class="mi">1</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">python_abi</span>                <span class="mf">3.8</span>                      <span class="mi">1</span><span class="n">_cp38</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pytz</span>                      <span class="mf">2020.5</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pywin32</span>                   <span class="mi">228</span>              <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pywin32</span>                   <span class="mi">300</span>              <span class="n">py38h294d835_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pywin32</span><span class="o">-</span><span class="n">ctypes</span>            <span class="mf">0.2</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">pywinpty</span>                  <span class="mf">0.5</span><span class="o">.</span><span class="mi">7</span>            <span class="n">py38h32f6830_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pyyaml</span>                    <span class="mf">5.3</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h294d835_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">pyzmq</span>                     <span class="mf">20.0</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38h7a0e47e_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyyaml</span>                    <span class="mf">5.4</span><span class="o">.</span><span class="mi">1</span>            <span class="n">py38h294d835_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyzmq</span>                     <span class="mf">21.0</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38h7a0e47e_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">qt</span>                        <span class="mf">5.12</span><span class="o">.</span><span class="mi">9</span>               <span class="n">h5909a2a_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">readme</span><span class="o">-</span><span class="n">renderer</span>           <span class="mf">28.0</span>                     <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">regex</span>                     <span class="mf">2020.11</span><span class="o">.</span><span class="mi">13</span>       <span class="n">py38h294d835_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -1023,7 +2120,7 @@ tqdm                 4.56.0
 <span class="n">requests</span><span class="o">-</span><span class="n">toolbelt</span>         <span class="mf">0.9</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">rfc3986</span>                   <span class="mf">1.4</span><span class="o">.</span><span class="mi">0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">ruamel_yaml</span>               <span class="mf">0.15</span><span class="o">.</span><span class="mi">80</span>         <span class="n">py38h294d835_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span>              <span class="mf">0.24</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38ha09990b_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">scikit</span><span class="o">-</span><span class="n">learn</span>              <span class="mf">0.24</span><span class="o">.</span><span class="mi">1</span>           <span class="n">py38ha09990b_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">scipy</span>                     <span class="mf">1.6</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38h5f893b4_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">seaborn</span>                   <span class="mf">0.11</span><span class="o">.</span><span class="mi">1</span>               <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">seaborn</span><span class="o">-</span><span class="n">base</span>              <span class="mf">0.11</span><span class="o">.</span><span class="mi">1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -1031,6 +2128,7 @@ tqdm                 4.56.0
 <span class="n">setuptools</span>                <span class="mf">49.6</span><span class="o">.</span><span class="mi">0</span>           <span class="n">py38haa244fe_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">setuptools</span><span class="o">-</span><span class="n">scm</span>            <span class="mf">5.0</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">six</span>                       <span class="mf">1.15</span><span class="o">.</span><span class="mi">0</span>             <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">smmap</span>                     <span class="mf">3.0</span><span class="o">.</span><span class="mi">5</span>              <span class="n">pyh44b312d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">snakeviz</span>                  <span class="mf">2.1</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">sniffio</span>                   <span class="mf">1.2</span><span class="o">.</span><span class="mi">0</span>            <span class="n">py38haa244fe_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">sortedcontainers</span>          <span class="mf">2.3</span><span class="o">.</span><span class="mi">0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -1051,6 +2149,7 @@ tqdm                 4.56.0
 <span class="n">typed</span><span class="o">-</span><span class="n">ast</span>                 <span class="mf">1.4</span><span class="o">.</span><span class="mi">2</span>            <span class="n">py38h294d835_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">typing_extensions</span>         <span class="mf">3.7</span><span class="o">.</span><span class="mf">4.3</span>                    <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">typish</span>                    <span class="mf">1.9</span><span class="o">.</span><span class="mi">1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">unitlib</span>                   <span class="mf">0.3</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">urllib3</span>                   <span class="mf">1.26</span><span class="o">.</span><span class="mi">2</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">vc</span>                        <span class="mf">14.2</span>                 <span class="n">hb210afc_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>     <span class="mf">0.1</span>                       <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
