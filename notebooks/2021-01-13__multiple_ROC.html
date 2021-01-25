@@ -405,16 +405,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading: numpy, numba, matplotlib.pyplot, seaborn.
-Importing from submodules &#8230; &#10004;
-Imported `np`, `mpl`, `plt`, `sns`, `pd`
-Imported codebase (`voltage_to_wiring_sim`) as `v`
-Imported `*` from `v.support.units`
-Setup autoreload
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -423,9 +413,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Tue 26 Jan</strong> 2021, at 00:04 (UTC+0100).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/3d74dc2001b603385f3c5016b85cf30a35bdf3c0">Last git commit</a> (Mon 25 Jan 2021, 21:43).
-Uncommited changes to 2 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Tue 26 Jan</strong> 2021, at 00:13 (UTC+0100).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d69b9d89514957994ab4abde0de0a1f06063bf62">Last git commit</a> (Tue 26 Jan 2021, 00:07).
+No uncommitted changes.</p>
 </div>
 </div>
 <div class="cell docutils container">
@@ -470,14 +460,6 @@ Uncommited changes to 2 files.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.7s, 0.0min
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -505,29 +487,6 @@ _________________________________________________________simulate - 0.7s, 0.0min
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_data</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_experiment</span><span class="o">.</span><span class="n">test_connections</span><span class="p">(</span><span class="n">sim_data</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr...)
-Testing connections: 30/30/309/3014/3016/3018/3019/3024/3025/3027/3028/30
-_________________________________________________test_connections - 3.7s, 0.1min
 </pre></div>
 </div>
 </div>
@@ -611,95 +570,11 @@ _________________________________________________test_connections - 3.7s, 0.1min
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=1, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.68 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-SNR: 1 | Sim: [0.68 s] | Conntest: 29/30/3010/3012/3014/3019/3021/3023/3024/3026/3027/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
-[1.46 s]
-SNR: 2 | Sim: [0.02 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-SNR: 2 | Sim: [0.02 s] | Conntest: 30/30 308/309/3010/3011/3012/3013/3014/3015/3018/3019/3020/3021/3028/3029/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.61 s]
-SNR: 4 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=4, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.57 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-SNR: 4 | Sim: [0.57 s] | Conntest: 30/30 305/306/3020/3022/3028/30_________________________________________________test_connections - 1.3s, 0.0min
-[1.50 s]
-SNR: 8 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=8, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.64 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-SNR: 8 | Sim: [0.64 s] | Conntest: 28/3016/3022/3025/3029/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
-[1.52 s]
-Wall time: 8.03 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SNR: 1 | Sim: [0.05 s] | Conntest: [0.04 s]
+SNR: 2 | Sim: [0.04 s] | Conntest: [0.04 s]
+SNR: 4 | Sim: [0.04 s] | Conntest: [0.04 s]
+SNR: 8 | Sim: [0.04 s] | Conntest: [0.04 s]
+Wall time: 402 ms
 </pre></div>
 </div>
 </div>
@@ -873,75 +748,11 @@ Wall time: 8.03 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=30, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.64 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 29.872108]),
-       array([ 0.040476, ..., 29.968529]),
-       array([ 0.098069, ..., 29.967759]),
-       array([2.901317e-02, ..., 2.992447e+01]),
-       array([2.308437e-02, ..., 2.999131e+01]),
-       array([ 0.06117, ..., 29.98819]),
-       array([ 0.10202 , ..., 29.975054]),
-       array([3.619138e-03, ..., 2.999336e+01]),
-       array([1.804159e-03, ..., 2.996971e+01]),
-       array([1.574506e-02, ..., 2.998944e+01]),
-       array([2.595895e-02, ..., 2.992979e+01]),
-       array([3.275398e-03, ..., 2.998744e+01]),
-       array([ 0.079626, ..., 29.950022]),
-       array([8.657796e-03, ..., 2.994836e+01]),
-       array([1.475929e-..., inline_meter=True, return_only_summaries=True)
-Recording duration: 0.5 minutes | Sim: [0.64 s] | Conntest: 28/30/309/3010/3012/3013/3015/3016/3017/3019/3020/3024/3025/3026/3029/3030/30 _________________________________________________test_connections - 0.8s, 0.0min
-[0.99 s]
-Recording duration: 1 minute    | Sim: [0.03 s] | Conntest: [0.04 s]
-Recording duration: 2 minutes   | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=120, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.73 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([8.114804e-02, ..., 1.198797e+02]),
-       array([6.116996e-02, ..., 1.198873e+02]),
-       array([3.619138e-03, ..., 1.199743e+02]),
-       array([8.657796e-03, ..., 1.199272e+02]),
-       array([4.062607e-02, ..., 1.199489e+02]),
-       array([1.381760e-02, ..., 1.199918e+02]),
-       array([5.620939e-03, ..., 1.198919e+02]),
-       array([  0.154084, ..., 119.946687]),
-       array([1.557648e-02, ..., 1.199962e+02]),
-       array([2.706139e-02, ..., 1.199865e+02]),
-       array([8.552052e-03, ..., 1.199849e+02]),
-       array([7.597553e-03, ..., 1.199992e+02]),
-       array([7.773634e-02, ..., 1.199827e+02]),
-       array([  0.162187, ..., 119.9498..., inline_meter=True, return_only_summaries=True)
-Recording duration: 2 minutes   | Sim: [0.73 s] | Conntest: 30/30 _________________________________________________test_connections - 2.5s, 0.0min
-[2.80 s]
-Recording duration: 4 minutes   | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=240, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.9s, 0.0min
-[0.99 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([8.114804e-02, ..., 2.398847e+02]),
-       array([5.938746e-03, ..., 2.399240e+02]),
-       array([1.580631e-02, ..., 2.399609e+02]),
-       array([1.381760e-02, ..., 2.399932e+02]),
-       array([1.540836e-01, ..., 2.399582e+02]),
-       array([1.557648e-02, ..., 2.399462e+02]),
-       array([1.358094e-01, ..., 2.399537e+02]),
-       array([3.105475e-02, ..., 2.399735e+02]),
-       array([1.494585e-02, ..., 2.399681e+02]),
-       array([3.665244e-02, ..., 2.399855e+02]),
-       array([1.223778e-02, ..., 2.399877e+02]),
-       array([3.508583e-02, ..., 2.399447e+02]),
-       array([4.434552e-02, ..., 2.399872e+02]),
-       array([5.058557e-02, ..., 2...., inline_meter=True, return_only_summaries=True)
-Recording duration: 4 minutes   | Sim: [0.99 s] | Conntest: 30/30 5/3020/30_________________________________________________test_connections - 5.2s, 0.1min
-[5.61 s]
-Wall time: 11.9 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recording duration: 0.5 minutes | Sim: [0.04 s] | Conntest: [0.03 s]
+Recording duration: 1 minute    | Sim: [0.06 s] | Conntest: [0.04 s]
+Recording duration: 2 minutes   | Sim: [0.14 s] | Conntest: [0.08 s]
+Recording duration: 4 minutes   | Sim: [0.35 s] | Conntest: [0.15 s]
+Wall time: 946 ms
 </pre></div>
 </div>
 </div>
@@ -1014,175 +825,15 @@ Wall time: 11.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.03333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.65 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 1  | Sim: [0.65 s] | Conntest: 30/30 306/3013/3016/3017/3019/3020/3023/3024/3029/30_________________________________________________test_connections - 1.8s, 0.0min
-[1.95 s]
-# spike trains connected (/30): 2  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.06666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.61 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 2  | Sim: [0.61 s] | Conntest: 29/30/306/307/308/3013/3017/3020/3022/3023/3026/3027/3028/3030/30 _________________________________________________test_connections - 1.7s, 0.0min
-[1.86 s]
-# spike trains connected (/30): 3  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.1, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.66 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 3  | Sim: [0.66 s] | Conntest: 27/30/3010/3011/3013/3020/3021/3028/3029/3030/30 _________________________________________________test_connections - 1.6s, 0.0min
-[1.77 s]
-# spike trains connected (/30): 5  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.16666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.68 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 5  | Sim: [0.68 s] | Conntest: 30/30 304/309/3010/3012/3015/30_________________________________________________test_connections - 1.8s, 0.0min
-[1.98 s]
-# spike trains connected (/30): 7  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.23333333333333334, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.74 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 7  | Sim: [0.74 s] | Conntest: 30/30 3015/30_________________________________________________test_connections - 1.6s, 0.0min
-[1.85 s]
-# spike trains connected (/30): 10 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.3333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.74 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 10 | Sim: [0.74 s] | Conntest: 30/30 306/307/308/3011/3012/30_________________________________________________test_connections - 1.6s, 0.0min
-[1.77 s]
-# spike trains connected (/30): 15 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.64 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 29 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.66 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 29 | Sim: [0.66 s] | Conntest: 30/30 309/3011/3012/3018/3025/3027/30_________________________________________________test_connections - 1.7s, 0.0min
-[1.85 s]
-Wall time: 18.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.08 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 2  | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 3  | Sim: [0.08 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 5  | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 7  | Sim: [0.07 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 10 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 15 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 29 | Sim: [0.03 s] | Conntest: [0.04 s]
+Wall time: 895 ms
 </pre></div>
 </div>
 </div>
@@ -1214,506 +865,36 @@ Same for all 30 connected, where FPR becomes meaningless: there are no negatives
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 2  | Sim: [0.06 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 3  | Sim: [0.06 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 4  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.13333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.64 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 4  | Sim: [0.64 s] | Conntest: 28/30/308/309/3013/3014/3017/3020/3021/3022/3023/3029/3030/30 _________________________________________________test_connections - 1.5s, 0.0min
-[1.71 s]
-# spike trains connected (/30): 5  | Sim: [0.09 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 6  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.2, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.59 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 6  | Sim: [0.59 s] | Conntest: 28/30/304/306/3012/3013/3014/3018/3022/3024/3025/3029/3030/30 _________________________________________________test_connections - 1.5s, 0.0min
-[1.65 s]
-# spike trains connected (/30): 7  | Sim: [0.06 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 8  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.26666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.58 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 8  | Sim: [0.58 s] | Conntest: 30/30 307/309/3010/3013/3014/3015/3016/3024/3025/3026/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.59 s]
-# spike trains connected (/30): 9  | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.3, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.61 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 9  | Sim: [0.61 s] | Conntest: 28/30/3012/3013/3022/3024/3029/3030/30 _________________________________________________test_connections - 1.8s, 0.0min
-[1.96 s]
-# spike trains connected (/30): 10 | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 11 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.36666666666666664, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.7s, 0.0min
-[0.77 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 11 | Sim: [0.77 s] | Conntest: 30/30 5/3016/3017/3018/3019/3020/3021/3022/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.56 s]
-# spike trains connected (/30): 12 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.4, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.60 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 12 | Sim: [0.60 s] | Conntest: 30/30 308/3015/30_________________________________________________test_connections - 1.5s, 0.0min
-[1.68 s]
-# spike trains connected (/30): 13 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.43333333333333335, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.7s, 0.0min
-[0.82 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 13 | Sim: [0.82 s] | Conntest: 29/30/305/308/309/3010/3012/3014/3016/3017/3018/3020/3021/3022/3023/3025/3026/3027/3028/3030/30 _________________________________________________test_connections - 1.4s, 0.0min
-[1.58 s]
-# spike trains connected (/30): 14 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.4666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.61 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 14 | Sim: [0.61 s] | Conntest: 30/30 7/3018/3019/3020/3029/30_________________________________________________test_connections - 1.5s, 0.0min
-[1.68 s]
-# spike trains connected (/30): 15 | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 16 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.67 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 16 | Sim: [0.67 s] | Conntest: 30/30 306/308/3019/3021/3026/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.63 s]
-# spike trains connected (/30): 17 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.69 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 17 | Sim: [0.69 s] | Conntest: 30/30 306/307/3010/3011/3012/3016/3017/3020/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.63 s]
-# spike trains connected (/30): 18 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.7s, 0.0min
-[0.78 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 18 | Sim: [0.78 s] | Conntest: 30/30 309/3010/3014/3027/30_________________________________________________test_connections - 1.5s, 0.0min
-[1.72 s]
-# spike trains connected (/30): 19 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.63 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 19 | Sim: [0.63 s] | Conntest: 30/30 3018/3022/3023/30_________________________________________________test_connections - 1.8s, 0.0min
-[2.00 s]
-# spike trains connected (/30): 20 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.6666666666666666, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.62 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 20 | Sim: [0.62 s] | Conntest: 30/30 307/308/3012/3016/3029/30_________________________________________________test_connections - 1.5s, 0.0min
-[1.68 s]
-# spike trains connected (/30): 21 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.7s, 0.0min
-[0.77 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 21 | Sim: [0.77 s] | Conntest: 30/30 306/3011/3012/3013/3014/3015/30_________________________________________________test_connections - 1.6s, 0.0min
-[1.81 s]
-# spike trains connected (/30): 22 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.60 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 22 | Sim: [0.60 s] | Conntest: 29/30/305/308/3018/3019/3020/3025/3028/3030/30 _________________________________________________test_connections - 1.3s, 0.0min
-[1.53 s]
-# spike trains connected (/30): 23 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.7666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.71 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 23 | Sim: [0.71 s] | Conntest: 30/30 305/306/307/3011/3012/3017/3018/3019/3020/3023/3024/3026/3027/3028/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.56 s]
-# spike trains connected (/30): 24 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.6s, 0.0min
-[0.72 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 24 | Sim: [0.72 s] | Conntest: 30/30 305/306/307/3010/3012/3014/3015/3016/3017/3023/3026/3027/30_________________________________________________test_connections - 1.4s, 0.0min
-[1.60 s]
-# spike trains connected (/30): 25 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8333333333333334, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.64 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 25 | Sim: [0.64 s] | Conntest: 30/30 2/3013/3015/3016/3017/3019/30_________________________________________________test_connections - 1.7s, 0.0min
-[1.85 s]
-# spike trains connected (/30): 26 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.8666666666666667, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 0.5s, 0.0min
-[0.63 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 26 | Sim: [0.63 s] | Conntest: 30/30 3010/3015/3016/3017/3026/30_________________________________________________test_connections - 1.6s, 0.0min
-[1.77 s]
-# spike trains connected (/30): 27 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 1.0s, 0.0min
-[1.13 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 27 | Sim: [1.13 s] | Conntest: 30/30 306/3012/3015/3016/3017/3027/30_________________________________________________test_connections - 2.2s, 0.0min
-[2.42 s]
-# spike trains connected (/30): 28 | Sim: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.simulate...
-simulate(N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.9333333333333333, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800))
-_________________________________________________________simulate - 2.6s, 0.0min
-[2.74 s] | Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True, return_only_summaries=True)
-# spike trains connected (/30): 28 | Sim: [2.74 s] | Conntest: 30/30 3010/3024/3025/3026/3027/30_________________________________________________test_connections - 1.5s, 0.0min
-[1.76 s]
-# spike trains connected (/30): 29 | Sim: [0.11 s] | Conntest: [0.05 s]
-Wall time: 54.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 2  | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 3  | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 4  | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 5  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 6  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 7  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 8  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 9  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 10 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 11 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 12 | Sim: [0.05 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 13 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 14 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 15 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 16 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 17 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 18 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 19 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 20 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 21 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 22 | Sim: [0.05 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 23 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 24 | Sim: [0.04 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 25 | Sim: [0.04 s] | Conntest: [0.06 s]
+# spike trains connected (/30): 26 | Sim: [0.05 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 27 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 28 | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains connected (/30): 29 | Sim: [0.03 s] | Conntest: [0.04 s]
+Wall time: 2.62 s
 </pre></div>
 </div>
 </div>
@@ -1765,30 +946,13 @@ Wall time: 54.2 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.08 s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.03 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_47_1.png" src="../_images/2021-01-13__multiple_ROC_47_1.png">
 <img alt="../_images/2021-01-13__multiple_ROC_47_2.png" src="../_images/2021-01-13__multiple_ROC_47_2.png">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): NAN Hz
-Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True)
-Conntest: 1/30
+Conntest: 
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\conda\lib\site-packages\numpy\core\fromnumeric.py:3372: RuntimeWarning: Mean of empty slice.
@@ -1797,8 +961,7 @@ C:\conda\lib\site-packages\numpy\core\_methods.py:170: RuntimeWarning: invalid v
   ret = ret.dtype.type(ret / rcount)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Conntest: 30/30 306/309/3011/3012/3013/3014/3015/3019/30_________________________________________________test_connections - 8.6s, 0.1min
-[8.83 s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.77 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_47_6.png" src="../_images/2021-01-13__multiple_ROC_47_6.png">
@@ -1819,31 +982,13 @@ somehow denoised.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.10 s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.03 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_50_1.png" src="../_images/2021-01-13__multiple_ROC_50_1.png">
 <img alt="../_images/2021-01-13__multiple_ROC_50_2.png" src="../_images/2021-01-13__multiple_ROC_50_2.png">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 0.553 Hz
-Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True)
-Conntest: 30/30 304/305/3017/3020/3021/3022/3027/30_________________________________________________test_connections - 3.1s, 0.1min
-[3.31 s]
+Conntest: [0.42 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_50_4.png" src="../_images/2021-01-13__multiple_ROC_50_4.png">
@@ -1861,31 +1006,13 @@ Conntest: 30/30 304/305/3017/3020/3021/3022/3027/30_____________________________
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.10 s]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.03 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_52_1.png" src="../_images/2021-01-13__multiple_ROC_52_1.png">
 <img alt="../_images/2021-01-13__multiple_ROC_52_2.png" src="../_images/2021-01-13__multiple_ROC_52_2.png">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 24.2 Hz
-Conntest: ________________________________________________________________________________
-[Memory] Calling voltage_to_wiring_sim.N_to_1_experiment.test_connections...
-test_connections(N_to_1_SimData(spike_trains=array([array([ 0.081148, ..., 59.982157]),
-       array([4.047632e-02, ..., 5.999138e+01]),
-       array([2.308437e-02, ..., 5.997569e+01]),
-       array([ 0.10202 , ..., 59.830451]),
-       array([3.619138e-03, ..., 5.998988e+01]),
-       array([5.938746e-03, ..., 5.998703e+01]),
-       array([3.275398e-03, ..., 5.999955e+01]),
-       array([8.657796e-03, ..., 5.996975e+01]),
-       array([1.277288e-02, ..., 5.993291e+01]),
-       array([ 0.078316, ..., 59.97234 ]),
-       array([1.143608e-02, ..., 5.995545e+01]),
-       array([1.381760e-02, ..., 5.999123e+01]),
-       array([5.620939e-03, ..., 5.992123e+01]),
-       array([ 0.154084, ..., 59.961818]),
-       arr..., inline_meter=True)
-Conntest: 26/30/308/309/3010/3011/3012/3016/3019/3022/3025/3027/3028/3029/3030/30 _________________________________________________test_connections - 2.2s, 0.0min
-[2.40 s]
+Conntest: [0.41 s]
 </pre></div>
 </div>
 <img alt="../_images/2021-01-13__multiple_ROC_52_4.png" src="../_images/2021-01-13__multiple_ROC_52_4.png">
@@ -1913,13 +1040,9 @@ That notebook did have 10 minute recording duration &amp; SNR 10 though (here: 1
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Tue 26 Jan</strong> 2021, at 00:06 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/3d74dc2001b603385f3c5016b85cf30a35bdf3c0">Last git commit</a> (Mon 25 Jan 2021, 21:43).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
- <span class="n">M</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Tue 26 Jan</strong> 2021, at 00:14 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d69b9d89514957994ab4abde0de0a1f06063bf62">Last git commit</a> (Tue 26 Jan 2021, 00:07).</p>
+<p>No uncommitted changes.</p>
 <p>Platform:</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
 CPython 3.8.6 (C:\conda\python.exe)
