@@ -20,13 +20,13 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Cache pip install
+    - name: Restore cached pip downloads
       uses: actions/cache@v2
       with:
         path: ~/.cache/pip
         key: ${{ hashFiles('website/requirements.txt') }}
 
-    - name: Install dependencies
+    - name: pip install -r website/requirements.txt
       run: |
         python -m pip install --upgrade pip setuptools wheel
         pip install -r website/requirements.txt
