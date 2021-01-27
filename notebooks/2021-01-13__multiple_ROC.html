@@ -380,6 +380,55 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-spike-trains">
+   Vary # spike trains
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Inspect some simulations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#discussion">
+     Discussion
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-tau-syn">
+   Vary
+   <span class="math notranslate nohighlight">
+    \(\tau_{syn}\)
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Inspect some simulations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Discussion
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-rng-seed">
+   Vary RNG seed
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#inspect-extremes">
+     Inspect extremes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#reproducibility">
    Reproducibility
   </a>
@@ -761,11 +810,11 @@ Wall time: 946 ms
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">barplot_AUC</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">,</span> <span class="n">pv</span><span class="p">:</span> <span class="n">ParamVariation</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">text_size</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">AUCs</span> <span class="o">=</span> <span class="p">[</span><span class="n">calc_AUC</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span> <span class="k">for</span> <span class="n">thr_sweep</span> <span class="ow">in</span> <span class="n">thr_sweeps</span><span class="p">]</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="s2">"AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">:</span> <span class="n">pv</span><span class="o">.</span><span class="n">value_labels</span><span class="p">,</span> <span class="s2">"ROC AUC"</span><span class="p">:</span> <span class="n">AUCs</span><span class="p">})</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">plot_util</span><span class="o">.</span><span class="n">new_plot_if_None</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'black'</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">thr_sweeps</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">pv</span><span class="o">.</span><span class="n">param_label</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"ROC AUC"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
     <span class="n">y_bottom</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="n">y_bottom</span><span class="p">)</span>
     <span class="c1"># Print AUC values as text on bar</span>
@@ -825,15 +874,15 @@ Wall time: 946 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.08 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 2  | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 3  | Sim: [0.08 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 5  | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 7  | Sim: [0.07 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 10 | Sim: [0.04 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 15 | Sim: [0.03 s] | Conntest: [0.04 s]
-# spike trains connected (/30): 29 | Sim: [0.03 s] | Conntest: [0.04 s]
-Wall time: 895 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains connected (/30): 1  | Sim: [0.10 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 2  | Sim: [0.08 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 3  | Sim: [0.08 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 5  | Sim: [0.08 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 7  | Sim: [0.08 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 10 | Sim: [0.07 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 15 | Sim: [0.08 s] | Conntest: [0.05 s]
+# spike trains connected (/30): 29 | Sim: [0.08 s] | Conntest: [0.05 s]
+Wall time: 1.09 s
 </pre></div>
 </div>
 </div>
@@ -939,7 +988,7 @@ Wall time: 2.62 s
 <div class="section" id="spike-trains-connected">
 <h4>2 spike trains connected:<a class="headerlink" href="#spike-trains-connected" title="Permalink to this headline">&#182;</a></h4>
 <p>No output spikes.</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
 </pre></div>
@@ -975,7 +1024,7 @@ somehow denoised.</p>
 </div>
 <div class="section" id="id1">
 <h4>6 spike trains connected:<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h4>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
 </pre></div>
@@ -999,7 +1048,7 @@ Conntest: [0.42 s]
 </div>
 <div class="section" id="id2">
 <h4>27 spike trains connected:<a class="headerlink" href="#id2" title="Permalink to this headline">&#182;</a></h4>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">pconn_variation_full</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">26</span><span class="p">]);</span>
 </pre></div>
@@ -1031,6 +1080,376 @@ Weird cause I found <a class="reference internal" href="2020-10-23__Delete_aroun
 That notebook did have 10 minute recording duration &amp; SNR 10 though (here: 1 minute &amp; SNR 2).</p>
 </div>
 </div>
+<div class="section" id="vary-spike-trains">
+<h2>Vary # spike trains<a class="headerlink" href="#vary-spike-trains" title="Permalink to this headline">&#182;</a></h2>
+<p>..half of which are connected.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="s2">"num_spike_trains"</span><span class="p">,</span>
+    <span class="n">param_label</span> <span class="o">=</span> <span class="s2">"# spike trains"</span><span class="p">,</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+    <span class="n">value_formatter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span><span class="p">)),</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> N_sweeps = sim_and_eval_variations(N_variation)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span># spike trains: 2   | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains: 16  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains: 30  | Sim: [0.03 s] | Conntest: [0.04 s]
+# spike trains: 60  | Sim: [0.03 s] | Conntest: [0.05 s]
+# spike trains: 300 | Sim: [0.05 s] | Conntest: [0.07 s]
+Wall time: 454 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sweeps</span><span class="p">(</span><span class="n">N_sweeps</span><span class="p">,</span> <span class="n">N_variation</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_58_0.png" src="../_images/2021-01-13__multiple_ROC_58_0.png">
+</div>
+</div>
+<div class="section" id="id3">
+<h3>Inspect some simulations<a class="headerlink" href="#id3" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">N_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_60_1.png" src="../_images/2021-01-13__multiple_ROC_60_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_60_2.png" src="../_images/2021-01-13__multiple_ROC_60_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): NAN Hz
+Conntest: [0.07 s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\conda\lib\site-packages\numpy\core\fromnumeric.py:3372: RuntimeWarning: Mean of empty slice.
+  return _methods._mean(a, axis=axis, dtype=dtype,
+C:\conda\lib\site-packages\numpy\core\_methods.py:170: RuntimeWarning: invalid value encountered in double_scalars
+  ret = ret.dtype.type(ret / rcount)
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_60_5.png" src="../_images/2021-01-13__multiple_ROC_60_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_60_6.png" src="../_images/2021-01-13__multiple_ROC_60_6.png">
+<img alt="../_images/2021-01-13__multiple_ROC_60_7.png" src="../_images/2021-01-13__multiple_ROC_60_7.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">N_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_61_1.png" src="../_images/2021-01-13__multiple_ROC_61_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_61_2.png" src="../_images/2021-01-13__multiple_ROC_61_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 2.58 Hz
+Conntest: [0.29 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_61_4.png" src="../_images/2021-01-13__multiple_ROC_61_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_61_5.png" src="../_images/2021-01-13__multiple_ROC_61_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_61_6.png" src="../_images/2021-01-13__multiple_ROC_61_6.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">N_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_62_1.png" src="../_images/2021-01-13__multiple_ROC_62_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_62_2.png" src="../_images/2021-01-13__multiple_ROC_62_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 27.1 Hz
+Conntest: [1.13 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_62_4.png" src="../_images/2021-01-13__multiple_ROC_62_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_62_5.png" src="../_images/2021-01-13__multiple_ROC_62_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_62_6.png" src="../_images/2021-01-13__multiple_ROC_62_6.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">N_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.06 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_63_1.png" src="../_images/2021-01-13__multiple_ROC_63_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_63_2.png" src="../_images/2021-01-13__multiple_ROC_63_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 98 Hz
+Conntest: [4.67 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_63_4.png" src="../_images/2021-01-13__multiple_ROC_63_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_63_5.png" src="../_images/2021-01-13__multiple_ROC_63_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_63_6.png" src="../_images/2021-01-13__multiple_ROC_63_6.png">
+</div>
+</div>
+<p>^ 300  incoming neurons. Spike rate does seem to follow synaptic conductance.</p>
+<p>Zoom in:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sd</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">N_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">plot_sim_slice</span><span class="p">(</span><span class="n">sd</span><span class="p">,</span> <span class="n">t_start</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">second</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">second</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_65_0.png" src="../_images/2021-01-13__multiple_ROC_65_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="discussion">
+<h3>Discussion<a class="headerlink" href="#discussion" title="Permalink to this headline">&#182;</a></h3>
+<p>For these parameters, we thus get best detection performance @ output spike rate &#8776; 11 Hz  &#8211; what we get for N = 30 spike trains here.</p>
+<p>Output spike rates of 2.6 Hz (N = 16) and 27 Hz (N = 60) are about equally worse.</p>
+</div>
+</div>
+<div class="section" id="vary-tau-syn">
+<h2>Vary <span class="math notranslate nohighlight">\(\tau_{syn}\)</span><a class="headerlink" href="#vary-tau-syn" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_to_1_SimParams(sim_duration=60, timestep=0.0001, num_spike_trains=30, p_connected=0.5, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10, v_syn=0.0), imaging_spike_SNR=2, rng_seed=1800)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tau_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="s2">"&#964;_syn"</span><span class="p">,</span>
+    <span class="n">param_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">"$\tau_</span><span class="si">{syn}</span><span class="s2">$"</span><span class="p">,</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">70</span><span class="p">])</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
+    <span class="n">value_formatter</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">val</span> <span class="o">/</span> <span class="n">ms</span><span class="p">)</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">,</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> tau_sweeps = sim_and_eval_variations(tau_variation)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>$\tau_{syn}$: 1 ms  | Sim: [0.03 s] | Conntest: [0.04 s]
+$\tau_{syn}$: 3 ms  | Sim: [0.03 s] | Conntest: [0.04 s]
+$\tau_{syn}$: 7 ms  | Sim: [0.03 s] | Conntest: [0.04 s]
+$\tau_{syn}$: 14 ms | Sim: [0.03 s] | Conntest: [0.04 s]
+$\tau_{syn}$: 70 ms | Sim: [0.03 s] | Conntest: [0.04 s]
+Wall time: 419 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sweeps</span><span class="p">(</span><span class="n">tau_sweeps</span><span class="p">,</span> <span class="n">tau_variation</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_72_0.png" src="../_images/2021-01-13__multiple_ROC_72_0.png">
+</div>
+</div>
+<div class="section" id="id4">
+<h3>Inspect some simulations<a class="headerlink" href="#id4" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">tau_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_74_1.png" src="../_images/2021-01-13__multiple_ROC_74_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_74_2.png" src="../_images/2021-01-13__multiple_ROC_74_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 0.157 Hz
+Conntest: [0.46 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_74_4.png" src="../_images/2021-01-13__multiple_ROC_74_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_74_5.png" src="../_images/2021-01-13__multiple_ROC_74_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_74_6.png" src="../_images/2021-01-13__multiple_ROC_74_6.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">tau_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.05 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_75_1.png" src="../_images/2021-01-13__multiple_ROC_75_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_75_2.png" src="../_images/2021-01-13__multiple_ROC_75_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 28.3 Hz
+Conntest: [0.49 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_75_4.png" src="../_images/2021-01-13__multiple_ROC_75_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_75_5.png" src="../_images/2021-01-13__multiple_ROC_75_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_75_6.png" src="../_images/2021-01-13__multiple_ROC_75_6.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">tau_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">4</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_76_1.png" src="../_images/2021-01-13__multiple_ROC_76_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_76_2.png" src="../_images/2021-01-13__multiple_ROC_76_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 98 Hz
+Conntest: [0.42 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_76_4.png" src="../_images/2021-01-13__multiple_ROC_76_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_76_5.png" src="../_images/2021-01-13__multiple_ROC_76_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_76_6.png" src="../_images/2021-01-13__multiple_ROC_76_6.png">
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3>Discussion<a class="headerlink" href="#id5" title="Permalink to this headline">&#182;</a></h3>
+<p>This again seems correlated with output spike rate.</p>
+<p>Although: <span class="math notranslate nohighlight">\(\tau_{syn}\)</span> = 14 ms yields more than twice the output spike rate as the default of <span class="math notranslate nohighlight">\(\tau_{syn}\)</span> = 7 ms, but their detection performance is similar.</p>
+<p>Compare with the # spike trains variation: both with 60 spike trains and with <span class="math notranslate nohighlight">\(\tau_{syn}\)</span> = 14 ms, the output spike rate is about 27 Hz.<br>
+However, the <span class="math notranslate nohighlight">\(\tau_{syn}\)</span> = 14 ms yields better detection performance (ROC-AUC of .88 &#8211; on par with baseline; vs .72).</p>
+</div>
+</div>
+<div class="section" id="vary-rng-seed">
+<h2>Vary RNG seed<a class="headerlink" href="#vary-rng-seed" title="Permalink to this headline">&#182;</a></h2>
+<p>Let&#8217;s see the spread of the baseline.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seed_variation</span> <span class="o">=</span> <span class="n">ParamVariation</span><span class="p">(</span>
+    <span class="n">param</span><span class="o">=</span><span class="s2">"rng_seed"</span><span class="p">,</span>
+    <span class="n">param_label</span><span class="o">=</span><span class="s2">"RNG seed"</span><span class="p">,</span>
+    <span class="n">values</span><span class="o">=</span><span class="p">(</span><span class="mi">1800</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">time</span> seed_sweeps = sim_and_eval_variations(seed_variation);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RNG seed: 1800 | Sim: [0.04 s] | Conntest: [0.05 s]
+RNG seed: 0    | Sim: [0.05 s] | Conntest: [0.04 s]
+RNG seed: 1    | Sim: [0.04 s] | Conntest: [0.04 s]
+RNG seed: 2    | Sim: [0.06 s] | Conntest: [0.05 s]
+RNG seed: 3    | Sim: [0.04 s] | Conntest: [0.04 s]
+RNG seed: 4    | Sim: [0.04 s] | Conntest: [0.05 s]
+RNG seed: 5    | Sim: [0.04 s] | Conntest: [0.05 s]
+Wall time: 707 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_sweeps</span><span class="p">(</span><span class="n">seed_sweeps</span><span class="p">,</span> <span class="n">seed_variation</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-13__multiple_ROC_83_0.png" src="../_images/2021-01-13__multiple_ROC_83_0.png">
+</div>
+</div>
+<div class="section" id="inspect-extremes">
+<h3>Inspect extremes<a class="headerlink" href="#inspect-extremes" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">seed_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.06 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_85_1.png" src="../_images/2021-01-13__multiple_ROC_85_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_85_2.png" src="../_images/2021-01-13__multiple_ROC_85_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 10.7 Hz
+Conntest: [0.63 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_85_4.png" src="../_images/2021-01-13__multiple_ROC_85_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_85_5.png" src="../_images/2021-01-13__multiple_ROC_85_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_85_6.png" src="../_images/2021-01-13__multiple_ROC_85_6.png">
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_eval_plot</span><span class="p">(</span><span class="n">seed_variation</span><span class="o">.</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sim: [0.04 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_86_1.png" src="../_images/2021-01-13__multiple_ROC_86_1.png">
+<img alt="../_images/2021-01-13__multiple_ROC_86_2.png" src="../_images/2021-01-13__multiple_ROC_86_2.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Output spike rate (1 / median ISI): 10.9 Hz
+Conntest: [0.60 s]
+</pre></div>
+</div>
+<img alt="../_images/2021-01-13__multiple_ROC_86_4.png" src="../_images/2021-01-13__multiple_ROC_86_4.png">
+<img alt="../_images/2021-01-13__multiple_ROC_86_5.png" src="../_images/2021-01-13__multiple_ROC_86_5.png">
+<img alt="../_images/2021-01-13__multiple_ROC_86_6.png" src="../_images/2021-01-13__multiple_ROC_86_6.png">
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="reproducibility">
 <h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell tag_output_scroll docutils container">
@@ -1040,9 +1459,13 @@ That notebook did have 10 minute recording duration &amp; SNR 10 though (here: 1
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Tue 26 Jan</strong> 2021, at 00:14 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d69b9d89514957994ab4abde0de0a1f06063bf62">Last git commit</a> (Tue 26 Jan 2021, 00:07).</p>
-<p>No uncommitted changes.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Wed 27 Jan</strong> 2021, at 18:05 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/15207d10729d8ecbceca17f8e5dfaa6263810233">Last git commit</a> (Wed 27 Jan 2021, 14:33).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">conntest</span><span class="o">/</span><span class="n">classification</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">13</span><span class="n">__multiple_ROC</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
 <p>Platform:</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
 CPython 3.8.6 (C:\conda\python.exe)
@@ -1053,15 +1476,11 @@ Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.5
 matplotlib           3.3.3
 numba                0.52.0
-unitlib              0.3
 joblib               1.0.0
 seaborn              0.11.1
 scipy                1.6.0
-scikit-learn         0.24.1
 preload              2.2
 nptyping             1.4.0
-tqdm                 4.56.0
-dask                 2021.1.0
 </pre></div>
 </div>
 <p>Full conda list:</p>
