@@ -135,6 +135,8 @@ def plot_classifications(classifications: list[Classification], ax: Axes = None)
     p_value_thresholds = [c.p_value_threshold for c in classifications]
     num_xlabels = 8
     xlabel_stride = round(num_p_value_thresholds / num_xlabels)
+    if xlabel_stride == 0:
+        xlabel_stride = 1
     ax.set_xticks(np.arange(0, num_p_value_thresholds)[::xlabel_stride])
     ax.set_xticklabels(p_value_thresholds[::xlabel_stride])
 
