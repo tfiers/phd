@@ -1,6 +1,8 @@
 title: Voltage-to-Wiring Sim
 author: Tomas Fiers
 
+only_build_toc_files: true
+
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
   path_to_book: website
