@@ -41,7 +41,7 @@ The Hypothesis sidebar also allows you to make page-wide notes, and to see and r
 Hypothesis annotations belong to a 'group'. By default, they go in the 'Public' group.
 I made a private group for this project, which you can join
 [here](https://hypothes.is/groups/GNPzGXJn/voltage-to-wiring),
-or on the {doc}`next page </md/comments>`.
+or on the {doc}`next page </about/comments>`.
 
 You can also directly suggest edits to a page (via a GitHub pull request), by clicking on
 "<i class="fas fa-pencil-alt"></i> suggest edit" 

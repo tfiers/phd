@@ -1,12 +1,12 @@
-- file: md/home
+- file: about/home
 
 - chapter: About
   sections:
-  - file: md/reader_guide
-  - file: md/comments
-  - file: md/executing_code
+  - file: about/reader_guide
+  - file: about/comments
+  - file: about/executing_code
 
-- chapter: Reports
+- chapter: Notebooks
   sections:
     - file: notebooks/2021-01-13__multiple_ROC
     - file: notebooks/2021-01-06__ROC
@@ -21,9 +21,9 @@
     - file: notebooks/2020-07-27__Synaptic_conductances
     - file: notebooks/2020-07-06__Single_neuron_sim
 
-- chapter: Unpolished notebooks
+- chapter: Unpolished Notebooks
   sections:
-  - file: md/unpolished_notebooks_intro
+  - file: about/unpolished_notebooks_intro
   - file: notebooks/2021-01-13__conntest_in_codebase
   - file: notebooks/2021-01-02__full_network_sim_tryout
   - file: notebooks/2021-01-01__debug_parallel_calc_STA
