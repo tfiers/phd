@@ -1,1 +1,0 @@
-jb toc . && jb build .
