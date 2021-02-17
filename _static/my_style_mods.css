@@ -2,8 +2,8 @@
 Default chapter headings & 'top level' pages are too large:
 TOC is a map, so you should get overview of (large parts of) the TOC without having to scroll.
 */
-p.caption { font-size: 1.15em !important }
-ul.sidenav_l1 { font-size: 0.8em }
+p.caption { font-size: 1.02em !important }
+ul.sidenav_l1 { font-size: 0.85em }
 
 /* Inline code not red, but rather as on GitHub / in Roam.  */
 code {
