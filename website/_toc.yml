@@ -1,13 +1,13 @@
 - file: about/home
 
-- chapter: About
-  sections:
-  - file: about/reader_guide
-  - file: about/comments
-  - file: about/executing_code
+- part: About
+  chapters:
+    - file: about/reader_guide
+    - file: about/comments
+    - file: about/executing_code
 
-- chapter: Notebooks
-  sections:
+- part: Notebooks
+  chapters:
     - file: notebooks/2021-01-13__multiple_ROC
     - file: notebooks/2021-01-06__ROC
     - file: notebooks/2021-01-01__vary_params
@@ -21,15 +21,15 @@
     - file: notebooks/2020-07-27__Synaptic_conductances
     - file: notebooks/2020-07-06__Single_neuron_sim
 
-- chapter: Unpolished Notebooks
-  sections:
-  - file: about/unpolished_notebooks_intro
-  - file: notebooks/2021-01-13__conntest_in_codebase
-  - file: notebooks/2021-01-02__full_network_sim_tryout
-  - file: notebooks/2021-01-01__debug_parallel_calc_STA
-  - file: notebooks/2020-11-30__speedup__spike_indices
-  - file: notebooks/2020-11-30__speedup
-  - file: notebooks/2020-11-27__factor_out_STA
-  - file: notebooks/2020-11-16__analytical_PSP
-  - file: notebooks/2020-07-28__Storing_in_base_units
-  - file: notebooks/2020-07-05__Izhikevich_paper_accomp
+- part: Unpolished Notebooks
+  chapters:
+    - file: about/unpolished_notebooks_intro
+    - file: notebooks/2021-01-13__conntest_in_codebase
+    - file: notebooks/2021-01-02__full_network_sim_tryout
+    - file: notebooks/2021-01-01__debug_parallel_calc_STA
+    - file: notebooks/2020-11-30__speedup__spike_indices
+    - file: notebooks/2020-11-30__speedup
+    - file: notebooks/2020-11-27__factor_out_STA
+    - file: notebooks/2020-11-16__analytical_PSP
+    - file: notebooks/2020-07-28__Storing_in_base_units
+    - file: notebooks/2020-07-05__Izhikevich_paper_accomp
