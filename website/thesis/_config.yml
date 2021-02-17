@@ -1,0 +1,9 @@
+title: Thesis quickbuild
+  # These pages are to be incorporated into the main website/jupyterbook,
+  # but that one takes too long to build for rapid iteration. Hence
+  # this smaller scratch book.
+
+author: Tomas Fiers
+
+bibtex_bibfiles:
+  - references.bib

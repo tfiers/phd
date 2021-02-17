@@ -6,6 +6,10 @@
     - file: about/comments
     - file: about/executing_code
 
+- part: Thesis
+  chapters:
+    - file: thesis/conntest_lit_review
+
 - part: Notebooks
   chapters:
     - file: notebooks/2021-01-13__multiple_ROC

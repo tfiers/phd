@@ -3,3 +3,8 @@ notebooks
 
 # Jupyter Book html output directory
 _build
+
+# Adobe Photoshop and Illustrator files behind composite images. We only store the
+# exported PNG's in git; the original .psd and .ai files are in OneDrive.
+*.psd
+*.ai

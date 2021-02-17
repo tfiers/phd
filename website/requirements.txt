@@ -1,2 +1,5 @@
 jupyter-book == 0.10.0
 lxml ~= 4.5
+git+https://github.com/mcmtroffaes/sphinxcontrib-bibtex.git@e515b45bb808553185fb16fc56e76d00451f2697
+# This is release candidate for 2.2.0. Can be removed when it's released on PyPI (and
+# jupyter-book requires it).
