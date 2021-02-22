@@ -6,6 +6,13 @@ only_build_toc_files: true
 bibtex_bibfiles:
   - thesis/references.bib
 
+sphinx:
+  config:
+    mathjax_config:
+      TeX:
+        Macros:
+          "bold": ["\\boldsymbol{#1}", 1]
+
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
   path_to_book: website
