@@ -6,12 +6,13 @@
     - file: about/comments
     - file: about/executing_code
 
-- part: Thesis
-  chapters:
-    - file: thesis/conntest_lit_review
+#- part: Thesis
+#  chapters:
+#    - file: thesis/conntest_lit_review
 
 - part: Notebooks
   chapters:
+    - file: notebooks/2021-02-22__spikes_only_conntests
     - file: notebooks/2021-01-13__multiple_ROC
     - file: notebooks/2021-01-06__ROC
     - file: notebooks/2021-01-01__vary_params
