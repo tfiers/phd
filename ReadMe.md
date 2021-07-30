@@ -14,7 +14,7 @@ The code is written in Python 3.8.
 
 <details><summary>[How to install Python and Jupyter, using 'conda']</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
-specifically its small <a href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a> installer.<br>
+specifically its small <a href="https://github.com/conda-forge/miniforge">miniforge</a> installer.<br>
 Installing conda will also install Python, and the `pip` Python package installer used below.<br>
 If Python's version is not already at least 3.8 (checked with <code>python --version</code>),
 upgrade using <code>conda update python</code>.<br>
