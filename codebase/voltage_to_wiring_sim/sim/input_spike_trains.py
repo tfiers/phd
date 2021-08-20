@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import numpy as np
 
 from ..support.spike_train import SpikeTimes, plot_spike_train, to_spike_train
@@ -40,6 +42,12 @@ def generate_Poisson_spikes(
         else:
             is_first_iteration = False
             continue
+
+
+@dataclass
+class InputSpikeTrain:
+    spikes: SpikeTimes
+    v_syn: float  # synaptic reversal potential
 
 
 def test():

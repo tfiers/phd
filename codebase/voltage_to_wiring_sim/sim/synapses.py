@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .poisson_spikes import generate_Poisson_spikes
+from .input_spike_trains import generate_Poisson_spikes
 from ..support import Signal, compile_to_machine_code, to_num_timesteps
 from ..support.spike_train import SpikeTimes, to_indices
 from ..support.units import Hz, Quantity, ms, nS
