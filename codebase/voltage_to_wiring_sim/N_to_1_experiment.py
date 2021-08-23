@@ -26,7 +26,7 @@ from .conntest.permutation_test import (
 from .sim.imaging import add_VI_noise
 from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
 from .sim.neuron_params import IzhikevichParams
-from .sim.input_spike_trains import generate_Poisson_spikes
+from .sim.poisson_spikes import generate_Poisson_spikes
 from .sim.synapses import calc_synaptic_conductance
 from .support import Signal, cache_to_disk, fix_rng_seed, plot_signal, to_bounds
 from .support.plot_util import figsize, new_plot_if_None, subplots

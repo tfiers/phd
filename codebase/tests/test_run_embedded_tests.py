@@ -7,7 +7,7 @@ import voltage_to_wiring_sim as v
 
 
 def test__run_embedded_tests():
-    v.sim.input_spike_trains.test()
+    v.sim.poisson_spikes.test()
     v.sim.synapses.test()
     v.sim.izhikevich_neuron.test()
     v.conntest.permutation_test.test()

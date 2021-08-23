@@ -5,6 +5,7 @@ The real work happens in `_sim_izh()`.
 """
 from dataclasses import asdict, dataclass
 from functools import partial
+from typing import Sequence
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -35,7 +36,8 @@ def simulate_izh_neuron(
     sim_duration: Quantity,
     timestep: Quantity,
     params: IzhikevichParams,
-    g_syn: Signal = None,
+    v_syn: Sequence[float] = None,
+    g_syn: Sequence[Signal] = None,
     I_e: Signal = None,
     pure_python=False,
 ) -> IzhikevichOutput:
@@ -43,7 +45,11 @@ def simulate_izh_neuron(
     num_timesteps = to_num_timesteps(sim_duration, timestep)
 
     if g_syn is None:
-        g_syn = Signal(np.zeros(num_timesteps) * pA, timestep)
+        v_syn = []
+        g_syn = []
+    else:
+        g_syn = np.stack([g.data for g in g_syn])
+
     if I_e is None:
         I_e = Signal(np.zeros(num_timesteps) * pA, timestep)
 
@@ -56,7 +62,7 @@ def simulate_izh_neuron(
     else:
         f = compile_to_machine_code(_sim_izh)
 
-    spikes = f(V_m, u, I_syn, g_syn, I_e, timestep, **asdict(params))
+    spikes = f(V_m, u, I_syn, I_e, g_syn, v_syn, timestep, **asdict(params))
     spike_times = np.array(spikes) * timestep
 
     return IzhikevichOutput(V_m, u, I_syn, spike_times)
@@ -66,28 +72,33 @@ def simulate_izh_neuron(
 # without any overhead due to generic Python object processing.
 # fmt: off
 def _sim_izh(
-    v, u, I_syn,  # Empty arrays of length N, filled in place during simulation.
-    g_syn, I_e,  # Input arrays of length N.
+    v, u, I_syn,  # Empty arrays of length T, filled in place during simulation.
+    I_e,  # Input array of length T (num timesteps).
+    g_syn,  # Input S x T array, with S the number of input synapses.
+    v_syn,  # Input array of length S.
     dt,  # Timestep (scalar).
-    v_syn, v_r, k, v_t,
+    v_r, k, v_t,
         C, a, b, v_peak, c, d  # Scalars. See `IzhikevichParams` dataclass.
 ):
-    dv_dt = lambda i: (k * (v[i] - v_r) * (v[i] - v_t) - u[i] - I_syn[i] + I_e[i]) / C
-    du_dt = lambda i: a * (b * (v[i] - v_r) - u[i])
+    dv_dt = lambda t: (k * (v[t] - v_r) * (v[t] - v_t) - u[t] - I_syn[t] + I_e[t]) / C
+    du_dt = lambda t: a * (b * (v[t] - v_r) - u[t])
     spikes = []
-    for i in range(len(v)):
-        if i == 0:
-            v[i] = v_r
-            u[i] = 0
+    T = len(v)
+    S = len(v_syn)
+    for t in range(T):
+        if t == 0:
+            v[t] = v_r
+            u[t] = 0
         else:
-            v[i] = v[i-1] + dt * dv_dt(i-1)
-            u[i] = u[i-1] + dt * du_dt(i-1)
-            if v[i] >= v_peak:
-                spikes.append(i)
-                v[i-1] = v_peak
-                v[i] = c
-                u[i] += d
-        I_syn[i] = g_syn[i] * (v[i] - v_syn)
+            v[t] = v[t-1] + dt * dv_dt(t-1)
+            u[t] = u[t-1] + dt * du_dt(t-1)
+            if v[t] >= v_peak:
+                spikes.append(t)
+                v[t-1] = v_peak
+                v[t] = c
+                u[t] += d
+        for s in range(S):
+            I_syn[t] += g_syn[s, t] * (v[t] - v_syn[s])
     return spikes
 
 # fmt: on
