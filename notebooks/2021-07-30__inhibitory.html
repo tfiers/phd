@@ -418,9 +418,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Mon 23 Aug</strong> 2021, at 18:51 (UTC+0200).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/06aece7c804783047d4a1b6a4d84533bd7c8133d">Last git commit</a> (Fri 20 Aug 2021, 21:41).
-Uncommited changes to 9 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Mon 23 Aug</strong> 2021, at 22:28 (UTC+0200).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/6b65a1de2b8f11114e492cdc899bf0ee71d567b2">Last git commit</a> (Mon 23 Aug 2021, 19:05).
+Uncommited changes to 1 file.</p>
 </div>
 </div>
 </div>
@@ -440,7 +440,7 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_spike_trains</span> <span class="o">=</span> <span class="mi">30</span>
-<span class="n">p_inhibitory</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">p_inhibitory</span> <span class="o">=</span> <span class="mf">0.33</span>
 <span class="n">p_connected</span> <span class="o">=</span> <span class="mf">0.6</span>
 <span class="n">spike_rate</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">Hz</span><span class="p">;</span>
 </pre></div>
@@ -491,6 +491,15 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
         <span class="n">v_syn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_syn_I</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">v_syn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_syn_E</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">connected_and_E</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="n">is_connected</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">v_syn</span> <span class="o">==</span> <span class="n">v_syn_E</span><span class="p">))</span>
+<span class="n">connected_and_I</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="n">is_connected</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">v_syn</span> <span class="o">==</span> <span class="n">v_syn_I</span><span class="p">))</span>
+<span class="n">not_connected</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="o">~</span><span class="n">is_connected</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -562,12 +571,34 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_signal</span><span class="p">(</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">**</span><span class="n">plot_slice</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_signal</span><span class="p">(</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">**</span><span class="n">plot_slice</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-07-30__inhibitory_29_0.png" src="../_images/2021-07-30__inhibitory_29_0.png">
+<img alt="../_images/2021-07-30__inhibitory_30_0.png" src="../_images/2021-07-30__inhibitory_30_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_connected_I_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">st</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">input_spike_trains</span><span class="p">[</span><span class="n">connected_and_I</span><span class="p">]])</span>
+<span class="n">v</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">spike_train</span><span class="o">.</span><span class="n">plot_spike_train</span><span class="p">(</span><span class="n">all_connected_I_spikes</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-07-30__inhibitory_31_0.png" src="../_images/2021-07-30__inhibitory_31_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_connected_E_spikes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">st</span> <span class="k">for</span> <span class="n">st</span> <span class="ow">in</span> <span class="n">input_spike_trains</span><span class="p">[</span><span class="n">connected_and_E</span><span class="p">]])</span>
+<span class="n">v</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">spike_train</span><span class="o">.</span><span class="n">plot_spike_train</span><span class="p">(</span><span class="n">all_connected_E_spikes</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.4</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-07-30__inhibitory_32_0.png" src="../_images/2021-07-30__inhibitory_32_0.png">
 </div>
 </div>
 </div>
@@ -582,12 +613,12 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_signal</span><span class="p">(</span><span class="n">VI_signal</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">**</span><span class="n">plot_slice</span><span class="p">));</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_signal</span><span class="p">(</span><span class="n">VI_signal</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="o">**</span><span class="n">plot_slice</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-07-30__inhibitory_32_0.png" src="../_images/2021-07-30__inhibitory_32_0.png">
+<img alt="../_images/2021-07-30__inhibitory_35_0.png" src="../_images/2021-07-30__inhibitory_35_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -599,19 +630,11 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">connected_and_E</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="n">is_connected</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">v_syn</span> <span class="o">==</span> <span class="n">v_syn_E</span><span class="p">))</span>
-<span class="n">connected_and_I</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="n">is_connected</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">v_syn</span> <span class="o">==</span> <span class="n">v_syn_I</span><span class="p">))</span>
-<span class="n">not_connected</span> <span class="o">=</span> <span class="n">indices_where</span><span class="p">(</span><span class="o">~</span><span class="n">is_connected</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_STA</span><span class="p">(</span><span class="n">spike_train_index</span><span class="p">):</span>
     <span class="n">STA</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">STA</span><span class="o">.</span><span class="n">calculate_STA</span><span class="p">(</span><span class="n">VI_signal</span><span class="p">,</span> <span class="n">input_spike_trains</span><span class="p">[</span><span class="n">spike_train_index</span><span class="p">],</span> <span class="n">window_duration</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_signal</span><span class="p">(</span><span class="n">STA</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">time_units</span><span class="o">=</span><span class="n">ms</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">53</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">])</span>  <span class="c1"># mV</span>
+    <span class="c1"># ax.set_ylim([-53, -50])  # mV</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">48.5</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">])</span>  <span class="c1"># mV</span>
 </pre></div>
 </div>
 </div>
@@ -628,7 +651,7 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-07-30__inhibitory_39_0.png" src="../_images/2021-07-30__inhibitory_39_0.png">
+<img alt="../_images/2021-07-30__inhibitory_41_0.png" src="../_images/2021-07-30__inhibitory_41_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -638,7 +661,7 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-07-30__inhibitory_40_0.png" src="../_images/2021-07-30__inhibitory_40_0.png">
+<img alt="../_images/2021-07-30__inhibitory_42_0.png" src="../_images/2021-07-30__inhibitory_42_0.png">
 </div>
 </div>
 <p>Inhibitory STA does not look much different from unconnected (i.e. same as shuffled) STA, alas:</p>
@@ -650,13 +673,14 @@ This is what&#8217;s found e.g. here for GABA neurons: <a class="reference exter
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-07-30__inhibitory_42_0.png" src="../_images/2021-07-30__inhibitory_42_0.png">
-<img alt="../_images/2021-07-30__inhibitory_42_1.png" src="../_images/2021-07-30__inhibitory_42_1.png">
-<img alt="../_images/2021-07-30__inhibitory_42_2.png" src="../_images/2021-07-30__inhibitory_42_2.png">
-<img alt="../_images/2021-07-30__inhibitory_42_3.png" src="../_images/2021-07-30__inhibitory_42_3.png">
-<img alt="../_images/2021-07-30__inhibitory_42_4.png" src="../_images/2021-07-30__inhibitory_42_4.png">
-<img alt="../_images/2021-07-30__inhibitory_42_5.png" src="../_images/2021-07-30__inhibitory_42_5.png">
-<img alt="../_images/2021-07-30__inhibitory_42_6.png" src="../_images/2021-07-30__inhibitory_42_6.png">
+<img alt="../_images/2021-07-30__inhibitory_44_0.png" src="../_images/2021-07-30__inhibitory_44_0.png">
+<img alt="../_images/2021-07-30__inhibitory_44_1.png" src="../_images/2021-07-30__inhibitory_44_1.png">
+<img alt="../_images/2021-07-30__inhibitory_44_2.png" src="../_images/2021-07-30__inhibitory_44_2.png">
+<img alt="../_images/2021-07-30__inhibitory_44_3.png" src="../_images/2021-07-30__inhibitory_44_3.png">
+<img alt="../_images/2021-07-30__inhibitory_44_4.png" src="../_images/2021-07-30__inhibitory_44_4.png">
+<img alt="../_images/2021-07-30__inhibitory_44_5.png" src="../_images/2021-07-30__inhibitory_44_5.png">
+<img alt="../_images/2021-07-30__inhibitory_44_6.png" src="../_images/2021-07-30__inhibitory_44_6.png">
+<img alt="../_images/2021-07-30__inhibitory_44_7.png" src="../_images/2021-07-30__inhibitory_44_7.png">
 </div>
 </div>
 </div>
