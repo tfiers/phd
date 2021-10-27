@@ -144,7 +144,7 @@ def plot_STAs(data: ConnectionTestData, ax: Axes = None, num_shuffled=8):
 
 def test():
     import voltage_to_wiring_sim as v
-    from voltage_to_wiring_sim.support.units import second, ms, Hz, nS
+    from voltage_to_wiring_sim.support.units import second, ms, Hz, nS, mV
 
     sim_duration = 1 * second
     timestep = 0.2 * ms
@@ -152,7 +152,8 @@ def test():
     g_syn = v.calc_synaptic_conductance(
         sim_duration, timestep, spike_train, Δg_syn=0.9 * nS, τ_syn=0.7 * ms
     )
+    v_syn = 0 * mV
     sim = v.simulate_izh_neuron(
-        sim_duration, timestep, v.sim.neuron_params.cortical_RS, g_syn
+        sim_duration, timestep, v.sim.neuron_params.cortical_RS, [v_syn], [g_syn]
     )
     test_connection(spike_train, sim.V_m, window_duration=80 * ms, num_shuffles=10)

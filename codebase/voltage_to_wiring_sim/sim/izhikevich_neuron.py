@@ -46,7 +46,7 @@ def simulate_izh_neuron(
 
     if g_syn is None:
         v_syn = []
-        g_syn = []
+        g_syn = [[]]
     else:
         g_syn = np.stack([g.data for g in g_syn])
 
@@ -129,11 +129,8 @@ def test():
         I_e=constant_input,
         g_syn=None,
     )
-    sim_with_units = f(pure_python=True)
-    sim_fast = f(pure_python=False)
-    # assert_allclose_units(sim_fast.V_m, sim_with_units.V_m)
-    # assert_allclose_units(sim_fast.u, sim_with_units.u)
-    # assert_allclose_units(sim_fast.I_syn, sim_with_units.I_syn)
-    # print("Simulations with and without units yield equal results.")
-    plt.plot(sim_fast.V_m.time / ms, sim_fast.V_m)
+    sim = f(pure_python=True)
+    # sim_fast = f(pure_python=False)
+    #   Numba can't work with empty list (v_syn=[]).
+    plt.plot(sim.V_m.time / ms, sim.V_m)
     plt.xlabel("Time (ms)")
