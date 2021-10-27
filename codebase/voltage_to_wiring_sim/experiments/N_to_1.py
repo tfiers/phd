@@ -13,26 +13,25 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
-from nptyping import NDArray
 
-from .conntest.classification import Classification, plot_ROC, plot_classifications
-from .conntest.permutation_test import (
+from ..conntest.classification import Classification, plot_ROC, plot_classifications
+from ..conntest.permutation_test import (
     ConnectionTestData,
     ConnectionTestSummary,
     plot_STA_heights,
     plot_STAs,
     test_connection,
 )
-from .sim.imaging import add_VI_noise
-from .sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
-from .sim.neuron_params import IzhikevichParams
-from .sim.poisson_spikes import generate_Poisson_spikes
-from .sim.synapses import calc_synaptic_conductance
-from .support import Signal, cache_to_disk, fix_rng_seed, plot_signal, to_bounds
-from .support.plot_util import figsize, new_plot_if_None, subplots
-from .support.printing import with_progress_meter
-from .support.spike_train import SpikeTimes, plot_spike_train
-from .support.units import Quantity, mV, ms, nS
+from ..sim.imaging import add_VI_noise
+from ..sim.izhikevich_neuron import IzhikevichOutput, simulate_izh_neuron
+from ..sim.neuron_params import IzhikevichParams
+from ..sim.poisson_spikes import generate_Poisson_spikes
+from ..sim.synapses import calc_synaptic_conductance
+from ..support import Signal, cache_to_disk, fix_rng_seed, plot_signal, to_bounds
+from ..support.plot_util import figsize, new_plot_if_None, subplots
+from ..support.printing import with_progress_meter
+from ..support.spike_train import SpikeTimes, plot_spike_train
+from ..support.units import Quantity, mV, ms, nS
 
 
 @dataclass

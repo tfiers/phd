@@ -17,6 +17,7 @@ from .support.misc import fix_rng_seed
 from .support.printing import pprint, bprint, time_op
 from .support.reproducibility import print_reproducibility_info
 
-from . import N_to_1_experiment, sim, support, conntest
+from . import sim, support, conntest
+from .experiments import N_to_1
 
 print("✔")

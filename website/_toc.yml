@@ -8,6 +8,7 @@
 
 - part: Notebooks
   chapters:
+    - file: notebooks/2021-09-16__vary_E_vs_I
     - file: notebooks/2021-07-30__inhibitory
     - file: notebooks/2021-01-13__multiple_ROC
     - file: notebooks/2021-01-06__ROC
