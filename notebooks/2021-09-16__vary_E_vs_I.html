@@ -397,9 +397,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Wed 27 Oct</strong> 2021, at 15:26 (UTC+0100).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/280278114a216f3fbf408ea63a408f5accde3173">Last git commit</a> (Mon 23 Aug 2021, 21:55).
-Uncommited changes to 8 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code> on <strong>Wed 27 Oct</strong> 2021, at 16:34 (UTC+0100).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/6765b0fd20b7c37cd4f0f9ff27aba199bac1dd61">Last git commit</a> (Wed 27 Oct 2021, 16:27).
+Uncommited changes to 3 files.</p>
 </div>
 </div>
 </div>
@@ -434,6 +434,7 @@ imaging_spike_SNR = 20
      p_inhibitory = 0.6
       p_connected = 0.6
   window_duration = 0.1
+         rng_seed = None
 </pre></div>
 </div>
 </div>
@@ -449,7 +450,9 @@ imaging_spike_SNR = 20
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_inh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">p_inh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -473,8 +476,75 @@ imaging_spike_SNR = 20
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:root:[MemorizedFunc(func=&lt;function simulate_and_test_connections at 0x0000021E0F7FC310&gt;, location=.\joblib)]: Clearing function cache identified by voltage_to_wiring_sim\experiments\N_to_1_IE\simulate_and_test_connections
+</pre></div>
 </div>
-<p>^ This took  ~18s per sim_and_test; times 11 so 3.3 minutes.</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.0, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 19.7s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.1, p_connected=0.6, window_duration=0.1, rng_seed=None))
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\users\tfiers\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\conntest\classification_IE.py:42: UserWarning: No connected inhibitory (pre,post)-pairs. TPR_inh is meaningless.
+  warn("No connected inhibitory (pre,post)-pairs. TPR_inh is meaningless.")
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..............................___________________________________simulate_and_test_connections - 17.4s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.2, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 17.7s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.30000000000000004, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 17.6s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.4, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 18.4s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.5, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 19.3s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.6000000000000001, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 23.3s, 0.4min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.7000000000000001, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 21.2s, 0.4min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.8, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 20.3s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=0.9, p_connected=0.6, window_duration=0.1, rng_seed=None))
+..............................___________________________________simulate_and_test_connections - 18.0s, 0.3min
+________________________________________________________________________________
+[Memory] Calling voltage_to_wiring_sim.experiments.N_to_1_IE.simulate_and_test_connections...
+simulate_and_test_connections(Params(sim_duration=600, timestep=0.0001, spike_rate=20.0, &#916;g_syn=8.000000000000001e-10, &#964;_syn=0.007, neuron_params=IzhikevichParams(C=1e-10, k=7e-07, v_r=-0.06, v_t=-0.04, v_peak=0.035, a=30.0, b=-2e-09, c=-0.05, d=1e-10), imaging_spike_SNR=20, v_syn_E=0.0, v_syn_I=-0.07, num_spike_trains=30, p_inhibitory=1.0, p_connected=0.6, window_duration=0.1, rng_seed=None))
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\users\tfiers\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\conntest\classification_IE.py:47: UserWarning: No connected excitatory (pre,post)-pairs. TPR_exc is meaningless.
+  warn("No connected excitatory (pre,post)-pairs. TPR_exc is meaningless.")
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..............................___________________________________simulate_and_test_connections - 21.5s, 0.4min
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\users\tfiers\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\conntest\classification_IE.py:47: UserWarning: No connected excitatory (pre,post)-pairs. TPR_exc is meaningless.
+  warn("No connected excitatory (pre,post)-pairs. TPR_exc is meaningless.")
+</pre></div>
+</div>
+</div>
+</div>
+<p>^ This took ~19s per sim_and_test; times 11 so 3.5 minutes.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
