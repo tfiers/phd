@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from random import random
 
 import numpy as np
 
@@ -48,16 +47,26 @@ def simulate_and_test_connections(p: Params):
         fix_rng_seed(p.rng_seed)
 
     input_spike_trains = np.empty(p.num_spike_trains, dtype=object)
+    
+    for i in range(p.num_spike_trains):
+        input_spike_trains[i] = generate_Poisson_spikes(p.spike_rate, p.sim_duration)
+    
     is_connected = np.array([False] * p.num_spike_trains)
     is_inhibitory = np.array([False] * p.num_spike_trains)
     #  Assumption: if not I then E, i.e. only two choices.
     
+    num_inh = round(p.p_inhibitory * p.num_spike_trains)
+    num_exc = p.num_spike_trains - num_inh
+    num_inh_conn = round(p.p_connected * num_inh)
+    num_exc_conn = round(p.p_connected * num_exc)
     for i in range(p.num_spike_trains):
-        input_spike_trains[i] = generate_Poisson_spikes(p.spike_rate, p.sim_duration)
-        if random() < p.p_connected:
-            is_connected[i] = True
-        if random() < p.p_inhibitory:
+        if i < num_inh:
             is_inhibitory[i] = True
+            if i < num_inh_conn:
+                is_connected[i] = True
+        else:
+            if i < num_inh + num_exc_conn:
+                is_connected[i] = True
 
 
     #
