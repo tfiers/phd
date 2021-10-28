@@ -5,12 +5,10 @@ import numpy as np
 
 from .. import (
     calc_synaptic_conductance,
-    generate_Poisson_spikes,
+    fix_rng_seed, generate_Poisson_spikes,
     simulate_izh_neuron,
     add_VI_noise,
 )
-from ..conntest.classification_IE import apply_threshold, evaluate_classification, \
-    sweep_threshold
 from ..conntest.permutation_test import test_connection
 from ..sim.neuron_params import IzhikevichParams, cortical_RS
 from ..support import cache_to_disk
@@ -37,12 +35,17 @@ class Params:
     spike_rate: Quantity = 20 * Hz
 
     window_duration: Quantity = 100 * ms
+    
+    rng_seed: int = None
 
 
 @cache_to_disk
 def simulate_and_test_connections(p: Params):
 
     # ___ 1. Spike trains ___
+    
+    if p.rng_seed is not None:
+        fix_rng_seed(p.rng_seed)
 
     input_spike_trains = np.empty(p.num_spike_trains, dtype=object)
     is_connected = np.array([False] * p.num_spike_trains)
