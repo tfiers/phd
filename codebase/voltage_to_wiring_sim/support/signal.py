@@ -50,6 +50,11 @@ class Signal(NDArrayWrapper):
         else:
             return Signal(new_data, self.timestep)
 
+    def __repr__(self):
+        return (
+            f"<Signal of length {self.duration} s, median {np.median(self.data):.3g}>"
+        )
+
 
 def to_bounds(t_start: Quantity, duration: Quantity) -> Array:
     return t_start + np.array([0, duration])

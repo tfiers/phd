@@ -58,6 +58,9 @@ class NDArrayWrapper(np.lib.mixins.NDArrayOperatorsMixin):
         """
         raise NotImplementedError
 
+    def __repr__(self):
+        return f"<NDArrayWrapper of shape {self.shape}, median {np.median(self.data)}>"
+
 
 def strip_NDArrayWrapper_inputs(function):
     @wraps(function)

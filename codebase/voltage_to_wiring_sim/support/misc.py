@@ -1,6 +1,7 @@
 import functools
 import random
-from typing import Callable
+from dataclasses import fields
+from typing import Any, Callable, Type
 
 import numba
 import numpy as np
@@ -51,3 +52,13 @@ def compile_to_machine_code(function: Callable = None, *, parallel=False) -> Cal
         return decorate
     else:
         return decorate(function)
+
+
+SomeDataclass = Any
+
+# hacky way to initialise a dataclass based on locals() dict.
+def fill_dataclass(Dataklasss: Type[SomeDataclass], lokals: dict) -> SomeDataclass:
+    kwargs = {}
+    for field in fields(Dataklasss):
+        kwargs[field.name] = lokals[field.name]
+    return Dataklasss(**kwargs)

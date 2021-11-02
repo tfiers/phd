@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, fields
-from typing import Any, Type
+from dataclasses import dataclass
+from typing import Any
 from warnings import warn
 
 import numpy as np
@@ -9,6 +9,7 @@ from nptyping import NDArray
 
 from .classification import apply_threshold
 from .permutation_test import ConnectionTestSummary
+from ..support.misc import fill_dataclass
 
 
 NumPrePostPairs = Any
@@ -52,17 +53,7 @@ def evaluate_classification(
         warn("No unconnected (pre,post)-pairs. FPR is meaningless.")
         FPR = np.nan
 
-    return fill(ClassificationEvaluation, locals())
-
-
-SomeDataclass = Any
-
-# hacky way to initialise a dataclass based on locals() dict.
-def fill(Dataklasss: Type[SomeDataclass], lokals: dict) -> SomeDataclass:
-    kwargs = {}
-    for field in fields(Dataklasss):
-        kwargs[field.name] = lokals[field.name]
-    return Dataklasss(**kwargs)
+    return fill_dataclass(ClassificationEvaluation, locals())
 
 
 @dataclass

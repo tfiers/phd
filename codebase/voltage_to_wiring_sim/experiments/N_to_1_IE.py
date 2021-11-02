@@ -1,16 +1,28 @@
 from dataclasses import dataclass
 
 import numpy as np
+from numpy import ndarray
 
 from .. import (
-    calc_synaptic_conductance,
-    fix_rng_seed, generate_Poisson_spikes,
-    simulate_izh_neuron,
     add_VI_noise,
+    calc_synaptic_conductance,
+    fix_rng_seed,
+    generate_Poisson_spikes,
+    simulate_izh_neuron,
 )
-from ..conntest.permutation_test import test_connection
+from ..conntest.classification import apply_threshold
+from ..conntest.classification_IE import calc_AUCs, evaluate_classification, \
+    sweep_threshold
+from ..conntest.permutation_test import (
+    ConnectionTestData,
+    ConnectionTestSummary,
+    test_connection,
+)
+from ..sim.izhikevich_neuron import IzhikevichOutput
 from ..sim.neuron_params import IzhikevichParams, cortical_RS
-from ..support import cache_to_disk
+from ..support import Signal, cache_to_disk
+from ..support.misc import fill_dataclass
+from ..support.printing import with_progress_meter
 from ..support.units import Hz, Quantity, mV, minute, ms, nS
 
 
@@ -34,27 +46,26 @@ class Params:
     spike_rate: Quantity = 20 * Hz
 
     window_duration: Quantity = 100 * ms
-    
-    rng_seed: int = None
+
+    rng_seed: int = 0
 
 
-@cache_to_disk
-def simulate_and_test_connections(p: Params):
+def simulate(p: Params):
 
     # ___ 1. Spike trains ___
-    
+
     if p.rng_seed is not None:
         fix_rng_seed(p.rng_seed)
 
     input_spike_trains = np.empty(p.num_spike_trains, dtype=object)
-    
+
     for i in range(p.num_spike_trains):
         input_spike_trains[i] = generate_Poisson_spikes(p.spike_rate, p.sim_duration)
-    
+
     is_connected = np.array([False] * p.num_spike_trains)
     is_inhibitory = np.array([False] * p.num_spike_trains)
     #  Assumption: if not I then E, i.e. only two choices.
-    
+
     num_inh = round(p.p_inhibitory * p.num_spike_trains)
     num_exc = p.num_spike_trains - num_inh
     num_inh_conn = round(p.p_connected * num_inh)
@@ -67,7 +78,8 @@ def simulate_and_test_connections(p: Params):
         else:
             if i < num_inh + num_exc_conn:
                 is_connected[i] = True
-
+                
+    is_excitatory = ~is_inhibitory
 
     #
     # ___ 2.Synaptic conductance, Izhikevich sim, VI noise ___
@@ -88,19 +100,63 @@ def simulate_and_test_connections(p: Params):
 
     VI_signal = add_VI_noise(izh_output.V_m, p.neuron_params, p.imaging_spike_SNR)
 
-    #
-    # ___ 3. Connection tests ___
+    return fill_dataclass(SimData, locals())
 
+
+@dataclass
+class SimData:
+    num_inh: int
+    num_exc: int
+    num_inh_conn: int
+    num_exc_conn: int
+    input_spike_trains: ndarray
+    is_connected: ndarray
+    is_inhibitory: ndarray
+    is_excitatory: ndarray
+    g_syns: list[Signal]
+    v_syn: ndarray
+    izh_output: IzhikevichOutput
+    VI_signal: Signal
+
+
+def test_connections(
+    d: SimData, p: Params
+) -> tuple[(list[ConnectionTestData], list[ConnectionTestSummary])]:
+
+    test_data = []
     test_summaries = []
 
-    for i in range(p.num_spike_trains):
+    for i in with_progress_meter(range(p.num_spike_trains)):
         data, summary = test_connection(
-            input_spike_trains[i], VI_signal, p.window_duration, num_shuffles=100
+            d.input_spike_trains[i], d.VI_signal, p.window_duration, num_shuffles=100
         )
+        test_data.append(data)
         test_summaries.append(summary)
-        print(".", end="")
 
-    return is_connected, is_inhibitory, test_summaries
+    return test_data, test_summaries
+
+
+# Not cached by default, as output is large.
+def simulate_and_test_connections(p: Params):
+    sim_data = simulate(p)
+    test_data, test_summaries = test_connections(sim_data, p)
+    return sim_data, test_data, test_summaries
+
+
+@cache_to_disk
+def sim_and_test_and_eval_performance(p: Params):
+    d, _, test_summaries = simulate_and_test_connections(p)
+    
+    # Eval at fixed p_value threshold
+    is_classified_as_connected = apply_threshold(test_summaries, p_value_threshold=0.05)
+    evalu = evaluate_classification(is_classified_as_connected, d.is_connected,
+                                    d.is_inhibitory)
+
+    # Eval at all p_value thresholds
+    thr_sweep = sweep_threshold(test_summaries, d.is_connected, d.is_inhibitory)
+    AUC_inh, AUC_exc = calc_AUCs(thr_sweep)
+
+    return (evalu.TPR_inh, evalu.TPR_exc, evalu.FPR, AUC_inh, AUC_exc)
 
 
 def indices_where(bool_array):

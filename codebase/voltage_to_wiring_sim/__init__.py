@@ -13,7 +13,7 @@ from .support.signal import plot_signal
 from .support.spike_train import plot_spike_train
 from .support.plot_util import figsize
 from .support.scalebar import add_scalebar
-from .support.misc import fix_rng_seed
+from .support.misc import fix_rng_seed, cache_to_disk
 from .support.printing import pprint, bprint, time_op
 from .support.reproducibility import print_reproducibility_info
 

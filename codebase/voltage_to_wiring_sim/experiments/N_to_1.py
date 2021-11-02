@@ -13,6 +13,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from nptyping import NDArray
 
 from ..conntest.classification import Classification, plot_ROC, plot_classifications
 from ..conntest.permutation_test import (
