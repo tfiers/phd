@@ -148,3 +148,20 @@ def simulate_and_test_connections(p: Params):
     sim_data = simulate(p)
     test_data, test_summaries = test_connections(sim_data, p)
     return sim_data, test_data, test_summaries
+
+
+def eval_performance(sim_data, test_summaries):
+
+    # Eval at fixed p_value threshold
+    is_classified_as_connected = apply_threshold(test_summaries, p_value_threshold=0.05)
+    evalu_p_0_05 = evaluate_classification(
+        is_classified_as_connected, sim_data.is_connected, sim_data.is_inhibitory
+    )
+
+    # Eval at all p_value thresholds
+    thr_sweep = sweep_threshold(
+        test_summaries, sim_data.is_connected, sim_data.is_inhibitory
+    )
+    AUC, AUC_exc, AUC_inh = calc_AUCs(thr_sweep)
+
+    return evalu_p_0_05, thr_sweep, AUC, AUC_exc, AUC_inh
