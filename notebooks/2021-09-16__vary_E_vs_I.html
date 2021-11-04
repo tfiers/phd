@@ -402,9 +402,9 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Wed 03 Nov</strong> 2021, at 18:03 (UTC+0000).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/3e836709e4539ec71d851db21433509a6798843a">Last git commit</a> (Tue 02 Nov 2021, 20:45).
-Uncommited changes to 2 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 04 Nov</strong> 2021, at 16:30 (UTC+0000).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/71637992b59f3ebc80b1121e0ed1542855e1a1ef">Last git commit</a> (Wed 03 Nov 2021, 20:11).
+Uncommited changes to 6 files.</p>
 </div>
 </div>
 </div>
@@ -412,7 +412,7 @@ Uncommited changes to 2 files.</p>
 <h2>Run simulation &amp; connection tests<a class="headerlink" href="#run-simulation-connection-tests" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">sim_and_test_and_eval_performance</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">indices_where</span>
 </pre></div>
 </div>
 </div>
@@ -440,6 +440,34 @@ imaging_spike_SNR = 20
       p_connected = 0.6
   window_duration = 0.1
          rng_seed = 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification</span> <span class="kn">import</span> <span class="n">apply_threshold</span>
+<span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification_IE</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">calc_AUCs</span><span class="p">,</span>
+    <span class="n">evaluate_classification</span><span class="p">,</span>
+    <span class="n">sweep_threshold</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="nd">@v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="s2">"2021-09-16__vary_E_vs_I"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sim_and_test_and_eval_performance</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">simulate_and_test_connections</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+    <span class="c1"># Eval at fixed p_value threshold</span>
+    <span class="n">is_classified_as_connected</span> <span class="o">=</span> <span class="n">apply_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">p_value_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">evalu</span> <span class="o">=</span> <span class="n">evaluate_classification</span><span class="p">(</span>
+        <span class="n">is_classified_as_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Eval at all p_value thresholds</span>
+    <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span><span class="p">)</span>
+    <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span> <span class="o">=</span> <span class="n">calc_AUCs</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">evalu</span><span class="o">.</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -502,8 +530,8 @@ imaging_spike_SNR = 20
     
     <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c_inh</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c_exc</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Proportion of inputs inhibitory ($p_</span><span class="si">{inh}</span><span class="s2">$)"</span><span class="p">)</span>
     <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Area under ROC curve"</span><span class="p">)</span>
@@ -529,7 +557,7 @@ imaging_spike_SNR = 20
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-09-16__vary_E_vs_I_13_0.png" src="../_images/2021-09-16__vary_E_vs_I_13_0.png">
+<img alt="../_images/2021-09-16__vary_E_vs_I_14_0.png" src="../_images/2021-09-16__vary_E_vs_I_14_0.png">
 </div>
 </div>
 <p>Uncached run for two seeds took 16&#8217;30&#8221;.</p>
@@ -539,13 +567,6 @@ Maybe memory drag? python process is at 2GB now.</p>
 </div>
 <div class="section" id="inspect-some-regimes">
 <h2>Inspect some regimes<a class="headerlink" href="#inspect-some-regimes" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">indices_where</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_and_test</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="n">simulate_and_test_connections</span><span class="p">);</span>
@@ -570,8 +591,8 @@ Maybe memory drag? python process is at 2GB now.</p>
                  <span class="s2">"$p_</span><span class="si">{inh}</span><span class="s2"> = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p_inh</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">$"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
     
     
-    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
+    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
+    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
     
     <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
              <span class="nb">max</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
