@@ -11,8 +11,11 @@ from .. import (
     simulate_izh_neuron,
 )
 from ..conntest.classification import apply_threshold
-from ..conntest.classification_IE import calc_AUCs, evaluate_classification, \
-    sweep_threshold
+from ..conntest.classification_IE import (
+    calc_AUCs,
+    evaluate_classification,
+    sweep_threshold,
+)
 from ..conntest.permutation_test import (
     ConnectionTestData,
     ConnectionTestSummary,
@@ -20,7 +23,7 @@ from ..conntest.permutation_test import (
 )
 from ..sim.izhikevich_neuron import IzhikevichOutput
 from ..sim.neuron_params import IzhikevichParams, cortical_RS
-from ..support import Signal, cache_to_disk
+from ..support import Signal
 from ..support.misc import fill_dataclass
 from ..support.printing import with_progress_meter
 from ..support.units import Hz, Quantity, mV, minute, ms, nS
@@ -78,7 +81,7 @@ def simulate(p: Params):
         else:
             if i < num_inh + num_exc_conn:
                 is_connected[i] = True
-                
+
     is_excitatory = ~is_inhibitory
 
     #
@@ -119,6 +122,10 @@ class SimData:
     VI_signal: Signal
 
 
+def indices_where(bool_array):
+    return np.nonzero(bool_array)[0]
+
+
 def test_connections(
     d: SimData, p: Params
 ) -> tuple[(list[ConnectionTestData], list[ConnectionTestSummary])]:
@@ -141,23 +148,3 @@ def simulate_and_test_connections(p: Params):
     sim_data = simulate(p)
     test_data, test_summaries = test_connections(sim_data, p)
     return sim_data, test_data, test_summaries
-
-
-@cache_to_disk
-def sim_and_test_and_eval_performance(p: Params):
-    d, _, test_summaries = simulate_and_test_connections(p)
-    
-    # Eval at fixed p_value threshold
-    is_classified_as_connected = apply_threshold(test_summaries, p_value_threshold=0.05)
-    evalu = evaluate_classification(is_classified_as_connected, d.is_connected,
-                                    d.is_inhibitory)
-
-    # Eval at all p_value thresholds
-    thr_sweep = sweep_threshold(test_summaries, d.is_connected, d.is_inhibitory)
-    AUC_inh, AUC_exc = calc_AUCs(thr_sweep)
-
-    return (evalu.TPR_inh, evalu.TPR_exc, evalu.FPR, AUC_inh, AUC_exc)
-
-
-def indices_where(bool_array):
-    return np.nonzero(bool_array)[0]

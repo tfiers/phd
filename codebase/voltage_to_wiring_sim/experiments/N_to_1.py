@@ -49,7 +49,7 @@ class N_to_1_SimParams:
     rng_seed: int = None
 
 
-@cache_to_disk
+@cache_to_disk()
 def simulate(params: N_to_1_SimParams) -> N_to_1_SimData:
 
     if params.rng_seed is not None:

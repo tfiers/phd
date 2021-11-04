@@ -41,7 +41,7 @@ setup(
         #                   so approaches C(++) or Julia performance.
         # "unitlib",  # Store & display *physical units* along numbers & arrays. A package
         #               I made, that is not ready.
-        "joblib ~= 1.0",  # On-disk function cache to avoid re-doing work.
+        "joblib ~= 1.1",  # On-disk function cache to avoid re-doing work.
         "seaborn ~= 0.11",  # Extension of Matplotlib for statistical data viz.
         "scipy ~= 1.5",  # Numerical utilities (peak finding, integration,
         #                  interpolation, optimisation, ...).

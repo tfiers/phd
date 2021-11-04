@@ -11,7 +11,15 @@ from .array_wrapper import strip_NDArrayWrapper_inputs
 
 
 joblib_cache = joblib.Memory(location='.', verbose=1)
-cache_to_disk = joblib_cache.cache
+
+def cache_to_disk(notebook_name: str = None, **joblib_kwargs):
+    def wrapper(func):
+        if notebook_name:
+            # Hack to make joblib store cache in directory with clear name
+            # (instead of the default kernel-path-and-hash).
+            func.__module__ = f"notebooks.{notebook_name}"
+        return joblib_cache.cache(func, **joblib_kwargs)
+    return wrapper
 
 
 def fix_rng_seed(seed=0):
