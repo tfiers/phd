@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2021-09-27 &#8226; Vary E/I proportion &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-11-04 &#8226; Control for output spike rate &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet">
@@ -49,12 +49,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-09-16__vary_E_vs_I.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-11-04__control_for_output_rate.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-07-30 &#8226; Inhibitory connections" href="2021-07-30__inhibitory.html">
-    <link rel="prev" title="2021-11-04 &#8226; Control for output spike rate" href="2021-11-04__control_for_output_rate.html">
+    <link rel="next" title="2021-09-27 &#8226; Vary E/I proportion" href="2021-09-16__vary_E_vs_I.html">
+    <link rel="prev" title="Executing code" href="../about/executing_code.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="en">
     
@@ -111,13 +111,13 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2021-11-04 &#8226; Control for output spike rate
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
    2021-09-27 &#8226; Vary E/I proportion
   </a>
  </li>
@@ -301,7 +301,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-11-04__control_for_output_rate.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -313,8 +313,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-09-16__vary_E_vs_I.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-11-04__control_for_output_rate.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-11-04__control_for_output_rate.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -328,7 +328,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-11-04__control_for_output_rate.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -352,13 +352,13 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-simulation-connection-tests">
-   Run simulation &amp; connection tests
+  <a class="reference internal nav-link" href="#output-rate-vs-performance">
+   Output rate vs performance
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inspect-some-regimes">
-   Inspect some regimes
+  <a class="reference internal nav-link" href="#to-explore-signals">
+   To explore signals
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -377,10 +377,9 @@
         
               <div>
                 
-  <div class="section" id="vary-e-i-proportion">
-<h1>2021-09-27 &#8226; Vary E/I proportion<a class="headerlink" href="#vary-e-i-proportion" title="Permalink to this headline">&#182;</a></h1>
-<p>Previously we just plotted STA&#8217;s of inhibitory inputs. Now we measure the STA height, and compare it to the STA height of shuffled input spike trains.</p>
-<p>Then we calculate separate true positive rates for inhibitory and excitatory connections, and we do this for a range of p_inhibitory.</p>
+  <div class="section" id="control-for-output-spike-rate">
+<h1>2021-11-04 &#8226; Control for output spike rate<a class="headerlink" href="#control-for-output-spike-rate" title="Permalink to this headline">&#182;</a></h1>
+<p>We start by wanting a plot with output spike rate on the x-axis.</p>
 <div class="section" id="prelude">
 <h2>Prelude<a class="headerlink" href="#prelude" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -407,24 +406,25 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 04 Nov</strong> 2021, at 16:30 (UTC+0000).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/71637992b59f3ebc80b1121e0ed1542855e1a1ef">Last git commit</a> (Wed 03 Nov 2021, 20:11).
-Uncommited changes to 6 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 04 Nov</strong> 2021, at 17:24 (UTC+0000).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/2d12a2c11b5b92b32178d9012b2879888d20043f">Last git commit</a> (Thu 04 Nov 2021, 16:37).
+Uncommited changes to 4 files.</p>
 </div>
 </div>
 </div>
-<div class="section" id="run-simulation-connection-tests">
-<h2>Run simulation &amp; connection tests<a class="headerlink" href="#run-simulation-connection-tests" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="output-rate-vs-performance">
+<h2>Output rate vs performance<a class="headerlink" href="#output-rate-vs-performance" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">indices_where</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">eval_performance</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">Params</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span> <span class="o">=</span> <span class="n">Params</span><span class="p">(</span><span class="n">p_inhibitory</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -441,7 +441,7 @@ imaging_spike_SNR = 20
           v_syn_E = 0
           v_syn_I = -0.07
  num_spike_trains = 30
-     p_inhibitory = 0.6
+     p_inhibitory = 0.2
       p_connected = 0.6
   window_duration = 0.1
          rng_seed = 0
@@ -451,28 +451,24 @@ imaging_spike_SNR = 20
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification</span> <span class="kn">import</span> <span class="n">apply_threshold</span>
-<span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification_IE</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">calc_AUCs</span><span class="p">,</span>
-    <span class="n">evaluate_classification</span><span class="p">,</span>
-    <span class="n">sweep_threshold</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="nd">@v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="s2">"2021-09-16__vary_E_vs_I"</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">sim_and_test_and_eval_performance</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
-    <span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">simulate_and_test_connections</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-
-    <span class="c1"># Eval at fixed p_value threshold</span>
-    <span class="n">is_classified_as_connected</span> <span class="o">=</span> <span class="n">apply_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">p_value_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">evalu</span> <span class="o">=</span> <span class="n">evaluate_classification</span><span class="p">(</span>
-        <span class="n">is_classified_as_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Eval at all p_value thresholds</span>
-    <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span><span class="p">)</span>
-    <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span> <span class="o">=</span> <span class="n">calc_AUCs</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">evalu</span><span class="o">.</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="s2">"2021-11-04__control_for_output_rate"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sim_test_eval</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+    
+    <span class="n">sim_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">simulate_and_test_connections</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">evalu_p_0_05</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span> <span class="o">=</span> <span class="n">eval_performance</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">test_summaries</span><span class="p">)</span>
+    
+    <span class="n">output_spike_rate</span> <span class="o">=</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">spike_times</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="n">params</span><span class="o">.</span><span class="n">sim_duration</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span>
+            <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">TPR</span><span class="p">,</span> <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">TPR_inh</span><span class="p">,</span>
+            <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgsyns</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -480,98 +476,67 @@ imaging_spike_SNR = 20
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">replace</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_reordered_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">h</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="p">[</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">joblib</span> <span class="kn">import</span> <span class="n">Parallel</span><span class="p">,</span> <span class="n">delayed</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">color_inh</span> <span class="o">=</span> <span class="s2">"C1"</span>
-<span class="n">color_exc</span> <span class="o">=</span> <span class="s2">"C0"</span>
-<span class="n">color_unconn</span> <span class="o">=</span> <span class="s2">"C2"</span><span class="p">;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)(</span><span class="n">delayed</span><span class="p">(</span><span class="n">sim_test_eval</span><span class="p">)(</span><span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="n">&#916;g_syn</span><span class="o">=</span><span class="n">dg</span><span class="p">))</span> <span class="k">for</span> <span class="n">dg</span> <span class="ow">in</span> <span class="n">dgsyns</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
+<p>3m49 without joblib parallel,<br>
+[1m26, 1m15] with.<br>
+1m14 with numba.set_num_threads(2) in addition.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vary_p_inhibited</span><span class="p">(</span><span class="n">base_params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span>
+ <span class="n">TPR</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span>
+ <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">)</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">results</span><span class="p">)</span>
 
-    <span class="n">p_inh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-
-    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">p_i</span><span class="p">,</span> <span class="n">seed</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">seeds</span><span class="p">):</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_i</span><span class="p">,</span> <span class="n">rng_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
-        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim_and_test_and_eval_performance</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
-        
-    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p_inh</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">FPR</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Non-connections"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Fraction detected"</span><span class="p">)</span>
-    <span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
-    
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Proportion of inputs inhibitory ($p_</span><span class="si">{inh}</span><span class="s2">$)"</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Area under ROC curve"</span><span class="p">)</span>
-    <span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    
-</pre></div>
-</div>
-</div>
-</div>
-<p>(An uncached run of the above takes a bit over 3 minutes, for 1 seed).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">vary_p_inhibited</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span> <span class="o">=</span> <span class="o">-</span><span class="mi">70</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">vary_p_inhibited</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"center left"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = -70$ mV"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = -50$ mV"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dgsyns</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dgsyns</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dgsyns</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-09-16__vary_E_vs_I_14_0.png" src="../_images/2021-09-16__vary_E_vs_I_14_0.png">
+<img alt="../_images/2021-11-04__control_for_output_rate_14_0.png" src="../_images/2021-11-04__control_for_output_rate_14_0.png">
 </div>
 </div>
-<p>Uncached run for two seeds took 16&#8217;30&#8221;.</p>
-<p>individual sims getting gradually slower.. from 20 s at start (v -70 p 0 seed 1) to 52 at end (v -50 p 1 seed 2).
-Maybe memory drag? python process is at 2GB now.</p>
-<p>cache loading is deliciously fast though :)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">);</span>
+</pre></div>
 </div>
-<div class="section" id="inspect-some-regimes">
-<h2>Inspect some regimes<a class="headerlink" href="#inspect-some-regimes" title="Permalink to this headline">&#182;</a></h2>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-11-04__control_for_output_rate_15_0.png" src="../_images/2021-11-04__control_for_output_rate_15_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dgsyns</span><span class="p">,</span> <span class="n">output_spike_rate</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-11-04__control_for_output_rate_16_0.png" src="../_images/2021-11-04__control_for_output_rate_16_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="to-explore-signals">
+<h2>To explore signals<a class="headerlink" href="#to-explore-signals" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_and_test</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="n">simulate_and_test_connections</span><span class="p">);</span>
@@ -581,119 +546,7 @@ Maybe memory drag? python process is at 2GB now.</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">((</span><span class="o">-</span><span class="mi">70</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))):</span>
-    
-    <span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_inh</span><span class="p">))</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">num_exc_conn</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">num_inh_conn</span><span class="p">)</span>
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">second</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">time_units</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">22</span><span class="p">);</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v_syn_I</span> <span class="o">/</span> <span class="n">mV</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">$ mV"</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> 
-                 <span class="s2">"$p_</span><span class="si">{inh}</span><span class="s2"> = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p_inh</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">$"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-    
-    
-    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    
-    <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
-             <span class="nb">max</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Membrane pot. (mV)"</span><span class="p">);</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{excitatory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{inhibitory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16 2
-2 16
-16 2
-2 16
-</pre></div>
-</div>
-<img alt="../_images/2021-09-16__vary_E_vs_I_18_1.png" src="../_images/2021-09-16__vary_E_vs_I_18_1.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="mf">0.1</span><span class="p">));</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-50.468785742174646
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">((</span><span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">))):</span>
-    
-    <span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_inh</span><span class="p">))</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">num_exc_conn</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">num_inh_conn</span><span class="p">)</span>
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="n">second</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">time_units</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">22</span><span class="p">);</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2">$ = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v_syn_I</span> <span class="o">/</span> <span class="n">mV</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mV"</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> 
-                 <span class="s2">"$p_</span><span class="si">{inh}</span><span class="s2">$ = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p_inh</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    
-    
-    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    
-    <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
-             <span class="nb">max</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Membrane pot. (mV)"</span><span class="p">);</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{excitatory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{inhibitory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9 9
-7 11
-5 13
-</pre></div>
-</div>
-<img alt="../_images/2021-09-16__vary_E_vs_I_21_1.png" src="../_images/2021-09-16__vary_E_vs_I_21_1.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># v.plot_signal(d.VI_signal.slice(t_start=0, duration=1*second) / mV, time_units=ms);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">base_params</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -903,19 +756,19 @@ nptyping             1.4.2
 <div class="prev-next-bottom">
     
     <div id="prev">
-        <a class="left-prev" href="2021-11-04__control_for_output_rate.html" title="previous page">
+        <a class="left-prev" href="../about/executing_code.html" title="previous page">
             <i class="prevnext-label fas fa-angle-left"></i>
             <div class="prevnext-info">
                 <p class="prevnext-label">previous</p>
-                <p class="prevnext-title">2021-11-04 &#8226; Control for output spike rate</p>
+                <p class="prevnext-title">Executing code</p>
             </div>
         </a>
     </div>
      <div id="next">
-        <a class="right-next" href="2021-07-30__inhibitory.html" title="next page">
+        <a class="right-next" href="2021-09-16__vary_E_vs_I.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">2021-07-30 &#8226; Inhibitory connections</p>
+                <p class="prevnext-title">2021-09-27 &#8226; Vary E/I proportion</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
