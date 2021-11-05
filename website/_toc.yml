@@ -8,7 +8,6 @@
 
 - part: Notebooks
   chapters:
-    - file: notebooks/2021-11-04__control_for_output_rate
     - file: notebooks/2021-09-16__vary_E_vs_I
     - file: notebooks/2021-07-30__inhibitory
     - file: notebooks/2021-01-13__multiple_ROC
@@ -27,6 +26,7 @@
 - part: Unpolished Notebooks
   chapters:
     - file: about/unpolished_notebooks_intro
+    - file: notebooks/2021-11-04__control_for_output_rate
     - file: notebooks/2021-03-10__cond_prob
     - file: notebooks/2021-01-13__conntest_in_codebase
     - file: notebooks/2021-01-02__full_network_sim_tryout
