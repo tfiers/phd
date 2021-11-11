@@ -8,6 +8,7 @@
 
 - part: Notebooks
   chapters:
+    - file: notebooks/2021-11-11__vary_both_inh_strength_and_proportion
     - file: notebooks/2021-11-05__vary_syncond_ratio
     - file: notebooks/2021-09-16__vary_E_vs_I
     - file: notebooks/2021-07-30__inhibitory
