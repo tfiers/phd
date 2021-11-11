@@ -52,3 +52,8 @@ def reset_and_apply():
     # reverting previously set properties).
     mpl.rcParams.update(original_rcParams)
     mpl.rcParams.update(new_style)
+
+
+color_exc = "C0"
+color_inh = "C1"
+color_unconn = "C2";

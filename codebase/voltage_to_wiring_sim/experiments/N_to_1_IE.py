@@ -34,21 +34,21 @@ class Params:
 
     sim_duration: Quantity = 10 * minute
     timestep: Quantity = 0.1 * ms
-    spike_rate: Quantity = 20 * Hz
-    Δg_syn: Quantity = 0.8 * nS
     τ_syn: Quantity = 7 * ms
     neuron_params: IzhikevichParams = cortical_RS
     imaging_spike_SNR: Quantity = 20
-
-    v_syn_E: Quantity = 0 * mV
-    v_syn_I: Quantity = -70 * mV
-
+    window_duration: Quantity = 100 * ms
+    
     num_spike_trains: int = 30
-    p_inhibitory: float = 0.6
-    p_connected: float = 0.6
+    p_inhibitory: float = 0.2
+    p_connected: float = 0.7
     spike_rate: Quantity = 20 * Hz
 
-    window_duration: Quantity = 100 * ms
+    Δg_syn_exc: Quantity = 0.4 * nS
+    Δg_syn_inh: Quantity = 1.6 * nS
+
+    v_syn_exc: Quantity = 0 * mV
+    v_syn_inh: Quantity = -65 * mV
 
     rng_seed: int = 0
 
@@ -89,12 +89,13 @@ def simulate(p: Params):
 
     g_syns = []
     for i in indices_where(is_connected):
+        Δg_syn = p.Δg_syn_exc if is_excitatory[i] else p.Δg_syn_inh
         g_syn = calc_synaptic_conductance(
-            p.sim_duration, p.timestep, input_spike_trains[i], p.Δg_syn, p.τ_syn
+            p.sim_duration, p.timestep, input_spike_trains[i], Δg_syn, p.τ_syn
         )
         g_syns.append(g_syn)
 
-    v_syn = np.array([p.v_syn_I if is_inh else p.v_syn_E for is_inh in is_inhibitory])
+    v_syn = np.array([p.v_syn_inh if is_inh else p.v_syn_exc for is_inh in is_inhibitory])
     v_syn_connected = v_syn[indices_where(is_connected)]
 
     izh_output = simulate_izh_neuron(
