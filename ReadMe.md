@@ -10,7 +10,7 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 ## Installation
 
-The code is written in Python 3.8.
+The code is written in Python 3.9.
 
 <details><summary>[How to install Python and Jupyter, using 'conda']</summary>
 To setup your local machine for running this project, I recommend the <a href="https://docs.conda.io/">conda</a> package manager,
