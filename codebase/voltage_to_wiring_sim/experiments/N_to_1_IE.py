@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from random import random
 
 import numpy as np
 from numpy import ndarray
@@ -69,10 +70,10 @@ def simulate(p: Params):
     is_inhibitory = np.array([False] * p.num_spike_trains)
     #  Assumption: if not I then E, i.e. only two choices.
 
-    num_inh = round(p.p_inhibitory * p.num_spike_trains)
+    num_inh = round_stochastically(p.p_inhibitory * p.num_spike_trains)
     num_exc = p.num_spike_trains - num_inh
-    num_inh_conn = round(p.p_connected * num_inh)
-    num_exc_conn = round(p.p_connected * num_exc)
+    num_inh_conn = round_stochastically(p.p_connected * num_inh)
+    num_exc_conn = round_stochastically(p.p_connected * num_exc)
     for i in range(p.num_spike_trains):
         if i < num_inh:
             is_inhibitory[i] = True
@@ -121,6 +122,11 @@ class SimData:
     v_syn: ndarray
     izh_output: IzhikevichOutput
     VI_signal: Signal
+
+
+def round_stochastically(x: float) -> int:
+    ''' Rounds a value 4.2 up with probability 0.2 and down with prob. 0.8 '''
+    return int(x + random())
 
 
 def indices_where(bool_array):
