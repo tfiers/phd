@@ -14,7 +14,7 @@ from .support.spike_train import plot_spike_train
 from .support.plot_style import color_exc, color_inh, color_unconn
 from .support.plot_util import figsize
 from .support.scalebar import add_scalebar
-from .support.misc import fix_rng_seed
+from .support.misc import fix_rng_seed, indices_where, round_stochastically
 from .support.high_performance import cache_to_disk, run_in_parallel
 from .support.printing import pprint, bprint, time_op
 from .support.reproducibility import print_reproducibility_info

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from random import random
 
 import numpy as np
 from numpy import ndarray
@@ -25,7 +24,7 @@ from ..conntest.permutation_test import (
 from ..sim.izhikevich_neuron import IzhikevichOutput
 from ..sim.neuron_params import IzhikevichParams, cortical_RS
 from ..support import Signal
-from ..support.misc import fill_dataclass
+from ..support.misc import fill_dataclass, indices_where, round_stochastically
 from ..support.printing import with_progress_meter
 from ..support.units import Hz, Quantity, mV, minute, ms, nS
 
@@ -122,15 +121,6 @@ class SimData:
     v_syn: ndarray
     izh_output: IzhikevichOutput
     VI_signal: Signal
-
-
-def round_stochastically(x: float) -> int:
-    ''' Rounds a value 4.2 up with probability 0.2 and down with prob. 0.8 '''
-    return int(x + random())
-
-
-def indices_where(bool_array):
-    return np.nonzero(bool_array)[0]
 
 
 def test_connections(
