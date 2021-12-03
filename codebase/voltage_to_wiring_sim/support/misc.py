@@ -1,6 +1,5 @@
 import random
 from dataclasses import fields
-from random import random
 from typing import Any, Type
 
 import numpy as np
@@ -27,8 +26,13 @@ def fill_dataclass(Dataklasss: Type[SomeDataclass], lokals: dict) -> SomeDatacla
 
 def round_stochastically(x: float) -> int:
     """Rounds a value 4.2 up with probability 0.2 and down with prob. 0.8"""
-    return int(x + random())
+    return int(x + random.random())
 
 
 def indices_where(bool_array):
     return np.nonzero(bool_array)[0]
+
+
+def to_indices(times, dt):
+    """Returns a numpy int or array of ints."""
+    return np.round(np.array(times) / dt).astype(int)

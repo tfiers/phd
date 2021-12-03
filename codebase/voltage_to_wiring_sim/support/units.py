@@ -7,6 +7,8 @@
 from numpy import ndarray, number
 
 
+mega = 1e6
+kilo = 1e3
 milli = 1e-3
 micro = 1e-6
 nano = 1e-9
@@ -27,6 +29,9 @@ mV = milli * volt
 
 siemens = ampere / volt
 nS = nano * siemens
+
+ohm = 1 / siemens
+Mohm = mega * ohm
 
 coulomb = ampere * second
 farad = coulomb / volt
