@@ -9,7 +9,7 @@
 - part: Notebooks
   chapters:
     - file: notebooks/2021-12-06__local_HH_dV_shape
-    - file: notebooks/2021-12-02__comparing_neuron_models
+    - file: notebooks/2021-12-02__LIF_vs_Izh_subthreshold
     - file: notebooks/2021-11-11__vary_both_inh_strength_and_proportion
     - file: notebooks/2021-11-05__vary_syncond_ratio
     - file: notebooks/2021-09-16__vary_E_vs_I
