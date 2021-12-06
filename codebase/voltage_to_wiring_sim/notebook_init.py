@@ -124,8 +124,24 @@ from functools import partial
 # ────────────────────────────────────────────────────────────────────────────────────╯
 
 
+#
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+# Labels on lines themselves, instead of in separate legend box.
+# Quirks:
+# - Set limits before labelling lines (issue 36).
+# - The `lines` argument to `label_lines` is only used to get axis. It's not used to
+#   choose which lines will be labelled -- all lines are always labbeled.
+
+from labellines import labelLine as label_line, labelLines as label_lines
+
+# ────────────────────────────────────────────────────────────────────────────────────╯
+
+
 # Reassignment trick to stop PyCharm from complaining about unused imports:
 mpl, plt, sns, pd = mpl, plt, sns, pd
 v = v
 Quantity = Quantity
 partial = partial
+label_line, label_lines = label_line, label_lines
