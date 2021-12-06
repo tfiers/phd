@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2012-12-02 &#8226; Comparing neuron models &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-12-02 &#8226; Comparing neuron models &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -49,12 +49,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2012-12-02__comparing_neuron_models.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
     <link rel="next" title="2021-11-11 &#8226; Vary both inhibitory strength and proportion" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
-    <link rel="prev" title="Executing code" href="../about/executing_code.html">
+    <link rel="prev" title="2021-12-06 &#8226; Local shape of \(\dot{V}\) in 2D HH" href="2021-12-06__local_HH_dV_shape.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -124,9 +124,18 @@
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2012-12-02 &#8226; Comparing neuron models
+   2021-12-02 &#8226; Comparing neuron models
   </a>
  </li>
  <li class="toctree-l1">
@@ -329,7 +338,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2012-12-02__comparing_neuron_models.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -341,8 +350,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2012-12-02__comparing_neuron_models.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2012-12-02__comparing_neuron_models.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-12-02__LIF_vs_Izh_subthreshold.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -356,7 +365,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2012-12-02__comparing_neuron_models.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -411,7 +420,7 @@
               <div>
                 
   <div class="section" id="comparing-neuron-models">
-<h1>2012-12-02 &#8226; Comparing neuron models<a class="headerlink" href="#comparing-neuron-models" title="Permalink to this headline">&#182;</a></h1>
+<h1>2021-12-02 &#8226; Comparing neuron models<a class="headerlink" href="#comparing-neuron-models" title="Permalink to this headline">&#182;</a></h1>
 <p>Subthreshold behaviour of LIF vs Izhikevich.</p>
 <p>Not included: HH, AdEx.</p>
 <div class="section" id="prelude">
@@ -512,7 +521,7 @@ Uncommited changes to 7 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2012-12-02__comparing_neuron_models_6_0.png" src="../_images/2012-12-02__comparing_neuron_models_6_0.png">
+<img alt="../_images/2021-12-02__LIF_vs_Izh_subthreshold_6_0.png" src="../_images/2021-12-02__LIF_vs_Izh_subthreshold_6_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -617,7 +626,7 @@ Capacitance C and input current scaling factor were manually adjusted until the 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2012-12-02__comparing_neuron_models_14_0.png" src="../_images/2012-12-02__comparing_neuron_models_14_0.png">
+<img alt="../_images/2021-12-02__LIF_vs_Izh_subthreshold_14_0.png" src="../_images/2021-12-02__LIF_vs_Izh_subthreshold_14_0.png">
 </div>
 </div>
 <p>Related, see fitting of AdEx to HH here: <a class="reference external" href="http://www.scholarpedia.org/article/Adaptive_exponential_integrate-and-fire_model#Relation_to_other_models">http://www.scholarpedia.org/article/Adaptive_exponential_integrate-and-fire_model#Relation_to_other_models</a>.<br>
@@ -855,11 +864,11 @@ nptyping             1.4.2
         
             <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="../about/executing_code.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="2021-12-06__local_HH_dV_shape.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Executing code</p>
+            <p class="prev-next-title">2021-12-06 &#8226; Local shape of <span class="math notranslate nohighlight">\(\dot{V}\)</span> in 2D HH</p>
         </div>
     </a>
     <a class="right-next" id="next-link" href="2021-11-11__vary_both_inh_strength_and_proportion.html" title="next page">
