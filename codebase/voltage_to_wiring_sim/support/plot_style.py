@@ -27,6 +27,7 @@ paint = {
     "xtick.major.pad": 0.5,
     "ytick.major.pad": 0.5,
     "lines.solid_capstyle": "round",
+    "mathtext.fontset": "dejavuserif",
 }
 
 
