@@ -406,6 +406,16 @@
     \(dV/dt\)
    </span>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izhikevich-s-dv-dt">
+     Izhikevich&#8217;s
+     <span class="math notranslate nohighlight">
+      \(dV/dt\)
+     </span>
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#input-current-i">
@@ -583,6 +593,33 @@ C \dot{V} = k \left( -(V - V_r) + &#916;_T e^{(V - V_{rh}) / &#916;_T} \right) -
 C \dot{V} = k (V - V_r) (V - V_t) - w + I
 \]</div>
 <p>(<span class="math notranslate nohighlight">\(w\)</span> is Izhikevich&#8217;s <span class="math notranslate nohighlight">\(u\)</span>, is the 2D HH model&#8217;s <span class="math notranslate nohighlight">\(n\)</span>).</p>
+<div class="section" id="izhikevich-s-dv-dt">
+<h3>Izhikevich&#8217;s <span class="math notranslate nohighlight">\(dV/dt\)</span><a class="headerlink" href="#izhikevich-s-dv-dt" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="mi">1250</span> <span class="o">*</span> <span class="n">pF</span>       <span class="c1"># 100 pF</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
+<span class="n">V_r</span> <span class="o">=</span> <span class="o">-</span><span class="mf">54.4</span> <span class="o">*</span> <span class="n">mV</span>   <span class="c1"># -65 mV</span>
+<span class="n">V_t</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">mV</span>      <span class="c1"># -40 mV</span>
+
+<span class="n">dV_dt_Izh</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">))</span> <span class="o">/</span> <span class="n">C</span>
+
+<span class="n">ax</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">make_V_dV_ax</span><span class="p">(</span><span class="n">V_max</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="n">mV</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">dV_dt_Izh</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Izhikevich"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">dV_dt</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"HH 2D"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.7</span><span class="p">,</span> <span class="mf">4.9</span><span class="p">)</span>
+<span class="n">label_lines</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">xvals</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">88</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span> <span class="n">outline_width</span><span class="o">=</span><span class="mi">7</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_20_0.png" src="../_images/2021-12-06__local_HH_dV_shape_20_0.png">
+</div>
+</div>
+<p>The parabola&#8217;s zeros (<span class="math notranslate nohighlight">\(V_r\)</span> and <span class="math notranslate nohighlight">\(V_t\)</span>) were chosen to match those of the 2D Hodgkin-Huxley model.<br>
+The capacitance <span class="math notranslate nohighlight">\(C\)</span> was chosen so that the slopes of the two models approximately matche at the resting potential.</p>
+</div>
 </div>
 <div class="section" id="input-current-i">
 <h2>Input current <span class="math notranslate nohighlight">\(I\)</span><a class="headerlink" href="#input-current-i" title="Permalink to this headline">&#182;</a></h2>
@@ -599,7 +636,7 @@ C \dot{V} = k (V - V_r) (V - V_t) - w + I
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-06__local_HH_dV_shape_20_0.png" src="../_images/2021-12-06__local_HH_dV_shape_20_0.png">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_23_0.png" src="../_images/2021-12-06__local_HH_dV_shape_23_0.png">
 </div>
 </div>
 <p>Negative input current &#8594; lower stable node aka resting potential.</p>
@@ -622,7 +659,7 @@ C \dot{V} = k (V - V_r) (V - V_t) - w + I
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-06__local_HH_dV_shape_23_0.png" src="../_images/2021-12-06__local_HH_dV_shape_23_0.png">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_26_0.png" src="../_images/2021-12-06__local_HH_dV_shape_26_0.png">
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(n &#8712; (0, 1)\)</span> (it is a gating variable).</p>
@@ -644,7 +681,7 @@ C \dot{V} = k (V - V_r) (V - V_t) - w + I
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-06__local_HH_dV_shape_25_0.png" src="../_images/2021-12-06__local_HH_dV_shape_25_0.png">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_28_0.png" src="../_images/2021-12-06__local_HH_dV_shape_28_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -661,7 +698,7 @@ C \dot{V} = k (V - V_r) (V - V_t) - w + I
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-06__local_HH_dV_shape_26_0.png" src="../_images/2021-12-06__local_HH_dV_shape_26_0.png">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_29_0.png" src="../_images/2021-12-06__local_HH_dV_shape_29_0.png">
 </div>
 </div>
 </div>
@@ -725,7 +762,7 @@ C \dot{V} = k (V - V_r) (V - V_t) - w + I
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-06__local_HH_dV_shape_29_0.png" src="../_images/2021-12-06__local_HH_dV_shape_29_0.png">
+<img alt="../_images/2021-12-06__local_HH_dV_shape_32_0.png" src="../_images/2021-12-06__local_HH_dV_shape_32_0.png">
 </div>
 </div>
 <p>We cannot yet simulate spikes: forward Euler is not stable enough for that (even at <span class="math notranslate nohighlight">\(&#916;t = 0.001\)</span> ms).<br>
