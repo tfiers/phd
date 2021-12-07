@@ -130,7 +130,9 @@ from functools import partial
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
 # Labels on lines themselves, instead of in separate legend box.
 # Quirks:
-# - Set limits before labelling lines (issue 36).
+# - Set limits *before* labelling lines (issue 36).
+#   Also, an xlim or ylim call is required for rotations to be correct, even if just
+#   `ax.set_xlim()`.
 # - The `lines` argument to `label_lines` is only used to get axis. It's not used to
 #   choose which lines will be labelled -- all lines are always labbeled.
 
