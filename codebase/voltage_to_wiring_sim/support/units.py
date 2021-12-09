@@ -24,6 +24,8 @@ Hz = 1 / second
 metre = meter = 1
 cm = centi * metre
 mm = milli * metre
+μm = um = micro * metre
+nm = nano * metre
 
 ampere = 1
 uA = μA = micro * ampere

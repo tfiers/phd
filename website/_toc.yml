@@ -8,6 +8,7 @@
 
 - part: Notebooks
   chapters:
+    - file: notebooks/2021-12-08__biology_vs_Izh_subhtr
     - file: notebooks/2021-12-06__local_HH_dV_shape
     - file: notebooks/2021-12-02__LIF_vs_Izh_subthreshold
     - file: notebooks/2021-11-11__vary_both_inh_strength_and_proportion
@@ -30,6 +31,7 @@
 - part: Unpolished Notebooks
   chapters:
     - file: about/unpolished_notebooks_intro
+    - file: notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape
     - file: notebooks/2021-11-04__control_for_output_rate
     - file: notebooks/2021-03-10__cond_prob
     - file: notebooks/2021-01-13__conntest_in_codebase

@@ -12,7 +12,12 @@ from .conntest.STA import calculate_STA, plot_STA
 from .support.signal import Signal, plot_signal
 from .support.spike_train import plot_spike_train
 from .support.plot_style import color_exc, color_inh, color_unconn
-from .support.plot_util import figsize
+from .support.plot_util import (
+    figsize,
+    horizontal_ylabel,
+    ylabel_inside,
+    add_reordered_legend,
+)
 from .support.scalebar import add_scalebar
 from .support.misc import fix_rng_seed, indices_where, round_stochastically, to_indices
 from .support.high_performance import cache_to_disk, run_in_parallel
