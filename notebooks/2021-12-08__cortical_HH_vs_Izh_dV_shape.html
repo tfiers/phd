@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2021-12-02 &#8226; LIF vs Izhikevich subthreshold &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-12-08 &#8226; Cortical params for Hodgkin-Huxley &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -42,6 +42,8 @@
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
     <script>
         const thebe_selector = ".thebe"
@@ -49,12 +51,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-11-11 &#8226; Vary both inhibitory strength and proportion" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
-    <link rel="prev" title="2021-12-06 &#8226; Local shape of \(\dot{V}\) in 2D HH" href="2021-12-06__local_HH_dV_shape.html">
+    <link rel="next" title="2021-11-04 &#8226; Control for output spike rate" href="2021-11-04__control_for_output_rate.html">
+    <link rel="prev" title="Intro" href="../about/unpolished_notebooks_intro.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -123,7 +125,7 @@
   Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
    2021-12-08 &#8226; Biology vs Izhikevich subthreshold
@@ -138,8 +140,8 @@
    in 2D HH
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
    2021-12-02 &#8226; LIF vs Izhikevich subthreshold
   </a>
  </li>
@@ -240,14 +242,14 @@
   Unpolished Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../about/unpolished_notebooks_intro.html">
    Intro
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
   </a>
  </li>
@@ -348,7 +350,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -360,8 +362,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-12-02__LIF_vs_Izh_subthreshold.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -375,7 +377,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -399,23 +401,48 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#input">
-   Input
+  <a class="reference internal nav-link" href="#params">
+   Params
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#leaky-integrate-and-fire">
-   Leaky integrate and fire
+  <a class="reference internal nav-link" href="#simplified-hodgkin-huxley-model">
+   Simplified Hodgkin-Huxley model
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#izhikevich">
-   Izhikevich
+  <a class="reference internal nav-link" href="#dv-dt">
+   <span class="math notranslate nohighlight">
+    \(dV/dt\)
+   </span>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izhikevich-s-dv-dt">
+     Izhikevich&#8217;s
+     <span class="math notranslate nohighlight">
+      \(dV/dt\)
+     </span>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#slow-current-gating-variable-n">
+   Slow current gating variable
+   <span class="math notranslate nohighlight">
+    \(n\)
+   </span>
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot">
-   Plot
+  <a class="reference internal nav-link" href="#simulation">
+   Simulation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   ..
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -434,10 +461,9 @@
         
               <div>
                 
-  <div class="section" id="lif-vs-izhikevich-subthreshold">
-<h1>2021-12-02 &#8226; LIF vs Izhikevich subthreshold<a class="headerlink" href="#lif-vs-izhikevich-subthreshold" title="Permalink to this headline">&#182;</a></h1>
-<p>Comparing neuron models: subthreshold behaviour of leaky integrate and fire vs Izhikevich neuron.</p>
-<p>Not included: HH, AdEx.</p>
+  <div class="section" id="cortical-params-for-hodgkin-huxley">
+<h1>2021-12-08 &#8226; Cortical params for Hodgkin-Huxley<a class="headerlink" href="#cortical-params-for-hodgkin-huxley" title="Permalink to this headline">&#182;</a></h1>
+<p>This is as <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html"><span class="doc">2021-12-06 &#8226; Local shape of \dot{V} in 2D HH</span></a>, but with params for HH model not for squid giant axon but a coritcal RS neuron. Most saliently, the firing threshold is way lower, closer to reality and to Izhikevich cortical RS.</p>
 <div class="section" id="prelude">
 <h2>[Prelude]<a class="headerlink" href="#prelude" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -464,167 +490,292 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 09 Dec</strong> 2021, at 04:08 (UTC+0000).<br>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Wed 08 Dec</strong> 2021, at 20:00 (UTC+0000).<br>
 <a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/1119d931cf1ed9ff93d8a6c72ea030f1df584b9f">Last git commit</a> (Tue 07 Dec 2021, 03:59).
-Uncommited changes to 10 files.</p>
+Uncommited changes to 5 files.</p>
 </div>
 </div>
 </div>
-<div class="section" id="input">
-<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
+<p>Params from <a class="reference external" href="https://neuronaldynamics.epfl.ch/online/Ch2.S2.html">Ch 2.2</a> of the epfl book.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.test_current</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">&#956;F</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">E_K</span> <span class="o">=</span> <span class="o">-</span><span class="mi">77</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">E_Na</span> <span class="o">=</span> <span class="mi">55</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">E_L</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">g_K</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">*</span> <span class="p">(</span><span class="n">mS</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">g_Na</span> <span class="o">=</span> <span class="mi">40</span> <span class="o">*</span> <span class="p">(</span><span class="n">mS</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">g_L</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="p">(</span><span class="n">mS</span> <span class="o">/</span> <span class="n">cm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">&#945;_m</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="mf">0.182</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span> <span class="o">+</span> <span class="mi">35</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mi">35</span><span class="o">-</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span><span class="o">/</span><span class="mi">9</span><span class="p">))</span> <span class="o">/</span> <span class="n">ms</span>
+<span class="n">&#946;_m</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.124</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span> <span class="o">+</span> <span class="mi">35</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span><span class="o">+</span><span class="mi">35</span><span class="p">)</span><span class="o">/</span><span class="mi">9</span><span class="p">))</span> <span class="o">/</span> <span class="n">ms</span>
+<span class="n">m_inf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="n">&#945;_m</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">&#945;_m</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="n">&#946;_m</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+
+<span class="n">&#945;_n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="mf">0.02</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span> <span class="o">-</span> <span class="mi">25</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="mi">25</span><span class="o">-</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span><span class="o">/</span><span class="mi">9</span><span class="p">))</span> <span class="o">/</span> <span class="n">ms</span>
+<span class="n">&#946;_n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.002</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span> <span class="o">-</span> <span class="mi">25</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">V</span><span class="o">/</span><span class="n">mV</span><span class="o">-</span><span class="mi">25</span><span class="p">)</span><span class="o">/</span><span class="mi">9</span><span class="p">))</span> <span class="o">/</span> <span class="n">ms</span>
+<span class="n">n_inf</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="n">&#945;_n</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">&#945;_n</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="n">&#946;_n</span><span class="p">(</span><span class="n">V</span><span class="p">))</span>
+<span class="n">&#964;_n</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">&#945;_n</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">+</span> <span class="n">&#946;_n</span><span class="p">(</span><span class="n">V</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="simplified-hodgkin-huxley-model">
+<h2>Simplified Hodgkin-Huxley model<a class="headerlink" href="#simplified-hodgkin-huxley-model" title="Permalink to this headline">&#182;</a></h2>
+<p>With <span class="math notranslate nohighlight">\(&#964;_m = 0\)</span> and <span class="math notranslate nohighlight">\(n(t) \propto h(t)\)</span>, the 4D system is reduced to just 2D.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">h</span>     <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span>        <span class="mf">0.89</span> <span class="o">-</span> <span class="mf">1.1</span> <span class="o">*</span> <span class="n">n</span>
+
+<span class="n">I_K</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span>     <span class="o">-</span> <span class="n">g_K</span> <span class="o">*</span> <span class="n">n</span><span class="o">**</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E_K</span><span class="p">)</span>
+<span class="n">I_Na</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span>     <span class="o">-</span> <span class="n">g_Na</span> <span class="o">*</span> <span class="n">m_inf</span><span class="p">(</span><span class="n">V</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E_Na</span><span class="p">)</span>
+<span class="n">I_L</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span>        <span class="o">-</span> <span class="n">g_L</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E_L</span><span class="p">)</span>
+<span class="n">I_tot</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">I</span><span class="p">:</span>  <span class="n">I</span> <span class="o">+</span> <span class="n">I_K</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">I_Na</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">I_L</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="n">dV_dt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">I</span><span class="p">:</span>  <span class="n">I_tot</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">I</span><span class="p">)</span> <span class="o">/</span> <span class="n">c</span>
+
+<span class="n">dn_dt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span>     <span class="p">(</span><span class="n">n_inf</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">&#964;_n</span><span class="p">(</span><span class="n">V</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The equation for <span class="math notranslate nohighlight">\(\dot{n}\)</span> is only used in the simulation at the end. The other sections all analyse <span class="math notranslate nohighlight">\(\dot{V}\)</span> independently from <span class="math notranslate nohighlight">\(\dot{n}\)</span>.</p>
+</div>
+<div class="section" id="dv-dt">
+<h2><span class="math notranslate nohighlight">\(dV/dt\)</span><a class="headerlink" href="#dv-dt" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">horizontal_ylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">dx</span><span class="o">=-</span><span class="mi">6</span><span class="p">,</span> <span class="n">dy</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"right"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bg_pad</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">**</span><span class="n">text_kwargs</span><span class="p">):</span>
+    <span class="sd">""" dx and dy are in points, i.e. 1/72th of an inch. """</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ScaledTranslation</span><span class="p">(</span><span class="n">dx</span><span class="o">/</span><span class="mi">72</span><span class="p">,</span> <span class="n">dy</span><span class="o">/</span><span class="mi">72</span><span class="p">,</span> <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="p">)</span>
+    <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">get_facecolor</span><span class="p">(),</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">boxstyle</span><span class="o">=</span><span class="sa">f</span><span class="s1">'square,pad=</span><span class="si">{</span><span class="n">bg_pad</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span> <span class="o">+</span> <span class="n">offset</span><span class="p">,</span>
+                   <span class="n">ha</span><span class="o">=</span><span class="n">ha</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span> <span class="n">bbox</span><span class="o">=</span><span class="n">bbox</span><span class="p">,</span> <span class="o">**</span><span class="n">text_kwargs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
-<span class="n">duration</span> <span class="o">=</span> <span class="mi">1700</span> <span class="o">*</span> <span class="n">ms</span>
-
-<span class="n">timesteps</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to_indices</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-
-<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">timesteps</span><span class="p">)</span>
-
-<span class="n">Q</span> <span class="o">=</span> <span class="mf">0.157</span> <span class="o">*</span> <span class="n">nA</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">ms</span>
-
-<span class="n">T</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">ms</span>
-<span class="n">&#964;</span><span class="o">=</span><span class="mi">10</span><span class="o">*</span><span class="n">ms</span>
-<span class="n">add_&#948;</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">t_&#948;_up</span> <span class="o">:=</span> <span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">),</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_&#948;</span><span class="p">(</span><span class="o">-</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">t_&#948;_down</span> <span class="o">:=</span> <span class="mi">200</span><span class="o">*</span><span class="n">ms</span><span class="p">),</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="o">-</span><span class="n">Q</span><span class="p">,</span> <span class="mi">450</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">600</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">750</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
-<span class="n">add_plateau</span><span class="p">(</span><span class="mi">9</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">900</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_ramp</span><span class="p">(</span><span class="mi">6</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1200</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1500</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1530</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1560</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-
-<span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.38</span><span class="p">);</span>
-
-<span class="c1"># fig, ax = plt.subplots(**v.figsize(aspect=5, width=1000))</span>
-<span class="c1"># t = np.linspace(0, duration/ms, timesteps, False)</span>
-<span class="c1"># plot_test_current(ax, t, I/nA, ylims)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="leaky-integrate-and-fire">
-<h2>Leaky integrate and fire<a class="headerlink" href="#leaky-integrate-and-fire" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pF</span><span class="p">;</span>  <span class="c1"># from Izh cortical RS.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_V_dV_ax</span><span class="p">(</span><span class="n">V_min</span><span class="o">=-</span><span class="mi">77</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span> <span class="n">V_max</span><span class="o">=-</span><span class="mi">52</span><span class="o">*</span><span class="n">mV</span><span class="p">):</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'k'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"$V$ (mV)"</span><span class="p">)</span>
+    <span class="n">horizontal_ylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"$\dot</span><span class="si">{V}</span><span class="s2">$ (mV/mS)"</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">V_min</span><span class="p">,</span> <span class="n">V_max</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span><span class="p">,</span> <span class="n">V</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_LIF</span><span class="p">(</span><span class="n">I</span><span class="p">):</span>
-    <span class="n">V_L</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="o">*</span> <span class="n">mV</span>
-    <span class="n">V_th</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="o">*</span> <span class="n">mV</span>
-    <span class="n">V_peak</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c1"># just for plotting</span>
-    <span class="n">V_reset</span> <span class="o">=</span> <span class="n">V_L</span>
-    <span class="n">V0</span> <span class="o">=</span> <span class="n">V_reset</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">Mohm</span>  <span class="c1"># from Izhikevich book: Cortical RS section.</span>
-    <span class="c1"># &#964; = 15 * ms  # = CR</span>
-
-    <span class="n">N</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">size</span>
-    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">V0</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-
-        <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">((</span><span class="n">V_L</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">R</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">C</span>
-
-        <span class="k">if</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">V_th</span><span class="p">:</span>
-            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_peak</span>
-            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_reset</span>
-
-    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-
-<span class="n">V_LIF</span> <span class="o">=</span> <span class="n">sim_LIF</span><span class="p">(</span><span class="n">I</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">dV_dt</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">I</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="izhikevich">
-<h2>Izhikevich<a class="headerlink" href="#izhikevich" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nS</span>
-<span class="n">V_r</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="o">*</span> <span class="n">mV</span>
-<span class="n">V_t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="o">*</span> <span class="n">mV</span>
-<span class="n">V_peak</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">*</span> <span class="n">mV</span>
-<span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span>
-<span class="n">d</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pA</span>
-
-<span class="k">def</span> <span class="nf">sim_Izh</span><span class="p">(</span><span class="n">I</span><span class="p">):</span>
-    
-    <span class="n">N</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">size</span>
-    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_r</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-        
-        <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">C</span>
-        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        
-        <span class="k">if</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">V_peak</span><span class="p">:</span>
-            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_peak</span>
-            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
-            <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">d</span>
-    
-    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
-
-<span class="n">V_Izh</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">sim_Izh</span><span class="p">(</span><span class="n">I</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Parameters from Izhikevich book: cortical regular spiking neuron.</p>
-</div>
-<div class="section" id="plot">
-<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                        <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span>
-                        <span class="n">gridspec_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]))</span>
-
-<span class="n">ax_Izh</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">ax_I_Izh</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ax_LIF</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="n">ax_I</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="n">timesteps</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">ax_LIF</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">)</span>
-<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"LIF"</span><span class="p">)</span>
-<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_Izh</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Izhikevich"</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">add_reordered_legend</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">)</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$k(V-V_r)(V-V_t)$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C2"</span><span class="p">)</span>
-<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">u</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$u$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">);</span>
-<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plot_test_current</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="o">/</span><span class="n">nA</span><span class="p">,</span> <span class="n">ylims</span><span class="p">,</span> <span class="n">y&#948;</span><span class="o">=</span><span class="mf">0.82</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_LIF</span><span class="p">,</span> <span class="s2">"LIF membrane voltage (mV)"</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="s2">"Membrane voltage $V$ (mV)"</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I_Izh</span><span class="p">,</span> <span class="s2">"Izhikevich membrane currents (nA)"</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I</span><span class="p">,</span> <span class="s2">"Input current $I$ (nA)"</span><span class="p">,</span> <span class="n">ylim_shift</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-<span class="n">ax_LIF</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">duration</span><span class="o">/</span><span class="n">ms</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">make_V_dV_ax</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-12-02__LIF_vs_Izh_subthreshold_15_0.png" src="../_images/2021-12-02__LIF_vs_Izh_subthreshold_15_0.png">
+<img alt="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_16_0.png" src="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_16_0.png">
 </div>
 </div>
+<div class="section" id="izhikevich-s-dv-dt">
+<h3>Izhikevich&#8217;s <span class="math notranslate nohighlight">\(dV/dt\)</span><a class="headerlink" href="#izhikevich-s-dv-dt" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">newton</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="mf">22.5</span> <span class="o">*</span> <span class="n">pF</span>       <span class="c1"># 100 pF</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
+
+<span class="n">V_r</span><span class="p">,</span> <span class="n">V_t</span> <span class="o">=</span> <span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">70</span><span class="o">*</span><span class="n">mV</span><span class="p">,</span> <span class="o">-</span><span class="mi">55</span><span class="o">*</span><span class="n">mV</span><span class="p">])</span>
+
+<span class="n">dV_dt_Izh</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">V</span><span class="p">:</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">))</span> <span class="o">/</span> <span class="n">C</span>
+
+<span class="n">ax</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">make_V_dV_ax</span><span class="p">()</span>
+<span class="c1"># ax, V = make_V_dV_ax(V_r-0.1*mV, V_r+0.1*mV)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">dV_dt_Izh</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Izhikevich"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"HH 2D"</span><span class="p">)</span>
+<span class="c1"># ax.set_xlim(-100, 20)</span>
+<span class="c1"># ax.set_ylim(-1.7, 4.9)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">()</span>
+<span class="c1"># label_lines(ax.lines, xvals=[-88, -18], outline_width=7);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_19_0.png" src="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_19_0.png">
+</div>
+</div>
+<p>The parabola&#8217;s zeros (<span class="math notranslate nohighlight">\(V_r\)</span> and <span class="math notranslate nohighlight">\(V_t\)</span>) were chosen to match those of the 2D Hodgkin-Huxley model.<br>
+The capacitance <span class="math notranslate nohighlight">\(C\)</span> was chosen so that the slopes of the two models approximately match at the resting potential.</p>
+</div>
+</div>
+<div class="section" id="slow-current-gating-variable-n">
+<h2>Slow current gating variable <span class="math notranslate nohighlight">\(n\)</span><a class="headerlink" href="#slow-current-gating-variable-n" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">make_V_dV_ax</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">dV_dt</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">I</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">mV</span> <span class="o">/</span> <span class="n">ms</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"$n = </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="n">label_lines</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">lines</span><span class="p">);</span>  <span class="c1"># labels after lims, so rotations are correct (issue 36)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_22_0.png" src="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_22_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">n_inf</span><span class="p">(</span><span class="n">V_r</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00023997233576810773
+</pre></div>
+</div>
+</div>
+</div>
+<p>Neuron spikes without input current, that ain&#8217;t right.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I_Na</span><span class="p">(</span><span class="n">V_r</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.505099801252533e-07
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I_K</span><span class="p">(</span><span class="n">V_r</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-1.775847400062642e-05
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">I_L</span><span class="p">(</span><span class="n">V_r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.7207964020501135e-05
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="simulation">
+<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">&#182;</a></h2>
+<p>Time</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">second</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">500</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">&#916;t</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">ms</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">duration</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">ms</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Input</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.signal.windows</span> <span class="kn">import</span> <span class="n">gaussian</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="mi">400</span> <span class="o">*</span> <span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">&#963;</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">M</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">&#963;</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">&#963;</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span> <span class="o">/</span> <span class="n">M</span><span class="p">,</span> <span class="s2">"same"</span><span class="p">);</span>  <span class="c1"># local weighted average, to smooth</span>
+
+<span class="c1"># I = np.ones(N) * 0 * nA/mm**2;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>ODE integration</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_r</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dV_dt</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">&#916;t</span>
+    <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dn_dt</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">&#916;t</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nrows</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ylabel_inside</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">horizontal_ylabel</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">bg_pad</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">)</span>
+<span class="n">ylabel_inside</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"Membrane voltage $V$ (mV)"</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="c1"># axs[1].set_ylim(bottom=0)</span>
+<span class="n">ylabel_inside</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"Slow current gating variable $n$"</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I_K</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$I_</span><span class="si">{K}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I_Na</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$I_</span><span class="si">{Na}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I_L</span><span class="p">(</span><span class="n">V</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$I_</span><span class="si">{L}</span><span class="s2">$"</span><span class="p">)</span>
+<span class="c1"># axs[2].set_ylim(-32, 32)</span>
+<span class="n">ylabel_inside</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"Membrane currents (nA/mm&#178;)"</span><span class="p">)</span>
+<span class="n">label_lines</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">lines</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span> <span class="o">/</span> <span class="p">(</span><span class="n">nA</span><span class="o">/</span><span class="n">mm</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ylabel_inside</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="s2">"Input current $I$ (nA/mm&#178;)"</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_35_0.png" src="../_images/2021-12-08__cortical_HH_vs_Izh_dV_shape_35_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>..<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
+<p>Eh. I&#8217;d have to use full HH equations, not 2D approx.<br>
+Params not from epfl book guess, but eg from <a class="reference external" href="https://brian2.readthedocs.io/en/stable/examples/COBAHH.html">https://brian2.readthedocs.io/en/stable/examples/COBAHH.html</a> . (that&#8217;s.. hippocampal pyramidal? (Traub ref).</p>
+<p>I just want to know how &#8216;wrong&#8217; Izhikevich is compared to reality.<br>
+Let&#8217;s reproduce dV curve from Badel 2008, fig 2 B&amp;C.<br>
+(fig 2 is for cortical neuron, fig 1 for something else).</p>
+<p>See new notebook.</p>
 </div>
 <div class="section" id="reproducibility">
 <h2>[Reproducibility]<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
@@ -635,19 +786,12 @@ Uncommited changes to 10 files.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code><br>on <strong>Thu 09 Dec</strong> 2021, at 04:11 (UTC+0000).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/1119d931cf1ed9ff93d8a6c72ea030f1df584b9f">Last git commit</a> (Tue 07 Dec 2021, 03:59).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code><br>on <strong>Tue 07 Dec</strong> 2021, at 02:33 (UTC+0000).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/07777f4c6e003722f8d60533c3d2f50d9c50d3b0">Last git commit</a> (Mon 06 Dec 2021, 20:02).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M codebase/voltage_to_wiring_sim/__init__.py
- M codebase/voltage_to_wiring_sim/support/plot_util.py
-AM codebase/voltage_to_wiring_sim/support/test_current.py
- M codebase/voltage_to_wiring_sim/support/units.py
- M notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb
- M notebooks/2021-12-06__local_HH_dV_shape.ipynb
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M notebooks/2021-12-06__local_HH_dV_shape.ipynb
 ?? notebooks/2021-11-18__constant_input_spikes.ipynb
 ?? notebooks/2021-11-18__prototype_new_sim.ipynb
-?? notebooks/2021-12-08__Izh_subthreshold_nonlinear.ipynb
-?? notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.ipynb
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -868,17 +1012,17 @@ nptyping             1.4.2
         
             <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2021-12-06__local_HH_dV_shape.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../about/unpolished_notebooks_intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2021-12-06 &#8226; Local shape of <span class="math notranslate nohighlight">\(\dot{V}\)</span> in 2D HH</p>
+            <p class="prev-next-title">Intro</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2021-11-11__vary_both_inh_strength_and_proportion.html" title="next page">
+    <a class="right-next" id="next-link" href="2021-11-04__control_for_output_rate.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2021-11-11 &#8226; Vary both inhibitory strength and proportion</p>
+        <p class="prev-next-title">2021-11-04 &#8226; Control for output spike rate</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
