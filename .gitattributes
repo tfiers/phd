@@ -7,4 +7,4 @@
 # newly added files.
 * text=auto eol=lf
 
-*.ipynb  binary
+# *.ipynb  binary
