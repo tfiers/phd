@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2021-09-27 &#8226; Vary E/I proportion &#8212; Voltage-to-Wiring Sim</title>
+    <title>2021-11-18 &#8226; Constant input spikes &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -49,12 +49,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-09-16__vary_E_vs_I.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/notebooks/2021-11-18__constant_input_spikes.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-07-30 &#8226; Inhibitory connections" href="2021-07-30__inhibitory.html">
-    <link rel="prev" title="2021-11-05 &#8226; Vary I/E synaptic conductances" href="2021-11-05__vary_syncond_ratio.html">
+    <link rel="next" title="2021-12-08 &#8226; Cortical params for Hodgkin-Huxley" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+    <link rel="prev" title="2021-11-18 &#8226; Prototype new sim" href="2021-11-18__prototype_new_sim.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -123,7 +123,7 @@
   Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
    2021-12-08 &#8226; Biology vs Izhikevich subthreshold
@@ -153,8 +153,8 @@
    2021-11-05 &#8226; Vary I/E synaptic conductances
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
    2021-09-27 &#8226; Vary E/I proportion
   </a>
  </li>
@@ -240,7 +240,7 @@
   Unpolished Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../about/unpolished_notebooks_intro.html">
    Intro
@@ -256,8 +256,8 @@
    2021-11-18 &#8226; Prototype new sim
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2021-11-18 &#8226; Constant input spikes
   </a>
  </li>
@@ -363,7 +363,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/notebooks/2021-11-18__constant_input_spikes.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -375,8 +375,8 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-09-16__vary_E_vs_I.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnotebooks/2021-11-18__constant_input_spikes.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/notebooks/2021-11-18__constant_input_spikes.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -390,7 +390,7 @@
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-09-16__vary_E_vs_I.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/notebooks/2021-11-18__constant_input_spikes.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -414,13 +414,18 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-simulation-connection-tests">
-   Run simulation &amp; connection tests
+  <a class="reference internal nav-link" href="#calculate">
+   Calculate
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inspect-some-regimes">
-   Inspect some regimes
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inspect-signals">
+   Inspect signals
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -438,7 +443,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2021-09-27 &#8226; Vary E/I proportion</h1>
+                <h1>2021-11-18 &#8226; Constant input spikes</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -454,13 +459,18 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-simulation-connection-tests">
-   Run simulation &amp; connection tests
+  <a class="reference internal nav-link" href="#calculate">
+   Calculate
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#inspect-some-regimes">
-   Inspect some regimes
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inspect-signals">
+   Inspect signals
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -477,10 +487,9 @@
             
               <div>
                 
-  <div class="section" id="vary-e-i-proportion">
-<h1>2021-09-27 &#8226; Vary E/I proportion<a class="headerlink" href="#vary-e-i-proportion" title="Permalink to this headline">&#182;</a></h1>
-<p>Previously we just plotted STA&#8217;s of inhibitory inputs. Now we measure the STA height, and compare it to the STA height of shuffled input spike trains.</p>
-<p>Then we calculate separate true positive rates for inhibitory and excitatory connections, and we do this for a range of p_inhibitory.</p>
+  <div class="section" id="constant-input-spikes">
+<h1>2021-11-18 &#8226; Constant input spikes<a class="headerlink" href="#constant-input-spikes" title="Permalink to this headline">&#182;</a></h1>
+<p>But vary tradeoff between number of inputs and each input&#8217;s spike rate.</p>
 <div class="section" id="prelude">
 <h2>Prelude<a class="headerlink" href="#prelude" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -507,24 +516,25 @@ Setup autoreload
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 04 Nov</strong> 2021, at 16:30 (UTC+0000).<br>
-<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/71637992b59f3ebc80b1121e0ed1542855e1a1ef">Last git commit</a> (Wed 03 Nov 2021, 20:11).
-Uncommited changes to 6 files.</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 18 Nov</strong> 2021, at 18:48 (UTC+0000).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/6034551337c7993a872386a1e0f0278f87fa57e9">Last git commit</a> (Thu 18 Nov 2021, 17:05).
+Uncommited changes to 3 files.</p>
 </div>
 </div>
 </div>
-<div class="section" id="run-simulation-connection-tests">
-<h2>Run simulation &amp; connection tests<a class="headerlink" href="#run-simulation-connection-tests" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="calculate">
+<h2>Calculate<a class="headerlink" href="#calculate" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">indices_where</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.experiments.N_to_1_IE</span> <span class="kn">import</span> <span class="n">Params</span><span class="p">,</span> <span class="n">simulate_and_test_connections</span><span class="p">,</span> <span class="n">eval_performance</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">Params</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_params</span> <span class="o">=</span> <span class="n">Params</span><span class="p">()</span>
+<span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">base_params</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -533,17 +543,18 @@ Uncommited changes to 6 files.</p>
 ------
      sim_duration = 600
          timestep = 0.0001
-       spike_rate = 20
-           &#916;g_syn = 8E-10
             &#964;_syn = 0.007
     neuron_params = {'C': 1e-10, 'a': 30.0, 'b': -2e-09, 'c': -0.05, ...}
 imaging_spike_SNR = 20
-          v_syn_E = 0
-          v_syn_I = -0.07
- num_spike_trains = 30
-     p_inhibitory = 0.6
-      p_connected = 0.6
   window_duration = 0.1
+ num_spike_trains = 30
+     p_inhibitory = 0.2
+      p_connected = 0.7
+       spike_rate = 20
+       &#916;g_syn_exc = 4E-10
+       &#916;g_syn_inh = 1.6E-09
+        v_syn_exc = 0
+        v_syn_inh = -0.065
          rng_seed = 0
 </pre></div>
 </div>
@@ -551,28 +562,17 @@ imaging_spike_SNR = 20
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification</span> <span class="kn">import</span> <span class="n">apply_threshold</span>
-<span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.conntest.classification_IE</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">calc_AUCs</span><span class="p">,</span>
-    <span class="n">evaluate_classification</span><span class="p">,</span>
-    <span class="n">sweep_threshold</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="nd">@v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="s2">"2021-09-16__vary_E_vs_I"</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">sim_and_test_and_eval_performance</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
-    <span class="n">d</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">simulate_and_test_connections</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-
-    <span class="c1"># Eval at fixed p_value threshold</span>
-    <span class="n">is_classified_as_connected</span> <span class="o">=</span> <span class="n">apply_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">p_value_threshold</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">evalu</span> <span class="o">=</span> <span class="n">evaluate_classification</span><span class="p">(</span>
-        <span class="n">is_classified_as_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Eval at all p_value thresholds</span>
-    <span class="n">thr_sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">test_summaries</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span><span class="p">)</span>
-    <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span> <span class="o">=</span> <span class="n">calc_AUCs</span><span class="p">(</span><span class="n">thr_sweep</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">evalu</span><span class="o">.</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">evalu</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="s2">"2021-11-18__constant_input_spikes"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sim_test_eval</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Params</span><span class="p">):</span>
+    
+    <span class="n">sim_data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">test_summaries</span> <span class="o">=</span> <span class="n">simulate_and_test_connections</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">evalu_p_0_05</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span> <span class="o">=</span> <span class="n">eval_performance</span><span class="p">(</span><span class="n">sim_data</span><span class="p">,</span> <span class="n">test_summaries</span><span class="p">)</span>
+    
+    <span class="n">output_spike_rate</span> <span class="o">=</span> <span class="n">sim_data</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">spike_times</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="n">params</span><span class="o">.</span><span class="n">sim_duration</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span>
+            <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">evalu_p_0_05</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span>
+            <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -587,213 +587,277 @@ imaging_spike_SNR = 20
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">set_reordered_legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">h</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="p">[</span><span class="n">l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">order</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spike_rates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]);</span>  <span class="c1"># of one input spike train, in Hz</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">color_inh</span> <span class="o">=</span> <span class="s2">"C1"</span>
-<span class="n">color_exc</span> <span class="o">=</span> <span class="s2">"C0"</span>
-<span class="n">color_unconn</span> <span class="o">=</span> <span class="s2">"C2"</span><span class="p">;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_N</span><span class="p">(</span><span class="n">spike_rate</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="mi">20</span> <span class="o">/</span> <span class="n">spike_rate</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vary_p_inhibited</span><span class="p">(</span><span class="n">base_params</span><span class="p">:</span> <span class="n">Params</span><span class="p">,</span> <span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">):</span>
-
-    <span class="n">p_inh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-
-    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">for</span> <span class="n">p_i</span><span class="p">,</span> <span class="n">seed</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">seeds</span><span class="p">):</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_i</span><span class="p">,</span> <span class="n">rng_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
-        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sim_and_test_and_eval_performance</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
-        
-    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">p_inh</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="n">AUC_exc</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">FPR</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Non-connections"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Fraction detected"</span><span class="p">)</span>
-    <span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
-    
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_inh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">AUC_exc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Proportion of inputs inhibitory ($p_</span><span class="si">{inh}</span><span class="s2">$)"</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Area under ROC curve"</span><span class="p">)</span>
-    <span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    
-</pre></div>
-</div>
-</div>
-</div>
-<p>(An uncached run of the above takes a bit over 3 minutes, for 1 seed).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">vary_p_inhibited</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span> <span class="o">=</span> <span class="o">-</span><span class="mi">70</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">vary_p_inhibited</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-
-<span class="n">set_reordered_legend</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">loc</span><span class="o">=</span><span class="s2">"center left"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">))</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = -70$ mV"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = -50$ mV"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">get_N</span><span class="p">)(</span><span class="n">spike_rates</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-09-16__vary_E_vs_I_14_0.png" src="../_images/2021-09-16__vary_E_vs_I_14_0.png">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([6000,  600,   60,   30])
+</pre></div>
 </div>
 </div>
-<p>Uncached run for two seeds took 16&#8217;30&#8221;.</p>
-<p>individual sims getting gradually slower.. from 20 s at start (v -70 p 0 seed 1) to 52 at end (v -50 p 1 seed 2).
-Maybe memory drag? python process is at 2GB now.</p>
-<p>cache loading is deliciously fast though :)</p>
 </div>
-<div class="section" id="inspect-some-regimes">
-<h2>Inspect some regimes<a class="headerlink" href="#inspect-some-regimes" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="c1"># seeds = [0, 1, 2];</span>
+<span class="c1"># seeds = [0, 1, 2, 3, 4, 5];</span>
+<span class="c1"># seeds = np.arange(20);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">sim_test_eval</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">replace</span><span class="p">(</span><span class="n">base_params</span><span class="p">,</span>
+                <span class="n">spike_rate</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span>
+                <span class="n">num_spike_trains</span><span class="o">=</span><span class="n">get_N</span><span class="p">(</span><span class="n">rate</span><span class="p">),</span>
+                <span class="n">rng_seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="n">spike_rates</span><span class="p">,</span> <span class="n">seeds</span><span class="p">)];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">run_in_parallel</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">_RemoteTraceback</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="ne">_Remote</span>Traceback: 
+<span class="sd">"""</span>
+<span class="sd">Traceback (most recent call last):</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\externals\loky\process_executor.py", line 431, in _process_worker</span>
+<span class="sd">    r = call_item()</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\externals\loky\process_executor.py", line 285, in __call__</span>
+<span class="sd">    return self.fn(*self.args, **self.kwargs)</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\_parallel_backends.py", line 595, in __call__</span>
+<span class="sd">    return self.func(*args, **kwargs)</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\parallel.py", line 262, in __call__</span>
+<span class="sd">    return [func(*args, **kwargs)</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\parallel.py", line 262, in &lt;listcomp&gt;</span>
+<span class="sd">    return [func(*args, **kwargs)</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\memory.py", line 591, in __call__</span>
+<span class="sd">    return self._cached_call(args, kwargs)[0]</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\memory.py", line 534, in _cached_call</span>
+<span class="sd">    out, metadata = self.call(*args, **kwargs)</span>
+<span class="sd">  File "C:\miniforge3\lib\site-packages\joblib\memory.py", line 761, in call</span>
+<span class="sd">    output = self.func(*args, **kwargs)</span>
+<span class="sd">  File "C:\Users\lpxtf3\AppData\Local\Temp/ipykernel_57212/1966810356.py", line 4, in sim_test_eval</span>
+<span class="sd">  File "c:\users\lpxtf3\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\experiments\N_to_1_IE.py", line 155, in simulate_and_test_connections</span>
+<span class="sd">    sim_data = simulate(p)</span>
+<span class="sd">  File "c:\users\lpxtf3\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\experiments\N_to_1_IE.py", line 94, in simulate</span>
+<span class="sd">    g_syn = calc_synaptic_conductance(</span>
+<span class="sd">  File "c:\users\lpxtf3\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\sim\synapses.py", line 24, in calc_synaptic_conductance</span>
+<span class="sd">    g_syn = np.empty(num_timesteps) * nS</span>
+<span class="sd">numpy.core._exceptions._ArrayMemoryError: Unable to allocate 45.8 MiB for an array with shape (6000000,) and data type float64</span>
+<span class="sd">"""</span>
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">MemoryError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">timed</span> <span class="n">exec</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+
+<span class="nn">c:\users\lpxtf3\onedrive\phd\voltage-to-wiring-sim\codebase\voltage_to_wiring_sim\support\high_performance.py</span> in <span class="ni">run_in_parallel</span><span class="nt">(f, args)</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="k">def</span> <span class="nf">run_in_parallel</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span>     <span class="sd">""" Output printing is not done in notebook, but in jupyter terminal """</span>
+<span class="ne">---&gt; </span><span class="mi">64</span>     <span class="k">return</span> <span class="n">runner</span><span class="p">(</span><span class="n">joblib</span><span class="o">.</span><span class="n">delayed</span><span class="p">(</span><span class="n">f</span><span class="p">)(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+
+<span class="nn">C:\miniforge3\lib\site-packages\joblib\parallel.py</span> in <span class="ni">__call__</span><span class="nt">(self, iterable)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1052</span> 
+<span class="g g-Whitespace">   </span><span class="mi">1053</span>             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">retrieval_context</span><span class="p">():</span>
+<span class="ne">-&gt; </span><span class="mi">1054</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">retrieve</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1055</span>             <span class="c1"># Make sure that we get a last message telling us we are done</span>
+<span class="g g-Whitespace">   </span><span class="mi">1056</span>             <span class="n">elapsed_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start_time</span>
+
+<span class="nn">C:\miniforge3\lib\site-packages\joblib\parallel.py</span> in <span class="ni">retrieve</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">931</span>             <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">932</span>                 <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="p">,</span> <span class="s1">'supports_timeout'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">933</span>                     <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">934</span>                 <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span>                     <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+<span class="nn">C:\miniforge3\lib\site-packages\joblib\_parallel_backends.py</span> in <span class="ni">wrap_future_result</span><span class="nt">(future, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">540</span>         <span class="n">AsyncResults</span><span class="o">.</span><span class="n">get</span> <span class="kn">from</span> <span class="nn">multiprocessing.</span><span class="s2">"""</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span><span class="s2">         try:</span>
+<span class="ne">--&gt; </span><span class="mi">542</span><span class="s2">             return future.result(timeout=timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span><span class="s2">         except CfTimeoutError as e:</span>
+<span class="g g-Whitespace">    </span><span class="mi">544</span><span class="s2">             raise TimeoutError from e</span>
+
+<span class="nn">C:\miniforge3\lib\concurrent\futures\_base.py</span> in <span class="ni">result</span><span class="nt">(self, timeout)</span>
+<span class="g g-Whitespace">    </span><span class="mi">443</span><span class="s2">                     raise CancelledError()</span>
+<span class="g g-Whitespace">    </span><span class="mi">444</span><span class="s2">                 elif self._state == FINISHED:</span>
+<span class="ne">--&gt; </span><span class="mi">445</span><span class="s2">                     return self.__get_result()</span>
+<span class="g g-Whitespace">    </span><span class="mi">446</span><span class="s2">                 else:</span>
+<span class="g g-Whitespace">    </span><span class="mi">447</span><span class="s2">                     raise TimeoutError()</span>
+
+<span class="nn">C:\miniforge3\lib\concurrent\futures\_base.py</span> in <span class="ni">__get_result</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span><span class="s2">         if self._exception:</span>
+<span class="g g-Whitespace">    </span><span class="mi">389</span><span class="s2">             try:</span>
+<span class="ne">--&gt; </span><span class="mi">390</span><span class="s2">                 raise self._exception</span>
+<span class="g g-Whitespace">    </span><span class="mi">391</span><span class="s2">             finally:</span>
+<span class="g g-Whitespace">    </span><span class="mi">392</span><span class="s2">                 # Break a reference cycle with the exception in self._exception</span>
+
+<span class="ne">MemoryError</span>: Unable to allocate 45.8 MiB for an array with shape (6000000,) and data type float64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_samples</span> <span class="o">=</span> <span class="mi">600</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">num_arrays</span> <span class="o">=</span> <span class="mi">6000</span>
+<span class="n">byte_per_sample</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">/</span> <span class="mi">8</span>
+<span class="n">mem_needed_for_gsyns</span> <span class="o">=</span> <span class="n">num_samples</span> <span class="o">*</span> <span class="n">num_arrays</span> <span class="o">*</span> <span class="n">byte_per_sample</span> <span class="o">/</span> <span class="mf">1E9</span>  <span class="c1"># GB</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>288
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_rates</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span> 
+ <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span>
+ <span class="n">AUC</span><span class="p">,</span> <span class="n">AUC_exc</span><span class="p">,</span> <span class="n">AUC_inh</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">M</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span><span class="o">/</span><span class="n">ipykernel_57212</span><span class="o">/</span><span class="mf">3201251934.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">spike_rates</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span>  <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">FPR</span><span class="p">,</span>
+<span class="nn">      5  AUC, AUC_exc, AUC_inh) = (M[:,:,i] for i</span> in <span class="ni">range</span><span class="nt">(M.shape[-1]))</span>
+
+<span class="ne">NameError</span>: name 'results' is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_dots_and_mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"0.2"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="s2">"o"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="n">ms</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">)</span>
+    
+<span class="n">smaller</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_inv_ratio_ax</span><span class="p">():</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">'log'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">spike_rates</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">g</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">spike_rates</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Spike rate per input (Hz)$"</span><span class="p">)</span>
+
+    <span class="c1"># https://matplotlib.org/stable/gallery/subplots_axes_and_figures/secondary_axis.html</span>
+    <span class="k">def</span> <span class="nf">one_over</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">near_zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">near_zero</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">near_zero</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">x</span><span class="p">[</span><span class="o">~</span><span class="n">near_zero</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="n">sax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">secondary_xaxis</span><span class="p">(</span><span class="s2">"top"</span><span class="p">,</span> <span class="n">functions</span><span class="o">=</span><span class="p">(</span><span class="n">one_over</span><span class="p">,</span> <span class="n">one_over</span><span class="p">))</span>
+
+    <span class="n">sax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">Ns</span><span class="p">)</span>
+    <span class="n">sax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([],</span> <span class="n">minor</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">Ns</span><span class="p">)</span>
+    <span class="n">sax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Number of inputs$"</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">plot_dots_and_mean</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">spike_rates</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_inv_ratio_ax</span><span class="p">()</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">output_spike_rate</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Output spike rate (Hz)"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-11-18__constant_input_spikes_21_0.png" src="../_images/2021-11-18__constant_input_spikes_21_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_inv_ratio_ax</span><span class="p">()</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">AUC_exc</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">AUC_inh</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="o">**</span><span class="n">smaller</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Area under ROC curve"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-11-18__constant_input_spikes_22_0.png" src="../_images/2021-11-18__constant_input_spikes_22_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_inv_ratio_ax</span><span class="p">()</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">TPR_exc</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Excitatory conn."</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">TPR_inh</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Inhibitory conn."</span><span class="p">,</span> <span class="o">**</span><span class="n">smaller</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">FPR</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">color_unconn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Non-connections"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Fraction detected as connection"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-11-18__constant_input_spikes_23_0.png" src="../_images/2021-11-18__constant_input_spikes_23_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="inspect-signals">
+<h2>Inspect signals<a class="headerlink" href="#inspect-signals" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_and_test</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">cache_to_disk</span><span class="p">(</span><span class="n">simulate_and_test_connections</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">((</span><span class="o">-</span><span class="mi">70</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))):</span>
-    
-    <span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_inh</span><span class="p">))</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">num_exc_conn</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">num_inh_conn</span><span class="p">)</span>
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span><span class="o">*</span><span class="n">second</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">time_units</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">22</span><span class="p">);</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2"> = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v_syn_I</span> <span class="o">/</span> <span class="n">mV</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">$ mV"</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> 
-                 <span class="s2">"$p_</span><span class="si">{inh}</span><span class="s2"> = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p_inh</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">$"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
-    
-    
-    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    
-    <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
-             <span class="nb">max</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Membrane pot. (mV)"</span><span class="p">);</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{excitatory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{inhibitory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16 2
-2 16
-16 2
-2 16
-</pre></div>
-</div>
-<img alt="../_images/2021-09-16__vary_E_vs_I_18_1.png" src="../_images/2021-09-16__vary_E_vs_I_18_1.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="mf">0.1</span><span class="p">));</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-50.468785742174646
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">((</span><span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">))):</span>
-    
-    <span class="n">d</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">Params</span><span class="p">(</span><span class="n">v_syn_I</span><span class="o">=</span><span class="n">v_syn_I</span><span class="p">,</span> <span class="n">p_inhibitory</span><span class="o">=</span><span class="n">p_inh</span><span class="p">))</span>
-    
-    <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">num_exc_conn</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">num_inh_conn</span><span class="p">)</span>
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_signal</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">izh_output</span><span class="o">.</span><span class="n">V_m</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">t_start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">8</span><span class="o">*</span><span class="n">second</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">time_units</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">22</span><span class="p">);</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$v_</span><span class="si">{inh}</span><span class="s2">$ = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">v_syn_I</span> <span class="o">/</span> <span class="n">mV</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> mV"</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> 
-                 <span class="s2">"$p_</span><span class="si">{inh}</span><span class="s2">$ = "</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">p_inh</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-    
-    
-    <span class="n">ax_e</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_excitatory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    <span class="n">ax_i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="n">indices_where</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">is_inhibitory</span> <span class="o">&amp;</span> <span class="n">d</span><span class="o">.</span><span class="n">is_connected</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">original_STA</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">])</span>
-    
-    <span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">0</span><span class="p">]),</span>
-             <span class="nb">max</span><span class="p">(</span><span class="n">ax_i</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax_e</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylims</span><span class="p">)</span>
-    
-    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Membrane pot. (mV)"</span><span class="p">);</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{excitatory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal for an"</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">"$\bf</span><span class="si">{inhibitory}</span><span class="s2">$ conn. (mV)"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ax_e</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">ax_i</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        
-<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9 9
-7 11
-5 13
-</pre></div>
-</div>
-<img alt="../_images/2021-09-16__vary_E_vs_I_21_1.png" src="../_images/2021-09-16__vary_E_vs_I_21_1.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># v.plot_signal(d.VI_signal.slice(t_start=0, duration=1*second) / mV, time_units=ms);</span>
 </pre></div>
 </div>
 </div>
@@ -808,10 +872,18 @@ Maybe memory drag? python process is at 2GB now.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code><br>on <strong>Thu 28 Oct</strong> 2021, at 15:09 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/9de7c00d5c5495e84e5a1c5ed110f9977820ee2a">Last git commit</a> (Thu 28 Oct 2021, 14:11).</p>
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code><br>on <strong>Thu 18 Nov</strong> 2021, at 16:55 (UTC+0000).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/a715f3fe3292b887aa6be85fe2f9955d4c95d3c6">Last git commit</a> (Fri 12 Nov 2021, 00:23).</p>
 <p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">16</span><span class="n">__vary_E_vs_I</span><span class="o">.</span><span class="n">ipynb</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">M</span> <span class="n">ReadMe</span><span class="o">.</span><span class="n">md</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">experiments</span><span class="o">/</span><span class="n">N_to_1</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">AM</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">high_performance</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">codebase</span><span class="o">/</span><span class="n">voltage_to_wiring_sim</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">misc</span><span class="o">.</span><span class="n">py</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">02</span><span class="n">__full_network_sim_tryout</span><span class="o">.</span><span class="n">ipynb</span>
+ <span class="n">M</span> <span class="n">notebooks</span><span class="o">/</span><span class="mi">2021</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">11</span><span class="n">__vary_both_inh_strength_and_proportion</span><span class="o">.</span><span class="n">ipynb</span>
+ <span class="n">M</span> <span class="n">website</span><span class="o">/</span><span class="n">thesis</span><span class="o">/</span><span class="n">references</span><span class="o">.</span><span class="n">bib</span>
 </pre></div>
 </div>
 <p>Platform:</p>
@@ -841,19 +913,22 @@ nptyping             1.4.2
 <span class="n">backcall</span>                  <span class="mf">0.2.0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">backports</span>                 <span class="mf">1.0</span>                        <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">backports</span><span class="o">.</span><span class="n">functools_lru_cache</span> <span class="mf">1.6.4</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">black</span>                     <span class="mf">21.9</span><span class="n">b0</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">bleach</span>                    <span class="mf">3.3.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">brotlipy</span>                  <span class="mf">0.7.0</span>           <span class="n">py39hb82d6ee_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>           <span class="mf">2019.11.28</span>           <span class="n">hecc5488_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span><span class="o">/</span><span class="n">label</span><span class="o">/</span><span class="n">cf202003</span>
-<span class="n">certifi</span>                   <span class="mf">2021.10.8</span>        <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>           <span class="mf">2021.10.8</span>            <span class="n">h5b45459_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">certifi</span>                   <span class="mf">2021.10.8</span>        <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">cffi</span>                      <span class="mf">1.14.6</span>           <span class="n">py39h0878f49_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">chardet</span>                   <span class="mf">4.0.0</span>            <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">charset</span><span class="o">-</span><span class="n">normalizer</span>        <span class="mf">2.0.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">click</span>                     <span class="mf">7.1.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">colorama</span>                  <span class="mf">0.4.4</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">colorful</span>                  <span class="mf">0.5.4</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">conda</span>                     <span class="mf">4.10.3</span>           <span class="n">py39hcbf5309_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">conda</span><span class="o">-</span><span class="n">package</span><span class="o">-</span><span class="n">handling</span>    <span class="mf">1.7.3</span>            <span class="n">py39hb3671d1_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">cryptography</span>              <span class="mf">3.4.7</span>            <span class="n">py39hd8d06c1_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">cycler</span>                    <span class="mf">0.10.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">dataclasses</span>               <span class="mf">0.8</span>                <span class="n">pyhc8e2a94_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">debugpy</span>                   <span class="mf">1.4.1</span>            <span class="n">py39h415ef7b_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">decorator</span>                 <span class="mf">5.0.9</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">defusedxml</span>                <span class="mf">0.7.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -877,7 +952,6 @@ nptyping             1.4.2
 <span class="n">jupyter_latex_envs</span>        <span class="mf">1.4.6</span>           <span class="n">pyhd8ed1ab_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyter_nbextensions_configurator</span> <span class="mf">0.4.1</span>            <span class="n">py39hcbf5309_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">jupyterlab_pygments</span>       <span class="mf">0.1.2</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
-<span class="n">jupytray</span>                  <span class="mf">0.7</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">kiwisolver</span>                <span class="mf">1.3.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">libclang</span>                  <span class="mf">11.1.0</span>          <span class="n">default_h5c34c98_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">libiconv</span>                  <span class="mf">1.16</span>                 <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -894,6 +968,7 @@ nptyping             1.4.2
 <span class="n">menuinst</span>                  <span class="mf">1.4.17</span>           <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">miniforge_console_shortcut</span> <span class="mf">2.0</span>                  <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">mistune</span>                   <span class="mf">0.8.4</span>           <span class="n">py39hb82d6ee_1004</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mypy_extensions</span>           <span class="mf">0.4.3</span>            <span class="n">py39hcbf5309_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nbclient</span>                  <span class="mf">0.5.3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nbconvert</span>                 <span class="mf">6.1.0</span>            <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">nbformat</span>                  <span class="mf">5.1.3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -908,15 +983,19 @@ nptyping             1.4.2
 <span class="n">pandoc</span>                    <span class="mf">2.14.1</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pandocfilters</span>             <span class="mf">1.4.2</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">parso</span>                     <span class="mf">0.8.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pathspec</span>                  <span class="mf">0.9.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pickleshare</span>               <span class="mf">0.7.5</span>                   <span class="n">py_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pillow</span>                    <span class="mf">8.3.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">pip</span>                       <span class="mf">21.2.1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">platformdirs</span>              <span class="mf">2.3.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">preload</span>                   <span class="mf">2.2</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">prettyprinter</span>             <span class="mf">0.18.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">prometheus_client</span>         <span class="mf">0.11.0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">prompt</span><span class="o">-</span><span class="n">toolkit</span>            <span class="mf">3.0.19</span>             <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pycosat</span>                   <span class="mf">0.6.3</span>           <span class="n">py39hb82d6ee_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pycparser</span>                 <span class="mf">2.20</span>               <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pygments</span>                  <span class="mf">2.9.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pympler</span>                   <span class="mf">0.9</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">pyopenssl</span>                 <span class="mf">20.0.1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyparsing</span>                 <span class="mf">2.4.7</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyqt</span>                      <span class="mf">5.12.3</span>           <span class="n">py39hcbf5309_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -935,6 +1014,7 @@ nptyping             1.4.2
 <span class="n">pyyaml</span>                    <span class="mf">6.0</span>              <span class="n">py39hb82d6ee_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">pyzmq</span>                     <span class="mf">22.1.0</span>           <span class="n">py39he46f08e_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">qt</span>                        <span class="mf">5.12.9</span>               <span class="n">h5909a2a_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">regex</span>                     <span class="mf">2021.10.23</span>       <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">requests</span>                  <span class="mf">2.26.0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">ruamel_yaml</span>               <span class="mf">0.15.80</span>         <span class="n">py39hb82d6ee_1004</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">scipy</span>                     <span class="mf">1.7.0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
@@ -945,9 +1025,12 @@ nptyping             1.4.2
 <span class="n">sqlite</span>                    <span class="mf">3.36.0</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">terminado</span>                 <span class="mf">0.10.1</span>           <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">testpath</span>                  <span class="mf">0.5.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tomli</span>                     <span class="mf">1.2.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">tornado</span>                   <span class="mf">6.1</span>              <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">tqdm</span>                      <span class="mf">4.61.2</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">traitlets</span>                 <span class="mf">5.0.5</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typed</span><span class="o">-</span><span class="n">ast</span>                 <span class="mf">1.4.3</span>            <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typing_extensions</span>         <span class="mf">3.10.0.2</span>           <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">typish</span>                    <span class="mf">1.9.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
 <span class="n">tzdata</span>                    <span class="mi">2021</span><span class="n">a</span>                <span class="n">he74cb21_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
 <span class="n">ucrt</span>                      <span class="mf">10.0.20348.0</span>         <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
@@ -998,17 +1081,17 @@ nptyping             1.4.2
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2021-11-05__vary_syncond_ratio.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="2021-11-18__prototype_new_sim.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2021-11-05 &#8226; Vary I/E synaptic conductances</p>
+            <p class="prev-next-title">2021-11-18 &#8226; Prototype new sim</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2021-07-30__inhibitory.html" title="next page">
+    <a class="right-next" id="next-link" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2021-07-30 &#8226; Inhibitory connections</p>
+        <p class="prev-next-title">2021-12-08 &#8226; Cortical params for Hodgkin-Huxley</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

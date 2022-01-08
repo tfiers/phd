@@ -36,10 +36,10 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
@@ -247,6 +247,21 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
    2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
   </a>
@@ -350,7 +365,7 @@
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="../_sources/notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -386,7 +401,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -431,7 +446,55 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2021-12-02 &#8226; LIF vs Izhikevich subthreshold</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prelude">
+   [Prelude]
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input">
+   Input
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leaky-integrate-and-fire">
+   Leaky integrate and fire
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#izhikevich">
+   Izhikevich
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility">
+   [Reproducibility]
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="section" id="lif-vs-izhikevich-subthreshold">
@@ -606,14 +669,15 @@ Uncommited changes to 3 files.</p>
 
 <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="n">timesteps</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="n">ax_LIF</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">)</span>
-<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"LIF"</span><span class="p">)</span>
+<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Leaky&#8211;integrate"</span><span class="p">)</span>
 <span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_Izh</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Izhikevich"</span><span class="p">)</span>
 <span class="n">v</span><span class="o">.</span><span class="n">add_reordered_legend</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">)</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$k(V-V_r)(V-V_t)$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C2"</span><span class="p">)</span>
 <span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">u</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$u$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">);</span>
-<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plot_test_current</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="o">/</span><span class="n">nA</span><span class="p">,</span> <span class="n">ylims</span><span class="p">,</span> <span class="n">y&#948;</span><span class="o">=</span><span class="mf">0.82</span><span class="p">)</span>
-<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_LIF</span><span class="p">,</span> <span class="s2">"LIF membrane voltage (mV)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">add_reordered_legend</span><span class="p">(</span><span class="n">ax_I_Izh</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_test_current</span><span class="p">(</span><span class="n">ax_I</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="o">/</span><span class="n">nA</span><span class="p">,</span> <span class="n">ylims</span><span class="p">,</span> <span class="n">y&#948;</span><span class="o">=</span><span class="mf">0.82</span><span class="p">)</span>
+<span class="n">ax_I</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_LIF</span><span class="p">,</span> <span class="s2">"Leaky&#8211;integrate membrane voltage (mV)"</span><span class="p">)</span>
 <span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="s2">"Membrane voltage $V$ (mV)"</span><span class="p">)</span>
 <span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I_Izh</span><span class="p">,</span> <span class="s2">"Izhikevich membrane currents (nA)"</span><span class="p">)</span>
 <span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I</span><span class="p">,</span> <span class="s2">"Input current $I$ (nA)"</span><span class="p">,</span> <span class="n">ylim_shift</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
@@ -865,8 +929,8 @@ nptyping             1.4.2
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
+            
+                <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
     <a class="left-prev" id="prev-link" href="2021-12-06__local_HH_dV_shape.html" title="previous page">
         <i class="fas fa-angle-left"></i>
@@ -883,23 +947,21 @@ nptyping             1.4.2
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Tomas Fiers<br>
-        
-            &#169; Copyright 2020.<br>
-          </p><div class="extra_footer">
-            <script src="https://hypothes.is/embed.js" async></script>
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
 
-          </div>
-      
-    </div>
-  </footer>
+      </div>
+  
+</footer>
 </main>
 
 
