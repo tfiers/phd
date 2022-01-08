@@ -8,7 +8,27 @@ For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge
 
 <br>
 
-## Installation
+The code was first written in Python, then in Julia.
+- `src/` is the Julia codebase, and `Project.toml` and `Manifest.toml` show the required & exact installed Julia packages.
+- `codebase/` is the Python codebase, `setup.py` shows the required Python packages, and the "Reproducibility" sections in python notebooks show the exact installed Python  packages.
+- `notebooks/` contains all Jupyter Notebooks, both in Python and, later, in Julia.
+- `website/` contains config and code to build the website where the notebooks are hosted as a JupyterBook.
+
+
+## Julia
+
+- Download and run the [Julia](https://julialang.org/) installer for your OS.
+- In the root dir, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode),
+ run `activate .`, and `instantiate` to install dependencies.
+- Start a notebook server (via either `jupyter notebook` in the terminal, or 
+  `using IJulia; notebook()` in the julia repl).
+- Open one of the `notebooks/` from 2022 on. You should be able to run all cells.
+
+
+
+## Python
+
+### Installation
 
 The code is written in Python 3.9.
 
@@ -41,7 +61,7 @@ the package).
 
 <br>
 
-## Usage
+### Usage
 
 You should now be able to import the code as a package into scripts and notebooks:
 ```py
@@ -63,7 +83,7 @@ themselves in, as comments and docstrings.
 
 <br>
 
-## Tests
+### Tests
 
 Some modules contain small `test()` functions to showcase how the module is used.
 
