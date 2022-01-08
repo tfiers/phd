@@ -86,7 +86,7 @@ def sweep_threshold(
     return results
 
 
-def calc_AUCs(threshold_sweep: list[Classification]) -> (float, float, float):
+def calc_AUCs(threshold_sweep: list[Classification]) -> tuple[float, float, float]:
     TPRs = [tr.evaluation.TPR for tr in threshold_sweep]
     TPR_excs = [tr.evaluation.TPR_exc for tr in threshold_sweep]
     TPR_inhs = [tr.evaluation.TPR_inh for tr in threshold_sweep]
