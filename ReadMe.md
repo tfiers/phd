@@ -3,12 +3,12 @@
 In vivo connectomics -- mapping the wires between neurons based on voltage imaging recordings.\
 Proof of concept simulation.
 
-For documentation & rendered notebooks: &nbsp; [![](https://img.shields.io/badge/%F0%9F%9A%80_open_website-green)](https://tfiers.github.io/voltage-to-wiring-sim)
+For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/%F0%9F%9A%80_open_website-green)](https://tfiers.github.io/voltage-to-wiring-sim)
 
 
 <br>
 
-The code was first written in Python, then in Julia.
+The code was initially written in Python, and later in Julia.
 - `src/` is the Julia codebase, and `Project.toml` and `Manifest.toml` show the required & exact installed Julia packages.
 - `codebase/` is the Python codebase, `setup.py` shows the required Python packages, and the "Reproducibility" sections in python notebooks show the exact installed Python  packages.
 - `notebooks/` contains all Jupyter Notebooks, both in Python and, later, in Julia.
@@ -17,12 +17,18 @@ The code was first written in Python, then in Julia.
 
 ## Julia
 
-- Download and run the [Julia](https://julialang.org/) installer for your OS.
-- In the root dir, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode),
- run `activate .`, and `instantiate` to install dependencies.
-- Start a notebook server (via either `jupyter notebook` in the terminal, or 
-  `using IJulia; notebook()` in the julia repl).
-- Open one of the `notebooks/` from 2022 on. You should be able to run all cells.
+To reproduce results:
+
+- If new to Julia, [download](https://julialang.org/downloads/) and run its installer for your OS.
+- Clone this repo, and in the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
+  Then run `activate .` and `instantiate` to install all dependencies.
+- Start a Jupyter server.
+  - If you don't have Jupyter installed, run `using IJulia` and `notebook()` in the julia repl.
+  - If you have, the usual `jupyter notebook` in the terminal works.
+- Open one of the Julia `notebooks/` (from 2022 on).
+  - If it is not one of the newest notebooks, the codebase will have changed since the notebook was last run. To restore the codebase to its former state, find the commit of the last change to the notebook (shown on GitHub), and `git checkout` this commit.
+
+You should now be able to run all cells
 
 
 
