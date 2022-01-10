@@ -1,6 +1,6 @@
-name = "VoltageMap"
-uuid = "2904df11-6076-494c-94cf-f6159de7cdde"
-authors = ["Tomas Fiers <tomas.fiers@gmail.com> and contributors"]
+name = "VoltageToMap"
+uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
 
 [deps]
