@@ -10,7 +10,7 @@ For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/%F
 
 The code was initially written in Python, and later in Julia.
 - `src/` is the Julia codebase, and `Project.toml` and `Manifest.toml` show the required & exact installed Julia packages.
-- `codebase/` is the Python codebase, `setup.py` shows the required Python packages, and the "Reproducibility" sections in python notebooks show the exact installed Python  packages.
+- `codebase/` is the Python codebase, `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
 - `notebooks/` contains all Jupyter Notebooks, both in Python and, later, in Julia.
 - `website/` contains config and code to build the website where the notebooks are hosted as a JupyterBook.
 
@@ -20,15 +20,16 @@ The code was initially written in Python, and later in Julia.
 To reproduce results:
 
 - If new to Julia, [download](https://julialang.org/downloads/) and run its installer for your OS.
-- Clone this repo, and in the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
+- In the [`notebooks/`](notebooks/) directory, choose a Julia notebook you want to run. (They start from 20222 on). Copy the hash of its last commit (linked next to it).
+- `git clone` this repository and `git checkout` the copied commit.
+  - Why the `checkout` of an older commit? The codebase that is called from the notebook will have changed since the notebook was last run (unless it is one of the newest notebooks). This `checkout` restores the codebase to its former, working state for the notebook.
+- In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
   Then run `activate .` and `instantiate` to install all dependencies.
 - Start a Jupyter server.
   - If you don't have Jupyter installed, run `using IJulia` and `notebook()` in the julia repl.
   - If you have, the usual `jupyter notebook` in the terminal works.
-- Open one of the Julia `notebooks/` (from 2022 on).
-  - If it is not one of the newest notebooks, the codebase will have changed since the notebook was last run. To restore the codebase to its former state, find the commit of the last change to the notebook (shown on GitHub), and `git checkout` this commit.
 
-You should now be able to run all cells
+You should now be able to run all cells in the notebook.
 
 
 
