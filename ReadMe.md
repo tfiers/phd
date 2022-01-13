@@ -19,12 +19,13 @@ The code was initially written in Python, and later in Julia.
 
 To reproduce results:
 
-- If new to Julia, [download](https://julialang.org/downloads/) and run its installer for your OS.
-- In the [`notebooks/`](notebooks/) directory, choose a Julia notebook you want to run. (They start from 20222 on). Copy the hash of its last commit (linked next to it).
+- If new to Julia, [download](https://julialang.org/downloads/) and run an installer for your OS.
+- In the [`notebooks/`](notebooks/) directory, choose a Julia notebook you want to run. (They start from 2022 on). Copy the hash of its last commit (linked next to it).
 - `git clone` this repository and `git checkout` the copied commit.
   - Why the `checkout` of an older commit? The codebase that is called from the notebook will have changed since the notebook was last run (unless it is one of the newest notebooks). This `checkout` restores the codebase to its former, working state for the notebook.
 - In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
-  Then run `activate .` and `instantiate` to install all dependencies.
+  Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
+  This might need a shell with admin access.
 - Start a Jupyter server.
   - If you don't have Jupyter installed, run `using IJulia` and `notebook()` in the julia repl.
   - If you have, the usual `jupyter notebook` in the terminal works.
