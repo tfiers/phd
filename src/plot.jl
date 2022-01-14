@@ -21,8 +21,8 @@ function plot(args...; kw...)
     otherkw = Dict(k => v for (k, v) in kw if k ∉ keys(plotkw))
     plotkw = convertColorstoRGBAtuples(plotkw)
     ax.plot(map(ustrip, args)...; plotkw...)
+    _handle_units!(ax, args)  # mutating, cause vararg parser peels off args till empty.
     set(ax; otherkw...)
-    _handle_units(ax, args)
     return ax
 end
 
@@ -35,8 +35,8 @@ toRGBAtuple(c::RGBA) = (c.r, c.g, c.b, c.alpha)
 
 Unitful.ustrip(x) = x
 
-function _handle_units(ax, args)
-    xs, ys = _parse_plot_varargs(args)
+function _handle_units!(ax, args)
+    xs, ys = _parse_plot_varargs!(args)
     for (arrays, x_or_y) in zip([xs, ys], [X(), Y()])
         for array in arrays
             if has_mixed_dimensions(array)
@@ -64,7 +64,7 @@ get_axis(ax, ::Y) = ax.yaxis
 get_lim(ax, ::X) = ax.get_xlim()
 get_lim(ax, ::Y) = ax.get_ylim()
 
-function _parse_plot_varargs(args)
+function _parse_plot_varargs!(args)
     # Process ax.plot's vararg by peeling off the front: [x], y, [fmt].
     # Based on https://github.com/matplotlib/matplotlib/blob/710fce/lib/matplotlib/axes/_base.py#L304-L312
     xs = []
@@ -162,7 +162,7 @@ function legend(ax; reorder = false)
 end
 
 """Add a horizontal ylabel."""
-function ylabel(ax, text; dx=0, dy=7, ha="left", va="bottom")
+function ylabel(ax, text; dx=0, dy=6, ha="left", va="bottom")
     offset = mpl.transforms.ScaledTranslation(dx / 72, dy / 72, ax.figure.dpi_scale_trans)
     fontsize = mpl.rcParams["axes.labelsize"]
     ax.text(0, 1, text; transform=ax.transAxes + offset, ha, va, fontsize)

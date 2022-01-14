@@ -11,6 +11,7 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
 
 @print using Revise  # Auto-reloads our codebase when it is changed.
 @print using Distributions  # Sample from lognormal, exponential, ….
+@print using DataFrames  # Tables.
 @print using PyFormattedStrings,  # f-strings as in Python (but with C format spec).
              PartialFunctions,  # Currying (`func $ a`, like `partial(func, a)` in Python).
              FilePaths, # `Path` type and `/` joins, as in Python.
