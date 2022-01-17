@@ -1,13 +1,13 @@
-using PyCall, IJulia, FilePaths
+using PyCall, IJulia, FilePaths, Printf
 using FilePathsBase: /
 using PyPlot: PyPlot as plt, matplotlib as mpl
 using Colors, ColorVectorSpace
 using Unitful
 
 """
-Beautiful plots by default
-Keyword arguments that apply to `Line2D`s are passed to `ax.plot`.
-The rest are passed to `set`.
+Beautiful plots by default. To plot on an existing Axes, pass it as the last non-keyword
+argument. Keyword arguments that apply to `Line2D`s are passed to `ax.plot`. The rest are
+passed to `set`.
 """
 function plot(args...; kw...)
     :data in keys(kw) && error("'data' keyword not supported.")
@@ -21,73 +21,64 @@ function plot(args...; kw...)
     otherkw = Dict(k => v for (k, v) in kw if k ∉ keys(plotkw))
     plotkw = convertColorstoRGBAtuples(plotkw)
     ax.plot(map(ustrip, args)...; plotkw...)
-    _handle_units!(ax, args)  # mutating, cause vararg parser peels off args till empty.
+    _handle_units!(ax, args)  # Mutating, because `_extract_plotted_data!` peels off `args`
+                              # until it's empty.
     set(ax; otherkw...)
     return ax
 end
 
-convertColorstoRGBAtuples(dictlike) =
-    Dict(k => (v isa Colorant) ? toRGBAtuple(v) : v for (k, v) in dictlike)
-
-"""Convert a Color to an `(r,g,b,a)` tuple ∈ [0,1]⁴, as accepted by Matplotlib."""
-toRGBAtuple(c) = toRGBAtuple(RGBA(c))
-toRGBAtuple(c::RGBA) = (c.r, c.g, c.b, c.alpha)
-
 Unitful.ustrip(x) = x
 
-function _handle_units!(ax, args)
-    xs, ys = _parse_plot_varargs!(args)
-    for (arrays, x_or_y) in zip([xs, ys], [X(), Y()])
+function _handle_units!(ax, plotargs)
+    xs, ys = _extract_plotted_data!(plotargs)
+    for (arrays, axis) in zip([xs, ys], [ax.xaxis, ax.yaxis])
         for array in arrays
             if has_mixed_dimensions(array)
-                i = getindex(args, array)
+                i = getindex(plotargs, array)
                 error("Elements of argument $i have different dimensions: $array")
             end
         end
-        dims_collection = map(dimension, arrays)
+        dims_collection = dimension.(arrays)
         if !all(isequal $ first(dims_collection), dims_collection)
-            error("Not all $x_or_y arrays have the same dimensions: $dims_collection.")
+            error("Not all $(axis.axis_name)-axis arrays have the same dimensions: $dims_collection.")
         end
         # Store units on the array object. `units` property exists already.
-        setproperty!(get_axis(ax, x_or_y), :unitful_units, unit(eltype(first(arrays))))
+        setproperty!(axis, :unitful_units, unit(eltype(first(arrays))))
     end
 end
 
-has_mixed_dimensions(x::AbstractArray{<:Quantity{T,D}}) where {T,D}  = false
-has_mixed_dimensions(x::AbstractArray{<:Quantity})                   = true
-has_mixed_dimensions(x::AbstractArray)                               = false
+has_mixed_dimensions(x::AbstractArray{<:Quantity{T,Dims}}) where {T,Dims}  = false
+has_mixed_dimensions(x::AbstractArray{<:Quantity})                         = true
+has_mixed_dimensions(x::AbstractArray)                                     = false
 
-struct X end
-struct Y end
-get_axis(ax, ::X) = ax.xaxis
-get_axis(ax, ::Y) = ax.yaxis
-get_lim(ax, ::X) = ax.get_xlim()
-get_lim(ax, ::Y) = ax.get_ylim()
-
-function _parse_plot_varargs!(args)
-    # Process ax.plot's vararg by peeling off the front: [x], y, [fmt].
-    # Based on https://github.com/matplotlib/matplotlib/blob/710fce/lib/matplotlib/axes/_base.py#L304-L312
+function _extract_plotted_data!(plotargs)
+    # Process `ax.plot`'s vararg by peeling off the front: [x], y, [fmt].
+    # Based on https://github.com/matplotlib/matplotlib
+    #          /blob/710fce/lib/matplotlib/axes/_base.py#L304-L312
     xs = []
     ys = []
-    while !isempty(args)
-        if length(args) == 1
-            push!(ys, popfirst!(args))
+    while !isempty(plotargs)
+        if length(plotargs) == 1
+            push!(ys, popfirst!(plotargs))
         else
-            a = popfirst!(args)
-            b = popfirst!(args)
+            a = popfirst!(plotargs)
+            b = popfirst!(plotargs)
             if b isa AbstractString  # fmt string
                 push!(ys, a)
             else
                 push!(xs, a)
                 push!(ys, b)
-                if !isempty(args) && first(args) isa AbstractString
-                    popfirst!(args)
+                if !isempty(plotargs) && first(plotargs) isa AbstractString
+                    popfirst!(plotargs)
                 end
             end
         end
     end
-    return xs, ys
+    return asarray.(xs), asarray.(ys)
 end
+
+asarray(x::Number) = fill(x)  # → zero-dimensional array.
+asarray(x::AbstractArray) = x
 
 """
 Set Axes properties and apply beautiful defaults.
@@ -111,11 +102,11 @@ function set(
 end
 
 function _set_ticks(ax, tickstyles, minortickss)
-    for (tickstyle, minorticks, x_or_y) in zip(tickstyles, minortickss, [X(), Y()])
-        axis = get_axis(ax, x_or_y)
+    tups = zip(tickstyles, minortickss, [ax.xaxis, ax.yaxis])
+    for (tickstyle, minorticks, axis) in tups
         if tickstyle == :range
             # Because we set rcParam `autolimit_mode` to `data`, xlim/ylim == data range.
-            a, b = get_lim(ax, x_or_y)
+            a, b = axis.get_view_interval()
             digits = 2
             axis.set_ticks([round(a, RoundDown; digits), round(b, RoundUp; digits)])
             axis.grid(which = "major", visible = false)
@@ -123,27 +114,29 @@ function _set_ticks(ax, tickstyles, minortickss)
         elseif axis.get_scale() == "log"
             # Mpl default is good, do nothing.
         else
-            axis.set_major_locator(mpl.ticker.MaxNLocator(nbins = 10, steps = [1, 5, 10]))
+            axis.set_major_locator(mpl.ticker.MaxNLocator(nbins = 7, steps = [1, 2, 5, 10]))
             minorloc = minorticks ? mpl.ticker.AutoMinorLocator() : mpl.ticker.NullLocator()
             axis.set_minor_locator(minorloc)
         end
         # LogLocator places ticks outside limits. So we trim those.
         ticks = axis.get_ticklocs()
-        a, b = get_lim(ax, x_or_y)
+        a, b = axis.get_view_interval()
         ticks = ticks[a .≤ ticks .≤ b]
-        # Manually setting ticks avoids warning 
-        # "FixedFormatter should only be used together with FixedLocator"
-        axis.set_ticks(ticks)
-        labels = [f"{t:.4g}" for t in ticks]
-        units = getprop(axis, :unitful_units, unit(1))
+        axis.set_ticks(ticks)  # Side-advantage of manually setting tick locations: we avoid
+                               # the warning "FixedFormatter should only be used together
+                               # with FixedLocator" that otherwise shows when setting tick
+                               # labels.
+        labels = [@sprintf "%.4g" t for t in ticks]
+        units = hasproperty(axis, :unitful_units) ? axis.unitful_units : units
         if units != unit(1)
-            labels[end] *= " " * repr("text/plain", units)
+            suffix = " " * repr("text/plain", units)
+            prefix = repeat(" ", length(suffix)) # Imprecise hack to shift label to the
+                                                 # right, to get number back under tick.
+            labels[end] = prefix * labels[end] * suffix
         end
         axis.set_ticklabels(labels)
     end
 end
-
-getprop(obj, sym, default) = hasproperty(obj, sym) ? getproperty(obj, sym) : default
 
 """
 Add a legend to the axes. Change the order of the items in the legend using
@@ -180,6 +173,13 @@ function savefig(fname; subdir)
     exists(dir) || mkpath(dir)
     plt.savefig(string(dir / fname))
 end
+
+convertColorstoRGBAtuples(dictlike) =
+    Dict(k => (v isa Colorant) ? toRGBAtuple(v) : v for (k, v) in dictlike)
+
+"""Convert a Color to an `(r,g,b,a)` tuple ∈ [0,1]⁴, as accepted by Matplotlib."""
+toRGBAtuple(c) = toRGBAtuple(RGBA(c))
+toRGBAtuple(c::RGBA) = (c.r, c.g, c.b, c.alpha)
 
 mplcolors = C0, C1, C2, C3, C4, C5, C6, C7, C9, C10 = parse.(RGB,
     ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
