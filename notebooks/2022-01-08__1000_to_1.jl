@@ -105,16 +105,11 @@ for (i, t) in enumerate(first_spiketimes)
 end
 
 sim_duration = 10*second;
-selected_spiker = argmin(first_spiketimes)
 t = 0.0*second
-ts = Vector{typeof(t)}()
 while t < sim_duration
     i, t = dequeue_pair!(pq)  # earliest spike
     new_ISI = rand(exps[i]) * second
     enqueue!(pq, i => t + new_ISI)
-    if i == selected_spiker
-        push!(ts, t)
-    end
 end
 # -
 
