@@ -680,16 +680,11 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 <span class="k">end</span>
 
 <span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">second</span><span class="p">;</span>
-<span class="n">selected_spiker</span> <span class="o">=</span> <span class="n">argmin</span><span class="p">(</span><span class="n">first_spiketimes</span><span class="p">)</span>
 <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">*</span><span class="n">second</span>
-<span class="n">ts</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">typeof</span><span class="p">(</span><span class="kt">t</span><span class="p">)}()</span>
 <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">sim_duration</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">dequeue_pair!</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>  <span class="c"># earliest spike</span>
     <span class="n">new_ISI</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">exps</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">*</span> <span class="n">second</span>
     <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">i</span> <span class="o">=&gt;</span> <span class="n">t</span> <span class="o">+</span> <span class="n">new_ISI</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">selected_spiker</span>
-        <span class="n">push!</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
-    <span class="k">end</span>
 <span class="k">end</span>
 </pre></div>
 </div>
