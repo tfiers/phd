@@ -90,8 +90,8 @@ function plot_firing_rate_distr(distr; kw...)
     plot(rlin, cdf.(distr, rlin), ax3; clip_on=false, ylim=(0,1), kw...)
 end
 
-plot_firing_rate_distr(roxin, label="Roxin", c=lighten(C2, 0.6))
-plot_firing_rate_distr(oconnor, label="O'Connor", c=lighten(C1, 0.6))
+plot_firing_rate_distr(roxin, label="Roxin", c=lighten(C2, 0.4))
+plot_firing_rate_distr(oconnor, label="O'Connor", c=lighten(C1, 0.4))
 plot_firing_rate_distr(input_spike_rate, label="This study", c=C0, lw=2.7)
 
 set(ax1; ytickstyle=:range, xlabel="Input firing rate")
@@ -101,7 +101,7 @@ ylabel(ax1, "Probability density")
 ylabel(ax3, "Cumulative probability")
 ax2.set_xlabel("(log)", loc="center")
 deemph.(:yaxis, [ax1, ax2])
-plt.tight_layout(w_pad=-3)
+plt.tight_layout(w_pad=-2.4)
 
 save("log-normal.pdf")
 # -

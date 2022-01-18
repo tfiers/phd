@@ -237,15 +237,19 @@ mplcolors = C0, C1, C2, C3, C4, C5, C6, C7, C9, C10 = parse.(RGB,
 )
 
 """
-Mix a color with white, by some `amount` (`1`: output is pure white, `0`: no change).
-Equivalent color output to setting alpha = `amount` on a white background.
+Mix a color with white. `original` specifies how much is left of the original color.
+(`0`: output is pure white. `1`: output is the original color).
+Equivalent (visually) to setting alpha = `original` on a white background.
 """
-lighten(c::C, amount = 0.4) where {C<:Color} = C(mix(RGB(c), RGB(1, 1, 1), amount))
+lighten(c::C, original = 0.8) where {C<:Color} = C(mix(RGB(c), RGB(1, 1, 1), 1 - original))
+#   White goes last, because colors can't have negative channels (`b - a` in `mix`), even
+#   in ColorVectorSpace.
 
 """
-Mix a color with black, by some `amount` (`1`: output is pure black, `0`: no change).
+Mix a color with black. `original` specifies how much is left of the original color.
+(`0`: output is pure black. `1`: output is the original color).
 """
-darken(c::C, amount = 0.4) where {C<:Color} = C(mix(RGB(c), RGB(0, 0, 0), amount))
+darken(c::C, original = 0.8) where {C<:Color} = C(mix(RGB(0, 0, 0), RGB(c), original))
 
 """Linearly interpolate ("lerp") between `a` (`t = 0`) and `b` (`t = 1`)."""
 mix(a, b, t=0.5) = a + t * (b - a)
