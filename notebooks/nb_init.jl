@@ -11,7 +11,7 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
 
 @print using Revise               # Auto-reloads our codebase when it is changed.
 @print using Distributions        # Sample from lognormal, exponential, ….
-@print using DataFrames           # Tables.
+@print using DataFrames, PrettyTables
 @print using PartialFunctions: $  # Currying (`func $ a`, like `partial(func, a)` in Python).
 @print using PyFormattedStrings,  # f-strings as in Python (but with C format spec).
              LaTeXStrings,        # `L"These strings can contain $ and \ without escaping"`.
@@ -39,6 +39,14 @@ function IJulia.metadata(x::plt.Figure)
     w, h = (x.get_figwidth(), x.get_figheight()) .* x.get_dpi()
     return Dict("image/png" => Dict("width" => 0.5 * w, "height" => 0.5 * h))
 end
+
+printsimple(df::DataFrame) = show(
+    df; 
+    summary = false,
+    eltypes = false,
+    show_row_number = false,
+    formatters = ft_printf("%.3g"),
+)
 
 # Matplotlib settings.
 rcParams = plt.PyDict(mpl."rcParams") # String quotes prevent conversion from Python to 

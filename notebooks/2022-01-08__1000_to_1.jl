@@ -51,7 +51,7 @@ Distributions.cdf(d, x::Quantity) = cdf(d, ustrip(x))
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
 
 rlin = (0:0.01:15)Hz
-rlog = exp10.(log10(0.03):0.01:log10(41))Hz
+rlog = exp10.(log10(0.04):0.01:log10(41))Hz
 function plot_firing_rate_distr(distr; kw...)
     plot(rlin, pdf.(distr, rlin), ax1; clip_on=false, kw...)
     plot(rlog, pdf.(distr, rlog), ax2; clip_on=false, xscale="log", kw...)
@@ -75,12 +75,13 @@ save("log-normal.pdf")
 
 distrs = [oconnor, roxin, input_spike_rate]
 DataFrame(
+    name=["oconnor", "roxin", "this study"],
     σ=getfield.(distrs, :σ),
     mean=mean.(distrs),
     median=median.(distrs),
     std=std.(distrs),
     var=var.(distrs),
-)
+) |> printsimple
 
 # ## .
 
