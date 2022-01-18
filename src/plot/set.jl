@@ -91,42 +91,10 @@ function legend(ax; reorder = false, legendkw...)
     ax.legend([handles[i] for i in order], [labels[i] for i in order]; legendkw...)
 end
 
-"""
-Add an ylabel.
-It's horizontal, like it is for most charts from, eg:
-- The Economist
-- Edward Tufte's "The Visual Display of Quantitative Information"
-- The collected examples at https://flowingdata.com/charttype/line-chart-type/
-"""
-function ylabel(ax, text; dx=0, dy=4, ha="left", va="bottom")
+"""Add a horizontal ylabel."""
+function hylabel(ax, text; dx=0, dy=4, ha="left", va="bottom")
     offset = mpl.transforms.ScaledTranslation(dx / 72, dy / 72, ax.figure.dpi_scale_trans)
     fontsize = mpl.rcParams["axes.labelsize"]
     t = ax.text(0, 1, text; transform=ax.transAxes + offset, ha, va, fontsize)
-    ax.horizontal_ylabel = t
+    ax.hylabel = t
 end
-
-"""
-De-emphasises part of an Axes by colouring it light grey.
-`part` is one of {:xlabel, :ylabel, :xaxis, :yaxis}.
-"""
-function deemph(part::Symbol, ax; color = lightgrey)
-    color = toRGBAtuple(color)
-    if part == :xlabel
-        ax.xaxis.get_label().set_color(color)
-    elseif part == :ylabel
-        ax.yaxis.get_label().set_color(color)
-        if hasproperty(ax, :horizontal_ylabel)
-            ax.horizontal_ylabel.set_color(color)
-        end
-    elseif part == :xaxis
-        ax.spines["top"].set_color(color)
-        ax.spines["bottom"].set_color(color)
-        ax.tick_params(; axis = "x", which = "both", color, labelcolor = color)
-    elseif part == :yaxis
-        ax.spines["left"].set_color(color)
-        ax.spines["right"].set_color(color)
-        ax.tick_params(; axis = "y", which = "both", color, labelcolor = color)
-    end
-end
-
-const lightgrey = HSL(0, 0, 0.77)
