@@ -484,7 +484,7 @@
 using Distributions
 using DataFrames
 using PartialFunctions: $
-using PyFormattedStrings, LaTeXStrings, FilePaths
+using PyFormattedStrings, LaTeXStrings, FilePaths, Colors
 using Unitful: mV, Hz, ms, s as second, minute
 using PyPlot: PyPlot as plt, matplotlib as mpl
 using VoltageToMap
@@ -497,19 +497,6 @@ using VoltageToMap
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">save</span> <span class="o">=</span> <span class="n">savefig</span> <span class="o">$</span> <span class="p">(;</span> <span class="n">subdir</span><span class="o">=</span><span class="s">"methods"</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
-<span class="c"># ax.set(xlabel=("yo", :loc=&gt;"right"))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"yo"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"right"</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_3_0.png" src="../_images/2022-01-08__1000_to_1_3_0.png">
 </div>
 </div>
 <div class="section" id="firing-rates">
@@ -582,44 +569,10 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Define probability distributions on unitful quantities.</span>
-<span class="n">Distributions</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Quantity</span><span class="p">)</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ustrip</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="n">unit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Distributions</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Quantity</span><span class="p">)</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ustrip</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="n">unit</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">Distributions</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Quantity</span><span class="p">)</span> <span class="o">=</span> <span class="n">cdf</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">ustrip</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">))</span>
-
-<span class="n">rlin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">15</span><span class="p">)</span><span class="n">Hz</span>
-<span class="n">rlog</span> <span class="o">=</span> <span class="n">exp10</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">2</span><span class="p">)</span><span class="n">Hz</span>
-<span class="k">function</span> <span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">distr</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlin</span><span class="p">,</span> <span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlin</span><span class="p">),</span> <span class="n">ax1</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlog</span><span class="p">,</span> <span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlog</span><span class="p">),</span> <span class="n">ax2</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s">"log"</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlin</span><span class="p">,</span> <span class="n">cdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlin</span><span class="p">),</span> <span class="n">ax3</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">roxin</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Roxin"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">C2</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">))</span>
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">oconnor</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"O'Connor"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">))</span>
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">input_spike_rate</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"This study"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.7</span><span class="p">)</span>
-
-<span class="n">set</span><span class="p">(</span><span class="n">ax1</span><span class="p">;</span> <span class="n">ytickstyle</span><span class="o">=</span><span class="ss">:range</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Input firing rate"</span><span class="p">)</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax2</span><span class="p">;</span> <span class="n">ytickstyle</span><span class="o">=</span><span class="ss">:range</span><span class="p">)</span>
-<span class="n">legend</span><span class="p">(</span><span class="n">ax3</span><span class="p">;</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower left"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">))</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="s">"Probability density"</span><span class="p">)</span>
-<span class="n">ylabel</span><span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="s">"Cumulative probability"</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"(log)"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
-<span class="n">deemph</span><span class="o">.</span><span class="p">(</span><span class="ss">:yaxis</span><span class="p">,</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">w_pad</span><span class="o">=-</span><span class="mi">5</span><span class="p">)</span>
-
-<span class="n">save</span><span class="p">(</span><span class="s">"log-normal.pdf"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_12_0.png" src="../_images/2022-01-08__1000_to_1_12_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -643,8 +596,9 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 <span class="n">legend</span><span class="p">(</span><span class="n">ax3</span><span class="p">;</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower left"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">))</span>
 <span class="n">ylabel</span><span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="s">"Probability density"</span><span class="p">)</span>
 <span class="n">ylabel</span><span class="p">(</span><span class="n">ax3</span><span class="p">,</span> <span class="s">"Cumulative probability"</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"(log)"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"(log scale)"</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
 <span class="n">deemph</span><span class="o">.</span><span class="p">(</span><span class="ss">:yaxis</span><span class="p">,</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">])</span>
+<span class="n">deemph</span><span class="p">(</span><span class="ss">:xlabel</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">w_pad</span><span class="o">=-</span><span class="mf">2.4</span><span class="p">)</span>
 
 <span class="n">save</span><span class="p">(</span><span class="s">"log-normal.pdf"</span><span class="p">)</span>
@@ -652,7 +606,7 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_13_0.png" src="../_images/2022-01-08__1000_to_1_13_0.png">
+<img alt="../_images/2022-01-08__1000_to_1_11_0.png" src="../_images/2022-01-08__1000_to_1_11_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -824,7 +778,7 @@ u: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_23_0.png" src="../_images/2022-01-08__1000_to_1_23_0.png">
+<img alt="../_images/2022-01-08__1000_to_1_21_0.png" src="../_images/2022-01-08__1000_to_1_21_0.png">
 </div>
 </div>
 </div>
