@@ -1,5 +1,6 @@
-export mix, lighten, darken, toRGBAtuple, deemph, lightgrey
-export mplcolors, C0, C1, C2, C3, C4, C5, C6, C7, C9, C10
+export mix, lighten, darken, toRGBAtuple, deemph,
+       black, white, lightgrey, mplcolors,
+       C0, C1, C2, C3, C4, C5, C6, C7, C9, C10
 
 """Convert a Color to an `(r,g,b,a)` tuple ∈ [0,1]⁴, as accepted by Matplotlib."""
 toRGBAtuple(c) = toRGBAtuple(RGBA(c))
@@ -9,6 +10,10 @@ mplcolors = C0, C1, C2, C3, C4, C5, C6, C7, C9, C10 = parse.(RGB,
     ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
      "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf" ]
 )
+
+black = Gray(0)
+white = Gray(1)
+lightgrey = Gray(0.77)
 
 """
 Mix a color with white. `original` specifies how much is left of the original color.
@@ -40,16 +45,10 @@ function deemph(part::Symbol, ax; color = lightgrey)
         ax.yaxis.get_label().set_color(color)
         hasproperty(ax, :hylabel) && ax.hylabel.set_color(color)
     elseif part == :xaxis
-        ax.spines["top"].set_color(color)
-        ax.spines["bottom"].set_color(color)
+        foreach(loc -> ax.spines[loc].set_color(color), ["top", "bottom"])
         ax.tick_params(; axis = "x", which = "both", color, labelcolor = color)
     elseif part == :yaxis
-        ax.spines["left"].set_color(color)
-        ax.spines["right"].set_color(color)
+        foreach(loc -> ax.spines[loc].set_color(color), ["left", "right"])
         ax.tick_params(; axis = "y", which = "both", color, labelcolor = color)
     end
 end
-
-lightgrey = Gray(0.77)
-white = Gray(1)
-black = Gray(0)
