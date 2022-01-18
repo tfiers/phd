@@ -1,5 +1,8 @@
 using Unitful: Time
 
+const Optional = Union{T,Nothing} where {T}
+
+
 """An array where one dimension represents evenly spaced samples in time."""
 struct Signal{T,N} <: AbstractArray{T,N}
     

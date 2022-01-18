@@ -1,21 +1,15 @@
 module VoltageToMap
 
-include("util.jl")
+using FilePaths: @p_str
 
-include("signal.jl")
-export Signal, duration
+include(p"plot/imports.jl")
+include(p"plot/plot.jl"); export plot
+include(p"plot/set.jl"); export set, legend, ylabel, deemph
+include(p"plot/colors.jl"); export mix, lighten, darken, toRGBAtuple,
+                                   C0, C1, C2, C3, C4, C5, C6, C7, C9, C10, mplcolors
+include(p"plot/style.jl"); export mplstyle
 
-include("plot.jl")
-export plot, set, legend, ylabel, deemph, savefig, mix, lighten, darken, toRGBAtuple
-export C0, C1, C2, C3, C4, C5, C6, C7, C9, C10, mplcolors
-
-include("plotstyle.jl")
-export mplstyle
-
-# include("unitfuldistributions.jl")
-# export Normal, LogNormal, Exponential, Gamma
-# export pdf, cdf, rand
-
+include("signal.jl"); export Signal, duration
 include("show.jl")
 
 end

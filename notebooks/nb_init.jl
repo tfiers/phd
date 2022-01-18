@@ -25,6 +25,19 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
 @print using VoltageToMap         # Our own code, in [root]/src/.
 
 
+function savefig(fname; subdir)
+    "figdir" in keys(ENV) || error("Environment variable `figdir` not set.")
+    dir = Path(ENV["figdir"]) / subdir
+    exists(dir) || mkpath(dir)
+    plt.savefig(string(dir / fname))
+end
+
+# Hi-def ('retina') figures in notebook. [https://github.com/JuliaLang/IJulia.jl/pull/918]
+function IJulia.metadata(x::plt.Figure)
+    w, h = (x.get_figwidth(), x.get_figheight()) .* x.get_dpi()
+    return Dict("image/png" => Dict("width" => 0.5 * w, "height" => 0.5 * h))
+end
+
 # Matplotlib settings.
 rcParams = plt.PyDict(mpl."rcParams") # String quotes prevent conversion from Python to 
                                       # Julia dict, so that mutating the dict affects mpl.
