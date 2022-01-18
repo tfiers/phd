@@ -1,3 +1,5 @@
+export plot
+
 """
 Beautiful plots by default. To plot on an existing Axes, pass it as the last non-keyword
 argument. Keyword arguments that apply to `Line2D`s are passed to `ax.plot`. The rest are

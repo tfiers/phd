@@ -1,3 +1,5 @@
+export Signal, duration
+
 using Unitful: Time
 
 const Optional = Union{T,Nothing} where {T}

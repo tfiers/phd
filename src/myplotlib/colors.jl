@@ -1,3 +1,6 @@
+export mix, lighten, darken, toRGBAtuple, deemph, lightgrey
+export mplcolors, C0, C1, C2, C3, C4, C5, C6, C7, C9, C10
+
 convertColorantstoRGBAtuples(dictlike) =
     Dict(k => (v isa Colorant) ? toRGBAtuple(v) : v for (k, v) in dictlike)
 

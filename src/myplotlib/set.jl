@@ -1,3 +1,5 @@
+export set, legend, hylabel
+
 """
 Set Axes properties and apply beautiful defaults.
 Use `xtickstyle` or `ytickstyle` = `:range` to mark the data range (and nothing else).

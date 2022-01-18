@@ -1,3 +1,5 @@
+export mplstyle
+
 mplstyle = Dict(
     "axes.spines.top"      => false,
     "axes.spines.right"    => false,
