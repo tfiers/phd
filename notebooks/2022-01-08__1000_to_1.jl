@@ -51,7 +51,7 @@ Distributions.cdf(d, x::Quantity) = cdf(d, ustrip(x))
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
 
 rlin = (0:0.01:15)Hz
-rlog = exp10.(-2:0.01:2)Hz
+rlog = exp10.(log10(0.03):0.01:log10(41))Hz
 function plot_firing_rate_distr(distr; kw...)
     plot(rlin, pdf.(distr, rlin), ax1; clip_on=false, kw...)
     plot(rlog, pdf.(distr, rlog), ax2; clip_on=false, xscale="log", kw...)
@@ -62,11 +62,13 @@ plot_firing_rate_distr(roxin, label="Roxin", c=lighten(C2, 0.4))
 plot_firing_rate_distr(oconnor, label="O'Connor", c=lighten(C1, 0.4))
 plot_firing_rate_distr(input_spike_rate, label="This study", c=C0, lw=2.7)
 
-set(ax1; xlabel="Input firing rate", hylabel="Probability density", ytickstyle=:range)
-set(ax2; xlabel=("(log scale)", :loc=>"center", :c=>lightgrey), ytickstyle=:range)
-set(ax3; hylabel="Cumulative probability", legend=(:loc=>"lower left", :bbox_to_anchor=>(0.5, 0.02)))
-deemph.(:yaxis, [ax1, ax2])
-plt.tight_layout(w_pad=-2.4)
+set(ax1; xlabel="Input firing rate", ytickstyle=:range, hylabel="Probability density")
+set(ax2; xlabel=("(log scale)", :loc=>:center), yaxis=:off)
+set(ax3; hylabel="Cumulative probability")
+deemph(:yaxis, ax1)
+legend(ax2, loc="center", bbox_to_anchor=(-0.14, 0.7), reorder=[3=>1])
+ax2.get_legend().set_in_layout(false)
+plt.tight_layout(w_pad=1)
 
 save("log-normal.pdf")
 # -

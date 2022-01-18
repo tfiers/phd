@@ -6,20 +6,32 @@ Use `xtickstyle` or `ytickstyle` = `:range` to mark the data range (and nothing 
 """
 function set(
     ax;
+    yaxis = :left,
     xtickstyle = :default,
     ytickstyle = :default,
     xminorticks = true,
     yminorticks = true,
     kw...
 )
+    if yaxis == :right
+        ax.yaxis.tick_right()
+        ax.spines["right"].set_visible(true)
+        ax.spines["left"].set_visible(false)
+    elseif yaxis == :off
+        ax.yaxis.set_visible(false)
+        ax.spines["right"].set_visible(false)
+        ax.spines["left"].set_visible(false)
+    end
+
     # Instead of calling `ax.set(; kw...)`, we call the individual methods, so that we
     # can pass more than just the one argument for each.
     for (k, v) in kw
         hasproperty(ax, "set_$k") && _call(getproperty(ax, "set_$k"), v)
     end
-    # Our new functions.
+
     :hylabel in keys(kw) && _call((hylabel $ ax), kw[:hylabel])
     :legend in keys(kw) && _call((legend $ ax), kw[:legend])
+
     # Various defaults that can't be set through rcParams
     ax.grid(axis = "both", which = "minor", color = "#F4F4F4", linewidth = 0.44)
     for pos in ("left", "right", "bottom", "top")
@@ -27,10 +39,12 @@ function set(
         #    `Spine.set_position` resets ticks, and in doing so removes text properties.
         #    Hence these must be called before `_set_ticks` below.
     end
-    # Fix sloppy-looking behaviour where only top and left gridlines are visible when
-    # gridlines are on the limits.
+    
+    # Fix default behaviour where only top and left gridlines are visible when gridlines are
+    # on the limits.
     ax.yaxis.get_gridlines()[1].set_clip_on(false)  # bottom
     ax.xaxis.get_gridlines()[end].set_clip_on(false)  # right
+
     # Our opinionated tick defaults. 
     _set_ticks(ax, [xtickstyle, ytickstyle], [xminorticks, yminorticks])
 end
@@ -67,9 +81,11 @@ function legend(ax; reorder = false, legendkw...)
 end
 
 """Add a horizontal ylabel."""
-function hylabel(ax, text; dx=0, dy=4, ha="left", va="bottom")
+function hylabel(ax, s; loc=:left, dx=0, dy=4)
     offset = mpl.transforms.ScaledTranslation(dx / 72, dy / 72, ax.figure.dpi_scale_trans)
+    transform = ax.transAxes + offset
     fontsize = mpl.rcParams["axes.labelsize"]
-    t = ax.text(0, 1, text; transform=ax.transAxes + offset, ha, va, fontsize)
+    x = (loc == :left) ? 0 : (loc == :center) ? 0.5 : 1
+    t = ax.text(; x, y=1, s, transform, ha=loc, va="bottom", fontsize)
     ax.hylabel = t
 end
