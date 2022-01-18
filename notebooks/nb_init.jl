@@ -21,16 +21,18 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
 @print using Unitful: mV, Hz, ms, s as second, minute
        using Unitful
 @print using PyPlot: PyPlot as plt, matplotlib as mpl  # Matplotlib API.
+       using IJulia
 
 @print using VoltageToMap         # Our own code, in [root]/src/.
 
 
-function savefig(fname; subdir)
+function savefig(fname; subdir = nothing)
     "figdir" in keys(ENV) || error("Environment variable `figdir` not set.")
-    dir = Path(ENV["figdir"]) / subdir
+    dir = Path(ENV["figdir"])
+    isnothing(subdir) || (dir = dir / subdir)
     exists(dir) || mkpath(dir)
     plt.savefig(string(dir / fname))
-end
+end 
 
 # Hi-def ('retina') figures in notebook. [https://github.com/JuliaLang/IJulia.jl/pull/918]
 function IJulia.metadata(x::plt.Figure)
