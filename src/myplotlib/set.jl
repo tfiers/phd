@@ -12,11 +12,14 @@ function set(
     yminorticks = true,
     kw...
 )
-    axeskw = (Dict(k => v for (k, v) in kw if hasproperty(ax, "set_$k"))
-              |> convertColorantstoRGBAtuples)
-    ax.set(; axeskw...)
-    :hylabel in keys(kw) && call((hylabel $ ax), kw[:hylabel])
-    :legend in keys(kw) && call((legend $ ax), kw[:legend])
+    # Instead of calling `ax.set(; kw...)`, we call the individual methods, so that we
+    # can pass more than just the one argument for each.
+    for (k, v) in kw
+        hasproperty(ax, "set_$k") && _call(getproperty(ax, "set_$k"), v)
+    end
+    # Our new functions.
+    :hylabel in keys(kw) && _call((hylabel $ ax), kw[:hylabel])
+    :legend in keys(kw) && _call((legend $ ax), kw[:legend])
     # Various defaults that can't be set through rcParams
     ax.grid(axis = "both", which = "minor", color = "#F4F4F4", linewidth = 0.44)
     for pos in ("left", "right", "bottom", "top")
@@ -33,13 +36,19 @@ function set(
 end
 
 """Given a tuple like `("arg", :key => "val")`, call `f("arg"; key="val")`."""
-function call(f, x::Tuple)
-    i = findfirst(el -> el isa Pair, x)
-    args = x[1:i-1]
-    kwargs = x[i:end]
-    f(args...; kwargs...)
+function _call(f, x::Tuple)
+    firstkw = findfirst(el -> el isa Pair, x)
+    if isnothing(firstkw)
+        args = x
+        kwargs = ()
+    else
+        args = x[1:firstkw-1]
+        kwargs = x[firstkw:end]        
+    end
+    f((args .|> as_mpl_type)...; (kwargs |> mapvals $ as_mpl_type)...)
 end
-call(f, x) = f(x)
+
+_call(f, x) = f(x |> as_mpl_type)
 
 """
 Add a legend to the axes. Change the order of the items in the legend using

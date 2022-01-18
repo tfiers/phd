@@ -15,15 +15,12 @@ function plot(args...; kw...)
     end
     plotkw = Dict(k => v for (k, v) in kw if hasproperty(mpl.lines.Line2D, "set_$k"))
     otherkw = Dict(k => v for (k, v) in kw if k ∉ keys(plotkw))
-    ax.plot((args .|> ustrip)...; (plotkw |> convertColorantstoRGBAtuples)...)
+    ax.plot((args .|> as_mpl_type)...; (plotkw |> mapvals $ as_mpl_type)...)
     _handle_units!(ax, args)  # Mutating, because `_extract_plotted_data!` peels off `args`
                               # until it's empty.
     set(ax; otherkw...)
     return ax
 end
-
-Unitful.ustrip(x) = x
-#   Note: cannot place this definition in `plot`.
 
 function _handle_units!(ax, plotargs)
     xs, ys = _extract_plotted_data!(plotargs)
