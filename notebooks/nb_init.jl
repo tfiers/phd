@@ -15,7 +15,8 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
 @print using PartialFunctions: $  # Currying (`func $ a`, like `partial(func, a)` in Python).
 @print using PyFormattedStrings,  # f-strings as in Python (but with C format spec).
              LaTeXStrings,        # `L"These strings can contain $ and \ without escaping"`.
-             FilePaths            # `Path` type and `/` joins, as in Python.
+             FilePaths,           # `Path` type and `/` joins, as in Python.
+             Colors
        using FilePathsBase: /
 @print using Unitful: mV, Hz, ms, s as second, minute
        using Unitful

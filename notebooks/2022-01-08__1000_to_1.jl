@@ -20,11 +20,6 @@ include("nb_init.jl");
 
 save = savefig $ (; subdir="methods");
 
-fig,ax=plt.subplots()
-ax.plot(randn(8))
-# ax.set(xlabel=("yo", :loc=>"right"))
-ax.set_xlabel("yo", loc="right");
-
 # ## Firing rates
 
 # We want Poisson firing, i.e. ISIs with an exponential distribution.  
@@ -49,35 +44,8 @@ gauss_variance(7.4, 12.6)  # for oconnor
 
 oconnor = LogNormal_with_mean(7.4, √0.3)
 
-# Define probability distributions on unitful quantities.
 Distributions.pdf(d, x::Quantity) = pdf(d, ustrip(x)) / unit(x)
 Distributions.cdf(d, x::Quantity) = cdf(d, ustrip(x))
-
-# +
-fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
-
-rlin = (0:0.01:15)Hz
-rlog = exp10.(-2:0.01:2)Hz
-function plot_firing_rate_distr(distr; kw...)
-    plot(rlin, pdf.(distr, rlin), ax1; clip_on=false, kw...)
-    plot(rlog, pdf.(distr, rlog), ax2; clip_on=false, xscale="log", kw...)
-    plot(rlin, cdf.(distr, rlin), ax3; clip_on=false, ylim=(0,1), kw...)
-end
-
-plot_firing_rate_distr(roxin, label="Roxin", c=lighten(C2, 0.6))
-plot_firing_rate_distr(oconnor, label="O'Connor", c=lighten(C1, 0.6))
-plot_firing_rate_distr(input_spike_rate, label="This study", c=C0, lw=2.7)
-
-set(ax1; ytickstyle=:range, xlabel="Input firing rate")
-set(ax2; ytickstyle=:range)
-legend(ax3; loc="lower left", bbox_to_anchor=(0.5, 0.02))
-ylabel(ax1, "Probability density")
-ylabel(ax3, "Cumulative probability")
-ax2.set_xlabel("(log)", loc="center")
-deemph.(:yaxis, [ax1, ax2])
-plt.tight_layout(w_pad=-5)
-
-save("log-normal.pdf")
 
 # +
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
@@ -99,8 +67,9 @@ set(ax2; ytickstyle=:range)
 legend(ax3; loc="lower left", bbox_to_anchor=(0.5, 0.02))
 ylabel(ax1, "Probability density")
 ylabel(ax3, "Cumulative probability")
-ax2.set_xlabel("(log)", loc="center")
+ax2.set_xlabel("(log scale)", loc="center")
 deemph.(:yaxis, [ax1, ax2])
+deemph(:xlabel, ax2)
 plt.tight_layout(w_pad=-2.4)
 
 save("log-normal.pdf")

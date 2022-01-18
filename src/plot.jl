@@ -27,6 +27,7 @@ function plot(args...; kw...)
 end
 
 Unitful.ustrip(x) = x
+#   Note: cannot place this definition in `plot`.
 
 function _handle_units!(ax, plotargs)
     xs, ys = _extract_plotted_data!(plotargs)
@@ -173,7 +174,13 @@ function legend(ax; reorder = false, legendkw...)
     ax.legend([handles[i] for i in order], [labels[i] for i in order]; legendkw...)
 end
 
-"""Add a horizontal ylabel."""
+"""
+Add an ylabel.
+It's horizontal, like it is for most charts from, eg:
+- The Economist
+- Edward Tufte's "The Visual Display of Quantitative Information"
+- The collected examples at https://flowingdata.com/charttype/line-chart-type/
+"""
 function ylabel(ax, text; dx=0, dy=4, ha="left", va="bottom")
     offset = mpl.transforms.ScaledTranslation(dx / 72, dy / 72, ax.figure.dpi_scale_trans)
     fontsize = mpl.rcParams["axes.labelsize"]
@@ -183,18 +190,14 @@ end
 
 """
 De-emphasises part of an Axes by colouring it light grey.
-`part` is one of {:title, :xlabel, :ylabel, :xaxis, :yaxis}.
+`part` is one of {:xlabel, :ylabel, :xaxis, :yaxis}.
 """
 function deemph(part::Symbol, ax; color = lightgrey)
     color = toRGBAtuple(color)
-    if part == :title
-        for loc in ("left", "center", "right")
-            ax.set_title(ax.get_title(loc); color)
-        end
-    elseif part == :xlabel
-        ax.set_xlabel(ax.get_xlabel(); color)
+    if part == :xlabel
+        ax.xaxis.get_label().set_color(color)
     elseif part == :ylabel
-        ax.set_ylabel(ax.get_ylabel(); color)
+        ax.yaxis.get_label().set_color(color)
         if hasproperty(ax, :horizontal_ylabel)
             ax.horizontal_ylabel.set_color(color)
         end
