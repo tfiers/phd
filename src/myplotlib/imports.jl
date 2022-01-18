@@ -1,6 +1,7 @@
 using PyPlot: PyPlot as plt, matplotlib as mpl
 using PyCall
-using Printf
+using Unitful
 using Colors
 using ColorVectorSpace
-using Unitful
+using Printf
+using PartialFunctions

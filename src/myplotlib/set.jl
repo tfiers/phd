@@ -10,9 +10,13 @@ function set(
     ytickstyle = :default,
     xminorticks = true,
     yminorticks = true,
-    axeskw...
+    kw...
 )
-    ax.set(; (axeskw |> convertColorantstoRGBAtuples)...)
+    axeskw = (Dict(k => v for (k, v) in kw if hasproperty(ax, "set_$k"))
+              |> convertColorantstoRGBAtuples)
+    ax.set(; axeskw...)
+    :hylabel in keys(kw) && call((hylabel $ ax), kw[:hylabel])
+    :legend in keys(kw) && call((legend $ ax), kw[:legend])
     # Various defaults that can't be set through rcParams
     ax.grid(axis = "both", which = "minor", color = "#F4F4F4", linewidth = 0.44)
     for pos in ("left", "right", "bottom", "top")
@@ -27,6 +31,15 @@ function set(
     # Our opinionated tick defaults. 
     _set_ticks(ax, [xtickstyle, ytickstyle], [xminorticks, yminorticks])
 end
+
+"""Given a tuple like `("arg", :key => "val")`, call `f("arg"; key="val")`."""
+function call(f, x::Tuple)
+    i = findfirst(el -> el isa Pair, x)
+    args = x[1:i-1]
+    kwargs = x[i:end]
+    f(args...; kwargs...)
+end
+call(f, x) = f(x)
 
 function _set_ticks(ax, tickstyles, minorticks_enableds)
     xypairs = zip([ax.xaxis, ax.yaxis], tickstyles, minorticks_enableds)
