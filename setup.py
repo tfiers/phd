@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-SOURCE_DIR = "codebase"
+SOURCE_DIR = "codebase/python"
 
 
 setup(
@@ -48,7 +48,7 @@ setup(
         "preload ~= 2.1",  # Print what's happening during slow imports.
         "nptyping ~= 1.3",  # Type hints (shape, data type) for NumPy arrays.
         "matplotlib-label-lines ~= 0.4",  # Labels on lines themselves, instead of in
-                                          # separate legend box.
-                                          # https://stackoverflow.com/a/39402483/2611913
+        # separate legend box.
+        # https://stackoverflow.com/a/39402483/2611913
     ),
 )

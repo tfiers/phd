@@ -9,20 +9,21 @@ For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/%F
 <br>
 
 The code was initially written in Python, and later in Julia.
-- `src/` is the Julia codebase, and `Project.toml` and `Manifest.toml` show the required & exact installed Julia packages.
-- `codebase/` is the Python codebase, `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
-- `notebooks/` contains all Jupyter Notebooks, both in Python and, later, in Julia.
-- `website/` contains config and code to build the website where the notebooks are hosted as a JupyterBook.
+
+- `codebase/julia` is the Julia codebase. `JuliaProject.toml` and `JuliaManifest.toml` show the required & exact installed Julia packages.
+- `codebase/python` is the Python codebase. `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
+- `notebooks/` contains all Jupyter Notebooks, both in Python and, later (from 2022 on), in Julia.
+- `website/` contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
 
 
 ## Julia
 
-To reproduce results:
+To reproduce results (i.e. run one of the notebooks):
 
-- If new to Julia, [download](https://julialang.org/downloads/) and run an installer for your OS.
-- In the [`notebooks/`](notebooks/) directory, choose a Julia notebook you want to run. (They start from 2022 on). Copy the hash of its last commit (linked next to it).
-- `git clone` this repository and `git checkout` the copied commit.
-  - Why the `checkout` of an older commit? The codebase that is called from the notebook will have changed since the notebook was last run (unless it is one of the newest notebooks). This `checkout` restores the codebase to its former, working state for the notebook.
+- You need a version of Julia ∈ [1.7, 2). [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
+- Choose a Julia notebook to run. Copy the hash of the last commit to the notebook file. A link to this commit can be found next to the notebook's filename in the [`notebooks/`](notebooks/) directory on GitHub.
+  - Why do we need this commit? The codebase that is called from the notebook will have been further developed since the notebook was last run (unless you chose one of the most recent notebooks). Checking out the commit (next step) restores the codebase to its former, working state for the notebook.
+- `git clone` this repository. `git checkout` the copied commit hash.
 - In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
   This might need a shell with admin access.
@@ -62,7 +63,7 @@ Install the code and these dependencies by running, in the project root director
 pip install -e .
 ```
 (The `-e` stands for `editable`, meaning you can change the source code 
-— found in [`codebase/voltage_to_wiring_sim/`](codebase/voltage_to_wiring_sim/) — 
+— found in [`codebase/python/voltage_to_wiring_sim/`](codebase/python/voltage_to_wiring_sim/) — 
 and then use this updated code in your scripts and notebooks, without having to reinstall
 the package).
 
@@ -116,7 +117,7 @@ introducing changes to it (i.e. it's a smoke test or integration test).
 
 <br>
 
-## Licenses
+## Licences
 
 The favicon for the website is © 2020 The Jupyter Book Community, 
-licensed under [their BSD-3-clause license](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).
+licensed under [their BSD-3-clause licence](https://github.com/executablebooks/jupyter-book/blob/master/LICENSE).

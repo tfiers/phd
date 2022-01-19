@@ -7,9 +7,9 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.6
+#       jupytext_version: 1.10.0
 #   kernelspec:
-#     display_name: Julia 1.7.1
+#     display_name: Julia 1.7.0
 #     language: julia
 #     name: julia-1.7
 # ---
@@ -18,7 +18,7 @@
 
 include("nb_init.jl");
 
-save = savefig $ (; subdir="methods");
+save(fname) = savefig(fname, subdir="methods");
 
 # ## Firing rates
 
@@ -30,22 +30,19 @@ save = savefig $ (; subdir="methods");
 `μₓ` is the mean of the log of the Gaussian.
 """
 function LogNormal_with_mean(μₓ, σ)
-    μ = log(μₓ) - σ^2 / 2
+    μ = log(μₓ / unit(μₓ)) - σ^2 / 2
     LogNormal(μ, σ)
 end;
 
 # Mean and variance from Roxin2011 (cross checked with its refs Hromádka, O'Connor).
-input_spike_rate = LogNormal_with_mean(4, √0.6)  # (Hz, dimensionless)
+input_spike_rate = LogNormal_with_mean(4Hz, √0.6)
 
-roxin = LogNormal_with_mean(5, √1.04)
+roxin = LogNormal_with_mean(5Hz, √1.04)
 
 gauss_variance = σ² = (σ_X, μ_X) -> log(1 + σ_X^2 / μ_X^2)
-gauss_variance(7.4, 12.6)  # for oconnor
+gauss_variance(7.4Hz, 12.6Hz)  # for oconnor
 
-oconnor = LogNormal_with_mean(7.4, √0.3)
-
-Distributions.pdf(d, x::Quantity) = pdf(d, ustrip(x)) / unit(x)
-Distributions.cdf(d, x::Quantity) = cdf(d, ustrip(x))
+oconnor = LogNormal_with_mean(7.4Hz, √0.3)
 
 # +
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
