@@ -1,25 +1,51 @@
-using Random: AbstractRNG
-using Unitful: Units, Quantity
-using Distributions: Distribution, VariateForm, ValueSupport
-import Distributions: pdf, cdf, rand
+using Random
+using Unitful
+using Unitful: Units
+using Distributions
+
+import Random: rand
+import Distributions: pdf, cdf
 import Distributions: Exponential, Normal, LogNormal, Gamma
 
-struct UnitfulDistribution{F<:VariateForm,S<:ValueSupport} <: Distribution{F,S}
-    distribution::Distribution{F,S}
-    units::Units
+
+struct UnitfulDistribution{D <: Distribution, U <: Units}
+    distribution::D
+    units::U
 end
-# Note that we don't make UDist a subtype of it's wrapped distr.
-# We only subtype the general type, to make it Sampleable.
 
-const UDist = UnitfulDistribution
 
-pdf(d::UDist, x::Quantity) = pdf(d.distr, x / d.units) / d.units
-cdf(d::UDist, x::Quantity) = cdf(d.distr, x / d.units)
-rand(rng::AbstractRNG, d::UDist) = rand(rng, d.distribution) * d.units
+pdf(d::UnitfulDistribution, x::Quantity) = pdf(d.distribution, (x / d.units) |> NoUnits) / d.units
+cdf(d::UnitfulDistribution, x::Quantity) = cdf(d.distribution, (x / d.units) |> NoUnits)
 
-# Type piracy warnings, cause neither Dists nor Quantity are defined by us.
-# Disabled with setting "julia.lint.pirates".
-Exponential(λ::Quantity)                   = UDist(Exponential(ustrip(λ)), unit(λ))
-Normal(μ::Quantity, σ::Quantity)           = UDist(Normal(ustrip(μ), ustrip(σ)), unit(μ))
-LogNormal(μ::Real, σ::Real, units::Units)  = UDist(LogNormal(μ, σ), units)
-Gamma(α::Real, θ::Quantity)                = UDist(Gamma(α, ustrip(θ)), unit(θ))
+# The Random extension API.
+function rand(rng::AbstractRNG, sampler::Random.SamplerTrivial{<:UnitfulDistribution})
+    d::UnitfulDistribution = sampler[]
+    return rand(rng, d.distribution) * d.units
+end
+# To make sure arrays returned by `rand` do not have type `Any`.
+Base.eltype(::Type{UnitfulDistribution{D,U}}) where {D,U} =
+    Quantity{eltype(D),dimension(U()),U}
+
+# Allow eg `pdf.(d, multiple_values)`.
+Broadcast.broadcastable(d::UnitfulDistribution{<:UnivariateDistribution}) = Ref(d)
+
+
+
+# Type piracy warnings, cause neither Distrs nor Quantity are defined by us.
+# Disabled with vscode setting "julia.lint.pirates".
+Exponential(θ::Quantity) = UnitfulDistribution(
+    Exponential(ustrip(θ)),
+    unit(θ),
+)
+Normal(μ::Quantity, σ::Quantity) = UnitfulDistribution(
+    Normal(ustrip(μ), ustrip(σ)),
+    unit(μ),
+)
+LogNormal(μ::Real, σ::Real, units::Units) = UnitfulDistribution(
+    LogNormal(μ, σ),
+    units,
+)
+Gamma(α::Real, θ::Quantity) = UnitfulDistribution(
+    Gamma(α, ustrip(θ)),
+    unit(θ),
+)

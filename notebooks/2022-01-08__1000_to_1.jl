@@ -16,6 +16,8 @@
 
 # # 2022-01-08 • 1000-to-1
 
+using Pkg; Pkg.resolve()
+
 using Revise
 using Unitful
 using Unitful: Hz, s, ms
@@ -25,10 +27,9 @@ using Distributions
 θ = 1/λ |> s
 d = Exponential(θ)
 
-T = typeof(d)
-fit_mle(T, suffstats(T, [3s, 1s, 1s], float([1,1,1])))
+pdf(d, 3Hz^-1)
 
-
+logpdf(d, 3Hz^-1)
 
 
 
@@ -47,7 +48,7 @@ save(fname) = savefig(fname, subdir="methods");
 """
 function LogNormal_with_mean(μₓ, σ)
     μ = log(μₓ / unit(μₓ)) - σ^2 / 2
-    LogNormal(μ, σ)
+    LogNormal(μ, σ, unit(μₓ))
 end;
 
 # Mean and variance from Roxin2011 (cross checked with its refs Hromádka, O'Connor).
@@ -89,7 +90,7 @@ save("log-normal.pdf")
 distrs = [oconnor, roxin, input_spike_rate]
 DataFrame(
     name=["oconnor", "roxin", "this study"],
-    σ=getfield.(distrs, :σ),
+    σ=varlogx.(distrs),
     mean=mean.(distrs),
     median=median.(distrs),
     std=std.(distrs),

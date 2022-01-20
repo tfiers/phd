@@ -10,6 +10,8 @@ include(p"myplotlib/colors.jl")
 include(p"myplotlib/typecompat.jl")
 include(p"myplotlib/style.jl")
 
+# include("unitfuldistributions.jl")
+
 include("signal.jl")
 include("show.jl")
 
