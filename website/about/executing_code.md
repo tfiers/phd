@@ -40,10 +40,12 @@ Google Colab does not play well with non-self-contained notebooks; i.e. those ne
 ```
 
 
-## Jupyter notebook tips
+## Jupyter notebook tips (Python only)
 
 This is a short overview of tricks.\
 For a full treatment, see the first chapter of Jake VanderPlas's excellent "Python for Data Science Handbook", which is freely available online [here](https://jakevdp.github.io/PythonDataScienceHandbook/#Table-of-Contents). (That chapter describes IPython. IPython is the project out of which Jupyter grew, and the current main technology behind Jupyter Python notebooks).
+
+Also note that these are for Python only. Julia has its own inspection, debugging, and profiling tools.
 
 Onto the tips.
 

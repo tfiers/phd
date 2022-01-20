@@ -20,8 +20,8 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
        using FilePathsBase: /
 @print using Unitful: mV, Hz, ms, s as second, minute
        using Unitful
-@print using PyPlot: PyPlot as plt, matplotlib as mpl  # Matplotlib API.
        using IJulia
+@print using PyPlot: PyPlot as plt, matplotlib as mpl  # Matplotlib API.
 
 @print using VoltageToMap         # Our own code, in [root]/src/.
 

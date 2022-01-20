@@ -23,10 +23,13 @@ the notebook will use functions and modules that have been renamed or don't exis
 ```{margin}
 See {ref}`running-in-the-cloud` for more on Binder.
 ```
-Hence, I will try to mention in each notebook with which version of the codebase it was last run succesfully.
+
+<!-- Hence, I will try to mention in each notebook with which version of the codebase it was last run succesfully.
 This 'version' will be a git commit. I will provide links to GitHub and Binder pages
 where the repository is rolled back to that commit,
-so that the source code can be viewed, and the notebook executed, at that point in history.
+so that the source code can be viewed, and the notebook executed, at that point in history.-->
+
+See the "Julia" section of the [ReadMe](https://github.com/tfiers/voltage-to-wiring-sim#readme) for how to run old notebooks. (In short: check out the commit in which the notebook was last changed).
 
 
 (giving-feedback-in-context)=

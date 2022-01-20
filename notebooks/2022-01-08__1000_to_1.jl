@@ -7,14 +7,30 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.10.0
+#       jupytext_version: 1.13.6
 #   kernelspec:
-#     display_name: Julia 1.7.0
+#     display_name: Julia 1.7.1
 #     language: julia
 #     name: julia-1.7
 # ---
 
 # # 2022-01-08 • 1000-to-1
+
+using Revise
+using Unitful
+using Unitful: Hz, s, ms
+using Distributions
+
+λ = 3Hz
+θ = 1/λ |> s
+d = Exponential(θ)
+
+T = typeof(d)
+fit_mle(T, suffstats(T, [3s, 1s, 1s], float([1,1,1])))
+
+
+
+
 
 include("nb_init.jl");
 
@@ -39,16 +55,16 @@ input_spike_rate = LogNormal_with_mean(4Hz, √0.6)
 
 roxin = LogNormal_with_mean(5Hz, √1.04)
 
-gauss_variance = σ² = (σ_X, μ_X) -> log(1 + σ_X^2 / μ_X^2)
-gauss_variance(7.4Hz, 12.6Hz)  # for oconnor
+σ² = (σ_X, μ_X) -> log(1 + σ_X^2 / μ_X^2)
+σ²_oconnor = σ²(7.4Hz, 12.6Hz)
 
-oconnor = LogNormal_with_mean(7.4Hz, √0.3)
+oconnor = LogNormal_with_mean(7.4Hz, √σ²_oconnor)
 
 # +
 fig, (ax1, ax2, ax3) = plt.subplots(ncols=3, figsize=(8, 2.2))
 
-rlin = (0:0.01:15)Hz
-rlog = exp10.(log10(0.04):0.01:log10(41))Hz
+rlin = (0:0.01:15) * Hz
+rlog = (log10(0.04):0.01:log10(41) .|> exp10) * Hz
 function plot_firing_rate_distr(distr; kw...)
     plot(rlin, pdf.(distr, rlin), ax1; clip_on=false, kw...)
     plot(rlog, pdf.(distr, rlog), ax2; clip_on=false, xscale="log", kw...)
