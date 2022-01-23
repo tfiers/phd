@@ -1,3 +1,6 @@
 [submodule "julia-codebase/dev/Distributions"]
 	path = julia-codebase/dev/Distributions
 	url = https://github.com/tfiers/Distributions.jl.git
+[submodule "julia-codebase/dev/Unitful"]
+	path = julia-codebase/dev/Unitful
+	url = https://github.com/tfiers/Unitful.jl.git

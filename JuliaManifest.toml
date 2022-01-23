@@ -904,7 +904,7 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [[deps.Unitful]]
 deps = ["ConstructionBase", "Dates", "LinearAlgebra", "Random"]
-git-tree-sha1 = "b95e0b8a8d1b6a6c3e0b3ca393a7a285af47c264"
+path = "julia-codebase/dev/Unitful"
 uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
 version = "1.10.1"
 
