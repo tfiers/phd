@@ -11,8 +11,8 @@ For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/%F
 The code was initially written in Python, and later in Julia.
 
 - `notebooks/` contains Jupyter Notebooks, both in Python and later, from 2022 on, in Julia. These notebooks draw and store figures, and call functions from an external codebase:
-- `codebase/julia` is the Julia codebase. `JuliaProject.toml` and `JuliaManifest.toml` show the required & exact installed Julia packages.
-- `codebase/python` is the Python codebase. `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
+- `julia-codebase/` is the main codebase. `JuliaProject.toml` and `JuliaManifest.toml` show the required & exact installed Julia packages.
+- `python-codebase/` is the deprecated Python codebase. `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
 - `website/` contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
 
 
@@ -63,7 +63,7 @@ Install the code and these dependencies by running, in the project root director
 pip install -e .
 ```
 (The `-e` stands for `editable`, meaning you can change the source code 
-— found in [`codebase/python/voltage_to_wiring_sim/`](codebase/python/voltage_to_wiring_sim/) — 
+— found in [`python-codebase/voltage_to_wiring_sim/`](python-codebase/voltage_to_wiring_sim/) — 
 and then use this updated code in your scripts and notebooks, without having to reinstall
 the package).
 
@@ -86,8 +86,8 @@ This imports useful packages (`numpy as np`, `voltage_to_wiring_sim as v`, etc),
 configures IPython (like enabling `%autoreload`, 'retina' figures, nice number formatting, etc).
 
 
-More explanation on the code can be found in the [Python files](codebase/voltage_to_wiring_sim/) 
-themselves in, as comments and docstrings.
+More explanation on the code can be found in the [Python files](python-codebase/voltage_to_wiring_sim/) 
+themselves, as comments and docstrings.
 
 
 <br>

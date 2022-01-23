@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-SOURCE_DIR = "codebase/python"
+SOURCE_DIR = "python-codebase"
 
 
 setup(

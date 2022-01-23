@@ -206,7 +206,7 @@ uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Distributions]]
 deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test", "Unitful"]
-path = "codebase/julia/dev/Distributions"
+path = "julia-codebase/dev/Distributions"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
 version = "0.25.40"
 
@@ -927,7 +927,7 @@ version = "0.2.0"
 
 [[deps.VoltageToMap]]
 deps = ["ColorVectorSpace", "Colors", "FilePaths", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Unitful"]
-path = "codebase/julia"
+path = "julia-codebase"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"
 

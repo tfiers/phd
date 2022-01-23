@@ -1,11 +1,11 @@
-# Run tests (in `codebase/tests/`) on every push of Python code to GitHub.
+# Run tests (in `python-codebase/tests/`) on every push of Python code to GitHub.
 
 name: CI
 
 # Avoid website or notebook edits triggering the testing machine.
 on:
   push:
-    paths: [ 'codebase/**' ]
+    paths: [ 'python-codebase/**' ]
 
 jobs:
   pytest:
@@ -35,5 +35,5 @@ jobs:
         run: pip install pytest
 
       - name: Run tests
-        working-directory: codebase/tests
+        working-directory: python-codebase/tests
         run: pytest

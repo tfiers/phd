@@ -20,16 +20,18 @@ using Pkg; Pkg.resolve()
 
 using Revise
 using Unitful
-using Unitful: Hz, s, ms
+using Unitful: Hz, s, ms, mV
 using Distributions
 
-λ = 3Hz
-θ = 1/λ |> s
-d = Exponential(θ)
 
-pdf(d, 3Hz^-1)
 
-logpdf(d, 3Hz^-1)
+
+
+
+
+
+
+
 
 
 
@@ -47,8 +49,8 @@ save(fname) = savefig(fname, subdir="methods");
 `μₓ` is the mean of the log of the Gaussian.
 """
 function LogNormal_with_mean(μₓ, σ)
-    μ = log(μₓ / unit(μₓ)) - σ^2 / 2
-    LogNormal(μ, σ, unit(μₓ))
+    μ = log(μₓ / oneunit(μₓ)) - σ^2 / 2
+    LogNormal(μ, σ, oneunit(μₓ))
 end;
 
 # Mean and variance from Roxin2011 (cross checked with its refs Hromádka, O'Connor).
