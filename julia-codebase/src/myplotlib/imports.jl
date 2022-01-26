@@ -5,4 +5,4 @@ using Unitful: Units
 using Colors
 using ColorVectorSpace
 using Printf
-using PartialFunctions
+using PartialFunctions: $

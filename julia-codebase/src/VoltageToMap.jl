@@ -3,6 +3,7 @@ module VoltageToMap
 using FilePaths: @p_str
 
 include(p"myplotlib/imports.jl")
+include(p"myplotlib/util.jl")
 include(p"myplotlib/plot.jl")
 include(p"myplotlib/set.jl")
 include(p"myplotlib/ticks.jl")

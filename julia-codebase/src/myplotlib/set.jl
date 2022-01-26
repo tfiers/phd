@@ -29,8 +29,8 @@ function set(
         hasproperty(ax, "set_$k") && _call(getproperty(ax, "set_$k"), v)
     end
 
-    :hylabel in keys(kw) && _call((hylabel $ ax), kw[:hylabel])
-    :legend in keys(kw) && _call((legend $ ax), kw[:legend])
+    :hylabel in keys(kw) && _call(hylabel $ ax, kw[:hylabel])
+    :legend in keys(kw) && _call(legend $ ax, kw[:legend])
 
     # Various defaults that can't be set through rcParams
     ax.grid(axis = "both", which = "minor", color = "#F4F4F4", linewidth = 0.44)
@@ -39,13 +39,13 @@ function set(
         #    `Spine.set_position` resets ticks, and in doing so removes text properties.
         #    Hence these must be called before `_set_ticks` below.
     end
-    
+
     # Fix default behaviour where only top and left gridlines are visible when gridlines are
     # on the limits.
     ax.yaxis.get_gridlines()[1].set_clip_on(false)  # bottom
     ax.xaxis.get_gridlines()[end].set_clip_on(false)  # right
 
-    # Our opinionated tick defaults. 
+    # Our opinionated tick defaults.
     _set_ticks(ax, [xtickstyle, ytickstyle], [xminorticks, yminorticks])
 end
 
@@ -57,7 +57,7 @@ function _call(f, x::Tuple)
         kwargs = ()
     else
         args = x[1:firstkw-1]
-        kwargs = x[firstkw:end]        
+        kwargs = x[firstkw:end]
     end
     f((args .|> as_mpl_type)...; (kwargs |> mapvals $ as_mpl_type)...)
 end

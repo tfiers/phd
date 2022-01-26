@@ -8,7 +8,7 @@ passed to `set`.
 function plot(args...; kw...)
     :data in keys(kw) && error("'data' keyword not supported.")
     args = [args...]  # Tuple to Vector (so we can `pop!`)
-    if last(args) isa PyObject && pyisinstance(last(args), plt.matplotlib.axes.Axes)
+    if last(args) isa PyObject && pyisinstance(last(args), mpl.axes.Axes)
         ax = pop!(args)
     else
         ax = plt.gca()
@@ -26,12 +26,12 @@ function _handle_units!(ax, plotargs)
     xs, ys = _extract_plotted_data!(plotargs)
     for (arrays, axis) in zip([xs, ys], [ax.xaxis, ax.yaxis])
         for array in arrays
-            has_mixed_dimensions(array) && 
+            has_mixed_dimensions(array) &&
                 error("Argument has mixed dimensions: $array")
         end
-        dims_collection = dimension.(arrays)
-        all(isequal(first(dims_collection)), dims_collection) ||
-            error("Not all $(axis.axis_name)-axis arrays have the same dimensions: $dims_collection.")
+        arrays_dimensions = dimension.(arrays)
+        all(isequal(first(arrays_dimensions)), arrays_dimensions) ||
+            error("Not all $(axis.axis_name)-axis arrays have the same dimensions: $arrays_dimensions.")
         # Store units as a new property on the array object. Note that `units` property
         # already exists in Mpl.
         axis.unitful_units = unit(eltype(first(arrays)))
@@ -44,8 +44,7 @@ has_mixed_dimensions(x::AbstractArray)                                     = fal
 
 function _extract_plotted_data!(plotargs)
     # Process `ax.plot`'s vararg by peeling off the front: [x], y, [fmt].
-    # Based on https://github.com/matplotlib/matplotlib
-    #          /blob/710fce/lib/matplotlib/axes/_base.py#L304-L312
+    # Based on https://github.com/matplotlib/matplotlib/blob/710fce/lib/matplotlib/axes/_base.py#L304-L312
     xs = []
     ys = []
     while !isempty(plotargs)
