@@ -5,7 +5,7 @@ name: CI
 # Avoid website or notebook edits triggering the testing machine.
 on:
   push:
-    paths: [ 'python-codebase/**', '.github/worfklows/CI.yml' ]
+    paths: [ 'python-codebase/**', '.github/workflows/**' ]
 
 jobs:
   pytest:
