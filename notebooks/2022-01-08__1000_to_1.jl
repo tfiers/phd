@@ -16,25 +16,6 @@
 
 # # 2022-01-08 • 1000-to-1
 
-using Pkg; Pkg.resolve()
-
-using Revise
-using Unitful
-using Unitful: Hz, s, ms, mV
-using Distributions
-
-
-
-
-
-
-
-
-
-
-
-
-
 include("nb_init.jl");
 
 save(fname) = savefig(fname, subdir="methods");
@@ -49,8 +30,8 @@ save(fname) = savefig(fname, subdir="methods");
 `μₓ` is the mean of the log of the Gaussian.
 """
 function LogNormal_with_mean(μₓ, σ)
-    μ = log(μₓ / oneunit(μₓ)) - σ^2 / 2
-    LogNormal(μ, σ, oneunit(μₓ))
+    μ = log(μₓ / unit(μₓ)) - σ^2 / 2
+    LogNormal(μ, σ, unit(μₓ))
 end;
 
 # Mean and variance from Roxin2011 (cross checked with its refs Hromádka, O'Connor).
@@ -90,16 +71,16 @@ save("log-normal.pdf")
 # -
 
 distrs = [oconnor, roxin, input_spike_rate]
-DataFrame(
+(df = DataFrame(
     name=["oconnor", "roxin", "this study"],
-    σ=varlogx.(distrs),
+    σ=stdlogx.(distrs),
     mean=mean.(distrs),
     median=median.(distrs),
     std=std.(distrs),
     var=var.(distrs),
-) |> printsimple
+)) |> printsimple
 
-# ## .
+# ## Sim
 
 Nunconn = 100
 Nexc    = 5200
