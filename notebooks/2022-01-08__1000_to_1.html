@@ -428,8 +428,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   .
+  <a class="reference internal nav-link" href="#sim">
+   Sim
   </a>
  </li>
 </ul>
@@ -458,8 +458,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   .
+  <a class="reference internal nav-link" href="#sim">
+   Sim
   </a>
  </li>
 </ul>
@@ -475,35 +475,6 @@
 <h1>2022-01-08 &#8226; 1000-to-1<a class="headerlink" href="#to-1" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Pkg</span><span class="p">;</span> <span class="n">Pkg</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `C:\Users\lpxtf3\OneDrive\PhD\voltage-to-wiring-sim\JuliaProject.toml`
-<span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `C:\Users\lpxtf3\OneDrive\PhD\voltage-to-wiring-sim\JuliaManifest.toml`
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
-<span class="k">using</span> <span class="n">Unitful</span>
-<span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">Hz</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">mV</span>
-<span class="k">using</span> <span class="n">Distributions</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#9484; Info: Precompiling Distributions [31c24e10-a181-5473-b8eb-7969acd0382f]
-&#9492; @ Base loading.jl:1423
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"nb_init.jl"</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -517,13 +488,6 @@ using PyFormattedStrings, LaTeXStrings, FilePaths, Colors
 using Unitful: mV, Hz, ms, s, minute
 using PyPlot: PyPlot as plt, matplotlib as mpl
 using VoltageToMap
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#9484; Info: Precompiling Distributions [31c24e10-a181-5473-b8eb-7969acd0382f]
-&#9492; @ Base loading.jl:1423
-&#9484; Warning: `vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
-&#9474;   caller = npyinitialize() at numpy.jl:67
-&#9492; @ PyCall C:\Users\lpxtf3\.julia\packages\PyCall\L0fLP\src\numpy.jl:67
 </pre></div>
 </div>
 </div>
@@ -546,8 +510,8 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 <span class="s">`&#956;&#8339;` is the mean of the log of the Gaussian.</span>
 <span class="s">"""</span>
 <span class="k">function</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">)</span>
-    <span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">oneunit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">LogNormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">oneunit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span>
+    <span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">LogNormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -561,21 +525,7 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching LogNormal(::Float64, ::Float64, ::Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing})
-<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
-  <span class="n">LogNormal</span><span class="p">(::</span><span class="n">T</span><span class="p">,</span> <span class="p">::</span><span class="n">T</span><span class="p">;</span> <span class="n">check_args</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span><span class="o">&lt;</span><span class="p">:</span><span class="n">Real</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">OneDrive</span>\<span class="n">PhD</span>\<span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>\<span class="n">codebase</span>\<span class="n">julia</span>\<span class="n">dev</span>\<span class="n">Distributions</span>\<span class="n">src</span>\<span class="n">univariate</span>\<span class="n">continuous</span>\<span class="n">lognormal</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">35</span>
-  <span class="n">LogNormal</span><span class="p">(::</span><span class="n">Real</span><span class="p">,</span> <span class="p">::</span><span class="n">Real</span><span class="p">;</span> <span class="n">check_args</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">OneDrive</span>\<span class="n">PhD</span>\<span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>\<span class="n">codebase</span>\<span class="n">julia</span>\<span class="n">dev</span>\<span class="n">Distributions</span>\<span class="n">src</span>\<span class="n">univariate</span>\<span class="n">continuous</span>\<span class="n">lognormal</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">40</span>
-  <span class="n">LogNormal</span><span class="p">(::</span><span class="n">Real</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">OneDrive</span>\<span class="n">PhD</span>\<span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>\<span class="n">codebase</span>\<span class="n">julia</span>\<span class="n">dev</span>\<span class="n">Distributions</span>\<span class="n">src</span>\<span class="n">univariate</span>\<span class="n">continuous</span>\<span class="n">lognormal</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">42</span>
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">::</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Int64</span><span class="p">,</span> <span class="n">&#119827;</span><span class="o">^-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Unitful</span><span class="o">.</span><span class="n">FreeUnits</span><span class="p">{(</span><span class="n">Hz</span><span class="p">,),</span> <span class="n">&#119827;</span><span class="o">^-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nothing</span><span class="p">}},</span> <span class="n">&#963;</span><span class="p">::</span><span class="n">Float64</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Main</span> <span class="o">.</span>\<span class="n">In</span><span class="p">[</span><span class="mi">139</span><span class="p">]:</span><span class="mi">7</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">140</span><span class="p">]:</span><span class="mi">2</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
 </pre></div>
 </div>
 </div>
@@ -587,7 +537,7 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VoltageToMap.UnitfulDistribution{LogNormal{Float64}, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(LogNormal{Float64}(&#956;=1.0894379124341003, &#963;=1.019803902718557), Hz)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0894379124341003, &#963;=1.019803902718557)
 </pre></div>
 </div>
 </div>
@@ -612,7 +562,7 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>VoltageToMap.UnitfulDistribution{LogNormal{Float64}, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(LogNormal{Float64}(&#956;=1.8533115616194222, &#963;=0.5443683285987568), Hz)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.8533115616194222, &#963;=0.5443683285987568)
 </pre></div>
 </div>
 </div>
@@ -646,50 +596,36 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_18_0.png" src="../_images/2022-01-08__1000_to_1_18_0.png">
+<img alt="../_images/2022-01-08__1000_to_1_10_0.png" src="../_images/2022-01-08__1000_to_1_10_0.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">distrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">oconnor</span><span class="p">,</span> <span class="n">roxin</span><span class="p">,</span> <span class="n">input_spike_rate</span><span class="p">]</span>
-<span class="n">DataFrame</span><span class="p">(</span>
+<span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="p">[</span><span class="s">"oconnor"</span><span class="p">,</span> <span class="s">"roxin"</span><span class="p">,</span> <span class="s">"this study"</span><span class="p">],</span>
-    <span class="n">&#963;</span><span class="o">=</span><span class="n">varlogx</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
+    <span class="n">&#963;</span><span class="o">=</span><span class="n">stdlogx</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
     <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
     <span class="n">median</span><span class="o">=</span><span class="n">median</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
     <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
     <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-<span class="p">)</span> <span class="o">|&gt;</span> <span class="n">printsimple</span>
+<span class="p">))</span> <span class="o">|&gt;</span> <span class="n">printsimple</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">UnitfulDistribution</span> <span class="n">has</span> <span class="n">no</span> <span class="n">field</span> <span class="n">&#963;</span>
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">_broadcast_getindex_evalf</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">broadcast</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">670</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">_broadcast_getindex</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">broadcast</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">643</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">getindex</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">broadcast</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">597</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">copy</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">broadcast</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">899</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">materialize</span><span class="p">(</span><span class="n">bc</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">Broadcast</span><span class="o">.</span><span class="n">Broadcasted</span><span class="p">{</span><span class="n">Base</span><span class="o">.</span><span class="n">Broadcast</span><span class="o">.</span><span class="n">DefaultArrayStyle</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">getfield</span><span class="p">),</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Vector</span><span class="p">{</span><span class="n">VoltageToMap</span><span class="o">.</span><span class="n">UnitfulDistribution</span><span class="p">{</span><span class="n">LogNormal</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Unitful</span><span class="o">.</span><span class="n">FreeUnits</span><span class="p">{(</span><span class="n">Hz</span><span class="p">,),</span> <span class="n">&#119827;</span><span class="o">^-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nothing</span><span class="p">}}},</span> <span class="n">Base</span><span class="o">.</span><span class="n">RefValue</span><span class="p">{</span><span class="n">Symbol</span><span class="p">}}})</span>
-   <span class="o">@</span> <span class="n">Base</span><span class="o">.</span><span class="n">Broadcast</span> <span class="o">.</span>\<span class="n">broadcast</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">860</span>
- <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">]:</span><span class="mi">2</span>
- <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> name        &#963;      mean (Hz)   median (Hz)   std (Hz)   var (Hz&#178;)  </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+ oconnor     0.544  7.4         6.38          4.35       18.9
+ roxin       1.02   5           2.97          6.76       45.7
+ this study  0.775  4           2.96          3.63       13.2
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="id1">
-<h2>.<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="sim">
+<h2>Sim<a class="headerlink" href="#sim" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Nunconn</span> <span class="o">=</span> <span class="mi">100</span>
@@ -835,7 +771,7 @@ u: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__1000_to_1_28_0.png" src="../_images/2022-01-08__1000_to_1_28_0.png">
+<img alt="../_images/2022-01-08__1000_to_1_20_0.png" src="../_images/2022-01-08__1000_to_1_20_0.png">
 </div>
 </div>
 </div>
