@@ -23,7 +23,7 @@ To reproduce results (i.e. run one of the notebooks):
 - You need a version of Julia ∈ [1.7, 2). [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
 - Choose a Julia notebook to run. Copy the hash of the last commit to the notebook file. (A link to this commit and its hash can be found next to the notebook's filename in the [`notebooks/`](notebooks/) directory on GitHub).
   - Why do we need this commit? The codebase that is called from the notebook will have been further developed since the notebook was last run (unless you chose one of the most recent notebooks). Checking out the commit (next step) restores the codebase to its former, working state for the notebook.
-- `git clone` this repository. `git checkout` the copied commit hash.
+- `git clone --recursive` this repository's url, and `git checkout` the copied commit hash.
 - In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
   This might need a shell with admin access.
