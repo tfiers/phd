@@ -16,6 +16,8 @@
 
 # # 2022-01-08 • 1000-to-1
 
+using Pkg; Pkg.resolveve()
+
 include("nb_init.jl");
 
 save(fname) = savefig(fname, subdir="methods");
@@ -88,24 +90,25 @@ Ninh    = Nexc ÷ 4
 
 Ninh + Nexc
 
-using DataStructures: PriorityQueue
+using DataStructures
 using Unitful: Time
 
 # +
-λ = rand(input_spike_rate, Nexc)  # Hz
-exps = Exponential.(λ)  # Hz
-first_spiketimes = rand.(exps) * second
+λ = rand(input_spike_rate, Nexc)
+β = seconds.(1 ./ λ)
+exps = Exponential.(β)
+first_spiketimes = rand.(exps)
 
 pq = PriorityQueue{Int, Time}()
 for (i, t) in enumerate(first_spiketimes)
     enqueue!(pq, i => t)
 end
 
-sim_duration = 10*second;
-t = 0.0*second
+sim_duration = 10*seconds;
+t = 0.0*seconds
 while t < sim_duration
     i, t = dequeue_pair!(pq)  # earliest spike
-    new_ISI = rand(exps[i]) * second
+    new_ISI = rand(exps[i])
     enqueue!(pq, i => t + new_ISI)
 end
 # -

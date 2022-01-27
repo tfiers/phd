@@ -745,6 +745,12 @@ git-tree-sha1 = "40c1c606543c0130cd3673f0dd9e11f2b5d76cd0"
 uuid = "0bca4576-84f4-4d90-8ffe-ffa030f20462"
 version = "1.26.0"
 
+[[deps.Sciplotlib]]
+deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Unitful"]
+path = "julia-codebase/dev/Sciplotlib"
+uuid = "61be95e5-9550-4d5f-a203-92a5acbc3116"
+version = "0.1.0"
+
 [[deps.Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 

@@ -19,10 +19,11 @@ end  # (src: https://discourse.julialang.org/t/modifying-the-time-macro/2790/8)
              Printf,
              Colors
        using FilePathsBase: /
-@print using Unitful: mV, Hz, ms, s, minute
+@print using Unitful: mV, Hz, ms, s, s as seconds, minute
        using Unitful
        using IJulia
 @print using PyPlot: PyPlot as plt, matplotlib as mpl  # Matplotlib API.
+@print using Sciplotlib
 
 @print using VoltageToMap         # Our own code, in [root]/src/.
 
@@ -68,7 +69,7 @@ move_units_to_header(df::DataFrame) = move_units_to_header!(copy(df))
 rcParams = plt.PyDict(mpl."rcParams") # String quotes prevent conversion from Python to
                                       # Julia dict, so that mutating the dict affects mpl.
 merge!(rcParams, mpl.rcParamsOrig) # Reset, so that we can remove properties from
-                                   # `VoltageMap.style` in an interactive session.
-merge!(rcParams, VoltageToMap.mplstyle)
+                                   # `mplstyle` in an interactive session.
+merge!(rcParams, mplstyle)
 
 ;

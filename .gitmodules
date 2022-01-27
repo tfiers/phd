@@ -4,3 +4,6 @@
 [submodule "julia-codebase/dev/Unitful"]
 	path = julia-codebase/dev/Unitful
 	url = https://github.com/tfiers/Unitful.jl.git
+[submodule "julia-codebase/dev/Sciplotlib"]
+	path = julia-codebase/dev/Sciplotlib
+	url = git@github.com:tfiers/Sciplotlib.jl.git
