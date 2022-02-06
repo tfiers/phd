@@ -7,3 +7,9 @@
 [submodule "julia-codebase/dev/Sciplotlib"]
 	path = julia-codebase/dev/Sciplotlib
 	url = git@github.com:tfiers/Sciplotlib.jl.git
+[submodule "julia-codebase/dev/WhatIsHappening"]
+	path = julia-codebase/dev/WhatIsHappening
+	url = git@github.com:tfiers/WhatIsHappening.jl.git
+[submodule "julia-codebase/dev/MyToolbox"]
+	path = julia-codebase/dev/MyToolbox
+	url = git@github.com:tfiers/MyToolbox.jl.git

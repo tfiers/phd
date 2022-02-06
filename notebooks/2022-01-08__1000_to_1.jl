@@ -16,9 +16,7 @@
 
 # # 2022-01-08 • 1000-to-1
 
-using Pkg; Pkg.resolveve()
-
-include("nb_init.jl");
+include("nb_init.jl")
 
 save(fname) = savefig(fname, subdir="methods");
 
@@ -93,10 +91,11 @@ Ninh + Nexc
 using DataStructures
 using Unitful: Time
 
-# +
 λ = rand(input_spike_rate, Nexc)
 β = seconds.(1 ./ λ)
 exps = Exponential.(β)
+
+# +
 first_spiketimes = rand.(exps)
 
 pq = PriorityQueue{Int, Time}()
