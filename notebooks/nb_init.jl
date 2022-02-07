@@ -9,8 +9,7 @@ global_logger(ActiveFilteredLogger(!hasdepwarning, get_pretty_notebook_logger())
 @withfeedback import Distributions
 @withfeedback import PyPlot
 @withfeedback import DataFrames, PrettyTables
-@withfeedback import BenchmarkTools, Profile, FilePaths
-@withfeedback import Unitful, Sciplotlib
+@withfeedback import MyToolbox
 @withfeedback using VoltageToMap
 
 # Cannot be reexported from a package (i.e. MyToolbox / VoltageToMap), as it then clashes

@@ -23,7 +23,7 @@ dev_dependencies = (
     Sciplotlib     => [Unitful],
     MyToolbox      => [Sciplotlib, Unitful],
     VoltageToMap   => [MyToolbox, Distributions, Unitful],
-    nb_init        => [Sciplotlib, WhatIsHappening_, VoltageToMap, Distributions, Unitful],
+    nb_init        => [WhatIsHappening_, VoltageToMap, MyToolbox, Sciplotlib, Distributions, Unitful],
 )
 # Note that these are sorted, with the higher levels last.
 
