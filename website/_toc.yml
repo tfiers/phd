@@ -9,7 +9,8 @@
 - part: Notebooks
   chapters:
     # - file: notebooks/
-    - file: notebooks/2022-01-08__1000_to_1
+    - file: notebooks/2022-02-07__big_N_to_1
+    - file: notebooks/2022-01-08__lognormal_firing_rates
     - file: notebooks/2021-12-08__biology_vs_Izh_subhtr
     - file: notebooks/2021-12-06__local_HH_dV_shape
     - file: notebooks/2021-12-02__LIF_vs_Izh_subthreshold
