@@ -33,7 +33,7 @@ To reproduce results (i.e. run one of the notebooks):
   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
   This might need a shell with admin access.
     - `instantiate` installs the exact package versions specified in `Manifest.toml`, which is included in the repository for the purpose of reproducibility.
-    - If you want to instead install newer versions of dependencies, run `julia setup.jl`.
+    - If you want to instead install newer versions of dependencies, run `julia setup.jl` in the terminal.
 - Start a Jupyter server.
     - If you don't have Jupyter installed, run `using IJulia` and `notebook()` in the julia repl.
     - If you have, the usual `jupyter notebook` in the terminal works.
