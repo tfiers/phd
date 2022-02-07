@@ -1,6 +1,6 @@
-# Instantiate the Julia project and packages in this repository (i.e. for each, create a
-# `Manifest.toml` with all dependencies, and install those), with the specification that the
-# local, development versions of the packages present in this repo must be used.
+# Instantiate the Julia projects in this repository (i.e. for each, create a `Manifest.toml`
+# with all its dependencies, and install those), with the specification that the local,
+# development versions of the packages present in this repo must be used.
 
 using Pkg, TOML
 
@@ -25,13 +25,27 @@ dev_dependencies = (
     VoltageToMap   => [MyToolbox, Distributions, Unitful],
     nb_init        => [WhatIsHappening_, VoltageToMap, MyToolbox, Sciplotlib, Distributions, Unitful],
 )
-# Note that these are sorted, with the higher levels last.
+# Note that these are sorted, with the higher level projects last.
 
-function apply_project_fix(deps)
+function main() {
+    for (projdir, depdirs) in dev_dependencies
+        cd(projdir)
+        rm("Manifest.toml", force=true)
+        Pkg.activate(".")
+        projdir == reporoot && apply_fix(depdirs)
+        for depdir in depdirs
+            Pkg.develop(path=relpath(depdir))
+        end
+        Pkg.instantiate()
+    end
+    println("\n💃 All done")
+}
+
+function apply_fix(depdirs)
     @info "Temporarily removing dev dependencies from main `Project.toml`"
     # Without this fix, we get "LoadError: expected package {devdep} to be registered".
     # This fix is only necessary for the (main) project, not the packages. Pkg.jl bug?
-    for depdir in deps
+    for depdir in depdirs
         pkgname = joinpath(depdir, "Project.toml") |> TOML.parsefile |> d -> d["name"]
         try Pkg.rm(pkgname)
         catch # The dependency is already removed from `Project.toml`.
@@ -39,15 +53,4 @@ function apply_project_fix(deps)
     end
 end
 
-for (dir, deps) in dev_dependencies
-    cd(dir)
-    rm("Manifest.toml", force=true)
-    Pkg.activate(".")
-    dir == reporoot && apply_project_fix(deps)
-    for depdir in deps
-        Pkg.develop(path=relpath(depdir))
-    end
-    Pkg.instantiate()
-end
-
-println("\n💃 All done")
+main()
