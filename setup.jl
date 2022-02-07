@@ -33,10 +33,8 @@ function apply_project_fix(deps)
     # This fix is only necessary for the (main) project, not the packages. Pkg.jl bug?
     for depdir in deps
         pkgname = joinpath(depdir, "Project.toml") |> TOML.parsefile |> d -> d["name"]
-        try
-            Pkg.rm(pkgname)
-        catch
-            # The dependency is already removed from `Project.toml`.
+        try Pkg.rm(pkgname)
+        catch # The dependency is already removed from `Project.toml`.
         end
     end
 end
