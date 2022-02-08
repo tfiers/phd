@@ -6,6 +6,7 @@ using LoggingExtras
 hasdepwarning(log) = startswith(log.message, "`vendor()` is deprecated")
 global_logger(ActiveFilteredLogger(!hasdepwarning, get_pretty_notebook_logger()))
 
+@withfeedback using Revise
 @withfeedback import Distributions
 @withfeedback import PyPlot
 @withfeedback import DataFrames, PrettyTables
