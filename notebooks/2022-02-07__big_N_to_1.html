@@ -427,8 +427,13 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#input-firing-rates">
-   Input firing rates
+  <a class="reference internal nav-link" href="#parameters">
+   Parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs">
+   Inputs
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -457,8 +462,13 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#input-firing-rates">
-   Input firing rates
+  <a class="reference internal nav-link" href="#parameters">
+   Parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs">
+   Inputs
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -479,17 +489,61 @@ const thebe_selector_output = ".output, .cell_output"
 <h1>2022-01-08 &#8226; Big-N-to-1 simulation<a class="headerlink" href="#big-n-to-1-simulation" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"nb_init.jl"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Distributions
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import BenchmarkTools, Profile, FilePaths
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Unitful, Sciplotlib
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">LoadError</span>: type ActiveFilteredLogger has no field stream
+<span class="ow">in</span> <span class="n">expression</span> <span class="n">starting</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">OneDrive</span>\<span class="n">PhD</span>\<span class="n">vtws</span>\<span class="n">notebooks</span>\<span class="n">nb_init</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">9</span>
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">getproperty</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">ActiveFilteredLogger</span><span class="p">{</span><span class="n">ConsoleLogger</span><span class="p">,</span> <span class="n">Base</span><span class="o">.</span><span class="n">var</span><span class="s2">"#84#85"</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">hasdepwarning</span><span class="p">)}},</span> <span class="n">f</span><span class="p">::</span><span class="n">Symbol</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">Base</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">42</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">Suppressor</span>\<span class="n">nTjgZ</span>\<span class="n">src</span>\<span class="n">Suppressor</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">158</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include</span><span class="p">(</span><span class="n">fname</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span><span class="o">.</span><span class="n">MainInclude</span> <span class="o">.</span>\<span class="n">client</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">451</span>
+ <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="n">warnings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Project.toml`
+  No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Manifest.toml`
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># @withfeedback using OrdinaryDiffEq</span>
+<span class="nd">@withfeedback</span> <span class="k">using</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">ComponentArrays</span>
+<span class="nd">@alias</span> <span class="n">CArray</span> <span class="o">=</span> <span class="n">ComponentArray</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using Parameters, ComponentArrays
 </pre></div>
 </div>
 </div>
@@ -501,44 +555,37 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<div class="section" id="input-firing-rates">
-<h2>Input firing rates<a class="headerlink" href="#input-firing-rates" title="Permalink to this headline">&#182;</a></h2>
-<p>As in the previous notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">"""</span>
-<span class="s">`&#956;` and `&#963;` are mean and standard deviation of the underlying Gaussian.</span>
-<span class="s">`&#956;&#8339;` is the mean of the log of the Gaussian.</span>
-<span class="s">"""</span>
-<span class="k">function</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">)</span>
-    <span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">LogNormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>(to factor out to vtm)</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">input_spike_rate</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">0.6</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="n">redirect_stdout</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>search: <span class=" -Color -Color-Bold">redirect_stdout</span> <span class=" -Color -Color-Bold">redirect_std</span>i<span class=" -Color -Color-Bold">o</span> <span class=" -Color -Color-Bold">redirect_std</span>in <span class=" -Color -Color-Bold">redirect_std</span>err
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">redirect_stdout</span><span class="p">([</span><span class="n">stream</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">stream</span>
+</pre></div>
+</div>
+<p>Create a pipe to which all C and Julia level <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> output will be redirected. Return a stream representing the pipe ends. Data written to <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> may now be read from the <code class="docutils literal notranslate"><span class="pre">rd</span></code> end of the pipe.</p>
+<p>!!! note
+<code class="docutils literal notranslate"><span class="pre">stream</span></code> must be a compatible objects, such as an <code class="docutils literal notranslate"><span class="pre">IOStream</span></code>, <code class="docutils literal notranslate"><span class="pre">TTY</span></code>, <code class="docutils literal notranslate"><span class="pre">Pipe</span></code>, socket, or <code class="docutils literal notranslate"><span class="pre">devnull</span></code>.</p>
+<p>See also <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">redirect_stdio</span></code></span>.</p>
+<hr class="docutils">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Run the function <code class="docutils literal notranslate"><span class="pre">f</span></code> while redirecting <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> to <code class="docutils literal notranslate"><span class="pre">stream</span></code>. Upon completion, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> is restored to its prior setting.</p>
 </div>
 </div>
-</div>
-<div class="section" id="sim">
-<h2>Sim<a class="headerlink" href="#sim" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Nunconn</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">Nexc</span>    <span class="o">=</span> <span class="mi">5200</span>
-<span class="n">Ninh</span>    <span class="o">=</span> <span class="n">Nexc</span> <span class="o">&#247;</span> <span class="mi">4</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_unconn</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">N_E</span>    <span class="o">=</span> <span class="mi">5200</span>
+<span class="n">N_I</span>    <span class="o">=</span> <span class="n">N_E</span> <span class="o">&#247;</span> <span class="mi">4</span>
 </pre></div>
 </div>
 </div>
@@ -550,7 +597,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Ninh</span> <span class="o">+</span> <span class="n">Nexc</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_conn</span> <span class="o">=</span> <span class="n">N_I</span> <span class="o">+</span> <span class="n">N_E</span>
 </pre></div>
 </div>
 </div>
@@ -562,54 +609,76 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataStructures</span>
-<span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">Time</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="n">N_conn</span> <span class="o">+</span> <span class="n">N_unconn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6600
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#955;</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">input_spike_rate</span><span class="p">,</span> <span class="n">Nexc</span><span class="p">)</span>
-<span class="n">&#946;</span> <span class="o">=</span> <span class="n">seconds</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span> <span class="o">./</span> <span class="n">&#955;</span><span class="p">)</span>
-<span class="n">exps</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="p">(</span><span class="n">&#946;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">neuron_ids</span> <span class="o">=</span> <span class="n">CArray</span><span class="p">(</span><span class="n">E</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_E</span><span class="p">,</span> <span class="n">I</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_I</span><span class="p">,</span> <span class="n">unconn</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_unconn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Int64}(E = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  5191, 5192, 5193, 5194, 5195, 5196, 5197, 5198, 5199, 5200], I = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  1291, 1292, 1293, 1294, 1295, 1296, 1297, 1298, 1299, 1300], unconn = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  91, 92, 93, 94, 95, 96, 97, 98, 99, 100])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">first_spiketimes</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="p">(</span><span class="n">exps</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">only</span><span class="p">(</span><span class="n">getaxes</span><span class="p">(</span><span class="n">neuron_ids</span><span class="p">))</span>  
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Axis(E = 1:5200, I = 5201:6500, unconn = 6501:6600)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">showex</span><span class="p">(</span><span class="n">labels</span><span class="p">(</span><span class="n">neuron_ids</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6600-element Vector{String}
+   1: "E[1]"
+   2: "E[2]"
+     &#8942;
+ 650: "E[650]"
+     &#8942;
+5616: "I[416]"
+     &#8942;
+6599: "unconn[99]"
+6600: "unconn[100]"
+</pre></div>
+</div>
+</div>
+</div>
+<p>i.e. global id = index into <code class="docutils literal notranslate"><span class="pre">CArray</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">nS</span><span class="p">,</span> <span class="n">pF</span><span class="p">,</span> <span class="n">pA</span>
 
-<span class="n">pq</span> <span class="o">=</span> <span class="kt">PriorityQueue</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Time</span><span class="p">}()</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">first_spiketimes</span><span class="p">)</span>
-    <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">i</span> <span class="o">=&gt;</span> <span class="n">t</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">seconds</span>
+<span class="n">&#916;t</span>    <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">v0</span>    <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c"># Membrane potential at t = 0</span>
+<span class="n">u0</span>    <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span>  <span class="c"># Adaptation variable at t = 0</span>
+<span class="n">&#964;_syn</span> <span class="o">=</span>   <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">v_I</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c"># Reversal potential at inhibitory synapses</span>
+<span class="n">v_E</span>   <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c"># Reversal potential at excitatory synapses</span>
+                  <span class="c"># v_I and v_E as in `2021-11-11__synaptic_conductance_ratio.pdf`</span>
 
-<span class="n">sim_duration</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">;</span>
-<span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span><span class="o">*</span><span class="n">seconds</span>
-<span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">sim_duration</span>
-    <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">dequeue_pair!</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>  <span class="c"># earliest spike</span>
-    <span class="n">new_ISI</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">exps</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">i</span> <span class="o">=&gt;</span> <span class="n">t</span> <span class="o">+</span> <span class="n">new_ISI</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">OrdinaryDiffEq</span>
-<span class="k">using</span> <span class="n">ComponentArrays</span>
-<span class="k">using</span> <span class="n">Parameters</span>
-<span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">nS</span><span class="p">,</span> <span class="n">pF</span><span class="p">,</span> <span class="n">pA</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@with_kw</span> <span class="k">struct</span> <span class="kt">IzhikevichParams</span>
+<span class="nd">@with_kw</span> <span class="k">struct</span> <span class="kt">IzhikevichParams</span>
     <span class="n">C</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pF</span>
     <span class="n">k</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nS</span>
@@ -620,13 +689,134 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">a</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span>
     <span class="n">d</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pA</span>
 <span class="k">end</span>
-<span class="n">cortical_RS</span> <span class="o">=</span> <span class="n">IzhikevichParams</span><span class="p">();</span>
 
-<span class="n">&#964;_syn</span> <span class="o">=</span> <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span><span class="p">;</span>
+<span class="n">cortical_RS</span> <span class="o">=</span> <span class="n">IzhikevichParams</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># See the previous notebook</span>
+<span class="n">input_spike_rate</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">0.6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#955;</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">input_spike_rate</span><span class="p">,</span> <span class="n">N_</span><span class="p">)</span>  <span class="c"># rates</span>
+<span class="n">&#946;</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">./</span> <span class="n">&#955;</span><span class="p">)</span> <span class="o">.|&gt;</span> <span class="n">seconds</span>  <span class="c"># alternative Exp parametrisation: scale (= 1 / rate)</span>
+<span class="n">ISI_distributions</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="p">(</span><span class="n">&#946;</span><span class="p">);</span>
+<span class="c">#   julia's broadcasting dot syntax: make an Exp distribution for every value in the &#946; vector</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: N_ not defined
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Create v_syn vector: for each neuron, the reversal potential at its downstream synapses.</span>
+<span class="n">vs</span> <span class="o">=</span> <span class="n">CArray</span><span class="p">(</span><span class="n">I</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_I</span><span class="p">,</span> <span class="n">N_I</span><span class="p">),</span> <span class="n">E</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_E</span><span class="p">,</span> <span class="n">N_E</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}}(I = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  &#8230;  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV], E = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  &#8230;  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sim">
+<h2>Sim<a class="headerlink" href="#sim" title="Permalink to this headline">&#182;</a></h2>
+<p>Proof of concept of spike generation using a priority queue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataStructures</span>
+<span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">Time</span>
+
+<span class="n">first_spiketimes</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">)</span>
+
+<span class="n">pq</span> <span class="o">=</span> <span class="kt">PriorityQueue</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Time</span><span class="p">}()</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">input_neuron</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">first_spiketimes</span><span class="p">)</span>
+    <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">input_neuron</span> <span class="o">=&gt;</span> <span class="n">t</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="n">s</span>
+<span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">sim_duration</span>
+    <span class="n">input_neuron</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">dequeue_pair!</span><span class="p">(</span><span class="n">pq</span><span class="p">)</span>  <span class="c"># earliest spike</span>
+    <span class="n">new_ISI</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="n">input_neuron</span><span class="p">])</span>
+    <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">input_neuron</span> <span class="o">=&gt;</span> <span class="n">t</span> <span class="o">+</span> <span class="n">new_ISI</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Base</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="n">U</span><span class="o">::</span><span class="kt">Type</span><span class="p">{</span><span class="o">&lt;:</span><span class="kt">Unitful</span><span class="o">.</span><span class="kt">Units</span><span class="p">})</span> <span class="o">=</span> <span class="n">print</span><span class="p">(</span><span class="n">io</span><span class="p">,</span> <span class="s">"jfjf"</span><span class="p">)</span><span class="c">#"typeof($(U()))")</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">typeof</span><span class="p">(</span><span class="n">Hz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">SYSTEM</span>: show(lasterr) caused an error
+
+<span class="ne">Stacktrace</span>:
+  <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="p">::</span><span class="n">IOContext</span><span class="p">{</span><span class="n">IOBuffer</span><span class="p">},</span> <span class="c1">#unused#::MIME{Symbol("text/plain")}, x::Type)</span>
+    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">show</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">868</span>
+  <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">limitstringmime</span><span class="p">(</span><span class="n">mime</span><span class="p">::</span><span class="n">MIME</span><span class="p">{</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">"text/plain"</span><span class="p">)},</span> <span class="n">x</span><span class="p">::</span><span class="n">Type</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">IJulia</span>\<span class="n">e8kqU</span>\<span class="n">src</span>\<span class="n">inline</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">43</span>
+  <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">display_mimestring</span><span class="p">(</span><span class="n">m</span><span class="p">::</span><span class="n">MIME</span><span class="p">{</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">"text/plain"</span><span class="p">)},</span> <span class="n">x</span><span class="p">::</span><span class="n">Type</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">IJulia</span>\<span class="n">e8kqU</span>\<span class="n">src</span>\<span class="n">display</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">71</span>
+  <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">display_dict</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">Type</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">IJulia</span>\<span class="n">e8kqU</span>\<span class="n">src</span>\<span class="n">display</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">102</span>
+  <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="c1">#invokelatest#2</span>
+    <span class="o">@</span> <span class="o">.</span>\<span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">716</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+  <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">invokelatest</span>
+    <span class="o">@</span> <span class="o">.</span>\<span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">714</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+  <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="n">execute_request</span><span class="p">(</span><span class="n">socket</span><span class="p">::</span><span class="n">ZMQ</span><span class="o">.</span><span class="n">Socket</span><span class="p">,</span> <span class="n">msg</span><span class="p">::</span><span class="n">Msg</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">IJulia</span>\<span class="n">e8kqU</span>\<span class="n">src</span>\<span class="n">execute_request</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">112</span>
+  <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="c1">#invokelatest#2</span>
+    <span class="o">@</span> <span class="o">.</span>\<span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">716</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+  <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="n">invokelatest</span>
+    <span class="o">@</span> <span class="o">.</span>\<span class="n">essentials</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">714</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="n">eventloop</span><span class="p">(</span><span class="n">socket</span><span class="p">::</span><span class="n">ZMQ</span><span class="o">.</span><span class="n">Socket</span><span class="p">)</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">IJulia</span>\<span class="n">e8kqU</span>\<span class="n">src</span>\<span class="n">eventloop</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">8</span>
+ <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="p">(::</span><span class="n">IJulia</span><span class="o">.</span><span class="n">var</span><span class="s2">"#15#18"</span><span class="p">)()</span>
+    <span class="o">@</span> <span class="n">IJulia</span> <span class="o">.</span>\<span class="n">task</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">423</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Superfast.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">f</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
@@ -638,35 +828,16 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">return</span> <span class="nb">nothing</span>
 <span class="k">end</span>
 
-<span class="n">x0</span> <span class="o">=</span> <span class="n">ComponentArray</span><span class="p">(</span><span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mf">80.0</span><span class="n">mV</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mf">0.0</span><span class="n">pA</span><span class="p">)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="kt">ComponentArray</span><span class="p">{</span><span class="kt">Quantity</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}(</span><span class="n">v</span> <span class="o">=</span> <span class="n">v0</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">u0</span><span class="p">)</span>  <span class="c"># note eltype cast to float</span>
 <span class="n">prob</span> <span class="o">=</span> <span class="n">ODEProblem</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">float</span><span class="p">(</span><span class="n">sim_duration</span><span class="p">),</span> <span class="n">cortical_RS</span><span class="p">)</span>
-<span class="n">&#916;t</span> <span class="o">=</span> <span class="mf">0.1</span><span class="n">ms</span>
-<span class="n">integrator</span> <span class="o">=</span> <span class="n">init</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">Tsit5</span><span class="p">();</span> <span class="n">&#916;t</span><span class="p">,</span> <span class="n">adaptive</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="c"># integrator = init(prob, Tsit5(); &#916;t, adaptive=true)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: g not defined
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">f</span><span class="p">(</span><span class="n">D</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">}},</span> <span class="nb">vars</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">}},</span> <span class="n">params</span><span class="p">::</span><span class="n">IzhikevichParams</span><span class="p">,</span> <span class="n">t</span><span class="p">::</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">Unitful</span><span class="o">.</span><span class="n">FreeUnits</span><span class="p">{(</span><span class="n">s</span><span class="p">,),</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">nothing</span><span class="p">}})</span>
-   <span class="o">@</span> <span class="n">Main</span> <span class="o">.</span>\<span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">]:</span><span class="mi">6</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">ODEFunction</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">SciMLBase</span>\<span class="n">jj8Ix</span>\<span class="n">src</span>\<span class="n">scimlfunctions</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">334</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">initialize</span><span class="o">!(</span>integrator::OrdinaryDiffEq.ODEIntegrator<span class="o">{</span>Tsit5<span class="o">{</span>typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">}</span>, true, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, Nothing, Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, IzhikevichParams, Float64, Float64, Float64, Float64, Vector<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}}</span>, ODESolution<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, <span class="m">2</span>, Vector<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}}</span>, Nothing, Nothing, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}}</span>, Vector<span class="o">{</span>Vector<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}}}</span>, ODEProblem<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, Tuple<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}}</span>, true, IzhikevichParams, ODEFunction<span class="o">{</span>true, typeof<span class="o">(</span>f<span class="o">)</span>, LinearAlgebra.UniformScaling<span class="o">{</span>Bool<span class="o">}</span>, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof<span class="o">(</span>SciMLBase.DEFAULT_OBSERVED<span class="o">)</span>, Nothing<span class="o">}</span>, Base.Pairs<span class="o">{</span>Symbol, Union<span class="o">{}</span>, Tuple<span class="o">{}</span>, NamedTuple<span class="o">{()</span>, Tuple<span class="o">{}}}</span>, SciMLBase.StandardODEProblem<span class="o">}</span>, Tsit5<span class="o">{</span>typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">}</span>, OrdinaryDiffEq.InterpolationData<span class="o">{</span>ODEFunction<span class="o">{</span>true, typeof<span class="o">(</span>f<span class="o">)</span>, LinearAlgebra.UniformScaling<span class="o">{</span>Bool<span class="o">}</span>, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof<span class="o">(</span>SciMLBase.DEFAULT_OBSERVED<span class="o">)</span>, Nothing<span class="o">}</span>, Vector<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}}</span>, Vector<span class="o">{</span>Vector<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}}}</span>, OrdinaryDiffEq.Tsit5Cache<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Float64, Vector<span class="o">{</span>Float64<span class="o">}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, OrdinaryDiffEq.Tsit5ConstantCache<span class="o">{</span>Float64, Float64<span class="o">}</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">}}</span>, DiffEqBase.DEStats<span class="o">}</span>, ODEFunction<span class="o">{</span>true, typeof<span class="o">(</span>f<span class="o">)</span>, LinearAlgebra.UniformScaling<span class="o">{</span>Bool<span class="o">}</span>, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, typeof<span class="o">(</span>SciMLBase.DEFAULT_OBSERVED<span class="o">)</span>, Nothing<span class="o">}</span>, OrdinaryDiffEq.Tsit5Cache<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Float64, Vector<span class="o">{</span>Float64<span class="o">}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, OrdinaryDiffEq.Tsit5ConstantCache<span class="o">{</span>Float64, Float64<span class="o">}</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">}</span>, OrdinaryDiffEq.DEOptions<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, Float64, Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, PIController<span class="o">{</span>Rational<span class="o">{</span>Int64<span class="o">}}</span>, typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_NORM<span class="o">)</span>, typeof<span class="o">(</span>LinearAlgebra.opnorm<span class="o">)</span>, Nothing, CallbackSet<span class="o">{</span>Tuple<span class="o">{}</span>, Tuple<span class="o">{}}</span>, typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_ISOUTOFDOMAIN<span class="o">)</span>, typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_PROG_MESSAGE<span class="o">)</span>, typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_UNSTABLE_CHECK<span class="o">)</span>, BinaryHeap<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, DataStructures.FasterForward<span class="o">}</span>, BinaryHeap<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, DataStructures.FasterForward<span class="o">}</span>, Nothing, Nothing, Int64, Tuple<span class="o">{}</span>, Tuple<span class="o">{}</span>, Tuple<span class="o">{}}</span>, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, Float64, Nothing, OrdinaryDiffEq.DefaultInit<span class="o">}</span>, cache::OrdinaryDiffEq.Tsit5Cache<span class="o">{</span>ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}</span>, Vector<span class="o">{</span>Quantity<span class="o">{</span>Float64<span class="o">}}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, ComponentVector<span class="o">{</span>Float64, Vector<span class="o">{</span>Float64<span class="o">}</span>, Tuple<span class="o">{</span>Axis<span class="o">{(</span><span class="nv">v</span> <span class="o">=</span> <span class="m">1</span>, <span class="nv">u</span> <span class="o">=</span> <span class="m">2</span><span class="o">)}}}</span>, OrdinaryDiffEq.Tsit5ConstantCache<span class="o">{</span>Float64, Float64<span class="o">}</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">})</span>
-   <span class="o">@</span> <span class="n">OrdinaryDiffEq</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">OrdinaryDiffEq</span>\<span class="n">t0VTQ</span>\<span class="n">src</span>\<span class="n">perform_step</span>\<span class="n">low_order_rk_perform_step</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">627</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">__init</span><span class="p">(</span><span class="n">prob</span><span class="p">::</span><span class="n">ODEProblem</span><span class="p">{</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">}},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)}}},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">Unitful</span><span class="o">.</span><span class="n">FreeUnits</span><span class="p">{(</span><span class="n">s</span><span class="p">,),</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">nothing</span><span class="p">}},</span> <span class="n">Quantity</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">Unitful</span><span class="o">.</span><span class="n">FreeUnits</span><span class="p">{(</span><span class="n">s</span><span class="p">,),</span> <span class="n">&#119827;</span><span class="p">,</span> <span class="n">nothing</span><span class="p">}}},</span> <span class="n">true</span><span class="p">,</span> <span class="n">IzhikevichParams</span><span class="p">,</span> <span class="n">ODEFunction</span><span class="p">{</span><span class="n">true</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">LinearAlgebra</span><span class="o">.</span><span class="n">UniformScaling</span><span class="p">{</span><span class="n">Bool</span><span class="p">},</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">Nothing</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">SciMLBase</span><span class="o">.</span><span class="n">DEFAULT_OBSERVED</span><span class="p">),</span> <span class="n">Nothing</span><span class="p">},</span> <span class="n">Base</span><span class="o">.</span><span class="n">Pairs</span><span class="p">{</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">Union</span><span class="p">{},</span> <span class="n">Tuple</span><span class="p">{},</span> <span class="n">NamedTuple</span><span class="p">{(),</span> <span class="n">Tuple</span><span class="p">{}}},</span> <span class="n">SciMLBase</span><span class="o">.</span><span class="n">StandardODEProblem</span><span class="p">},</span> <span class="n">alg</span><span class="p">::</span><span class="n">Tsit5</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">OrdinaryDiffEq</span><span class="o">.</span><span class="n">trivial_limiter</span><span class="o">!)</span>, typeof<span class="o">(</span>OrdinaryDiffEq.trivial_limiter!<span class="o">)</span>, Static.False<span class="o">}</span>, timeseries_init::Tuple<span class="o">{}</span>, ts_init::Tuple<span class="o">{}</span>, ks_init::Tuple<span class="o">{}</span>, recompile::Type<span class="o">{</span>Val<span class="o">{</span>true<span class="o">}}</span><span class="p">;</span> saveat::Tuple<span class="o">{}</span>, tstops::Tuple<span class="o">{}</span>, d_discontinuities::Tuple<span class="o">{}</span>, save_idxs::Nothing, save_everystep::Bool, save_on::Bool, save_start::Bool, save_end::Nothing, callback::Nothing, dense::Bool, calck::Bool, dt::Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, dtmin::Nothing, dtmax::Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>s,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, force_dtmin::Bool, adaptive::Bool, gamma::Rational<span class="o">{</span>Int64<span class="o">}</span>, abstol::Nothing, reltol::Nothing, qmin::Rational<span class="o">{</span>Int64<span class="o">}</span>, qmax::Int64, qsteady_min::Int64, qsteady_max::Int64, beta1::Nothing, beta2::Nothing, qoldinit::Rational<span class="o">{</span>Int64<span class="o">}</span>, controller::Nothing, fullnormalize::Bool, failfactor::Int64, maxiters::Int64, internalnorm::typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_NORM<span class="o">)</span>, internalopnorm::typeof<span class="o">(</span>LinearAlgebra.opnorm<span class="o">)</span>, isoutofdomain::typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_ISOUTOFDOMAIN<span class="o">)</span>, unstable_check::typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_UNSTABLE_CHECK<span class="o">)</span>, verbose::Bool, timeseries_errors::Bool, dense_errors::Bool, advance_to_tstop::Bool, stop_at_next_tstop::Bool, initialize_save::Bool, progress::Bool, progress_steps::Int64, progress_name::String, progress_message::typeof<span class="o">(</span>DiffEqBase.ODE_DEFAULT_PROG_MESSAGE<span class="o">)</span>, userdata::Nothing, allow_extrapolation::Bool, initialize_integrator::Bool, alias_u0::Bool, alias_du0::Bool, initializealg::OrdinaryDiffEq.DefaultInit, kwargs::Base.Pairs<span class="o">{</span>Symbol, Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>ms,<span class="o">)</span>, &#119827;, nothing<span class="o">}}</span>, Tuple<span class="o">{</span>Symbol<span class="o">}</span>, NamedTuple<span class="o">{(</span>:&#916;t,<span class="o">)</span>, Tuple<span class="o">{</span>Quantity<span class="o">{</span>Float64, &#119827;, Unitful.FreeUnits<span class="o">{(</span>ms,<span class="o">)</span>, &#119827;, nothing<span class="o">}}}}})</span>
-   <span class="o">@</span> <span class="n">OrdinaryDiffEq</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">OrdinaryDiffEq</span>\<span class="n">t0VTQ</span>\<span class="n">src</span>\<span class="n">solve</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">456</span>
- <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="c1">#init_call#35</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">DiffEqBase</span>\<span class="mi">0</span><span class="n">PaUK</span>\<span class="n">src</span>\<span class="n">solve</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">28</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="c1">#init#36</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">DiffEqBase</span>\<span class="mi">0</span><span class="n">PaUK</span>\<span class="n">src</span>\<span class="n">solve</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">40</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">]:</span><span class="mi">13</span>
- <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ODEProblem</span> with uType <span class=" -Color -Color-Cyan">ComponentVector{Quantity{Float64}, Vector{Quantity{Float64}}, Tuple{Axis{(v = 1, u = 2)}}}</span> and tType <span class=" -Color -Color-Cyan">Quantity{Float64, &#119827;, Unitful.FreeUnits{(s,), &#119827;, nothing}}</span>. In-place: <span class=" -Color -Color-Cyan">true</span>
+timespan: (0.0 s, 10.0 s)
+u0: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 </pre></div>
 </div>
 </div>
@@ -680,7 +851,51 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-02-07__big_N_to_1_17_0.png" src="../_images/2022-02-07__big_N_to_1_17_0.png">
+<img alt="../_images/2022-02-07__big_N_to_1_28_0.png" src="../_images/2022-02-07__big_N_to_1_28_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span> <span class="o">=</span> <span class="kt">ComponentArray</span><span class="p">{</span><span class="kt">Quantity</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}(</span><span class="n">v</span><span class="o">=</span><span class="n">v0</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="n">u0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">Base</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">ca</span><span class="o">::</span><span class="kt">ComponentArray</span><span class="p">)</span>
+    <span class="k">for</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
