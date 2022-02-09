@@ -14,6 +14,7 @@ nb_init           = reporoot  # `notebooks/nb_init.jl` uses the `Project.toml` a
 VoltageToMap      = mainpkgdir
 Unitful           = joinpath(devdir, "Unitful")
 WhatIsHappening_  = joinpath(devdir, "WhatIsHappening")  # `WhatIsHappening` name already taken, in my `startup.jl`.
+Suppressor        = joinpath(devdir, "Suppressor")
 Distributions     = joinpath(devdir, "Distributions")
 Sciplotlib        = joinpath(devdir, "Sciplotlib")
 MyToolbox         = joinpath(devdir, "MyToolbox")
@@ -23,11 +24,19 @@ dev_dependencies = (
     Sciplotlib     => [Unitful],
     MyToolbox      => [Sciplotlib, Unitful],
     VoltageToMap   => [MyToolbox, Distributions, Unitful],
-    nb_init        => [WhatIsHappening_, VoltageToMap, MyToolbox, Sciplotlib, Distributions, Unitful],
+    nb_init        => [
+        WhatIsHappening_,
+        VoltageToMap,
+        MyToolbox,
+        Suppressor,
+        Sciplotlib,
+        Distributions,
+        Unitful,
+    ],
 )
 # Note that these are sorted, with the higher level projects last.
 
-function main() {
+function main()
     for (projdir, depdirs) in dev_dependencies
         cd(projdir)
         rm("Manifest.toml", force=true)
@@ -39,7 +48,7 @@ function main() {
         Pkg.instantiate()
     end
     println("\n💃 All done")
-}
+end
 
 function apply_fix(depdirs)
     @info "Temporarily removing dev dependencies from main `Project.toml`"
