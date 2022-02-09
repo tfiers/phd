@@ -16,65 +16,52 @@
 
 # # 2022-01-08 • Big-N-to-1 simulation
 
+# +
+#
+# -
+
 include("nb_init.jl")
+
+print(warnings)
+
+# @withfeedback using OrdinaryDiffEq
+@withfeedback using Parameters, ComponentArrays
+@alias CArray = ComponentArray;
 
 save(fname) = savefig(fname, subdir="methods");
 
-# ## Input firing rates
+?redirect_stdout
 
-# As in the previous notebook.
+# ## Parameters
 
-"""
-`μ` and `σ` are mean and standard deviation of the underlying Gaussian.
-`μₓ` is the mean of the log of the Gaussian.
-"""
-function LogNormal_with_mean(μₓ, σ)
-    μ = log(μₓ / unit(μₓ)) - σ^2 / 2
-    LogNormal(μ, σ, unit(μₓ))
-end;
+N_unconn = 100
+N_E    = 5200
+N_I    = N_E ÷ 4
 
-# (to factor out to vtm)
+N_conn = N_I + N_E
 
-input_spike_rate = LogNormal_with_mean(4Hz, √0.6)
+N = N_conn + N_unconn
 
-# ## Sim
+neuron_ids = CArray(E = 1:N_E, I = 1:N_I, unconn = 1:N_unconn)
 
-Nunconn = 100
-Nexc    = 5200
-Ninh    = Nexc ÷ 4
+only(getaxes(neuron_ids))  
 
-Ninh + Nexc
+showex(labels(neuron_ids))
 
-using DataStructures
-using Unitful: Time
-
-λ = rand(input_spike_rate, Nexc)
-β = seconds.(1 ./ λ)
-exps = Exponential.(β)
+# i.e. global id = index into `CArray`.
 
 # +
-first_spiketimes = rand.(exps)
-
-pq = PriorityQueue{Int, Time}()
-for (i, t) in enumerate(first_spiketimes)
-    enqueue!(pq, i => t)
-end
-
-sim_duration = 10*seconds;
-t = 0.0*seconds
-while t < sim_duration
-    i, t = dequeue_pair!(pq)  # earliest spike
-    new_ISI = rand(exps[i])
-    enqueue!(pq, i => t + new_ISI)
-end
-# -
-
-using OrdinaryDiffEq
-using ComponentArrays
-using Parameters
 using Unitful: nS, pF, pA
 
-# +
+sim_duration = 10 * seconds
+Δt    = 0.1 * ms
+v0    = -80 * mV  # Membrane potential at t = 0
+u0    =   0 * pA  # Adaptation variable at t = 0
+τ_syn =   7 * ms
+v_I   = -65 * mV  # Reversal potential at inhibitory synapses
+v_E   =   0 * mV  # Reversal potential at excitatory synapses
+                  # v_I and v_E as in `2021-11-11__synaptic_conductance_ratio.pdf`
+
 @with_kw struct IzhikevichParams
     C = 100 * pF
     k = 0.7 * (nS/mV)
@@ -86,9 +73,53 @@ using Unitful: nS, pF, pA
     a = 0.03 / ms
     d = 100 * pA
 end
-cortical_RS = IzhikevichParams();
 
-τ_syn = 7 * ms;
+cortical_RS = IzhikevichParams();
+# -
+
+# See the previous notebook
+input_spike_rate = LogNormal_with_mean(4Hz, √0.6)
+
+# ## Inputs
+
+λ = rand(input_spike_rate, N_)  # rates
+β = (1 ./ λ) .|> seconds  # alternative Exp parametrisation: scale (= 1 / rate)
+ISI_distributions = Exponential.(β);
+#   julia's broadcasting dot syntax: make an Exp distribution for every value in the β vector
+
+# Create v_syn vector: for each neuron, the reversal potential at its downstream synapses.
+vs = CArray(I=fill(v_I, N_I), E=fill(v_E, N_E))
+
+# ## Sim
+
+# Proof of concept of spike generation using a priority queue.
+
+# +
+using DataStructures
+using Unitful: Time
+
+first_spiketimes = rand.(ISI_distributions)
+
+pq = PriorityQueue{Int, Time}()
+for (input_neuron, t) in enumerate(first_spiketimes)
+    enqueue!(pq, input_neuron => t)
+end
+
+t = 0s
+while t < sim_duration
+    input_neuron, t = dequeue_pair!(pq)  # earliest spike
+    new_ISI = rand(ISI_distributions[input_neuron])
+    enqueue!(pq, input_neuron => t + new_ISI)
+end
+# -
+
+Base.show(io, U::Type{<:Unitful.Units}) = print(io, "jfjf")#"typeof($(U()))")
+
+typeof(Hz)
+
+# Superfast.
+
+
 
 # +
 function f(D, vars, params, t)
@@ -100,12 +131,20 @@ function f(D, vars, params, t)
     return nothing
 end
 
-x0 = ComponentArray(v = -80.0mV, u = 0.0pA)
+x0 = ComponentArray{Quantity{Float64}}(v = v0, u = u0)  # note eltype cast to float
 prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)
-Δt = 0.1ms
-integrator = init(prob, Tsit5(); Δt, adaptive=true)
+# integrator = init(prob, Tsit5(); Δt, adaptive=true)
 # -
 
 t = 0ms:0.1ms:sim_duration
 v = t -> sol(t).v / mV |> NoUnits
 plot(t, v.(t));
+
+x0
+
+ca = ComponentArray{Quantity{Float64}}(v=v0, u=u0)
+
+x0
+
+function Base.float(ca::ComponentArray)
+    for

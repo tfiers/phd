@@ -17,5 +17,5 @@ hidden_stderr_info = @capture_err begin
 end
 
 # Cannot be reexported from a package (i.e. MyToolbox / VoltageToMap), as it then clashes
-# with Base's `/`. `include`ing it does work.
+# with Base's `/`. But `include`ing it, as is done with this file, does work.
 using FilePathsBase: /
