@@ -1,10 +1,12 @@
-using WhatIsHappening
+using WhatIsHappening, Pkg
 
 # Filter out annoying deprecation warning on PyPlot import. Can be removed and replaced by
 # `prettify_logging_in_notebook!()` once this is released: https://github.com/JuliaPy/PyCall.jl/pull/950
 using LoggingExtras
 hasdepwarning(log) = startswith(log.message, "`vendor()` is deprecated")
 global_logger(ActiveFilteredLogger(!hasdepwarning, get_pretty_notebook_logger()))
+
+@withfeedback Pkg.resolve()
 
 @withfeedback using Revise
 @withfeedback import Distributions
