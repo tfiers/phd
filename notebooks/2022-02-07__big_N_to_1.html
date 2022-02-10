@@ -515,22 +515,6 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="n">hidden_stderr_info</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Project.toml`
-  No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Manifest.toml`
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9484; Warning: </span>`vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9474; </span>  caller = npyinitialize() at numpy.jl:67
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9492; </span>@ PyCall C:\Users\tfiers\.julia\packages\PyCall\L0fLP\src\numpy.jl:67
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># @withfeedback using OrdinaryDiffEq</span>
 <span class="nd">@withfeedback</span> <span class="k">using</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">ComponentArrays</span>
 <span class="nd">@alias</span> <span class="n">CArray</span> <span class="o">=</span> <span class="n">ComponentArray</span><span class="p">;</span>
@@ -548,30 +532,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">save</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="o">=</span> <span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s">"methods"</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="n">redirect_stdout</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>search: <span class=" -Color -Color-Bold">redirect_stdout</span> <span class=" -Color -Color-Bold">redirect_std</span>i<span class=" -Color -Color-Bold">o</span> <span class=" -Color -Color-Bold">redirect_std</span>in <span class=" -Color -Color-Bold">redirect_std</span>err
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">redirect_stdout</span><span class="p">([</span><span class="n">stream</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">stream</span>
-</pre></div>
-</div>
-<p>Create a pipe to which all C and Julia level <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> output will be redirected. Return a stream representing the pipe ends. Data written to <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> may now be read from the <code class="docutils literal notranslate"><span class="pre">rd</span></code> end of the pipe.</p>
-<p>!!! note
-<code class="docutils literal notranslate"><span class="pre">stream</span></code> must be a compatible objects, such as an <code class="docutils literal notranslate"><span class="pre">IOStream</span></code>, <code class="docutils literal notranslate"><span class="pre">TTY</span></code>, <code class="docutils literal notranslate"><span class="pre">Pipe</span></code>, socket, or <code class="docutils literal notranslate"><span class="pre">devnull</span></code>.</p>
-<p>See also <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">redirect_stdio</span></code></span>.</p>
-<hr class="docutils">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Run the function <code class="docutils literal notranslate"><span class="pre">f</span></code> while redirecting <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> to <code class="docutils literal notranslate"><span class="pre">stream</span></code>. Upon completion, <span class="xref myst"><code class="docutils literal notranslate"><span class="pre">stdout</span></code></span> is restored to its prior setting.</p>
 </div>
 </div>
 <div class="section" id="parameters">
@@ -645,16 +605,54 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6600-element Vector{String}
-   1: "E[1]"
-   2: "E[2]"
-     &#8942;
- 650: "E[650]"
-     &#8942;
-5616: "I[416]"
-     &#8942;
-6599: "unconn[99]"
-6600: "unconn[100]"
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6600-element Vector{String}:
+    1: "E[1]"
+    2: "E[2]"
+    &#8942;
+ 4432: "E[4432]"
+    &#8942;
+ 5015: "E[5015]"
+    &#8942;
+ 6599: "unconn[99]"
+ 6600: "unconn[100]"
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span><span class="p">(</span><span class="n">neuron_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6600-element Vector{String}:
+ "E[1]"
+ "E[2]"
+ "E[3]"
+ "E[4]"
+ "E[5]"
+ "E[6]"
+ "E[7]"
+ "E[8]"
+ "E[9]"
+ "E[10]"
+ "E[11]"
+ "E[12]"
+ "E[13]"
+ &#8942;
+ "unconn[89]"
+ "unconn[90]"
+ "unconn[91]"
+ "unconn[92]"
+ "unconn[93]"
+ "unconn[94]"
+ "unconn[95]"
+ "unconn[96]"
+ "unconn[97]"
+ "unconn[98]"
+ "unconn[99]"
+ "unconn[100]"
 </pre></div>
 </div>
 </div>
@@ -846,7 +844,7 @@ u0: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-02-07__big_N_to_1_28_0.png" src="../_images/2022-02-07__big_N_to_1_28_0.png">
+<img alt="../_images/2022-02-07__big_N_to_1_27_0.png" src="../_images/2022-02-07__big_N_to_1_27_0.png">
 </div>
 </div>
 <div class="cell docutils container">
