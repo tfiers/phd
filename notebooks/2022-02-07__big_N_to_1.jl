@@ -22,15 +22,11 @@
 
 include("nb_init.jl")
 
-print(hidden_stderr_info)
-
 # @withfeedback using OrdinaryDiffEq
 @withfeedback using Parameters, ComponentArrays
 @alias CArray = ComponentArray;
 
 save(fname) = savefig(fname, subdir="methods");
-
-?redirect_stdout
 
 # ## Parameters
 
@@ -47,6 +43,8 @@ neuron_ids = CArray(E = 1:N_E, I = 1:N_I, unconn = 1:N_unconn)
 only(getaxes(neuron_ids))  
 
 showex(labels(neuron_ids))
+
+labels(neuron_ids)
 
 # i.e. global id = index into `CArray`.
 
