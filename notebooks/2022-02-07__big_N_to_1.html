@@ -501,35 +501,30 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">LoadError</span>: type ActiveFilteredLogger has no field stream
-<span class="ow">in</span> <span class="n">expression</span> <span class="n">starting</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">OneDrive</span>\<span class="n">PhD</span>\<span class="n">vtws</span>\<span class="n">notebooks</span>\<span class="n">nb_init</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">9</span>
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">getproperty</span><span class="p">(</span><span class="n">x</span><span class="p">::</span><span class="n">ActiveFilteredLogger</span><span class="p">{</span><span class="n">ConsoleLogger</span><span class="p">,</span> <span class="n">Base</span><span class="o">.</span><span class="n">var</span><span class="s2">"#84#85"</span><span class="p">{</span><span class="n">typeof</span><span class="p">(</span><span class="n">hasdepwarning</span><span class="p">)}},</span> <span class="n">f</span><span class="p">::</span><span class="n">Symbol</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">Base</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">42</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">Suppressor</span>\<span class="n">nTjgZ</span>\<span class="n">src</span>\<span class="n">Suppressor</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">158</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include</span><span class="p">(</span><span class="n">fname</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span><span class="o">.</span><span class="n">MainInclude</span> <span class="o">.</span>\<span class="n">client</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">451</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span><span class="mi">1</span>
- <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Pkg.resolve()
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using Revise
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Distributions
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import MyToolbox
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="n">warnings</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="n">hidden_stderr_info</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Project.toml`
   No Changes to `C:\Users\tfiers\OneDrive\PhD\vtws\Manifest.toml`
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9484; Warning: </span>`vendor()` is deprecated, use `BLAS.get_config()` and inspect the output instead
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9474; </span>  caller = npyinitialize() at numpy.jl:67
+<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9492; </span>@ PyCall C:\Users\tfiers\.julia\packages\PyCall\L0fLP\src\numpy.jl:67
 </pre></div>
 </div>
 </div>
