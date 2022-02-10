@@ -861,7 +861,9 @@ deps = ["Artifacts", "Libdl", "Pkg", "libblastrampoline_jll"]
 uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
 
 [[deps.Suppressor]]
-path = "julia-codebase/dev/Suppressor"
+git-tree-sha1 = "e29e70ab88792f051d5ce0545ba6f5e7ddd17826"
+repo-rev = "patch-1"
+repo-url = "https://github.com/fonsp/Suppressor.jl.git"
 uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
 version = "0.2.0"
 

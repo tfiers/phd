@@ -22,7 +22,7 @@
 
 include("nb_init.jl")
 
-print(warnings)
+print(hidden_stderr_info)
 
 # @withfeedback using OrdinaryDiffEq
 @withfeedback using Parameters, ComponentArrays

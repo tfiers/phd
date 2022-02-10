@@ -13,6 +13,3 @@
 [submodule "julia-codebase/dev/MyToolbox"]
 	path = julia-codebase/dev/MyToolbox
 	url = git@github.com:tfiers/MyToolbox.jl.git
-[submodule "julia-codebase/dev/Suppressor"]
-	path = julia-codebase/dev/Suppressor
-	url = git@github.com:tfiers/Suppressor.jl.git

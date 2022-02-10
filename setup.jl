@@ -1,56 +1,58 @@
-# Instantiate the Julia projects in this repository (i.e. for each, create a `Manifest.toml`
-# with all its dependencies, and install those), with the specification that the local,
-# development versions of the packages present in this repo must be used.
+# - Instantiate the Julia projects in this repository (i.e. for each, create a `Manifest.toml`
+#   with all its dependencies, and install those), with the specification that the local,
+#   development versions of the packages present in this repo must be used.
+# - Install unregistered versions of dependencies (which cannot be specified in
+#   `Package.toml`).
 
 using Pkg, TOML
 
-reporoot = @__DIR__
-mainpkgdir = joinpath(reporoot, "julia-codebase")
-devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (cloned with `--recurse-submodules`).
+const reporoot = @__DIR__
+const mainpkgdir = joinpath(reporoot, "julia-codebase")
+const devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (cloned with `--recurse-submodules`).
 
 # Project & package directories
-#
-nb_init           = reporoot  # `notebooks/nb_init.jl` uses the `Project.toml` and `Manifest.toml` of the root dir.
-VoltageToMap      = mainpkgdir
-Unitful           = joinpath(devdir, "Unitful")
-WhatIsHappening_  = joinpath(devdir, "WhatIsHappening")  # `WhatIsHappening` name already taken, in my `startup.jl`.
-Suppressor        = joinpath(devdir, "Suppressor")
-Distributions     = joinpath(devdir, "Distributions")
-Sciplotlib        = joinpath(devdir, "Sciplotlib")
-MyToolbox         = joinpath(devdir, "MyToolbox")
+const vtws             = reporoot
+const VoltageToMap     = mainpkgdir
+const Unitful          = joinpath(devdir, "Unitful")
+const WhatIsHappening  = joinpath(devdir, "WhatIsHappening")
+const Distributions    = joinpath(devdir, "Distributions")
+const Sciplotlib       = joinpath(devdir, "Sciplotlib")
+const MyToolbox        = joinpath(devdir, "MyToolbox")
 
-dev_dependencies = (
+const local_project_dependencies = [
     Distributions  => [Unitful],
     Sciplotlib     => [Unitful],
     MyToolbox      => [Sciplotlib, Unitful],
     VoltageToMap   => [MyToolbox, Distributions, Unitful],
-    nb_init        => [
-        WhatIsHappening_,
+    main           => [
+        WhatIsHappening,
         VoltageToMap,
         MyToolbox,
-        Suppressor,
         Sciplotlib,
         Distributions,
         Unitful,
     ],
-)
-# Note that these are sorted, with the higher level projects last.
+]   # Note that these are sorted, with the higher level projects last.
 
-function main()
-    for (projdir, depdirs) in dev_dependencies
+const unregistered_dependencies = [
+    (url="https://github.com/fonsp/Suppressor.jl.git", rev="patch-1"),
+        # See https://github.com/JuliaIO/Suppressor.jl/pull/37
+]
+
+function install_local_projects()
+    for (projdir, depdirs) in local_project_dependencies
         cd(projdir)
         rm("Manifest.toml", force=true)
         Pkg.activate(".")
-        projdir == reporoot && apply_fix(depdirs)
+        projdir == main && apply_expected_registered_fix(depdirs)
         for depdir in depdirs
             Pkg.develop(path=relpath(depdir))
         end
         Pkg.instantiate()
     end
-    println("\n💃 All done")
 end
 
-function apply_fix(depdirs)
+function apply_expected_registered_fix(depdirs)
     @info "Temporarily removing dev dependencies from main `Project.toml`"
     # Without this fix, we get "LoadError: expected package {devdep} to be registered".
     # This fix is only necessary for the (main) project, not the packages. Pkg.jl bug?
@@ -62,4 +64,12 @@ function apply_fix(depdirs)
     end
 end
 
-main()
+function install_unregistered_dependencies()
+    for dep in unregistered_dependencies
+        Pkg.add(; dep...)
+    end
+end
+
+install_local_projects()
+install_unregistered_dependencies()
+println("\n💃 All done")
