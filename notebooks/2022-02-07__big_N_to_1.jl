@@ -22,71 +22,117 @@
 
 include("nb_init.jl")
 
+# +
+using Unitful: pA, pF, nS
 # @withfeedback using OrdinaryDiffEq
-@withfeedback using Parameters, ComponentArrays
+using Parameters, ComponentArrays
+
 @alias CArray = ComponentArray;
+# -
 
 save(fname) = savefig(fname, subdir="methods");
 
 # ## Parameters
 
-N_unconn = 100
-N_E    = 5200
-N_I    = N_E ÷ 4
+sim_duration = 10 * seconds
+Δt = 0.1 * ms;
 
-N_conn = N_I + N_E
+# ### Input spikers
+
+N_unconn = 100
+N_exc    = 5200
+N_inh    = N_exc ÷ 4
+
+N_conn = N_inh + N_exc
 
 N = N_conn + N_unconn
 
-neuron_ids = CArray(E = 1:N_E, I = 1:N_I, unconn = 1:N_unconn)
+input_spike_rate = LogNormal_with_mean(4Hz, √0.6)  # See the previous notebook
 
-only(getaxes(neuron_ids))  
+# ### Synapses
 
-showex(labels(neuron_ids))
+# Reversal potential at excitatory and inhibitory synapses,  
+# as in the report [`2021-11-11__synaptic_conductance_ratio.pdf`](https://github.com/tfiers/phd-thesis/blob/main/reports/2021-11-11__synaptic_conductance_ratio.pdf):
 
-labels(neuron_ids)
+v_exc =   0 * mV
+v_inh = -65 * mV;
 
-# i.e. global id = index into `CArray`.
+# Exponential decay time constant of synaptic conductance `g`, $τ_{s}$ (`s` for "synaptic"):
+
+τs =   7 * ms;
+
+# ### Izhikevich neuron
+
+# Membrane potential `v` and adaptation variable `u` at `t = 0`:
+
+v0    = -80 * mV
+u0    =   0 * pA;
+
+# Parameters for a cortical regular spiking neuron:
 
 # +
-using Unitful: nS, pF, pA
-
-sim_duration = 10 * seconds
-Δt    = 0.1 * ms
-v0    = -80 * mV  # Membrane potential at t = 0
-u0    =   0 * pA  # Adaptation variable at t = 0
-τ_syn =   7 * ms
-v_I   = -65 * mV  # Reversal potential at inhibitory synapses
-v_E   =   0 * mV  # Reversal potential at excitatory synapses
-                  # v_I and v_E as in `2021-11-11__synaptic_conductance_ratio.pdf`
-
 @with_kw struct IzhikevichParams
-    C = 100 * pF
-    k = 0.7 * (nS/mV)
-    b = -2 * nS
+    C      = 100 * pF
+    k      = 0.7 * (nS/mV)
+    b      = -2 * nS
     v_r    = -60 * mV
     v_t    = -40 * mV
     v_peak =  35 * mV
     c      = -50 * mV
-    a = 0.03 / ms
-    d = 100 * pA
+    a      = 0.03 / ms
+    d      = 100 * pA
 end
 
 cortical_RS = IzhikevichParams();
 # -
 
-# See the previous notebook
-input_spike_rate = LogNormal_with_mean(4Hz, √0.6)
+# ## Neuron IDs
+
+neuron_ids = CArray(exc = 1:N_exc, inh = 1:N_inh, unconn = 1:N_unconn)
+
+only(getaxes(neuron_ids))
+
+showsome(labels(neuron_ids))
+
+# i.e. a neuron's **global** ID = its index into the [ComponentVector](https://github.com/jonniedie/ComponentArrays.jl) "`neuron_ids`".
 
 # ## Inputs
 
-λ = rand(input_spike_rate, N_)  # rates
-β = (1 ./ λ) .|> seconds  # alternative Exp parametrisation: scale (= 1 / rate)
+λ = rand(input_spike_rate, N)  # sample firing rates, one for every input neuron
+β = (1 ./ λ) .|> seconds       # alternative Exp parametrisation: scale (= 1 / rate)
 ISI_distributions = Exponential.(β);
-#   julia's broadcasting dot syntax: make an Exp distribution for every value in the β vector
+#   This uses julia's broadcasting `.` syntax: make an `Expontential` distribution for every value in the β vector
 
 # Create v_syn vector: for each neuron, the reversal potential at its downstream synapses.
-vs = CArray(I=fill(v_I, N_I), E=fill(v_E, N_E))
+vs = CArray(E=fill(v_E, N_E), I=fill(v_I, N_I))
+
+print("""
+ComponentVector{typeof(Quantity(::Int64, mV))}(E = Quantity(::Int64, mV)[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  …  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity(::Int64, mV)[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  …  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])
+""")
+
+CArray(E=fill(0,N_E), I=fill(-65,N_I))
+
+print("""
+ComponentVector{::Quantity(::Int64, mV)}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  …  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  …  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
+""")
+
+print("""
+ComponentVector{Quantity{Int64, mV}}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  …  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  …  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
+""")
+
+# This is the expected type interface.
+# But they add those ..
+# oh no, I can feel it coming. I'm about to make my own unit library innit.
+# aargh. fucik. lol.
+# ok uhm. no.
+# we're gonna go unitless again.
+# hahahahahahah
+
+
+
+vs[1]
+
+typeof(vs[1])
 
 # ## Sim
 
@@ -111,13 +157,7 @@ while t < sim_duration
 end
 # -
 
-Base.show(io, U::Type{<:Unitful.Units}) = print(io, "jfjf")#"typeof($(U()))")
-
-typeof(Hz)
-
 # Superfast.
-
-
 
 # +
 function f(D, vars, params, t)
