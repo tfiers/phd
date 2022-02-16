@@ -17,7 +17,7 @@
 # # 2022-02-07 • Big-N-to-1 simulation
 
 # +
-#
+# Pkg.resolve()
 # -
 
 include("nb_init.jl")

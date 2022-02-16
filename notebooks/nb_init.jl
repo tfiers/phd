@@ -7,7 +7,6 @@ hasdepwarning(log) = startswith(log.message, "`vendor()` is deprecated")
 global_logger(ActiveFilteredLogger(!hasdepwarning, get_pretty_notebook_logger()))
 
 hidden_stderr_info = @capture_err begin
-    @withfeedback Pkg.resolve()
     @withfeedback using Revise
     @withfeedback import Distributions
     @withfeedback import PyPlot
