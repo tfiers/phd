@@ -21,21 +21,21 @@ The code was initially written in Python, and later in Julia.
 To reproduce results (i.e. run one of the notebooks):
 
 - You need a version of Julia ∈ [1.7, 2). [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
-- Choose a Julia notebook to run. Copy the hash of the last commit to the notebook file.
-    - A link to this commit and its hash can be found next to the notebook's filename in the [`notebooks/`](notebooks/) directory on GitHub.
-    - Why do we need this commit?
-    The codebase that is called from the notebook will have been further developed since the notebook was last run (unless you chose one of the most recent notebooks). Checking out the commit (next step) restores the codebase to its former, working state for the notebook.
-- `git clone` this repository with the `--recurse-submodules` option;  
-  `cd` into the new directory; and  
-  `git checkout` the copied commit hash.
-    - The `--recurse-submodules` option makes sure that [the git submodules in this repository](julia-codebase/dev/) are cloned as well.
+- `git clone` this repository with the `--recurse-submodules` option, and `cd` into the new directory.
+    - `--recurse-submodules` makes sure that the git submodules in this repository (see [`julia-codebase/dev/`](julia-codebase/dev/)) are cloned as well.
+- Choose a Julia notebook to run. 
+    - If it is one of the newest notebooks, the rest of this step can be skipped.
+    - If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.
+        - A link to this commit and its hash can be found on GitHub, in the [`notebooks/`](notebooks/) directory, next to the notebook's filename.
+        - Why is this step needed?
+          The codebase that is called from the notebook will have been further developed since the notebook was last run. Checking out the commit restores the codebase to its former, working state for the notebook.
 - In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
   This might need a shell with admin access.
     - `instantiate` installs the exact package versions specified in `Manifest.toml`, which is included in the repository for the purpose of reproducibility.
     - If you want to instead install newer versions of dependencies, run `julia setup.jl` in the terminal.
 - Start a Jupyter server.
-    - If you don't have Jupyter installed, run `using IJulia` and `notebook()` in the julia repl.
+    - If you do not have Jupyter installed, run `using IJulia` and `notebook()` in the julia REPL.
     - If you have, the usual `jupyter notebook` in the terminal works.
 
 You should now be able to run all cells in the notebook.
