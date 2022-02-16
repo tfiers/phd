@@ -11,7 +11,7 @@ const mainpkgdir = joinpath(reporoot, "julia-codebase")
 const devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (cloned with `--recurse-submodules`).
 
 # Project & package directories
-const vtws             = reporoot
+const main             = reporoot
 const VoltageToMap     = mainpkgdir
 const Unitful          = joinpath(devdir, "Unitful")
 const WhatIsHappening  = joinpath(devdir, "WhatIsHappening")
