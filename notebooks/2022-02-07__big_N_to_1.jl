@@ -23,7 +23,6 @@
 include("nb_init.jl")
 
 # +
-# @withfeedback using OrdinaryDiffEq
 using Parameters, ComponentArrays
 
 @alias CArray = ComponentArray;
@@ -98,7 +97,7 @@ showsome(labels(neuron_ids))
 # ## Inputs
 
 λ = rand(input_spike_rate, N)  # sample firing rates, one for every input neuron
-β = (1 ./ λ) .|> seconds       # alternative Exp parametrisation: scale (= 1 / rate)
+β = 1 ./ λ                     # alternative Exp parametrisation: scale (= 1 / rate)
 ISI_distributions = Exponential.(β);
 #   This uses julia's broadcasting `.` syntax: make an `Expontential` distribution for every value in the β vector
 
@@ -129,6 +128,8 @@ end
 
 # Superfast.
 
+using OrdinaryDiffEq
+
 # +
 function f(D, vars, params, t)
     @unpack C, k, b, v_r, v_t, v_peak, c, a, d = params
@@ -139,11 +140,11 @@ function f(D, vars, params, t)
     return nothing
 end
 
-x0 = ComponentArray{Quantity{Float64}}(v = v0, u = u0)  # note eltype cast to float
+x0 = ComponentArray{Float64}(v = v0, u = u0)  # note eltype cast to float
 prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)
 # integrator = init(prob, Tsit5(); Δt, adaptive=true)
 # -
 
 t = 0ms:0.1ms:sim_duration
-v = t -> sol(t).v / mV |> NoUnits
+v = t -> sol(t).v / mV
 plot(t, v.(t));
