@@ -7,14 +7,14 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.10.0
+#       jupytext_version: 1.13.6
 #   kernelspec:
-#     display_name: Julia 1.7.0
+#     display_name: Julia 1.7.1
 #     language: julia
 #     name: julia-1.7
 # ---
 
-# # 2022-01-08 • Big-N-to-1 simulation
+# # 2022-02-07 • Big-N-to-1 simulation
 
 # +
 #
