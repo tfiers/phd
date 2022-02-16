@@ -104,35 +104,7 @@ ISI_distributions = Exponential.(β);
 #   This uses julia's broadcasting `.` syntax: make an `Expontential` distribution for every value in the β vector
 
 # Create v_syn vector: for each neuron, the reversal potential at its downstream synapses.
-vs = CArray(E=fill(v_E, N_E), I=fill(v_I, N_I))
-
-print("""
-ComponentVector{typeof(Quantity(::Int64, mV))}(E = Quantity(::Int64, mV)[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  …  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity(::Int64, mV)[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  …  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])
-""")
-
-CArray(E=fill(0,N_E), I=fill(-65,N_I))
-
-print("""
-ComponentVector{::Quantity(::Int64, mV)}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  …  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  …  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
-""")
-
-print("""
-ComponentVector{Quantity{Int64, mV}}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  …  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  …  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
-""")
-
-# This is the expected type interface.
-# But they add those ..
-# oh no, I can feel it coming. I'm about to make my own unit library innit.
-# aargh. fucik. lol.
-# ok uhm. no.
-# we're gonna go unitless again.
-# hahahahahahah
-
-
-
-vs[1]
-
-typeof(vs[1])
+vs = CArray(E=fill(v_exc, N_exc), I=fill(v_inh, N_inh))
 
 # ## Sim
 
@@ -177,12 +149,3 @@ prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)
 t = 0ms:0.1ms:sim_duration
 v = t -> sol(t).v / mV |> NoUnits
 plot(t, v.(t));
-
-x0
-
-ca = ComponentArray{Quantity{Float64}}(v=v0, u=u0)
-
-x0
-
-function Base.float(ca::ComponentArray)
-    for
