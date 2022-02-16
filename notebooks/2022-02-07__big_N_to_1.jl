@@ -23,7 +23,6 @@
 include("nb_init.jl")
 
 # +
-using Unitful: pA, pF, nS
 # @withfeedback using OrdinaryDiffEq
 using Parameters, ComponentArrays
 
@@ -112,11 +111,10 @@ vs = CArray(E=fill(v_exc, N_exc), I=fill(v_inh, N_inh))
 
 # +
 using DataStructures
-using Unitful: Time
 
 first_spiketimes = rand.(ISI_distributions)
 
-pq = PriorityQueue{Int, Time}()
+pq = PriorityQueue{Int, Float64}()
 for (input_neuron, t) in enumerate(first_spiketimes)
     enqueue!(pq, input_neuron => t)
 end

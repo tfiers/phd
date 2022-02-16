@@ -205,10 +205,10 @@ deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 
 [[deps.Distributions]]
-deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test", "Unitful"]
-path = "julia-codebase/dev/Distributions"
+deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
+git-tree-sha1 = "38012bf3553d01255e83928eec9c998e19adfddf"
 uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
-version = "0.25.40"
+version = "0.25.48"
 
 [[deps.DocStringExtensions]]
 deps = ["LibGit2"]
@@ -520,7 +520,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "DataFrames", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "PyFormattedStrings", "PyPlot", "Reexport", "Requires", "Sciplotlib", "StatsBase", "Unitful"]
+deps = ["BenchmarkTools", "DataFrames", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "PyFormattedStrings", "PyPlot", "Reexport", "Requires", "Sciplotlib", "StatsBase"]
 path = "julia-codebase/dev/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
@@ -930,9 +930,9 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 
 [[deps.Unitful]]
 deps = ["ConstructionBase", "Dates", "LinearAlgebra", "Random"]
-path = "julia-codebase/dev/Unitful"
+git-tree-sha1 = "b649200e887a487468b71821e2644382699f1b0f"
 uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
-version = "1.10.1"
+version = "1.11.0"
 
 [[deps.VectorizationBase]]
 deps = ["ArrayInterface", "CPUSummary", "HostCPUFeatures", "Hwloc", "IfElse", "LayoutPointers", "Libdl", "LinearAlgebra", "SIMDTypes", "Static"]
@@ -952,7 +952,7 @@ uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.2.0"
 
 [[deps.VoltageToMap]]
-deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Parameters", "Reexport", "UnPack", "Unitful"]
+deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Parameters", "Reexport", "UnPack"]
 path = "julia-codebase"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"

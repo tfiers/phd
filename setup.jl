@@ -13,24 +13,19 @@ const devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (clon
 # Project & package directories
 const main             = reporoot
 const VoltageToMap     = mainpkgdir
-const Unitful          = joinpath(devdir, "Unitful")
 const WhatIsHappening  = joinpath(devdir, "WhatIsHappening")
-const Distributions    = joinpath(devdir, "Distributions")
 const Sciplotlib       = joinpath(devdir, "Sciplotlib")
 const MyToolbox        = joinpath(devdir, "MyToolbox")
 
 const local_project_dependencies = [
-    Distributions  => [Unitful],
-    Sciplotlib     => [Unitful],
-    MyToolbox      => [Sciplotlib, Unitful],
-    VoltageToMap   => [MyToolbox, Distributions, Unitful],
+    Sciplotlib     => [],
+    MyToolbox      => [Sciplotlib],
+    VoltageToMap   => [MyToolbox],
     main           => [
         WhatIsHappening,
         VoltageToMap,
         MyToolbox,
         Sciplotlib,
-        Distributions,
-        Unitful,
     ],
 ]   # Note that these are sorted, with the higher level projects last.
 
