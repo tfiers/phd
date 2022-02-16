@@ -7,11 +7,11 @@
 using Pkg, TOML
 
 const reporoot = @__DIR__
-const mainpkgdir = joinpath(reporoot, "julia-codebase")
+const mainpkgdir = joinpath(reporoot, "code")
 const devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (cloned with `--recurse-submodules`).
 
 # Project & package directories
-const main             = reporoot
+const mainproj         = reporoot
 const VoltageToMap     = mainpkgdir
 const WhatIsHappening  = joinpath(devdir, "WhatIsHappening")
 const Sciplotlib       = joinpath(devdir, "Sciplotlib")
@@ -21,7 +21,7 @@ const local_project_dependencies = [
     Sciplotlib     => [],
     MyToolbox      => [Sciplotlib],
     VoltageToMap   => [MyToolbox],
-    main           => [
+    mainproj       => [
         WhatIsHappening,
         VoltageToMap,
         MyToolbox,
@@ -39,7 +39,7 @@ function install_local_projects()
         cd(projdir)
         rm("Manifest.toml", force=true)
         Pkg.activate(".")
-        projdir == main && apply_expected_registered_fix(depdirs)
+        projdir == mainproj && apply_expected_registered_fix(depdirs)
         for depdir in depdirs
             Pkg.develop(path=relpath(depdir))
         end

@@ -11,7 +11,7 @@ For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/%F
 The code was initially written in Python, and later in Julia.
 
 - `notebooks/` contains Jupyter Notebooks, both in Python and later, from 2022 on, in Julia. These notebooks draw and store figures, and call functions from an external codebase:
-- `julia-codebase/` is the main codebase. `Project.toml` shows the required Julia packages, and `Manifest.toml` shows the exact versions of these packages used to generate the results (i.e. the notebook outputs).
+- `code/` is the main codebase. `Project.toml` shows the required Julia packages, and `Manifest.toml` shows the exact versions of these packages used to generate the results (i.e. the notebook outputs).
 - `python-codebase/` is the deprecated Python codebase. `setup.py` shows the required Python packages, and the "Reproducibility" sections in Python notebooks show the exact installed pip and conda packages.
 - `website/` contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
 
@@ -22,7 +22,7 @@ To reproduce results (i.e. run one of the notebooks):
 
 - You need a version of Julia ∈ [1.7, 2). [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
 - `git clone` this repository with the `--recurse-submodules` option, and `cd` into the new directory.
-    - `--recurse-submodules` makes sure that the git submodules in this repository (see [`julia-codebase/dev/`](julia-codebase/dev/)) are cloned as well.
+    - `--recurse-submodules` makes sure that the git submodules in this repository (see [`code/dev/`](code/dev/)) are cloned as well.
 - Choose a Julia notebook to run. 
     - If it is one of the newest notebooks, the rest of this step can be skipped.
     - If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.

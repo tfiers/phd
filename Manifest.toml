@@ -521,7 +521,7 @@ version = "0.2.2"
 
 [[deps.MyToolbox]]
 deps = ["BenchmarkTools", "DataFrames", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "PyFormattedStrings", "PyPlot", "Reexport", "Requires", "Sciplotlib", "StatsBase"]
-path = "julia-codebase/dev/MyToolbox"
+path = "code/dev/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
 
@@ -759,7 +759,7 @@ version = "1.26.1"
 
 [[deps.Sciplotlib]]
 deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Reexport", "Unitful"]
-path = "julia-codebase/dev/Sciplotlib"
+path = "code/dev/Sciplotlib"
 uuid = "61be95e5-9550-4d5f-a203-92a5acbc3116"
 version = "0.1.0"
 
@@ -953,13 +953,13 @@ version = "0.2.0"
 
 [[deps.VoltageToMap]]
 deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Parameters", "Reexport", "UnPack"]
-path = "julia-codebase"
+path = "code"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"
 
 [[deps.WhatIsHappening]]
 deps = ["Logging", "MacroTools"]
-path = "julia-codebase/dev/WhatIsHappening"
+path = "code/dev/WhatIsHappening"
 uuid = "964570a8-5a27-4270-acbc-3d103c50fc15"
 version = "0.1.0"
 
