@@ -535,7 +535,7 @@ const thebe_selector_output = ".output, .cell_output"
 <h1>2022-02-07 &#8226; Big-N-to-1 simulation<a class="headerlink" href="#big-n-to-1-simulation" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Pkg.resolve()</span>
 </pre></div>
 </div>
 </div>
@@ -547,24 +547,19 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Pkg.resolve()
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using Revise
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using Revise
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Distributions
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import MyToolbox
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling MyToolbox [54cd1024-cafd-4d62-948d-ced4874502bf]
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">pA</span><span class="p">,</span> <span class="n">pF</span><span class="p">,</span> <span class="n">nS</span>
-<span class="c"># @withfeedback using OrdinaryDiffEq</span>
-<span class="k">using</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">ComponentArrays</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Parameters</span><span class="p">,</span> <span class="n">ComponentArrays</span>
 
 <span class="nd">@alias</span> <span class="n">CArray</span> <span class="o">=</span> <span class="n">ComponentArray</span><span class="p">;</span>
 </pre></div>
@@ -635,7 +630,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
 </pre></div>
 </div>
 </div>
@@ -732,9 +727,9 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
     1: "exc[1]"
     2: "exc[2]"
     &#8942;
-  859: "exc[859]"
+ 2838: "exc[2838]"
     &#8942;
- 5623: "inh[423]"
+ 4479: "exc[4479]"
     &#8942;
  6599: "unconn[99]"
  6600: "unconn[100]"
@@ -749,7 +744,7 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#955;</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">input_spike_rate</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># sample firing rates, one for every input neuron</span>
-<span class="n">&#946;</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">./</span> <span class="n">&#955;</span><span class="p">)</span> <span class="o">.|&gt;</span> <span class="n">seconds</span>       <span class="c"># alternative Exp parametrisation: scale (= 1 / rate)</span>
+<span class="n">&#946;</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">./</span> <span class="n">&#955;</span>                     <span class="c"># alternative Exp parametrisation: scale (= 1 / rate)</span>
 <span class="n">ISI_distributions</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="p">(</span><span class="n">&#946;</span><span class="p">);</span>
 <span class="c">#   This uses julia's broadcasting `.` syntax: make an `Expontential` distribution for every value in the &#946; vector</span>
 </pre></div>
@@ -764,7 +759,7 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}}(E = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  &#8230;  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  &#8230;  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(E = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  &#8230;  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], I = [-0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065  &#8230;  -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065, -0.065])
 </pre></div>
 </div>
 </div>
@@ -776,11 +771,10 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataStructures</span>
-<span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">Time</span>
 
 <span class="n">first_spiketimes</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">)</span>
 
-<span class="n">pq</span> <span class="o">=</span> <span class="kt">PriorityQueue</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Time</span><span class="p">}()</span>
+<span class="n">pq</span> <span class="o">=</span> <span class="kt">PriorityQueue</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">}()</span>
 <span class="k">for</span> <span class="p">(</span><span class="n">input_neuron</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">first_spiketimes</span><span class="p">)</span>
     <span class="n">enqueue!</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span> <span class="n">input_neuron</span> <span class="o">=&gt;</span> <span class="n">t</span><span class="p">)</span>
 <span class="k">end</span>
@@ -798,6 +792,13 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 <p>Superfast.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">OrdinaryDiffEq</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">f</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
     <span class="nd">@unpack</span> <span class="n">C</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">v_r</span><span class="p">,</span> <span class="n">v_t</span><span class="p">,</span> <span class="n">v_peak</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">params</span>
     <span class="nd">@unpack</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">vars</span>
@@ -807,16 +808,16 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
     <span class="k">return</span> <span class="nb">nothing</span>
 <span class="k">end</span>
 
-<span class="n">x0</span> <span class="o">=</span> <span class="kt">ComponentArray</span><span class="p">{</span><span class="kt">Quantity</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}(</span><span class="n">v</span> <span class="o">=</span> <span class="n">v0</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">u0</span><span class="p">)</span>  <span class="c"># note eltype cast to float</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="kt">ComponentArray</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">v</span> <span class="o">=</span> <span class="n">v0</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">u0</span><span class="p">)</span>  <span class="c"># note eltype cast to float</span>
 <span class="n">prob</span> <span class="o">=</span> <span class="n">ODEProblem</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">float</span><span class="p">(</span><span class="n">sim_duration</span><span class="p">),</span> <span class="n">cortical_RS</span><span class="p">)</span>
 <span class="c"># integrator = init(prob, Tsit5(); &#916;t, adaptive=true)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ODEProblem</span> with uType <span class=" -Color -Color-Cyan">ComponentVector{Quantity{Float64}, Vector{Quantity{Float64}}, Tuple{Axis{(v = 1, u = 2)}}}</span> and tType <span class=" -Color -Color-Cyan">Quantity{Float64, &#119827;, Unitful.FreeUnits{(s,), &#119827;, nothing}}</span>. In-place: <span class=" -Color -Color-Cyan">true</span>
-timespan: (0.0 s, 10.0 s)
-u0: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ODEProblem</span> with uType <span class=" -Color -Color-Cyan">ComponentVector{Float64, Vector{Float64}, Tuple{Axis{(v = 1, u = 2)}}}</span> and tType <span class=" -Color -Color-Cyan">Float64</span>. In-place: <span class=" -Color -Color-Cyan">true</span>
+timespan: (0.0, 10.0)
+u0: ComponentVector{Float64}(v = -0.08, u = 0.0)
 </pre></div>
 </div>
 </div>
@@ -824,13 +825,10 @@ u0: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="n">ms</span><span class="o">:</span><span class="mf">0.1</span><span class="n">ms</span><span class="o">:</span><span class="n">sim_duration</span>
-<span class="n">v</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">sol</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">v</span> <span class="o">/</span> <span class="n">mV</span> <span class="o">|&gt;</span> <span class="n">NoUnits</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-&gt;</span> <span class="n">sol</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">v</span> <span class="o">/</span> <span class="n">mV</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="p">(</span><span class="n">t</span><span class="p">));</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-07__big_N_to_1_35_0.png" src="../_images/2022-02-07__big_N_to_1_35_0.png">
 </div>
 </div>
 </div>
