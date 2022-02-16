@@ -553,7 +553,9 @@ const thebe_selector_output = ".output, .cell_output"
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import MyToolbox
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling MyToolbox [54cd1024-cafd-4d62-948d-ced4874502bf]
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
 </pre></div>
 </div>
 </div>
@@ -730,9 +732,9 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
     1: "exc[1]"
     2: "exc[2]"
     &#8942;
- 2222: "exc[2222]"
+  859: "exc[859]"
     &#8942;
- 3423: "exc[3423]"
+ 5623: "inh[423]"
     &#8942;
  6599: "unconn[99]"
  6600: "unconn[100]"
@@ -757,97 +759,12 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Create v_syn vector: for each neuron, the reversal potential at its downstream synapses.</span>
-<span class="n">vs</span> <span class="o">=</span> <span class="n">CArray</span><span class="p">(</span><span class="n">E</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_E</span><span class="p">,</span> <span class="n">N_E</span><span class="p">),</span> <span class="n">I</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_I</span><span class="p">,</span> <span class="n">N_I</span><span class="p">))</span>
+<span class="n">vs</span> <span class="o">=</span> <span class="n">CArray</span><span class="p">(</span><span class="n">E</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_exc</span><span class="p">,</span> <span class="n">N_exc</span><span class="p">),</span> <span class="n">I</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="n">v_inh</span><span class="p">,</span> <span class="n">N_inh</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}}(E = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  &#8230;  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  &#8230;  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="s">"""</span>
-<span class="s">ComponentVector{typeof(Quantity(::Int64, mV))}(E = Quantity(::Int64, mV)[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  &#8230;  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity(::Int64, mV)[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  &#8230;  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])</span>
-<span class="s">"""</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{typeof(Quantity(::Int64, mV))}(E = Quantity(::Int64, mV)[0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV  &#8230;  0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV, 0 mV], I = Quantity(::Int64, mV)[-65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV  &#8230;  -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV, -65 mV])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">CArray</span><span class="p">(</span><span class="n">E</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N_E</span><span class="p">),</span> <span class="n">I</span><span class="o">=</span><span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span><span class="n">N_I</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Int64}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  &#8230;  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="s">"""</span>
-<span class="s">ComponentVector{::Quantity(::Int64, mV)}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  &#8230;  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])</span>
-<span class="s">"""</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{::Quantity(::Int64, mV)}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  &#8230;  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">print</span><span class="p">(</span><span class="s">"""</span>
-<span class="s">ComponentVector{Quantity{Int64, mV}}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  &#8230;  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])</span>
-<span class="s">"""</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Int64, mV}}(E = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], I = [-65, -65, -65, -65, -65, -65, -65, -65, -65, -65  &#8230;  -65, -65, -65, -65, -65, -65, -65, -65, -65, -65])
-</pre></div>
-</div>
-</div>
-</div>
-<p>This is the expected type interface.
-But they add those ..
-oh no, I can feel it coming. I&#8217;m about to make my own unit library innit.
-aargh. fucik. lol.
-ok uhm. no.
-we&#8217;re gonna go unitless again.
-hahahahahahah</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 mV
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">typeof</span><span class="p">(</span><span class="n">vs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Quantity{Int64, &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, Unitful.FreeUnits{(mV,), &#119819;^2 &#119820; &#119816;^-1 &#119827;^-3, nothing}}
 </pre></div>
 </div>
 </div>
@@ -913,51 +830,7 @@ u0: ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-02-07__big_N_to_1_43_0.png" src="../_images/2022-02-07__big_N_to_1_43_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ca</span> <span class="o">=</span> <span class="kt">ComponentArray</span><span class="p">{</span><span class="kt">Quantity</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}(</span><span class="n">v</span><span class="o">=</span><span class="n">v0</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="n">u0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Quantity{Float64}}(v = -80.0 mV, u = 0.0 pA)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">Base</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">ca</span><span class="o">::</span><span class="kt">ComponentArray</span><span class="p">)</span>
-    <span class="k">for</span>
-</pre></div>
-</div>
+<img alt="../_images/2022-02-07__big_N_to_1_35_0.png" src="../_images/2022-02-07__big_N_to_1_35_0.png">
 </div>
 </div>
 </div>
