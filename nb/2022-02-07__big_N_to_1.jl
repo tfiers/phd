@@ -29,18 +29,18 @@ save(fname) = savefig(fname, subdir="methods");
 
 # ## Parameters
 
-sim_duration = 0.11 * seconds
-Δt = 0.1 * ms;  # size of first step only, when solver is adaptive
+sim_duration = 1 * seconds
+Δt           = 0.1 * ms;   # Size of first step only, given that solver has adaptive timestep.
 
 # ### Input spikers
 
 # +
-# N_unconn = 100
-# N_exc    = 5200
-# N_inh    = N_exc ÷ 4
+N_unconn = 100
+N_exc    = 5200
+N_inh    = N_exc ÷ 4
 
-N_unconn = 1
-N_exc    = 8
+N_unconn = 100
+N_exc    = 800
 N_inh    = N_exc ÷ 4
 # -
 
@@ -52,7 +52,7 @@ input_spike_rate = LogNormal_with_mean(4Hz, √0.6)  # See the previous notebook
 
 # ### Synapses
 
-# Reversal potential at excitatory and inhibitory synapses,  
+# Reversal potential at excitatory and inhibitory synapses,
 # as in the report [`2021-11-11__synaptic_conductance_ratio.pdf`](https://github.com/tfiers/phd-thesis/blob/main/reports/2021-11-11__synaptic_conductance_ratio.pdf):
 
 v_exc =   0 * mV
@@ -68,7 +68,8 @@ g0 = 0 * nS;
 
 # Increase in synaptic conductance on a presynaptic spike.
 
-Δg = 3 * nS;
+Δg_exc = 0.1 * nS
+Δg_inh = 0.4 * nS;
 
 # ### Izhikevich neuron
 
@@ -100,43 +101,59 @@ cortical_RS = IzhikevichParams()
 
 # ## Neurons & synapses
 
-# Simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
+# IDs and mappings are simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
 
 @alias NeuronID = Int
 @alias SynapseID = Int;
+
+# See below for the behaviour of this utility function.
 
 """Given group names and numbers, build a CVec with these group names and a unique ID for each element."""
 function ID_CVec(; kw...)
     transform(val::Number) = fill(-1, val)
     transform(val::CVec) = val  # allow nested ID_CVecs.
-    cv = CVec(; [key => transform(val) for (key, val) in kw]...)
-    cv[:] = 1:length(cv)
-    return cv
+    cvec = CVec(; (key => transform(val) for (key, val) in kw)...)
+    cvec .= 1:length(cvec)
+    return cvec
 end;
 
 # ### Neuron IDs
 
 neuron_ids = ID_CVec(conn = ID_CVec(exc = N_exc, inh = N_inh), unconn = N_unconn)
 
-id = N_exc + 1
-neuron_ids[id], labels(neuron_ids)[id]
+# Example usage:
 
-# ### Synapse IDs
+id = N_exc + 2
+id, id == neuron_ids[id] == neuron_ids.conn.inh[2], labels(neuron_ids)[id]
+
+# ### Synapses
 
 synapse_ids = ID_CVec(exc = N_exc, inh = N_inh)
+
+g0_vec = similar(synapse_ids, Float64)
+g0_vec .= g0
+Δg = similar(g0_vec)
+Δg.exc .= Δg_exc
+Δg.inh .= Δg_inh;
+
+# $E$, the reversal potential at each synapse.
+
+E = similar(g0_vec)
+E.exc .= v_exc
+E.inh .= v_inh
+E
 
 # ### Connections
 
 # +
-using DataStructures: OrderedDict
-
-postsynapses = OrderedDict{NeuronID, Vector{SynapseID}}()
+postsynapses = Dict{NeuronID, Vector{SynapseID}}()
 
 for (n,s) in zip(neuron_ids.conn, synapse_ids)
     postsynapses[n] = [s]
 end
-
-postsynapses
+for n in neuron_ids.unconn
+    postsynapses[n] = []
+end
 # -
 
 # ## Sim
@@ -158,22 +175,24 @@ ISI_distributions = Exponential.(β);
 
 # Generate the first spike time for every input neuron by sampling once from its ISI distribution.
 
-first_spiketime_per_neuron = rand.(ISI_distributions);
+first_spiketimes = rand.(ISI_distributions);
 
 # Sort these initial spike times by building a priority queue.
 
-using DataStructures: PriorityQueue
+# +
+upcoming_input_spikes = PriorityQueue{NeuronID, Float64}()
 
-next_input_spikes = PriorityQueue{NeuronID, Float64}()
-for (neuron_ID, t) in enumerate(first_spiketime_per_neuron)
-    enqueue!(next_input_spikes, neuron_ID => t)
+for (neuron_ID, t) in enumerate(first_spiketimes)
+    enqueue!(upcoming_input_spikes, neuron_ID => t)
 end
+# -
 
-# Pop off the top of the heap to find the first spiker.
+# Check the top of the heap to find the first spiker.
 
-first_input_spike_time, first_input_spike_neuron = dequeue_pair!(next_input_spikes)
+_, next_input_spike_time = peek(upcoming_input_spikes)
+    # We `peek`, and not `dequeue_pair!`, to make this cell idempotent.
 
-# ### Differential equations 
+# ### Differential equations
 
 using OrdinaryDiffEq
 
@@ -181,18 +200,16 @@ using OrdinaryDiffEq
 
 function f(D, vars, _, _)
     @unpack v, u, g = vars
-    I_s = sum(g .* (v .- E))  # Sum synaptic currents.
-        # Membrane current is by convention positive if positive charges are flowing out of the cell.
-        # For e.g. v = -80 mV and E = 0 mV, we get negative I_s, i.e. charges flowing in ✔.
+    I_s = sum(g .* (v .- E))
     D.v = (k * (v - v_r) * (v - v_t) - u - I_s) / C
     D.u = a * (b * (v - v_r) - u)
-    D.g = -g ./ τs
+    D.g = -g ./ τ_s
     return nothing
 end;
 
-# `E` is simply a vector with for each neuron the reversal potential at its downstream synapses.
-
-E = CVec(exc = fill(v_exc, N_exc), inh = fill(v_inh, N_inh))
+# For the sum of synaptic currents, $I_s$, note that membrane current is by convention positive
+# if positive charges are flowing out of the cell.
+# For *e.g.* v = $-80$ mV and E = $0$ mV (excitatory synapse), we get negative $I_s$, i.e. charges flowing in ✅.
 
 # ### Events
 
@@ -212,40 +229,37 @@ end
 function on_event(integrator, event)
     vars = integrator.u
     @unpack p, t = integrator  # params, time
-    
+
     if event == events.thr_crossing
         # The discontinuous LIF/Izhikevich/AdEx update
         vars.v = c
         vars.u += d
-        
-    elseif event == events.spike_generated
-        # Generate a new spike for the just fired input neuron.
-        fired_neuron = p.next_input_spike_neuron
-        new_ISI = rand(ISI_distributions[fired_neuron])
-        enqueue!(next_input_spikes, fired_neuron => t + new_ISI)
-        # Update the downstream synapses (one or zero in this case).
+
+    elseif event == events.input_spike_generated
+        # Process the neuron that just fired. Start by removing it from the queue.
+        fired_neuron = dequeue!(upcoming_input_spikes)
+        # Generate a new spike time, and add it to the queue.
+        new_spike_time = t + rand(ISI_distributions[fired_neuron])
+        enqueue!(upcoming_input_spikes, fired_neuron => new_spike_time)
+        # Update the downstream synapses (one or zero in the N-to-1 case).
         # Also note: no tx delay.
-        vars.g[postsynapses[fired_neuron]] .+= Δg
-        # Update params: find next spike.
-        p.next_input_spike_neuron, p.next_input_spike_time = dequeue_pair!(next_input_spikes)
+        for syn in postsynapses[fired_neuron]
+            vars.g[syn] += Δg[syn]
+        end
+        # Update params: retrieve the next earliest spike.
+        _, p.next_input_spike_time = peek(upcoming_input_spikes)
     end
-end
+end;
 # -
 
 # ### Run simulation
 
 # Bring it all together (initial conditions, derivatives function, events) and solve.
 
-vars_t0 = CVec{Float64}(  # Note the cast to float, so that vars are float during sim.
-    v = v0, 
-    u = u0, 
-    g = fill(g0, N_conn),
-)
+vars_t0 = CVec{Float64}(v = v0, u = u0, g = g0_vec)
+    # Note the cast to float (which is btw recursive), so that vars are float during sim.
 
-params = CVec(
-    next_input_spike_time   = first_input_spike_time,
-    next_input_spike_neuron = first_input_spike_neuron,
-)
+params = CVec(; next_input_spike_time)
 
 # +
 prob = ODEProblem(f, vars_t0, float(sim_duration), params)
@@ -262,9 +276,14 @@ prob = ODEProblem(f, vars_t0, float(sim_duration), params)
 );
 # -
 
-# Tolerances are from https://diffeq.sciml.ai/stable/tutorials/ode_example/#Choosing-a-Solver-Algorithm and experimentation:  
+# Tolerances are from https://diffeq.sciml.ai/stable/tutorials/ode_example/#Choosing-a-Solver-Algorithm and experimentation:
 # Lower for either gives incorrect oscillations in steady state (non-todo: show this in a separate nb).
 
-plot(sol.t/ms, sol[1,:]/mV);
+using Sciplotlib
+
+tzoom = sol.t[[1,end]]
+# tzoom = [200, 600] .* ms
+zoom = first(tzoom) .< sol.t .< last(tzoom)
+plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
 
 
