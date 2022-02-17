@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2021-01-01 &#8226; Influence of simulation params on connection test &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2020-12-30 &#8226; Test connection of all incoming neurons" href="2020-12-30__test_all_connections.html">
+    <link rel="prev" title="2021-01-06 &#8226; ROC" href="2021-01-06__ROC.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"><link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2021_01_01__vary_params.html"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__big_N_to_1.html">
+   2022-02-07 &#8226; Big-N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2021-01-01__vary_params.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#base-parameters">
+   Base parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#short-recording-duration">
+   Short recording duration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#low-number-of-incoming-spike-trains">
+   Low number of incoming spike trains
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fast-spiking">
+   Fast spiking
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#noisy-imaging">
+   Noisy imaging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#noisy-short-recording">
+   Noisy &amp; short recording
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#just-for-fun-no-noise">
+   Just for fun: no noise
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility">
+   Reproducibility
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2021-01-01 &#8226; Influence of simulation params on connection test</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#base-parameters">
+   Base parameters
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#short-recording-duration">
+   Short recording duration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#low-number-of-incoming-spike-trains">
+   Low number of incoming spike trains
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fast-spiking">
+   Fast spiking
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#noisy-imaging">
+   Noisy imaging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#noisy-short-recording">
+   Noisy &amp; short recording
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#just-for-fun-no-noise">
+   Just for fun: no noise
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility">
+   Reproducibility
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="influence-of-simulation-params-on-connection-test">
+<h1>2021-01-01 &#8226; Influence of simulation params on connection test<a class="headerlink" href="#influence-of-simulation-params-on-connection-test" title="Permalink to this headline">&#182;</a></h1>
+<p>Here for the first time we run the entire workflow / &#8216;loop&#8217; in one function (biology &amp; imaging simulation, plus connection test). We then call this function with varying parameters, to test thei influence  how well the connection test performs.</p>
+<p>We stimulate the neuron with multiple spike trains, but only test the connection with one spike train (because it&#8217;s easier and faster), for now.</p>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.notebook_init</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
+ - numpy &#8230; (0.10 s)
+ - matplotlib.pyplot &#8230; (0.22 s)
+ - numba &#8230; (0.30 s)
+
+Importing from submodules &#8230; &#10004;
+
+Imported `np`, `mpl`, `plt`
+Imported codebase (`voltage_to_wiring_sim`) as `v`
+Imported `*` from `v.support.units`
+Setup autoreload
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Sat 02 Jan</strong> 2021, at 00:25 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/37eb33d1b36a9c7ecefe9bf40b9252eae65b0407">Last git commit</a> (Fri 01 Jan 2021, 23:38).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>?? notebooks/2020_12_30__vary_params.ipynb
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="base-parameters">
+<h2>Base parameters<a class="headerlink" href="#base-parameters" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">default_sim_params</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">default_params</span>
+<span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_to_1_SimParams
+----------------
+                time_grid = {'duration': 600, 'start': 0, 'timestep': 0.0001}
+num_incoming_spike_trains = 15
+               spike_rate = 20
+                   &#916;g_syn = 8E-10
+                    &#964;_syn = 0.007
+            neuron_params = {'C': 1e-10, 'a': 30.0, 'b': -2e-09, 'c': -0.05, ...}
+        imaging_spike_SNR = 10
+</pre></div>
+</div>
+</div>
+</div>
+<p>(All quantities are in unprefixed SI units: second, Hz, Farad, Siemens &#8230;. Pretty printing, in human readable units, is not here yet).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_and_test</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">):</span>
+    
+    <span class="n">v</span><span class="o">.</span><span class="n">fix_rng_seed</span><span class="p">()</span>
+    
+    <span class="n">sim_result</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    
+    <span class="n">zoom_window</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">TimeGrid</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">zoom_start</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span>
+                             <span class="n">timestep</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">zoom_window</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># don't wait till function has completed to show plot.</span>
+    
+    <span class="n">spike_train</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">spike_trains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">window_duration</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">ms</span>
+    
+    <span class="n">STA</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">calculate_STA</span><span class="p">(</span><span class="n">sim_result</span><span class="o">.</span><span class="n">VI_signal</span><span class="p">,</span> <span class="n">spike_train</span><span class="p">,</span> <span class="n">window_duration</span><span class="p">)</span>
+    
+    <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summary</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">test_connection</span><span class="p">(</span>
+        <span class="n">spike_train</span><span class="p">,</span>
+        <span class="n">sim_result</span><span class="o">.</span><span class="n">VI_signal</span><span class="p">,</span>
+        <span class="n">window_duration</span><span class="p">,</span>
+        <span class="n">num_shuffles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="p">)</span>
+    
+    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">left_ax</span><span class="p">)</span>
+    <span class="n">left_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal (mV)"</span><span class="p">)</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">connection_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">right_ax</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">test_summary</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_and_test</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_9_0.png" src="../_images/2021-01-01__vary_params_9_0.png">
+<img alt="../_images/2021-01-01__vary_params_9_1.png" src="../_images/2021-01-01__vary_params_9_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 3.571
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="short-recording-duration">
+<h2>Short recording duration<a class="headerlink" href="#short-recording-duration" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>  <span class="c1"># 'deep' to also make a copy of `time_grid`</span>
+
+<span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">second</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_12_0.png" src="../_images/2021-01-01__vary_params_12_0.png">
+<img alt="../_images/2021-01-01__vary_params_12_1.png" src="../_images/2021-01-01__vary_params_12_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 1.428
+</pre></div>
+</div>
+</div>
+</div>
+<p>Still a PSP visible and the connection test can still find that the spike train is connected; but less convincing.</p>
+</div>
+<div class="section" id="low-number-of-incoming-spike-trains">
+<h2>Low number of incoming spike trains<a class="headerlink" href="#low-number-of-incoming-spike-trains" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+
+<span class="n">sim_params</span><span class="o">.</span><span class="n">num_incoming_spike_trains</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_15_0.png" src="../_images/2021-01-01__vary_params_15_0.png">
+<img alt="../_images/2021-01-01__vary_params_15_1.png" src="../_images/2021-01-01__vary_params_15_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 3.157
+</pre></div>
+</div>
+</div>
+</div>
+<p>No spikes (not enough input); but still a PSP.</p>
+<p>Note though that the STA shape is different now: no after-hyperpolarisation because no spikes.</p>
+</div>
+<div class="section" id="fast-spiking">
+<h2>Fast spiking<a class="headerlink" href="#fast-spiking" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+
+<span class="n">sim_params</span><span class="o">.</span><span class="n">spike_rate</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="n">Hz</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_18_0.png" src="../_images/2021-01-01__vary_params_18_0.png">
+<img alt="../_images/2021-01-01__vary_params_18_1.png" src="../_images/2021-01-01__vary_params_18_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 3.632
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interesting: STA shape is more time-compressed.</p>
+<p>There&#8217;s maybe even some oscillation visible?</p>
+</div>
+<div class="section" id="noisy-imaging">
+<h2>Noisy imaging<a class="headerlink" href="#noisy-imaging" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+
+<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_21_0.png" src="../_images/2021-01-01__vary_params_21_0.png">
+<img alt="../_images/2021-01-01__vary_params_21_1.png" src="../_images/2021-01-01__vary_params_21_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 1.405
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interesting: with strong noise (here: as strong as spike height), we can still resolve the PSPs.</p>
+</div>
+<div class="section" id="noisy-short-recording">
+<h2>Noisy &amp; short recording<a class="headerlink" href="#noisy-short-recording" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+
+<span class="n">sim_params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">minute</span>
+<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_24_0.png" src="../_images/2021-01-01__vary_params_24_0.png">
+<img alt="../_images/2021-01-01__vary_params_24_1.png" src="../_images/2021-01-01__vary_params_24_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.02
+       p_value_type = '='
+relative_STA_height = 1.195
+</pre></div>
+</div>
+</div>
+</div>
+<p>..but only when our recording is long enough.</p>
+<p>Note that the PSP is still vaguely visible in the STA, however.</p>
+</div>
+<div class="section" id="just-for-fun-no-noise">
+<h2>Just for fun: no noise<a class="headerlink" href="#just-for-fun-no-noise" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+
+<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-01-01__vary_params_27_0.png" src="../_images/2021-01-01__vary_params_27_0.png">
+<img alt="../_images/2021-01-01__vary_params_27_1.png" src="../_images/2021-01-01__vary_params_27_1.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
+---------------------
+            p_value = 0.01
+       p_value_type = '&lt;'
+relative_STA_height = 5.006
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="reproducibility">
+<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 01 Jan</strong> 2021, at 23:00 (UTC+0100).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d5d0790cdb5a61a68872195e0d13b4121225903e">Last git commit</a> (Fri 01 Jan 2021, 22:59).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>?? notebooks/2020_12_30__vary_params.ipynb
+</pre></div>
+</div>
+<p>Platform:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
+CPython 3.8.3 (C:\conda\python.exe)
+Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
+</pre></div>
+</div>
+<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.2
+matplotlib           3.3.2
+numba                0.51.2
+seaborn              0.10.1
+scipy                1.5.2
+scikit-learn         0.23.2
+preload              2.1
+py-cpuinfo           7.0.0
+nptyping             1.3.0
+tqdm                 4.55.0
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="2021-01-06__ROC.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">2021-01-06 &#8226; ROC</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2020-12-30__test_all_connections.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2020-12-30 &#8226; Test connection of <em>all</em> incoming neurons</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

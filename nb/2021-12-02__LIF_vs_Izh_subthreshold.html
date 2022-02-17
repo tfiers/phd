@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2021-12-02 &#8226; LIF vs Izhikevich subthreshold &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2021-12-02__LIF_vs_Izh_subthreshold.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2021-11-11 &#8226; Vary both inhibitory strength and proportion" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+    <link rel="prev" title="2021-12-06 &#8226; Local shape of \(\dot{V}\) in 2D HH" href="2021-12-06__local_HH_dV_shape.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__big_N_to_1.html">
+   2022-02-07 &#8226; Big-N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2021-12-02__LIF_vs_Izh_subthreshold.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/nb/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/nb/2021-12-02__LIF_vs_Izh_subthreshold.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prelude">
+   [Prelude]
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input">
+   Input
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leaky-integrate-and-fire">
+   Leaky integrate and fire
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#izhikevich">
+   Izhikevich
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility">
+   [Reproducibility]
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2021-12-02 &#8226; LIF vs Izhikevich subthreshold</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prelude">
+   [Prelude]
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input">
+   Input
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#leaky-integrate-and-fire">
+   Leaky integrate and fire
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#izhikevich">
+   Izhikevich
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#reproducibility">
+   [Reproducibility]
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="lif-vs-izhikevich-subthreshold">
+<h1>2021-12-02 &#8226; LIF vs Izhikevich subthreshold<a class="headerlink" href="#lif-vs-izhikevich-subthreshold" title="Permalink to this headline">&#182;</a></h1>
+<p>Comparing neuron models: subthreshold behaviour of leaky integrate and fire vs Izhikevich neuron.</p>
+<p>Not included: HH, AdEx.</p>
+<div class="section" id="prelude">
+<h2>[Prelude]<a class="headerlink" href="#prelude" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.notebook_init</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading: numpy, numba, matplotlib.pyplot, seaborn.
+Importing from submodules &#8230; &#10004;
+Imported `np`, `mpl`, `plt`, `sns`, `pd`
+Imported codebase (`voltage_to_wiring_sim`) as `v`
+Imported `*` from `v.support.units`
+Setup autoreload
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code> on <strong>Thu 09 Dec</strong> 2021, at 09:52 (UTC+0000).<br>
+<a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/1185870d4b10a8ab130b9e552369cab0f3d8782a">Last git commit</a> (Thu 09 Dec 2021, 05:32).
+Uncommited changes to 3 files.</p>
+</div>
+</div>
+</div>
+<div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.test_current</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">1700</span> <span class="o">*</span> <span class="n">ms</span>
+
+<span class="n">timesteps</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to_indices</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">timesteps</span><span class="p">)</span>
+
+<span class="n">Q</span> <span class="o">=</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">nA</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">ms</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">ms</span>
+<span class="n">&#964;</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">ms</span>
+<span class="n">add_&#948;</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">t_&#948;_up</span> <span class="o">:=</span> <span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">),</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_&#948;</span><span class="p">(</span><span class="o">-</span><span class="n">Q</span><span class="p">,</span> <span class="p">(</span><span class="n">t_&#948;_down</span> <span class="o">:=</span> <span class="mi">200</span><span class="o">*</span><span class="n">ms</span><span class="p">),</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="mi">300</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="o">-</span><span class="n">Q</span><span class="p">,</span> <span class="mi">450</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">600</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">750</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">&#964;</span><span class="p">)</span>
+<span class="n">add_plateau</span><span class="p">(</span><span class="mf">7.5</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">900</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_ramp</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1200</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1500</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1530</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">add_pulse_with_decay</span><span class="p">(</span><span class="mf">1.3</span><span class="o">*</span><span class="n">Q</span><span class="p">,</span> <span class="mi">1560</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span> <span class="n">T</span><span class="o">-</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">I</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">ylims</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.38</span><span class="p">,</span> <span class="mf">0.38</span><span class="p">);</span>
+
+<span class="c1"># fig, ax = plt.subplots(**v.figsize(aspect=5, width=1000))</span>
+<span class="c1"># t = np.linspace(0, duration/ms, timesteps, False)</span>
+<span class="c1"># plot_test_current(ax, t, I/nA, ylims)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="leaky-integrate-and-fire">
+<h2>Leaky integrate and fire<a class="headerlink" href="#leaky-integrate-and-fire" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pF</span><span class="p">;</span>  <span class="c1"># from Izh cortical RS.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_LIF</span><span class="p">(</span><span class="n">I</span><span class="p">):</span>
+    <span class="n">V_L</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">V_th</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">V_peak</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c1"># just for plotting</span>
+    <span class="n">V_reset</span> <span class="o">=</span> <span class="n">V_L</span>
+    <span class="n">V0</span> <span class="o">=</span> <span class="n">V_reset</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="mi">80</span> <span class="o">*</span> <span class="n">Mohm</span>  <span class="c1"># from Izhikevich book: Cortical RS section.</span>
+    <span class="c1"># &#964; = 15 * ms  # = CR</span>
+
+    <span class="n">N</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">V0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+        <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">((</span><span class="n">V_L</span> <span class="o">-</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="n">R</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">C</span>
+
+        <span class="k">if</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">V_th</span><span class="p">:</span>
+            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_peak</span>
+            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_reset</span>
+
+    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">V_LIF</span> <span class="o">=</span> <span class="n">sim_LIF</span><span class="p">(</span><span class="n">I</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="izhikevich">
+<h2>Izhikevich<a class="headerlink" href="#izhikevich" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">nS</span>
+<span class="n">V_r</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">V_t</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">V_peak</span> <span class="o">=</span> <span class="mi">35</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="o">*</span> <span class="n">mV</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span>
+<span class="n">d</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">pA</span>
+
+<span class="k">def</span> <span class="nf">sim_Izh</span><span class="p">(</span><span class="n">I</span><span class="p">):</span>
+    
+    <span class="n">N</span> <span class="o">=</span> <span class="n">I</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">V_r</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        
+        <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">C</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        
+        <span class="k">if</span> <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">V_peak</span><span class="p">:</span>
+            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">V_peak</span>
+            <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span>
+            <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">d</span>
+    
+    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dt</span><span class="p">),</span> <span class="n">v</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">V_Izh</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="n">sim_Izh</span><span class="p">(</span><span class="n">I</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Parameters from Izhikevich book: cortical regular spiking neuron.</p>
+</div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                        <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span>
+                        <span class="n">gridspec_kw</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]))</span>
+
+<span class="n">ax_Izh</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax_I_Izh</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax_LIF</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">ax_I</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="n">timesteps</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="n">ax_LIF</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">)</span>
+<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_LIF</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C1"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Leaky&#8211;integrate"</span><span class="p">)</span>
+<span class="n">ax_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">V_Izh</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Izhikevich"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">add_reordered_legend</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">k</span> <span class="o">*</span> <span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_r</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">V_Izh</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="n">V_t</span><span class="p">)</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$k(V-V_r)(V-V_t)$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C2"</span><span class="p">)</span>
+<span class="n">ax_I_Izh</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="n">u</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">nA</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"$u$"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"C0"</span><span class="p">);</span>
+<span class="n">v</span><span class="o">.</span><span class="n">add_reordered_legend</span><span class="p">(</span><span class="n">ax_I_Izh</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_test_current</span><span class="p">(</span><span class="n">ax_I</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="o">/</span><span class="n">nA</span><span class="p">,</span> <span class="n">ylims</span><span class="p">,</span> <span class="n">y&#948;</span><span class="o">=</span><span class="mf">0.82</span><span class="p">)</span>
+<span class="n">ax_I</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Time (ms)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_LIF</span><span class="p">,</span> <span class="s2">"Leaky&#8211;integrate membrane voltage (mV)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_Izh</span><span class="p">,</span> <span class="s2">"Membrane voltage $V$ (mV)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I_Izh</span><span class="p">,</span> <span class="s2">"Izhikevich membrane currents (nA)"</span><span class="p">)</span>
+<span class="n">v</span><span class="o">.</span><span class="n">ylabel_inside</span><span class="p">(</span><span class="n">ax_I</span><span class="p">,</span> <span class="s2">"Input current $I$ (nA)"</span><span class="p">,</span> <span class="n">ylim_shift</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax_LIF</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">duration</span><span class="o">/</span><span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2021-12-02__LIF_vs_Izh_subthreshold_15_0.png" src="../_images/2021-12-02__LIF_vs_Izh_subthreshold_15_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="reproducibility">
+<h2>[Reproducibility]<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">lpxtf3</span></code> on <code class="docutils literal notranslate"><span class="pre">DUIP74576</span></code><br>on <strong>Thu 09 Dec</strong> 2021, at 04:11 (UTC+0000).</p>
+<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/1119d931cf1ed9ff93d8a6c72ea030f1df584b9f">Last git commit</a> (Tue 07 Dec 2021, 03:59).</p>
+<p>Uncommited changes to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> M codebase/voltage_to_wiring_sim/__init__.py
+ M codebase/voltage_to_wiring_sim/support/plot_util.py
+AM codebase/voltage_to_wiring_sim/support/test_current.py
+ M codebase/voltage_to_wiring_sim/support/units.py
+ M notebooks/2021-12-02__LIF_vs_Izh_subthreshold.ipynb
+ M notebooks/2021-12-06__local_HH_dV_shape.ipynb
+?? notebooks/2021-11-18__constant_input_spikes.ipynb
+?? notebooks/2021-11-18__prototype_new_sim.ipynb
+?? notebooks/2021-12-08__Izh_subthreshold_nonlinear.ipynb
+?? notebooks/2021-12-08__cortical_HH_vs_Izh_dV_shape.ipynb
+</pre></div>
+</div>
+<p>Platform:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
+CPython 3.9.6 (C:\miniforge3\python.exe)
+Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
+</pre></div>
+</div>
+<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.21.1
+matplotlib           3.4.2
+numba                0.53.1
+joblib               1.0.1
+seaborn              0.11.1
+scipy                1.7.0
+preload              2.2
+nptyping             1.4.2
+</pre></div>
+</div>
+<p>Full conda list:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># packages in environment at C:\miniforge3:</span>
+<span class="c1">#</span>
+<span class="c1"># Name                    Version                   Build  Channel</span>
+<span class="n">argon2</span><span class="o">-</span><span class="n">cffi</span>               <span class="mf">20.1.0</span>           <span class="n">py39hb82d6ee_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">async_generator</span>           <span class="mf">1.10</span>                       <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">attrs</span>                     <span class="mf">21.2.0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backcall</span>                  <span class="mf">0.2.0</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backports</span>                 <span class="mf">1.0</span>                        <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">backports</span><span class="o">.</span><span class="n">functools_lru_cache</span> <span class="mf">1.6.4</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">black</span>                     <span class="mf">21.9</span><span class="n">b0</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">bleach</span>                    <span class="mf">3.3.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">brian2</span>                    <span class="mf">2.5.0.1</span>          <span class="n">py39h2e07f2f_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">brotlipy</span>                  <span class="mf">0.7.0</span>           <span class="n">py39hb82d6ee_1001</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ca</span><span class="o">-</span><span class="n">certificates</span>           <span class="mf">2021.10.8</span>            <span class="n">h5b45459_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">certifi</span>                   <span class="mf">2021.10.8</span>        <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cffi</span>                      <span class="mf">1.14.6</span>           <span class="n">py39h0878f49_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">chardet</span>                   <span class="mf">4.0.0</span>            <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">charset</span><span class="o">-</span><span class="n">normalizer</span>        <span class="mf">2.0.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">click</span>                     <span class="mf">7.1.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">colorama</span>                  <span class="mf">0.4.4</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">colorful</span>                  <span class="mf">0.5.4</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">conda</span>                     <span class="mf">4.11.0</span>           <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">conda</span><span class="o">-</span><span class="n">package</span><span class="o">-</span><span class="n">handling</span>    <span class="mf">1.7.3</span>            <span class="n">py39hb3671d1_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cryptography</span>              <span class="mf">3.4.7</span>            <span class="n">py39hd8d06c1_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">cycler</span>                    <span class="mf">0.10.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">cython</span>                    <span class="mf">0.29.24</span>          <span class="n">py39h415ef7b_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">dataclasses</span>               <span class="mf">0.8</span>                <span class="n">pyhc8e2a94_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">debugpy</span>                   <span class="mf">1.4.1</span>            <span class="n">py39h415ef7b_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">decorator</span>                 <span class="mf">5.0.9</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">defusedxml</span>                <span class="mf">0.7.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">entrypoints</span>               <span class="mf">0.3</span>             <span class="n">pyhd8ed1ab_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">gsl</span>                       <span class="mf">2.7</span>                  <span class="n">hdfb1a43_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">icu</span>                       <span class="mf">68.2</span>                 <span class="n">h0e60522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">idna</span>                      <span class="mf">3.1</span>                <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">importlib</span><span class="o">-</span><span class="n">metadata</span>        <span class="mf">4.6.1</span>            <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">intel</span><span class="o">-</span><span class="n">openmp</span>              <span class="mf">2021.4.0</span>          <span class="n">h57928b3_3556</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipykernel</span>                 <span class="mf">6.0.3</span>            <span class="n">py39h832f523_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipython</span>                   <span class="mf">7.25.0</span>           <span class="n">py39h832f523_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipython_genutils</span>          <span class="mf">0.2.0</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ipywidgets</span>                <span class="mf">7.6.5</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jedi</span>                      <span class="mf">0.18.0</span>           <span class="n">py39hcbf5309_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jinja2</span>                    <span class="mf">3.0.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">joblib</span>                    <span class="mf">1.0.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">jpeg</span>                      <span class="mi">9</span><span class="n">d</span>                   <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jsonschema</span>                <span class="mf">3.2.0</span>              <span class="n">pyhd8ed1ab_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_client</span>            <span class="mf">6.1.12</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_contrib_core</span>      <span class="mf">0.3.3</span>                      <span class="n">py_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_contrib_nbextensions</span> <span class="mf">0.5.1</span>              <span class="n">pyhd8ed1ab_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_core</span>              <span class="mf">4.7.1</span>            <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_highlight_selected_word</span> <span class="mf">0.2.0</span>           <span class="n">py39hcbf5309_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_latex_envs</span>        <span class="mf">1.4.6</span>           <span class="n">pyhd8ed1ab_1002</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyter_nbextensions_configurator</span> <span class="mf">0.4.1</span>            <span class="n">py39hcbf5309_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab_pygments</span>       <span class="mf">0.1.2</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">jupyterlab_widgets</span>        <span class="mf">1.0.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">kiwisolver</span>                <span class="mf">1.3.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">libblas</span>                   <span class="mf">3.9.0</span>              <span class="mi">12</span><span class="n">_win64_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libcblas</span>                  <span class="mf">3.9.0</span>              <span class="mi">12</span><span class="n">_win64_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libclang</span>                  <span class="mf">11.1.0</span>          <span class="n">default_h5c34c98_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libiconv</span>                  <span class="mf">1.16</span>                 <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">liblapack</span>                 <span class="mf">3.9.0</span>              <span class="mi">12</span><span class="n">_win64_mkl</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libpng</span>                    <span class="mf">1.6.37</span>               <span class="n">h1d00b33_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libsodium</span>                 <span class="mf">1.0.18</span>               <span class="n">h8d14728_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libxml2</span>                   <span class="mf">2.9.12</span>               <span class="n">hf5bbc77_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libxslt</span>                   <span class="mf">1.1.33</span>               <span class="n">h65864e5_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">libzlib</span>                   <span class="mf">1.2.11</span>            <span class="n">h8ffe710_1013</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">llvmlite</span>                  <span class="mf">0.36.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">lxml</span>                      <span class="mf">4.6.3</span>            <span class="n">py39h4fd7cdf_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libgfortran</span>     <span class="mf">5.3.0</span>                         <span class="mi">6</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libs</span>            <span class="mf">5.3.0</span>                         <span class="mi">7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gcc</span><span class="o">-</span><span class="n">libs</span><span class="o">-</span><span class="n">core</span>       <span class="mf">5.3.0</span>                         <span class="mi">7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">gmp</span>                 <span class="mf">6.1.0</span>                         <span class="mi">2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">m2w64</span><span class="o">-</span><span class="n">libwinpthread</span><span class="o">-</span><span class="n">git</span>   <span class="mf">5.0.0.4634.697</span><span class="n">f757</span>               <span class="mi">2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">markupsafe</span>                <span class="mf">2.0.1</span>            <span class="n">py39hb82d6ee_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">matplotlib</span>                <span class="mf">3.4.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">matplotlib</span><span class="o">-</span><span class="n">inline</span>         <span class="mf">0.1.2</span>              <span class="n">pyhd8ed1ab_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">matplotlib</span><span class="o">-</span><span class="n">label</span><span class="o">-</span><span class="n">lines</span>    <span class="mf">0.4.3</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">menuinst</span>                  <span class="mf">1.4.17</span>           <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">miniforge_console_shortcut</span> <span class="mf">2.0</span>                  <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mistune</span>                   <span class="mf">0.8.4</span>           <span class="n">py39hb82d6ee_1004</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mkl</span>                       <span class="mf">2021.4.0</span>           <span class="n">h0e2418a_729</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">more</span><span class="o">-</span><span class="n">itertools</span>            <span class="mf">8.12.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">mpmath</span>                    <span class="mf">1.2.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">msys2</span><span class="o">-</span><span class="n">conda</span><span class="o">-</span><span class="n">epoch</span>         <span class="mi">20160418</span>                      <span class="mi">1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">mypy_extensions</span>           <span class="mf">0.4.3</span>            <span class="n">py39hcbf5309_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbclient</span>                  <span class="mf">0.5.3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbconvert</span>                 <span class="mf">6.1.0</span>            <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nbformat</span>                  <span class="mf">5.1.3</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nest</span><span class="o">-</span><span class="n">asyncio</span>              <span class="mf">1.5.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">notebook</span>                  <span class="mf">6.4.0</span>              <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">nptyping</span>                  <span class="mf">1.4.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">numba</span>                     <span class="mf">0.53.1</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">numpy</span>                     <span class="mf">1.21.1</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">openssl</span>                   <span class="mf">1.1.1</span><span class="n">l</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">packaging</span>                 <span class="mf">21.0</span>               <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandas</span>                    <span class="mf">1.3.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pandoc</span>                    <span class="mf">2.14.1</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pandocfilters</span>             <span class="mf">1.4.2</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">parso</span>                     <span class="mf">0.8.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pathspec</span>                  <span class="mf">0.9.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pickleshare</span>               <span class="mf">0.7.5</span>                   <span class="n">py_1003</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pillow</span>                    <span class="mf">8.3.1</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pip</span>                       <span class="mf">21.2.1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">platformdirs</span>              <span class="mf">2.3.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">preload</span>                   <span class="mf">2.2</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">prettyprinter</span>             <span class="mf">0.18.0</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">prometheus_client</span>         <span class="mf">0.11.0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">prompt</span><span class="o">-</span><span class="n">toolkit</span>            <span class="mf">3.0.19</span>             <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">py</span><span class="o">-</span><span class="n">cpuinfo</span>                <span class="mf">8.0.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pycosat</span>                   <span class="mf">0.6.3</span>           <span class="n">py39hb82d6ee_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pycparser</span>                 <span class="mf">2.20</span>               <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pygments</span>                  <span class="mf">2.9.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pympler</span>                   <span class="mf">0.9</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pyopenssl</span>                 <span class="mf">20.0.1</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyparsing</span>                 <span class="mf">2.4.7</span>              <span class="n">pyh9f0ad1d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt</span>                      <span class="mf">5.12.3</span>           <span class="n">py39hcbf5309_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt</span><span class="o">-</span><span class="n">impl</span>                 <span class="mf">5.12.3</span>           <span class="n">py39h415ef7b_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqt5</span><span class="o">-</span><span class="n">sip</span>                 <span class="mf">4.19.18</span>          <span class="n">py39h415ef7b_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqtchart</span>                 <span class="mf">5.12</span>             <span class="n">py39h415ef7b_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyqtwebengine</span>             <span class="mf">5.12.1</span>           <span class="n">py39h415ef7b_7</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyrsistent</span>                <span class="mf">0.17.3</span>           <span class="n">py39hb82d6ee_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pysocks</span>                   <span class="mf">1.7.1</span>            <span class="n">py39hcbf5309_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python</span>                    <span class="mf">3.9.6</span>           <span class="n">h7840368_1_cpython</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python</span><span class="o">-</span><span class="n">dateutil</span>           <span class="mf">2.8.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">python_abi</span>                <span class="mf">3.9</span>                      <span class="mi">2</span><span class="n">_cp39</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pytz</span>                      <span class="mf">2021.1</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">pywin32</span>                   <span class="mi">300</span>              <span class="n">py39hb82d6ee_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pywinpty</span>                  <span class="mf">1.1.3</span>            <span class="n">py39h99910a6_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyyaml</span>                    <span class="mf">6.0</span>              <span class="n">py39hb82d6ee_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">pyzmq</span>                     <span class="mf">22.1.0</span>           <span class="n">py39he46f08e_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">qt</span>                        <span class="mf">5.12.9</span>               <span class="n">h5909a2a_4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">regex</span>                     <span class="mf">2021.10.23</span>       <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">requests</span>                  <span class="mf">2.26.0</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ruamel_yaml</span>               <span class="mf">0.15.80</span>         <span class="n">py39hb82d6ee_1004</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">scipy</span>                     <span class="mf">1.7.0</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">seaborn</span>                   <span class="mf">0.11.1</span>                   <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">send2trash</span>                <span class="mf">1.7.1</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">setuptools</span>                <span class="mf">49.6.0</span>           <span class="n">py39hcbf5309_3</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">six</span>                       <span class="mf">1.16.0</span>             <span class="n">pyh6c4a22f_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sqlite</span>                    <span class="mf">3.36.0</span>               <span class="n">h8ffe710_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">sympy</span>                     <span class="mf">1.9</span>              <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tbb</span>                       <span class="mf">2021.4.0</span>             <span class="n">h2d74725_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">terminado</span>                 <span class="mf">0.10.1</span>           <span class="n">py39hcbf5309_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">testpath</span>                  <span class="mf">0.5.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tomli</span>                     <span class="mf">1.2.2</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tornado</span>                   <span class="mf">6.1</span>              <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">tqdm</span>                      <span class="mf">4.61.2</span>             <span class="n">pyhd8ed1ab_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">traitlets</span>                 <span class="mf">5.0.5</span>                      <span class="n">py_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typed</span><span class="o">-</span><span class="n">ast</span>                 <span class="mf">1.4.3</span>            <span class="n">py39hb82d6ee_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typing_extensions</span>         <span class="mf">3.10.0.2</span>           <span class="n">pyha770c72_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">typish</span>                    <span class="mf">1.9.2</span>                    <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">tzdata</span>                    <span class="mi">2021</span><span class="n">a</span>                <span class="n">he74cb21_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">ucrt</span>                      <span class="mf">10.0.20348.0</span>         <span class="n">h57928b3_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">urllib3</span>                   <span class="mf">1.26.6</span>             <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">vc</span>                        <span class="mf">14.2</span>                 <span class="n">hb210afc_5</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">voltage</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">wiring</span><span class="o">-</span><span class="n">sim</span>     <span class="mf">0.1</span>                       <span class="n">dev_0</span>    <span class="o">&lt;</span><span class="n">develop</span><span class="o">&gt;</span>
+<span class="n">vs2015_runtime</span>            <span class="mf">14.29.30037</span>          <span class="n">h902a5da_5</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wcwidth</span>                   <span class="mf">0.2.5</span>              <span class="n">pyh9f0ad1d_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">webencodings</span>              <span class="mf">0.5.1</span>                      <span class="n">py_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wheel</span>                     <span class="mf">0.36.2</span>             <span class="n">pyhd3deb0d_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">widgetsnbextension</span>        <span class="mf">3.5.2</span>            <span class="n">py39hcbf5309_1</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">win_inet_pton</span>             <span class="mf">1.1.0</span>            <span class="n">py39hcbf5309_2</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">wincertstore</span>              <span class="mf">0.2</span>             <span class="n">py39hcbf5309_1006</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">winpty</span>                    <span class="mf">0.4.3</span>                         <span class="mi">4</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">winshell</span>                  <span class="mf">0.6</span>                      <span class="n">pypi_0</span>    <span class="n">pypi</span>
+<span class="n">yaml</span>                      <span class="mf">0.2.5</span>                <span class="n">he774522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zeromq</span>                    <span class="mf">4.3.4</span>                <span class="n">h0e60522_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zipp</span>                      <span class="mf">3.5.0</span>              <span class="n">pyhd8ed1ab_0</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">zlib</span>                      <span class="mf">1.2.11</span>            <span class="n">h8ffe710_1013</span>    <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="2021-12-06__local_HH_dV_shape.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">2021-12-06 &#8226; Local shape of <span class="math notranslate nohighlight">\(\dot{V}\)</span> in 2D HH</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2021-11-11__vary_both_inh_strength_and_proportion.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2021-11-11 &#8226; Vary both inhibitory strength and proportion</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
