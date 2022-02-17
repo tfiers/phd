@@ -1,21 +1,2 @@
-# IDE (PyCharm & VS Code) project specific settings
-.idea
-.vscode
-
 # Old, manually saved versions of Jupyter notebooks
 .ipynb_checkpoints
-
-# Cached Python bytecode created when importing a module
-__pycache__
-
-# Installation artifact from `pip install -e`
-*.egg-info
-
-# Cache directory storing results of slow Python function calls
-joblib
-
-# Annoying files placed by Windows in every Google Drive folder (specifying folder icon)
-desktop.ini
-
-# Locks used for work parallelization over cores
-dask-worker-space
