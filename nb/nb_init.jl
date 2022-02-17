@@ -11,7 +11,7 @@ hidden_stderr_info = @capture_err begin
     @withfeedback import Distributions
     @withfeedback import PyPlot
     @withfeedback import DataFrames, PrettyTables
-    @withfeedback import MyToolbox
+    @withfeedback import MyToolbox, Sciplotlib
     @withfeedback using VoltageToMap
 end
 

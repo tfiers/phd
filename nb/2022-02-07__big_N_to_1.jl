@@ -85,7 +85,11 @@ end
 cortical_RS = IzhikevichParams();
 # -
 
-# ## Neuron IDs
+# ## IDs
+
+# Simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
+
+# ### Neuron IDs
 
 neuron_ids = CArray(exc = 1:N_exc, inh = 1:N_inh, unconn = 1:N_unconn)
 
@@ -95,6 +99,10 @@ resetrng!(797)
 showsome(labels(neuron_ids))
 
 # i.e. a neuron's **global** ID = its index into the [ComponentVector](https://github.com/jonniedie/ComponentArrays.jl) "`neuron_ids`".
+
+# ### Synapse IDs
+
+synapse_ids = CArray(exc = 1:N_exc, inh = 1:N_inh)
 
 # ## Inputs
 
@@ -127,25 +135,36 @@ while t < sim_duration
 end
 # -
 
-# Superfast.
-
 using OrdinaryDiffEq
 
 # +
-function f(D, vars, params, t)
+function f(D, vars, params, _t)
     @unpack C, k, b, v_r, v_t, v_peak, c, a, d = params
-    @unpack v, u = vars
+    @unpack v, u, g = vars
+    Is = sum(g .* (v .- vs))
     D.v = (k * (v - v_r) * (v - v_t) - u) / C
     D.u = a * (b * (v - v_r) - u)
-    D.g = -g / τ_syn
+    D.g = -g ./ τs
     return nothing
 end
 
-x0 = ComponentArray{Float64}(v = v0, u = u0, g = g0)  # note eltype cast to float
-prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)
-# integrator = init(prob, Tsit5(); Δt, adaptive=true)
+x0 = ComponentArray{Float64}(v = v0, u = u0, g = fill(g0, N_conn))  # Note eltype cast to float.
+prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)  # Time must also be float.
+sol = solve(
+    prob,
+    Tsit5();          # The default solver. A Runge-Kutta method. Tsitouras 2011.
+    dt = Δt,          # Size of first step.
+    adaptive = true,  # Take larger steps when output is steady
+    reltol = 1e-8,    # default: 1e-2
+    abstol = 1e-8,    # default: 1e-6
+);
 # -
 
-t = 0ms:0.1ms:sim_duration
+# Tolerances from https://diffeq.sciml.ai/stable/tutorials/ode_example/#Choosing-a-Solver-Algorithm and experimentation:  
+# Lower for either gives incorrect oscillations in steady state (non-todo: show this in a separate nb).
+
+t = 0ms:0.5ms:0.8s
 v = t -> sol(t).v / mV
-plot(t, v.(t));
+plot(t, v.(t), clip_on=false, marker=".", ms=4);
+
+
