@@ -29,7 +29,7 @@ save(fname) = savefig(fname, subdir="methods");
 
 # ## Parameters
 
-sim_duration = 1 * seconds
+sim_duration = 1.2 * seconds
 Δt           = 0.1 * ms;   # Size of first step only, given that solver has adaptive timestep.
 
 # ### Input spikers
@@ -81,22 +81,18 @@ u0    =   0 * pA;
 # Parameters for a cortical regular spiking neuron:
 
 # +
-@with_kw struct IzhikevichParams
-    C      = 100 * pF
-    k      = 0.7 * (nS/mV)
-    b      = -2 * nS
-    v_r    = -60 * mV
-    v_t    = -40 * mV
-    v_peak =  35 * mV
-    c      = -50 * mV       # reset voltage.
-    a      = 0.03 / ms      # 1 / time constant of `u`
-    d      = 100 * pA       # `u` increase on spike. Free parameter.
-end
+cortical_RS = CVec(
+    C      = 100 * pF,
+    k      = 0.7 * (nS/mV),
+    v_r    = -60 * mV,
+    v_t    = -40 * mV,
+    a      = 0.03 / ms,      # 1 / time constant of `u`
+    b      = -2 * nS,
+    v_peak =  35 * mV,
+    c      = -50 * mV,       # reset voltage.
+    d      = 100 * pA,       # `u` increase on spike. Free parameter.
+);
 
-cortical_RS = IzhikevichParams()
-
-# Fix these params globally for now.
-@unpack C, k, b, v_r, v_t, v_peak, c, a, d = cortical_RS;
 # -
 
 # ## Neurons & synapses
@@ -163,7 +159,7 @@ end
 # Generate firing rates $λ$ by sampling from the input spike rate distribution.
 
 λ = rand(input_spike_rate, N)
-showsome(λ)
+# showsome(λ)
 
 # `Distributions.jl` uses alternative Exp parametrisation with scale $β$ = 1 / rate.
 
@@ -198,18 +194,25 @@ using OrdinaryDiffEq
 
 # The derivative function that defines the continuous differential equations:
 
-function f(D, vars, _, _)
+function f(D, vars, params, _)
     @unpack v, u, g = vars
-    I_s = sum(g .* (v .- E))
+    @unpack izh, E, τ_s = params
+    @unpack C, k, v_r, v_t, a, b = izh
+    I_s = 0
+    for (gi, Ei) in zip(g, E)
+        I_s += gi * (v - Ei)
+    end
     D.v = (k * (v - v_r) * (v - v_t) - u - I_s) / C
     D.u = a * (b * (v - v_r) - u)
-    D.g = -g ./ τ_s
+    D.g .= .-g ./ τ_s
     return nothing
 end;
 
 # For the sum of synaptic currents, $I_s$, note that membrane current is by convention positive
 # if positive charges are flowing out of the cell.
 # For *e.g.* v = $-80$ mV and E = $0$ mV (excitatory synapse), we get negative $I_s$, i.e. charges flowing in ✅.
+
+params = CVec(; next_input_spike_time, izh = cortical_RS, E, τ_s)
 
 # ### Events
 
@@ -222,7 +225,7 @@ events = (
 function update_distance_to_next_event(distance, vars, t, integrator)
     v = vars.v
     p = integrator.p  # params
-    distance[events.thr_crossing]          = v - v_peak
+    distance[events.thr_crossing]          = v - p.izh.v_peak
     distance[events.input_spike_generated] = t - p.next_input_spike_time
 end
 
@@ -232,8 +235,8 @@ function on_event(integrator, event)
 
     if event == events.thr_crossing
         # The discontinuous LIF/Izhikevich/AdEx update
-        vars.v = c
-        vars.u += d
+        vars.v = p.izh.c
+        vars.u += p.izh.d
 
     elseif event == events.input_spike_generated
         # Process the neuron that just fired. Start by removing it from the queue.
@@ -259,13 +262,13 @@ end;
 vars_t0 = CVec{Float64}(v = v0, u = u0, g = g0_vec)
     # Note the cast to float (which is btw recursive), so that vars are float during sim.
 
-params = CVec(; next_input_spike_time)
+using ProfileView
 
 # +
 prob = ODEProblem(f, vars_t0, float(sim_duration), params)
     # Duration must be float too, so that `t` variable is float.
 
-@time sol = solve(
+solv() = solve(
     prob,
     Tsit5();          # The default and recommended solver. A Runge-Kutta method. Tsitouras 2011.
     dt = Δt,          # Size of first step.
@@ -273,17 +276,18 @@ prob = ODEProblem(f, vars_t0, float(sim_duration), params)
     reltol = 1e-8,    # default: 1e-2
     abstol = 1e-8,    # default: 1e-6
     callback = VectorContinuousCallback(update_distance_to_next_event, on_event, length(events)),
-);
+    save_idxs = [1,2],   # don't save all synapses
+)
+@profview @time solv()
+# sol = @time solv();
 # -
 
 # Tolerances are from https://diffeq.sciml.ai/stable/tutorials/ode_example/#Choosing-a-Solver-Algorithm and experimentation:
 # Lower for either gives incorrect oscillations in steady state (non-todo: show this in a separate nb).
 
-using Sciplotlib
+# using Sciplotlib
 
-tzoom = sol.t[[1,end]]
-# tzoom = [200, 600] .* ms
-zoom = first(tzoom) .< sol.t .< last(tzoom)
-plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
-
-
+# tzoom = sol.t[[1,end]]
+# # tzoom = [200, 600] .* ms
+# zoom = first(tzoom) .< sol.t .< last(tzoom)
+# plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
