@@ -1,10 +1,4 @@
-- file: about/home
-
-- part: About
-  chapters:
-    - file: about/reader_guide
-    - file: about/comments
-    - file: about/executing_code
+- file: index
 
 - part: Notebooks
   chapters:
@@ -33,7 +27,7 @@
 
 - part: Unpolished Notebooks
   chapters:
-    - file: about/unpolished_notebooks_intro
+    - file: unpolished_notebooks_intro
     # - file: notebooks/
     - file: notebooks/2022-01-04__Hello_Julia
     - file: notebooks/2021-11-18__prototype_new_sim
