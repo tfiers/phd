@@ -22,11 +22,8 @@
 
 include("nb_init.jl")
 
-# +
 using Parameters, ComponentArrays
-
 @alias CArray = ComponentArray;
-# -
 
 save(fname) = savefig(fname, subdir="methods");
 
@@ -59,6 +56,10 @@ v_inh = -65 * mV;
 
 τs =   7 * ms;
 
+# Synaptic conductances at `t = 0`:
+
+g0 = 0 * nS;
+
 # ### Izhikevich neuron
 
 # Membrane potential `v` and adaptation variable `u` at `t = 0`:
@@ -90,6 +91,7 @@ neuron_ids = CArray(exc = 1:N_exc, inh = 1:N_inh, unconn = 1:N_unconn)
 
 only(getaxes(neuron_ids))
 
+resetrng!(797)
 showsome(labels(neuron_ids))
 
 # i.e. a neuron's **global** ID = its index into the [ComponentVector](https://github.com/jonniedie/ComponentArrays.jl) "`neuron_ids`".
@@ -118,7 +120,6 @@ for (input_neuron, t) in enumerate(first_spiketimes)
     enqueue!(pq, input_neuron => t)
 end
 
-t = 0s
 while t < sim_duration
     input_neuron, t = dequeue_pair!(pq)  # earliest spike
     new_ISI = rand(ISI_distributions[input_neuron])
@@ -140,7 +141,7 @@ function f(D, vars, params, t)
     return nothing
 end
 
-x0 = ComponentArray{Float64}(v = v0, u = u0)  # note eltype cast to float
+x0 = ComponentArray{Float64}(v = v0, u = u0, g = g0)  # note eltype cast to float
 prob = ODEProblem(f, x0, float(sim_duration), cortical_RS)
 # integrator = init(prob, Tsit5(); Δt, adaptive=true)
 # -
