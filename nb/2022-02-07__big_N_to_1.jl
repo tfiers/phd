@@ -107,16 +107,19 @@ cortical_RS = IzhikevichParams()
 
 """Given group names and numbers, build a CVec with these group names and a unique ID for each element."""
 function ID_CVec(; kw...)
-    cv = CVec(; [key => fill(-1, num) for (key,num) in kw]...)
+    transform(val::Number) = fill(-1, val)
+    transform(val::CVec) = val  # allow nested ID_CVecs.
+    cv = CVec(; [key => transform(val) for (key, val) in kw]...)
     cv[:] = 1:length(cv)
     return cv
 end;
 
 # ### Neuron IDs
 
-ID_CVec(exc = N_exc, inh = N_inh, unconn = N_unconn)
+neuron_ids = ID_CVec(conn = ID_CVec(exc = N_exc, inh = N_inh), unconn = N_unconn)
 
-neuron_ids[end], labels(neuron_ids)[end]
+id = N_exc + 1
+neuron_ids[id], labels(neuron_ids)[id]
 
 # ### Synapse IDs
 
@@ -129,10 +132,7 @@ using DataStructures: OrderedDict
 
 postsynapses = OrderedDict{NeuronID, Vector{SynapseID}}()
 
-for (n,s) in zip(neuron_ids.exc, synapse_ids.exc)
-    postsynapses[n] = [s]
-end
-for (n,s) in zip(neuron_ids.inh, synapse_ids.inh)
+for (n,s) in zip(neuron_ids.conn, synapse_ids)
     postsynapses[n] = [s]
 end
 
