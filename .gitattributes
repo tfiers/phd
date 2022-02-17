@@ -6,5 +6,3 @@
 # This option auto-converts Windows (CRLF) line endings into UNIX (LF) line endings in
 # newly added files.
 * text=auto eol=lf
-
-# *.ipynb  binary
