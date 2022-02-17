@@ -1,11 +1,11 @@
 name: deploy-website
 
-# Only run when anything in the `website` or `notebooks` directories changes
+# Only run when anything in the website or notebooks directories changes
 on:
   push:
     paths:
-      - notebooks/**
-      - website/**
+      - nb/**
+      - web/**
 
 # Install dependencies, build the book, and push it to `gh-pages` branch.
 jobs:
