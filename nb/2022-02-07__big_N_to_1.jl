@@ -80,7 +80,6 @@ u0    =   0 * pA;
 
 # Parameters for a cortical regular spiking neuron:
 
-# +
 cortical_RS = CVec(
     C      = 100 * pF,
     k      = 0.7 * (nS/mV),
@@ -92,8 +91,6 @@ cortical_RS = CVec(
     c      = -50 * mV,       # reset voltage.
     d      = 100 * pA,       # `u` increase on spike. Free parameter.
 );
-
-# -
 
 # ## Neurons & synapses
 
