@@ -7,15 +7,14 @@
 using Pkg, TOML
 
 const reporoot = @__DIR__
-const mainpkgdir = joinpath(reporoot, "code")
-const devdir = joinpath(mainpkgdir, "dev")  # These are all git submodules (cloned with `--recurse-submodules`).
+const pkgdir = joinpath(reporoot, "pkg")
 
 # Project & package directories
 const mainproj         = reporoot
-const VoltageToMap     = mainpkgdir
-const WhatIsHappening  = joinpath(devdir, "WhatIsHappening")
-const Sciplotlib       = joinpath(devdir, "Sciplotlib")
-const MyToolbox        = joinpath(devdir, "MyToolbox")
+const VoltageToMap     = joinpath(pkgdir, "VoltageToMap")
+const WhatIsHappening  = joinpath(pkgdir, "WhatIsHappening")
+const Sciplotlib       = joinpath(pkgdir, "Sciplotlib")
+const MyToolbox        = joinpath(pkgdir, "MyToolbox")
 
 const local_project_dependencies = [
     Sciplotlib     => [],

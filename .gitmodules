@@ -1,9 +1,9 @@
 [submodule "code/dev/Sciplotlib"]
-	path = code/dev/Sciplotlib
+	path = pkg/Sciplotlib
 	url = git@github.com:tfiers/Sciplotlib.jl.git
 [submodule "code/dev/WhatIsHappening"]
-	path = code/dev/WhatIsHappening
+	path = pkg/WhatIsHappening
 	url = git@github.com:tfiers/WhatIsHappening.jl.git
 [submodule "code/dev/MyToolbox"]
-	path = code/dev/MyToolbox
+	path = pkg/MyToolbox
 	url = git@github.com:tfiers/MyToolbox.jl.git

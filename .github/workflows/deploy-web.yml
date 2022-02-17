@@ -24,19 +24,19 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/pip
-        key: ${{ hashFiles('website/requirements.txt') }}
+        key: ${{ hashFiles('web/requirements.txt') }}
 
-    - name: pip install -r website/requirements.txt
+    - name: pip install -r web/requirements.txt
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        pip install -r website/requirements.txt
+        pip install -r web/requirements.txt
 
     - name: Build the book
-      working-directory: website
+      working-directory: web
       run: python build.py
 
     - name: Push the book's HTML to gh-pages branch
       uses: peaceiris/actions-gh-pages@v3.6.1
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: website/_build/html
+        publish_dir: web/_build/html

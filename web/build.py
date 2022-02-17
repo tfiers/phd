@@ -10,11 +10,11 @@ from lxml import etree
 
 
 def copy_down_notebooks_dir():
-    # I like my `notebooks/` dir to be top level (next to `codebase/` and `website/`).
+    # I like my `nb/` dir to be top level (next to `pkg/` and `web/`).
     # But JupyterBook / Sphinx then can't find it. Hence copy it down to the website/
     # dir on build.
     try:
-        shutil.copytree("../notebooks", "notebooks", dirs_exist_ok=True)
+        shutil.copytree("../nb", "nb", dirs_exist_ok=True)
     except shutil.Error:
         pass
         # A "permission denied" error is raised on my machine, but the operation
@@ -50,12 +50,12 @@ class RenamedPage:
 
 renamed_pages = (
     RenamedPage(
-        "notebooks/2021_01_01__vary_params.html",
-        "notebooks/2021-01-01__vary_params.html",
+        "nb/2021_01_01__vary_params.html",
+        "nb/2021-01-01__vary_params.html",
     ),
     RenamedPage(
-        "notebooks/2020_12_30__test_all_connections.html",
-        "notebooks/2020-12-30__test_all_connections.html",
+        "nb/2020_12_30__test_all_connections.html",
+        "nb/2020-12-30__test_all_connections.html",
     ),
 )
 

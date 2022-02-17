@@ -8,9 +8,9 @@ For rendered notebooks with results: &nbsp; [![](https://img.shields.io/badge/ðŸ
 
 <br>
 
-- `notebooks/` contains Jupyter Notebooks with exploratory and figure-producing code, both in Python, and later, from 2022 onwards, in Julia. These notebooks call code that has been factored out to external packages:
-- `code/` contains Julia packages that define types and functions reused in multiple notebooks.
-- `website/` contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
+- `nb/` contains Jupyter Notebooks with exploratory and figure-producing code, both in Python, and later, from 2022 onwards, in Julia. These notebooks call code that has been factored out to external packages:
+- `pkg/` contains Julia packages that define types and functions reused in multiple notebooks.
+- `web/` contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
 - `Project.toml` lists the names of the Julia packages our code directly depends on, and `Manifest.toml` records the exact versions of all packages used to generate the results (i.e. the notebook outputs).
 
 
@@ -22,7 +22,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
 
 - You need a version of Julia âˆˆ [1.7, 2). [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
 - `git clone` this repository with the `--recurse-submodules` option, and `cd` into the new directory.
-    - `--recurse-submodules` makes sure that the git submodules in this repository (see [`code/dev/`](code/dev/)) are cloned as well.
+    - `--recurse-submodules` makes sure that the git submodules in this repository (see [`pkg/`](pkg/)) are cloned as well.
 - Choose a Julia notebook to run. 
     - If it is one of the newest notebooks, the rest of this step can be skipped.
     - If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.
