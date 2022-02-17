@@ -4,6 +4,7 @@ name: deploy-website
 on:
   push:
     paths:
+      - .github/workflows/deploy-web.yml
       - nb/**
       - web/**
 
