@@ -1,3 +1,8 @@
+# Generate a new `Manifest.toml`, both for the main project, and the packages in `pkg/`.
+# This script is not needed if you install from the `Manifest.toml` commited to the
+# repository and don't hack on the packages (i.e. if you just want to reproduce results).
+#
+# More specifically:
 # - Instantiate the Julia projects in this repository (i.e. for each, create a `Manifest.toml`
 #   with all its dependencies, and install those), with the specification that the local,
 #   development versions of the packages present in this repo must be used.
