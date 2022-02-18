@@ -26,14 +26,15 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
 - Choose a Julia notebook to run. 
     - If it is one of the newest notebooks, the rest of this step can be skipped.
     - If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.
-        - A link to this commit and its hash can be found on GitHub, in the [`notebooks/`](notebooks/) directory, next to the notebook's filename.
+        - A link to this commit and its hash can be found on GitHub, in the [`notebooks/`](notebooks/) directory, next to the notebook's filename.  
+          Or use `git log <path>`.
         - Why is this step needed?
           The codebase that is called from the notebook will have been further developed since the notebook was last run. Checking out the commit restores the codebase to its former, working state for the notebook.
 - In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
   This might need a shell with admin access.
     - `instantiate` installs the exact package versions specified in `Manifest.toml`, which is included in the repository for the purpose of reproducibility.
-    - If you want to instead install newer versions of dependencies, run `julia setup.jl` in the terminal.
+    - If you want to instead use newer versions of dependencies, run `julia setup.jl` in the terminal.
 - Start a Jupyter server.
     - If you do not have Jupyter installed, run `using IJulia` and `notebook()` in the julia REPL.
     - If you have, the usual `jupyter notebook` (or `python -m notebook`) in the terminal works.
