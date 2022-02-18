@@ -7,14 +7,16 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.6
+#       jupytext_version: 1.10.0
 #   kernelspec:
-#     display_name: Julia 1.7.1
+#     display_name: Julia 1.7.0
 #     language: julia
 #     name: julia-1.7
 # ---
 
 # # 2022-02-07 • Big-N-to-1 simulation
+
+# ## Setup
 
 # +
 # Pkg.resolve()
@@ -25,24 +27,18 @@ include("nb_init.jl")
 using Parameters, ComponentArrays
 @alias CVec = ComponentVector;
 
-save(fname) = savefig(fname, subdir="methods");
-
 # ## Parameters
 
-sim_duration = 1.2 * seconds
-Δt           = 0.1 * ms;   # Size of first step only, given that solver has adaptive timestep.
+# ### Simulation duration
 
-# ### Input spikers
+sim_duration = 1.2 * seconds;
 
-# +
-N_unconn = 100
-N_exc    = 5200
-N_inh    = N_exc ÷ 4
+# ### Input spike trains
 
 N_unconn = 100
 N_exc    = 800
+# N_exc    = 5200
 N_inh    = N_exc ÷ 4
-# -
 
 N_conn = N_inh + N_exc
 
@@ -55,128 +51,190 @@ input_spike_rate = LogNormal_with_mean(4Hz, √0.6)  # See the previous notebook
 # Reversal potential at excitatory and inhibitory synapses,
 # as in the report [`2021-11-11__synaptic_conductance_ratio.pdf`](https://github.com/tfiers/phd-thesis/blob/main/reports/2021-11-11__synaptic_conductance_ratio.pdf):
 
-v_exc =   0 * mV
-v_inh = -65 * mV;
+E_exc =   0 * mV
+E_inh = -65 * mV;
 
-# Synaptic conductances `g` at `t = 0`:
+# Synaptic conductances `g` at `t = 0`
 
-g0 = 0 * nS;
+g_t0 = 0 * nS;
 
-# Exponential decay time constant of synaptic conductance, $τ_{s}$ (`s` for "synaptic"):
+# Exponential decay time constant of synaptic conductance, $τ_{s}$ (`s` for "synaptic")
 
 τ_s = 7 * ms;
 
-# Increase in synaptic conductance on a presynaptic spike.
+# Increase in synaptic conductance on a presynaptic spike
 
 Δg_exc = 0.1 * nS
 Δg_inh = 0.4 * nS;
 
 # ### Izhikevich neuron
 
-# Membrane potential `v` and adaptation variable `u` at `t = 0`:
+# Initial membrane potential `v` and adaptation variable `u` values
 
-v0    = -80 * mV
-u0    =   0 * pA;
+v_t0  = -80 * mV
+u_t0  =   0 * pA;
 
-# Parameters for a cortical regular spiking neuron:
+# Izhikevich's neuron model parameters for a cortical regular spiking neuron:
 
 cortical_RS = CVec(
     C      = 100 * pF,
-    k      = 0.7 * (nS/mV),
-    v_r    = -60 * mV,
-    v_t    = -40 * mV,
+    k      = 0.7 * (nS/mV),  # steepness of dv/dt's parabola
+    vr     = -60 * mV,
+    vt     = -40 * mV,
     a      = 0.03 / ms,      # 1 / time constant of `u`
-    b      = -2 * nS,
+    b      = -2 * nS,        # how strongly `v` deviations from `vr` increase `u`.
     v_peak =  35 * mV,
     c      = -50 * mV,       # reset voltage.
     d      = 100 * pA,       # `u` increase on spike. Free parameter.
 );
 
-# ## Neurons & synapses
+# ### Numerics
 
-# IDs and mappings are simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
+# Whether to use a fixed (`false`) or [adaptive](https://www.wikiwand.com/en/Adaptive_step_size) timestep (`true`).
 
-@alias NeuronID = Int
-@alias SynapseID = Int;
+adaptive = true;
 
-# See below for the behaviour of this utility function.
+# Timestep. If `adaptive`, size of first time step.
 
-"""Given group names and numbers, build a CVec with these group names and a unique ID for each element."""
-function ID_CVec(; kw...)
-    transform(val::Number) = fill(-1, val)
-    transform(val::CVec) = val  # allow nested ID_CVecs.
-    cvec = CVec(; (key => transform(val) for (key, val) in kw)...)
+dt = 0.1 * ms;
+
+# Error tolerances used for determining step size, if `adaptive`.
+#
+# The solver guarantees that the (estimated) difference between
+# the numerical solution and the true solution at any time step
+# is not larger than `abstol + reltol * |y|`
+# (where `y` ≈ the numerical solution at that time step).
+
+abstol_v = 0.1 * mV
+abstol_u = 0.1 * pA
+abstol_g = 0.01 * nS;
+
+reltol = 1e-3;  # e.g. if true sol is -80 mV, then max error of 0.08 mV
+reltol = 1;     # only use abstol
+
+# From the manual: "These tolerances are local tolerances and thus are not global guarantees. However, a good rule of thumb is that the total solution accuracy is 1-2 digits less than the relative tolerances." [[1]](https://diffeq.sciml.ai/stable/basics/faq/#What-does-tolerance-mean-and-how-much-error-should-I-expect)
+
+tol_correction = 0.1;
+
+(abstol_v, abstol_u, abstol_g) .* tol_correction
+
+# For comparison, the default tolerances for ODEs in DifferentialEquations.jl are
+# - `reltol = 1e-2`
+# - `abstol = 1e-6`.
+
+# ## IDs
+
+# Neuron, synapse & simulated variable IDs.
+
+# IDs and connections are simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
+
+# A utility function. See below for its usage.
+
+# +
+"""
+    idvec(A = 4, B = 2, …)
+
+Build a `ComponentVector` (CVec) with the given group names and
+as many elements per group as specified. Each element gets a
+unique ID within the CVec, which is also its index in the CVec.
+I.e. the above call yields `CVec(A = [1,2,3,4], B = [5,6])`.
+"""
+function idvec(; kw...)
+    cvec = CVec(; (name => _expand(val) for (name, val) in kw)...)
     cvec .= 1:length(cvec)
     return cvec
 end;
 
-# ### Neuron IDs
+temp = -1  # value does not matter; they get overwritten by UnitRange
+_expand(val::Nothing) = temp
+_expand(val::Integer) = fill(temp, val)
+_expand(val::CVec)    = val              # allow nested idvecs
+;
+# -
 
-neuron_ids = ID_CVec(conn = ID_CVec(exc = N_exc, inh = N_inh), unconn = N_unconn)
+neurons = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
 
-# Example usage:
+synapses = idvec(exc = N_exc, inh = N_inh)
 
-id = N_exc + 2
-id, id == neuron_ids[id] == neuron_ids.conn.inh[2], labels(neuron_ids)[id]
+simulated_vars = idvec(v = nothing, u = nothing, g = synapses)
 
-# ### Synapses
+# Example usage of these objects:
 
-synapse_ids = ID_CVec(exc = N_exc, inh = N_inh)
+# Pick some global neuron ID
 
-g0_vec = similar(synapse_ids, Float64)
-g0_vec .= g0
-Δg = similar(g0_vec)
-Δg.exc .= Δg_exc
-Δg.inh .= Δg_inh;
+neuron_ID = N_exc + 2
 
-# $E$, the reversal potential at each synapse.
+# We can index globally, or locally: we want the second inhibitory neuron
 
-E = similar(g0_vec)
-E.exc .= v_exc
-E.inh .= v_inh
-E
+neurons[neuron_ID], neurons.conn.inh[2]
 
-# ### Connections
+# Some introspection, useful for printing & plotting:
+
+labels(neurons)[neuron_ID]
+
+# ## Connections
 
 # +
-postsynapses = Dict{NeuronID, Vector{SynapseID}}()
+postsynapses = Dict{Int, Vector{Int}}()  # neuron_ID => [synapse_IDs...]
 
-for (n,s) in zip(neuron_ids.conn, synapse_ids)
+for (n, s) in zip(neurons.conn, synapses)
     postsynapses[n] = [s]
 end
-for n in neuron_ids.unconn
+for n in neurons.unconn
     postsynapses[n] = []
 end
 # -
 
-# ## Sim
+# ## Broadcast parameters
 
-# ### ISI distributions
+# A bunch of synaptic parameters are given as scalars, but pertain to multiple synapses at once.
+# Here we broadcast these scalars to vectors
+
+Δg = similar(synapses, Float64)
+Δg.exc .= Δg_exc
+Δg.inh .= Δg_inh;
+
+E = similar(synapses, Float64)
+E.exc .= E_exc
+E.inh .= E_inh;
+
+# Initial conditions:
+
+vars_t0 = similar(simulated_vars, Float64)
+vars_t0.v = v_t0
+vars_t0.u = u_t0
+vars_t0.g .= g_t0;
+
+abstol = similar(simulated_vars, Float64)
+abstol.v = abstol_v
+abstol.u = abstol_u
+abstol.g .= abstol_g
+abstol = abstol .* tol_correction;
+
+# ## Input spikes
 
 # Generate firing rates $λ$ by sampling from the input spike rate distribution.
 
 λ = rand(input_spike_rate, N)
-# showsome(λ)
+showsome(λ)
 
-# `Distributions.jl` uses alternative Exp parametrisation with scale $β$ = 1 / rate.
+# `Distributions.jl` uses an alternative `Exp` parametrization, namely scale $β$ = 1 / rate.
 
 β = 1 ./ λ
 ISI_distributions = Exponential.(β);
 #   This uses julia's broadcasting `.` syntax: make an `Exponential` distribution for every value in the β vector
 
-# ### Init spike times
-
 # Generate the first spike time for every input neuron by sampling once from its ISI distribution.
 
-first_spiketimes = rand.(ISI_distributions);
+first_spike_times = rand.(ISI_distributions);
 
 # Sort these initial spike times by building a priority queue.
 
 # +
-upcoming_input_spikes = PriorityQueue{NeuronID, Float64}()
+upcoming_input_spikes = PriorityQueue{Int, Float64}()
 
-for (neuron_ID, t) in enumerate(first_spiketimes)
-    enqueue!(upcoming_input_spikes, neuron_ID => t)
+for (neuron, first_spike_time) in enumerate(first_spike_times)
+    enqueue!(upcoming_input_spikes, neuron => first_spike_time)
 end
 # -
 
@@ -185,38 +243,46 @@ end
 _, next_input_spike_time = peek(upcoming_input_spikes)
     # We `peek`, and not `dequeue_pair!`, to make this cell idempotent.
 
-# ### Differential equations
+# ## Differential equations
 
-using OrdinaryDiffEq
+params = CVec(; E, τ_s, izh = cortical_RS, next_input_spike_time);
 
-# The derivative function that defines the continuous differential equations:
+# The derivative functions that defines the differential equations.
+#
+# Discontinuities are defined further down, under "Events".
 
 function f(D, vars, params, _)
     @unpack v, u, g = vars
     @unpack izh, E, τ_s = params
-    @unpack C, k, v_r, v_t, a, b = izh
-    I_s = 0
+    @unpack C, k, vr, vt, a, b = izh
+    I_s = 0.0
     for (gi, Ei) in zip(g, E)
         I_s += gi * (v - Ei)
     end
-    D.v = (k * (v - v_r) * (v - v_t) - u - I_s) / C
-    D.u = a * (b * (v - v_r) - u)
+    D.v = (k * (v - vr) * (v - vt) - u - I_s) / C
+    D.u = a * (b * (v - vr) - u)
     D.g .= .-g ./ τ_s
     return nothing
 end;
 
-# For the sum of synaptic currents, $I_s$, note that membrane current is by convention positive
-# if positive charges are flowing out of the cell.
-# For *e.g.* v = $-80$ mV and E = $0$ mV (excitatory synapse), we get negative $I_s$, i.e. charges flowing in ✅.
+# Applied performance optimizations:
+# - No `I_s = sum(g .* (v .- E))`, which allocates a new array. Rather: an accumulating loop.
+# - `D.g .= …`: elementwise assignment (instead of overwriting `D.g` with a new array that needs to be allocated).
+# - Parameters via function argument, and not closure global variables: to speed up type inference (apparently).
 
-params = CVec(; next_input_spike_time, izh = cortical_RS, E, τ_s)
+# For the synaptic currents $I_{s,i}$:
+# membrane current is by convention positive
+# if positive charges are flowing _out_ of the cell.
+#
+# For *e.g.* `v` = $-80$ mV and `Ei` = $0$ mV (an excitatory synapse),
+# we get negative $I_s$, i.e. positive charges flowing in ✔.
 
-# ### Events
+# ## Events
 
 # +
 events = (
-    thr_crossing          = 1,
-    input_spike_generated = 2,
+    thr_crossing           = 1,
+    input_spike_generated  = 2,
 )
 
 function update_distance_to_next_event(distance, vars, t, integrator)
@@ -252,39 +318,39 @@ function on_event(integrator, event)
 end;
 # -
 
-# ### Run simulation
+# ## diffeq.jl API
 
-# Bring it all together (initial conditions, derivatives function, events) and solve.
+# Set-up problem and solution in DifferentialEquations.jl's API.
 
-vars_t0 = CVec{Float64}(v = v0, u = u0, g = g0_vec)
-    # Note the cast to float (which is btw recursive), so that vars are float during sim.
+@time using OrdinaryDiffEq
 
-using ProfileView
-
-# +
 prob = ODEProblem(f, vars_t0, float(sim_duration), params)
     # Duration must be float too, so that `t` variable is float.
 
-solv() = solve(
-    prob,
-    Tsit5();          # The default and recommended solver. A Runge-Kutta method. Tsitouras 2011.
-    dt = Δt,          # Size of first step.
-    adaptive = true,  # Take larger steps when output is steady.
-    reltol = 1e-8,    # default: 1e-2
-    abstol = 1e-8,    # default: 1e-6
-    callback = VectorContinuousCallback(update_distance_to_next_event, on_event, length(events)),
-    save_idxs = [1,2],   # don't save all synapses
-)
-@profview @time solv()
-# sol = @time solv();
-# -
+callback = VectorContinuousCallback(update_distance_to_next_event, on_event, length(events));
 
-# Tolerances are from https://diffeq.sciml.ai/stable/tutorials/ode_example/#Choosing-a-Solver-Algorithm and experimentation:
-# Lower for either gives incorrect oscillations in steady state (non-todo: show this in a separate nb).
+# The default and recommended solver. A Runge-Kutta method. Refers to Tsitouras 2011.
+# See http://www.peterstone.name/Maplepgs/Maple/nmthds/RKcoeff/Runge_Kutta_schemes/RK5/RKcoeff5n_1.pdf
 
-# using Sciplotlib
+solver = Tsit5()
 
-# tzoom = sol.t[[1,end]]
-# # tzoom = [200, 600] .* ms
-# zoom = first(tzoom) .< sol.t .< last(tzoom)
-# plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
+# Don't save all the synaptic conductances, only save `v`.
+
+save_idxs = [simulated_vars.v];
+
+solve_() = solve(prob, solver; dt, adaptive, abstol, reltol, callback);
+
+# ## Solve
+
+sol = @time solve_();
+
+using ProfileView
+@profview @time solve();
+
+@time import PyPlot
+using Sciplotlib
+
+tzoom = sol.t[[1,end]]
+# tzoom = [200ms, 600ms]
+zoom = first(tzoom) .< sol.t .< last(tzoom)
+Sciplotlib.plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
