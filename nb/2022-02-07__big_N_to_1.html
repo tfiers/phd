@@ -483,6 +483,11 @@ const thebe_selector_output = ".output, .cell_output"
    Solve
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -580,6 +585,11 @@ const thebe_selector_output = ".output, .cell_output"
    Solve
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -609,9 +619,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using Revise
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Distributions
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import MyToolbox, Sciplotlib
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import MyToolbox
 <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
 </pre></div>
 </div>
@@ -773,7 +781,16 @@ as in the report <a class="reference external" href="https://github.com/tfiers/p
 <p>Timestep. If <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, size of first time step.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dt</span>    <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Minimum and maximum step sizes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dtmax</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="o">*</span> <span class="n">ms</span>  <span class="c"># solution unstable if not set</span>
+<span class="c"># dtmin = 0.01 * ms;  # don't spend too much time finding thr crossing or spike arrival</span>
 </pre></div>
 </div>
 </div>
@@ -1008,15 +1025,15 @@ Here we broadcast these scalars to vectors</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1100-element Vector{Float64}:
-    1: 2.722664475855939
-    2: 1.0009257276518295
+    1: 7.065203744002623
+    2: 4.513016795188093
     &#8942;
-  346: 3.845965311791171
+   47: 5.401602866752907
     &#8942;
-  351: 4.684073919660121
+ 1026: 1.0363841275568344
     &#8942;
- 1099: 1.031039738130064
- 1100: 1.755517206279862
+ 1099: 5.976848059928364
+ 1100: 3.578659505485521
 </pre></div>
 </div>
 </div>
@@ -1060,7 +1077,7 @@ Here we broadcast these scalars to vectors</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>857 =&gt; 0.00026416095448424863
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>598 =&gt; 0.0005213237431659766
 </pre></div>
 </div>
 </div>
@@ -1163,7 +1180,7 @@ we get negative <span class="math notranslate nohighlight">\(I_s\)</span>, i.e. 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001499 seconds (347 allocations: 22.359 KiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001588 seconds (347 allocations: 22.359 KiB)
 </pre></div>
 </div>
 </div>
@@ -1178,7 +1195,7 @@ we get negative <span class="math notranslate nohighlight">\(I_s\)</span>, i.e. 
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Cyan">ODEProblem</span> with uType <span class=" -Color -Color-Cyan">ComponentVector{Float64, Vector{Float64}, Tuple{Axis{(v = 1, u = 2, g = ViewAxis(3:1002, Axis(exc = 1:800, inh = 801:1000)))}}}</span> and tType <span class=" -Color -Color-Cyan">Float64</span>. In-place: <span class=" -Color -Color-Cyan">true</span>
 timespan: (0.0, 1.2)
-u0: ComponentVector{Float64}(v = 9.079103666e-315, u = 0.0, g = (exc = [9.0791024e-315, 0.0, 9.0791024e-315, 0.0, 9.079103666e-315, 0.0, 9.079103666e-315, 0.0, 9.0791024e-315, 0.0  &#8230;  9.079087856e-315, 0.0, 9.079087856e-315, 0.0, 9.079087856e-315, 0.0, 9.079103666e-315, 0.0, 9.079103666e-315, 0.0], inh = [9.079103666e-315, 0.0, 9.079102717e-315, 0.0, 9.079103666e-315, 0.0, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12  &#8230;  1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12, 1.0000000000000002e-12]))
+u0: ComponentVector{Float64}(v = -0.08, u = 0.0, g = (exc = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  &#8230;  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], inh = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  &#8230;  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]))
 </pre></div>
 </div>
 </div>
@@ -1204,17 +1221,17 @@ See <a class="reference external" href="http://www.peterstone.name/Maplepgs/Mapl
 </div>
 </div>
 </div>
-<p>Don&#8217;t save all the synaptic conductances, only save <code class="docutils literal notranslate"><span class="pre">v</span></code>.</p>
+<p>Don&#8217;t save all the synaptic conductances, only save <code class="docutils literal notranslate"><span class="pre">v</span></code> and <code class="docutils literal notranslate"><span class="pre">u</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">save_idxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">simulated_vars</span><span class="o">.</span><span class="n">v</span><span class="p">];</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">save_idxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">simulated_vars</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">simulated_vars</span><span class="o">.</span><span class="n">u</span><span class="p">];</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">solve_</span><span class="p">()</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">solver</span><span class="p">;</span> <span class="n">dt</span><span class="p">,</span> <span class="n">adaptive</span><span class="p">,</span> <span class="n">abstol</span><span class="p">,</span> <span class="n">reltol</span><span class="p">,</span> <span class="n">callback</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">solve_</span><span class="p">()</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">solver</span><span class="p">;</span> <span class="n">adaptive</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">dtmax</span><span class="p">,</span> <span class="n">abstol</span><span class="p">,</span> <span class="n">reltol</span><span class="p">,</span> <span class="n">callback</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1224,24 +1241,35 @@ See <a class="reference external" href="http://www.peterstone.name/Maplepgs/Mapl
 <h2>Solve<a class="headerlink" href="#solve" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">solve_</span><span class="p">();</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sol = @time solve_();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29.521531 seconds (14.94 M allocations: 1.390 GiB, 2.46% gc time, 40.00% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">ProfileView</span>
-<span class="nd">@profview</span> <span class="nd">@time</span> <span class="n">solve</span><span class="p">();</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">ProfileView</span>
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@profview</span> <span class="nd">@time</span> <span class="n">solve</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>start:   4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)</p>
+<p>dtmin:</p>
+</div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">import</span> <span class="n">PyPlot</span>
@@ -1250,22 +1278,47 @@ See <a class="reference external" href="http://www.peterstone.name/Maplepgs/Mapl
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001061 seconds (347 allocations: 22.359 KiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001552 seconds (347 allocations: 22.359 KiB)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tzoom</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">]]</span>
-<span class="c"># tzoom = [200ms, 600ms]</span>
-<span class="n">zoom</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">sol</span><span class="o">.</span><span class="n">t</span> <span class="o">.&lt;</span> <span class="n">last</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span>
-<span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">zoom</span><span class="p">]</span><span class="o">/</span><span class="n">ms</span><span class="p">,</span> <span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">zoom</span><span class="p">]</span><span class="o">/</span><span class="n">mV</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">""" tzoom = [200ms, 600ms] e.g. """</span>
+<span class="k">function</span> <span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">::</span><span class="kt">ODESolution</span><span class="p">;</span> <span class="n">tzoom</span> <span class="o">=</span> <span class="nb">nothing</span><span class="p">)</span>
+    <span class="n">isnothing</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">tzoom</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="k">end</span><span class="p">]])</span>
+    <span class="n">izoom</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">sol</span><span class="o">.</span><span class="n">t</span> <span class="o">.&lt;</span> <span class="n">last</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span>
+        <span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="n">izoom</span><span class="p">]</span> <span class="o">/</span> <span class="n">ms</span><span class="p">,</span>
+        <span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">izoom</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span>
+        <span class="n">clip_on</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span>
+        <span class="n">marker</span> <span class="o">=</span> <span class="s">"."</span><span class="p">,</span> <span class="n">ms</span> <span class="o">=</span> <span class="mf">1.2</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span>
+<span class="c">#         xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.</span>
+    <span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-02-07__big_N_to_1_96_0.png" src="../_images/2022-02-07__big_N_to_1_96_0.png">
+<img alt="../_images/2022-02-07__big_N_to_1_102_0.png" src="../_images/2022-02-07__big_N_to_1_102_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-02-07__big_N_to_1_103_0.png" src="../_images/2022-02-07__big_N_to_1_103_0.png">
 </div>
 </div>
 </div>
