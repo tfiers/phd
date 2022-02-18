@@ -3,7 +3,7 @@
 - part: Notebooks
   chapters:
     # - file: nb/
-    - file: nb/2022-02-07__big_N_to_1
+    - file: nb/2022-02-07__N_to_1_simulation
     - file: nb/2022-01-08__lognormal_firing_rates
     - file: nb/2021-12-08__biology_vs_Izh_subhtr
     - file: nb/2021-12-06__local_HH_dV_shape
