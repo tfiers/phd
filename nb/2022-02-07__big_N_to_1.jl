@@ -7,7 +7,7 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.10.0
+#       jupytext_version: 1.13.7
 #   kernelspec:
 #     display_name: Julia 1.7.0
 #     language: julia
@@ -157,7 +157,7 @@ _expand(val::CVec)    = val              # allow nested idvecs
 ;
 # -
 
-neurons = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
+input_neurons = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
 
 synapses = idvec(exc = N_exc, inh = N_inh)
 
@@ -165,27 +165,27 @@ simulated_vars = idvec(v = nothing, u = nothing, g = synapses)
 
 # Example usage of these objects:
 
-# Pick some global neuron ID
+# Pick some global input neuron ID
 
-neuron_ID = N_exc + 2
+n = N_exc + 2
 
-# We can index globally, or locally: we want the second inhibitory neuron
+# We can index globally, or locally: we want the second connected inhibitory neuron
 
-neurons[neuron_ID], neurons.conn.inh[2]
+input_neurons[n], input_neurons.conn.inh[2]
 
 # Some introspection, useful for printing & plotting:
 
-labels(neurons)[neuron_ID]
+labels(input_neurons)[n]
 
 # ## Connections
 
 # +
-postsynapses = Dict{Int, Vector{Int}}()  # neuron_ID => [synapse_IDs...]
+postsynapses = Dict{Int, Vector{Int}}()  # input_neuron_ID => [synapse_IDs...]
 
-for (n, s) in zip(neurons.conn, synapses)
+for (n, s) in zip(input_neurons.conn, synapses)
     postsynapses[n] = [s]
 end
-for n in neurons.unconn
+for n in input_neurons.unconn
     postsynapses[n] = []
 end
 # -
@@ -203,12 +203,14 @@ E = similar(synapses, Float64)
 E.exc .= E_exc
 E.inh .= E_inh;
 
-# Initial conditions:
+# Initial conditions
 
 vars_t0 = similar(simulated_vars, Float64)
 vars_t0.v = v_t0
 vars_t0.u = u_t0
 vars_t0.g .= g_t0;
+
+# Maximum error
 
 abstol = similar(simulated_vars, Float64)
 abstol.v = abstol_v
@@ -216,18 +218,22 @@ abstol.u = abstol_u
 abstol.g .= abstol_g
 abstol = abstol .* tol_correction;
 
-# ## Input spikes
+# ## ISI distributions
 
 # Generate firing rates $λ$ by sampling from the input spike rate distribution.
 
-λ = rand(input_spike_rate, N);
+λ = similar(input_neurons, Float64)
+λ .= rand(input_spike_rate, length(λ));
 # showsome(λ)
 
 # `Distributions.jl` uses an alternative `Exp` parametrization, namely scale $β$ = 1 / rate.
 
-β = 1 ./ λ
-ISI_distributions = Exponential.(β);
-#   This uses julia's broadcasting `.` syntax: make an `Exponential` distribution for every value in the β vector
+β = 1 ./ λ;
+
+ISI_distributions = similar(input_neurons, Exponential{Float64})
+ISI_distributions .= Exponential.(β);
+
+# ## Initialize spiking
 
 # Generate the first spike time for every input neuron by sampling once from its ISI distribution.
 
@@ -243,18 +249,29 @@ for (neuron, first_spike_time) in enumerate(first_spike_times)
 end
 # -
 
-# Check the top of the heap to find the first spiker.
+# ## Parameter object
 
-_, next_input_spike_time = peek(upcoming_input_spikes)
-    # We `peek`, and not `dequeue_pair!`, to make this cell idempotent.
+# Encapsulate all 'parameters' used in the differential equation function
+# and the event callback functions in one `NamedTuple`,
+# which is passed through to these functions by DiffEq.jl.
+#
+# This is so that we don't need to read these variables
+# from the global scope (closure), which slows type inference i.e. compilation time.
+#
+# 'parameters' in quotes, cause some values are mutated.
+
+params = (;
+    E, Δg, τ_s,
+    izh = cortical_RS,
+    postsynapses,
+    ISI_distributions,
+    upcoming_input_spikes,
+);
 
 # ## Differential equations
 
-params = CVec(; E, τ_s, izh = cortical_RS, next_input_spike_time);
-
-# The derivative functions that defines the differential equations.
-#
-# Discontinuities are defined further down, under "Events".
+# The derivative functions that define the differential equations.  
+# Note that discontinuities are defined in the next section.
 
 function f(D, vars, params, _)
     @unpack v, u, g = vars
@@ -271,57 +288,80 @@ function f(D, vars, params, _)
 end;
 
 # Applied performance optimizations:
-# - No `I_s = sum(g .* (v .- E))`, which allocates a new array. Rather: an accumulating loop.
-# - `D.g .= …`: elementwise assignment (instead of overwriting `D.g` with a new array that needs to be allocated).
-# - Parameters via function argument, and not closure global variables: to speed up type inference (apparently).
+# - Don't use `I_s = sum(g .* (v .- E))`, which allocates a new array. Rather, we use an accumulating loop.
+# - `D.g .= …`: elementwise assignment; instead of overwriting `D.g` with a new array that needs to be allocated.
+# - Parameters via function argument, and not closure of global variables: to speed up type inference (apparently).
 
-# For the synaptic currents $I_{s,i}$:
+# About the sign of the synaptic current `I_s`:
 # membrane current is by convention positive
 # if positive charges are flowing _out_ of the cell.
 #
-# For *e.g.* `v` = $-80$ mV and `Ei` = $0$ mV (an excitatory synapse),
-# we get negative $I_s$, i.e. positive charges flowing in ✔.
+# For *e.g.* `v = -80 mV` and `Ei = 0 mV` (*i.e.* an excitatory synapse),
+# we get negative `I_si` (namely `gi * -80 mV`), *i.e.* positive charges flowing in ✔.
 
 # ## Events
 
-# +
-events = (
-    thr_crossing           = 1,
-    input_spike_generated  = 2,
-)
+"""
+An `Event` encapsulates two functions that determine when and
+how to introduce discontinuities in the differential equations:
 
-function update_distance_to_next_event(distance, vars, t, integrator)
-    v = vars.v
-    p = integrator.p  # params
-    distance[events.thr_crossing]          = v - p.izh.v_peak
-    distance[events.input_spike_generated] = t - p.next_input_spike_time
+- `distance` returns some distance to the next event.
+   An event occurs when this distance hits zero.
+- `on_event!` is called at each event and may modify
+   the simulated variables and the parameter object.
+
+Both functions take the parameters `(vars, params, t)`: the simulated
+variables, the parameter object, and the current simulation time.
+"""
+struct Event
+    distance
+    on_event!
+end;
+
+# Input spike generation (== arrival, because no transmission delay):
+
+# +
+function time_to_next_input_spike(vars, params, t)
+    _, next_input_spike_time = peek(params.upcoming_input_spikes)
+        # `peek(pq)` simply returns `pq.xs[1]`; i.e. it's fast.
+    return t - next_input_spike_time
 end
 
-function on_event(integrator, event)
-    vars = integrator.u
-    @unpack p, t = integrator  # params, time
-
-    if event == events.thr_crossing
-        # The discontinuous LIF/Izhikevich/AdEx update
-        vars.v = p.izh.c
-        vars.u += p.izh.d
-
-    elseif event == events.input_spike_generated
-        # Process the neuron that just fired. Start by removing it from the queue.
-        fired_neuron = dequeue!(upcoming_input_spikes)
-        # Generate a new spike time, and add it to the queue.
-        new_spike_time = t + rand(ISI_distributions[fired_neuron])
-        enqueue!(upcoming_input_spikes, fired_neuron => new_spike_time)
-        # Update the downstream synapses (one or zero in the N-to-1 case).
-        # Also note: no tx delay.
-        for syn in postsynapses[fired_neuron]
-            vars.g[syn] += Δg[syn]
-        end
-        # Update params: retrieve the next earliest spike.
-        _, p.next_input_spike_time = peek(upcoming_input_spikes)
+function on_input_spike!(vars, params, t)
+    # Process the neuron that just fired.
+    # Start by removing it from the queue.
+    fired_neuron = dequeue!(params.upcoming_input_spikes)
+    
+    # Generate a new spike time, and add it to the queue.
+    new_spike_time = t + rand(params.ISI_distributions[fired_neuron])
+    enqueue!(params.upcoming_input_spikes, fired_neuron => new_spike_time)
+    
+    # Update the downstream synapses
+    # (number of these synapses in the N-to-1 case: 0 or 1).
+    for synapse in params.postsynapses[fired_neuron]
+        vars.g[synapse] += params.Δg[synapse]
     end
-end;
+
+end
+
+input_spike = Event(time_to_next_input_spike, on_input_spike!);
 # -
+
+# Spiking threshold crossing of Izhikevich neuron:
+
+# +
+distance_to_spiking_threshold(vars, params, _) = vars.v - params.izh.v_peak
+
+function on_spiking_threshold_crossing!(vars, params, _)
+    # The discontinuous LIF/Izhikevich/AdEx update
+    vars.v = params.izh.c
+    vars.u += params.izh.d
+end
+
+spiking_threshold_crossing = Event(distance_to_spiking_threshold, on_spiking_threshold_crossing!);
+# -
+
+events = [input_spike, spiking_threshold_crossing];
 
 # ## diffeq.jl API
 
@@ -330,9 +370,21 @@ end;
 @withfeedback using OrdinaryDiffEq
 
 prob = ODEProblem(f, vars_t0, float(sim_duration), params)
-    # Duration must be float too, so that `t` variable is float.
+    # Duration must be float, so that `t` variable is float.
 
-callback = VectorContinuousCallback(update_distance_to_next_event, on_event, length(events));
+# +
+function condition(distance, vars, t, integrator)
+    for (i, event) in enumerate(events)
+        distance[i] = event.distance(vars, integrator.p, t)
+    end
+end
+
+function affect!(integrator, i)
+    events[i].on_event!(integrator.u, integrator.p, integrator.t)
+end
+
+callback = VectorContinuousCallback(condition, affect!, length(events));
+# -
 
 # The default and recommended solver. A Runge-Kutta method. Refers to Tsitouras 2011.
 # See http://www.peterstone.name/Maplepgs/Maple/nmthds/RKcoeff/Runge_Kutta_schemes/RK5/RKcoeff5n_1.pdf
@@ -343,58 +395,36 @@ solver = Tsit5()
 
 save_idxs = [simulated_vars.v, simulated_vars.u];
 
-# Print progress bar
+# Log progress (only relevant in REPL; not visible in nb)
 
 progress = true;
-using TerminalLoggers, Logging
-global_logger(TerminalLogger());
 
 solve_() = solve(
-    prob, solver; callback,
+    prob, solver;
+    callback, save_idxs, progress,
     adaptive, dt, dtmax, dtmin, abstol, reltol,
-    progress,
 );
 
 # ## Solve
 
-# +
-# sol = @time solve_();
-# -
-
-@withfeedback using ProfileView
-
-# +
-@profview @time solve_();
-# -
-
-# nb:   4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)
-#
-# @profview:  17.274686 seconds (19.91 M allocations: 1.752 GiB, 5.33% gc time, 85.59% compilation time)
-#
-# dtmin:
+sol = @time solve_();
 
 # ## Plot
 
-# +
-# @withfeedback import PyPlot
-# using Sciplotlib
-# -
+@withfeedback import PyPlot
+using Sciplotlib
 
-# +
-# """ tzoom = [200ms, 600ms] e.g. """
-# function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
-#     isnothing(tzoom) && (tzoom = sol.t[[1,end]])
-#     izoom = first(tzoom) .< sol.t .< last(tzoom)
-#     plot(
-#         sol.t[izoom] / ms,
-#         sol[1,izoom] / mV,
-#         clip_on = false,
-#         marker = ".", ms = 1.2, lw = 0.4,
-# #         xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
-#     )
-# end;
-# -
+""" tzoom = [200ms, 600ms] e.g. """
+function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
+    isnothing(tzoom) && (tzoom = sol.t[[1,end]])
+    izoom = first(tzoom) .< sol.t .< last(tzoom)
+    plot(
+        sol.t[izoom] / ms,
+        sol[1,izoom] / mV,
+        clip_on = false,
+        marker = ".", ms = 1.2, lw = 0.4,
+        #  xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
+    )
+end;
 
-# +
-# plot(sol);
-# -
+plot(sol);
