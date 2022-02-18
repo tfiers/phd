@@ -9,12 +9,10 @@ global_logger(ActiveFilteredLogger(!hasdepwarning, get_pretty_notebook_logger())
 hidden_stderr_info = @capture_err begin
     @withfeedback using Revise
     @withfeedback import Distributions
-    @withfeedback import PyPlot
-    @withfeedback import DataFrames, PrettyTables
-    @withfeedback import MyToolbox, Sciplotlib
+    @withfeedback import MyToolbox
     @withfeedback using VoltageToMap
 end
 
-# Cannot be reexported from a package (i.e. MyToolbox / VoltageToMap), as it then clashes
-# with Base's `/`. But `include`ing it, as is done with this file, does work.
+# This cannot be reexported from a package (e.g. from MyToolbox), as it then clashes with
+# Base's `/`. But `include`ing it, as is done with this file, does work.
 using FilePathsBase: /
