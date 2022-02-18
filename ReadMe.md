@@ -36,7 +36,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
     - If you want to instead install newer versions of dependencies, run `julia setup.jl` in the terminal.
 - Start a Jupyter server.
     - If you do not have Jupyter installed, run `using IJulia` and `notebook()` in the julia REPL.
-    - If you have, the usual `jupyter notebook` in the terminal works.
+    - If you have, the usual `jupyter notebook` (or `python -m notebook`) in the terminal works.
 
 You should now be able to run all cells in the notebook.
 
