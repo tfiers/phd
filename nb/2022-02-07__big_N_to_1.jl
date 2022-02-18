@@ -96,7 +96,12 @@ adaptive = true;
 
 # Timestep. If `adaptive`, size of first time step.
 
-dt = 0.1 * ms;
+dt    = 0.1 * ms;
+
+# Minimum and maximum step sizes
+
+dtmax = 0.5  * ms  # solution unstable if not set
+dtmin = 0.01 * ms;  # don't spend too much time finding thr crossing or spike arrival
 
 # Error tolerances used for determining step size, if `adaptive`.
 #
@@ -121,10 +126,6 @@ tol_correction = 0.1;
 # For comparison, the default tolerances for ODEs in DifferentialEquations.jl are
 # - `reltol = 1e-2`
 # - `abstol = 1e-6`.
-
-# Minimum and maximum stepsizes
-
-dtmax = 0.5 * ms;
 
 # ## IDs
 
@@ -219,8 +220,8 @@ abstol = abstol .* tol_correction;
 
 # Generate firing rates $λ$ by sampling from the input spike rate distribution.
 
-λ = rand(input_spike_rate, N)
-showsome(λ)
+λ = rand(input_spike_rate, N);
+# showsome(λ)
 
 # `Distributions.jl` uses an alternative `Exp` parametrization, namely scale $β$ = 1 / rate.
 
@@ -326,7 +327,7 @@ end;
 
 # Set-up problem and solution in DifferentialEquations.jl's API.
 
-@time using OrdinaryDiffEq
+@withfeedback using OrdinaryDiffEq
 
 prob = ODEProblem(f, vars_t0, float(sim_duration), params)
     # Duration must be float too, so that `t` variable is float.
@@ -342,42 +343,58 @@ solver = Tsit5()
 
 save_idxs = [simulated_vars.v, simulated_vars.u];
 
-solve_() = solve(prob, solver; adaptive, dt, dtmax, abstol, reltol, callback);
+# Print progress bar
+
+progress = true;
+using TerminalLoggers, Logging
+global_logger(TerminalLogger());
+
+solve_() = solve(
+    prob, solver; callback,
+    adaptive, dt, dtmax, dtmin, abstol, reltol,
+    progress,
+);
 
 # ## Solve
 
-sol = @time solve_();
+# +
+# sol = @time solve_();
+# -
 
-# start:   4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)
+@withfeedback using ProfileView
+
+# +
+@profview @time solve_();
+# -
+
+# nb:   4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)
 #
-# dtmin: 
-
-@time using ProfileView
-
-@profview @time solve();
+# @profview:  17.274686 seconds (19.91 M allocations: 1.752 GiB, 5.33% gc time, 85.59% compilation time)
+#
+# dtmin:
 
 # ## Plot
 
-@time import PyPlot
-using Sciplotlib
+# +
+# @withfeedback import PyPlot
+# using Sciplotlib
+# -
 
-""" tzoom = [200ms, 600ms] e.g. """
-function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
-    isnothing(tzoom) && (tzoom = sol.t[[1,end]])
-    izoom = first(tzoom) .< sol.t .< last(tzoom)
-    plot(
-        sol.t[izoom]/ms,
-        sol[1,izoom]/mV,
-        clip_on = false,
-        marker = ".", ms = 1.2, lw = 0.4,
-#         xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
-    )
-end;
+# +
+# """ tzoom = [200ms, 600ms] e.g. """
+# function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
+#     isnothing(tzoom) && (tzoom = sol.t[[1,end]])
+#     izoom = first(tzoom) .< sol.t .< last(tzoom)
+#     plot(
+#         sol.t[izoom] / ms,
+#         sol[1,izoom] / mV,
+#         clip_on = false,
+#         marker = ".", ms = 1.2, lw = 0.4,
+# #         xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
+#     )
+# end;
+# -
 
-plot(sol);
-
-plot(sol);
-
-
-
-
+# +
+# plot(sol);
+# -

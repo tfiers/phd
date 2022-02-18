@@ -1,6 +1,6 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.7.1"
+julia_version = "1.7.0"
 manifest_format = "2.0"
 
 [[deps.ATK_jll]]
@@ -416,12 +416,6 @@ git-tree-sha1 = "5f7627f03112307cb0a3e9268c2ffd535ba91de6"
 uuid = "8710efd8-4ad6-11eb-33ea-2d5ceb25a41c"
 version = "1.1.0"
 
-[[deps.HAML]]
-deps = ["DataStructures", "Markdown", "Requires"]
-git-tree-sha1 = "0e2bbef3c669498254a034394d6dd809e7a97ad6"
-uuid = "0bc81568-2411-4001-9bf1-c899fa54f385"
-version = "0.3.5"
-
 [[deps.HarfBuzz_jll]]
 deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "Graphite2_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Pkg"]
 git-tree-sha1 = "129acf094d168394e80ee1dc4bc06ec835e510a3"
@@ -746,7 +740,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "ProfileSVG", "ProfileView", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Sciplotlib", "StatProfilerHTML", "StatsBase"]
+deps = ["BenchmarkTools", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "ProfileView", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Sciplotlib", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
@@ -902,17 +896,17 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 deps = ["Printf"]
 uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
-[[deps.ProfileSVG]]
-deps = ["Colors", "FlameGraphs", "Profile", "UUIDs"]
-git-tree-sha1 = "e4df82a5dadc26736f106f8d7fc97c42cc6c91ae"
-uuid = "132c30aa-f267-4189-9183-c8a63c7e05e6"
-version = "0.2.1"
-
 [[deps.ProfileView]]
 deps = ["Cairo", "Colors", "FileIO", "FlameGraphs", "Graphics", "Gtk", "GtkObservables", "InteractiveUtils", "IntervalSets", "MethodAnalysis", "Preferences", "Profile", "UUIDs"]
 git-tree-sha1 = "1638391c64d5ae2853b54823df3f98150dc202f3"
 uuid = "c46f51b8-102a-5cf2-8d2c-8597cb0e0da7"
 version = "1.5.0"
+
+[[deps.ProgressLogging]]
+deps = ["Logging", "SHA", "UUIDs"]
+git-tree-sha1 = "80d919dee55b9c50e8d9e2da5eeafff3fe58b539"
+uuid = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
+version = "0.1.4"
 
 [[deps.PyCall]]
 deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
@@ -1079,12 +1073,6 @@ git-tree-sha1 = "8d0c8e3d0ff211d9ff4a0c2307d876c99d10bdf1"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
 version = "2.1.2"
 
-[[deps.StatProfilerHTML]]
-deps = ["DataStructures", "Dates", "FlameGraphs", "HAML", "Profile", "SHA", "Test"]
-git-tree-sha1 = "26eeee10a07ae3536360cac9913307d5d8991032"
-uuid = "a8a75453-ed82-57c9-9e16-4cd1196ecbf5"
-version = "1.4.1"
-
 [[deps.Static]]
 deps = ["IfElse"]
 git-tree-sha1 = "7f5a513baec6f122401abfc8e9c074fdac54f6c1"
@@ -1165,6 +1153,12 @@ deps = ["LinearAlgebra"]
 git-tree-sha1 = "1feb45f88d133a655e001435632f019a9a1bcdb6"
 uuid = "62fd8b95-f654-4bbd-a8a5-9c27f68ccd50"
 version = "0.1.1"
+
+[[deps.TerminalLoggers]]
+deps = ["LeftChildRightSiblingTrees", "Logging", "Markdown", "Printf", "ProgressLogging", "UUIDs"]
+git-tree-sha1 = "62846a48a6cd70e63aa29944b8c4ef704360d72f"
+uuid = "5d786b92-1e48-4d6f-9151-6b4477ca9bed"
+version = "0.1.5"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
