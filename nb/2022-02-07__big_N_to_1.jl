@@ -122,6 +122,10 @@ tol_correction = 0.1;
 # - `reltol = 1e-2`
 # - `abstol = 1e-6`.
 
+# Minimum and maximum stepsizes
+
+dtmax = 0.5 * ms;
+
 # ## IDs
 
 # Neuron, synapse & simulated variable IDs.
@@ -334,23 +338,46 @@ callback = VectorContinuousCallback(update_distance_to_next_event, on_event, len
 
 solver = Tsit5()
 
-# Don't save all the synaptic conductances, only save `v`.
+# Don't save all the synaptic conductances, only save `v` and `u`.
 
-save_idxs = [simulated_vars.v];
+save_idxs = [simulated_vars.v, simulated_vars.u];
 
-solve_() = solve(prob, solver; dt, adaptive, abstol, reltol, callback);
+solve_() = solve(prob, solver; adaptive, dt, dtmax, abstol, reltol, callback);
 
 # ## Solve
 
 sol = @time solve_();
 
-using ProfileView
+# start:   4.105806 seconds (5.08 M allocations: 944.455 MiB, 3.84% gc time, 58.86% compilation time)
+#
+# dtmin: 
+
+@time using ProfileView
+
 @profview @time solve();
+
+# ## Plot
 
 @time import PyPlot
 using Sciplotlib
 
-tzoom = sol.t[[1,end]]
-# tzoom = [200ms, 600ms]
-zoom = first(tzoom) .< sol.t .< last(tzoom)
-Sciplotlib.plot(sol.t[zoom]/ms, sol[1,zoom]/mV, clip_on=false);
+""" tzoom = [200ms, 600ms] e.g. """
+function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
+    isnothing(tzoom) && (tzoom = sol.t[[1,end]])
+    izoom = first(tzoom) .< sol.t .< last(tzoom)
+    plot(
+        sol.t[izoom]/ms,
+        sol[1,izoom]/mV,
+        clip_on = false,
+        marker = ".", ms = 1.2, lw = 0.4,
+#         xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
+    )
+end;
+
+plot(sol);
+
+plot(sol);
+
+
+
+
