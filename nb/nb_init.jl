@@ -1,4 +1,4 @@
-using WhatIsHappening, Suppressor, Pkg
+using WhatIsHappening, Suppressor
 
 # Filter out annoying deprecation warning on PyPlot import. Can be removed and replaced by
 # `prettify_logging_in_notebook!()` once this is released: https://github.com/JuliaPy/PyCall.jl/pull/950
