@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-02-07 &#8226; Big-N-to-1 simulation &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-02-07 &#8226; N-to-1 simulation &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -115,7 +115,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2022-02-07 &#8226; Big-N-to-1 simulation
+   2022-02-07 &#8226; N-to-1 simulation
   </a>
  </li>
  <li class="toctree-l1">
@@ -513,7 +513,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-02-07 &#8226; Big-N-to-1 simulation</h1>
+                <h1>2022-02-07 &#8226; N-to-1 simulation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -624,8 +624,8 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="big-n-to-1-simulation">
-<h1>2022-02-07 &#8226; Big-N-to-1 simulation<a class="headerlink" href="#big-n-to-1-simulation" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="n-to-1-simulation">
+<h1>2022-02-07 &#8226; N-to-1 simulation<a class="headerlink" href="#n-to-1-simulation" title="Permalink to this headline">&#182;</a></h1>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -1117,7 +1117,7 @@ from the global scope (closure), which slows type inference i.e. compilation tim
 </div>
 <div class="section" id="differential-equations">
 <h2>Differential equations<a class="headerlink" href="#differential-equations" title="Permalink to this headline">&#182;</a></h2>
-<p>The derivative functions that define the differential equations.<br>
+<p>The derivative functions that define the differential equations.
 Note that discontinuities are defined in the next section.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1187,11 +1187,11 @@ we get negative <code class="docutils literal notranslate"><span class="pre">I_s
     <span class="c"># Process the neuron that just fired.</span>
     <span class="c"># Start by removing it from the queue.</span>
     <span class="n">fired_neuron</span> <span class="o">=</span> <span class="n">dequeue!</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">upcoming_input_spikes</span><span class="p">)</span>
-    
+
     <span class="c"># Generate a new spike time, and add it to the queue.</span>
     <span class="n">new_spike_time</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="n">fired_neuron</span><span class="p">])</span>
     <span class="n">enqueue!</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">fired_neuron</span> <span class="o">=&gt;</span> <span class="n">new_spike_time</span><span class="p">)</span>
-    
+
     <span class="c"># Update the downstream synapses</span>
     <span class="c"># (number of these synapses in the N-to-1 case: 0 or 1).</span>
     <span class="k">for</span> <span class="n">synapse</span> <span class="k">in</span> <span class="n">params</span><span class="o">.</span><span class="n">postsynapses</span><span class="p">[</span><span class="n">fired_neuron</span><span class="p">]</span>
