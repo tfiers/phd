@@ -14,7 +14,7 @@
 #     name: julia-1.7
 # ---
 
-# # 2022-02-07 • Big-N-to-1 simulation
+# # 2022-02-07 • N-to-1 simulation
 
 # ## Setup
 
@@ -270,7 +270,7 @@ params = (;
 
 # ## Differential equations
 
-# The derivative functions that define the differential equations.  
+# The derivative functions that define the differential equations.
 # Note that discontinuities are defined in the next section.
 
 function f(D, vars, params, _)
@@ -331,11 +331,11 @@ function on_input_spike!(vars, params, t)
     # Process the neuron that just fired.
     # Start by removing it from the queue.
     fired_neuron = dequeue!(params.upcoming_input_spikes)
-    
+
     # Generate a new spike time, and add it to the queue.
     new_spike_time = t + rand(params.ISI_distributions[fired_neuron])
     enqueue!(params.upcoming_input_spikes, fired_neuron => new_spike_time)
-    
+
     # Update the downstream synapses
     # (number of these synapses in the N-to-1 case: 0 or 1).
     for synapse in params.postsynapses[fired_neuron]
