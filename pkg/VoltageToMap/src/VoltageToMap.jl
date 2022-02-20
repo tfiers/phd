@@ -1,9 +1,7 @@
 module VoltageToMap
 
-using Reexport
-
-@reexport using MyToolbox
-@reexport using Distributions  # Sample from lognormal, exponential, ….
+using MyToolbox
+using Distributions  # Sample from lognormal, exponential, ….
 
 """
 `μ` and `σ` are mean and standard deviation of the underlying Gaussian.
