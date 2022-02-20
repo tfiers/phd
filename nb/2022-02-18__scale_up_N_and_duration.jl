@@ -24,12 +24,6 @@
 
 include("nb_init.jl")
 
-
-
-
-
-
-
 using Parameters, ComponentArrays
 @alias CVec = ComponentVector;
 
@@ -123,8 +117,6 @@ abstol_g = 0.01 * nS;
 reltol = 1e-3;  # e.g. if true sol is -80 mV, then max error of 0.08 mV
 reltol = 1;     # only use abstol
 
-# From the manual: "These tolerances are local tolerances and thus are not global guarantees. However, a good rule of thumb is that the total solution accuracy is 1-2 digits less than the relative tolerances." [[1]](https://diffeq.sciml.ai/stable/basics/faq/#What-does-tolerance-mean-and-how-much-error-should-I-expect)
-
 tol_correction = 0.1;
 
 (abstol_v, abstol_u, abstol_g) .* tol_correction
@@ -137,10 +129,6 @@ tol_correction = 0.1;
 
 # Neuron, synapse & simulated variable IDs.
 
-# IDs and connections are simple here for the N-to-1 case: only input 'neurons' get an ID, and there is only one synapse for every (connected) neuron.
-
-# A utility function. See below for its usage.
-
 # +
 """
     idvec(A = 4, B = 2, …)
@@ -149,6 +137,8 @@ Build a `ComponentVector` (CVec) with the given group names and
 as many elements per group as specified. Each element gets a
 unique ID within the CVec, which is also its index in the CVec.
 I.e. the above call yields `CVec(A = [1,2,3,4], B = [5,6])`.
+Specify `nothing` as size for a scalar element. Example:
+`idvec(A=nothing, B=1)` → `CVec(A=1, B=[2])`
 """
 function idvec(; kw...)
     cvec = CVec(; (name => _expand(val) for (name, val) in kw)...)
@@ -169,20 +159,6 @@ synapses = idvec(exc = N_exc, inh = N_inh)
 
 simulated_vars = idvec(v = nothing, u = nothing, g = synapses)
 
-# Example usage of these objects:
-
-# Pick some global input neuron ID
-
-n = N_exc + 2
-
-# We can index globally, or locally: we want the second connected inhibitory neuron
-
-input_neurons[n], input_neurons.conn.inh[2]
-
-# Some introspection, useful for printing & plotting:
-
-labels(input_neurons)[n]
-
 # ## Connections
 
 # +
@@ -197,9 +173,6 @@ end
 # -
 
 # ## Broadcast parameters
-
-# A bunch of synaptic parameters are given as scalars, but pertain to multiple synapses at once.
-# Here we broadcast these scalars to vectors
 
 Δg = similar(synapses, Float64)
 Δg.exc .= Δg_exc
@@ -247,24 +220,13 @@ first_spike_times = rand.(ISI_distributions);
 
 # Sort these initial spike times by building a priority queue.
 
-# +
-upcoming_input_spikes = PriorityQueue{Int, Float64}()
+upcoming_input_spikes = PriorityQueue{Int, Float64}();
 
 for (neuron, first_spike_time) in enumerate(first_spike_times)
     enqueue!(upcoming_input_spikes, neuron => first_spike_time)
 end
-# -
 
-# ## Parameter object
-
-# Encapsulate all 'parameters' used in the differential equation function
-# and the event callback functions in one `NamedTuple`,
-# which is passed through to these functions by DiffEq.jl.
-#
-# This is so that we don't need to read these variables
-# from the global scope (closure), which slows type inference i.e. compilation time.
-#
-# 'parameters' in quotes, cause some values are mutated.
+# ## `p` object
 
 params = (;
     E, Δg, τ_s,
@@ -281,7 +243,7 @@ params = (;
 
 function f(D, vars, params, _)
     @unpack v, u, g = vars
-    @unpack izh, E, τ_s = params
+    @unpack E, τ_s, izh = params
     @unpack C, k, vr, vt, a, b = izh
     I_s = 0.0
     for (gi, Ei) in zip(g, E)
@@ -293,17 +255,32 @@ function f(D, vars, params, _)
     return nothing
 end;
 
-# Applied performance optimizations:
-# - Don't use `I_s = sum(g .* (v .- E))`, which allocates a new array. Rather, we use an accumulating loop.
-# - `D.g .= …`: elementwise assignment; instead of overwriting `D.g` with a new array that needs to be allocated.
-# - Parameters via function argument, and not closure of global variables: to speed up type inference (apparently).
+vars = vars_t0
+D = similar(vars);
 
-# About the sign of the synaptic current `I_s`:
-# membrane current is by convention positive
-# if positive charges are flowing _out_ of the cell.
-#
-# For *e.g.* `v = -80 mV` and `Ei = 0 mV` (*i.e.* an excitatory synapse),
-# we get negative `I_si` (namely `gi * -80 mV`), *i.e.* positive charges flowing in ✔.
+f(D, vars, params, nothing)
+@time f(D, vars, params, nothing)
+
+function f2(D,vars,params)
+    @unpack v, u, g = vars
+    @unpack E, τ_s, izh = params
+    @unpack C, k, vr, vt, a, b = izh;
+    I_s = 0.0
+    for (gi, Ei) in zip(g, E)
+        I_s += gi * (v - Ei)
+    end
+    D.v = (k * (v - vr) * (v - vt) - u - I_s) / C
+    D.u = a * (b * (v - vr) - u)
+    for i in 1:length(g)
+        D.g[i] = -g[i] / τ_s
+    end
+    return nothing
+end;
+
+f2(D,vars,params)
+@time f2(D,vars,params)
+
+# nice. so D.g should be loop, for no alloc at all. Even `@.` didn't help
 
 # ## Events
 
@@ -326,13 +303,19 @@ end;
 
 # Input spike generation (== arrival, because no transmission delay):
 
-# +
 function time_to_next_input_spike(vars, params, t)
     _, next_input_spike_time = peek(params.upcoming_input_spikes)
-        # `peek(pq)` simply returns `pq.xs[1]`; i.e. it's fast.
     return t - next_input_spike_time
-end
+end;
 
+t_ = 0.1s;
+
+time_to_next_input_spike(vars, params, t_)
+@time time_to_next_input_spike(vars, params, t_);
+
+# The one alloc is for the return value. We hope this function gets inlined where it's used (`condition`).
+
+# +
 function on_input_spike!(vars, params, t)
     # Process the neuron that just fired.
     # Start by removing it from the queue.
@@ -353,19 +336,35 @@ end
 input_spike = Event(time_to_next_input_spike, on_input_spike!);
 # -
 
-# Spiking threshold crossing of Izhikevich neuron:
+on_input_spike!(vars, params, t_)
+@time on_input_spike!(vars, params, t_);
+
+# Nice! no allocs already
+
+# Spike threshold crossing of Izhikevich neuron  
+
+distance_to_v_peak(vars, params, _) = vars.v - params.izh.v_peak;
+
+distance_to_v_peak(vars, params, t_)
+@time distance_to_v_peak(vars, params, t_);
+
+# same thang, return val.
 
 # +
-distance_to_spiking_threshold(vars, params, _) = vars.v - params.izh.v_peak
-
-function on_spiking_threshold_crossing!(vars, params, _)
+function on_v_peak!(vars, params, _)
     # The discontinuous LIF/Izhikevich/AdEx update
     vars.v = params.izh.c
     vars.u += params.izh.d
+    return nothing
 end
 
 spiking_threshold_crossing = Event(distance_to_spiking_threshold, on_spiking_threshold_crossing!);
 # -
+
+on_v_peak!(vars, params, t_)
+@time on_v_peak!(vars, params, t_);
+
+# I added `return nothing` so no alloc.
 
 events = [input_spike, spiking_threshold_crossing];
 
@@ -375,33 +374,49 @@ events = [input_spike, spiking_threshold_crossing];
 
 @withfeedback using OrdinaryDiffEq
 
-prob = ODEProblem(f, vars_t0, float(sim_duration), params)
-    # Duration must be float, so that `t` variable is float.
+prob = ODEProblem(f, vars_t0, float(sim_duration), params);
 
-# +
 function condition(distance, vars, t, integrator)
     for (i, event) in enumerate(events)
         distance[i] = event.distance(vars, integrator.p, t)
     end
-end
+end;
+
+distance = zeros(2)
+integrator = (p = params,);
+
+condition(distance, vars, t_, integrator)
+@time condition(distance, vars, t_, integrator);
+
+integrator = (;params, events);
+
+function c2(distance, vars, t, int)
+    for i in 1:10 end   # no alloc
+    # for i in 1:length(events) end  # 3 allocs!! 100 byte
+    for i in 1:length(int.events) end  # no alloc :)   (thanks to no global)
+    for (i, event) in enumerate(int.events)
+        # distance[i] = event.distance(vars, int.params, t)  # 8 allocs, 256 bytes
+    end
+end;
+
+c2(distance, vars, t_, integrator)
+@time c2(distance, vars, t_, integrator);
+
+@time events[1].distance(vars, integrator.params, t_);
+
+@time events[1].distance(vars, params, t_);
+
+@time time_to_next_input_spike(vars, params, t_);
 
 function affect!(integrator, i)
     events[i].on_event!(integrator.u, integrator.p, integrator.t)
 end
 
 callback = VectorContinuousCallback(condition, affect!, length(events));
-# -
-
-# The default and recommended solver. A Runge-Kutta method. Refers to Tsitouras 2011.
-# See http://www.peterstone.name/Maplepgs/Maple/nmthds/RKcoeff/Runge_Kutta_schemes/RK5/RKcoeff5n_1.pdf
 
 solver = Tsit5()
 
-# Don't save all the synaptic conductances, only save `v` and `u`.
-
 save_idxs = [simulated_vars.v, simulated_vars.u];
-
-# Log progress (only relevant in REPL; not visible in nb)
 
 progress = true;
 
@@ -415,21 +430,23 @@ solve_() = solve(
 
 sol = @time solve_();
 
+sol = @time solve_();
+
 # ## Plot
 
 @withfeedback import PyPlot
 using Sciplotlib
 
-""" tzoom = [200ms, 600ms] e.g. """
-function Sciplotlib.plot(sol::ODESolution; tzoom = nothing)
-    isnothing(tzoom) && (tzoom = sol.t[[1,end]])
-    izoom = first(tzoom) .< sol.t .< last(tzoom)
+""" t = [200ms, 600ms] e.g. """
+function Sciplotlib.plot(sol::ODESolution; t = nothing)
+    isnothing(t) && (t = sol.t[[1,end]])
+    izoom = first(t) .< sol.t .< last(t)
     plot(
         sol.t[izoom] / ms,
         sol[1,izoom] / mV,
         clip_on = false,
         marker = ".", ms = 1.2, lw = 0.4,
-        #  xlim = tzoom,  # haha lolwut, adding this causes fig to no longer display.
+        #  xlim = t,  # haha lolwut, adding this causes fig to no longer display.
     )
 end;
 
