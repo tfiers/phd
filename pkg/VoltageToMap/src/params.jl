@@ -20,8 +20,6 @@ end
 const semi_arbitrary_synaptic_params = SynapseParams()
 
 @kwdef struct IzhNeuronParams
-    v_t0     ::Float64   = - 80    * mV
-    u_t0     ::Float64   =    0    * pA
     C        ::Float64   =  100    * pF
     k        ::Float64   =    0.7  * (nS/mV)     # steepness of dv/dt's parabola
     vr       ::Float64   = - 60    * mV          # resting v
@@ -31,6 +29,8 @@ const semi_arbitrary_synaptic_params = SynapseParams()
     v_peak   ::Float64   =   35    * mV          # cutoff to define spike
     v_reset  ::Float64   = - 50    * mV          # ..on spike. `c` in Izh.
     Δu       ::Float64   =  100    * pA          # ..on spike. `d` in Izh. Free parameter.
+    v_t0     ::Float64   =    vr
+    u_t0     ::Float64   =    0    * pA
 end
 const cortical_RS = IzhNeuronParams()
 
@@ -42,4 +42,5 @@ const cortical_RS = IzhNeuronParams()
     synapses      ::SynapseParams      = semi_arbitrary_synaptic_params
     izh_neuron    ::IzhNeuronParams    = cortical_RS
     Δg_multiplier ::Float64            = 1.0      # Free parameter, fiddled with until medium number of output spikes.
+    seed          ::Int                = 2022
 end

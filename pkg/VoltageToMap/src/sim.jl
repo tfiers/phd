@@ -9,4 +9,4 @@ function sim(p::SimParams)
     return (; t, rec.v, rec.input_spikes)
 end
 
-const x = progress_bar_update_interval = 200ms
+const x = progress_bar_update_interval = 400ms
