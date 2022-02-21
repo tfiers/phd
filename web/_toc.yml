@@ -2,8 +2,7 @@
 
 - part: Notebooks
   chapters:
-    # - file: nb/
-    - file: nb/2022-02-18__scale_up_N_and_duration
+    - file: nb/2022-02-20__vanilla_julia_fixed_dt_solver
     - file: nb/2022-02-07__N_to_1_simulation
     - file: nb/2022-01-08__lognormal_firing_rates
     - file: nb/2021-12-08__biology_vs_Izh_subhtr
@@ -29,7 +28,7 @@
 - part: Unpolished Notebooks
   chapters:
     - file: unpolished_intro
-    # - file: nb/
+    - file: nb/2022-02-18__scale_up_N_and_duration
     - file: nb/2022-01-04__Hello_Julia
     - file: nb/2021-11-18__prototype_new_sim
     - file: nb/2021-11-18__constant_input_spikes
