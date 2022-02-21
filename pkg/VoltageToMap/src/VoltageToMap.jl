@@ -4,9 +4,7 @@ using MyToolbox
 using Distributions  # Sample from lognormal, exponential, ….
 
 include("units.jl")
-export mega, kilo, milli, centi, micro, nano, pico
-export s, seconds, ms, minutes, hours, Hz, cm, mm, μm, um, nm
-export μA, uA, nA, pA, volt, mV, nV, mS, nS, ohm, Mohm, uF, μF, nF, pF
+# [see file for exports]
 
 include("misc.jl")
 export LogNormal_with_mean
