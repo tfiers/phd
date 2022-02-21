@@ -53,3 +53,20 @@ uF = μF = micro * farad
 nF = nano * farad
 pF = pico * farad
 export coulomb, farad, uF, μF, nF, pF
+
+kibi = 2^10
+mebi = 2^20
+gibi = 2^30
+# Sidenote: Windows uses binary prefixes, but displays them as SI: "MB" is actually "MiB".
+
+bytes = 1
+# We choose bytes as base unit (instead of bits), as that is what e.g. `sizeof` and
+# `Base.summarysize` report.
+bits = bytes // 8
+kB = kilo * bytes  # note that Windows displays k
+MB = mega * bytes
+GB = giga * bytes
+kiB = kibi * bytes
+MiB = mebi * bytes
+GiB = gibi * bytes
+export bytes, bits, kB, kiB, MB, MiB, GB, GiB
