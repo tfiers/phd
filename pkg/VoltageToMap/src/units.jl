@@ -2,6 +2,7 @@
 # 'Fake' units, until a better solution exists.
 # (`Unitful` works great, but the interactive UX is bad because of its very verbose types).
 
+giga = 1e9
 mega = 1e6
 kilo = 1e3
 milli = 1e-3
