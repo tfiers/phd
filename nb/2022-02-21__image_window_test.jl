@@ -177,18 +177,19 @@ for (groupname, spiketrains, pvals) in (
 end
 # -
 
-fig, ax = plt.subplots(figsize=(2.8,2.4))
-function plotdot(y, x, c, jitter=0.3)
+fig, ax = plt.subplots(figsize=(3.4,3))
+function plotdot(y, x, c, jitter=0.28)
     N = length(y)
     x -= 0.35
     plot(x*ones(N) + (rand(N).-0.5)*jitter, y, "o", color=c, ms=4.2, markerfacecolor="none", clip_on=false)
-    plot(x+0.35, mean(y), "k.", ms=12)
+    plot(x+0.35, mean(y), "k.", ms=10)
 end
-plotdot(p_exc, 1, "C2")
-plotdot(p_unconn, 2, "C0")
-plotdot(p_inh, 3, "C1")
+plotdot(p_exc,    1, "C2"); ax.text(1-0.16, -0.1, "excitatory"; color="C2", ha="center")
+plotdot(p_unconn, 2, "C0"); ax.text(2-0.16, -0.1, "unconnected"; color="C0", ha="center")
+plotdot(p_inh,    3, "C1"); ax.text(3-0.16, -0.1, "inhibitory"; color="C1", ha="center")
 ax.boxplot([p_exc, p_unconn, p_inh], widths=0.2, medianprops=Dict("color"=>"black"))
 set(ax, xlim=(0.33, 3.3), ylim=(0, 1), xaxis=:off)
+hylabel(ax, L"p(\, \mathrm{shuffled\ \overline{STA}} \ > \ \mathrm{actual\ \overline{STA}}\, )"; dy=10);
 
 # Proportion of shuffled spike trains for which `mean(STA)` is higher than the unshuffled spike train.
 #
