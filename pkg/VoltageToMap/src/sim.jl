@@ -1,4 +1,7 @@
 
+include("sim/init.jl")
+include("sim/step.jl")
+
 function sim(p::SimParams)
     state, rec, init = init_sim(p)
     @unpack sim_duration, num_timesteps = p

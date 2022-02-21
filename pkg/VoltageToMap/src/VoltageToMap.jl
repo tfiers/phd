@@ -17,8 +17,6 @@ export SynapseParams, semi_arbitrary_synaptic_params
 export IzhNeuronParams, cortical_RS
 export SimParams
 
-include("sim_init.jl")
-include("sim_step.jl")
 include("sim.jl")
 export sim
 
