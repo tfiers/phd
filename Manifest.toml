@@ -740,7 +740,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "PartialFunctions", "PrettyTables", "Printf", "Profile", "ProfileView", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Sciplotlib", "StatsBase"]
+deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
@@ -907,6 +907,12 @@ deps = ["Logging", "SHA", "UUIDs"]
 git-tree-sha1 = "80d919dee55b9c50e8d9e2da5eeafff3fe58b539"
 uuid = "33c8b6b6-d38a-422a-b730-caa89a2f386c"
 version = "0.1.4"
+
+[[deps.ProgressMeter]]
+deps = ["Distributed", "Printf"]
+git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
+version = "1.7.1"
 
 [[deps.PyCall]]
 deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
