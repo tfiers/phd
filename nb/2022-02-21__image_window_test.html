@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-01-08 &#8226; Lognormal input firing rates &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-02-21 &#8226; Image, window, test &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2022-01-08__lognormal_firing_rates.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2022-02-21__image_window_test.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-12-08 &#8226; Biology vs Izhikevich subthreshold" href="2021-12-08__biology_vs_Izh_subhtr.html">
-    <link rel="prev" title="2022-02-07 &#8226; N-to-1 simulation" href="2022-02-07__N_to_1_simulation.html">
+    <link rel="next" title="2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,8 +106,8 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2022-02-21__image_window_test.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2022-02-21 &#8226; Image, window, test
   </a>
  </li>
@@ -121,8 +121,8 @@ const thebe_selector_output = ".output, .cell_output"
    2022-02-07 &#8226; N-to-1 simulation
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
    2022-01-08 &#8226; Lognormal input firing rates
   </a>
  </li>
@@ -373,7 +373,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2022-01-08__lognormal_firing_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -385,8 +385,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2022-01-08__lognormal_firing_rates.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/nb/2022-01-08__lognormal_firing_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2022-02-21__image_window_test.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/website/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -400,7 +400,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/nb/2022-01-08__lognormal_firing_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/website/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -420,18 +420,18 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#distributions">
-   Distributions
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params-sim">
+   Params &amp; sim
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plot">
    Plot
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#parameters">
-   Parameters
   </a>
  </li>
 </ul>
@@ -444,7 +444,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-01-08 &#8226; Lognormal input firing rates</h1>
+                <h1>2022-02-21 &#8226; Image, window, test</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -455,18 +455,18 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#distributions">
-   Distributions
+  <a class="reference internal nav-link" href="#setup">
+   Setup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params-sim">
+   Params &amp; sim
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plot">
    Plot
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#parameters">
-   Parameters
   </a>
  </li>
 </ul>
@@ -478,88 +478,124 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="lognormal-input-firing-rates">
-<h1>2022-01-08 &#8226; Lognormal input firing rates<a class="headerlink" href="#lognormal-input-firing-rates" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="image-window-test">
+<h1>2022-02-21 &#8226; Image, window, test<a class="headerlink" href="#image-window-test" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"nb_init.jl"</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Pkg; Pkg.resolve()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Distributions
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import PyPlot
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import DataFrames, PrettyTables
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import BenchmarkTools, Profile, FilePaths
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>import Unitful, Sciplotlib
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>using VoltageToMap
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#9484; Info: Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
+&#9492; @ Base loading.jl:1423
 </pre></div>
 </div>
 </div>
 </div>
-<div class="section" id="distributions">
-<h2>Distributions<a class="headerlink" href="#distributions" title="Permalink to this headline">&#182;</a></h2>
-<p>We want Poisson firing, i.e. ISIs with an exponential distribution.<br>
-Firing rates lognormally distributed (instead of all the same, as before).</p>
+</div>
+<div class="section" id="params-sim">
+<h2>Params &amp; sim<a class="headerlink" href="#params-sim" title="Permalink to this headline">&#182;</a></h2>
+<p>Short warm-up run. Get compilation out of the way.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">"""</span>
-<span class="s">`&#956;` and `&#963;` are mean and standard deviation of the underlying Gaussian.</span>
-<span class="s">`&#956;&#8339;` is the mean of the log of the Gaussian.</span>
-<span class="s">"""</span>
-<span class="k">function</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">)</span>
-    <span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
-    <span class="n">LogNormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">unit</span><span class="p">(</span><span class="n">&#956;&#8339;</span><span class="p">))</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">input_spike_rate</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">0.6</span><span class="p">)</span>  <span class="c"># our hand-picked params</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
+    <span class="n">poisson_input</span> <span class="o">=</span> <span class="n">small_N__as_in_Python_2021</span><span class="p">,</span>
+    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">minutes</span>
+<span class="p">)</span>
+<span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0862943611198905, &#963;=0.7745966692414834)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.139534 seconds (1.21 M allocations: 142.554 MiB, 10.45% gc time)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">roxin</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">5</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">1.04</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
+    <span class="n">poisson_input</span> <span class="o">=</span> <span class="n">realistic_input</span><span class="p">,</span>
+    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">,</span>
+    <span class="n">&#916;g_multiplier</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dump</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.0894379124341003, &#963;=1.019803902718557)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimParams
+  sim_duration: Float64 10.0
+  &#916;t: Float64 0.0001
+  num_timesteps: Int64 100000
+  poisson_input: PoissonInputParams
+    N_unconn: Int64 100
+    N_exc: Int64 5200
+    N_inh: Int64 1300
+    N_conn: Int64 6500
+    N: Int64 6600
+    spike_rate: Distributions.LogNormal{Float64}
+      &#956;: Float64 1.0862943611198905
+      &#963;: Float64 0.7745966692414834
+  synapses: SynapseParams
+    g_t0: Float64 0.0
+    &#964;_s: Float64 0.007
+    E_exc: Float64 0.0
+    E_inh: Float64 -0.065
+    &#916;g_exc: Float64 4.0000000000000007e-10
+    &#916;g_inh: Float64 1.6000000000000003e-9
+  izh_neuron: IzhNeuronParams
+    v_t0: Float64 -0.08
+    u_t0: Float64 0.0
+    C: Float64 1.0e-10
+    k: Float64 7.0e-7
+    vr: Float64 -0.06
+    vt: Float64 -0.04
+    a: Float64 30.0
+    b: Float64 -2.0e-9
+    v_peak: Float64 0.035
+    v_reset: Float64 -0.05
+    &#916;u: Float64 1.0e-10
+  &#916;g_multiplier: Float64 0.1
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#963;&#178;</span> <span class="o">=</span> <span class="p">(</span><span class="n">&#963;_X</span><span class="p">,</span> <span class="n">&#956;_X</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">&#963;_X</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="n">&#956;_X</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">&#963;&#178;_oconnor</span> <span class="o">=</span> <span class="n">&#963;&#178;</span><span class="p">(</span><span class="mf">7.4</span><span class="n">Hz</span><span class="p">,</span> <span class="mf">12.6</span><span class="n">Hz</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">input_spikes</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.296337
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">oconnor</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mf">7.4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="n">&#963;&#178;_oconnor</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64, Unitful.FreeUnits{(Hz,), &#119827;^-1, nothing}}(&#956;=1.8533115616194222, &#963;=0.5443683285987568)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.442529 seconds (453.09 k allocations: 122.762 MiB, 1.69% gc time, 0.18% compilation time)
 </pre></div>
 </div>
 </div>
@@ -569,61 +605,48 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">))</span>
-
-<span class="n">rlin</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="mi">15</span><span class="p">)</span> <span class="o">*</span> <span class="n">Hz</span>
-<span class="n">rlog</span> <span class="o">=</span> <span class="p">(</span><span class="n">log10</span><span class="p">(</span><span class="mf">0.04</span><span class="p">)</span><span class="o">:</span><span class="mf">0.01</span><span class="o">:</span><span class="n">log10</span><span class="p">(</span><span class="mi">41</span><span class="p">)</span> <span class="o">.|&gt;</span> <span class="n">exp10</span><span class="p">)</span> <span class="o">*</span> <span class="n">Hz</span>
-<span class="k">function</span> <span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">distr</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlin</span><span class="p">,</span> <span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlin</span><span class="p">),</span> <span class="n">ax1</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlog</span><span class="p">,</span> <span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlog</span><span class="p">),</span> <span class="n">ax2</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s">"log"</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">rlin</span><span class="p">,</span> <span class="n">cdf</span><span class="o">.</span><span class="p">(</span><span class="n">distr</span><span class="p">,</span> <span class="n">rlin</span><span class="p">),</span> <span class="n">ax3</span><span class="p">;</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">roxin</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Roxin"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">C2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">))</span>
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">oconnor</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"O'Connor"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">C1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">))</span>
-<span class="n">plot_firing_rate_distr</span><span class="p">(</span><span class="n">input_spike_rate</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"This study"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.7</span><span class="p">)</span>
-
-<span class="n">set</span><span class="p">(</span><span class="n">ax1</span><span class="p">;</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Input firing rate"</span><span class="p">,</span> <span class="n">ytickstyle</span><span class="o">=</span><span class="ss">:range</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"Probability density"</span><span class="p">)</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax2</span><span class="p">;</span> <span class="n">xlabel</span><span class="o">=</span><span class="p">(</span><span class="s">"(log scale)"</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;:</span><span class="n">center</span><span class="p">),</span> <span class="n">yaxis</span><span class="o">=</span><span class="ss">:off</span><span class="p">)</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax3</span><span class="p">;</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"Cumulative probability"</span><span class="p">)</span>
-<span class="n">deemph</span><span class="p">(</span><span class="ss">:yaxis</span><span class="p">,</span> <span class="n">ax1</span><span class="p">)</span>
-<span class="n">legend</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.14</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">),</span> <span class="n">reorder</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">get_legend</span><span class="p">()</span><span class="o">.</span><span class="n">set_in_layout</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">w_pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">savefig</span><span class="p">(</span><span class="s">"log-normal.pdf"</span><span class="p">,</span> <span class="n">subdir</span><span class="o">=</span><span class="s">"methods"</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="n">PyPlot</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-01-08__lognormal_firing_rates_10_0.png" src="../_images/2022-01-08__lognormal_firing_rates_10_0.png">
 </div>
-</div>
-</div>
-<div class="section" id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">distrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">oconnor</span><span class="p">,</span> <span class="n">roxin</span><span class="p">,</span> <span class="n">input_spike_rate</span><span class="p">]</span>
-<span class="p">(</span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="p">[</span><span class="s">"oconnor"</span><span class="p">,</span> <span class="s">"roxin"</span><span class="p">,</span> <span class="s">"this study"</span><span class="p">],</span>
-    <span class="n">&#963;</span><span class="o">=</span><span class="n">stdlogx</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-    <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-    <span class="n">median</span><span class="o">=</span><span class="n">median</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-    <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-    <span class="n">var</span><span class="o">=</span><span class="n">var</span><span class="o">.</span><span class="p">(</span><span class="n">distrs</span><span class="p">),</span>
-<span class="p">))</span> <span class="o">|&gt;</span> <span class="n">printsimple</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Sciplotlib</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">""" tzoom = [200ms, 600ms] e.g. """</span>
+<span class="k">function</span> <span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">tzoom</span> <span class="o">=</span> <span class="nb">nothing</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+    <span class="n">isnothing</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">tzoom</span> <span class="o">=</span> <span class="n">t</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="k">end</span><span class="p">]])</span>
+    <span class="n">izoom</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">.&#8804;</span> <span class="n">t</span> <span class="o">.&#8804;</span> <span class="n">last</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">izoom</span><span class="p">],</span> <span class="n">sig</span><span class="p">[</span><span class="n">izoom</span><span class="p">];</span> <span class="n">clip_on</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="o">/</span> <span class="n">mV</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> name        &#963;      mean (Hz)   median (Hz)   std (Hz)   var (Hz&#178;)  </span>
-&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
- oconnor     0.544  7.4         6.38          4.35       18.9
- roxin       1.02   5           2.97          6.76       45.7
- this study  0.775  4           2.96          3.63       13.2
+<img alt="../_images/2022-02-21__image_window_test_15_0.png" src="../_images/2022-02-21__image_window_test_15_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">200</span><span class="n">ms</span><span class="p">,</span><span class="mi">400</span><span class="n">ms</span><span class="p">]);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-02-21__image_window_test_16_0.png" src="../_images/2022-02-21__image_window_test_16_0.png">
 </div>
 </div>
 </div>
@@ -654,17 +677,17 @@ Firing rates lognormally distributed (instead of all the same, as before).</p>
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2022-02-07__N_to_1_simulation.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2022-02-07 &#8226; N-to-1 simulation</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2021-12-08__biology_vs_Izh_subhtr.html" title="next page">
+    <a class="right-next" id="next-link" href="2022-02-20__vanilla_julia_fixed_dt_solver.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2021-12-08 &#8226; Biology vs Izhikevich subthreshold</p>
+        <p class="prev-next-title">2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
