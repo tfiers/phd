@@ -26,14 +26,17 @@
 # using Pkg; Pkg.resolve()
 # -
 
-using Revise
+println("start"); flush(stdout)
 
+# using Revise
 
 using Distributions
 
 using MyToolbox
 
 using VoltageToMap
+
+println("setup done")  # feedback when running in terminal
 
 # ## Parameters
 
@@ -103,6 +106,7 @@ function sim(params::SimParams)
 
     input_neuron_IDs = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
     synapse_IDs      = idvec(exc = N_exc, inh = N_inh)
+    simulated_vars   = idvec(t = nothing, v = nothing, u = nothing, g = similar(synapse_IDs))
 
     # Connections
     postsynapses = Dict{Int, Vector{Int}}()  # input_neuron_ID => [synapse_IDs...]
@@ -134,15 +138,14 @@ function sim(params::SimParams)
     next_input_spike_t = peek(upcoming_input_spikes).second  # (`.first` is neuron ID).
 
     # Initialize simulation vars and their derivatives
-    v = v_t0
-    u = u_t0
-    g = similar(synapse_IDs, Float64)
-    g .= g_t0
-    dv = zero(v)
-    du = zero(u)
-    dg = zero(g)
+    vars = similar(simulated_vars, Float64)
+    vars.t = zero(sim_duration)
+    vars.v = v_t0
+    vars.u = u_t0
+    vars.g .= g_t0
+    D = similar(vars)
+    D.t = 1
 
-    t = zero(sim_duration)
     num_timesteps = round(Int, sim_duration / Δt)  # Fixed timestep
     v_rec = Vector{Float64}(undef, num_timesteps)
     input_spike_t_rec = similar(input_neuron_IDs, Vector{Float64})
@@ -150,62 +153,99 @@ function sim(params::SimParams)
         input_spike_t_rec[i] = Vector{Float64}()
     end
 
-    # Solver loop.
+    # package it all up
+    p = (;
+        vars, D, Δt, E, τ_s, Δg, params, v_rec, input_spike_t_rec,
+        upcoming_input_spikes, ISI_distributions, postsynapses
+    )
+
     @showprogress 200ms for i in 1:num_timesteps
-
-        # Sum synaptic currents
-        I_s = zero(u)
-        for (gi, Ei) in zip(g, E)
-            I_s += gi * (v - Ei)
-        end
-
-        # Differential equations
-        dv = (k * (v - vr) * (v - vt) - u - I_s) / C
-        du = a * (b * (v - vr) - u)
-        for i in 1:length(g)
-            dg[i] = -g[i] / τ_s
-        end
-
-        # Euler integration
-        v += dv * Δt
-        u += du * Δt
-        for i in 1:length(g)
-            g[i] = dg[i] * Δt
-        end
-
-        # Izhikevich neuron spiking threshold
-        if v ≥ v_peak
-            v = v_reset
-            u += Δu
-        end
-
-        # Record membrane voltage
-        v_rec[i] = v
-
-        # Input spikes
-        t += Δt
-        if t ≥ next_input_spike_t
-            fired_neuron = dequeue!(upcoming_input_spikes)
-            push!(input_spike_t_rec[fired_neuron], t)
-            for synapse in postsynapses[fired_neuron]
-                g[synapse] += Δg[synapse]
-            end
-            new_spike_time = t + rand(ISI_distributions[fired_neuron])
-            enqueue!(upcoming_input_spikes, fired_neuron => new_spike_time)
-            next_input_spike_t = peek(upcoming_input_spikes).second
-        end
+        step!(p)
+        v_rec[i] = vars.v
     end
-    
+
     return (
-        t = linspace(zero(t), t, num_timesteps),
+        t = linspace(zero(sim_duration), sim_duration, num_timesteps),
         v = v_rec,
         input_spikes = input_spike_t_rec
     )
 end
 
-p = SimParams(poisson_input = small_N__as_in_Python_2021, Δg_multiplier = 300)
+function step!(p)
+    @unpack vars, D, Δt, E, τ_s, Δg, input_spike_t_rec             = p
+    @unpack upcoming_input_spikes, ISI_distributions, postsynapses = p
+    @unpack t, v, u, g                                             = vars
+    @unpack C, k, vr, vt, a, b, v_peak, v_reset, Δu                = p.params.izh_neuron
+
+    # Sum synaptic currents
+    I_s = zero(u)
+    for (gi, Ei) in zip(g, E)
+        I_s += gi * (v - Ei)
+    end
+
+    # Differential equations
+    D.v = (k * (v - vr) * (v - vt) - u - I_s) / C
+    D.u = a * (b * (v - vr) - u)
+    for i in eachindex(g)
+        D.g[i] = -g[i] / τ_s
+    end
+
+    # Euler integration
+    @. vars += D * Δt
+
+    # Izhikevich neuron spiking threshold
+    if vars.v ≥ v_peak
+        vars.v = v_reset
+        vars.u += Δu
+    end
+
+    # Input spikes
+    next_input_spike_t = peek(upcoming_input_spikes).second
+    if t ≥ next_input_spike_t
+        fired_neuron = dequeue!(upcoming_input_spikes)
+        push!(input_spike_t_rec[fired_neuron], t)
+        for synapse in postsynapses[fired_neuron]
+            g[synapse] += Δg[synapse]
+        end
+        new_spike_time = t + rand(ISI_distributions[fired_neuron])
+        enqueue!(upcoming_input_spikes, fired_neuron => new_spike_time)
+    end
+end
+
+println("defs done")
+
+p = SimParams(poisson_input = small_N__as_in_Python_2021, Δg_multiplier = 7, sim_duration=1*minutes)
+sim(p);  # to trigger compilation
+
+using Profile
+
+Profile.clear_malloc_data()
+
+p = SimParams(poisson_input = slightly_smaller_input,     Δg_multiplier = 1, sim_duration = 1*minutes)
 dump(p)
 
 t, v, input_spikes = @time sim(p);
 
-length.(input_spikes)
+num_spikes = length.(input_spikes)
+
+# ## Plot
+
+# +
+# import PyPlot
+
+# +
+# using Sciplotlib
+# -
+
+""" tzoom = [200ms, 600ms] e.g. """
+function plotsig(t, sig, tzoom = nothing)
+    isnothing(tzoom) && (tzoom = t[[1, end]])
+    izoom = first(tzoom) .≤ t .≤ last(tzoom)
+    plot(t[izoom], sig[izoom]; clip_on=false)
+end;
+
+# +
+# plotsig(t, v / mV);
+
+# +
+# plotsig(t, v / mV, [200ms,400ms]);
