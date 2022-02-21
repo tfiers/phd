@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-02-21b__FENS_abstract
     - file: nb/2022-02-21__image_window_test
     - file: nb/2022-02-20__vanilla_julia_fixed_dt_solver
     - file: nb/2022-02-07__N_to_1_simulation
