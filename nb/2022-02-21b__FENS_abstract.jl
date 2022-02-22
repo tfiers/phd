@@ -7,9 +7,9 @@
 #       extension: .jl
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.13.7
+#       jupytext_version: 1.13.6
 #   kernelspec:
-#     display_name: Julia 1.7.0
+#     display_name: Julia 1.7.1
 #     language: julia
 #     name: julia-1.7
 # ---
@@ -37,27 +37,27 @@ using VoltageToMap
 
 # Short warm-up run. Get compilation out of the way.
 
-p0 = params
-@set p0.sim.inputs   = previous_N_30_inputs
-@set p0.sim.duration = 1 * minutes;
+p0 = ExperimentParams(sim=SimParams(inputs=previous_N_30_inputs, duration=1 * minutes));
 
 @time sim(p0.sim);
 
 # + tags=["output_scroll"]
-p = params
-@set p.sim.inputs   = realistic_N_6600_inputs
-@set p.sim.duration = 10 * minutes
-@set p.sim.synapses.Δg_multiplier = 0.06
+p = ExperimentParams(
+    sim = SimParams(
+        inputs = realistic_N_6600_inputs,
+        duration = 10 * minutes,
+        synapses = SynapseParams(Δg_multiplier = 0.066),
+    )
+)
 dumpc(p)
 # -
 
-t, v, input_spikes = @time sim(p);
+t, v, input_spikes = @time sim(p.sim);
 
 num_spikes = length.(input_spikes)
 
 # ## Plot
 
-import PyPlot
 using Sciplotlib
 
 """ tzoom = [200ms, 600ms] e.g. """
@@ -75,15 +75,8 @@ plotsig(t, v/mV, [0s, 4seconds], xlabel="Time (s)", hylabel="mV");
 
 # ## Imaging noise
 
-# +
-izh_params = cortical_RS
-
-imaging_spike_SNR  #=::Float64=#  = 20
-spike_height       #=::Float64=#  = izh_params.v_peak - izh_params.vr
-σ_noise            #=::Float64=#  = spike_height / imaging_spike_SNR;
-# -
-
-noise = randn(length(v)) * σ_noise
+resetrng!(p.sim.seed)
+noise = randn(length(v)) * p.sim.imaging.σ_noise
 vimsig = v + noise;
 
 ax = plotsig(t, vimsig / mV, [200ms,1200ms], xlabel="Time (s)", hylabel="mV", alpha=0.7);
@@ -91,12 +84,11 @@ plotsig(t, v / mV, [200ms,1200ms], xlabel="Time (s)", hylabel="mV"; ax);
 
 # ## Window
 
-window_duration    #=::Float64=#  = 100 * ms;
-
 # +
-const Δt = p.Δt
-const win_size = round(Int, window_duration / Δt)
-const t_win = linspace(zero(window_duration), window_duration, win_size)
+const window_length = p.conntest.STA_window_length
+const Δt = p.sim.Δt
+const win_size = round(Int, window_length / Δt)
+const t_win = linspace(zero(window_length), window_length, win_size)  # for plottin
 
 function calc_STA(presynaptic_spikes)
     STA = zeros(eltype(vimsig), win_size)
@@ -119,18 +111,16 @@ function plotSTA(presynspikes)
     plot(t_win/ms, STA/mV)
 end;
 
-presynspikes = input_spikes.conn.exc[44]
-plotSTA(presynspikes);
+example_presynspikes = rand(input_spikes.conn.exc)
+plotSTA(example_presynspikes);
 
 # ## Test connection
-
-num_shuffles       #=::Int    =#  = 100;
 
 # +
 to_ISIs(spiketimes) = [first(spiketimes); diff(spiketimes)]  # copying
 to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
 
-(presynspikes |> to_ISIs |> to_spiketimes!) ≈ presynspikes   # test
+(example_presynspikes |> to_ISIs |> to_spiketimes!) ≈ example_presynspikes   # test
 # -
 
 shuffle_ISIs(spiketimes) = to_spiketimes!(shuffle!(to_ISIs(spiketimes)));
@@ -139,9 +129,13 @@ test_statistic(spiketimes) = spiketimes |> calc_STA |> mean;
 
 # Note difference with 2021: there it was peak-to-peak (max - min). Here it is mean.
 
+# +
+const num_shuffles = p.conntest.num_shuffles
+
 function test_connection(presynspikes)
     real_t = test_statistic(presynspikes)
     shuffled_t = Vector{typeof(real_t)}(undef, num_shuffles)
+    resetrng!(p.conntest.seed)
     for i in eachindex(shuffled_t)
         shuffled_t[i] = test_statistic(shuffle_ISIs(presynspikes))
     end
@@ -152,32 +146,44 @@ function test_connection(presynspikes)
         p_value = N_shuffled_larger / num_shuffles
     end
 end;
+# -
 
 # ## Results
 
-resetrng!(20220222);
+p_exc
 
 # +
-num_trains = 40
-println("Average p(shuffled trains with higher STA mean).")
-println("(N = $(num_trains) input spike trains per category)")
+num_trains = p.evaluation.num_tested_neurons_per_group
+num_trains = 300
+
+resetrng!(p.evaluation.seed)
+tested_spike_trains_exc = rand(input_spikes.conn.exc, num_trains)
+tested_spike_trains_inh = rand(input_spikes.conn.inh, num_trains)
+tested_spike_trains_unconn = rand(input_spikes.unconn, min(num_trains, 100))
 
 p_exc    = Float64[]
 p_inh    = Float64[]
 p_unconn = Float64[]
 
 for (groupname, spiketrains, pvals) in (
-        ("excitatory",    input_spikes.conn.exc, p_exc),
-        ("inhibitory",    input_spikes.conn.inh, p_inh),
-        ("unconnected",   input_spikes.unconn, p_unconn),
+        ("excitatory",    tested_spike_trains_exc,    p_exc),
+        ("inhibitory",    tested_spike_trains_inh,    p_inh),
+        ("unconnected",   tested_spike_trains_unconn, p_unconn),
     )
-    for spiketrain in spiketrains[1:num_trains]
+    @showprogress 200ms groupname for spiketrain in spiketrains
         push!(pvals, test_connection(spiketrain))
-        print("."); flush(stdout)
     end
-    @printf "%12s: %.3g\n" groupname mean(pvals)
 end
 # -
+
+best_exc = tested_spike_trains_exc[p_exc .== minimum(p_exc)]
+best_inh = tested_spike_trains_inh[p_inh .== maximum(p_inh)]
+length(best_exc), length(best_inh)
+
+st_exc_i, st_exc = rand(pairs(best_exc))
+st_inh_i, st_inh = rand(pairs(best_inh))
+plotSTA(st_exc)
+plotSTA(st_inh);
 
 fig, ax = plt.subplots(figsize=(3.4,3))
 function plotdot(y, x, c, jitter=0.28)
@@ -190,7 +196,7 @@ plotdot(p_exc,    1, "C2"); ax.text(1-0.16, -0.1, "excitatory"; color="C2", ha="
 plotdot(p_unconn, 2, "C0"); ax.text(2-0.16, -0.1, "unconnected"; color="C0", ha="center")
 plotdot(p_inh,    3, "C1"); ax.text(3-0.16, -0.1, "inhibitory"; color="C1", ha="center")
 ax.boxplot([p_exc, p_unconn, p_inh], widths=0.2, medianprops=Dict("color"=>"black"))
-set(ax, xlim=(0.33, 3.3), ylim=(0, 1), xaxis=:off)
+Sciplotlib.set(ax, xlim=(0.33, 3.3), ylim=(0, 1), xaxis=:off)
 hylabel(ax, L"p(\, \mathrm{shuffled\ \overline{STA}} \ > \ \mathrm{actual\ \overline{STA}}\, )"; dy=10);
 
 # Proportion of shuffled spike trains for which `mean(STA)` is higher than the unshuffled spike train.
