@@ -877,7 +877,9 @@ and is imported below.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">excitatory 95%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608; |  ETA: 0:00:05</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">excitatory100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:01:38</span>
+<span class=" -Color -Color-Green">inhibitory100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:01:30</span>
+<span class=" -Color -Color-Green">unconnected100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:33</span>
 </pre></div>
 </div>
 </div>
@@ -901,13 +903,14 @@ and is imported below.</p>
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">st_exc_i</span><span class="p">,</span> <span class="n">st_exc</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">pairs</span><span class="p">(</span><span class="n">best_exc</span><span class="p">))</span>
 <span class="n">st_inh_i</span><span class="p">,</span> <span class="n">st_inh</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">pairs</span><span class="p">(</span><span class="n">best_inh</span><span class="p">))</span>
 <span class="n">plotSTA</span><span class="p">(</span><span class="n">st_exc</span><span class="p">)</span>
-<span class="n">plotSTA</span><span class="p">(</span><span class="n">st_inh</span><span class="p">);</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">st_inh</span><span class="p">)</span>
+<span class="n">st_exc_i</span><span class="p">,</span> <span class="n">st_inh_i</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/2022-02-21b__FENS_abstract_35_0.png" src="../_images/2022-02-21b__FENS_abstract_35_0.png">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PyObject &lt;AxesSubplot:&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2, 9)
 </pre></div>
 </div>
 </div>
@@ -934,9 +937,6 @@ and is imported below.</p>
 <img alt="../_images/2022-02-21b__FENS_abstract_36_0.png" src="../_images/2022-02-21b__FENS_abstract_36_0.png">
 </div>
 </div>
-<p>Proportion of shuffled spike trains for which <code class="docutils literal notranslate"><span class="pre">mean(STA)</span></code> is higher than the unshuffled spike train.</p>
-<p>Excitatory (green), unconnected (blue), and inhibitory (orange) input neurons.</p>
-<p>10-minute simulation with a total of 6500 connected input neurons.</p>
 </div>
 </div>
 
