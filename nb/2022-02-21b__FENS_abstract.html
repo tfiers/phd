@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-02-21 &#8226; Image, window, test &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-02-21 &#8226; FENS 2022 Abstract &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -108,7 +108,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2022-02-21 &#8226; Image, window, test
+   2022-02-21 &#8226; FENS 2022 Abstract
   </a>
  </li>
  <li class="toctree-l1">
@@ -469,7 +469,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-02-21 &#8226; Image, window, test</h1>
+                <h1>2022-02-21 &#8226; FENS 2022 Abstract</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -523,21 +523,24 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="image-window-test">
-<h1>2022-02-21 &#8226; Image, window, test<a class="headerlink" href="#image-window-test" title="Permalink to this headline">&#182;</a></h1>
-<p>The simulation code of the previous notebook has been added to <code class="docutils literal notranslate"><span class="pre">pkg/VoltageToMap/src/</span></code>, and is imported below.</p>
+  <div class="section" id="fens-2022-abstract">
+<h1>2022-02-21 &#8226; FENS 2022 Abstract<a class="headerlink" href="#fens-2022-abstract" title="Permalink to this headline">&#182;</a></h1>
+<p>On this beautiful day of our lordess <code class="docutils literal notranslate"><span class="pre">22022022</span></code> (ddmmyyy).</p>
+<p>As usually, the reusable code of the previous notebook
+has been added in <a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/main/pkg/VoltageToMap/src"><code class="docutils literal notranslate"><span class="pre">pkg/VoltageToMap/src/</span></code></a>,
+and is imported below.</p>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Pkg; Pkg.resolve()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># </span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>  <span class="c"># Reloads src code without having to restart kernel</span>
 </pre></div>
 </div>
 </div>
@@ -564,7 +567,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
     <span class="n">poisson_input</span> <span class="o">=</span> <span class="n">small_N__as_in_Python_2021</span><span class="p">,</span>
-    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">1</span><span class="o">*</span><span class="n">minutes</span>
+    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -577,7 +580,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.684890 seconds (7.23 M allocations: 482.248 MiB, 5.31% gc time, 93.64% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+  3.767235 seconds (8.85 M allocations: 569.595 MiB, 5.44% gc time, 94.34% compilation time)
 </pre></div>
 </div>
 </div>
@@ -589,45 +593,45 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">minutes</span><span class="p">,</span>
     <span class="n">&#916;g_multiplier</span> <span class="o">=</span> <span class="mf">0.066</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="n">dump</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>  <span class="c"># more descriptive (names, not just values) but also taking more space.</span>
+<span class="n">dumpc</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimParams
-  sim_duration: Float64 600.0
-  &#916;t: Float64 0.0001
-  num_timesteps: Int64 6000000
+  sim_duration: 600.0
+  &#916;t: 0.0001
+  num_timesteps: 6000000
   poisson_input: PoissonInputParams
-    N_unconn: Int64 100
-    N_exc: Int64 5200
-    N_inh: Int64 1300
-    N_conn: Int64 6500
-    N: Int64 6600
-    spike_rate: Distributions.LogNormal{Float64}
-      &#956;: Float64 1.0862943611198905
-      &#963;: Float64 0.7745966692414834
+    N_unconn: 100
+    N_exc: 5200
+    N_inh: 1300
+    N_conn: 6500
+    N: 6600
+    spike_rate: LogNormal
+      &#956;: 1.08629
+      &#963;: 0.774597
   synapses: SynapseParams
-    g_t0: Float64 0.0
-    &#964;_s: Float64 0.007
-    E_exc: Float64 0.0
-    E_inh: Float64 -0.065
-    &#916;g_exc: Float64 4.0000000000000007e-10
-    &#916;g_inh: Float64 1.6000000000000003e-9
+    g_t0: 0.0
+    &#964;_s: 0.007
+    E_exc: 0.0
+    E_inh: -0.065
+    &#916;g_exc: 4.0e-10
+    &#916;g_inh: 1.6e-9
   izh_neuron: IzhNeuronParams
-    C: Float64 1.0e-10
-    k: Float64 7.0e-7
-    vr: Float64 -0.06
-    vt: Float64 -0.04
-    a: Float64 30.0
-    b: Float64 -2.0e-9
-    v_peak: Float64 0.035
-    v_reset: Float64 -0.05
-    &#916;u: Float64 1.0e-10
-    v_t0: Float64 -0.06
-    u_t0: Float64 0.0
-  &#916;g_multiplier: Float64 0.066
-  seed: Int64 2022
+    C: 1.0e-10
+    k: 7.0e-7
+    vr: -0.06
+    vt: -0.04
+    a: 30.0
+    b: -2.0e-9
+    v_peak: 0.035
+    v_reset: -0.05
+    &#916;u: 1.0e-10
+    v_t0: -0.06
+    u_t0: 0.0
+  &#916;g_multiplier: 0.066
+  seed: 2022
 </pre></div>
 </div>
 </div>
@@ -692,9 +696,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21b__FENS_abstract_17_0.png" src="../_images/2022-02-21b__FENS_abstract_17_0.png">
-</div>
 </div>
 </div>
 <div class="section" id="imaging-noise">
@@ -724,9 +725,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">200</span><span class="n">ms</span><span class="p">,</span><span class="mi">1200</span><span class="n">ms</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Time (s)"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"mV"</span><span class="p">;</span> <span class="n">ax</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21b__FENS_abstract_21_0.png" src="../_images/2022-02-21b__FENS_abstract_21_0.png">
 </div>
 </div>
 </div>
@@ -779,9 +777,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">plotSTA</span><span class="p">(</span><span class="n">presynspikes</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21b__FENS_abstract_26_0.png" src="../_images/2022-02-21b__FENS_abstract_26_0.png">
 </div>
 </div>
 </div>
@@ -904,9 +899,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="sa">L</span><span class="s">"p(\, \mathrm{shuffled\ \overline{STA}} \ &gt; \ \mathrm{actual\ \overline{STA}}\, )"</span><span class="p">;</span> <span class="n">dy</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21b__FENS_abstract_37_0.png" src="../_images/2022-02-21b__FENS_abstract_37_0.png">
 </div>
 </div>
 <p>Proportion of shuffled spike trains for which <code class="docutils literal notranslate"><span class="pre">mean(STA)</span></code> is higher than the unshuffled spike train.</p>
