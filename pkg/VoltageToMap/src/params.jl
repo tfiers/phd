@@ -38,9 +38,9 @@ const realistic_synapses = SynapseParams()
 end
 const cortical_RS = IzhikevichParams()
 
-
 @kwdef struct VoltageImagingParams
-    spike_SNR     ::Float64   = 20
+    spike_SNR     ::Float64   = 10
+    spike_SNR_dB  ::Float64   = 20log10(spike_SNR)   # 1⇒0dB, 10⇒20dB, 100⇒40dB, …
     spike_height  ::Float64
     σ_noise       ::Float64   = spike_height / spike_SNR
 end
@@ -52,7 +52,7 @@ get_voltage_imaging_params(izh::IzhikevichParams, kw...) =
     duration       ::Float64                = 10 * seconds
     Δt             ::Float64                = 0.1 * ms
     num_timesteps  ::Int                    = round(Int, duration / Δt)
-    seed           ::Int                    = 0  # For spike generation
+    seed           ::Int                    = 0  # For spike generation and imaging noise.
     inputs         ::PoissonInputsParams    = realistic_N_6600_inputs
     synapses       ::SynapseParams          = realistic_synapses
     izh_neuron     ::IzhikevichParams       = cortical_RS
