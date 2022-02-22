@@ -1,25 +1,24 @@
 
-
 @kwdef struct PoissonInputsParams
-    N_unconn    ::Int            = 100
-    N_exc       ::Int            = 5200
-    N_inh       ::Int            = N_exc ÷ 4
-    N_conn      ::Int            = N_inh + N_exc
-    N           ::Int            = N_conn + N_unconn
-    spike_rate  ::Distribution   = LogNormal_with_mean(4Hz, √0.6)  # (μₓ, σ)
+    N_unconn     ::Int            = 100
+    N_exc        ::Int            = 5200
+    N_inh        ::Int            = N_exc ÷ 4
+    N_conn       ::Int            = N_inh + N_exc
+    N            ::Int            = N_conn + N_unconn
+    spike_rates  ::Distribution   = LogNormal_with_mean(4Hz, √0.6)  # (μₓ, σ)
 end
-const realistic_input = PoissonInputsParams()
-const N_30_input      = PoissonInputsParams(N_unconn = 9, N_exc = 17)
+const realistic_N_6600_inputs = PoissonInputsParams()
+const previous_N_30_inputs    = PoissonInputsParams(N_unconn = 9, N_exc = 17)
 
 
 @kwdef struct SynapseParams
     Δg_exc         ::Float64   =     0.4 * nS   # Conductance increases on presynaptic spike
     Δg_inh         ::Float64   =     1.6 * nS   #
-    Δg_multiplier  ::Float64   =     1          # Free param: fiddled with until medium number of output spikes.
+    Δg_multiplier  ::Float64   =     1          # Free param: fiddled with until Izh neuron spikes at ~2Hz.
     E_exc          ::Float64   =     0   * mV   # Reversal potentials
     E_inh          ::Float64   =  - 65   * mV   #
     g_t0           ::Float64   =     0   * nS   # Conductances at `t = 0`
-    τ_s            ::Float64   =     7   * ms   # Exponential decay time constant of conductances
+    τ              ::Float64   =     7   * ms   # Time constant of exponential decay of conductances
 end
 const realistic_synapses = SynapseParams()
 
@@ -27,14 +26,14 @@ const realistic_synapses = SynapseParams()
 @kwdef struct IzhikevichParams
     C        ::Float64   =  100    * pF          # cell capacitance
     k        ::Float64   =    0.7  * (nS/mV)     # steepness of dv/dt's parabola
-    vr       ::Float64   = - 60    * mV          # resting v
-    vt       ::Float64   = - 40    * mV          # ~spiking thr
+    v_rest   ::Float64   = - 60    * mV          # resting v
+    v_thr    ::Float64   = - 40    * mV          # ~spiking thr
     a        ::Float64   =    0.03 / ms          # reciprocal of `u`'s time constant
-    b        ::Float64   = -  2    * nS          # how strongly `(v - vr)` increases `u`
+    b        ::Float64   = -  2    * nS          # how strongly `(v - v_rest)` increases `u`
     v_peak   ::Float64   =   35    * mV          # cutoff to define spike
-    v_reset  ::Float64   = - 50    * mV          # ..on spike. `c` in Izh.
-    Δu       ::Float64   =  100    * pA          # ..on spike. `d` in Izh. Free parameter.
-    v_t0     ::Float64   =   vr
+    v_reset  ::Float64   = - 50    * mV          # Reset after spike. `c` in Izh.
+    Δu       ::Float64   =  100    * pA          # Increase on spike. `d` in Izh. Free parameter.
+    v_t0     ::Float64   = v_rest
     u_t0     ::Float64   =    0    * pA
 end
 const cortical_RS = IzhikevichParams()
@@ -46,37 +45,38 @@ const cortical_RS = IzhikevichParams()
     σ_noise       ::Float64   = spike_height / spike_SNR
 end
 get_voltage_imaging_params(izh::IzhikevichParams, kw...) =
-    VoltageImagingParams(spike_height = izh.v_peak - izh.vr; kw...)
+    VoltageImagingParams(spike_height = izh.v_peak - izh.v_rest; kw...)
 
 
 @kwdef struct SimParams
-    duration       ::Float64                = 1.2 * seconds
+    duration       ::Float64                = 10 * seconds
     Δt             ::Float64                = 0.1 * ms
-    seed           ::Int                    = 0          # For spike generation
-    inputs         ::PoissonInputsParams    = realistic_input
+    num_timesteps  ::Int                    = round(Int, duration / Δt)
+    seed           ::Int                    = 0  # For spike generation
+    inputs         ::PoissonInputsParams    = realistic_N_6600_inputs
     synapses       ::SynapseParams          = realistic_synapses
     izh_neuron     ::IzhikevichParams       = cortical_RS
     imaging        ::VoltageImagingParams   = get_voltage_imaging_params(izh_neuron)
-    num_timesteps  ::Int                    = round(Int, duration / Δt)
 end
 
 
 @kwdef struct ConnTestParams
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
-    seed               ::Int       = 0           # For shuffling
+    seed               ::Int       = 0           # For shuffling ISIs
 end
 
 
 @kwdef struct EvaluationParams
     num_tested_neurons_per_group  ::Int   = 40
-    seed                          ::Int   = 0    # For selecting tested neurons.
+    seed                          ::Int   = 0    # For selecting tested neurons
 end
 
 
 @kwdef struct ExperimentParams
-    seed        ::Int                = 2202_2022
+    seed        ::Int                = 22022022
     sim         ::SimParams          = SimParams(; seed)
     conntest    ::ConnTestParams     = ConnTestParams(; seed)
     evaluation  ::EvaluationParams   = EvaluationParams(; seed)
 end
+const params = ExperimentParams()

@@ -1,9 +1,9 @@
 function init_sim(p::SimParams)
 
-    @unpack duration, Δt, num_timesteps, Δg_multiplier, seed   = p
-    @unpack N_unconn, N_exc, N_inh, N_conn, N, spike_rate      = p.inputs
-    @unpack g_t0, τ_s, E_exc, E_inh, Δg_exc, Δg_inh            = p.synapses
-    @unpack v_t0, u_t0                                         = p.izh_neuron
+    @unpack duration, num_timesteps, seed, inputs, synapses, izh_neuron   = p
+    @unpack N_unconn, N_exc, N_inh, N_conn, N                             = inputs
+    @unpack g_t0, E_exc, E_inh, Δg_exc, Δg_inh, Δg_multiplier             = synapses
+    @unpack v_t0, u_t0                                                    = izh_neuron
 
     # IDs, subgroup names.
     input_neuron_IDs = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
@@ -14,7 +14,7 @@ function init_sim(p::SimParams)
 
     # Inter-spike—interval distributions
     λ = similar(input_neuron_IDs, Float64)
-    λ .= rand(spike_rate, length(λ))
+    λ .= rand(inputs.spike_rates, length(λ))
     β = 1 ./ λ
     ISI_distributions = Exponential.(β)
 
@@ -36,8 +36,8 @@ function init_sim(p::SimParams)
 
     # Broadcast scalar parameters
     Δg = similar(synapse_IDs, Float64)
-    Δg.exc .= Δg_multiplier * Δg_exc
-    Δg.inh .= Δg_multiplier * Δg_inh
+    Δg.exc .= Δg_exc * Δg_multiplier
+    Δg.inh .= Δg_inh * Δg_multiplier
     E = similar(synapse_IDs, Float64)
     E.exc .= E_exc
     E.inh .= E_inh
@@ -52,7 +52,7 @@ function init_sim(p::SimParams)
     D.t = 1
 
     # Where to record to
-    v = Vector{Float64}(undef, num_timesteps)
+    v_rec = Vector{Float64}(undef, num_timesteps)
     input_spikes = similar(input_neuron_IDs, Vector{Float64})
     for i in eachindex(input_spikes)
         input_spikes[i] = Vector{Float64}()
@@ -60,7 +60,7 @@ function init_sim(p::SimParams)
 
     return (
         state = (; vars, D, upcoming_input_spikes),
-        rec   = (; v, input_spikes),
         init  = (; ISI_distributions, postsynapses, Δg, E),
+        rec   = (; v = v_rec, input_spikes),
     )
 end

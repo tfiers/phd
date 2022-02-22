@@ -740,7 +740,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "StatsBase"]
+deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"

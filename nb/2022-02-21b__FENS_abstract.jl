@@ -16,8 +16,6 @@
 
 # # 2022-02-21 • FENS 2022 Abstract
 
-# On this beautiful day of our lordess `22022022` (ddmmyyy).
-
 # As usually, the reusable code of the previous notebook 
 # has been added in [`pkg/VoltageToMap/src/`](https://github.com/tfiers/voltage-to-wiring-sim/tree/main/pkg/VoltageToMap/src),
 # and is imported below.
@@ -39,18 +37,16 @@ using VoltageToMap
 
 # Short warm-up run. Get compilation out of the way.
 
-p0 = SimParams(
-    poisson_input = small_N__as_in_Python_2021,
-    sim_duration  = 1 * minutes,
-);
+p0 = params
+@set p0.sim.inputs   = previous_N_30_inputs
+@set p0.sim.duration = 1 * minutes;
 
-@time sim(p0);
+@time sim(p0.sim);
 
-p = SimParams(
-    poisson_input = realistic_input,
-    sim_duration  = 10*minutes,
-    Δg_multiplier = 0.066,
-)
+p = params
+@set p.sim.inputs   = realistic_N_6600_inputs
+@set p.sim.duration = 10 * minutes
+@set p.sim.synapses.Δg_multiplier = 0.06
 dumpc(p)
 
 t, v, input_spikes = @time sim(p);

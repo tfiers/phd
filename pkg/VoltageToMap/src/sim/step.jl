@@ -1,11 +1,10 @@
-function step_sim!(state, rec, i, p::SimParams, init)
+function step_sim!(state, p::SimParams, init, rec, i)
 
-    @unpack vars, D, upcoming_input_spikes           = state
-    @unpack t, v, u, g                               = state.vars
-    @unpack Δt                                       = p
-    @unpack τ_s                                      = p.synapses
-    @unpack C, k, vr, vt, a, b, v_peak, v_reset, Δu  = p.izh_neuron
-    @unpack ISI_distributions, postsynapses, Δg, E   = init
+    @unpack vars, D, upcoming_input_spikes                   = state
+    @unpack t, v, u, g                                       = vars
+    @unpack Δt, synapses, izh_neuron                         = p
+    @unpack C, k, v_rest, v_thr, a, b, v_peak, v_reset, Δu   = izh_neuron
+    @unpack ISI_distributions, postsynapses, Δg, E           = init
 
     # Sum synaptic currents
     I_s = zero(u)
@@ -14,10 +13,10 @@ function step_sim!(state, rec, i, p::SimParams, init)
     end
 
     # Differential equations
-    D.v = (k * (v - vr) * (v - vt) - u - I_s) / C
-    D.u = a * (b * (v - vr) - u)
+    D.v = (k * (v - v_rest) * (v - v_thr) - u - I_s) / C
+    D.u = a * (b * (v - v_rest) - u)
     for i in eachindex(g)
-        D.g[i] = -g[i] / τ_s
+        D.g[i] = -g[i] / synapses.τ
     end
 
     # Euler integration

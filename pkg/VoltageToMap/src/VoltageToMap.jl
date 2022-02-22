@@ -11,8 +11,9 @@ export LogNormal_with_mean
 
 include("params.jl")
 export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
-export PoissonInputsParams, SynapseParams, IzhikevichNeuronParams, VoltageImagingParams
-export realistic_input, N_30_input, realistic_synapses, cortical_RS, get_voltage_imaging_params
+export PoissonInputsParams, SynapseParams, IzhikevichParams, VoltageImagingParams
+export realistic_N_6600_inputs, previous_N_30_inputs, realistic_synapses, cortical_RS,
+       get_voltage_imaging_params, params
 
 include("sim.jl")
 export sim
