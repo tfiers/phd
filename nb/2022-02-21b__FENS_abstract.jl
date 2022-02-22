@@ -183,7 +183,8 @@ length(best_exc), length(best_inh)
 st_exc_i, st_exc = rand(pairs(best_exc))
 st_inh_i, st_inh = rand(pairs(best_inh))
 plotSTA(st_exc)
-plotSTA(st_inh);
+plotSTA(st_inh)
+st_exc_i, st_inh_i
 
 fig, ax = plt.subplots(figsize=(3.4,3))
 function plotdot(y, x, c, jitter=0.28)
@@ -198,10 +199,3 @@ plotdot(p_inh,    3, "C1"); ax.text(3-0.16, -0.1, "inhibitory"; color="C1", ha="
 ax.boxplot([p_exc, p_unconn, p_inh], widths=0.2, medianprops=Dict("color"=>"black"))
 Sciplotlib.set(ax, xlim=(0.33, 3.3), ylim=(0, 1), xaxis=:off)
 hylabel(ax, L"p(\, \mathrm{shuffled\ \overline{STA}} \ > \ \mathrm{actual\ \overline{STA}}\, )"; dy=10);
-
-# Proportion of shuffled spike trains for which `mean(STA)` is higher than the unshuffled spike train.
-#
-# Excitatory (green), unconnected (blue), and inhibitory (orange) input neurons.
-#
-#
-# 10-minute simulation with a total of 6500 connected input neurons.
