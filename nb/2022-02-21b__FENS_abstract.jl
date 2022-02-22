@@ -43,11 +43,13 @@ p0 = params
 
 @time sim(p0.sim);
 
+# + tags=["output_scroll"]
 p = params
 @set p.sim.inputs   = realistic_N_6600_inputs
 @set p.sim.duration = 10 * minutes
 @set p.sim.synapses.Δg_multiplier = 0.06
 dumpc(p)
+# -
 
 t, v, input_spikes = @time sim(p);
 
