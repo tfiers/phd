@@ -1,6 +1,6 @@
 function init_sim(p::SimParams)
 
-    @unpack sim_duration, Δt, num_timesteps, Δg_multiplier, seed = p
+    @unpack duration, Δt, num_timesteps, Δg_multiplier, seed = p
     @unpack N_unconn, N_exc, N_inh, N_conn, N, spike_rate        = p.poisson_input
     @unpack g_t0, τ_s, E_exc, E_inh, Δg_exc, Δg_inh              = p.synapses
     @unpack v_t0, u_t0                                           = p.izh_neuron
@@ -44,7 +44,7 @@ function init_sim(p::SimParams)
 
     # Allocate memory to be repeatedly overwritten
     vars = similar(var_IDs, Float64)
-    vars.t = zero(sim_duration)
+    vars.t = zero(duration)
     vars.v = v_t0
     vars.u = u_t0
     vars.g .= g_t0

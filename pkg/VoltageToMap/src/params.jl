@@ -35,9 +35,9 @@ end
 const cortical_RS = IzhNeuronParams()
 
 @kwdef struct SimParams
-    sim_duration  ::Float64            = 1.2 * seconds
+    duration      ::Float64            = 1.2 * seconds
     Δt            ::Float64            = 0.1 * ms
-    num_timesteps ::Int                = round(Int, sim_duration / Δt)
+    num_timesteps ::Int                = round(Int, duration / Δt)
     poisson_input ::PoissonInputParams = realistic_input
     synapses      ::SynapseParams      = semi_arbitrary_synaptic_params
     izh_neuron    ::IzhNeuronParams    = cortical_RS
