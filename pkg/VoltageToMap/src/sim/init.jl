@@ -1,9 +1,9 @@
 function init_sim(p::SimParams)
 
-    @unpack duration, Δt, num_timesteps, Δg_multiplier, seed = p
-    @unpack N_unconn, N_exc, N_inh, N_conn, N, spike_rate        = p.poisson_input
-    @unpack g_t0, τ_s, E_exc, E_inh, Δg_exc, Δg_inh              = p.synapses
-    @unpack v_t0, u_t0                                           = p.izh_neuron
+    @unpack duration, Δt, num_timesteps, Δg_multiplier, seed   = p
+    @unpack N_unconn, N_exc, N_inh, N_conn, N, spike_rate      = p.inputs
+    @unpack g_t0, τ_s, E_exc, E_inh, Δg_exc, Δg_inh            = p.synapses
+    @unpack v_t0, u_t0                                         = p.izh_neuron
 
     # IDs, subgroup names.
     input_neuron_IDs = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)

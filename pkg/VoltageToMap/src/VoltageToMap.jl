@@ -10,10 +10,9 @@ include("misc.jl")
 export LogNormal_with_mean
 
 include("params.jl")
-export PoissonInputParams, realistic_input, small_N__as_in_Python_2021
-export SynapseParams, semi_arbitrary_synaptic_params
-export IzhNeuronParams, cortical_RS
-export SimParams
+export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
+export PoissonInputsParams, SynapseParams, IzhikevichNeuronParams, VoltageImagingParams
+export realistic_input, N_30_input, realistic_synapses, cortical_RS, get_voltage_imaging_params
 
 include("sim.jl")
 export sim
