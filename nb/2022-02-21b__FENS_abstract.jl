@@ -14,17 +14,21 @@
 #     name: julia-1.7
 # ---
 
-# # 2022-02-21 • Image, window, test
+# # 2022-02-21 • FENS 2022 Abstract
 
-# The simulation code of the previous notebook has been added to `pkg/VoltageToMap/src/`, and is imported below.
+# On this beautiful day of our lordess `22022022` (ddmmyyy).
+
+# As usually, the reusable code of the previous notebook 
+# has been added in [`pkg/VoltageToMap/src/`](https://github.com/tfiers/voltage-to-wiring-sim/tree/main/pkg/VoltageToMap/src),
+# and is imported below.
 
 # ## Setup
 
 # +
-# using Pkg; Pkg.resolve()
+# 
 # -
 
-using Revise
+using Revise  # Reloads src code without having to restart kernel
 
 using MyToolbox
 
@@ -37,7 +41,7 @@ using VoltageToMap
 
 p0 = SimParams(
     poisson_input = small_N__as_in_Python_2021,
-    sim_duration  = 1*minutes
+    sim_duration  = 1 * minutes,
 );
 
 @time sim(p0);
@@ -47,7 +51,7 @@ p = SimParams(
     sim_duration  = 10*minutes,
     Δg_multiplier = 0.066,
 )
-dump(p)  # more descriptive (names, not just values) but also taking more space.
+dumpc(p)
 
 t, v, input_spikes = @time sim(p);
 
