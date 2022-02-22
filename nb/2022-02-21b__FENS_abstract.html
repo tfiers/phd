@@ -525,7 +525,6 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="section" id="fens-2022-abstract">
 <h1>2022-02-21 &#8226; FENS 2022 Abstract<a class="headerlink" href="#fens-2022-abstract" title="Permalink to this headline">&#182;</a></h1>
-<p>On this beautiful day of our lordess <code class="docutils literal notranslate"><span class="pre">22022022</span></code> (ddmmyyy).</p>
 <p>As usually, the reusable code of the previous notebook
 has been added in <a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/main/pkg/VoltageToMap/src"><code class="docutils literal notranslate"><span class="pre">pkg/VoltageToMap/src/</span></code></a>,
 and is imported below.</p>
@@ -565,73 +564,84 @@ and is imported below.</p>
 <p>Short warm-up run. Get compilation out of the way.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
-    <span class="n">poisson_input</span> <span class="o">=</span> <span class="n">small_N__as_in_Python_2021</span><span class="p">,</span>
-    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
-<span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="n">params</span>
+<span class="nd">@set</span> <span class="n">p0</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">inputs</span>   <span class="o">=</span> <span class="n">previous_N_30_inputs</span>
+<span class="nd">@set</span> <span class="n">p0</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p0</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p0</span><span class="o">.</span><span class="n">sim</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
-  3.767235 seconds (8.85 M allocations: 569.595 MiB, 5.44% gc time, 94.34% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+  4.219216 seconds (4.74 M allocations: 361.029 MiB, 2.70% gc time, 43.22% compilation time)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
-    <span class="n">poisson_input</span> <span class="o">=</span> <span class="n">realistic_input</span><span class="p">,</span>
-    <span class="n">sim_duration</span>  <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">minutes</span><span class="p">,</span>
-    <span class="n">&#916;g_multiplier</span> <span class="o">=</span> <span class="mf">0.066</span><span class="p">,</span>
-<span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">params</span>
+<span class="nd">@set</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">inputs</span>   <span class="o">=</span> <span class="n">realistic_N_6600_inputs</span>
+<span class="nd">@set</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span>
+<span class="nd">@set</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">synapses</span><span class="o">.</span><span class="n">&#916;g_multiplier</span> <span class="o">=</span> <span class="mf">0.06</span>
 <span class="n">dumpc</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimParams
-  sim_duration: 600.0
-  &#916;t: 0.0001
-  num_timesteps: 6000000
-  poisson_input: PoissonInputParams
-    N_unconn: 100
-    N_exc: 5200
-    N_inh: 1300
-    N_conn: 6500
-    N: 6600
-    spike_rate: LogNormal
-      &#956;: 1.08629
-      &#963;: 0.774597
-  synapses: SynapseParams
-    g_t0: 0.0
-    &#964;_s: 0.007
-    E_exc: 0.0
-    E_inh: -0.065
-    &#916;g_exc: 4.0e-10
-    &#916;g_inh: 1.6e-9
-  izh_neuron: IzhNeuronParams
-    C: 1.0e-10
-    k: 7.0e-7
-    vr: -0.06
-    vt: -0.04
-    a: 30.0
-    b: -2.0e-9
-    v_peak: 0.035
-    v_reset: -0.05
-    &#916;u: 1.0e-10
-    v_t0: -0.06
-    u_t0: 0.0
-  &#916;g_multiplier: 0.066
-  seed: 2022
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
+  seed: 22022022
+  sim: SimParams
+    duration: 10.0
+    &#916;t: 0.0001
+    seed: 22022022
+    inputs: PoissonInputsParams
+      N_unconn: 100
+      N_exc: 5200
+      N_inh: 1300
+      N_conn: 6500
+      N: 6600
+      spike_rates: LogNormal
+        &#956;: 1.08629
+        &#963;: 0.774597
+    synapses: SynapseParams
+      &#916;g_exc: 4.0e-10
+      &#916;g_inh: 1.6e-9
+      &#916;g_multiplier: 1.0
+      E_exc: 0.0
+      E_inh: -0.065
+      g_t0: 0.0
+      &#964;: 0.007
+    izh_neuron: IzhikevichParams
+      C: 1.0e-10
+      k: 7.0e-7
+      v_rest: -0.06
+      v_thr: -0.04
+      a: 30.0
+      b: -2.0e-9
+      v_peak: 0.035
+      v_reset: -0.05
+      &#916;u: 1.0e-10
+      v_t0: -0.06
+      u_t0: 0.0
+    imaging: VoltageImagingParams
+      spike_SNR: 20.0
+      spike_height: 0.095
+      &#963;_noise: 0.00475
+    num_timesteps: 100000
+  conntest: ConnTestParams
+    STA_window_length: 0.1
+    num_shuffles: 100
+    seed: 22022022
+  evaluation: EvaluationParams
+    num_tested_neurons_per_group: 40
+    seed: 22022022
 </pre></div>
 </div>
 </div>
