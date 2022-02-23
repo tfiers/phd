@@ -52,7 +52,7 @@ get_voltage_imaging_params(izh::IzhikevichParams, kw...) =
     duration       ::Float64                = 10 * seconds
     Δt             ::Float64                = 0.1 * ms
     num_timesteps  ::Int                    = round(Int, duration / Δt)
-    seed           ::Int                    = 0  # For spike generation and imaging noise.
+    rngseed        ::Int                    = 0  # For spike generation and imaging noise.
     inputs         ::PoissonInputsParams    = realistic_N_6600_inputs
     synapses       ::SynapseParams          = realistic_synapses
     izh_neuron     ::IzhikevichParams       = cortical_RS
@@ -63,20 +63,20 @@ end
 @kwdef struct ConnTestParams
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
-    seed               ::Int       = 0           # For shuffling ISIs
+    rngseed            ::Int       = 0           # For shuffling ISIs
 end
 
 
 @kwdef struct EvaluationParams
     num_tested_neurons_per_group  ::Int   = 40
-    seed                          ::Int   = 0    # For selecting tested neurons
+    rngseed                       ::Int   = 0    # For selecting tested neurons
 end
 
 
 @kwdef struct ExperimentParams
-    seed        ::Int                = 22022022
-    sim         ::SimParams          = SimParams(; seed)
-    conntest    ::ConnTestParams     = ConnTestParams(; seed)
-    evaluation  ::EvaluationParams   = EvaluationParams(; seed)
+    rngseed     ::Int                = 22022022
+    sim         ::SimParams          = SimParams(; rngseed)
+    conntest    ::ConnTestParams     = ConnTestParams(; rngseed)
+    evaluation  ::EvaluationParams   = EvaluationParams(; rngseed)
 end
 const params = ExperimentParams()
