@@ -4,6 +4,6 @@
 [submodule "code/dev/WhatIsHappening"]
 	path = pkg/WhatIsHappening
 	url = git@github.com:tfiers/WhatIsHappening.jl.git
-[submodule "code/dev/MyToolbox"]
+[submodule "pkg/MyToolbox"]
 	path = pkg/MyToolbox
 	url = git@github.com:tfiers/MyToolbox.jl.git
