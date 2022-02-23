@@ -15,7 +15,7 @@ sphinx:
 
 repository:
   url: https://github.com/tfiers/voltage-to-wiring-sim
-  path_to_book: website
+  path_to_book: web
   branch: main
 
 execute:
