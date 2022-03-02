@@ -29,8 +29,8 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
 1. You need a version of Julia `∈ [1.7, 2)`.  
   [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
 
-2. <details>
-   <summary>
+2. <details><summary>
+   
    `git clone` this repository with the `--recurse-submodules` option,  
    and `cd` into the new directory.
    </summary>
@@ -39,8 +39,8 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
    in this repository (see [`pkg/`](pkg/)) are cloned as well.
    </details>
 
-3. <details>
-   <summary>
+3. <details><summary>
+   
    Choose a Julia notebook to run.  
    If it is one of the newest notebooks, the rest of this step can be skipped.  
    If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.
@@ -55,10 +55,10 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
      to its former, working state for the notebook.
     </details>
 
-4. <details>
-   <summary>
-   In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).
-   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.
+4. <details><summary>
+  
+   In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).  
+   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.  
    This might need a shell with admin access.
    </summary>
    
@@ -68,8 +68,8 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
      run `julia setup.jl` in the terminal.
    </details>
 
-5. <details>
-   <summary>
+5. <details><summary>
+  
    Start a Jupyter server.
    </summary>
    
@@ -81,7 +81,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
 
 You should now be able to run all cells in the notebook.
 
-_Last time these instructions were tested (on a fresh system):_ [a few weeks before today, March 2<sup>nd</sup> 2022].
+_Last time these instructions were tested on a fresh system:_ [a few weeks before today, March 2<sup>nd</sup> 2022].
 
 
 ### Python
