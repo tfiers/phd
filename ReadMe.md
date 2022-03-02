@@ -30,8 +30,9 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
   [Download](https://julialang.org/downloads/) and run an installer for your OS if needed.
 
 2. <details><summary>
-   
-   `git clone` this repository with the `--recurse-submodules` option,  
+   Download this repository. 
+  
+   `git clone` this repository's url with the `--recurse-submodules` option,  
    and `cd` into the new directory.
    </summary>
 
@@ -40,8 +41,8 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
    </details>
 
 3. <details><summary>
-   
-   Choose a Julia notebook to run.  
+   Choose a Julia notebook to run.
+  
    If it is one of the newest notebooks, the rest of this step can be skipped.  
    If not, copy the hash of the last commit to the notebook file, and `git checkout` this commit.
    </summary>
@@ -56,9 +57,10 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
     </details>
 
 4. <details><summary>
+   Install dependencies.
   
    In the root directory, enter Julia [Pkg mode](https://docs.julialang.org/en/v1/stdlib/REPL/#Pkg-mode).  
-   Then run `activate .` (note the dot) and `instantiate` to install all dependencies.  
+   Then run `activate .` (note the dot) and `instantiate`.  
    This might need a shell with admin access.
    </summary>
    
@@ -69,7 +71,6 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
    </details>
 
 5. <details><summary>
-  
    Start a Jupyter server.
    </summary>
    
