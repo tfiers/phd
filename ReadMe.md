@@ -87,6 +87,6 @@ _Last time these instructions were tested on a fresh system:_ [a few weeks befor
 
 ### Python
 
-Check out the following version of this repository and its ReadMe  
+Check out the following version of this repository and this ReadMe  
 for instructions on how to reproduce the older, Python notebooks:  
-> 👉 [commit `56bc7f6`, Jan 8, 2022](https://github.com/tfiers/voltage-to-wiring-sim/tree/56bc7f6)
+> 👉 [Repository @ commit `56bc7f6` (Jan 8, 2022)](https://github.com/tfiers/voltage-to-wiring-sim/tree/56bc7f6)
