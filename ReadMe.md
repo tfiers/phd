@@ -1,6 +1,6 @@
 # Voltage-to-wiring, the simulation
 
-*In-vivo* connectomics — mapping the wires between neurons based on voltage imaging recordings.  
+*In-vivo* connectomics — mapping the wires between neurons based on [voltage imaging](https://www.youtube.com/watch?v=FryqOCMyByA&t=20s) recordings.  
 Proof of concept simulation.
 
 For rendered notebooks with results:
