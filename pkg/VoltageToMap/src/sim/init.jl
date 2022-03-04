@@ -42,14 +42,15 @@ function init_sim(p::SimParams)
     E.exc .= E_exc
     E.inh .= E_inh
 
-    # Allocate memory to be repeatedly overwritten
+    # Allocate memory to be overwritten every simulation step;
+    # namely for the simulated variables and their time derivatives.
     vars = similar(var_IDs, Float64)
     vars.t = zero(duration)
     vars.v = v_t0
     vars.u = u_t0
     vars.g .= g_t0
-    D = similar(vars)
-    D.t = 1
+    diff = similar(vars)  # = ∂x/∂t for every x in `vars`
+    diff.t = 1 * s/s
 
     # Where to record to
     v_rec = Vector{Float64}(undef, num_timesteps)
@@ -59,7 +60,7 @@ function init_sim(p::SimParams)
     end
 
     return (
-        state = (; vars, D, upcoming_input_spikes),
+        state = (; vars, diff, upcoming_input_spikes),
         init  = (; ISI_distributions, postsynapses, Δg, E),
         rec   = (; v = v_rec, input_spikes),
     )

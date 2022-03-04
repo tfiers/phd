@@ -1,6 +1,6 @@
 function step_sim!(state, p::SimParams, init, rec, i)
 
-    @unpack vars, D, upcoming_input_spikes                   = state
+    @unpack vars, diff, upcoming_input_spikes                = state
     @unpack t, v, u, g                                       = vars
     @unpack Δt, synapses, izh_neuron                         = p
     @unpack C, k, v_rest, v_thr, a, b, v_peak, v_reset, Δu   = izh_neuron
@@ -13,14 +13,14 @@ function step_sim!(state, p::SimParams, init, rec, i)
     end
 
     # Differential equations
-    D.v = (k * (v - v_rest) * (v - v_thr) - u - I_s) / C
-    D.u = a * (b * (v - v_rest) - u)
+    diff.v = (k * (v - v_rest) * (v - v_thr) - u - I_s) / C
+    diff.u = a * (b * (v - v_rest) - u)
     for i in eachindex(g)
-        D.g[i] = -g[i] / synapses.τ
+        diff.g[i] = -g[i] / synapses.τ
     end
 
     # Euler integration
-    @. vars += D * Δt
+    @. vars += diff * Δt
 
     # Izhikevich neuron spiking threshold
     if v ≥ v_peak
@@ -32,8 +32,8 @@ function step_sim!(state, p::SimParams, init, rec, i)
     rec.v[i] = v
 
     # Input spikes
-    next_input_spike_time = peek(upcoming_input_spikes).second  # (`.first` is neuron ID).
-    if t ≥ next_input_spike_time
+    t_next_input_spike = peek(upcoming_input_spikes).second  # (.first is neuron ID).
+    if t ≥ t_next_input_spike
         n = dequeue!(upcoming_input_spikes)  # ID of the fired input neuron
         push!(rec.input_spikes[n], t)
         for s in postsynapses[n]
