@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-02-21 &#8226; Image, window, test &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-03-02 &#8226; Factor out conntest &amp; eval code &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2022-02-21__image_window_test.html">
+    <link rel="canonical" href="https://tfiers.github.io/voltage-to-wiring-sim/nb/2022-03-02__factor_out_conntest_eval.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
-    <link rel="prev" title="2022-02-21 &#8226; FENS 2022 Abstract" href="2022-02-21b__FENS_abstract.html">
+    <link rel="next" title="2022-02-21 &#8226; Build jb toc automatically" href="2022-02-21__autobuild_jb_toc.html">
+    <link rel="prev" title="Intro" href="../unpolished_intro.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -105,14 +105,14 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
    2022-02-21 &#8226; FENS 2022 Abstract
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
    2022-02-21 &#8226; Image, window, test
   </a>
  </li>
@@ -247,14 +247,14 @@ const thebe_selector_output = ".output, .cell_output"
   Unpolished Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../unpolished_intro.html">
    Intro
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="2022-03-02__factor_out_conntest_eval.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2022-03-02 &#8226; Factor out conntest &amp; eval code
   </a>
  </li>
@@ -388,7 +388,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2022-03-02__factor_out_conntest_eval.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -400,8 +400,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/voltage-to-wiring-sim"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2022-02-21__image_window_test.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/web/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/voltage-to-wiring-sim/issues/new?title=Issue%20on%20page%20%2Fnb/2022-03-02__factor_out_conntest_eval.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/voltage-to-wiring-sim/edit/main/web/nb/2022-03-02__factor_out_conntest_eval.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -415,7 +415,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/web/nb/2022-02-21__image_window_test.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/web/nb/2022-03-02__factor_out_conntest_eval.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -479,7 +479,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-02-21 &#8226; Image, window, test</h1>
+                <h1>2022-03-02 &#8226; Factor out conntest &amp; eval code</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -533,14 +533,13 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="image-window-test">
-<h1>2022-02-21 &#8226; Image, window, test<a class="headerlink" href="#image-window-test" title="Permalink to this headline">&#182;</a></h1>
-<p>The simulation code of the previous notebook has been added to <code class="docutils literal notranslate"><span class="pre">pkg/VoltageToMap/src/</span></code>, and is imported below.</p>
+  <div class="section" id="factor-out-conntest-eval-code">
+<h1>2022-03-02 &#8226; Factor out conntest &amp; eval code<a class="headerlink" href="#factor-out-conntest-eval-code" title="Permalink to this headline">&#182;</a></h1>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Pkg; Pkg.resolve()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
 </pre></div>
 </div>
 </div>
@@ -586,11 +585,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.684890 seconds (7.23 M allocations: 482.248 MiB, 5.31% gc time, 93.64% compilation time)
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -603,44 +597,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SimParams
-  sim_duration: Float64 600.0
-  &#916;t: Float64 0.0001
-  num_timesteps: Int64 6000000
-  poisson_input: PoissonInputParams
-    N_unconn: Int64 100
-    N_exc: Int64 5200
-    N_inh: Int64 1300
-    N_conn: Int64 6500
-    N: Int64 6600
-    spike_rate: Distributions.LogNormal{Float64}
-      &#956;: Float64 1.0862943611198905
-      &#963;: Float64 0.7745966692414834
-  synapses: SynapseParams
-    g_t0: Float64 0.0
-    &#964;_s: Float64 0.007
-    E_exc: Float64 0.0
-    E_inh: Float64 -0.065
-    &#916;g_exc: Float64 4.0000000000000007e-10
-    &#916;g_inh: Float64 1.6000000000000003e-9
-  izh_neuron: IzhNeuronParams
-    C: Float64 1.0e-10
-    k: Float64 7.0e-7
-    vr: Float64 -0.06
-    vt: Float64 -0.04
-    a: Float64 30.0
-    b: Float64 -2.0e-9
-    v_peak: Float64 0.035
-    v_reset: Float64 -0.05
-    &#916;u: Float64 1.0e-10
-    v_t0: Float64 -0.06
-    u_t0: Float64 0.0
-  &#916;g_multiplier: Float64 0.066
-  seed: Int64 2022
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -648,23 +604,10 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:51</span>mmm9mmmm9mmmmm
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>173.195922 seconds (24.14 M allocations: 2.302 GiB, 0.28% gc time, 1.40% compilation time)
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">input_spikes</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Int64}(conn = (exc = [931, 526, 658, 1256, 1091, 381, 622, 356, 877, 854  &#8230;  1133, 621, 575, 861, 717, 654, 887, 1198, 849, 895], inh = [887, 898, 816, 637, 1227, 1076, 1096, 634, 538, 518  &#8230;  569, 1182, 721, 882, 1271, 984, 793, 769, 333, 1259]), unconn = [1404, 881, 992, 1227, 951, 632, 1242, 1004, 810, 716  &#8230;  518, 309, 1253, 617, 1221, 646, 1502, 1047, 693, 586])
 </pre></div>
 </div>
 </div>
@@ -702,9 +645,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21__image_window_test_17_0.png" src="../_images/2022-02-21__image_window_test_17_0.png">
-</div>
 </div>
 </div>
 <div class="section" id="imaging-noise">
@@ -734,9 +674,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">200</span><span class="n">ms</span><span class="p">,</span><span class="mi">1200</span><span class="n">ms</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Time (s)"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"mV"</span><span class="p">;</span> <span class="n">ax</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21__image_window_test_21_0.png" src="../_images/2022-02-21__image_window_test_21_0.png">
 </div>
 </div>
 </div>
@@ -790,9 +727,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21__image_window_test_26_0.png" src="../_images/2022-02-21__image_window_test_26_0.png">
-</div>
 </div>
 </div>
 <div class="section" id="test-connection">
@@ -810,11 +744,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">to_spiketimes!</span><span class="p">(</span><span class="n">ISIs</span><span class="p">)</span> <span class="o">=</span> <span class="n">cumsum!</span><span class="p">(</span><span class="n">ISIs</span><span class="p">,</span> <span class="n">ISIs</span><span class="p">)</span>                   <span class="c"># in place</span>
 
 <span class="p">(</span><span class="n">presynspikes</span> <span class="o">|&gt;</span> <span class="n">to_ISIs</span> <span class="o">|&gt;</span> <span class="n">to_spiketimes!</span><span class="p">)</span> <span class="o">&#8776;</span> <span class="n">presynspikes</span>   <span class="c"># test</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>true
 </pre></div>
 </div>
 </div>
@@ -887,15 +816,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Average p(shuffled trains with higher mean).
-(N = 40 input spike trains per category)
-........................................  excitatory: 0.416
-........................................  inhibitory: 0.716
-........................................ unconnected: 0.508
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -914,9 +834,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="sa">L</span><span class="s">"p(\, \mathrm{shuffled\ \overline{STA}} \ &gt; \ \mathrm{actual\ \overline{STA}}\, )"</span><span class="p">;</span> <span class="n">dy</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-02-21__image_window_test_37_0.png" src="../_images/2022-02-21__image_window_test_37_0.png">
 </div>
 </div>
 <p>Proportion of shuffled spike trains for which <code class="docutils literal notranslate"><span class="pre">mean(STA)</span></code> is higher than the unshuffled spike train.</p>
@@ -950,17 +867,17 @@ const thebe_selector_output = ".output, .cell_output"
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2022-02-21b__FENS_abstract.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../unpolished_intro.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2022-02-21 &#8226; FENS 2022 Abstract</p>
+            <p class="prev-next-title">Intro</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2022-02-20__vanilla_julia_fixed_dt_solver.html" title="next page">
+    <a class="right-next" id="next-link" href="2022-02-21__autobuild_jb_toc.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia</p>
+        <p class="prev-next-title">2022-02-21 &#8226; Build jb toc automatically</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
