@@ -1,10 +1,10 @@
-function step_sim!(state, p::SimParams, init, rec, i)
+function step_sim!(state, params::SimParams, rec, i)
 
-    @unpack vars, diff, upcoming_input_spikes                = state
+    @unpack ISI_distributions, postsynapses, Δg, E           = state.fixed_at_init
+    @unpack vars, diff, upcoming_input_spikes                = state.variable_in_time
     @unpack t, v, u, g                                       = vars
-    @unpack Δt, synapses, izh_neuron                         = p
+    @unpack Δt, synapses, izh_neuron                         = params
     @unpack C, k, v_rest, v_thr, a, b, v_peak, v_reset, Δu   = izh_neuron
-    @unpack ISI_distributions, postsynapses, Δg, E           = init
 
     # Sum synaptic currents
     I_s = zero(u)

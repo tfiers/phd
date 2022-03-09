@@ -60,8 +60,10 @@ function init_sim(p::SimParams)
     end
 
     return (
-        state = (; vars, diff, upcoming_input_spikes),
-        init  = (; ISI_distributions, postsynapses, Δg, E),
-        rec   = (; v = v_rec, input_spikes),
+        state = (
+            fixed_at_init    = (; ISI_distributions, postsynapses, Δg, E),
+            variable_in_time = (; vars, diff, upcoming_input_spikes),
+        ),
+        rec   = (v = v_rec; input_spikes),
     )
 end
