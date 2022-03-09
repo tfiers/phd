@@ -30,6 +30,8 @@
 - part: Unpolished Notebooks
   chapters:
     - file: unpolished_intro
+    - file: nb/2022-03-02__factor_out_conntest_eval
+    - file: nb/2022-02-21__autobuild_jb_toc
     - file: nb/2022-02-18__scale_up_N_and_duration
     - file: nb/2022-01-04__Hello_Julia
     - file: nb/2021-11-18__prototype_new_sim
