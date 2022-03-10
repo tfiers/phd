@@ -6,9 +6,9 @@ function init_sim(p::SimParams)
     @unpack v_t0, u_t0                                                    = izh_neuron
 
     # IDs, subgroup names.
-    input_neuron_IDs = IDVec(:conn = (:exc = N_exc, :inh = N_inh), :unconn = N_unconn)
-    synapse_IDs      = IDVec(:exc = N_exc, :inh = N_inh)
-    var_IDs          = IDVec(:t, :v, :u, :g = similar(synapse_IDs))
+    input_neuron_IDs = IDVec(conn = (exc = N_exc, inh = N_inh), unconn = N_unconn)
+    synapse_IDs      = IDVec(exc = N_exc, inh = N_inh)
+    var_IDs          = IDVec(t = nothing, v = nothing, u = nothing, g = similar(synapse_IDs))
 
     resetrng!(seed)
 
