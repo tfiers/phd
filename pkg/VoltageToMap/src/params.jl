@@ -10,6 +10,7 @@ Base, because the latter does not automatically calculate dependent fields (like
 + N_unconn`) when creating a struct with non-default parameter values.
 """
 
+
 @with_kw struct PoissonInputsParams
     N_unconn     ::Int            = 100
     N_exc        ::Int            = 5200
@@ -22,6 +23,7 @@ const realistic_N_6600_inputs = PoissonInputsParams()
 const previous_N_30_inputs    = PoissonInputsParams(N_unconn = 9, N_exc = 17)
 
 
+
 @with_kw struct SynapseParams @deftype Float64
     Δg_exc         =     0.4 * nS   # Conductance increases on presynaptic spike
     Δg_inh         =     1.6 * nS   #
@@ -32,6 +34,7 @@ const previous_N_30_inputs    = PoissonInputsParams(N_unconn = 9, N_exc = 17)
     τ              =     7   * ms   # Time constant of exponential decay of conductances
 end
 const realistic_synapses = SynapseParams()
+
 
 
 @with_kw struct IzhikevichParams @deftype Float64
@@ -49,6 +52,8 @@ const realistic_synapses = SynapseParams()
 end
 const cortical_RS = IzhikevichParams()
 
+
+
 @with_kw struct VoltageImagingParams @deftype Float64
     spike_SNR      = 10
     spike_SNR_dB   = 20log10(spike_SNR)   # 1 ⇒ 0dB,  10 ⇒ 20dB,  100 ⇒ 40dB,  …
@@ -63,6 +68,7 @@ get_VI_params_for(izh::IzhikevichParams, kw...) =
     )
 
 
+
 @with_kw struct SimParams
     duration       ::Float64                = 10 * seconds
     Δt             ::Float64                = 0.1 * ms
@@ -75,6 +81,7 @@ get_VI_params_for(izh::IzhikevichParams, kw...) =
 end
 
 
+
 @with_kw struct ConnTestParams
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
@@ -82,10 +89,12 @@ end
 end
 
 
+
 @with_kw struct EvaluationParams
     num_tested_neurons_per_group  ::Int   = 40
     rngseed                       ::Int   = 0    # For selecting tested neurons
 end
+
 
 
 @with_kw struct ExperimentParams
