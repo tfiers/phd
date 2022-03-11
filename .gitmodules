@@ -1,7 +1,7 @@
-[submodule "code/dev/Sciplotlib"]
+[submodule "pkg/Sciplotlib"]
 	path = pkg/Sciplotlib
 	url = git@github.com:tfiers/Sciplotlib.jl.git
-[submodule "code/dev/WhatIsHappening"]
+[submodule "pkg/WhatIsHappening"]
 	path = pkg/WhatIsHappening
 	url = git@github.com:tfiers/WhatIsHappening.jl.git
 [submodule "pkg/MyToolbox"]
