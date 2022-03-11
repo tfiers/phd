@@ -11,7 +11,7 @@ Base, because the latter does not automatically calculate dependent fields (like
 """
 
 
-@with_kw struct PoissonInputsParams
+@with_kw struct PoissonInputParams
     N_unconn     ::Int            = 100
     N_exc        ::Int            = 5200
     N_inh        ::Int            = N_exc ÷ 4
@@ -19,8 +19,8 @@ Base, because the latter does not automatically calculate dependent fields (like
     N            ::Int            = N_conn + N_unconn
     spike_rates  ::Distribution   = LogNormal_with_mean(4Hz, √0.6)  # (μₓ, σ)
 end
-const realistic_N_6600_inputs = PoissonInputsParams()
-const previous_N_30_inputs    = PoissonInputsParams(N_unconn = 9, N_exc = 17)
+const realistic_N_6600_input = PoissonInputParams()
+const previous_N_30_input    = PoissonInputParams(N_unconn = 9, N_exc = 17)
 
 
 
@@ -74,7 +74,7 @@ get_VI_params_for(izh::IzhikevichParams, kw...) =
     Δt             ::Float64                = 0.1 * ms
     num_timesteps  ::Int                    = round(Int, duration / Δt)
     rngseed        ::Int                    = 0  # For spike generation and imaging noise.
-    inputs         ::PoissonInputsParams    = realistic_N_6600_inputs
+    input          ::PoissonInputParams     = realistic_N_6600_input
     synapses       ::SynapseParams          = realistic_synapses
     izh_neuron     ::IzhikevichParams       = cortical_RS
     imaging        ::VoltageImagingParams   = get_VI_params_for(izh_neuron)

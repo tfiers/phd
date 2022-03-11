@@ -34,19 +34,18 @@ using VoltageToMap
 # Short warm-up run. Get compilation out of the way.
 
 p0 = SimParams(
-    inputs = previous_N_30_inputs,
+    input = previous_N_30_input,
     duration = 1*minutes,
 );
 
 @time sim(p0);
 
 p = SimParams(
-    inputs = realistic_N_6600_inputs,
+    input = realistic_N_6600_input,
     duration = 10*minutes,
-    synapses = S
-    Δg_multiplier = 0.066,
+    synapses = SynapseParams(Δg_multiplier = 0.066),
 )
-dump(p)  # more descriptive (names, not just values) but also taking more space.
+dumpc(p)
 
 t, v, input_spikes = @time sim(p);
 
