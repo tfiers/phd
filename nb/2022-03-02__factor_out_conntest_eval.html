@@ -564,6 +564,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="params-sim">
@@ -585,7 +590,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3.444051 seconds (6.22 M allocations: 358.928 MiB, 3.57% gc time, 98.33% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.909054 seconds (6.19 M allocations: 356.430 MiB, 4.47% gc time, 98.22% compilation time)
 </pre></div>
 </div>
 </div>
@@ -660,8 +665,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:03</span>
-  6.321853 seconds (6.35 M allocations: 449.585 MiB, 6.21% gc time, 53.71% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+  2.195476 seconds (448.48 k allocations: 127.176 MiB, 5.48% gc time)
 </pre></div>
 </div>
 </div>
@@ -690,28 +695,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Sciplotlib</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [61be95e5-9550-4d5f-a203-92a5acbc3116]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">""" tzoom = [200ms, 600ms] e.g. """</span>
-<span class="k">function</span> <span class="n">plotsig</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">tzoom</span> <span class="o">=</span> <span class="nb">nothing</span><span class="p">;</span> <span class="n">ax</span> <span class="o">=</span> <span class="nb">nothing</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">isnothing</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">tzoom</span> <span class="o">=</span> <span class="n">t</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="k">end</span><span class="p">]])</span>
-    <span class="n">izoom</span> <span class="o">=</span> <span class="n">first</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span> <span class="o">.&#8804;</span> <span class="n">t</span> <span class="o">.&#8804;</span> <span class="n">last</span><span class="p">(</span><span class="n">tzoom</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">isnothing</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-        <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">izoom</span><span class="p">],</span> <span class="n">sig</span><span class="p">[</span><span class="n">izoom</span><span class="p">];</span> <span class="n">clip_on</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="k">else</span>
-        <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">izoom</span><span class="p">],</span> <span class="n">sig</span><span class="p">[</span><span class="n">izoom</span><span class="p">],</span> <span class="n">ax</span><span class="p">;</span> <span class="n">clip_on</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="k">end</span>
-<span class="k">end</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
 </pre></div>
 </div>
 </div>
@@ -723,7 +707,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-03-02__factor_out_conntest_eval_17_0.png" src="../_images/2022-03-02__factor_out_conntest_eval_17_0.png">
+<img alt="../_images/2022-03-02__factor_out_conntest_eval_16_0.png" src="../_images/2022-03-02__factor_out_conntest_eval_16_0.png">
 </div>
 </div>
 </div>
