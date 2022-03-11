@@ -1246,7 +1246,7 @@ uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.2.0"
 
 [[deps.VoltageToMap]]
-deps = ["CPUSummary", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Reexport", "Sciplotlib"]
+deps = ["CPUSummary", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Sciplotlib"]
 path = "pkg/VoltageToMap"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"

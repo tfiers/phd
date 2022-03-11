@@ -53,18 +53,7 @@ num_spikes = length.(input_spikes)
 
 import PyPlot
 
-using Sciplotlib
-
-""" tzoom = [200ms, 600ms] e.g. """
-function plotsig(t, sig, tzoom = nothing; ax = nothing, clip_on=false, kw...)
-    isnothing(tzoom) && (tzoom = t[[1, end]])
-    izoom = first(tzoom) .≤ t .≤ last(tzoom)
-    if isnothing(ax)
-        plot(t[izoom], sig[izoom]; clip_on, kw...)
-    else
-        plot(t[izoom], sig[izoom], ax; clip_on, kw...)
-    end
-end;
+using VoltageToMap.Plot
 
 plotsig(t, v/mV, [0s, 4seconds], xlabel="Time (s)", hylabel="mV");
 
