@@ -34,15 +34,15 @@ using VoltageToMap
 # Short warm-up run. Get compilation out of the way.
 
 p0 = params
-p0 = @set p0.sim.input    = previous_N_30_input
-p0 = @set p0.sim.duration = 1 * minutes;
+@set! p0.sim.input    = previous_N_30_input
+@set! p0.sim.duration = 1 * minutes;
 
 @time sim(p0.sim);
 
 p = params
-p = @set p.sim.input                  = realistic_N_6600_input
-p = @set p.sim.duration               = 10 * minutes
-p = @set p.sim.synapses.Δg_multiplier = 0.08
+@set! p.sim.input                  = realistic_N_6600_input
+@set! p.sim.duration               = 10 * minutes
+@set! p.sim.synapses.Δg_multiplier = 0.08
 dumps(p)
 
 t, v, input_spikes = @time sim(p.sim);
