@@ -36,8 +36,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -851,11 +851,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>["0.5", "1", "5", "10", "20", "30"]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -890,7 +885,16 @@ duration / minutes = 5.0
 (TPR_exc, TPR_inh, FPR) = (0.05, 0.2, 0.050000000000000044)
 
 duration / minutes = 10.0
-<span class=" -Color -Color-Green">Progress:  10%|&#9608;&#9608;&#9608;&#9608;                                     |  ETA: 0:02:08</span>
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:30</span>
+(TPR_exc, TPR_inh, FPR) = (0.025, 0.225, 0.025000000000000022)
+
+duration / minutes = 20.0
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:05:24</span>
+(TPR_exc, TPR_inh, FPR) = (0.125, 0.475, 0.050000000000000044)
+
+duration / minutes = 30.0
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:07:40</span>
+(TPR_exc, TPR_inh, FPR) = (0.1, 0.55, 0.050000000000000044)
 </pre></div>
 </div>
 </div>
@@ -898,17 +902,20 @@ duration / minutes = 10.0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">durations</span><span class="p">);]</span>
-<span class="n">plott</span><span class="p">(</span><span class="n">rates</span><span class="p">;</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span>
-    <span class="n">xticks</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">lw</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="n">plott</span><span class="p">(</span><span class="n">rates</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span>
+    <span class="n">xticks</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
     <span class="n">xminorticks</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span>
 <span class="p">)</span>
-
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_exc</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory, detected &#10004;"</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_inh</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory, detected &#10004;"</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">FPRs</span><span class="p">,</span>     <span class="n">label</span><span class="o">=</span><span class="s">"Unconnected, falsely detected"</span><span class="p">)</span>
+<span class="n">smaller</span> <span class="o">=</span> <span class="p">(</span><span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">08</span><span class="p">)</span>
+<span class="n">medium</span>  <span class="o">=</span> <span class="p">(</span><span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">larger</span>  <span class="o">=</span> <span class="p">(</span><span class="n">lw</span><span class="o">=</span><span class="mf">2.2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span> 
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">FPRs</span><span class="p">;</span>      <span class="n">larger</span><span class="o">...</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s">"Unconnected, falsely detected"</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_inh</span><span class="p">;</span>  <span class="n">medium</span><span class="o">...</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory, detected &#10004;"</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_exc</span><span class="p">;</span>  <span class="n">smaller</span><span class="o">...</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory, detected &#10004;"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">xlabels</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Recording duration (minutes)"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Fraction of input neurons of type"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">&#945;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s">"&#945; = {&#945;:.3G}"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
