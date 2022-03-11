@@ -33,27 +33,26 @@ using VoltageToMap
 
 # Short warm-up run. Get compilation out of the way.
 
-p0 = SimParams(
-    input = previous_N_30_input,
-    duration = 1*minutes,
-);
+p0 = params
+p0 = @set p0.sim.input    = previous_N_30_input
+p0 = @set p0.sim.duration = 1 * minutes;
 
-@time sim(p0);
+@time sim(p0.sim);
 
-p = SimParams(
-    input = realistic_N_6600_input,
-    duration = 10*minutes,
-    synapses = SynapseParams(Δg_multiplier = 0.066),
-)
+p = params
+p = @set p.sim.input                  = realistic_N_6600_input
+p = @set p.sim.duration               = 10 * minutes
+p = @set p.sim.synapses.Δg_multiplier = 0.08
 dumps(p)
 
-t, v, input_spikes = @time sim(p);
+t, v, input_spikes = @time sim(p.sim);
 
 num_spikes = length.(input_spikes)
 
 # ## Plot
 
 import PyPlot
+
 using Sciplotlib
 
 """ tzoom = [200ms, 600ms] e.g. """
