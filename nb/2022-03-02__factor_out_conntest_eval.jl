@@ -14,7 +14,7 @@
 #     name: julia-1.7
 # ---
 
-# # 2022-03-02 • Factor out conntest & eval code
+# # 2022-03-02 • Duration & SNR for big-N–to–1
 
 # ## Setup
 
@@ -76,6 +76,50 @@ p_value = test_connection(vimsig, example_presynspikes, p)
 
 # ## Performance
 
+N_eval_trains = p.evaluation.num_tested_neurons_per_group
+
+α = 0.05;
+
+function evaluate_conntest_performance(vimsig, input_spikes, p)
+    
+    resetrng!(p.evaluation.rngseed)
+
+    TP_exc = 0
+    TP_inh = 0
+    TP_unconn = 0
+
+    for input_train in input_spikes.conn.exc[1:N_eval_trains]
+        p_value = test_connection(vimsig, input_train, p)
+        if p_value < α
+            TP_exc += 1
+        end
+    end
+
+    for input_train in input_spikes.conn.inh[1:N_eval_trains]
+        p_value = test_connection(vimsig, input_train, p)
+        if p_value > 1 - α
+            TP_inh += 1
+        end
+    end
+
+    for input_train in input_spikes.conn.exc[1:N_eval_trains]
+        p_value = test_connection(vimsig, input_train, p)
+        if α ≤ p_value ≤ 1 - α
+            TP_unconn += 1
+        end
+    end
+
+    TPR_exc    = TP_exc / N_eval
+    TPR_inh    = TP_inh / N_eval
+    TPR_unconn = TP_unconn / N_eval
+    
+    FPR = 1 - TPR_unconn
+    
+    return TPR_exc, TPR_inh, FPR
+end;
+
+evaluate_conntest_performance(vimsig, input_spikes, p)
+
 
 
 # ## Results
@@ -117,10 +161,3 @@ plotdot(p_inh,    3, "C1"); ax.text(3-0.16, -0.1, "inhibitory"; color="C1", ha="
 ax.boxplot([p_exc, p_unconn, p_inh], widths=0.2, medianprops=Dict("color"=>"black"))
 set(ax, xlim=(0.33, 3.3), ylim=(0, 1), xaxis=:off)
 hylabel(ax, L"p(\, \mathrm{shuffled\ \overline{STA}} \ > \ \mathrm{actual\ \overline{STA}}\, )"; dy=10);
-
-# Proportion of shuffled spike trains for which `mean(STA)` is higher than the unshuffled spike train.
-#
-# Excitatory (green), unconnected (blue), and inhibitory (orange) input neurons.
-#
-#
-# 10-minute simulation with a total of 6500 connected input neurons.
