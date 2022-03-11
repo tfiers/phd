@@ -127,7 +127,10 @@ function performance_for(p::ExperimentParams)
     return evaluate_conntest_performance(vimsig, input_spikes, p)
 end;
 
-const spike_height = cortical_RS.v_peak - cortical_RS.v_rest;
+VI_params = VoltageImagingParams(;
+    spike_height = cortical_RS.v_peak - cortical_RS.v_rest,
+    spike_SNR = Inf,
+);
 
 durations = [
     30 * seconds,
@@ -135,7 +138,9 @@ durations = [
     5 * minutes,
     10 * minutes,
     20 * minutes,
-];
+    30 * minutes,
+]
+xlabels = durations / minutes .|> x -> @sprintf "%.3G" x;
 
 # +
 TPRs_exc = Vector{Float64}()
@@ -144,17 +149,8 @@ FPRs     = Vector{Float64}()
 
 for duration in durations
     @show duration / minutes
-    TPR_exc, TPR_inh, FPR = performance_for(
-        ExperimentParams(
-            sim = SimParams(;
-                duration,
-                imaging = VoltageImagingParams(;
-                    spike_SNR = 40,
-                    spike_height,
-                ),
-            ),
-        )
-    )
+    params = ExperimentParams(sim = SimParams(; duration, imaging = VI_params))
+    TPR_exc, TPR_inh, FPR = performance_for(params)
     @show TPR_exc, TPR_inh, FPR
     push!(TPRs_exc, TPR_exc)
     push!(TPRs_inh, TPR_inh)
@@ -164,15 +160,18 @@ end
 
 # +
 xticks = [1:length(durations);]
-plott(rates; kwargs...) = plot(xticks, rates; xminorticks = false, kwargs...)
+plott(rates; lw=2, ms=10, kw...) = plot(
+    xticks, rates, ".-"; lw, ms, ylim=(0,1),
+    xminorticks=false, clip_on=false, kw...
+)
 
-ax = plott(TPRs_exc, label="Excitatory detected")
-ax = plott(TPRs_inh, label="Inhibitory detected")
-ax = plott(FPRs, label="Unconnected falsely detected")
-
-xlabels = durations / minutes .|> string
-ax.set_xticks(xticks)
-ax.set_xticklabels(xlabels)
+ax = plott(TPRs_exc, lw=3, ms=12, label="Excitatory, detected ✔")
+ax = plott(TPRs_inh, lw=1.8, ms=8, label="Inhibitory, detected ✔")
+ax = plott(FPRs,     label="Unconnected, falsely detected")
+ax.set_xticks(xticks, xlabels)
 ax.set_xlabel("Recording duration (minutes)")
-ax.set_ylabel("Proportion of input connections")
+ax.set_ylabel("Fraction of input neurons of type")
 ax.legend();
+# -
+
+
