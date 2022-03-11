@@ -1,7 +1,9 @@
 module VoltageToMap
 
-using MyToolbox
-using Distributions  # Sample from lognormal, exponential, ….
+using Reexport
+
+@reexport using MyToolbox
+@reexport using Distributions  # Sample from lognormal, exponential, ….
 
 include("units.jl")
 # [see file for exports]
