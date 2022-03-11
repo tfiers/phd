@@ -74,7 +74,7 @@ plotSTA(vimsig, example_presynspikes, p);
 
 p_value = test_connection(vimsig, example_presynspikes, p)
 
-# ## Performance
+# ## Conntest performance
 
 N_eval_trains = p.evaluation.num_tested_neurons_per_group
 
@@ -120,7 +120,63 @@ end;
 
 evaluate_conntest_performance(vimsig, input_spikes, p)
 
+# ## Performance for given params
 
+function performance_for(p::ExperimentParams)
+    _t, _v, vimsig, input_spikes = sim(p.sim);
+    return evaluate_conntest_performance(vimsig, input_spikes, p)
+end;
+
+const spike_height = cortical_RS.v_peak - cortical_RS.v_rest;
+
+durations = [
+    30 * seconds,
+    1 * minutes,
+    5 * minutes,
+    10 * minutes,
+    20 * minutes,
+];
+
+# +
+TPRs_exc = Vector{Float64}()
+TPRs_inh = Vector{Float64}()
+FPRs     = Vector{Float64}()
+
+for duration in durations
+    @show duration / minutes
+    TPR_exc, TPR_inh, FPR = performance_for(
+        ExperimentParams(
+            sim = SimParams(;
+                duration,
+                imaging = VoltageImagingParams(;
+                    spike_SNR = 40,
+                    spike_height,
+                ),
+            ),
+        )
+    )
+    @show TPR_exc, TPR_inh, FPR
+    push!(TPRs_exc, TPR_exc)
+    push!(TPRs_inh, TPR_inh)
+    push!(FPRs, FPR)
+    println()
+end
+
+# +
+xticks = [1:length(durations);]
+plott(rates; kwargs...) = plot(xticks, rates; xminorticks = false, kwargs...)
+
+ax = plott(TPRs_exc, label="Excitatory detected")
+ax = plott(TPRs_inh, label="Inhibitory detected")
+ax = plott(FPRs, label="Unconnected falsely detected")
+
+xlabels = durations / minutes .|> string
+ax.set_xticks(xticks)
+ax.set_xticklabels(xlabels)
+ax.set_xlabel("Recording duration (minutes)")
+ax.set_ylabel("Proportion of input connections")
+ax.legend();
+# -
 
 # ## Results
 
