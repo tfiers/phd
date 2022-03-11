@@ -157,21 +157,23 @@ for duration in durations
     push!(FPRs, FPR)
     println()
 end
+# -
 
-# +
 xticks = [1:length(durations);]
-plott(rates; lw=2, ms=10, kw...) = plot(
-    xticks, rates, ".-"; lw, ms, ylim=(0,1),
+plott(rates; kw...) = plot(
+    xticks, rates, ".-"; ylim=(0,1),
     xminorticks=false, clip_on=false, kw...
 )
-
-ax = plott(TPRs_exc, lw=3, ms=12, label="Excitatory, detected ✔")
-ax = plott(TPRs_inh, lw=1.8, ms=8, label="Inhibitory, detected ✔")
-ax = plott(FPRs,     label="Unconnected, falsely detected")
+smaller = (lw=1.8, ms=08)
+medium  = (lw=2.0, ms=10)
+larger  = (lw=2.2, ms=12) 
+ax = plott(FPRs;      larger...,  label="Unconnected, falsely detected")
+ax = plott(TPRs_inh;  medium...,  label="Inhibitory, detected ✔")
+ax = plott(TPRs_exc;  smaller..., label="Excitatory, detected ✔")
 ax.set_xticks(xticks, xlabels)
 ax.set_xlabel("Recording duration (minutes)")
 ax.set_ylabel("Fraction of input neurons of type")
+ax.axhline(α, color="black", zorder=3, lw=1, linestyle="dashed", label=f"α = {α:.3G}")
 ax.legend();
-# -
 
 
