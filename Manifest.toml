@@ -60,10 +60,10 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.CPUSummary]]
-deps = ["Hwloc", "IfElse", "Preferences", "Static"]
-git-tree-sha1 = "14df2f81aa4aac0de9ecf8ba1ee6b3e55d054870"
+deps = ["Hwloc", "IfElse", "Static"]
+git-tree-sha1 = "849799453de85b55e78550fc7b0c8f442eb497ab"
 uuid = "2a0fbf3d-bb9c-48f3-b0a9-814d99fd7ab9"
-version = "0.1.14"
+version = "0.1.8"
 
 [[deps.Cairo]]
 deps = ["Cairo_jll", "Colors", "Glib_jll", "Graphics", "Libdl", "Pango_jll"]
@@ -1246,7 +1246,7 @@ uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.2.0"
 
 [[deps.VoltageToMap]]
-deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Reexport", "UnPack"]
+deps = ["CPUSummary", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Reexport", "Sciplotlib"]
 path = "pkg/VoltageToMap"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"
