@@ -764,7 +764,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Sciplotlib", "Setfield", "StatsBase"]
+deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
@@ -791,9 +791,9 @@ uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 
 [[deps.NonlinearSolve]]
 deps = ["ArrayInterface", "FiniteDiff", "ForwardDiff", "IterativeSolvers", "LinearAlgebra", "RecursiveArrayTools", "RecursiveFactorization", "Reexport", "SciMLBase", "Setfield", "StaticArrays", "UnPack"]
-git-tree-sha1 = "4e5ee038e5655c8aaa9ac179743c5227d1f0f0f3"
+git-tree-sha1 = "aeebff6a2a23506e5029fd2248a26aca98e477b3"
 uuid = "8913a72c-1f9b-4ce2-8d82-65094dcecaec"
-version = "0.3.15"
+version = "0.3.16"
 
 [[deps.Observables]]
 git-tree-sha1 = "fe29afdef3d0c4a8286128d4e45cc50621b1e43d"
@@ -902,9 +902,9 @@ version = "0.2.4"
 
 [[deps.Preferences]]
 deps = ["TOML"]
-git-tree-sha1 = "de893592a221142f3db370f48290e3a2ef39998f"
+git-tree-sha1 = "d3538e7f8a790dc8903519090857ef8e1283eecd"
 uuid = "21216c6a-2e73-6563-6e65-726566657250"
-version = "1.2.4"
+version = "1.2.5"
 
 [[deps.PrettyTables]]
 deps = ["Crayons", "Formatting", "Markdown", "Reexport", "Tables"]
@@ -1152,11 +1152,9 @@ deps = ["Artifacts", "Libdl", "Pkg", "libblastrampoline_jll"]
 uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
 
 [[deps.Suppressor]]
-git-tree-sha1 = "e29e70ab88792f051d5ce0545ba6f5e7ddd17826"
-repo-rev = "patch-1"
-repo-url = "https://github.com/fonsp/Suppressor.jl.git"
+git-tree-sha1 = "c6ed566db2fe3931292865b966d6d140b7ef32a9"
 uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
-version = "0.2.0"
+version = "0.2.1"
 
 [[deps.TOML]]
 deps = ["Dates"]
@@ -1248,7 +1246,7 @@ uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.2.0"
 
 [[deps.VoltageToMap]]
-deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Parameters", "Reexport", "UnPack"]
+deps = ["ComponentArrays", "DataStructures", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Reexport", "UnPack"]
 path = "pkg/VoltageToMap"
 uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
 version = "0.1.0"
