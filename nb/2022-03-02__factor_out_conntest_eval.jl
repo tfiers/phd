@@ -45,7 +45,7 @@ p = SimParams(
     duration = 10*minutes,
     synapses = SynapseParams(Δg_multiplier = 0.066),
 )
-dumpc(p)
+dumps(p)
 
 t, v, input_spikes = @time sim(p);
 
