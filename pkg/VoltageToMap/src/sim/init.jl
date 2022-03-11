@@ -1,16 +1,16 @@
 function init_sim(p::SimParams)
 
-    @unpack duration, num_timesteps, seed, inputs, synapses, izh_neuron   = p
-    @unpack N_unconn, N_exc, N_inh, N_conn, N                             = inputs
-    @unpack g_t0, E_exc, E_inh, Δg_exc, Δg_inh, Δg_multiplier             = synapses
-    @unpack v_t0, u_t0                                                    = izh_neuron
+    @unpack duration, num_timesteps, rngseed, inputs, synapses, izh_neuron  = p
+    @unpack N_unconn, N_exc, N_inh, N_conn, N                               = inputs
+    @unpack g_t0, E_exc, E_inh, Δg_exc, Δg_inh, Δg_multiplier               = synapses
+    @unpack v_t0, u_t0                                                      = izh_neuron
 
     # IDs, subgroup names.
-    input_neuron_IDs = IDVec(conn = (exc = N_exc, inh = N_inh), unconn = N_unconn)
-    synapse_IDs      = IDVec(exc = N_exc, inh = N_inh)
-    var_IDs          = IDVec(t = nothing, v = nothing, u = nothing, g = similar(synapse_IDs))
+    input_neuron_IDs = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
+    synapse_IDs      = idvec(exc = N_exc, inh = N_inh)
+    var_IDs          = idvec(t = nothing, v = nothing, u = nothing, g = similar(synapse_IDs))
 
-    resetrng!(seed)
+    resetrng!(rngseed)
 
     # Inter-spike—interval distributions
     λ = similar(input_neuron_IDs, Float64)
@@ -64,6 +64,6 @@ function init_sim(p::SimParams)
             fixed_at_init    = (; ISI_distributions, postsynapses, Δg, E),
             variable_in_time = (; vars, diff, upcoming_input_spikes),
         ),
-        rec   = (v = v_rec; input_spikes),
+        rec   = (; v = v_rec, input_spikes),
     )
 end

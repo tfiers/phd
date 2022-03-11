@@ -34,15 +34,16 @@ using VoltageToMap
 # Short warm-up run. Get compilation out of the way.
 
 p0 = SimParams(
-    poisson_input = small_N__as_in_Python_2021,
-    sim_duration  = 1*minutes
+    inputs = previous_N_30_inputs,
+    duration = 1*minutes,
 );
 
 @time sim(p0);
 
 p = SimParams(
-    poisson_input = realistic_input,
-    sim_duration  = 10*minutes,
+    inputs = realistic_N_6600_inputs,
+    duration = 10*minutes,
+    synapses = S
     Δg_multiplier = 0.066,
 )
 dump(p)  # more descriptive (names, not just values) but also taking more space.
