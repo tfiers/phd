@@ -102,9 +102,9 @@ function evaluate_conntest_performance(vimsig, input_spikes, p)
         end
     end
 
-    for input_train in input_spikes.conn.exc[1:N_eval_trains]
+    for input_train in input_spikes.unconn[1:N_eval_trains]
         p_value = test_connection(vimsig, input_train, p)
-        if α ≤ p_value ≤ 1 - α
+        if α/2 ≤ p_value ≤ 1 - α/2
             TP_unconn += 1
         end
     end
