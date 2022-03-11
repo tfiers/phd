@@ -11,3 +11,12 @@ function plotsig(t, sig, tzoom = nothing; ax = nothing, clip_on=false, kw...)
         plot(t[shown], sig[shown], ax; clip_on, kw...)
     end
 end
+
+function plotSTA(vimsig, presynaptic_spikes, p::ExperimentParams)
+    Δt = p.sim.Δt
+    @unpack STA_window_length = p.conntest
+    win_size = round(Int, STA_window_length / Δt)
+    t_win = linspace(zero(STA_window_length), STA_window_length, win_size)
+    STA = calc_STA(vimsig, presynaptic_spikes, p)
+    plot(t_win / ms, STA / mV)
+end

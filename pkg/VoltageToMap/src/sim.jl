@@ -9,7 +9,13 @@ function sim(params::SimParams)
         step_sim!(state, params, rec, i)
     end
     t = linspace(zero(duration), duration, num_timesteps)
-    return (; t, rec.v, rec.input_spikes)
+    vimsig = add_VI_noise(rec.v, params.imaging.σ_noise)
+    return (; t, rec.v, vimsig, rec.input_spikes)
 end
 
 const x = progress_bar_update_interval = 400ms
+
+function add_VI_noise(v, σ_noise)
+    noise = randn(length(v)) * σ_noise
+    return v + noise
+end

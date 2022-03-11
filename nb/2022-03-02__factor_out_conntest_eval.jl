@@ -33,19 +33,27 @@ using VoltageToMap
 
 # Short warm-up run. Get compilation out of the way.
 
-p0 = params
-@set! p0.sim.input    = previous_N_30_input
-@set! p0.sim.duration = 1 * minutes;
+p0 = ExperimentParams(
+    sim = SimParams(
+        input = previous_N_30_input,
+        duration = 1 * minutes
+    )
+);
 
 @time sim(p0.sim);
 
-p = params
-@set! p.sim.input                  = realistic_N_6600_input
-@set! p.sim.duration               = 10 * minutes
-@set! p.sim.synapses.Δg_multiplier = 0.08
+p = ExperimentParams(
+    sim = SimParams(
+        input = realistic_N_6600_input,
+        duration = 0.2 * minutes,
+        synapses = SynapseParams(
+            Δg_multiplier = 0.066,
+        ),
+    )
+);
 dumps(p)
 
-t, v, input_spikes = @time sim(p.sim);
+t, v, vimsig, input_spikes = @time sim(p.sim);
 
 num_spikes = length.(input_spikes)
 
@@ -55,87 +63,20 @@ import PyPlot
 
 using VoltageToMap.Plot
 
-plotsig(t, v/mV, [0s, 4seconds], xlabel="Time (s)", hylabel="mV");
+tzoom = [200, 1200]ms
+ax = plotsig(t, vimsig / mV, tzoom; xlabel="Time (s)", hylabel="mV", alpha=0.7);
+plotsig(t, v / mV, tzoom; ax);
 
-# ## Imaging noise
+# ## Test conntest
 
-# +
-izh_params = cortical_RS
+example_presynspikes = input_spikes.conn.exc[44]
+plotSTA(vimsig, example_presynspikes, p);
 
-imaging_spike_SNR  #=::Float64=#  = 20
-spike_height       #=::Float64=#  = izh_params.v_peak - izh_params.vr
-σ_noise            #=::Float64=#  = spike_height / imaging_spike_SNR;
-# -
+p_value = test_connection(vimsig, example_presynspikes, p)
 
-noise = randn(length(v)) * σ_noise
-vimsig = v + noise;
+# ## Performance
 
-ax = plotsig(t, vimsig / mV, [200ms,1200ms], xlabel="Time (s)", hylabel="mV", alpha=0.7);
-plotsig(t, v / mV, [200ms,1200ms], xlabel="Time (s)", hylabel="mV"; ax);
 
-# ## Window
-
-window_duration    #=::Float64=#  = 100 * ms;
-
-# +
-const Δt = p.Δt
-const win_size = round(Int, window_duration / Δt)
-const t_win = linspace(zero(window_duration), window_duration, win_size)
-
-function calc_STA(presynaptic_spikes)
-    STA = zeros(eltype(vimsig), win_size)
-    win_starts = round.(Int, presynaptic_spikes / Δt)
-    num_wins = 0
-    for a in win_starts
-        b = a + win_size - 1
-        if b ≤ lastindex(vimsig)
-            STA .+= @view vimsig[a:b]
-            num_wins += 1
-        end
-    end
-    STA ./= num_wins
-    return STA
-end;
-# -
-
-function plotSTA(presynspikes)
-    STA = calc_STA(presynspikes)
-    plot(t_win/ms, STA/mV)
-end;
-
-presynspikes = input_spikes.conn.exc[44]
-plotSTA(presynspikes);
-
-# ## Test connection
-
-num_shuffles       #=::Int    =#  = 100;
-
-# +
-to_ISIs(spiketimes) = [first(spiketimes); diff(spiketimes)]  # copying
-to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
-
-(presynspikes |> to_ISIs |> to_spiketimes!) ≈ presynspikes   # test
-# -
-
-shuffle_ISIs(spiketimes) = to_spiketimes!(shuffle!(to_ISIs(spiketimes)));
-
-test_statistic(spiketimes) = spiketimes |> calc_STA |> mean;
-
-# Note difference with 2021: there it was peak-to-peak (max - min). Here it is mean.
-
-function test_connection(presynspikes)
-    real_t = test_statistic(presynspikes)
-    shuffled_t = Vector{typeof(real_t)}(undef, num_shuffles)
-    for i in eachindex(shuffled_t)
-        shuffled_t[i] = test_statistic(shuffle_ISIs(presynspikes))
-    end
-    N_shuffled_larger = count(shuffled_t .> real_t)
-    return if N_shuffled_larger == 0
-        p_value = 1 / num_shuffles
-    else
-        p_value = N_shuffled_larger / num_shuffles
-    end
-end;
 
 # ## Results
 

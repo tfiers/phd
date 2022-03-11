@@ -19,6 +19,9 @@ export realistic_N_6600_input, previous_N_30_input, realistic_synapses, cortical
 include("sim.jl")
 export sim
 
+include("conntest.jl")
+export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_statistic, test_connection
+
 """
 Custom plotting functions are in this separate submodule, so that the heavy PyPlot does not
 need to be loaded when plotting is not needed.
@@ -28,7 +31,7 @@ using ..VoltageToMap
 function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
-        export plotsig
+        export plotsig, plotSTA
     end
 end
 end # module Plot
