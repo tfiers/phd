@@ -36,8 +36,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/build_status.js"></script>
     <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/build_status.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -783,9 +783,9 @@ const thebe_selector_output = ".output, .cell_output"
         <span class="k">end</span>
     <span class="k">end</span>
 
-    <span class="k">for</span> <span class="n">input_train</span> <span class="k">in</span> <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N_eval_trains</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">input_train</span> <span class="k">in</span> <span class="n">input_spikes</span><span class="o">.</span><span class="n">unconn</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N_eval_trains</span><span class="p">]</span>
         <span class="n">p_value</span> <span class="o">=</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">vimsig</span><span class="p">,</span> <span class="n">input_train</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">&#945;</span> <span class="o">&#8804;</span> <span class="n">p_value</span> <span class="o">&#8804;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">&#945;</span>
+        <span class="k">if</span> <span class="n">&#945;</span><span class="o">/</span><span class="mi">2</span> <span class="o">&#8804;</span> <span class="n">p_value</span> <span class="o">&#8804;</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">&#945;</span><span class="o">/</span><span class="mi">2</span>
             <span class="n">TP_unconn</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">end</span>
     <span class="k">end</span>
@@ -809,7 +809,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.05, 0.025, 0.09999999999999998)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.05, 0.025, 0.025000000000000022)
 </pre></div>
 </div>
 </div>
@@ -829,7 +829,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="n">spike_height</span> <span class="o">=</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_rest</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">VI_params</span> <span class="o">=</span> <span class="n">VoltageImagingParams</span><span class="p">(;</span>
+    <span class="n">spike_height</span> <span class="o">=</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_rest</span><span class="p">,</span>
+    <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">,</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -842,7 +845,14 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="mi">5</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
     <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
     <span class="mi">20</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
-<span class="p">];</span>
+    <span class="mi">30</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">xlabels</span> <span class="o">=</span> <span class="n">durations</span> <span class="o">/</span> <span class="n">minutes</span> <span class="o">.|&gt;</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="nd">@sprintf</span> <span class="s">"</span><span class="si">%.3G</span><span class="s">"</span> <span class="n">x</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>["0.5", "1", "5", "10", "20", "30"]
 </pre></div>
 </div>
 </div>
@@ -855,17 +865,8 @@ const thebe_selector_output = ".output, .cell_output"
 
 <span class="k">for</span> <span class="n">duration</span> <span class="k">in</span> <span class="n">durations</span>
     <span class="nd">@show</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">minutes</span>
-    <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">FPR</span> <span class="o">=</span> <span class="n">performance_for</span><span class="p">(</span>
-        <span class="n">ExperimentParams</span><span class="p">(</span>
-            <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(;</span>
-                <span class="n">duration</span><span class="p">,</span>
-                <span class="n">imaging</span> <span class="o">=</span> <span class="n">VoltageImagingParams</span><span class="p">(;</span>
-                    <span class="n">spike_SNR</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
-                    <span class="n">spike_height</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">),</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span><span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">imaging</span> <span class="o">=</span> <span class="n">VI_params</span><span class="p">))</span>
+    <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">FPR</span> <span class="o">=</span> <span class="n">performance_for</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
     <span class="nd">@show</span> <span class="n">TPR_exc</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">,</span> <span class="n">FPR</span>
     <span class="n">push!</span><span class="p">(</span><span class="n">TPRs_exc</span><span class="p">,</span> <span class="n">TPR_exc</span><span class="p">)</span>
     <span class="n">push!</span><span class="p">(</span><span class="n">TPRs_inh</span><span class="p">,</span> <span class="n">TPR_inh</span><span class="p">)</span>
@@ -877,15 +878,19 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>duration / minutes = 0.5
-<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
-(TPR_exc, TPR_inh, FPR) = (0.025, 0.025, 0.07499999999999996)
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:06</span>
+(TPR_exc, TPR_inh, FPR) = (0.025, 0.025, 0.0)
 
 duration / minutes = 1.0
-<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
-(TPR_exc, TPR_inh, FPR) = (0.075, 0.075, 0.050000000000000044)
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:15</span>
+(TPR_exc, TPR_inh, FPR) = (0.075, 0.075, 0.025000000000000022)
 
 duration / minutes = 5.0
-<span class=" -Color -Color-Green">Progress:  10%|&#9608;&#9608;&#9608;&#9608;&#9608;                                    |  ETA: 0:01:08</span>
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:01:26</span>
+(TPR_exc, TPR_inh, FPR) = (0.05, 0.2, 0.050000000000000044)
+
+duration / minutes = 10.0
+<span class=" -Color -Color-Green">Progress:  10%|&#9608;&#9608;&#9608;&#9608;                                     |  ETA: 0:02:08</span>
 </pre></div>
 </div>
 </div>
@@ -893,17 +898,17 @@ duration / minutes = 5.0
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">durations</span><span class="p">);]</span>
-<span class="n">plott</span><span class="p">(</span><span class="n">rates</span><span class="p">;</span> <span class="n">kwargs</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">rates</span><span class="p">;</span> <span class="n">xminorticks</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">...</span><span class="p">)</span>
+<span class="n">plott</span><span class="p">(</span><span class="n">rates</span><span class="p">;</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span>
+    <span class="n">xticks</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">lw</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">xminorticks</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span>
+<span class="p">)</span>
 
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_exc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory detected"</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_inh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory detected"</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">FPRs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Unconnected falsely detected"</span><span class="p">)</span>
-
-<span class="n">xlabels</span> <span class="o">=</span> <span class="n">durations</span> <span class="o">/</span> <span class="n">minutes</span> <span class="o">.|&gt;</span> <span class="n">string</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">xlabels</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_exc</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory, detected &#10004;"</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">TPRs_inh</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory, detected &#10004;"</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plott</span><span class="p">(</span><span class="n">FPRs</span><span class="p">,</span>     <span class="n">label</span><span class="o">=</span><span class="s">"Unconnected, falsely detected"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">xlabels</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Recording duration (minutes)"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Proportion of input connections"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">"Fraction of input neurons of type"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
