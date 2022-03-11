@@ -464,11 +464,6 @@ const thebe_selector_output = ".output, .cell_output"
    Performance for given params
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#results">
-   Results
-  </a>
- </li>
 </ul>
 
             </nav>
@@ -517,11 +512,6 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#performance-for-given-params">
    Performance for given params
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#results">
-   Results
   </a>
  </li>
 </ul>
@@ -895,60 +885,7 @@ duration / minutes = 1.0
 (TPR_exc, TPR_inh, FPR) = (0.075, 0.075, 0.050000000000000044)
 
 duration / minutes = 5.0
-<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:01:24</span>
-(TPR_exc, TPR_inh, FPR) = (0.05, 0.2, 0.125)
-
-duration / minutes = 10.0
-<span class=" -Color -Color-Green">Progress:   6%|&#9608;&#9608;&#9608;                                      |  ETA: 0:02:14</span>
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>InterruptException:
-
-Stacktrace:
-  [1] try_yieldto(undo::typeof(Base.ensure_rescheduled))
-    @ Base .\task.jl:777
-  [2] wait()
-    @ Base .\task.jl:837
-  [3] uv_write(s::Base.PipeEndpoint, p::Ptr{UInt8}, n::UInt64)
-    @ Base .\stream.jl:992
-  [4] unsafe_write(s::Base.PipeEndpoint, p::Ptr{UInt8}, n::UInt64)
-    @ Base .\stream.jl:1064
-  [5] unsafe_write
-    @ .\io.jl:362 [inlined]
-  [6] write
-    @ .\strings\io.jl:244 [inlined]
-  [7] print
-    @ .\strings\io.jl:246 [inlined]
-  [8] with_output_color(f::Function, color::Symbol, io::IJulia.IJuliaStdio{Base.PipeEndpoint}, args::String; bold::Bool, underline::Bool, blink::Bool, reverse::Bool, hidden::Bool)
-    @ Base .\util.jl:106
-  [9] #printstyled#868
-    @ .\util.jl:129 [inlined]
- [10] printover(io::IJulia.IJuliaStdio{Base.PipeEndpoint}, s::String, color::Symbol)
-    @ ProgressMeter C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:631
- [11] updateProgress!(p::Progress; showvalues::Tuple{}, truncate_lines::Bool, valuecolor::Symbol, offset::Int64, keep::Bool, desc::Nothing, ignore_predictor::Bool)
-    @ ProgressMeter C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:322
- [12] #17
-    @ C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:497 [inlined]
- [13] lock_if_threading
-    @ C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:482 [inlined]
- [14] #next!#16
-    @ C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:495 [inlined]
- [15] next!
-    @ C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:495 [inlined]
- [16] iterate(wrap::ProgressMeter.ProgressWrapper{UnitRange{Int64}}, state::Int64)
-    @ ProgressMeter C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:740
- [17] macro expansion
-    @ C:\Users\lpxtf3\.julia\packages\ProgressMeter\Vf8un\src\ProgressMeter.jl:940 [inlined]
- [18] sim(params::SimParams)
-    @ VoltageToMap C:\Users\lpxtf3\vtws\pkg\VoltageToMap\src\sim.jl:8
- [19] performance_for(p::ExperimentParams)
-    @ Main .\In[45]:2
- [20] top-level scope
-    @ .\In[71]:15
- [21] eval
-    @ .\boot.jl:373 [inlined]
- [22] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
-    @ Base .\loading.jl:1196
+<span class=" -Color -Color-Green">Progress:  10%|&#9608;&#9608;&#9608;&#9608;&#9608;                                    |  ETA: 0:01:08</span>
 </pre></div>
 </div>
 </div>
@@ -973,60 +910,6 @@ Stacktrace:
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/2022-03-02__factor_out_conntest_eval_30_0.png" src="../_images/2022-03-02__factor_out_conntest_eval_30_0.png">
-</div>
-</div>
-</div>
-<div class="section" id="results">
-<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">resetrng!</span><span class="p">(</span><span class="mi">20220222</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_trains</span> <span class="o">=</span> <span class="mi">40</span>
-<span class="n">println</span><span class="p">(</span><span class="s">"Average p(shuffled trains with higher STA mean)."</span><span class="p">)</span>
-<span class="n">println</span><span class="p">(</span><span class="s">"(N = </span><span class="si">$</span><span class="p">(</span><span class="n">num_trains</span><span class="p">)</span><span class="s"> input spike trains per category)"</span><span class="p">)</span>
-
-<span class="n">p_exc</span>    <span class="o">=</span> <span class="kt">Float64</span><span class="p">[]</span>
-<span class="n">p_inh</span>    <span class="o">=</span> <span class="kt">Float64</span><span class="p">[]</span>
-<span class="n">p_unconn</span> <span class="o">=</span> <span class="kt">Float64</span><span class="p">[]</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="n">groupname</span><span class="p">,</span> <span class="n">spiketrains</span><span class="p">,</span> <span class="n">pvals</span><span class="p">)</span> <span class="k">in</span> <span class="p">(</span>
-        <span class="p">(</span><span class="s">"excitatory"</span><span class="p">,</span>    <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">,</span> <span class="n">p_exc</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">"inhibitory"</span><span class="p">,</span>    <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">),</span>
-        <span class="p">(</span><span class="s">"unconnected"</span><span class="p">,</span>   <span class="n">input_spikes</span><span class="o">.</span><span class="n">unconn</span><span class="p">,</span> <span class="n">p_unconn</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="k">for</span> <span class="n">spiketrain</span> <span class="k">in</span> <span class="n">spiketrains</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">num_trains</span><span class="p">]</span>
-        <span class="n">push!</span><span class="p">(</span><span class="n">pvals</span><span class="p">,</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">spiketrain</span><span class="p">))</span>
-        <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">);</span> <span class="n">flush</span><span class="p">(</span><span class="nb">stdout</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="nd">@printf</span> <span class="s">"</span><span class="si">%12s</span><span class="s">: </span><span class="si">%.3g</span><span class="se">\n</span><span class="s">"</span> <span class="n">groupname</span> <span class="n">mean</span><span class="p">(</span><span class="n">pvals</span><span class="p">)</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.4</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
-<span class="k">function</span> <span class="n">plotdot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">jitter</span><span class="o">=</span><span class="mf">0.28</span><span class="p">)</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">-=</span> <span class="mf">0.35</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">.-</span><span class="mf">0.5</span><span class="p">)</span><span class="o">*</span><span class="n">jitter</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">"o"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mf">4.2</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="s">"none"</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="mf">0.35</span><span class="p">,</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="s">"k."</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">end</span>
-<span class="n">plotdot</span><span class="p">(</span><span class="n">p_exc</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span> <span class="s">"C2"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="s">"excitatory"</span><span class="p">;</span> <span class="n">color</span><span class="o">=</span><span class="s">"C2"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
-<span class="n">plotdot</span><span class="p">(</span><span class="n">p_unconn</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s">"C0"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="mf">0.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="s">"unconnected"</span><span class="p">;</span> <span class="n">color</span><span class="o">=</span><span class="s">"C0"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
-<span class="n">plotdot</span><span class="p">(</span><span class="n">p_inh</span><span class="p">,</span>    <span class="mi">3</span><span class="p">,</span> <span class="s">"C1"</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">3</span><span class="o">-</span><span class="mf">0.16</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="s">"inhibitory"</span><span class="p">;</span> <span class="n">color</span><span class="o">=</span><span class="s">"C1"</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">boxplot</span><span class="p">([</span><span class="n">p_exc</span><span class="p">,</span> <span class="n">p_unconn</span><span class="p">,</span> <span class="n">p_inh</span><span class="p">],</span> <span class="n">widths</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">medianprops</span><span class="o">=</span><span class="kt">Dict</span><span class="p">(</span><span class="s">"color"</span><span class="o">=&gt;</span><span class="s">"black"</span><span class="p">))</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">xaxis</span><span class="o">=</span><span class="ss">:off</span><span class="p">)</span>
-<span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="sa">L</span><span class="s">"p(\, \mathrm{shuffled\ \overline{STA}} \ &gt; \ \mathrm{actual\ \overline{STA}}\, )"</span><span class="p">;</span> <span class="n">dy</span><span class="o">=</span><span class="mi">10</span><span class="p">);</span>
-</pre></div>
-</div>
 </div>
 </div>
 </div>
