@@ -9,14 +9,17 @@ For rendered notebooks with results:
 
 ## Organization
 
-- [`nb/`](nb) contains Jupyter Notebooks with exploratory and figure-producing code, both in Python, 
-  and later – from 2022 onwards – in Julia. These notebooks call code that has been factored out to external packages:
-- [`pkg/`](pkg) contains Julia packages that define types and functions reused in multiple notebooks.
+Directories:
+- [`nb/`](nb) contains Jupyter Notebooks, with exploratory and figure-producing code. These notebooks are both in Python, 
+  and later – from 2022 onwards – in Julia. They call code that has been factored out to external packages:
+- [`pkg/`](pkg) contains Julia packages, which define functions and data types that are reused in multiple notebooks.
 - [`web/`](web) contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) 
-  where the notebooks are hosted as a [JupyterBook](https://jupyterbook.org/).
-- [`Project.toml`](Project.toml) lists the names of the Julia packages our code directly depends on.  
-  `Manifest.toml` records the exact versions of all packages used to generate the results (i.e. the notebook outputs).  
-  `setup.jl` is used to generate a new `Manifest.toml`, both for the main project and for the packages in `pkg/`.
+  where the notebooks are hosted (using [JupyterBook](https://jupyterbook.org/)).
+
+Files:
+- [`Project.toml`](Project.toml) lists the identifiers of the Julia packages our code directly depends on.  
+- `Manifest.toml` records the exact versions of all packages used to generate the results (i.e. the notebook outputs).  
+- `setup.jl` is used to generate a new `Manifest.toml`, both for the main project and for the packages in `pkg/`.
   It is only to be used when working on this codebase; not when you want to reproduce the results.
 
 
@@ -48,7 +51,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
    </summary>
 
    - A link to this commit and its hash can be found on GitHub,
-     in the [`notebooks/`](notebooks/) directory, next to the notebook's filename.  
+     in the [`nb/`](nb/) directory, next to the notebook's filename.  
      Or use `git log <path>`.
    - Why is this step needed?
      The codebase that is called from the notebook will have been further developed 
@@ -66,8 +69,10 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
    
    - `instantiate` installs the exact package versions specified in `Manifest.toml`, 
      which is included in the repository for the purpose of reproducibility.
-   - If you want to instead use newer versions of dependencies,
-     run `julia setup.jl` in the terminal.
+   - Downloading and installing all these packages will take a while.
+   - If you want to instead use newer versions of dependencies (maybe because you
+     already have them downloaded), run `julia setup.jl` in the terminal, 
+     instead of `instantiate`.
    </details>
 
 5. <details><summary>
