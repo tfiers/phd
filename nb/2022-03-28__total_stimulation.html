@@ -781,12 +781,7 @@ const thebe_selector_output = ".output, .cell_output"
 So we want to select only the most stimulating ones.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_selected_per_class</span> <span class="o">=</span> <span class="mi">100</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_selected_per_class</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -798,8 +793,8 @@ So we want to select only the most stimulating ones.</p>
 <span class="n">strongest_exc</span> <span class="o">=</span> <span class="n">get_indices_of_N_highest</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">exc</span><span class="p">,</span> <span class="n">N_selected_per_class</span><span class="p">)</span>
 <span class="n">strongest_inh</span> <span class="o">=</span> <span class="n">get_indices_of_N_highest</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">inh</span><span class="p">,</span> <span class="n">N_selected_per_class</span><span class="p">);</span>
 
-<span class="c"># chosen_exc = strongest_exc</span>
-<span class="c"># chosen_inh = strongest_inh</span>
+<span class="n">chosen_exc</span> <span class="o">=</span> <span class="n">strongest_exc</span>
+<span class="n">chosen_inh</span> <span class="o">=</span> <span class="n">strongest_inh</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
