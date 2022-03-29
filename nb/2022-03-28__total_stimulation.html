@@ -588,8 +588,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
-  1.083182 seconds (1.21 M allocations: 183.632 MiB, 83.37% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.621567 seconds (7.21 M allocations: 512.827 MiB, 5.08% gc time, 92.06% compilation time)
 </pre></div>
 </div>
 </div>
@@ -599,14 +598,14 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
         <span class="n">input</span> <span class="o">=</span> <span class="n">realistic_N_6600_input</span><span class="p">,</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
         <span class="n">synapses</span> <span class="o">=</span> <span class="n">SynapseParams</span><span class="p">(</span>
             <span class="n">&#916;g_multiplier</span> <span class="o">=</span> <span class="mf">0.066</span><span class="p">,</span>
         <span class="p">),</span>
-        <span class="n">imaging</span> <span class="o">=</span> <span class="n">VoltageImagingParams</span><span class="p">(</span>
-            <span class="n">spike_height</span> <span class="o">=</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_peak</span> <span class="o">-</span> <span class="n">cortical_RS</span><span class="o">.</span><span class="n">v_rest</span><span class="p">,</span>
-            <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span>
+            <span class="n">cortical_RS</span><span class="p">,</span>
+            <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 <span class="p">);</span>
 <span class="n">dumps</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
@@ -617,9 +616,9 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
   rngseed: 22022022
   sim: SimParams
-    duration: 60.0
+    duration: 600.0
     &#916;t: 0.0001
-    num_timesteps: 600000
+    num_timesteps: 6000000
     rngseed: 0
     input: PoissonInputParams
       N_unconn: 100
@@ -668,13 +667,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">vimsig</span><span class="p">,</span> <span class="n">input_spikes</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">vimsig</span><span class="p">,</span> <span class="n">input_spikes</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">sim</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:15</span>
- 16.387769 seconds (1.96 M allocations: 317.323 MiB, 7.45% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:43</span>
+163.653968 seconds (18.23 M allocations: 2.300 GiB, 0.39% gc time, 0.00% compilation time)
 </pre></div>
 </div>
 </div>
@@ -686,7 +685,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Int64}(conn = (exc = [120, 89, 137, 92, 55, 103, 87, 53, 102, 86  &#8230;  103, 101, 119, 109, 28, 60, 114, 36, 115, 88], inh = [50, 95, 82, 15, 94, 64, 120, 105, 15, 66  &#8230;  132, 63, 93, 51, 107, 124, 103, 103, 100, 134]), unconn = [94, 91, 71, 104, 143, 91, 63, 146, 76, 57  &#8230;  145, 88, 95, 37, 126, 132, 143, 74, 52, 38])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Int64}(conn = (exc = [1228, 940, 1389, 948, 509, 997, 831, 527, 1041, 876  &#8230;  1059, 997, 1200, 1103, 350, 585, 1106, 386, 1203, 798], inh = [470, 979, 876, 183, 882, 746, 1152, 1032, 201, 661  &#8230;  1287, 677, 865, 576, 1076, 1185, 1101, 1065, 927, 1334]), unconn = [908, 983, 717, 1052, 1400, 946, 680, 1444, 759, 612  &#8230;  1435, 868, 854, 329, 1235, 1300, 1394, 725, 505, 390])
 </pre></div>
 </div>
 </div>
@@ -726,27 +725,124 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Total stimulation<a class="headerlink" href="#total-stimulation" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># </span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">total_stim</span> <span class="o">=</span> <span class="n">num_spikes</span><span class="o">.</span><span class="n">conn</span> <span class="o">.*</span> <span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">&#916;g</span>
+<span class="n">round</span><span class="o">.</span><span class="p">(</span><span class="n">total_stim</span> <span class="o">/</span> <span class="n">nS</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(exc = [32.0, 25.0, 37.0, 25.0, 13.0, 26.0, 22.0, 14.0, 27.0, 23.0  &#8230;  28.0, 26.0, 32.0, 29.0, 9.0, 15.0, 29.0, 10.0, 32.0, 21.0], inh = [50.0, 103.0, 93.0, 19.0, 93.0, 79.0, 122.0, 109.0, 21.0, 70.0  &#8230;  136.0, 71.0, 91.0, 61.0, 114.0, 125.0, 116.0, 112.0, 98.0, 141.0])
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">init_state</span> <span class="o">=</span> <span class="c"># init_sim(p).state.fixed_at_init</span>
-
-<span class="nd">@.</span> <span class="n">total_stim</span> <span class="o">=</span> <span class="c"># init_state.&#916;g * num_spikes</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">style</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">sciplotlib_style</span><span class="p">)</span>
+<span class="n">style</span><span class="p">[</span><span class="s">"xaxis.labellocation"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"right"</span>
+<span class="n">set_mpl_style!</span><span class="p">(</span><span class="n">style</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">exc</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"C2"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">inh</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"C1"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Total stimulation (nS)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"# Input connections"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-03-28__total_stimulation_21_0.png" src="../_images/2022-03-28__total_stimulation_21_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">num_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">,</span> <span class="n">total_stim</span><span class="o">.</span><span class="n">exc</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="s">"C2."</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">num_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">,</span> <span class="n">total_stim</span><span class="o">.</span><span class="n">inh</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="s">"C1."</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"# spikes"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"Total stimulation (nS)"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-03-28__total_stimulation_22_0.png" src="../_images/2022-03-28__total_stimulation_22_0.png">
 </div>
 </div>
 </div>
 <div class="section" id="p-values">
 <h2>p-values<a class="headerlink" href="#p-values" title="Permalink to this headline">&#182;</a></h2>
+<p>Testing all input connections takes too long.
+So we want to select only the most stimulating ones.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="o">&#8230;:</span>
-    <span class="n">p_value</span> <span class="o">=</span> <span class="n">test_connection</span><span class="p">(</span><span class="o">&#8230;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_selected_per_class</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_indices_of_N_highest</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">=</span> <span class="n">partialsortperm</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">,</span> <span class="n">rev</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>  <span class="c"># = `maxk` in matlab</span>
+
+<span class="n">strongest_exc</span> <span class="o">=</span> <span class="n">get_indices_of_N_highest</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">exc</span><span class="p">,</span> <span class="n">N_selected_per_class</span><span class="p">)</span>
+<span class="n">strongest_inh</span> <span class="o">=</span> <span class="n">get_indices_of_N_highest</span><span class="p">(</span><span class="n">total_stim</span><span class="o">.</span><span class="n">inh</span><span class="p">,</span> <span class="n">N_selected_per_class</span><span class="p">);</span>
+
+<span class="c"># chosen_exc = strongest_exc</span>
+<span class="c"># chosen_inh = strongest_inh</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>No actually let&#8217;s take random sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">chosen_exc</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_selected_per_class</span>
+<span class="n">chosen_inh</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N_selected_per_class</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">total_stim__sel</span> <span class="o">=</span> <span class="n">CVec</span><span class="p">(</span>
+    <span class="n">exc</span> <span class="o">=</span> <span class="n">total_stim</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="n">chosen_exc</span><span class="p">],</span>
+    <span class="n">inh</span> <span class="o">=</span> <span class="n">total_stim</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="n">chosen_inh</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">input_spike_trains__sel</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">exc</span> <span class="o">=</span> <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="n">chosen_exc</span><span class="p">],</span>
+    <span class="n">inh</span> <span class="o">=</span> <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="n">chosen_inh</span><span class="p">],</span>
+<span class="p">);</span>  <span class="c"># no CVec (as components are arrays, not scalars).</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p_values</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">total_stim__sel</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">)</span>
+
+<span class="nd">@showprogress</span> <span class="mi">400</span><span class="n">ms</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">presynspikes</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">input_spike_trains__sel</span><span class="o">.</span><span class="n">exc</span><span class="p">)</span>
+    <span class="n">p_values</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">vimsig</span><span class="p">,</span> <span class="n">presynspikes</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="nd">@showprogress</span> <span class="mi">400</span><span class="n">ms</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">presynspikes</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">input_spike_trains__sel</span><span class="o">.</span><span class="n">inh</span><span class="p">)</span>
+    <span class="n">p_values</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">vimsig</span><span class="p">,</span> <span class="n">presynspikes</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
+<span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
 </pre></div>
 </div>
 </div>
@@ -756,45 +852,29 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Plot<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">total_stim</span><span class="p">,</span> <span class="n">p_value</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>..but separated by exc, inh, unconn.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">example_presynspikes</span> <span class="o">=</span> <span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">44</span><span class="p">]</span>
-<span class="n">plotSTA</span><span class="p">(</span><span class="n">vimsig</span><span class="p">,</span> <span class="n">example_presynspikes</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">total_stim__sel</span><span class="o">.</span><span class="n">exc</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="n">p_values</span><span class="o">.</span><span class="n">exc</span><span class="p">,</span> <span class="s">"C2."</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory"</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">total_stim__sel</span><span class="o">.</span><span class="n">inh</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="n">p_values</span><span class="o">.</span><span class="n">inh</span><span class="p">,</span> <span class="s">"C1."</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory"</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">&#945;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s">"&#945; = {&#945;:.3G}"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Total stimulation (nS)"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"p-value of connection test"</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s">"upper left"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-03-28__total_stimulation_28_0.png" src="../_images/2022-03-28__total_stimulation_28_0.png">
+<img alt="../_images/2022-03-28__total_stimulation_32_0.png" src="../_images/2022-03-28__total_stimulation_32_0.png">
 </div>
 </div>
+<p>^ is for a random selection of inputs.</p>
+<p>The below is for the N strongest inputs:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p_value</span> <span class="o">=</span> <span class="n">test_connection</span><span class="p">(</span><span class="n">vimsig</span><span class="p">,</span> <span class="n">example_presynspikes</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># (rerun and lose)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.61
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_eval_trains</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">num_tested_neurons_per_group</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>40
-</pre></div>
-</div>
+<img alt="../_images/2022-03-28__total_stimulation_34_0.png" src="../_images/2022-03-28__total_stimulation_34_0.png">
 </div>
 </div>
 </div>
