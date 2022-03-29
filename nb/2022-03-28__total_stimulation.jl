@@ -100,7 +100,7 @@ set(ax, xlabel="# spikes", ylabel="Total stimulation (nS)");
 # Testing all input connections takes too long.
 # So we want to select only the most stimulating ones.
 
-N_selected_per_class = 100
+N_selected_per_class = 100;
 
 # +
 get_indices_of_N_highest(arr, N) = partialsortperm(arr, 1:N, rev = true)  # = `maxk` in matlab
@@ -108,8 +108,8 @@ get_indices_of_N_highest(arr, N) = partialsortperm(arr, 1:N, rev = true)  # = `m
 strongest_exc = get_indices_of_N_highest(total_stim.exc, N_selected_per_class)
 strongest_inh = get_indices_of_N_highest(total_stim.inh, N_selected_per_class);
 
-# chosen_exc = strongest_exc
-# chosen_inh = strongest_inh
+chosen_exc = strongest_exc
+chosen_inh = strongest_inh;
 # -
 
 # No actually let's take random sample.
