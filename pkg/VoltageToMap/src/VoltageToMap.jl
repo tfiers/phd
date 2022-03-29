@@ -14,7 +14,7 @@ include("params.jl")
 export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
 export PoissonInputParams, SynapseParams, IzhikevichParams, VoltageImagingParams
 export realistic_N_6600_input, previous_N_30_input, realistic_synapses, cortical_RS,
-       get_voltage_imaging_params, params
+       get_VI_params_for, params
 
 include("sim.jl")
 export sim

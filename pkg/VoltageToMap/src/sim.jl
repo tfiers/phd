@@ -10,7 +10,7 @@ function sim(params::SimParams)
     end
     t = linspace(zero(duration), duration, num_timesteps)
     vimsig = add_VI_noise(rec.v, params.imaging.σ_noise)
-    return (; t, rec.v, vimsig, rec.input_spikes)
+    return (; t, rec.v, vimsig, rec.input_spikes, state)
 end
 
 const x = progress_bar_update_interval = 400ms

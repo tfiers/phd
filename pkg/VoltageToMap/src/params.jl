@@ -61,7 +61,7 @@ const cortical_RS = IzhikevichParams()
     σ_noise        = spike_height / spike_SNR
 end
 
-get_VI_params_for(izh::IzhikevichParams, kw...) =
+get_VI_params_for(izh::IzhikevichParams; kw...) =
     VoltageImagingParams(
         spike_height = izh.v_peak - izh.v_rest;
         kw...
