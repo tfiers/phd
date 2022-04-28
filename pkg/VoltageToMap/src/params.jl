@@ -4,10 +4,6 @@ their default values.
 
 `@deftype` is a macro from Parameters.jl that defines every field to have the specified type
 (unless overridden) -- to avoid repetition.
-
-Note that we need to use `@with_kw` from Parameters.jl, and not the similar `@kwdef` from
-Base, because the latter does not automatically calculate dependent fields (like `N = N_conn
-+ N_unconn`) when creating a struct with non-default parameter values.
 """
 
 
