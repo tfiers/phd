@@ -16,6 +16,21 @@
 
 # # 2022-04-28 • Interpolate N = 30 .. 6000
 
+# The N = 30 case had a fixed firing rate for the input neurons (of 20 Hz).  
+# We'll now also give it the lognormal (with mean 4 Hz) firing rate distribution.
+#
+# We must introduce a new concept / parameter: the desired **stimulation rate** of the input neurons.
+# It is a product of average firing rate and 'stimulation' (synaptic conductance increase, Δg) per spike.
+# Given that average spike rate is fixed (namely 4 Hz), we use this paramter to calculate Δg.
+#
+# A sensible value for it is taken from the previous (N = 6600) notebook
+# where Δg_exc was 0.4 nS and the Δg_multiplier was 0.066.
+#
+# We'll thus choose `avg_stimulation_rate__exc` to be 0.4 nS * 0.066 * 4 Hz, or **0.1 nS/second**.
+# Our inhibitory inputs have 4x the strength, so `avg_stimulation_rate__inh` will be **0.4 nS/second**.
+#
+# The actual stimulation rate for each input neuron will vary from these, as their firing rates are not 4 Hz, but rather distributed lognormally somewhere around that.
+
 # ## Setup
 
 # +
@@ -33,22 +48,17 @@ using VoltageToMap
 
 # Short warm-up run. Get compilation out of the way.
 
-p0 = ExperimentParams(
-    sim = SimParams(
+warmup_params = SimParams(
         input = previous_N_30_input,
         duration = 1 * minutes
-    )
 );
 
-@time sim(p0.sim);
+@time sim(warmup_params);
 
 p = ExperimentParams(
     sim = SimParams(
         input = realistic_N_6600_input,
         duration = 0.2 * minutes,
-        synapses = SynapseParams(
-            Δg_multiplier = 0.066,
-        ),
     )
 );
 dumps(p)

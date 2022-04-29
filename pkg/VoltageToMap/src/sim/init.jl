@@ -2,7 +2,7 @@ function init_sim(p::SimParams)
 
     @unpack duration, num_timesteps, rngseed, input, synapses, izh_neuron  = p
     @unpack N_unconn, N_exc, N_inh, N_conn, N                              = input
-    @unpack g_t0, E_exc, E_inh, Δg_exc, Δg_inh, Δg_multiplier              = synapses
+    @unpack g_t0, E_exc, E_inh, avg_stim_rate_exc, avg_stim_rate_inh       = synapses
     @unpack v_t0, u_t0                                                     = izh_neuron
 
     # IDs, subgroup names.
@@ -14,7 +14,7 @@ function init_sim(p::SimParams)
 
     # Inter-spike—interval distributions
     λ = similar(input_neuron_IDs, Float64)
-    λ .= rand(input.spike_rates, length(λ))
+    λ .= rand(p.input.spike_rates, length(λ))
     β = 1 ./ λ
     ISI_distributions = Exponential.(β)
 
@@ -36,8 +36,8 @@ function init_sim(p::SimParams)
 
     # Broadcast scalar parameters
     Δg = similar(synapse_IDs, Float64)
-    Δg.exc .= Δg_exc * Δg_multiplier
-    Δg.inh .= Δg_inh * Δg_multiplier
+    Δg.exc .= avg_stim_rate_exc / mean(p.input.spike_rates)
+    Δg.inh .= avg_stim_rate_inh / mean(p.input.spike_rates)
     E = similar(synapse_IDs, Float64)
     E.exc .= E_exc
     E.inh .= E_inh

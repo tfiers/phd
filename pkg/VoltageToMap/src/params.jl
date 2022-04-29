@@ -21,9 +21,11 @@ const previous_N_30_input    = PoissonInputParams(N_unconn = 9, N_exc = 17)
 
 
 @with_kw struct SynapseParams @deftype Float64
-    Δg_exc         =     0.4 * nS   # Conductance increases on presynaptic spike
-    Δg_inh         =     1.6 * nS   #
-    Δg_multiplier  =     1          # Free param: fiddled with until Izh neuron spikes at ~2Hz.
+
+    avg_stim_rate_exc = 0.1 * nS / seconds  # Product of mean firing rate and postsynaptic
+                                            # conductance increase per spike.
+    avg_stim_rate_inh = 0.4 * nS / seconds
+
     E_exc          =     0   * mV   # Reversal potentials
     E_inh          =  - 65   * mV   #
     g_t0           =     0   * nS   # Conductances at `t = 0`
