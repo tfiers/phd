@@ -4,6 +4,7 @@ using MyToolbox: @reexport
 @reexport using MyToolbox
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 
+
 include("units.jl")
 # [see file for exports]
 
@@ -22,6 +23,10 @@ export sim
 include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_statistic, test_connection
 
+include("eval.jl")
+export evaluate_conntest_performance, performance_for
+
+
 """
 Custom plotting functions are in this separate submodule, so that the heavy PyPlot does not
 need to be loaded when plotting is not needed.
@@ -35,5 +40,6 @@ function __init__()
     end
 end
 end # module Plot
+
 
 end # module VoltageToMap

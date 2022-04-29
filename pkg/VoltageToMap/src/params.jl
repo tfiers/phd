@@ -89,8 +89,9 @@ end
 
 
 @with_kw struct EvaluationParams
-    num_tested_neurons_per_group  ::Int   = 40
-    rngseed                       ::Int   = 0    # For selecting tested neurons
+    α                             ::Float64  = 0.05   # p-value threshold / false detection rate
+    num_tested_neurons_per_group  ::Int      = 40
+    rngseed                       ::Int      = 0      # For selecting tested neurons
 end
 
 
