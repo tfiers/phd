@@ -83,8 +83,13 @@ end
 @with_kw struct ConnTestParams
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
+    STA_test_statistic ::String    = "mean"
     rngseed            ::Int       = 0           # For shuffling ISIs
 end
+# On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a function
+# of an STA signal. Specifying as a string is needed so that params can be saved to disk by
+# JLD.
+
 
 
 

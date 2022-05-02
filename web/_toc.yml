@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-05-02__STA_mean_vs_peak-to-peak
     - file: nb/2022-04-28__interpolate_N_from_30_to_6000
     - file: nb/2022-03-28__total_stimulation
     - file: nb/2022-03-02__detection_rate_big-N-to-1

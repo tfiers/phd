@@ -9,7 +9,7 @@ include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean
+export LogNormal_with_mean, ptp
 
 include("params.jl")
 export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
@@ -21,7 +21,7 @@ include("sim.jl")
 export sim
 
 include("conntest.jl")
-export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_statistic, test_connection
+export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
 export evaluate_conntest_performance, performance_for

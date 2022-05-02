@@ -33,10 +33,10 @@ using VoltageToMap
 N_excs = [
     4,   # => N_inh = 1
     17,  # Same as in `previous_N_30_input`.
-    80,
-    320,
-    1280,
-    5200,  
+#     80,
+#     320,
+#     1280,
+#     5200,  
 ];
 
 get_params(N_exc) = ExperimentParams(
@@ -45,18 +45,20 @@ get_params(N_exc) = ExperimentParams(
         imaging = get_VI_params_for(cortical_RS, spike_SNR = Inf),
         input = PoissonInputParams(; N_exc),
     ),
+    conntest = ConnTestParams(STA_test_statistic="ptp")
 );
 
-param_sets = get_params.(N_excs);
+paramsets = get_params.(N_excs);
 
-dumps(param_sets[1])
+dumps(paramsets[1])
 
 # ## Run
 
 perfs = Vector()
-for params in param_sets
-    @show params.sim.input.N_conn
-    perf = performance_for(params)
+for paramset in paramsets
+    num_inputs = paramset.sim.input.N_conn
+    @show num_inputs
+    perf = performance_for(paramset)
     @show perf
     push!(perfs, perf)
     println()
@@ -69,7 +71,7 @@ import PyPlot
 using VoltageToMap.Plot
 
 # +
-xlabels = [p.sim.input.N_conn for p in param_sets]
+xlabels = [p.sim.input.N_conn for p in paramsets]
 xticks = [1:length(xlabels);]
 plot_detection_rate(detection_rate; kw...) = plot(
     xticks,
@@ -84,7 +86,7 @@ ax = plot_detection_rate([p.TPR_exc for p in perfs], label="for excitatory input
      plot_detection_rate([p.TPR_inh for p in perfs], label="for inhibitory inputs")
      plot_detection_rate([p.FPR for p in perfs], label="for unconnected spikers")
 
-@unpack α = param_sets[1].evaluation
+@unpack α = paramsets[1].evaluation
 ax.axhline(α, color="black", zorder=3, lw=1, linestyle="dashed", label=f"α = {α:.3G}")
 
 # We don't use our `set`, as that undoes our `xminorticks=false` command (bug).
@@ -98,7 +100,11 @@ l = ax.legend(title="Detection rate", ncol=2, loc="lower center", bbox_to_anchor
 l._legend_box.align = "left";
 # -
 
-# - We see monotonic breakdown in excitatory connection detectability.
-# - Same for inhibitory, except it's not monotonic. Fluke due to sampling?
-# - This plot must be improved with multiple simulations per condition rather than just single point.  
-#   (takes a while to run multiple 10' N=6500 sims though).
+# ## [experiment with JLD]
+
+paramset = paramsets[1]
+dir = joinpath(homedir(), ".phdcache")
+mkpath(dir)
+path = joinpath(dir, "$(hash(paramset)).hdf5")
+
+@save path paramset
