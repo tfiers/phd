@@ -1,14 +1,14 @@
 
-function calc_STA(vimsig, presynaptic_spikes, p::ExperimentParams)
+function calc_STA(VI_sig, presynaptic_spikes, p::ExperimentParams)
     Δt = p.sim.Δt
     win_size = round(Int, p.conntest.STA_window_length / Δt)
-    STA = zeros(eltype(vimsig), win_size)
+    STA = zeros(eltype(VI_sig), win_size)
     win_starts = round.(Int, presynaptic_spikes / Δt)
     num_wins = 0
     for a in win_starts
         b = a + win_size - 1
-        if b ≤ lastindex(vimsig)
-            STA .+= @view vimsig[a:b]
+        if b ≤ lastindex(VI_sig)
+            STA .+= @view VI_sig[a:b]
             num_wins += 1
         end
     end
@@ -21,14 +21,14 @@ to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
 
 shuffle_ISIs(spiketimes) = to_spiketimes!(shuffle!(to_ISIs(spiketimes)));
 
-test_statistic(vimsig, presynspikes, p) = mean(calc_STA(vimsig, presynspikes, p))
+test_statistic(VI_sig, presynspikes, p) = mean(calc_STA(VI_sig, presynspikes, p))
 
-function test_connection(vimsig, presynaptic_spikes, p::ExperimentParams)
+function test_connection(VI_sig, presynaptic_spikes, p::ExperimentParams)
     @unpack num_shuffles = p.conntest
-    real_t = test_statistic(vimsig, presynaptic_spikes, p)
+    real_t = test_statistic(VI_sig, presynaptic_spikes, p)
     shuffled_t = Vector{typeof(real_t)}(undef, num_shuffles)
     for i in eachindex(shuffled_t)
-        shuffled_t[i] = test_statistic(vimsig, shuffle_ISIs(presynaptic_spikes), p)
+        shuffled_t[i] = test_statistic(VI_sig, shuffle_ISIs(presynaptic_spikes), p)
     end
     N_shuffled_larger = count(shuffled_t .> real_t)
     return if N_shuffled_larger == 0
