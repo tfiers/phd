@@ -530,6 +530,9 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="section" id="sta-mean-vs-peak-to-peak">
 <h1>2022-05-02&#8226; STA mean vs peak-to-peak<a class="headerlink" href="#sta-mean-vs-peak-to-peak" title="Permalink to this headline">&#182;</a></h1>
+<p>Peak-to-peak cannot distinguish excitatory vs inhibitory (it&#8217;s just the height of the bump &#8211; no matter whether it&#8217;s upwards or downwards).</p>
+<p>To do that, we might instead use sth like &#8220;either max-median or min-median, whatever&#8217;s largest in absolute terms&#8221;.</p>
+<p>For now we don&#8217;t try to detect this difference, and &#8216;cheat&#8217; in our code (special-case the inhibitory / ptp case when comparing p-values with &#945;).</p>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -682,34 +685,34 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num_inputs = 5
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:14</span>
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:06</span>
-perf = (TPR_exc = 1.0, TPR_inh = 0.0, FPR = 0.07499999999999996)
+perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)
 
 num_inputs = 21
 <span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-perf = (TPR_exc = 1.0, TPR_inh = 0.0, FPR = 0.07499999999999996)
+perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.07499999999999996)
 
 num_inputs = 100
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:15</span>
-perf = (TPR_exc = 1.0, TPR_inh = 0.0, FPR = 0.050000000000000044)
+perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.07499999999999996)
 
 num_inputs = 400
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-perf = (TPR_exc = 1.0, TPR_inh = 0.0, FPR = 0.07499999999999996)
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:15</span>
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
+perf = (TPR_exc = 1.0, TPR_inh = 0.75, FPR = 0.125)
 
 num_inputs = 1600
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:46</span>
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:45</span>
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
-perf = (TPR_exc = 0.75, TPR_inh = 0.0, FPR = 0.125)
+perf = (TPR_exc = 0.75, TPR_inh = 0.475, FPR = 0.125)
 
 num_inputs = 6500
 <span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:31</span>
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-perf = (TPR_exc = 0.05, TPR_inh = 0.0, FPR = 0.09999999999999998)
+perf = (TPR_exc = 0.05, TPR_inh = 0.1, FPR = 0.09999999999999998)
 </pre></div>
 </div>
 </div>
@@ -764,7 +767,7 @@ perf = (TPR_exc = 0.05, TPR_inh = 0.0, FPR = 0.09999999999999998)
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_16_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_16_0.png">
+<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_17_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_17_0.png">
 </div>
 </div>
 </div>
@@ -792,6 +795,11 @@ perf = (TPR_exc = 0.05, TPR_inh = 0.0, FPR = 0.09999999999999998)
 </div>
 </div>
 </div>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/JuliaIO/JLD.jl">https://github.com/JuliaIO/JLD.jl</a></p></li>
+<li><p><a class="reference external" href="https://docs.julialang.org/en/v1/base/file/#Base.Filesystem.isfile">https://docs.julialang.org/en/v1/base/file/#Base.Filesystem.isfile</a></p></li>
+<li><p><a class="reference external" href="https://github.com/JuliaIO/JLD.jl/blob/master/doc/jld.md">https://github.com/JuliaIO/JLD.jl/blob/master/doc/jld.md</a></p></li>
+</ul>
 </div>
 </div>
 
