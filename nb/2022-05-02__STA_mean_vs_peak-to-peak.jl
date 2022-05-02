@@ -16,6 +16,12 @@
 
 # # 2022-05-02• STA mean vs peak-to-peak
 
+# Peak-to-peak cannot distinguish excitatory vs inhibitory (it's just the height of the bump -- no matter whether it's upwards or downwards).
+#
+# To do that, we might instead use sth like "either max-median or min-median, whatever's largest in absolute terms".
+#
+# For now we don't try to detect this difference, and 'cheat' in our code (special-case the inhibitory / ptp case when comparing p-values with α).
+
 # ## Setup
 
 # +
@@ -108,3 +114,7 @@ mkpath(dir)
 path = joinpath(dir, "$(hash(paramset)).hdf5")
 
 @save path paramset
+
+# - https://github.com/JuliaIO/JLD.jl
+# - https://docs.julialang.org/en/v1/base/file/#Base.Filesystem.isfile
+# - https://github.com/JuliaIO/JLD.jl/blob/master/doc/jld.md

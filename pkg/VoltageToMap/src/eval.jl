@@ -16,6 +16,7 @@ function evaluate_conntest_performance(vi, input_spikes, p::ExperimentParams)
     N_eval_inh    = get_N_eval(input_spikes.conn.inh)
     N_eval_unconn = get_N_eval(input_spikes.unconn)
     N_eval_total = N_eval_exc + N_eval_inh + N_eval_unconn
+    # We could nicely rollup these three loops with Python's `yield`; alas not so easy here.
 
     get_subset_to_test(group) = group[1:get_N_eval(group)]  # should correspond to random sample
     progress_meter = Progress(N_eval_total, 400ms, "Testing connections: ")
@@ -28,15 +29,27 @@ function evaluate_conntest_performance(vi, input_spikes, p::ExperimentParams)
     end
     for input_train in get_subset_to_test(input_spikes.conn.inh)
         p_value = test_connection(vi, input_train, p)
-        if p_value > 1 - α
-            TP_inh += 1
+        if p.conntest.STA_test_statistic == "ptp"
+            if p_value < α
+                TP_inh += 1
+            end
+        else
+            if p_value > 1 - α
+                TP_inh += 1
+            end
         end
         next!(progress_meter)
     end
     for input_train in get_subset_to_test(input_spikes.unconn)
         p_value = test_connection(vi, input_train, p)
-        if α/2 ≤ p_value ≤ 1 - α/2
-            TP_unconn += 1
+        if p.conntest.STA_test_statistic == "ptp"
+            if p_value ≥ α
+                TP_unconn += 1
+            end
+        else
+            if α/2 ≤ p_value ≤ 1 - α/2
+                TP_unconn += 1
+            end
         end
         next!(progress_meter)
     end
