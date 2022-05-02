@@ -33,10 +33,10 @@ using VoltageToMap
 N_excs = [
     4,   # => N_inh = 1
     17,  # Same as in `previous_N_30_input`.
-#     80,
-#     320,
-#     1280,
-#     5200,  
+    80,
+    320,
+    1280,
+    5200,  
 ];
 
 get_params(N_exc) = ExperimentParams(
