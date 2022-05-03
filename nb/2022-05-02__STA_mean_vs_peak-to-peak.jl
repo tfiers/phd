@@ -34,6 +34,31 @@ using MyToolbox
 
 using VoltageToMap
 
+
+
+# +
+abstract type ParamSet end
+
+@with_kw struct FoodParams <: ParamSet
+    stoof::String = "waf"
+    geld::Int = 88
+end
+# -
+
+function Base.hash(params::P) where {P<:ParamSet}
+    return 
+end
+
+hash(FoodParams())
+
+
+
+
+
+versioninfo()
+
+
+
 # ## Params
 
 N_excs = [
@@ -56,6 +81,14 @@ get_params(N_exc) = ExperimentParams(
 
 paramsets = get_params.(N_excs);
 
+hash(paramsets[1].sim)
+
+hash(SimParams(
+        duration = 10 * minutes,
+        imaging = get_VI_params_for(cortical_RS, spike_SNR = Inf),
+        input = PoissonInputParams(; N_exc=4),
+    ))
+
 dumps(paramsets[1])
 
 # ## Run
@@ -64,7 +97,17 @@ perfs = Vector()
 for paramset in paramsets
     num_inputs = paramset.sim.input.N_conn
     @show num_inputs
-    perf = performance_for(paramset)
+    perf = cached(sim_and_eval, [paramset], "perf")
+    @show perf
+    push!(perfs, perf)
+    println()
+end
+
+perfs = Vector()
+for paramset in paramsets
+    num_inputs = paramset.sim.input.N_conn
+    @show num_inputs
+    perf = cached(sim_and_eval, [paramset], "perf")
     @show perf
     push!(perfs, perf)
     println()
@@ -106,44 +149,6 @@ l = ax.legend(title="Detection rate", ncol=2, loc="lower center", bbox_to_anchor
 l._legend_box.align = "left";
 # -
 
-# ## [experiment with JLD]
-
-simparams = SimParams()
-
-cached(sim, [simparams])
-
-cached(sim, [simparams])
-
-@withfb "sl" sleep(3)
-
-
-
-output = sim(simparams);
-
-dir = joinpath(homedir(), ".phdcache")
-mkpath(dir)
-path = joinpath(dir, string(hash(simparams), base=16) * ".hdf5")
-
-# - https://github.com/JuliaIO/JLD.jl
-# - https://docs.julialang.org/en/v1/base/file/#Base.Filesystem.isfile
-# - https://github.com/JuliaIO/JLD.jl/blob/master/doc/jld.md
-
-joinpath(homedir(), nothing)
-
-jldsave(path2; simparams, output)
-
-path2 = joinpath(dir, "blah.jld2")
-
-jldsave(path2; output)
-
-l = load(path2)
-
-o = l["output"];
-
-homedir() / p".phdcache"
-
 o.input_spikes.conn.exc[1]
-
-
 
 

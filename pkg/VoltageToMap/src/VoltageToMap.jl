@@ -27,7 +27,7 @@ include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
-export evaluate_conntest_performance, performance_for
+export evaluate_conntest_performance, sim_and_eval
 
 
 """

@@ -6,10 +6,10 @@ function cached(f, args::Vector, subdir=string(nameof(f)); params=last(args))
     filename = string(hash(params), base=16) * ".jld2"
     path = joinpath(dir, filename)
     if isfile(path)
-        @withfb "Loading output from $path" output = load(path, "output")
+        @withfb "Loading output from `$path`" output = load(path, "output")
     else
         output = f(args...)
-        @withfb "Saving output at $path" jldsave(path; params, output)
+        @withfb "Saving output at `$path`" jldsave(path; params, output)
     end
     return output
 end

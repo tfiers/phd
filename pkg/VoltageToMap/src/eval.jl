@@ -1,8 +1,8 @@
 
-function performance_for(params::ExperimentParams)
+function sim_and_eval(params::ExperimentParams)
     simresult = cached(sim, [params.sim])
     @unpack vi, input_spikes = simresult
-    perf = cached(evaluate_conntest_perf, [vi, input_spikes, params], "perf")
+    perf = evaluate_conntest_perf(vi, input_spikes, params)
     return perf
 end
 
