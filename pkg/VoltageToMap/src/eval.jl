@@ -1,11 +1,13 @@
 
-function performance_for(p::ExperimentParams)
-    t, v, vi, input_spikes, state = sim(p.sim);
-    return evaluate_conntest_performance(vi, input_spikes, p)
+function performance_for(params::ExperimentParams)
+    simresult = cached(sim, [params.sim])
+    @unpack vi, input_spikes = simresult
+    perf = cached(evaluate_conntest_perf, [vi, input_spikes, params], "perf")
+    return perf
 end
 
 
-function evaluate_conntest_performance(vi, input_spikes, p::ExperimentParams)
+function evaluate_conntest_perf(vi, input_spikes, p::ExperimentParams)
     @unpack rngseed, num_tested_neurons_per_group, α = p.evaluation
     resetrng!(rngseed)
     TP_exc = 0

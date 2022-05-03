@@ -11,6 +11,9 @@ include("units.jl")
 include("misc.jl")
 export LogNormal_with_mean, ptp
 
+include("diskcache.jl")
+export cachedir, cached
+
 include("params.jl")
 export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
 export PoissonInputParams, SynapseParams, IzhikevichParams, VoltageImagingParams
