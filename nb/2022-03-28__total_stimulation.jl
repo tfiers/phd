@@ -89,11 +89,11 @@ ax.set_xlim(left=0)
 set(ax, xlabel="Total stimulation (nS)", ylabel="# Input connections")
 ax.legend();
 
-ax = plot(num_spikes.conn.exc, total_stim.exc / nS, "C2.", clip_on=false)
-ax = plot(num_spikes.conn.inh, total_stim.inh / nS, "C1.", ax, clip_on=false)
+ax = plot(total_stim.exc / nS, num_spikes.conn.exc, "C2.", clip_on=false)
+ax = plot(total_stim.inh / nS, num_spikes.conn.inh, "C1.", ax, clip_on=false)
 ax.set_xlim(left=0)
 ax.set_ylim(bottom=0)
-set(ax, xlabel="# spikes", ylabel="Total stimulation (nS)");
+set(ax, hylabel="# spikes", xlabel="Total stimulation (nS)");
 
 # ## p-values
 
