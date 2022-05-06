@@ -7,7 +7,13 @@ their default values.
 """
 
 
-@with_kw struct PoissonInputParams
+abstract type ParamSet end
+
+
+const default_rngseed = 22022022
+
+
+@with_kw struct PoissonInputParams <: ParamSet
     N_unconn     ::Int            = 100
     N_exc        ::Int            = 5200
     N_inh        ::Int            = N_exc ÷ 4
@@ -20,22 +26,22 @@ const previous_N_30_input    = PoissonInputParams(N_unconn = 9, N_exc = 17)
 
 
 
-@with_kw struct SynapseParams @deftype Float64
-
-    avg_stim_rate_exc = 0.1 * nS / seconds  # Product of mean firing rate and postsynaptic
-                                            # conductance increase per spike.
-    avg_stim_rate_inh = 0.4 * nS / seconds
-
-    E_exc          =     0   * mV   # Reversal potentials
-    E_inh          =  - 65   * mV   #
-    g_t0           =     0   * nS   # Conductances at `t = 0`
-    τ              =     7   * ms   # Time constant of exponential decay of conductances
+@with_kw struct SynapseParams <: ParamSet @deftype Float64
+    avg_stim_rate_exc  =    0.1 * nS / seconds
+        # Used to calculate the postsynaptic conductance increase per spike for all
+        # excitatory neurons, by dividing by the mean of the spike rate distribution
+        # (defined above).
+    avg_stim_rate_inh  =    0.4 * nS / seconds
+    E_exc              =    0   * mV   # Reversal potentials
+    E_inh              = - 65   * mV   #
+    g_t0               =    0   * nS   # Conductances at `t = 0`
+    τ                  =    7   * ms   # Time constant of exponential decay of conductances
 end
 const realistic_synapses = SynapseParams()
 
 
 
-@with_kw struct IzhikevichParams @deftype Float64
+@with_kw struct IzhikevichParams <: ParamSet @deftype Float64
     C        =  100    * pF          # cell capacitance
     k        =    0.7  * (nS/mV)     # steepness of dv/dt's parabola
     v_rest   = - 60    * mV          # resting v
@@ -52,7 +58,7 @@ const cortical_RS = IzhikevichParams()
 
 
 
-@with_kw struct VoltageImagingParams @deftype Float64
+@with_kw struct VoltageImagingParams <: ParamSet @deftype Float64
     spike_SNR      = 10
     spike_SNR_dB   = 20log10(spike_SNR)   # 1 ⇒ 0dB,  10 ⇒ 20dB,  100 ⇒ 40dB,  …
     spike_height
@@ -67,11 +73,12 @@ get_VI_params_for(izh::IzhikevichParams; kw...) =
 
 
 
-@with_kw struct SimParams
+@with_kw struct SimParams <: ParamSet
     duration       ::Float64                = 10 * seconds
     Δt             ::Float64                = 0.1 * ms
     num_timesteps  ::Int                    = round(Int, duration / Δt)
-    rngseed        ::Int                    = 0  # For spike generation and imaging noise.
+    rngseed        ::Int                    = default_rngseed
+                                                # For spike generation and imaging noise.
     input          ::PoissonInputParams     = realistic_N_6600_input
     synapses       ::SynapseParams          = realistic_synapses
     izh_neuron     ::IzhikevichParams       = cortical_RS
@@ -80,11 +87,11 @@ end
 
 
 
-@with_kw struct ConnTestParams
+@with_kw struct ConnTestParams <: ParamSet
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
     STA_test_statistic ::String    = "mean"
-    rngseed            ::Int       = 0           # For shuffling ISIs
+    rngseed            ::Int       = default_rngseed   # For shuffling ISIs
 end
 # On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a function
 # of an STA signal. Specifying as a string is needed so that params can be saved to disk by
@@ -93,18 +100,18 @@ end
 
 
 
-@with_kw struct EvaluationParams
+@with_kw struct EvaluationParams <: ParamSet
     α                             ::Float64  = 0.05   # p-value threshold / false detection rate
     num_tested_neurons_per_group  ::Int      = 40
-    rngseed                       ::Int      = 0      # For selecting tested neurons
+    rngseed                       ::Int      = default_rngseed
+                                                      # For selecting tested neurons
 end
 
 
 
-@with_kw struct ExperimentParams
-    rngseed     ::Int                = 22022022
-    sim         ::SimParams          = SimParams(; rngseed)
-    conntest    ::ConnTestParams     = ConnTestParams(; rngseed)
-    evaluation  ::EvaluationParams   = EvaluationParams(; rngseed)
+@with_kw struct ExperimentParams <: ParamSet
+    sim         ::SimParams          = SimParams()
+    conntest    ::ConnTestParams     = ConnTestParams()
+    evaluation  ::EvaluationParams   = EvaluationParams()
 end
 const params = ExperimentParams()
