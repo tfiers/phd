@@ -465,8 +465,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-results">
-   Plot results
+  <a class="reference internal nav-link" href="#prepare-plot">
+   Prepare plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
   </a>
  </li>
 </ul>
@@ -505,8 +510,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-results">
-   Plot results
+  <a class="reference internal nav-link" href="#prepare-plot">
+   Prepare plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
   </a>
  </li>
 </ul>
@@ -552,60 +562,21 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">abstract type</span> <span class="kt">ParamSet</span> <span class="k">end</span>
-
-<span class="nd">@with_kw</span> <span class="k">struct</span> <span class="kt">FoodParams</span> <span class="o">&lt;:</span> <span class="kt">ParamSet</span>
-    <span class="n">stoof</span><span class="o">::</span><span class="kt">String</span> <span class="o">=</span> <span class="s">"waf"</span>
-    <span class="n">geld</span><span class="o">::</span><span class="kt">Int</span> <span class="o">=</span> <span class="mi">88</span>
-<span class="k">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FoodParams
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">Base</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="n">params</span><span class="o">::</span><span class="kt">P</span><span class="p">)</span> <span class="k">where</span> <span class="p">{</span><span class="kt">P</span><span class="o">&lt;:</span><span class="kt">ParamSet</span><span class="p">}</span>
-    <span class="k">return</span> 
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">hash</span><span class="p">(</span><span class="n">FoodParams</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>123
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">versioninfo</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Julia Version 1.7.1
-Commit ac5cc99908 (2021-12-22 19:35 UTC)
-Platform Info:
-  OS: Windows (x86_64-w64-mingw32)
-  CPU: Intel(R) Xeon(R) W-2123 CPU @ 3.60GHz
-  WORD_SIZE: 64
-  LIBM: libopenlibm
-  LLVM: libLLVM-12.0.1 (ORCJIT, skylake-avx512)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [61be95e5-9550-4d5f-a203-92a5acbc3116]
 </pre></div>
 </div>
 </div>
@@ -629,13 +600,22 @@ Platform Info:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_params</span><span class="p">(</span><span class="n">N_exc</span><span class="p">)</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rngseeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_params</span><span class="p">((</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">))</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
         <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
         <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span><span class="n">cortical_RS</span><span class="p">,</span> <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">),</span>
-        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="p">),</span>
+        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="p">);</span>
+        <span class="n">rngseed</span><span class="p">,</span>
     <span class="p">),</span>
-    <span class="n">conntest</span> <span class="o">=</span> <span class="n">ConnTestParams</span><span class="p">(</span><span class="n">STA_test_statistic</span><span class="o">=</span><span class="s">"ptp"</span><span class="p">)</span>
+    <span class="n">conntest</span> <span class="o">=</span> <span class="n">ConnTestParams</span><span class="p">(;</span> <span class="n">STA_test_statistic</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">);</span>
+    <span class="n">evaluation</span> <span class="o">=</span> <span class="n">EvaluationParams</span><span class="p">(;</span> <span class="n">rngseed</span><span class="p">)</span>
 <span class="p">);</span>
 </pre></div>
 </div>
@@ -643,35 +623,40 @@ Platform Info:
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">paramsets</span> <span class="o">=</span> <span class="n">get_params</span><span class="o">.</span><span class="p">(</span><span class="n">N_excs</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">variableparams</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">N_excs</span><span class="p">,</span> <span class="n">rngseeds</span><span class="p">,</span> <span class="p">[</span><span class="s">"ptp"</span><span class="p">,</span> <span class="s">"mean"</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{Tuple{Int64, Int64, String}, 3}:
+[:, :, 1] =
+ (4, 0, "ptp")     (4, 1, "ptp")     &#8230;  (4, 3, "ptp")     (4, 4, "ptp")
+ (17, 0, "ptp")    (17, 1, "ptp")       (17, 3, "ptp")    (17, 4, "ptp")
+ (80, 0, "ptp")    (80, 1, "ptp")       (80, 3, "ptp")    (80, 4, "ptp")
+ (320, 0, "ptp")   (320, 1, "ptp")      (320, 3, "ptp")   (320, 4, "ptp")
+ (1280, 0, "ptp")  (1280, 1, "ptp")     (1280, 3, "ptp")  (1280, 4, "ptp")
+ (5200, 0, "ptp")  (5200, 1, "ptp")  &#8230;  (5200, 3, "ptp")  (5200, 4, "ptp")
+
+[:, :, 2] =
+ (4, 0, "mean")     (4, 1, "mean")     &#8230;  (4, 4, "mean")
+ (17, 0, "mean")    (17, 1, "mean")       (17, 4, "mean")
+ (80, 0, "mean")    (80, 1, "mean")       (80, 4, "mean")
+ (320, 0, "mean")   (320, 1, "mean")      (320, 4, "mean")
+ (1280, 0, "mean")  (1280, 1, "mean")     (1280, 4, "mean")
+ (5200, 0, "mean")  (5200, 1, "mean")  &#8230;  (5200, 4, "mean")
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">hash</span><span class="p">(</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">paramsets</span> <span class="o">=</span> <span class="n">get_params</span><span class="o">.</span><span class="p">(</span><span class="n">variableparams</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">paramsets</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0x6f9227e8a3b681c2
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">hash</span><span class="p">(</span><span class="n">SimParams</span><span class="p">(</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
-        <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span><span class="n">cortical_RS</span><span class="p">,</span> <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">),</span>
-        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
-    <span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0x6f9227e8a3b681c2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{ExperimentParams, 3}
 </pre></div>
 </div>
 </div>
@@ -684,7 +669,6 @@ Platform Info:
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
-  rngseed: 22022022
   sim: SimParams
     duration: 600.0
     &#916;t: 0.0001
@@ -731,7 +715,7 @@ Platform Info:
   evaluation: EvaluationParams
     &#945;: 0.05
     num_tested_neurons_per_group: 40
-    rngseed: 22022022
+    rngseed: 0
 </pre></div>
 </div>
 </div>
@@ -741,132 +725,158 @@ Platform Info:
 <h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">paramset</span> <span class="k">in</span> <span class="n">paramsets</span>
-    <span class="n">num_inputs</span> <span class="o">=</span> <span class="n">paramset</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span>
-    <span class="nd">@show</span> <span class="n">num_inputs</span>
-    <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim_and_eval</span><span class="p">,</span> <span class="p">[</span><span class="n">paramset</span><span class="p">],</span> <span class="s">"perf"</span><span class="p">)</span>
-    <span class="nd">@show</span> <span class="n">perf</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">perfs</span><span class="p">,</span> <span class="n">perf</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">paramsets</span><span class="p">,</span> <span class="kt">NamedTuple</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">paramsets</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">)</span> <span class="o">=</span> <span class="n">variableparams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">paramset</span> <span class="o">=</span> <span class="n">paramsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">println</span><span class="p">((;</span> <span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">),</span> <span class="s">" "</span><span class="p">,</span> <span class="n">cachefilename</span><span class="p">(</span><span class="n">paramset</span><span class="p">))</span>
+    <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim_and_eval</span><span class="p">,</span> <span class="p">[</span><span class="n">paramset</span><span class="p">])</span>
+    <span class="n">perfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf</span>
 <span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num_inputs = 5
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:14</span>
-Saving output at `C:\Users\lpxtf3\.phdcache\sim\6f9227e8a3b681c2.jld2` done (12.8 s)
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
-Saving output at `C:\Users\lpxtf3\.phdcache\perf\dc1e67120b2da784.jld2` done (1.0 s)
-perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)
-
-num_inputs = 21
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:19</span>
-Saving output at `C:\Users\lpxtf3\.phdcache\sim\506db9508530d54b.jld2` done (4.1 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_exc = 4, seed = 0, STA_test_statistic = "ptp") 1c6eb51735c61aa7.jld2
+(N_exc = 17, seed = 0, STA_test_statistic = "ptp") 84d27a020097a66c.jld2
+(N_exc = 80, seed = 0, STA_test_statistic = "ptp") 4f790c694d38d1ea.jld2
+(N_exc = 320, seed = 0, STA_test_statistic = "ptp") 12abb647d0323d89.jld2
+(N_exc = 1280, seed = 0, STA_test_statistic = "ptp") da749dd4f62b2c79.jld2
+(N_exc = 5200, seed = 0, STA_test_statistic = "ptp") 8d7b02d80d95564a.jld2
+(N_exc = 4, seed = 1, STA_test_statistic = "ptp") a4336b934de51319.jld2
+(N_exc = 17, seed = 1, STA_test_statistic = "ptp") bd9d2af9ae7399e7.jld2
+(N_exc = 80, seed = 1, STA_test_statistic = "ptp") 1b7dbae8b12724a9.jld2
+(N_exc = 320, seed = 1, STA_test_statistic = "ptp") 24eed4ff47bd2d9c.jld2
+(N_exc = 1280, seed = 1, STA_test_statistic = "ptp") bb7c4b6a0bafba5b.jld2
+(N_exc = 5200, seed = 1, STA_test_statistic = "ptp") 646d120436b18997.jld2
+(N_exc = 4, seed = 2, STA_test_statistic = "ptp") 389be050ca350439.jld2
+(N_exc = 17, seed = 2, STA_test_statistic = "ptp") 94c9a1583b31c3be.jld2
+(N_exc = 80, seed = 2, STA_test_statistic = "ptp") 53e941a41b28160.jld2
+(N_exc = 320, seed = 2, STA_test_statistic = "ptp") d10f806866bfbeb9.jld2
+(N_exc = 1280, seed = 2, STA_test_statistic = "ptp") 4c0a94fe429060d9.jld2
+(N_exc = 5200, seed = 2, STA_test_statistic = "ptp") 6dbf4ab9e8c19aa9.jld2
+(N_exc = 4, seed = 3, STA_test_statistic = "ptp") c46086d53caad71a.jld2
+(N_exc = 17, seed = 3, STA_test_statistic = "ptp") 73ea57aca6c97a03.jld2
+(N_exc = 80, seed = 3, STA_test_statistic = "ptp") ec69132cda395530.jld2
+(N_exc = 320, seed = 3, STA_test_statistic = "ptp") 1a08686771529f42.jld2
+(N_exc = 1280, seed = 3, STA_test_statistic = "ptp") 3280023361bf8411.jld2
+(N_exc = 5200, seed = 3, STA_test_statistic = "ptp") 4d82d214911f5f7a.jld2
+(N_exc = 4, seed = 4, STA_test_statistic = "ptp") 1a608aab98540cf5.jld2
+(N_exc = 17, seed = 4, STA_test_statistic = "ptp") 3f348a4118c4e31d.jld2
+(N_exc = 80, seed = 4, STA_test_statistic = "ptp") 4cb48bd54ad76bc6.jld2
+(N_exc = 320, seed = 4, STA_test_statistic = "ptp") 1477a19230cda77f.jld2
+(N_exc = 1280, seed = 4, STA_test_statistic = "ptp") eaec7a3177106c81.jld2
+(N_exc = 5200, seed = 4, STA_test_statistic = "ptp") 844b122c19d1454e.jld2
+(N_exc = 4, seed = 0, STA_test_statistic = "mean") 98aef5906551158d.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:06</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\98aef5906551158d.jld2` &#8230;  done
+(N_exc = 17, seed = 0, STA_test_statistic = "mean") e09505929902859.jld2
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-Saving output at `C:\Users\lpxtf3\.phdcache\perf\c99d68ae7b4e99cc.jld2` done
-perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.07499999999999996)
-
-num_inputs = 100
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:21</span>
-Saving output at `C:\Users\lpxtf3\.phdcache\sim\bb6039882c67d4bf.jld2` done (2.3 s)
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e09505929902859.jld2` &#8230;  done
+(N_exc = 80, seed = 0, STA_test_statistic = "mean") e5a08f23a78d9b89.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e5a08f23a78d9b89.jld2` &#8230;  done
+(N_exc = 320, seed = 0, STA_test_statistic = "mean") 86a16c083878a331.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\86a16c083878a331.jld2` &#8230;  done
+(N_exc = 1280, seed = 0, STA_test_statistic = "mean") 87cc4349a8c01a11.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\87cc4349a8c01a11.jld2` &#8230;  done
+(N_exc = 5200, seed = 0, STA_test_statistic = "mean") ad13ac4c291710c8.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\ad13ac4c291710c8.jld2` &#8230;  done
+(N_exc = 4, seed = 1, STA_test_statistic = "mean") 71c47a42b41f287c.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\71c47a42b41f287c.jld2` &#8230;  done
+(N_exc = 17, seed = 1, STA_test_statistic = "mean") 5004b53633e05b74.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\5004b53633e05b74.jld2` &#8230;  done
+(N_exc = 80, seed = 1, STA_test_statistic = "mean") b7e1ee8a5f6f30c1.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\b7e1ee8a5f6f30c1.jld2` &#8230;  done
+(N_exc = 320, seed = 1, STA_test_statistic = "mean") e07c59946213733.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:23</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e07c59946213733.jld2` &#8230;  done
+(N_exc = 1280, seed = 1, STA_test_statistic = "mean") 283e7407b07aa4ea.jld2
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:19</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\283e7407b07aa4ea.jld2`
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">InterruptException</span>:
-
-<span class="ne">Stacktrace</span>:
-  <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">try_yieldto</span><span class="p">(</span><span class="n">undo</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">Base</span><span class="o">.</span><span class="n">ensure_rescheduled</span><span class="p">))</span>
-    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">task</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">777</span>
-  <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">wait</span><span class="p">()</span>
-    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">task</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">837</span>
-  <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">uv_write</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">PipeEndpoint</span><span class="p">,</span> <span class="n">p</span><span class="p">::</span><span class="n">Ptr</span><span class="p">{</span><span class="n">UInt8</span><span class="p">},</span> <span class="n">n</span><span class="p">::</span><span class="n">UInt64</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">stream</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">992</span>
-  <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">unsafe_write</span><span class="p">(</span><span class="n">s</span><span class="p">::</span><span class="n">Base</span><span class="o">.</span><span class="n">PipeEndpoint</span><span class="p">,</span> <span class="n">p</span><span class="p">::</span><span class="n">Ptr</span><span class="p">{</span><span class="n">UInt8</span><span class="p">},</span> <span class="n">n</span><span class="p">::</span><span class="n">UInt64</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">stream</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1064</span>
-  <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">unsafe_write</span>
-    <span class="o">@</span> <span class="o">.</span>\<span class="n">io</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">362</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
-  <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">unsafe_write</span>
-    <span class="o">@</span> <span class="o">.</span>\<span class="n">io</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">648</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
-  <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="n">write</span>
-    <span class="o">@</span> <span class="o">.</span>\<span class="n">io</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">671</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
-  <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="nb">format</span><span class="p">(</span><span class="n">io</span><span class="p">::</span><span class="n">IJulia</span><span class="o">.</span><span class="n">IJuliaStdio</span><span class="p">{</span><span class="n">Base</span><span class="o">.</span><span class="n">PipeEndpoint</span><span class="p">},</span> <span class="n">f</span><span class="p">::</span><span class="n">Printf</span><span class="o">.</span><span class="n">Format</span><span class="p">{</span><span class="n">Base</span><span class="o">.</span><span class="n">CodeUnits</span><span class="p">{</span><span class="n">UInt8</span><span class="p">,</span> <span class="n">String</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Printf</span><span class="o">.</span><span class="n">Spec</span><span class="p">{</span><span class="n">Val</span><span class="p">{</span><span class="s1">'f'</span><span class="p">}}}},</span> <span class="n">args</span><span class="p">::</span><span class="n">Float64</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">Printf</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Julia</span><span class="o">-</span><span class="mf">1.7.1</span>\<span class="n">share</span>\<span class="n">julia</span>\<span class="n">stdlib</span>\<span class="n">v1</span><span class="mf">.7</span>\<span class="n">Printf</span>\<span class="n">src</span>\<span class="n">Printf</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">817</span>
-  <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="n">macro</span> <span class="n">expansion</span>
-    <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">MyToolbox</span>\<span class="n">src</span>\<span class="n">macros</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">31</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">SimParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">;</span> <span class="n">params</span><span class="p">::</span><span class="n">SimParams</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">12</span>
- <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="n">cached</span> <span class="p">(</span><span class="n">repeats</span> <span class="mi">2</span> <span class="n">times</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">4</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">::</span><span class="n">ExperimentParams</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="nb">eval</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">3</span>
- <span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">ExperimentParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">;</span> <span class="n">params</span><span class="p">::</span><span class="n">ExperimentParams</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">11</span>
- <span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">ExperimentParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">4</span>
- <span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-    <span class="o">@</span> <span class="o">.</span>\<span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">]:</span><span class="mi">5</span>
- <span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="nb">eval</span>
-    <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">17</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-    <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+</div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sim</span></code> cache (10&#8217; x 6 N x 4 seeds): 3GB</p>
+<ul>
+<li><p>95 &#224; 142MB per 10&#8217; sim</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">perf</span></code> cache: 0.3MB &#8211; so that could go in git</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5 Matrix{NamedTuple}:
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)      &#8230;  (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)        (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.075)
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)        (TPR_exc = 1.0, TPR_inh = 0.85, FPR = 0.0)
+ (TPR_exc = 1.0, TPR_inh = 0.725, FPR = 0.05)      (TPR_exc = 1.0, TPR_inh = 0.7, FPR = 0.0)
+ (TPR_exc = 0.775, TPR_inh = 0.5, FPR = 0.1)       (TPR_exc = 0.775, TPR_inh = 0.475, FPR = 0.075)
+ (TPR_exc = 0.075, TPR_inh = 0.075, FPR = 0.1)  &#8230;  (TPR_exc = 0.025, TPR_inh = 0.05, FPR = 0.1)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="prepare-plot">
+<h2>Prepare plot<a class="headerlink" href="#prepare-plot" title="Permalink to this headline">&#182;</a></h2>
+<p>We want to plot dots.
+We can either have<br>
+<code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">[5,</span> <span class="pre">21]</span></code><br>
+and <code class="docutils literal notranslate"><span class="pre">TPR_exc</span> <span class="pre">=</span> <span class="pre">[1</span> <span class="pre">.9</span> <span class="pre">1;</span> <span class="pre">.8</span> <span class="pre">.7</span> <span class="pre">.8]</span></code> (matrix notation. 3 seeds).<br>
+or<br>
+<code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">[5,</span> <span class="pre">5,</span> <span class="pre">5,</span> <span class="pre">21,</span> <span class="pre">21,</span> <span class="pre">21]</span></code> (i.e. repeat)<br>
+and <code class="docutils literal notranslate"><span class="pre">TPR_exc</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">.9,</span> <span class="pre">1,</span> <span class="pre">.8,</span> <span class="pre">.7,</span> <span class="pre">.8]</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">"""</span>
+<span class="s">Create an array of the same shape as the one given,</span>
+<span class="s">but with just the values stored under `name`</span>
+<span class="s">in each element of the given array.</span>
+<span class="s">"""</span>
+<span class="k">function</span> <span class="n">extract</span><span class="p">(</span><span class="n">name</span><span class="o">::</span><span class="kt">Symbol</span><span class="p">,</span> <span class="n">arr</span> <span class="cm">#=an array of NamedTuples or structs =#</span><span class="p">)</span>
+    <span class="n">getval</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">=</span> <span class="n">getproperty</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">getval</span><span class="p">(</span><span class="n">firstindex</span><span class="p">(</span><span class="n">arr</span><span class="p">))))</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">getval</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">out</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">paramset</span> <span class="k">in</span> <span class="n">paramsets</span>
-    <span class="n">num_inputs</span> <span class="o">=</span> <span class="n">paramset</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span>
-    <span class="nd">@show</span> <span class="n">num_inputs</span>
-    <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim_and_eval</span><span class="p">,</span> <span class="p">[</span><span class="n">paramset</span><span class="p">],</span> <span class="s">"perf"</span><span class="p">)</span>
-    <span class="nd">@show</span> <span class="n">perf</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">perfs</span><span class="p">,</span> <span class="n">perf</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">()</span>
-<span class="k">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_exc</span><span class="p">,</span> <span class="n">perfs</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num_inputs = 5
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:14</span>00:03
-Saving output at `C:\Users\lpxtf3\.phdcache\sim\e38d1096e952e6b5.jld2` done
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching *(::Float64, ::String)
-<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
-  <span class="o">*</span><span class="p">(::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="o">...</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Julia</span><span class="o">-</span><span class="mf">1.7.1</span>\<span class="n">share</span>\<span class="n">julia</span>\<span class="n">base</span>\<span class="n">operators</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">655</span>
-  <span class="o">*</span><span class="p">(::</span><span class="n">Union</span><span class="p">{</span><span class="n">AbstractChar</span><span class="p">,</span> <span class="n">AbstractString</span><span class="p">},</span> <span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">AbstractChar</span><span class="p">,</span> <span class="n">AbstractString</span><span class="p">}</span><span class="o">...</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Julia</span><span class="o">-</span><span class="mf">1.7.1</span>\<span class="n">share</span>\<span class="n">julia</span>\<span class="n">base</span>\<span class="n">strings</span>\<span class="n">basic</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">260</span>
-  <span class="o">*</span><span class="p">(::</span><span class="n">Union</span><span class="p">{</span><span class="n">Float16</span><span class="p">,</span> <span class="n">Float32</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="p">::</span><span class="n">BigFloat</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Julia</span><span class="o">-</span><span class="mf">1.7.1</span>\<span class="n">share</span>\<span class="n">julia</span>\<span class="n">base</span>\<span class="n">mpfr</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">406</span>
-  <span class="o">...</span>
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">macro</span> <span class="n">expansion</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">MyToolbox</span>\<span class="n">src</span>\<span class="n">macros</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">31</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">SimParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">;</span> <span class="n">params</span><span class="p">::</span><span class="n">SimParams</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">12</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">cached</span> <span class="p">(</span><span class="n">repeats</span> <span class="mi">2</span> <span class="n">times</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">4</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">sim_and_eval</span><span class="p">(</span><span class="n">params</span><span class="p">::</span><span class="n">ExperimentParams</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="nb">eval</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">3</span>
- <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">ExperimentParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">;</span> <span class="n">params</span><span class="p">::</span><span class="n">ExperimentParams</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">11</span>
- <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="n">cached</span><span class="p">(</span><span class="n">f</span><span class="p">::</span><span class="n">Function</span><span class="p">,</span> <span class="n">args</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">ExperimentParams</span><span class="p">},</span> <span class="n">subdir</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">VoltageToMap</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">lpxtf3</span>\<span class="n">vtws</span>\<span class="n">pkg</span>\<span class="n">VoltageToMap</span>\<span class="n">src</span>\<span class="n">diskcache</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">4</span>
- <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span><span class="mi">5</span>
- <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5 Matrix{Float64}:
+ 1.0    1.0   1.0    1.0    1.0
+ 1.0    1.0   1.0    1.0    1.0
+ 1.0    1.0   1.0    1.0    1.0
+ 1.0    1.0   1.0    1.0    1.0
+ 0.775  0.8   0.825  0.725  0.775
+ 0.075  0.05  0.05   0.075  0.025
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="plot-results">
-<h2>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="n">PyPlot</span>
@@ -883,70 +893,38 @@ Saving output at `C:\Users\lpxtf3\.phdcache\sim\e38d1096e952e6b5.jld2` done
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xlabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">paramsets</span><span class="p">]</span>
-<span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xlabels</span><span class="p">);]</span>
-<span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">detection_rate</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span>
-    <span class="n">xticks</span><span class="p">,</span>
-    <span class="n">detection_rate</span><span class="p">,</span>
-    <span class="s">".-"</span><span class="p">;</span>
-    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">xminorticks</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-    <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-    <span class="n">kw</span><span class="o">...</span>
-<span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for excitatory inputs"</span><span class="p">)</span>
-     <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">TPR_inh</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for inhibitory inputs"</span><span class="p">)</span>
-     <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for unconnected spikers"</span><span class="p">)</span>
-
-<span class="nd">@unpack</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluation</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">&#945;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s">"&#945; = {&#945;:.3G}"</span><span class="p">)</span>
-
-<span class="c"># We don't use our `set`, as that undoes our `xminorticks=false` command (bug).</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">xlabels</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Number of connected inputs"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">PercentFormatter</span><span class="p">(</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">"bottom"</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Detection rate"</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower center"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">));</span>
-<span class="n">l</span><span class="o">.</span><span class="n">_legend_box</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s">"left"</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">make_figure</span><span class="p">()</span>
+    <span class="n">xticklabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">paramsets</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xticklabels</span><span class="p">);]</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">rate</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot_samples_and_means</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">ax</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_exc</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for excitatory inputs"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
+    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_inh</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for inhibitory inputs"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
+    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:FPR</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for unconnected spikers"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">)</span>
+    
+    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Number of connected inputs"</span><span class="p">)</span>
+    
+    <span class="n">add_&#945;_line</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">&#945;</span><span class="p">)</span>
+    
+    <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Detection rate"</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower right"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.06</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">))</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">_legend_box</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s">"left"</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_28_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_28_0.png">
 </div>
 </div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">o</span><span class="o">.</span><span class="n">input_spikes</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_figure</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20-element Vector{Float64}:
- 0.24819999999998898
- 1.2100999999998832
- 2.0953999999999975
- 2.4546000000007555
- 2.805400000001496
- 3.173300000002272
- 3.5071000000029766
- 3.8602000000037218
- 4.2827000000033575
- 4.89950000000192
- 5.453500000000629
- 5.809899999999798
- 6.181899999998931
- 6.7601999999975835
- 7.154199999996665
- 7.556099999995729
- 8.330199999993924
- 8.661399999993153
- 9.034399999992283
- 9.394599999991444
-</pre></div>
-</div>
+<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_27_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_27_0.png">
 </div>
 </div>
 </div>
