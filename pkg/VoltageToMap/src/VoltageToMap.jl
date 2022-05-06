@@ -11,16 +11,15 @@ include("units.jl")
 include("misc.jl")
 export LogNormal_with_mean, ptp
 
-include("diskcache.jl")
-export cachedir, cached
-
 include("params.jl")
 export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
 export PoissonInputParams, SynapseParams, IzhikevichParams, VoltageImagingParams
 export realistic_N_6600_input, previous_N_30_input, realistic_synapses, cortical_RS,
-       get_VI_params_for, params
+get_VI_params_for, params
 
 include("diskcache.jl")
+export cached, cachefilename
+
 include("sim.jl")
 export sim
 
@@ -40,7 +39,8 @@ using ..VoltageToMap
 function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
-        export plotsig, plotSTA
+        export plotsig, plotSTA, plot_samples_and_means, add_α_line
+        export color_exc, color_inh, color_unconn
     end
 end
 end # module Plot
