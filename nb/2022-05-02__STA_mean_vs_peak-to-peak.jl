@@ -115,8 +115,8 @@ import PyPlot
 
 using VoltageToMap.Plot
 
-function make_figure()
-    xticklabels = [p.sim.input.N_conn for p in paramsets[:,1]]
+function make_figure(perfs)
+    xticklabels = [p.sim.input.N_conn for p in paramsets[:,1,1]]
     xs = [1:length(xticklabels);]
     fig, ax = plt.subplots()
     plot_detection_rate(rate; kw...) = plot_samples_and_means(xs, rate, ax; kw...)
@@ -135,6 +135,10 @@ end;
 
 # ## Plot
 
-fig, ax = make_figure();
+# ### Peak-to-peak
 
+fig, ax = make_figure(perfs[:,:,1]);
 
+# ### Mean
+
+fig, ax = make_figure(perfs[:,:,2]);
