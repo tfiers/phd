@@ -9,7 +9,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Julia 1.7.1
+#     display_name: Julia 1.7.0
 #     language: julia
 #     name: julia-1.7
 # ---
@@ -34,30 +34,8 @@ using MyToolbox
 
 using VoltageToMap
 
-
-
-# +
-abstract type ParamSet end
-
-@with_kw struct FoodParams <: ParamSet
-    stoof::String = "waf"
-    geld::Int = 88
-end
-# -
-
-function Base.hash(params::P) where {P<:ParamSet}
-    return 
-end
-
-hash(FoodParams())
-
-
-
-
-
-versioninfo()
-
-
+using PyPlot
+using VoltageToMap.Plot
 
 # ## Params
 
@@ -70,85 +48,93 @@ N_excs = [
     5200,  
 ];
 
-get_params(N_exc) = ExperimentParams(
+rngseeds = [0, 1, 2, 3, 4];
+
+get_params((N_exc, rngseed, STA_test_statistic)) = ExperimentParams(
     sim = SimParams(
         duration = 10 * minutes,
         imaging = get_VI_params_for(cortical_RS, spike_SNR = Inf),
-        input = PoissonInputParams(; N_exc),
+        input = PoissonInputParams(; N_exc);
+        rngseed,
     ),
-    conntest = ConnTestParams(STA_test_statistic="ptp")
+    conntest = ConnTestParams(; STA_test_statistic, rngseed);
+    evaluation = EvaluationParams(; rngseed)
 );
 
-paramsets = get_params.(N_excs);
+variableparams = collect(product(N_excs, rngseeds, ["ptp", "mean"]))
 
-hash(paramsets[1].sim)
-
-hash(SimParams(
-        duration = 10 * minutes,
-        imaging = get_VI_params_for(cortical_RS, spike_SNR = Inf),
-        input = PoissonInputParams(; N_exc=4),
-    ))
+paramsets = get_params.(variableparams);
+print(summary(paramsets))
 
 dumps(paramsets[1])
 
 # ## Run
 
-perfs = Vector()
-for paramset in paramsets
-    num_inputs = paramset.sim.input.N_conn
-    @show num_inputs
-    perf = cached(sim_and_eval, [paramset], "perf")
-    @show perf
-    push!(perfs, perf)
-    println()
+perfs = similar(paramsets, NamedTuple)
+for i in eachindex(paramsets)
+    (N_exc, seed, STA_test_statistic) = variableparams[i]
+    paramset = paramsets[i]
+    println((; N_exc, seed, STA_test_statistic), " ", cachefilename(paramset))
+    perf = cached(sim_and_eval, [paramset])
+    perfs[i] = perf
 end
 
-perfs = Vector()
-for paramset in paramsets
-    num_inputs = paramset.sim.input.N_conn
-    @show num_inputs
-    perf = cached(sim_and_eval, [paramset], "perf")
-    @show perf
-    push!(perfs, perf)
-    println()
-end
+# - `sim` cache (10' x 6 N x 4 seeds): 3GB
+#     - 95 à 142MB per 10' sim
+# - `perf` cache: 0.3MB -- so that could go in git
 
-# ## Plot results
+perfs
+
+# ## Prepare plot
+
+# We want to plot dots.
+# We can either have  
+# `N = [5, 21]`  
+# and `TPR_exc = [1 .9 1; .8 .7 .8]` (matrix notation. 3 seeds).  
+# or  
+# `N = [5, 5, 5, 21, 21, 21]` (i.e. repeat)  
+# and `TPR_exc = [1, .9, 1, .8, .7, .8]`.
+
+"""
+Create an array of the same shape as the one given,
+but with just the values stored under `name`
+in each element of the given array.
+"""
+function extract(name::Symbol, arr #=an array of NamedTuples or structs =#)
+    getval(index) = getproperty(arr[index], name)
+    out = similar(arr, typeof(getval(firstindex(arr))))
+    for index in eachindex(arr)
+        out[index] = getval(index)
+    end
+    return out
+end;
+
+extract(:TPR_exc, perfs)
 
 import PyPlot
 
 using VoltageToMap.Plot
 
-# +
-xlabels = [p.sim.input.N_conn for p in paramsets]
-xticks = [1:length(xlabels);]
-plot_detection_rate(detection_rate; kw...) = plot(
-    xticks,
-    detection_rate,
-    ".-";
-    ylim=(0, 1),
-    xminorticks=false,
-    clip_on=false,
-    kw...
-)
-ax = plot_detection_rate([p.TPR_exc for p in perfs], label="for excitatory inputs")
-     plot_detection_rate([p.TPR_inh for p in perfs], label="for inhibitory inputs")
-     plot_detection_rate([p.FPR for p in perfs], label="for unconnected spikers")
+function make_figure()
+    xticklabels = [p.sim.input.N_conn for p in paramsets[:,1]]
+    xs = [1:length(xticklabels);]
+    fig, ax = plt.subplots()
+    plot_detection_rate(rate; kw...) = plot_samples_and_means(xs, rate, ax; kw...)
+    plot_detection_rate(extract(:TPR_exc, perfs), label="for excitatory inputs", c=color_exc)
+    plot_detection_rate(extract(:TPR_inh, perfs), label="for inhibitory inputs", c=color_inh)
+    plot_detection_rate(extract(:FPR, perfs), label="for unconnected spikers", c=color_unconn)
+    
+    set(ax; xtype=:categorical, ytype=:fraction, xticklabels, xlabel="Number of connected inputs")
+    
+    add_α_line(ax, paramsets[1].evaluation.α)
+    
+    l = ax.legend(title="Detection rate", ncol=2, loc="lower right", bbox_to_anchor=(1.06, 1.1))
+    l._legend_box.align = "left"
+    return fig, ax
+end;
 
-@unpack α = paramsets[1].evaluation
-ax.axhline(α, color="black", zorder=3, lw=1, linestyle="dashed", label=f"α = {α:.3G}")
+# ## Plot
 
-# We don't use our `set`, as that undoes our `xminorticks=false` command (bug).
-ax.set_xticks(xticks, xlabels)
-ax.set_xlabel("Number of connected inputs")
-ax.yaxis.set_major_formatter(PyPlot.matplotlib.ticker.PercentFormatter(xmax=1))
-ax.xaxis.grid(false)
-ax.tick_params(bottom=false)
-ax.spines["bottom"].set_visible(false)
-l = ax.legend(title="Detection rate", ncol=2, loc="lower center", bbox_to_anchor=(0.5, 1.1));
-l._legend_box.align = "left";
-# -
-
-o.input_spikes.conn.exc[1]
+fig, ax = make_figure();
 
 
