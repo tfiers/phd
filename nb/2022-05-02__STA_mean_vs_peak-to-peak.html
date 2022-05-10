@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-05-02&#8226; STA mean vs peak-to-peak &#8212; Voltage-to-Wiring Sim</title>
+    <title>&lt;no title&gt; &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -105,12 +105,7 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   2022-05-02&#8226; STA mean vs peak-to-peak
-  </a>
- </li>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
    2022-04-28 &#8226; Interpolate N = 30 .. 6000
@@ -426,19 +421,6 @@ const thebe_selector_output = ".output, .cell_output"
 
             <!-- Launch buttons -->
 
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/voltage-to-wiring-sim/main?urlpath=tree/web/nb/2022-05-02__STA_mean_vs_peak-to-peak.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-        
-    </div>
-</div>
-
         </div>
 
         <!-- Table of contents -->
@@ -448,44 +430,7 @@ const thebe_selector_output = ".output, .cell_output"
                 <i class="fas fa-list"></i> Contents
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#params">
-   Params
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run">
-   Run
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#prepare-plot">
-   Prepare plot
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot">
-   Plot
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peak-to-peak">
-     Peak-to-peak
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mean">
-     Mean
-    </a>
-   </li>
-  </ul>
- </li>
+                <ul class="simple visible nav section-nav flex-column">
 </ul>
 
             </nav>
@@ -496,7 +441,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-05-02&#8226; STA mean vs peak-to-peak</h1>
+                <h1><no title></no></h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -505,44 +450,7 @@ const thebe_selector_output = ".output, .cell_output"
                             <h2> Contents </h2>
                         </div>
                         <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#params">
-   Params
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run">
-   Run
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#prepare-plot">
-   Prepare plot
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot">
-   Plot
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#peak-to-peak">
-     Peak-to-peak
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mean">
-     Mean
-    </a>
-   </li>
-  </ul>
- </li>
+                            <ul class="simple visible nav section-nav flex-column">
 </ul>
 
                         </nav>
@@ -552,501 +460,7 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="sta-mean-vs-peak-to-peak">
-<h1>2022-05-02&#8226; STA mean vs peak-to-peak<a class="headerlink" href="#sta-mean-vs-peak-to-peak" title="Permalink to this headline">&#182;</a></h1>
-<p>Peak-to-peak cannot distinguish excitatory vs inhibitory (it&#8217;s just the height of the bump &#8211; no matter whether it&#8217;s upwards or downwards).</p>
-<p>To do that, we might instead use sth like &#8220;either max-median or min-median, whatever&#8217;s largest in absolute terms&#8221;.</p>
-<p>For now we don&#8217;t try to detect this difference, and &#8216;cheat&#8217; in our code (special-case the inhibitory / ptp case when comparing p-values with &#945;).</p>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
-<span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [61be95e5-9550-4d5f-a203-92a5acbc3116]
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="params">
-<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_excs</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="mi">4</span><span class="p">,</span>   <span class="c"># =&gt; N_inh = 1</span>
-    <span class="mi">17</span><span class="p">,</span>  <span class="c"># Same as in `previous_N_30_input`.</span>
-    <span class="mi">80</span><span class="p">,</span>
-    <span class="mi">320</span><span class="p">,</span>
-    <span class="mi">1280</span><span class="p">,</span>
-    <span class="mi">5200</span><span class="p">,</span>  
-<span class="p">];</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rngseeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_params</span><span class="p">((</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">))</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
-        <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span><span class="n">cortical_RS</span><span class="p">,</span> <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">),</span>
-        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="p">);</span>
-        <span class="n">rngseed</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="n">conntest</span> <span class="o">=</span> <span class="n">ConnTestParams</span><span class="p">(;</span> <span class="n">STA_test_statistic</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">);</span>
-    <span class="n">evaluation</span> <span class="o">=</span> <span class="n">EvaluationParams</span><span class="p">(;</span> <span class="n">rngseed</span><span class="p">)</span>
-<span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">variableparams</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">N_excs</span><span class="p">,</span> <span class="n">rngseeds</span><span class="p">,</span> <span class="p">[</span><span class="s">"ptp"</span><span class="p">,</span> <span class="s">"mean"</span><span class="p">]))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{Tuple{Int64, Int64, String}, 3}:
-[:, :, 1] =
- (4, 0, "ptp")     (4, 1, "ptp")     &#8230;  (4, 3, "ptp")     (4, 4, "ptp")
- (17, 0, "ptp")    (17, 1, "ptp")       (17, 3, "ptp")    (17, 4, "ptp")
- (80, 0, "ptp")    (80, 1, "ptp")       (80, 3, "ptp")    (80, 4, "ptp")
- (320, 0, "ptp")   (320, 1, "ptp")      (320, 3, "ptp")   (320, 4, "ptp")
- (1280, 0, "ptp")  (1280, 1, "ptp")     (1280, 3, "ptp")  (1280, 4, "ptp")
- (5200, 0, "ptp")  (5200, 1, "ptp")  &#8230;  (5200, 3, "ptp")  (5200, 4, "ptp")
-
-[:, :, 2] =
- (4, 0, "mean")     (4, 1, "mean")     &#8230;  (4, 4, "mean")
- (17, 0, "mean")    (17, 1, "mean")       (17, 4, "mean")
- (80, 0, "mean")    (80, 1, "mean")       (80, 4, "mean")
- (320, 0, "mean")   (320, 1, "mean")      (320, 4, "mean")
- (1280, 0, "mean")  (1280, 1, "mean")     (1280, 4, "mean")
- (5200, 0, "mean")  (5200, 1, "mean")  &#8230;  (5200, 4, "mean")
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">paramsets</span> <span class="o">=</span> <span class="n">get_params</span><span class="o">.</span><span class="p">(</span><span class="n">variableparams</span><span class="p">);</span>
-<span class="n">print</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">paramsets</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{ExperimentParams, 3}
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dumps</span><span class="p">(</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
-  sim: SimParams
-    duration: 600.0
-    &#916;t: 0.0001
-    num_timesteps: 6000000
-    rngseed: 0
-    input: PoissonInputParams
-      N_unconn: 100
-      N_exc: 4
-      N_inh: 1
-      N_conn: 5
-      N: 105
-      spike_rates: LogNormal
-        &#956;: 1.08629
-        &#963;: 0.774597
-    synapses: SynapseParams
-      avg_stim_rate_exc: 1.0e-10
-      avg_stim_rate_inh: 4.0e-10
-      E_exc: 0.0
-      E_inh: -0.065
-      g_t0: 0.0
-      &#964;: 0.007
-    izh_neuron: IzhikevichParams
-      C: 1.0e-10
-      k: 7.0e-7
-      v_rest: -0.06
-      v_thr: -0.04
-      a: 30.0
-      b: -2.0e-9
-      v_peak: 0.035
-      v_reset: -0.05
-      &#916;u: 1.0e-10
-      v_t0: -0.06
-      u_t0: 0.0
-    imaging: VoltageImagingParams
-      spike_SNR: Inf
-      spike_SNR_dB: Inf
-      spike_height: 0.095
-      &#963;_noise: 0.0
-  conntest: ConnTestParams
-    STA_window_length: 0.1
-    num_shuffles: 100
-    STA_test_statistic: ptp
-    rngseed: 0
-  evaluation: EvaluationParams
-    &#945;: 0.05
-    num_tested_neurons_per_group: 40
-    rngseed: 0
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="run">
-<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">paramsets</span><span class="p">,</span> <span class="kt">NamedTuple</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">paramsets</span><span class="p">)</span>
-    <span class="p">(</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">)</span> <span class="o">=</span> <span class="n">variableparams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">paramset</span> <span class="o">=</span> <span class="n">paramsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-    <span class="n">println</span><span class="p">((;</span> <span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">),</span> <span class="s">" "</span><span class="p">,</span> <span class="n">cachefilename</span><span class="p">(</span><span class="n">paramset</span><span class="p">))</span>
-    <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim_and_eval</span><span class="p">,</span> <span class="p">[</span><span class="n">paramset</span><span class="p">])</span>
-    <span class="n">perfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_exc = 4, seed = 0, STA_test_statistic = "ptp") 1c6eb51735c61aa7.jld2
-(N_exc = 17, seed = 0, STA_test_statistic = "ptp") 84d27a020097a66c.jld2
-(N_exc = 80, seed = 0, STA_test_statistic = "ptp") 4f790c694d38d1ea.jld2
-(N_exc = 320, seed = 0, STA_test_statistic = "ptp") 12abb647d0323d89.jld2
-(N_exc = 1280, seed = 0, STA_test_statistic = "ptp") da749dd4f62b2c79.jld2
-(N_exc = 5200, seed = 0, STA_test_statistic = "ptp") 8d7b02d80d95564a.jld2
-(N_exc = 4, seed = 1, STA_test_statistic = "ptp") a4336b934de51319.jld2
-(N_exc = 17, seed = 1, STA_test_statistic = "ptp") bd9d2af9ae7399e7.jld2
-(N_exc = 80, seed = 1, STA_test_statistic = "ptp") 1b7dbae8b12724a9.jld2
-(N_exc = 320, seed = 1, STA_test_statistic = "ptp") 24eed4ff47bd2d9c.jld2
-(N_exc = 1280, seed = 1, STA_test_statistic = "ptp") bb7c4b6a0bafba5b.jld2
-(N_exc = 5200, seed = 1, STA_test_statistic = "ptp") 646d120436b18997.jld2
-(N_exc = 4, seed = 2, STA_test_statistic = "ptp") 389be050ca350439.jld2
-(N_exc = 17, seed = 2, STA_test_statistic = "ptp") 94c9a1583b31c3be.jld2
-(N_exc = 80, seed = 2, STA_test_statistic = "ptp") 53e941a41b28160.jld2
-(N_exc = 320, seed = 2, STA_test_statistic = "ptp") d10f806866bfbeb9.jld2
-(N_exc = 1280, seed = 2, STA_test_statistic = "ptp") 4c0a94fe429060d9.jld2
-(N_exc = 5200, seed = 2, STA_test_statistic = "ptp") 6dbf4ab9e8c19aa9.jld2
-(N_exc = 4, seed = 3, STA_test_statistic = "ptp") c46086d53caad71a.jld2
-(N_exc = 17, seed = 3, STA_test_statistic = "ptp") 73ea57aca6c97a03.jld2
-(N_exc = 80, seed = 3, STA_test_statistic = "ptp") ec69132cda395530.jld2
-(N_exc = 320, seed = 3, STA_test_statistic = "ptp") 1a08686771529f42.jld2
-(N_exc = 1280, seed = 3, STA_test_statistic = "ptp") 3280023361bf8411.jld2
-(N_exc = 5200, seed = 3, STA_test_statistic = "ptp") 4d82d214911f5f7a.jld2
-(N_exc = 4, seed = 4, STA_test_statistic = "ptp") 1a608aab98540cf5.jld2
-(N_exc = 17, seed = 4, STA_test_statistic = "ptp") 3f348a4118c4e31d.jld2
-(N_exc = 80, seed = 4, STA_test_statistic = "ptp") 4cb48bd54ad76bc6.jld2
-(N_exc = 320, seed = 4, STA_test_statistic = "ptp") 1477a19230cda77f.jld2
-(N_exc = 1280, seed = 4, STA_test_statistic = "ptp") eaec7a3177106c81.jld2
-(N_exc = 5200, seed = 4, STA_test_statistic = "ptp") 844b122c19d1454e.jld2
-(N_exc = 4, seed = 0, STA_test_statistic = "mean") 98aef5906551158d.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:06</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\98aef5906551158d.jld2` &#8230;  done
-(N_exc = 17, seed = 0, STA_test_statistic = "mean") e09505929902859.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e09505929902859.jld2` &#8230;  done
-(N_exc = 80, seed = 0, STA_test_statistic = "mean") e5a08f23a78d9b89.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e5a08f23a78d9b89.jld2` &#8230;  done
-(N_exc = 320, seed = 0, STA_test_statistic = "mean") 86a16c083878a331.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\86a16c083878a331.jld2` &#8230;  done
-(N_exc = 1280, seed = 0, STA_test_statistic = "mean") 87cc4349a8c01a11.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\87cc4349a8c01a11.jld2` &#8230;  done
-(N_exc = 5200, seed = 0, STA_test_statistic = "mean") ad13ac4c291710c8.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\ad13ac4c291710c8.jld2` &#8230;  done
-(N_exc = 4, seed = 1, STA_test_statistic = "mean") 71c47a42b41f287c.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\71c47a42b41f287c.jld2` &#8230;  done
-(N_exc = 17, seed = 1, STA_test_statistic = "mean") 5004b53633e05b74.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\5004b53633e05b74.jld2` &#8230;  done
-(N_exc = 80, seed = 1, STA_test_statistic = "mean") b7e1ee8a5f6f30c1.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\b7e1ee8a5f6f30c1.jld2` &#8230;  done
-(N_exc = 320, seed = 1, STA_test_statistic = "mean") e07c59946213733.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:23</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e07c59946213733.jld2` &#8230;  done
-(N_exc = 1280, seed = 1, STA_test_statistic = "mean") 283e7407b07aa4ea.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:19</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\283e7407b07aa4ea.jld2` &#8230;  done
-(N_exc = 5200, seed = 1, STA_test_statistic = "mean") 9f970ed9fb8163f8.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\9f970ed9fb8163f8.jld2` &#8230;  done
-(N_exc = 4, seed = 2, STA_test_statistic = "mean") cd7e3bb4ecc62cc2.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\cd7e3bb4ecc62cc2.jld2` &#8230;  done
-(N_exc = 17, seed = 2, STA_test_statistic = "mean") e7e285b41587ec70.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e7e285b41587ec70.jld2` &#8230;  done
-(N_exc = 80, seed = 2, STA_test_statistic = "mean") c1dbf56a8cd0c66d.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\c1dbf56a8cd0c66d.jld2` &#8230;  done
-(N_exc = 320, seed = 2, STA_test_statistic = "mean") 332d9c035897efce.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:19</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\332d9c035897efce.jld2` &#8230;  done
-(N_exc = 1280, seed = 2, STA_test_statistic = "mean") d3a37f1758efa970.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d3a37f1758efa970.jld2` &#8230;  done
-(N_exc = 5200, seed = 2, STA_test_statistic = "mean") a526fdfbe2fce4ac.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\a526fdfbe2fce4ac.jld2` &#8230;  done
-(N_exc = 4, seed = 3, STA_test_statistic = "mean") 7f52e36fd9d4cf99.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\7f52e36fd9d4cf99.jld2` &#8230;  done
-(N_exc = 17, seed = 3, STA_test_statistic = "mean") 5d7fc467644d7960.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\5d7fc467644d7960.jld2` &#8230;  done
-(N_exc = 80, seed = 3, STA_test_statistic = "mean") e8940eafad5b55b2.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e8940eafad5b55b2.jld2` &#8230;  done
-(N_exc = 320, seed = 3, STA_test_statistic = "mean") e51612985862e881.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\e51612985862e881.jld2` &#8230;  done
-(N_exc = 1280, seed = 3, STA_test_statistic = "mean") d0e69719c1362929.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:19</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d0e69719c1362929.jld2` &#8230;  done
-(N_exc = 5200, seed = 3, STA_test_statistic = "mean") 3f2b1acb4d42a342.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\3f2b1acb4d42a342.jld2` &#8230;  done
-(N_exc = 4, seed = 4, STA_test_statistic = "mean") d12f89555011a0ed.jld2
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d12f89555011a0ed.jld2` &#8230;  done
-(N_exc = 17, seed = 4, STA_test_statistic = "mean") 8e3a970eff73f05a.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\8e3a970eff73f05a.jld2` &#8230;  done
-(N_exc = 80, seed = 4, STA_test_statistic = "mean") 834639974693e5c7.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\834639974693e5c7.jld2` &#8230;  done
-(N_exc = 320, seed = 4, STA_test_statistic = "mean") 51ca4fbab5743fe5.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\51ca4fbab5743fe5.jld2` &#8230;  done
-(N_exc = 1280, seed = 4, STA_test_statistic = "mean") 52da32c9d00a151.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\52da32c9d00a151.jld2` &#8230;  done
-(N_exc = 5200, seed = 4, STA_test_statistic = "mean") 661c28e39d62a718.jld2
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\661c28e39d62a718.jld2` &#8230;  done
-</pre></div>
-</div>
-</div>
-</div>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">sim</span></code> cache (10&#8217; x 6 N x 4 seeds): 3GB</p>
-<ul>
-<li><p>95 &#224; 142MB per 10&#8217; sim</p></li>
-</ul>
-</li>
-<li><p><code class="docutils literal notranslate"><span class="pre">perf</span></code> cache: 0.3MB &#8211; so that could go in git</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{NamedTuple, 3}:
-[:, :, 1] =
- (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)      &#8230;  (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)
- (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)        (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.075)
- (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)        (TPR_exc = 1.0, TPR_inh = 0.85, FPR = 0.0)
- (TPR_exc = 1.0, TPR_inh = 0.725, FPR = 0.05)      (TPR_exc = 1.0, TPR_inh = 0.7, FPR = 0.0)
- (TPR_exc = 0.775, TPR_inh = 0.5, FPR = 0.1)       (TPR_exc = 0.775, TPR_inh = 0.475, FPR = 0.075)
- (TPR_exc = 0.075, TPR_inh = 0.075, FPR = 0.1)  &#8230;  (TPR_exc = 0.025, TPR_inh = 0.05, FPR = 0.1)
-
-[:, :, 2] =
- (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.075)     &#8230;  (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.1)
- (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)         (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.05)
- (TPR_exc = 1.0, TPR_inh = 0.9, FPR = 0.025)        (TPR_exc = 1.0, TPR_inh = 0.7, FPR = 0.15)
- (TPR_exc = 0.95, TPR_inh = 0.375, FPR = 0.1)       (TPR_exc = 0.975, TPR_inh = 0.425, FPR = 0.075)
- (TPR_exc = 0.575, TPR_inh = 0.25, FPR = 0.025)     (TPR_exc = 0.825, TPR_inh = 0.375, FPR = 0.025)
- (TPR_exc = 0.05, TPR_inh = 0.425, FPR = 0.15)   &#8230;  (TPR_exc = 0.1, TPR_inh = 0.45, FPR = 0.1)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="prepare-plot">
-<h2>Prepare plot<a class="headerlink" href="#prepare-plot" title="Permalink to this headline">&#182;</a></h2>
-<p>We want to plot dots.
-We can either have<br>
-<code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">[5,</span> <span class="pre">21]</span></code><br>
-and <code class="docutils literal notranslate"><span class="pre">TPR_exc</span> <span class="pre">=</span> <span class="pre">[1</span> <span class="pre">.9</span> <span class="pre">1;</span> <span class="pre">.8</span> <span class="pre">.7</span> <span class="pre">.8]</span></code> (matrix notation. 3 seeds).<br>
-or<br>
-<code class="docutils literal notranslate"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">[5,</span> <span class="pre">5,</span> <span class="pre">5,</span> <span class="pre">21,</span> <span class="pre">21,</span> <span class="pre">21]</span></code> (i.e. repeat)<br>
-and <code class="docutils literal notranslate"><span class="pre">TPR_exc</span> <span class="pre">=</span> <span class="pre">[1,</span> <span class="pre">.9,</span> <span class="pre">1,</span> <span class="pre">.8,</span> <span class="pre">.7,</span> <span class="pre">.8]</span></code>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">"""</span>
-<span class="s">Create an array of the same shape as the one given,</span>
-<span class="s">but with just the values stored under `name`</span>
-<span class="s">in each element of the given array.</span>
-<span class="s">"""</span>
-<span class="k">function</span> <span class="n">extract</span><span class="p">(</span><span class="n">name</span><span class="o">::</span><span class="kt">Symbol</span><span class="p">,</span> <span class="n">arr</span> <span class="cm">#=an array of NamedTuples or structs =#</span><span class="p">)</span>
-    <span class="n">getval</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">=</span> <span class="n">getproperty</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">name</span><span class="p">)</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">typeof</span><span class="p">(</span><span class="n">getval</span><span class="p">(</span><span class="n">firstindex</span><span class="p">(</span><span class="n">arr</span><span class="p">))))</span>
-    <span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
-        <span class="n">out</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">getval</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">out</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_exc</span><span class="p">,</span> <span class="n">perfs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;5&#215;2 Array{Float64, 3}:
-[:, :, 1] =
- 1.0    1.0   1.0    1.0    1.0
- 1.0    1.0   1.0    1.0    1.0
- 1.0    1.0   1.0    1.0    1.0
- 1.0    1.0   1.0    1.0    1.0
- 0.775  0.8   0.825  0.725  0.775
- 0.075  0.05  0.05   0.075  0.025
-
-[:, :, 2] =
- 1.0    1.0    1.0    1.0    1.0
- 1.0    1.0    1.0    1.0    1.0
- 1.0    1.0    1.0    1.0    1.0
- 0.95   0.925  0.85   0.95   0.975
- 0.575  0.625  0.575  0.725  0.825
- 0.05   0.025  0.15   0.15   0.1
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="n">PyPlot</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">make_figure</span><span class="p">(</span><span class="n">perfs</span><span class="p">)</span>
-    <span class="n">xticklabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">paramsets</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
-    <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xticklabels</span><span class="p">);]</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">rate</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot_samples_and_means</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">ax</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_exc</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for excitatory inputs"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_exc</span><span class="p">)</span>
-    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:TPR_inh</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for inhibitory inputs"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_inh</span><span class="p">)</span>
-    <span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">extract</span><span class="p">(</span><span class="ss">:FPR</span><span class="p">,</span> <span class="n">perfs</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">"for unconnected spikers"</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">)</span>
-    
-    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Number of connected inputs"</span><span class="p">)</span>
-    
-    <span class="n">add_&#945;_line</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">&#945;</span><span class="p">)</span>
-    
-    <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Detection rate"</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower right"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.06</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">))</span>
-    <span class="n">l</span><span class="o">.</span><span class="n">_legend_box</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s">"left"</span>
-    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="plot">
-<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
-<div class="section" id="peak-to-peak">
-<h3>Peak-to-peak<a class="headerlink" href="#peak-to-peak" title="Permalink to this headline">&#182;</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_figure</span><span class="p">(</span><span class="n">perfs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_28_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_28_0.png">
-</div>
-</div>
-</div>
-<div class="section" id="mean">
-<h3>Mean<a class="headerlink" href="#mean" title="Permalink to this headline">&#182;</a></h3>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_figure</span><span class="p">(</span><span class="n">perfs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-05-02__STA_mean_vs_peak-to-peak_30_0.png" src="../_images/2022-05-02__STA_mean_vs_peak-to-peak_30_0.png">
-</div>
-</div>
-</div>
-</div>
-</div>
-
+  
     <script type="text/x-thebe-config">
     {
         requestKernel: true,
@@ -1056,16 +470,16 @@ and <code class="docutils literal notranslate"><span class="pre">TPR_exc</span> 
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "python"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "python3",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
