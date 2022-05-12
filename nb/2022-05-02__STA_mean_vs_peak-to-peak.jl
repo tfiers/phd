@@ -9,7 +9,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Julia 1.7.1
+#     display_name: Julia 1.7.0
 #     language: julia
 #     name: julia-1.7
 # ---
@@ -34,6 +34,9 @@ using MyToolbox
 
 using VoltageToMap
 
+using PyPlot
+using VoltageToMap.Plot
+
 # ## Params
 
 N_excs = [
@@ -42,7 +45,7 @@ N_excs = [
     80,
     320,
     1280,
-    5200,
+    5200,  
 ];
 
 rngseeds = [0:16;];
@@ -80,16 +83,14 @@ end
 #     - 95 à 142MB per 10' sim
 # - `perf` cache: 0.3MB -- so that could go in git
 
-perfs;
-
 # ## Prepare plot
 
 # We want to plot dots.
-# We can either have
-# `N = [5, 21]`
-# and `TPR_exc = [1 .9 1; .8 .7 .8]` (matrix notation. 3 seeds).
-# or
-# `N = [5, 5, 5, 21, 21, 21]` (i.e. repeat)
+# We can either have  
+# `N = [5, 21]`  
+# and `TPR_exc = [1 .9 1; .8 .7 .8]` (matrix notation. 3 seeds).  
+# or  
+# `N = [5, 5, 5, 21, 21, 21]` (i.e. repeat)  
 # and `TPR_exc = [1, .9, 1, .8, .7, .8]`.
 
 """
@@ -119,11 +120,11 @@ function make_figure(perfs)
     plot_detection_rate(extract(:TPR_exc, perfs), label="for excitatory inputs", c=color_exc)
     plot_detection_rate(extract(:TPR_inh, perfs), label="for inhibitory inputs", c=color_inh)
     plot_detection_rate(extract(:FPR, perfs), label="for unconnected spikers", c=color_unconn)
-
+    
     set(ax; xtype=:categorical, ytype=:fraction, xticklabels, xlabel="Number of connected inputs")
-
+    
     add_α_line(ax, paramsets[1].evaluation.α)
-
+    
     l = ax.legend(title="Detection rate", ncol=2, loc="lower right", bbox_to_anchor=(1.06, 1.1))
     l._legend_box.align = "left"
     return fig, ax
@@ -133,8 +134,8 @@ end;
 
 # ### Peak-to-peak
 
-fig, ax = make_figure(perfs[:,:,1]);
+fig, ax = make_figure(perfs[:,1,:]);
 
 # ### Mean
 
-fig, ax = make_figure(perfs[:,:,2]);
+fig, ax = make_figure(perfs[:,2,:]);
