@@ -16,7 +16,7 @@ const pkgdir = joinpath(reporoot, "pkg")
 
 # Project & package directories
 const mainproj         = reporoot
-const VoltageToMap     = joinpath(pkgdir, "VoltageToMap")
+const VoltoMapSim      = joinpath(pkgdir, "VoltoMapSim")
 const WhatIsHappening  = joinpath(pkgdir, "WhatIsHappening")
 const Sciplotlib       = joinpath(pkgdir, "Sciplotlib")
 const MyToolbox        = joinpath(pkgdir, "MyToolbox")
@@ -25,8 +25,8 @@ const local_project_dependencies = [
     WhatIsHappening  => [],
     Sciplotlib       => [],
     MyToolbox        => [],
-    VoltageToMap     => [MyToolbox, Sciplotlib],
-    mainproj         => [WhatIsHappening, MyToolbox, Sciplotlib, VoltageToMap],
+    VoltoMapSim      => [MyToolbox, Sciplotlib],
+    mainproj         => [WhatIsHappening, MyToolbox, Sciplotlib, VoltoMapSim],
                         # We must add indirect local deps as well, for the fix below to work.
 ]
 # Note that the list entries are sorted, with the higher level projects last.

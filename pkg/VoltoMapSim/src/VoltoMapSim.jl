@@ -1,4 +1,4 @@
-module VoltageToMap
+module VoltoMapSim
 
 using MyToolbox: @reexport
 @reexport using MyToolbox

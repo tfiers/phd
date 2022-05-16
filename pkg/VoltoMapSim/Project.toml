@@ -1,5 +1,5 @@
-name = "VoltageToMap"
-uuid = "b3b8fdc5-3c26-4000-a0c8-f17415fdf48e"
+name = "VoltoMapSim"
+uuid = "f713100b-c48c-421a-b480-5fcb4c589a9e"
 authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
 
