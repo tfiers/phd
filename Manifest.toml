@@ -1275,12 +1275,6 @@ git-tree-sha1 = "4528479aa01ee1b3b4cd0e6faef0e04cf16466da"
 uuid = "2381bf8a-dfd0-557d-9999-79630e7b1b91"
 version = "1.25.0+0"
 
-[[deps.WhatIsHappening]]
-deps = ["Logging", "MacroTools"]
-path = "pkg/WhatIsHappening"
-uuid = "964570a8-5a27-4270-acbc-3d103c50fc15"
-version = "0.1.0"
-
 [[deps.XML2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
 git-tree-sha1 = "1acf5bdf07aa0907e0a37d3718bb88d4b687b74a"

@@ -27,17 +27,16 @@ const pkgdir = joinpath(reporoot, "pkg")
 # Project & package directories
 const mainproj         = reporoot
 const VoltoMapSim      = joinpath(pkgdir, "VoltoMapSim")
-const WhatIsHappening  = joinpath(pkgdir, "WhatIsHappening")
 const Sciplotlib       = joinpath(pkgdir, "Sciplotlib")
 const MyToolbox        = joinpath(pkgdir, "MyToolbox")
 
 const localdeps = [
-    WhatIsHappening  => [],
     Sciplotlib       => [],
     MyToolbox        => [],
     VoltoMapSim      => [MyToolbox, Sciplotlib],
-    mainproj         => [WhatIsHappening, MyToolbox, Sciplotlib, VoltoMapSim],
+    mainproj         => [MyToolbox, Sciplotlib, VoltoMapSim],
                         # We must add indirect local deps as well, for the fix below to work.
+                        # (could make recursive collecting function)
 ]
 # Note that the list entries are sorted, with the higher level projects last.
 
