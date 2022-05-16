@@ -1,7 +1,7 @@
 about = """
 Usage:
 
-    julia install.jl [--all]
+    julia update.jl [--all]
 
 Based on the dependencies listed in both `Project.toml` and in this script, generates a new
 `Manifest.toml` with up-to-date versions of all dependencies, and installs those. [1]
