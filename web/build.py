@@ -59,7 +59,7 @@ renamed_pages = (
     ),
 )
 
-website_url = "https://tfiers.github.io/voltage-to-wiring-sim/"
+website_url = "https://tfiers.github.io/phd/"
 
 
 def add_link_tag_to_renamed_pages():  # to retain Hypothesis annotations

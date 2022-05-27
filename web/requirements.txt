@@ -14,7 +14,7 @@ git+https://github.com/tfiers/jupyter-book
 
 # Actually let's just pin it all.
 # The below are copied from a succesful GH Actions Build
-# (https://github.com/tfiers/voltage-to-wiring-sim/runs/5514360766).
+# (https://github.com/tfiers/phd/runs/5514360766).
 # (the build after that was unsuccesful, because of a jinja upgrade).
 
 GitPython == 3.1.27

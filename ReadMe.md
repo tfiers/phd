@@ -4,7 +4,7 @@
 Proof of concept simulation.
 
 For rendered notebooks with results:
-> [![Button saying "go to website"](https://img.shields.io/badge/🚀_go_to_website-blue)](https://tfiers.github.io/voltage-to-wiring-sim)
+> [![Button saying "go to website"](https://img.shields.io/badge/🚀_go_to_website-blue)](https://tfiers.github.io/phd)
 
 
 ## Organization
@@ -13,7 +13,7 @@ Directories:
 - [`nb/`](nb) contains Jupyter Notebooks, with exploratory and figure-producing code. These notebooks are both in Python, 
   and later – from 2022 onwards – in Julia. They call code that has been factored out to external packages:
 - [`pkg/`](pkg) contains Julia packages, which define functions and data types that are reused in multiple notebooks.
-- [`web/`](web) contains config and code to build the [website](https://tfiers.github.io/voltage-to-wiring-sim) 
+- [`web/`](web) contains config and code to build the [website](https://tfiers.github.io/phd) 
   where the notebooks are hosted (using [JupyterBook](https://jupyterbook.org/)).
 
 Files:
@@ -94,4 +94,4 @@ _Last time these instructions were tested on a fresh system:_ [a few weeks befor
 
 Check out the following version of this repository and this ReadMe  
 for instructions on how to reproduce the older, Python notebooks:  
-> 👉 [Repository @ commit `56bc7f6` (Jan 8, 2022)](https://github.com/tfiers/voltage-to-wiring-sim/tree/56bc7f6)
+> 👉 [Repository @ commit `56bc7f6` (Jan 8, 2022)](https://github.com/tfiers/phd/tree/56bc7f6)

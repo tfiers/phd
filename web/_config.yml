@@ -14,7 +14,7 @@ sphinx:
           "bold": ["\\boldsymbol{#1}", 1]
 
 repository:
-  url: https://github.com/tfiers/voltage-to-wiring-sim
+  url: https://github.com/tfiers/phd
   path_to_book: web
   branch: main
 
@@ -27,7 +27,7 @@ launch_buttons:
 html:
   favicon: _static/favicon.ico
   home_page_in_navbar: false
-  baseurl: https://tfiers.github.io/voltage-to-wiring-sim
+  baseurl: https://tfiers.github.io/phd
   use_repository_button: true
   use_edit_page_button: true
   use_issues_button: true
