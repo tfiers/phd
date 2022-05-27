@@ -1,4 +1,4 @@
-url = "https://api.github.com/repos/tfiers/voltage-to-wiring-sim/actions/runs"
+url = "https://api.github.com/repos/tfiers/phd/actions/runs"
 
 let was_building = false
 
