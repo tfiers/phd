@@ -21,11 +21,11 @@ Usage:
 function cached(
     f,
     args::Vector,
-    cachedir=joinpath(homedir(), ".phdcache"),
+    cacheroot=joinpath(homedir(), ".phdcache"),
     subdir=string(nameof(f));
     p::ParamSet=last(args),
 )
-    dir = joinpath(cachedir, subdir)
+    dir = joinpath(cacheroot, "datamodel v$datamodel_version", subdir)
     mkpath(dir)
     path = joinpath(dir, cachefilename(p))
     if isfile(path)

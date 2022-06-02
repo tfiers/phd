@@ -5,6 +5,10 @@ using MyToolbox: @reexport
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 
 
+# Used in diskcache.jl
+const datamodel_version = "2 (network) [WIP]"
+
+
 include("units.jl")
 # [see file for exports]
 
