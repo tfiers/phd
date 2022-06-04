@@ -8,7 +8,7 @@ function init_sim(p::SimParams)
     # IDs, subgroup names.
     input_neuron_IDs = idvec(conn = idvec(exc = N_exc, inh = N_inh), unconn = N_unconn)
     synapse_IDs      = idvec(exc = N_exc, inh = N_inh)
-    var_IDs          = idvec(t = nothing, v = nothing, u = nothing, g = similar(synapse_IDs))
+    var_IDs          = idvec(t = scalar, v = scalar, u = scalar, g = similar(synapse_IDs))
 
     resetrng!(rngseed)
 
