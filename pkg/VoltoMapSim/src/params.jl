@@ -1,45 +1,71 @@
 """
-Fixed parameters used in the simulation, connection tests, and performance evaluation; and
-their default values.
+Parameters used in the simulation, connection tests, and performance evaluation; and their
+default values.
 
 `@deftype` is a macro from Parameters.jl that defines every field to have the specified type
 (unless overridden) -- to avoid repetition.
+
+On default argument values referencing previous arguments (e.g. in `IzhikevichParams`: `v_t0
+ = v_rest`): This works when constructing a new object: `IzhParams(v_rest=…)` → `v_t0` gets
+updated too. But not when using the `@set` macro (`@set cortical_RS.v_rest = -70 * mV` does
+not change `v_t0`).
 """
 
 
 abstract type ParamSet end
+    # Used to identify parameter sets, to hash them by content (in `diskcache.jl`).
 
 
 const default_rngseed = 22022022
 
 
-@with_kw struct PoissonInputParams <: ParamSet
-    N_unconn     ::Int            = 100
-    N_exc        ::Int            = 5200
-    N_inh        ::Int            = N_exc ÷ 4
-    N_conn       ::Int            = N_inh + N_exc
-    N            ::Int            = N_conn + N_unconn
-    spike_rates  ::Distribution   = LogNormal_with_mean(4Hz, √0.6)  # (μₓ, σ)
+# Poisson spiking neurons, the input in the N-to-1 setup.
+@with_kw struct Nto1InputParams <: ParamSet
+    N_unconn      ::Int           = 100
+    N_conn        ::Int           = 6500
+    EI_ratio      ::Float64       = 4 / 1
+    spike_rates   ::Distribution  = LogNormal_with_mean(4 * Hz, √0.6)  # (μₓ, σ)
+    avg_stim_rate ::Float64       = 0.1 * nS / seconds                 # [1]
+    rngseed       ::Int           = default_rngseed                    # for ISI generation
 end
-const realistic_N_6600_input = PoissonInputParams()
-const previous_N_30_input    = PoissonInputParams(N_unconn = 9, N_exc = 17)
+# [1] `avg_stim_rate` is used to calculate the postsynaptic conductance increase Δg per
+#     spike for all excitatory neurons, by dividing by the mean of the `spike_rates`
+#     distribution. Inhibitory neurons have an output stim rate `EI_ratio` higher than this.
+#
+const realistic_N_6600_input = Nto1InputParams()
+    # Realistic N at least; spike rate dist is unknown.
+const previous_N_30_input    = Nto1InputParams(N_unconn = 9, N_conn = 21)
+
+
+
+
+@with_kw struct NetworkParams <: ParamSet
+    N             ::Int           = 1000
+    EI_ratio      ::Float64       = 4 / 1
+    p_conn        ::Float64       = 0.1                               # [1]
+    syn_strengths ::Distribution  = LogNormal_with_mean(0.1 * nS, 1)  # [2]
+    rngseed       ::Int           = default_rngseed                   # [3]
+    tx_delay      ::Float64       = 10 * ms                           # spike transmission delay.
+    N_to_record   ::Int           = 50                                # [4]
+end
+# [1] p_conn:        probability that a random (pre, post)-neuron pair is connected.
+# [2] syn_strengths: the increases in postsynaptic conductivity per incoming spike, for
+#                    excitatory synapses. Inhibitory synapses are `EI_ratio` stronger than
+#                    this.
+# [3] rngseed:       for generating the connection matrix and synaptic strengths.
+# [4] N_to_record:   number of neurons to record the voltages of, of each class (E/I).
+#                    (Spike times are recorded for all).
+
 
 
 
 @with_kw struct SynapseParams <: ParamSet @deftype Float64
-    avg_stim_rate_exc  =    0.1 * nS / seconds
-        # Used to calculate the postsynaptic conductance increase per spike for all
-        # excitatory neurons, by dividing by the mean of the spike rate distribution
-        # (defined above).
-    avg_stim_rate_inh  =    0.4 * nS / seconds
-    E_exc              =    0   * mV   # Reversal potentials
-    E_inh              = - 65   * mV   #
-    g_t0               =    0   * nS   # Conductances at `t = 0`
-    τ                  =    7   * ms   # Time constant of exponential decay of conductances
+    E_exc    =    0   * mV           # Reversal potentials
+    E_inh    = - 65   * mV           #
+    g_t0     =    0   * nS           # Conductances at `t = 0`
+    τ        =    7   * ms           # Time constant of exponential decay of conductances
 end
 const realistic_synapses = SynapseParams()
-
-
 
 @with_kw struct IzhikevichParams <: ParamSet @deftype Float64
     C        =  100    * pF          # cell capacitance
@@ -58,60 +84,73 @@ const cortical_RS = IzhikevichParams()
 
 
 
-@with_kw struct VoltageImagingParams <: ParamSet @deftype Float64
-    spike_SNR      = 10
-    spike_SNR_dB   = 20log10(spike_SNR)   # 1 ⇒ 0dB,  10 ⇒ 20dB,  100 ⇒ 40dB,  …
-    spike_height
-    σ_noise        = spike_height / spike_SNR
+
+@with_kw struct VoltageImagingParams <: ParamSet
+    spike_SNR     ::Float64  = 10               # [1]
+    rngseed       ::Int      = default_rngseed  # For generating noise
+end
+# [1] spike_SNR_in_dB = 20log10(spike_SNR)   # 1 ⇒ 0dB,  10 ⇒ 20dB,  100 ⇒ 40dB,  …
+#
+const noisy_VI      = VoltageImagingParams()
+const zero_noise_VI = VoltageImagingParams(spike_SNR = Inf)
+
+
+
+
+
+@with_kw struct GeneralSimParams <: ParamSet
+    duration        ::Float64                 = 1 * seconds
+    Δt              ::Float64                 = 0.1 * ms
+    izh_neuron      ::IzhikevichParams        = cortical_RS
+    synapses        ::SynapseParams           = realistic_synapses
 end
 
-get_VI_params_for(izh::IzhikevichParams; kw...) =
-    VoltageImagingParams(
-        spike_height = izh.v_peak - izh.v_rest;
-        kw...
-    )
+abstract type SimParams <: ParamSet end
 
-
-
-@with_kw struct SimParams <: ParamSet
-    duration       ::Float64                = 10 * seconds
-    Δt             ::Float64                = 0.1 * ms
-    num_timesteps  ::Int                    = round(Int, duration / Δt)
-    rngseed        ::Int                    = default_rngseed
-                                                # For spike generation and imaging noise.
-    input          ::PoissonInputParams     = realistic_N_6600_input
-    synapses       ::SynapseParams          = realistic_synapses
-    izh_neuron     ::IzhikevichParams       = cortical_RS
-    imaging        ::VoltageImagingParams   = get_VI_params_for(izh_neuron)
+@with_kw struct Nto1SimParams <: SimParams
+    general ::GeneralSimParams = GeneralSimParams()
+    input   ::Nto1InputParams  = realistic_N_6600_input
 end
+
+@with_kw struct NetworkSimParams <: SimParams
+    general     ::GeneralSimParams  = GeneralSimParams()
+    network     ::NetworkParams     = NetworkParams()
+    ext_current ::Distribution      = Normal(0 * pA, 10 * pA)   # noise. [1]
+    rngseed     ::Int               = default_rngseed              # for sampling noise
+end
+#
+# [1]. Actual unit is pA/√s. See https://brian2.readthedocs.io/en/stable/user/models.html#noise
+#      Also: by convention, current is positive for outward "+" flow.
+#      So if this is negative, the voltage will increase.
 
 
 
 @with_kw struct ConnTestParams <: ParamSet
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
-    STA_test_statistic ::String    = "mean"
+    STA_test_statistic ::String    = "mean"            # [1]
     rngseed            ::Int       = default_rngseed   # For shuffling ISIs
 end
-# On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a function
-# of an STA signal. Specifying as a string is needed so that params can be saved to disk by
-# JLD.
+# [1] On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a
+#     function of an STA signal. Specifying as a string is needed so that params can be
+#     saved to disk by JLD.
 
 
 
 
 @with_kw struct EvaluationParams <: ParamSet
-    α                             ::Float64  = 0.05   # p-value threshold / false detection rate
-    num_tested_neurons_per_group  ::Int      = 40
-    rngseed                       ::Int      = default_rngseed
-                                                      # For selecting tested neurons
+    α                ::Float64  = 0.05             # p-value threshold / false detection rate
+    N_tested_postsyn ::Int      = 1                # only used for network (for N-to-1, this is always 1)
+    N_tested_presyn  ::Int      = 40               # ..per group (exc, inh, unconn).
+    rngseed          ::Int      = default_rngseed  # For selecting tested neurons
 end
+
 
 
 
 @with_kw struct ExperimentParams <: ParamSet
-    sim         ::SimParams          = SimParams()
-    conntest    ::ConnTestParams     = ConnTestParams()
-    evaluation  ::EvaluationParams   = EvaluationParams()
+    sim         ::SimParams
+    imaging     ::VoltageImagingParams  = noisy_VI
+    conntest    ::ConnTestParams        = ConnTestParams()
+    evaluation  ::EvaluationParams      = EvaluationParams()
 end
-const params = ExperimentParams()

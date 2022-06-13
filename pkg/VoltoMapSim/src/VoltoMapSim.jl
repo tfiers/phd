@@ -5,8 +5,8 @@ using MyToolbox: @reexport
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 
 
-# Used in diskcache.jl
-const datamodel_version = "2 (network) [WIP]"
+const datamodel_version = "2 (net)"
+    # Used in diskcache.jl
 
 
 include("units.jl")
@@ -16,16 +16,18 @@ include("misc.jl")
 export LogNormal_with_mean, ptp
 
 include("params.jl")
-export ExperimentParams, SimParams, ConnTestParams, EvaluationParams
-export PoissonInputParams, SynapseParams, IzhikevichParams, VoltageImagingParams
-export realistic_N_6600_input, previous_N_30_input, realistic_synapses, cortical_RS,
-get_VI_params_for, params
+export ExperimentParams, Nto1SimParams, NetworkSimParams, ConnTestParams, EvaluationParams
+export Nto1InputParams, realistic_N_6600_input, previous_N_30_input
+export NetworkParams
+export IzhikevichParams, cortical_RS
+export SynapseParams, realistic_synapses
+export VoltageImagingParams, noisy_VI, zero_noise_VI
 
 include("diskcache.jl")
 export cached, cachefilename
 
-include("sim.jl")
-export sim
+include("sim/sim.jl")
+export sim, add_VI_noise
 
 include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
@@ -39,7 +41,7 @@ Custom plotting functions are in this separate submodule, so that the heavy PyPl
 need to be loaded when plotting is not needed.
 """
 module Plot
-using ..VoltageToMap
+using ..VoltoMapSim
 function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
@@ -50,4 +52,4 @@ end
 end # module Plot
 
 
-end # module VoltageToMap
+end # module VoltoMapSim

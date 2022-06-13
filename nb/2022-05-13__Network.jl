@@ -26,15 +26,28 @@ using Revise
 
 using MyToolbox
 
-using VoltageToMap
+using VoltoMapSim
 
 # ## Params
 
-
+p = ExperimentParams(sim=NetworkSimParams());
+# dumps(p)
 
 # ## Run sim
 
+state = sim(p.sim);
 
+num_spikes = length.(state.rec.spike_times)
+
+import PyPlot
+
+using VoltoMapSim.Plot
+
+plot(state.rec.voltage_traces[1] / mV);
+
+VI_sigs = add_VI_noise(state, NetworkSimParams(), noisy_VI);
+
+plot(VI_sigs[1] / mV);
 
 # ## Plot sim
 

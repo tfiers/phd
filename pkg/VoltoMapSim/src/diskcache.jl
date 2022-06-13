@@ -21,9 +21,9 @@ Usage:
 function cached(
     f,
     args::Vector,
-    cacheroot=joinpath(homedir(), ".phdcache"),
-    subdir=string(nameof(f));
-    p::ParamSet=last(args),
+    cacheroot = joinpath(homedir(), ".phdcache"),
+    subdir = string(nameof(f));
+    p::ParamSet = last(args),
 )
     dir = joinpath(cacheroot, "datamodel v$datamodel_version", subdir)
     mkpath(dir)
@@ -32,7 +32,9 @@ function cached(
         output = load(path, "output")
     else
         output = f(args...)
-        @withfb "Saving output at `$path`" jldsave(path; params=p, output)
+        @withfb "Saving output at `$path`" (
+            jldsave(path; params=p, output)
+        )
     end
     return output
 end
@@ -41,7 +43,8 @@ cachefilename(p::ParamSet) = string(hash(p), base=16) * ".jld2"
 
 """
 The hash of a set of parameters is different if a value is changed, if the struct (the type)
-is renamed, and if a field is renamed. It does not change when fields are reordered.
+is renamed, and if a field is renamed/added/removed. It does not change when fields are
+reordered.
 """
 function Base.hash(p::ParamSet, h::UInt)
     type = typeof(p)
