@@ -1,4 +1,4 @@
-function init_sim(p::SimParams)
+function init_Nto1_sim(p::SimParams)
 
     @unpack duration, num_timesteps, rngseed, input, synapses, izh_neuron  = p
     @unpack N_unconn, N_exc, N_inh, N_conn, N                              = input

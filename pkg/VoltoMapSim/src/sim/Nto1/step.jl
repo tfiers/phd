@@ -1,4 +1,4 @@
-function step_sim!(state, params::SimParams, rec, i)
+function step_Nto1_sim!(state, params::SimParams, rec, i)
 
     @unpack ISI_distributions, postsynapses, Δg, E           = state.fixed_at_init
     @unpack vars, diff, upcoming_input_spikes                = state.variable_in_time
