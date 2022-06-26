@@ -42,18 +42,22 @@ const previous_N_30_input    = Nto1InputParams(N_unconn = 9, N_conn = 21)
 @with_kw struct NetworkParams <: ParamSet
     N             ::Int           = 1000
     EI_ratio      ::Float64       = 4 / 1
-    p_conn        ::Float64       = 0.1                               # [1]
-    syn_strengths ::Distribution  = LogNormal_with_mean(0.1 * nS, 1)  # [2]
-    rngseed       ::Int           = default_rngseed                   # [3]
-    tx_delay      ::Float64       = 10 * ms                           # spike transmission delay.
-    N_to_record   ::Int           = 50                                # [4]
+    p_conn        ::Float64       = 0.10                              # [1]
+    syn_strengths ::Distribution  = LogNormal_with_mean(20 * nS, 1)   # [2]
+    g_EE          ::Float64       = 1                                 # [3]
+    g_EI          ::Float64       = 1                                 # exc → inh
+    g_IE          ::Float64       = EI_ratio
+    g_II          ::Float64       = EI_ratio
+    rngseed       ::Int           = default_rngseed                   # [4]
+    tx_delay      ::Float64       = 10 * ms                           # spike transmission delay
+    N_to_record   ::Int           = 1                                 # [5]
 end
 # [1] p_conn:        probability that a random (pre, post)-neuron pair is connected.
-# [2] syn_strengths: the increases in postsynaptic conductivity per incoming spike, for
-#                    excitatory synapses. Inhibitory synapses are `EI_ratio` stronger than
-#                    this.
-# [3] rngseed:       for generating the connection matrix and synaptic strengths.
-# [4] N_to_record:   number of neurons to record the voltages of, of each class (E/I).
+# [2] syn_strengths: the increases in postsynaptic conductivity per incoming spike.
+#                    This will be divided by the expected number of input neurons.
+# [3] g_EI:          synaptic strength multiplier for excitatory → inhibitory neurons
+# [4] rngseed:       for generating the connection matrix and synaptic strengths.
+# [5] N_to_record:   number of neurons to record the voltages of, of each class (E/I).
 #                    (Spike times are recorded for all).
 
 
@@ -99,7 +103,7 @@ const zero_noise_VI = VoltageImagingParams(spike_SNR = Inf)
 
 
 @with_kw struct GeneralSimParams <: ParamSet
-    duration        ::Float64                 = 1 * seconds
+    duration        ::Float64                 = 10 * seconds
     Δt              ::Float64                 = 0.1 * ms
     izh_neuron      ::IzhikevichParams        = cortical_RS
     synapses        ::SynapseParams           = realistic_synapses
@@ -115,7 +119,7 @@ end
 @with_kw struct NetworkSimParams <: SimParams
     general     ::GeneralSimParams  = GeneralSimParams()
     network     ::NetworkParams     = NetworkParams()
-    ext_current ::Distribution      = Normal(0 * pA, 10 * pA)   # noise. [1]
+    ext_current ::Distribution      = Normal(0 * pA, 7 * pA)   # noise. [1]
     rngseed     ::Int               = default_rngseed              # for sampling noise
 end
 #
@@ -153,4 +157,27 @@ end
     imaging     ::VoltageImagingParams  = noisy_VI
     conntest    ::ConnTestParams        = ConnTestParams()
     evaluation  ::EvaluationParams      = EvaluationParams()
+end
+
+
+
+# Utility function to tersely construct a parameter tree
+function get_params(T = ExperimentParams; kw...)
+    # For every field of the T,
+    # - if it's a ParamSet, recurse
+    # - if it's in kw, use the value in kw
+    # - else, use the default (i.e. do not supply it)
+    kw = Dict(kw)
+    kw_for_T = Dict{Symbol, Any}()
+    for (name, type) in zip(fieldnames(T), fieldtypes(T))
+        if type <: ParamSet
+            if type <: SimParams
+                type = NetworkSimParams
+            end
+            kw_for_T[name] = get_params(type; kw...)
+        elseif name in keys(kw)
+            kw_for_T[name] = kw[name]
+        end
+    end
+    return T(; kw_for_T...)
 end

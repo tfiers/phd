@@ -16,12 +16,7 @@ include("misc.jl")
 export LogNormal_with_mean, ptp
 
 include("params.jl")
-export ExperimentParams, Nto1SimParams, NetworkSimParams, ConnTestParams, EvaluationParams
-export Nto1InputParams, realistic_N_6600_input, previous_N_30_input
-export NetworkParams
-export IzhikevichParams, cortical_RS
-export SynapseParams, realistic_synapses
-export VoltageImagingParams, noisy_VI, zero_noise_VI
+export get_params
 
 include("diskcache.jl")
 export cached, cachefilename

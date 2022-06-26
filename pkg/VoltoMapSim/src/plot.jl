@@ -17,7 +17,7 @@ function plotsig(t, sig, tzoom=nothing; ax=nothing, clip_on=false, kw...)
     end
 end
 
-function plotSTA(vimsig, presynaptic_spikes, p::ExperimentParams)
+function plotSTA(vimsig, presynaptic_spikes, p::VoltoMapSim.ExperimentParams)
     Δt = p.sim.Δt
     @unpack STA_window_length = p.conntest
     win_size = round(Int, STA_window_length / Δt)
