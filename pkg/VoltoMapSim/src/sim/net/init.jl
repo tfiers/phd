@@ -57,12 +57,15 @@ function init_sim(p::NetworkSimParams)
     # Make synapse & neuron ID lookups.
     output_synapses = Dict{Int, Vector{Int}}()  # `neuron_ID => [synapse_IDs...]`
     postsyn_neuron  = Dict{Int, Int}()          # `synapse_ID => neuron_ID`
+    input_neurons   = Dict{Int, Vector{Int}}()  # `neuron_ID => [neuron_IDs...]`
     for n in neuron_IDs  # init to empty
         output_synapses[n] = []
+        input_neurons[n] = []
     end
     pre_post_pairs = Tuple.(findall(is_connected))  # Yields (row,col) i.e. neuron ID pairs
     for ((pre, post), synapse) in zip(pre_post_pairs, synapse_IDs)
         push!(output_synapses[pre], synapse)
+        push!(input_neurons[post], pre)
         postsyn_neuron[synapse] = post
     end
 
@@ -135,6 +138,7 @@ function init_sim(p::NetworkSimParams)
             recorded_neurons,
             output_synapses,
             postsyn_neuron,
+            input_neurons,
             syn_strengths,
             spike_tx_delay,
         ),

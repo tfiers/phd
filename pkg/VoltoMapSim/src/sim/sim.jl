@@ -16,18 +16,17 @@ end
 
 # We don't add the VI noise in the main `sim` function, so that, for different noise levels,
 # that function can be cached once and its output re-used.
-function add_VI_noise(sim_state, sim_params::SimParams, VI_params::VoltageImagingParams)
-    @unpack v_peak, v_rest = sim_params.general.izh_neuron
-    @unpack spike_SNR, rngseed = VI_params
+function add_VI_noise(voltage_traces, p::ExperimentParams)
+    @unpack v_peak, v_rest = p.sim.general.izh_neuron
+    @unpack spike_SNR, rngseed = p.imaging
     spike_height = v_peak - v_rest
     σ_noise = spike_height / spike_SNR
-    N = sim_state.init.num_timesteps
-    v = sim_state.rec.voltage_traces
-    VI_sig = similar(v)
+    N = length(first(voltage_traces))
+    VI_sigs = similar(voltage_traces)
     resetrng!(rngseed)
-    for t in eachindex(v)
+    for m in eachindex(voltage_traces)
         noise = randn(N) * σ_noise
-        VI_sig[t] = v[t] + noise
+        VI_sigs[m] = voltage_traces[m] + noise
     end
-    return VI_sig
+    return VI_sigs
 end

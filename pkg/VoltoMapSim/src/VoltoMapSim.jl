@@ -41,6 +41,7 @@ function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
         export plotsig, plotSTA, plot_samples_and_means, add_α_line
+        export rasterplot
         export color_exc, color_inh, color_unconn
     end
 end

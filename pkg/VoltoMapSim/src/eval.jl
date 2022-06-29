@@ -32,6 +32,7 @@ function evaluate_conntest_perf(vi, input_spikes, p::ExperimentParams)
     for input_train in get_subset_to_test(input_spikes.conn.inh)
         p_value = test_connection(vi, input_train, p)
         if p.conntest.STA_test_statistic == "ptp"
+            # This is cheating: we presuppose we know whether the presyn neuron is inh.
             if p_value < α
                 TP_inh += 1
             end
