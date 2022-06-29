@@ -2,9 +2,9 @@
 function step_sim!(state, params::NetworkSimParams, i)
 
     @unpack output_synapses, postsyn_neuron, neuron_type,
-            recorded_neurons, syn_strengths, spike_tx_delay      = state.init
-    @unpack ODE, upcoming_spike_arrivals                         = state.variable
-    @unpack spike_times, voltage_traces                          = state.rec
+            recorded_neurons, syn_strengths, spike_tx_delay      = state
+    @unpack ODE, upcoming_spike_arrivals                         = state
+    @unpack spike_times, voltage_traces                          = state
     @unpack v, u, g_exc, g_inh                                   = ODE.vars
     @unpack ext_current, rngseed                                 = params
     @unpack Δt, synapses, izh_neuron                             = params.general

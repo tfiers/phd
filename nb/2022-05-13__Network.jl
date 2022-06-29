@@ -35,7 +35,7 @@ p = get_params(duration=10*minutes);
 
 # ## Run sim
 
-simdata = (init, var, rec) = cached(sim, [p.sim]);
+s = cached(sim, [p.sim]);
 
 # Uncached output:
 # ```
@@ -49,9 +49,9 @@ using VoltoMapSim.Plot
 
 tlim = @. 3minutes + [0,10]seconds;
 
-rasterplot(rec.spike_times; tlim);
+rasterplot(s.spike_times; tlim);
 
-num_spikes = length.(rec.spike_times)
+num_spikes = length.(s.spike_times)
 spike_rates = num_spikes ./ p.sim.general.duration
 fig, ax = plt.subplots()
 M = round(Int, maximum(spike_rates))
@@ -64,10 +64,10 @@ ax.hist(spike_rates.inh; bins, label="Inhibitory neurons")
 ax.legend()
 set(ax, xlabel="Spike rate (Hz)", ylabel="Number of neurons in bin"; xlim);
 
-VI_sigs = add_VI_noise(rec.voltage_traces, p);
+VI_sigs = add_VI_noise(s.voltage_traces, p);
 
-ax = plotsig(init.timesteps, VI_sigs[1] / mV; tlim, label="VI signal");
-ax = plotsig(init.timesteps, rec.voltage_traces[1] / mV; tlim, ax, label="Membrane voltage")
+ax = plotsig(simdata.timesteps, VI_sigs[1] / mV; tlim, label="VI signal");
+ax = plotsig(simdata.timesteps, s.voltage_traces[1] / mV; tlim, ax, label="Membrane voltage")
 legend(ax, reorder=[2=>1])
 set(ax, xlabel="Simulation time (s)", ylabel="mV");
 
@@ -76,18 +76,18 @@ set(ax, xlabel="Simulation time (s)", ylabel="mV");
 trace_ID = 1
 VI_sig = VI_sigs[trace_ID];
 
-analyzed_neuron = init.recorded_neurons[trace_ID]  # neuron ID
+analyzed_neuron = s.recorded_neurons[trace_ID]  # neuron ID
 
-input_neurons = init.input_neurons[analyzed_neuron]
+input_neurons = s.input_neurons[analyzed_neuron]
 length(input_neurons)
 
-input_neurons_by_type = CVec(exc=[n for n in input_neurons if init.neuron_type[n] == :exc],
-                             inh=[n for n in input_neurons if init.neuron_type[n] == :inh])
+input_neurons_by_type = CVec(exc=[n for n in input_neurons if s.neuron_type[n] == :exc],
+                             inh=[n for n in input_neurons if s.neuron_type[n] == :inh])
 
 length(input_neurons_by_type.exc),
 length(input_neurons_by_type.inh)
 
-unconnected_neurons = [n for n in init.neuron_IDs if n ∉ input_neurons && n != analyzed_neuron];
+unconnected_neurons = [n for n in s.neuron_IDs if n ∉ input_neurons && n != analyzed_neuron];
 length(unconnected_neurons)
 
 # Calc and plot STA of some excitatory inputs (first row) and inhibitory inputs (second row).
@@ -102,7 +102,7 @@ for r in 1:nrows
         else
             n = input_neurons_by_type.inh[c]
         end
-        plotSTA(VI_sig, rec.spike_times[n], p; ax, xlabel=nothing, hylabel=nothing)
+        plotSTA(VI_sig, s.spike_times[n], p; ax, xlabel=nothing, hylabel=nothing)
     end
 end
 

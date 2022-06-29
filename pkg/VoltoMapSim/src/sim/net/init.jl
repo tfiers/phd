@@ -97,8 +97,8 @@ function init_sim(p::NetworkSimParams)
     diff = similar(vars)  # = ∂x/∂t for every x in `vars`
     diff.t = 1 * s/s
 
-    # Spike transmission queue. key = spike_ID, priority/val = spike_arrival_time.
-    # a spike ID = (presyn neuron ID, synapse ID, spike arrival time)
+    # Spike transmission queue. key = spike_ID. priority/val = spike_arrival_time.
+    # a spike ID = (presyn neuron ID, synapse ID, spike time)
     SpikeID = Tuple{Int, Int, Float64}
     upcoming_spike_arrivals = PriorityQueue{SpikeID, Float64}()
 
@@ -125,33 +125,33 @@ function init_sim(p::NetworkSimParams)
     end
 
     # Create state object, as nested NamedTuple.
-    return sim_state = (;
-        init = (;
-            num_timesteps,
-            timesteps,
-            neuron_IDs,
-            trace_IDs,
-            synapse_IDs,
-            ODE_var_IDs,
-            is_connected,
-            neuron_type,
-            recorded_neurons,
-            output_synapses,
-            postsyn_neuron,
-            input_neurons,
-            syn_strengths,
-            spike_tx_delay,
+    return state = (;
+        #
+        # Fixed at init:
+        num_timesteps,
+        timesteps,
+        neuron_IDs,
+        trace_IDs,
+        synapse_IDs,
+        ODE_var_IDs,
+        is_connected,
+        neuron_type,
+        recorded_neurons,
+        output_synapses,
+        postsyn_neuron,
+        input_neurons,
+        syn_strengths,
+        spike_tx_delay,
+        #
+        # Variable each timestep:
+        upcoming_spike_arrivals,
+        ODE = (;
+            vars,
+            diff,
         ),
-        variable = (;
-            upcoming_spike_arrivals,
-            ODE = (;
-                vars,
-                diff,
-            )
-        ),
-        rec = (;
-            voltage_traces,
-            spike_times,
-        ),
+        #
+        # Recording containers:
+        voltage_traces,
+        spike_times,
     )
 end
