@@ -46,14 +46,22 @@ The hash of a set of parameters is different if a value is changed, if the struc
 is renamed, and if a field is renamed/added/removed. It does not change when fields are
 reordered.
 """
-function Base.hash(p::ParamSet, h::UInt)
-    type = typeof(p)
+Base.hash(p::ParamSet, h::UInt) = hash_contents(p, h)
+
+# By default, `hash(x)` is based on `objectid(x)` (⇔ `is` aka `===`),
+# which is not stable across Julia sessions. This function is.
+function hash_contents(x, h::UInt)
+    type = typeof(x)
     h = hash(nameof(type), h)
     # Sort field names, so reordering fields doesn't change hash.
     for fieldname in sort!(collect(fieldnames(type)))
-        value = getproperty(p, fieldname)
+        value = getproperty(x, fieldname)
         h = hash(fieldname, h)
-        h = hash(value, h)
+        if isstructtype(typeof(value))
+            h = hash_contents(value, h)
+        else
+            h = hash(value, h)
+        end
     end
     return h
 end

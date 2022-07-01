@@ -132,7 +132,7 @@ end
 @with_kw struct ConnTestParams <: ParamSet
     STA_window_length  ::Float64   = 100 * ms
     num_shuffles       ::Int       = 100
-    STA_test_statistic ::String    = "mean"            # [1]
+    STA_test_statistic ::String    = "ptp"             # [1]
     rngseed            ::Int       = default_rngseed   # For shuffling ISIs
 end
 # [1] On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a

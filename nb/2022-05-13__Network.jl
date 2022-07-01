@@ -48,6 +48,7 @@ import PyPlot
 using VoltoMapSim.Plot
 
 tlim = @. 3minutes + [0,10]seconds;
+tlim = [0,10]seconds;
 
 rasterplot(s.spike_times; tlim);
 
@@ -66,8 +67,8 @@ set(ax, xlabel="Spike rate (Hz)", ylabel="Number of neurons in bin"; xlim);
 
 VI_sigs = add_VI_noise(s.voltage_traces, p);
 
-ax = plotsig(simdata.timesteps, VI_sigs[1] / mV; tlim, label="VI signal");
-ax = plotsig(simdata.timesteps, s.voltage_traces[1] / mV; tlim, ax, label="Membrane voltage")
+ax = plotsig(s.timesteps, VI_sigs[1] / mV; tlim, label="VI signal");
+ax = plotsig(s.timesteps, s.voltage_traces[1] / mV; tlim, ax, label="Membrane voltage")
 legend(ax, reorder=[2=>1])
 set(ax, xlabel="Simulation time (s)", ylabel="mV");
 
@@ -75,6 +76,7 @@ set(ax, xlabel="Simulation time (s)", ylabel="mV");
 
 trace_ID = 1
 VI_sig = VI_sigs[trace_ID];
+v = s.voltage_traces[trace_ID];
 
 analyzed_neuron = s.recorded_neurons[trace_ID]  # neuron ID
 
@@ -102,9 +104,10 @@ for r in 1:nrows
         else
             n = input_neurons_by_type.inh[c]
         end
-        plotSTA(VI_sig, s.spike_times[n], p; ax, xlabel=nothing, hylabel=nothing)
+        plotSTA(v, s.spike_times[n], p; ax, xlabel=nothing, hylabel=nothing)
     end
 end
+set(axs[nrows,1], xlabel="Time after spike (ms)", ylabel="STA (mV)")
 
 # Let's calculate and plot STA heights.
 
