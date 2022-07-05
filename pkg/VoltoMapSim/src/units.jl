@@ -12,12 +12,12 @@ nano  = 1e-9
 pico  = 1e-12
 export mega, kilo, milli, centi, micro, nano, pico
 
-seconds = s = 1
+seconds = 1
 Hz = 1 / seconds
 ms = milli * seconds
 minutes = 60 * seconds
 hours = 60 * minutes
-export seconds, s, Hz, ms, minutes, hours
+export seconds, Hz, ms, minutes, hours
 
 metre = meter = 1
 cm = centi * metre

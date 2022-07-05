@@ -28,7 +28,7 @@ include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
-export evaluate_conntest_performance, sim_and_eval
+export evaluate_conntest_perf, sim_and_eval
 
 
 """
@@ -41,7 +41,7 @@ function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
         export plotsig, plotSTA, plot_samples_and_means, add_α_line
-        export rasterplot
+        export rasterplot, histplot_fr
         export color_exc, color_inh, color_unconn
     end
 end

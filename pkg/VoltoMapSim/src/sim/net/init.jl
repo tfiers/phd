@@ -27,19 +27,12 @@ function init_sim(p::NetworkSimParams)
         is_connected[i,i] = false
     end
 
-    # Count synapses by type of pre- and postsynaptic neuron.
-    M = N_exc_neurons
-    N_synapses_per_type = (;
-        exc_to_exc = count(is_connected[1:M, 1:M]),
-        exc_to_inh = count(is_connected[1:M, M+1:end]),
-        inh_to_exc = count(is_connected[M+1:end, 1:M]),
-        inh_to_inh = count(is_connected[M+1:end, M+1:end]),
-    )
+    N_synapses = count(is_connected)
 
     # IDs and subgroup names
     neuron_IDs  = idvec(exc = N_exc_neurons,  inh = N_inh_neurons)
     trace_IDs   = idvec(exc = N_to_record, inh = N_to_record)
-    synapse_IDs = idvec(; N_synapses_per_type...)
+    synapse_IDs = collect(1:N_synapses)
     ODE_var_IDs = idvec(
         t     = scalar,
         v     = similar(neuron_IDs),   # membrane voltages
@@ -58,29 +51,45 @@ function init_sim(p::NetworkSimParams)
     output_synapses = Dict{Int, Vector{Int}}()  # `neuron_ID => [synapse_IDs...]`
     postsyn_neuron  = Dict{Int, Int}()          # `synapse_ID => neuron_ID`
     input_neurons   = Dict{Int, Vector{Int}}()  # `neuron_ID => [neuron_IDs...]`
+    syns = synapse_IDs_by_group = (;
+        exc_to_exc = [],
+        exc_to_inh = [],
+        inh_to_exc = [],
+        inh_to_inh = [],
+    )
     for n in neuron_IDs  # init to empty
         output_synapses[n] = []
         input_neurons[n] = []
     end
-    pre_post_pairs = Tuple.(findall(is_connected))  # Yields (row,col) i.e. neuron ID pairs
+
+    pre_post_pairs = Tuple.(findall(is_connected))
+        # Yields (row,col) i.e. neuron ID pairs. Traversed column-major (r1c1, r2c1, …).
+
     for ((pre, post), synapse) in zip(pre_post_pairs, synapse_IDs)
         push!(output_synapses[pre], synapse)
         push!(input_neurons[post], pre)
         postsyn_neuron[synapse] = post
+        syngroup = @match (neuron_type[pre], neuron_type[post]) begin
+            (:exc, :exc) => syns.exc_to_exc
+            (:exc, :inh) => syns.exc_to_inh
+            (:inh, :exc) => syns.inh_to_exc
+            (:inh, :inh) => syns.inh_to_inh
+        end
+        push!(syngroup, synapse)
     end
 
     # Sample synaptic weights
     # (instantaneous increases in conductivity, Δg, on a presynaptic spike).
-    syn_strengths = similar(synapse_IDs, Float64)  # Copy group names
-    syn_strengths .= rand(p.network.syn_strengths, sum(N_synapses_per_type))
+    syn_strengths = similar(synapse_IDs, Float64)
+    syn_strengths .= rand(p.network.syn_strengths, N_synapses)
     # Make it so that: more inputs ⇔ less impact per input
     average_num_inputs = p_conn * N
     syn_strengths ./= average_num_inputs
     # Apply connection-type-specific multipliers
-    syn_strengths.exc_to_exc .*= g_EE
-    syn_strengths.exc_to_inh .*= g_EI
-    syn_strengths.inh_to_exc .*= g_IE
-    syn_strengths.inh_to_inh .*= g_II
+    syn_strengths[syns.exc_to_exc] .*= g_EE
+    syn_strengths[syns.exc_to_inh] .*= g_EI
+    syn_strengths[syns.inh_to_exc] .*= g_IE
+    syn_strengths[syns.inh_to_inh] .*= g_II
 
     # Broadcast scalar parameter: spike transmission delays.
     spike_tx_delay = similar(synapse_IDs, Float64)
@@ -95,7 +104,7 @@ function init_sim(p::NetworkSimParams)
     vars.g_exc .= g_t0
     vars.g_inh .= g_t0
     diff = similar(vars)  # = ∂x/∂t for every x in `vars`
-    diff.t = 1 * s/s
+    diff.t = 1 * seconds/seconds
 
     # Spike transmission queue. key = spike_ID. priority/val = spike_arrival_time.
     # a spike ID = (presyn neuron ID, synapse ID, spike time)
@@ -140,6 +149,7 @@ function init_sim(p::NetworkSimParams)
         output_synapses,
         postsyn_neuron,
         input_neurons,
+        syns,
         syn_strengths,
         spike_tx_delay,
         #

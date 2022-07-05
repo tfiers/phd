@@ -94,21 +94,35 @@ length(unconnected_neurons)
 
 # Calc and plot STA of some excitatory inputs (first row) and inhibitory inputs (second row).
 
-(nrows, ncols) = (2, 5)
-fig, axs = plt.subplots(; nrows, ncols, figsize=(9, 2.2), sharex=true, sharey=true)
-for r in 1:nrows
-    for c in 1:ncols
-        ax = axs[r, c]
-        if r == 1
-            n = input_neurons_by_type.exc[c]
-        else
-            n = input_neurons_by_type.inh[c]
+function plot_some_STAs()
+    (nrows, ncols) = (2, 5)
+    fig, axs = plt.subplots(; nrows, ncols, figsize=(9, 2.2), sharex=true, sharey=true)
+    exc = sample(input_neurons_by_type.exc, ncols, replace=false)
+    inh = sample(input_neurons_by_type.inh, ncols, replace=false)
+    names = labels(s.neuron_IDs)
+    for r in 1:nrows
+        for c in 1:ncols
+            ax = axs[r, c]
+            n = (r == 1) ? exc[c] : inh[c]
+            plotSTA(v, s.spike_times[n], p; ax, xlabel=nothing, hylabel=(names[n], :dy=>-10, :loc=>:right))
+            ax.hylabel.set_fontsize("x-small")
+            ax.hylabel.set_color(as_mpl_type(Gray(0.2)))
         end
-        plotSTA(v, s.spike_times[n], p; ax, xlabel=nothing, hylabel=nothing)
     end
+    set(axs[nrows,1], xlabel="Time after spike (ms)", ylabel="STA (mV)")
 end
-set(axs[nrows,1], xlabel="Time after spike (ms)", ylabel="STA (mV)")
+plot_some_STAs()
 
-# Let's calculate and plot STA heights.
+plot_some_STAs()
 
-calc_STA()
+spiketrains_by_type = (;
+    conn = (;
+        exc = [s.spike_times[n] for n in input_neurons_by_type.exc],
+        inh = [s.spike_times[n] for n in input_neurons_by_type.inh],
+    ),
+    unconn = [s.spike_times[n] for n in unconnected_neurons],
+);
+
+perf = evaluate_conntest_perf(v, spiketrains_by_type, p)
+
+

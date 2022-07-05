@@ -119,7 +119,7 @@ end
 @with_kw struct NetworkSimParams <: SimParams
     general     ::GeneralSimParams  = GeneralSimParams()
     network     ::NetworkParams     = NetworkParams()
-    ext_current ::Distribution      = Normal(0 * pA, 7 * pA)   # noise. [1]
+    ext_current ::Distribution      = Normal(0 * pA, 7 * pA)       # noise. [1]
     rngseed     ::Int               = default_rngseed              # for sampling noise
 end
 #

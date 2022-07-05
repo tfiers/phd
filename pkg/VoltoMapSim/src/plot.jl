@@ -60,11 +60,14 @@ function rasterplot(spiketimes; tlim, ms = 1)
     neuron_nrs = []  # repeated neuron IDs/numbers: [1,1,1,1,2,2,2,3,3,3,3,3,…]
     for n in eachindex(spiketimes)
         spikes = spiketimes[n]
-        i0 = findfirst(t -> t ≥ t0, spikes)
-        i1 = findlast(t -> t ≤ t1, spikes)
-        sel_spikes = spikes[i0:i1]
-        push!(all_spiketimes, sel_spikes)
-        push!(neuron_nrs, fill(n, length(sel_spikes)))
+        i0 = findfirst(t -> t ≥ t0, spikes)  # isnothing if only spikes before t0
+        i1 = findlast(t -> t ≤ t1, spikes)  # isnothing if only spikes after t1
+        if isnothing(i0) || isnothing(i1)
+            continue
+        end
+        spikes_in_view = spikes[i0:i1]
+        push!(all_spiketimes, spikes_in_view)
+        push!(neuron_nrs, fill(n, length(spikes_in_view)))
     end
     fig, ax = plt.subplots(figsize=(4.6, 2.3))
     plot(ax, vcat(all_spiketimes...), vcat(neuron_nrs...), "k.", clip_on=false,
@@ -73,5 +76,17 @@ function rasterplot(spiketimes; tlim, ms = 1)
     N_inh = length(spiketimes.inh)
     set(ax, xlabel="Time (s)", ylabel="Neuron number",
         hylabel="Spike times of $N_exc excitatory, $N_inh inhibitory neurons")
+    return ax
+end
+
+function histplot_fr(spike_rates)
+    fig, ax = plt.subplots()
+    M = ceil(Int, maximum(spike_rates))
+    bins = 0:0.1:M
+    xlim = (0, M)
+    ax.hist(spike_rates.exc; bins, label="Excitatory neurons")
+    ax.hist(spike_rates.inh; bins, label="Inhibitory neurons")
+    ax.legend()
+    set(ax, xlabel="Spike rate (Hz)", ylabel="Number of neurons in bin"; xlim);
     return ax
 end
