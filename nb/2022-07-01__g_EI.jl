@@ -180,3 +180,66 @@ ax.hist(fr; bins, histtype="step")
 set(ax, xscale="log", xlim=(0.1,100));
 
 # Looks very much like fig 8D.
+
+# ## Sanity check
+
+p, s, spike_rates = sim_and_plot(
+    duration = 3seconds,
+    g_EE = 0,
+    g_EI = 0,
+    g_IE = 600,
+    g_II = 0,
+    to_record = [696],
+);
+
+numspikes = length.(s.spike_times)
+
+findmax(numspikes)  # (val, index)
+
+s.spike_times[696] / ms
+
+# Clusters, these always start a bit more than 10 ms (tx delay) after the input spikes of 812.
+# (found by printing spiketimes of all 696's inputs)
+
+s.spike_times[812] / ms
+
+labels(s.neuron_IDs)[812]
+
+# I wanna know if syn between these two is particularly strong.
+
+[syn for syn in s.output_synapses[812] if s.postsyn_neuron[syn] == 696]
+
+s.syn_strengths[69244] / nS
+
+sort(s.syn_strengths[s.syns.inh_to_exc] / nS)
+
+# So our man has the second highest synaptic strength.
+
+
+
+plt.hist(length.(values(s.input_neurons)));
+
+# I wanna now if strengths particularly strong.
+
+mysyns = Int[]
+pre_post_pairs = Tuple.(findall(s.is_connected))
+for ((pre, post), synapse) in zip(pre_post_pairs, s.synapse_IDs)
+    if post == 696
+        push!(mysyns, synapse)
+    end
+end
+
+s.syn_strengths[mysyns] / nS
+
+# No, not particularly strong
+
+s.output_synapses
+
+s.ODE.vars.g_exc[696],
+s.ODE.vars.g_inh[696] / nS
+
+s.syn_strengths[s.syns.inh_to_exc] / nS
+
+sort(s.ODE.vars.g_inh.exc / nS)
+
+

@@ -2,9 +2,9 @@
 function step_sim!(state, params::NetworkSimParams, i)
 
     @unpack output_synapses, postsyn_neuron, neuron_type,
-            recorded_neurons, syn_strengths, spike_tx_delay      = state
+            syn_strengths, spike_tx_delay                        = state
     @unpack ODE, upcoming_spike_arrivals                         = state
-    @unpack spike_times, voltage_traces                          = state
+    @unpack spike_times, signals                                 = state
     @unpack v, u, g_exc, g_inh                                   = ODE.vars
     @unpack ext_current, rngseed                                 = params
     @unpack Δt, synapses, izh_neuron                             = params.general
@@ -33,7 +33,7 @@ function step_sim!(state, params::NetworkSimParams, i)
     # Euler integration
     @. ODE.vars += ODE.diff * Δt
 
-    @unpack t, v, u = ODE.vars
+    @unpack t, v, u, g_exc, g_inh = ODE.vars
 
     # Spiking threshold
     has_spiked = v .≥ v_peak
@@ -51,10 +51,12 @@ function step_sim!(state, params::NetworkSimParams, i)
         end
     end
 
-    # Record membrane voltage of selected neurons
-    for m in eachindex(voltage_traces)
-        n = recorded_neurons[m]
-        voltage_traces[m][i] = v[n]
+    # Record ODE vars of selected neurons.
+    for n in params.network.to_record
+        signals[n].v[i]     = v[n]
+        signals[n].u[i]     = u[n]
+        signals[n].g_exc[i] = g_exc[n]
+        signals[n].g_inh[i] = g_inh[n]
     end
 
     # Process spikes arriving at synapses: Keep removing spikes from the queue until there

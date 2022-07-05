@@ -2,7 +2,7 @@
 function init_sim(p::NetworkSimParams)
 
     @unpack duration, Δt, synapses, izh_neuron  = p.general
-    @unpack N, EI_ratio, p_conn, N_to_record,
+    @unpack N, EI_ratio, p_conn, to_record,
             g_EE, g_EI, g_IE, g_II, rngseed     = p.network
     @unpack g_t0, E_exc, E_inh                  = synapses
     @unpack v_t0, u_t0                          = izh_neuron
@@ -14,9 +14,6 @@ function init_sim(p::NetworkSimParams)
     p_exc = EI_ratio / (EI_ratio + 1)
     N_exc_neurons = round(Int, p_exc * N)
     N_inh_neurons = N - N_exc_neurons
-
-    @assert N_exc_neurons ≥ N_to_record
-    @assert N_inh_neurons ≥ N_to_record
 
     # Generate synaptic connections
     resetrng!(rngseed)
@@ -31,7 +28,6 @@ function init_sim(p::NetworkSimParams)
 
     # IDs and subgroup names
     neuron_IDs  = idvec(exc = N_exc_neurons,  inh = N_inh_neurons)
-    trace_IDs   = idvec(exc = N_to_record, inh = N_to_record)
     synapse_IDs = collect(1:N_synapses)
     ODE_var_IDs = idvec(
         t     = scalar,
@@ -49,8 +45,11 @@ function init_sim(p::NetworkSimParams)
 
     # Make synapse & neuron ID lookups.
     output_synapses = Dict{Int, Vector{Int}}()  # `neuron_ID => [synapse_IDs...]`
+    input_synapses  = Dict{Int, Vector{Int}}()  # `neuron_ID => [synapse_IDs...]`
     postsyn_neuron  = Dict{Int, Int}()          # `synapse_ID => neuron_ID`
+    presyn_neuron   = Dict{Int, Int}()          # `synapse_ID => neuron_ID`
     input_neurons   = Dict{Int, Vector{Int}}()  # `neuron_ID => [neuron_IDs...]`
+    output_neurons  = Dict{Int, Vector{Int}}()  # `neuron_ID => [neuron_IDs...]`
     syns = synapse_IDs_by_group = (;
         exc_to_exc = [],
         exc_to_inh = [],
@@ -59,6 +58,8 @@ function init_sim(p::NetworkSimParams)
     )
     for n in neuron_IDs  # init to empty
         output_synapses[n] = []
+        input_synapses[n] = []
+        output_neurons[n] = []
         input_neurons[n] = []
     end
 
@@ -67,8 +68,11 @@ function init_sim(p::NetworkSimParams)
 
     for ((pre, post), synapse) in zip(pre_post_pairs, synapse_IDs)
         push!(output_synapses[pre], synapse)
+        push!(input_synapses[post], synapse)
         push!(input_neurons[post], pre)
+        push!(output_neurons[pre], post)
         postsyn_neuron[synapse] = post
+        presyn_neuron[synapse] = pre
         syngroup = @match (neuron_type[pre], neuron_type[post]) begin
             (:exc, :exc) => syns.exc_to_exc
             (:exc, :inh) => syns.exc_to_inh
@@ -118,19 +122,14 @@ function init_sim(p::NetworkSimParams)
         spike_times[i] = []
     end
     # ..but the voltage traces of only a select number of neurons (to save space).
-    voltage_traces = similar(trace_IDs, Vector{Float64})  # vecs of voltages
-    for i in eachindex(trace_IDs)
-        voltage_traces[i] = Vector{Float64}(undef, num_timesteps)
-    end
-    # Choose neurons to record from
-    recorded_neurons = Dict{Int, Int}()  # trace_ID => neuron_ID
-    recorded_exc_neurons = sample(neuron_IDs.exc, N_to_record, replace = false)
-    for (m, n) in zip(trace_IDs.exc, recorded_exc_neurons)
-        recorded_neurons[m] = n
-    end
-    recorded_inh_neurons = sample(neuron_IDs.inh, N_to_record, replace = false)
-    for (m, n) in zip(trace_IDs.inh, recorded_inh_neurons)
-        recorded_neurons[m] = n
+    signals = Dict{Int, Any}()
+    for n in to_record
+        signals[n] = (;
+            v     = Vector{Float64}(undef, num_timesteps),
+            u     = Vector{Float64}(undef, num_timesteps),
+            g_exc = Vector{Float64}(undef, num_timesteps),
+            g_inh = Vector{Float64}(undef, num_timesteps),
+        )
     end
 
     # Create state object, as nested NamedTuple.
@@ -140,15 +139,16 @@ function init_sim(p::NetworkSimParams)
         num_timesteps,
         timesteps,
         neuron_IDs,
-        trace_IDs,
         synapse_IDs,
         ODE_var_IDs,
         is_connected,
         neuron_type,
-        recorded_neurons,
         output_synapses,
+        input_synapses,
         postsyn_neuron,
+        presyn_neuron,
         input_neurons,
+        output_neurons,
         syns,
         syn_strengths,
         spike_tx_delay,
@@ -161,7 +161,7 @@ function init_sim(p::NetworkSimParams)
         ),
         #
         # Recording containers:
-        voltage_traces,
         spike_times,
+        signals,
     )
 end

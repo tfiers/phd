@@ -50,15 +50,13 @@ const previous_N_30_input    = Nto1InputParams(N_unconn = 9, N_conn = 21)
     g_II          ::Float64       = EI_ratio
     rngseed       ::Int           = default_rngseed                   # [4]
     tx_delay      ::Float64       = 10 * ms                           # spike transmission delay
-    N_to_record   ::Int           = 1                                 # [5]
+    to_record     ::Vector{Int}   = [1]                               # neuron IDs.
 end
 # [1] p_conn:        probability that a random (pre, post)-neuron pair is connected.
 # [2] syn_strengths: the increases in postsynaptic conductivity per incoming spike.
 #                    This will be divided by the expected number of input neurons.
 # [3] g_EI:          synaptic strength multiplier for excitatory → inhibitory neurons
 # [4] rngseed:       for generating the connection matrix and synaptic strengths.
-# [5] N_to_record:   number of neurons to record the voltages of, of each class (E/I).
-#                    (Spike times are recorded for all).
 
 
 
