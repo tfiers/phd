@@ -769,6 +769,11 @@ version = "0.1.8"
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
+[[deps.Match]]
+git-tree-sha1 = "1d9bc5c1a6e7ee24effb93f175c9342f9154d97f"
+uuid = "7eb4fadd-790c-5f42-8a69-bfa0b872bfbf"
+version = "1.2.0"
+
 [[deps.MbedTLS]]
 deps = ["Dates", "MbedTLS_jll", "Random", "Sockets"]
 git-tree-sha1 = "1c38e51c3d08ef2278062ebceade0e46cefc96fe"
@@ -803,7 +808,7 @@ uuid = "46d2c3a1-f734-5fdb-9937-b9b9aeba4221"
 version = "0.2.2"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "JLD2", "LaTeXStrings", "Logging", "LoggingExtras", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "StatsBase"]
+deps = ["BenchmarkTools", "ComponentArrays", "DataFrames", "DataStructures", "FilePaths", "FilePathsBase", "IJulia", "JLD2", "LaTeXStrings", "Logging", "LoggingExtras", "Match", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"

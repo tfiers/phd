@@ -240,3 +240,76 @@ sort(s.syn_strengths[s.syns.inh_to_exc] / nS)
 # So our man has the second highest synaptic strength.
 
 plt.hist(length.(values(s.input_neurons)));
+
+# ## More sanity check
+
+p, s, spike_rates = sim_and_plot(
+    duration = 3seconds,
+    g_EE = 0,
+    g_EI = 4,
+    g_IE = 0,
+    g_II = 0,
+);
+
+p, s, spike_rates = sim_and_plot(
+    duration = 3seconds,
+    g_EE = 1,
+    g_EI = 0,
+    g_IE = 0,
+    g_II = 0,
+);
+
+p, s, spike_rates = sim_and_plot(
+    duration = 3seconds,
+    g_EE = 0,
+    g_EI = 0,
+    g_IE = 0,
+    g_II = 400,
+);
+
+# ## Params to do conntest with
+
+plotsig(s.timesteps, s.signals[1].v)
+
+d = 8
+p, s, spike_rates = sim_and_plot(
+    duration = 30seconds,
+    p_conn = 0.04,
+    g_EE = 1   / d,
+    g_EI = 18  / d,
+    g_IE = 36  / d,
+    g_II = 31  / d,
+    ext_current = Normal(-0.5 * pA/√seconds, 5 * pA/√seconds),
+    E_inh = -80 * mV,
+);
+# This is based on above, "pos mean input current" & roxin
+
+# Distributions same width if 3 or 30 seconds. good.
+
+d = 6
+p, s, spike_rates = sim_and_plot(
+    duration = 3seconds,
+    p_conn = 0.04,
+    g_EE = 1   / d,
+    g_EI = 18  / d,
+    g_IE = 36  / d,
+    g_II = 31  / d,
+    ext_current = Normal(-0.5 * pA/√seconds, 5 * pA/√seconds),
+    E_inh = -80 * mV,
+);
+# This is based on above, "pos mean input current" & roxin
+
+d = 6
+p = get_params(
+    duration = 10minutes,
+    p_conn = 0.04,
+    g_EE = 1   / d,
+    g_EI = 18  / d,
+    g_IE = 36  / d,
+    g_II = 31  / d,
+    ext_current = Normal(-0.5 * pA/√seconds, 5 * pA/√seconds),
+    E_inh = -80 * mV,
+);
+s = cached(sim, [p.sim]);
+
+

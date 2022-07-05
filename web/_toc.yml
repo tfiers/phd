@@ -2,8 +2,9 @@
 
 - part: Notebooks
   chapters:
-    - file: nb/2022-07-01__g_EI.ipynb
-    - file: nb/2022-05-13__Network.ipynb
+    - file: nb/2022-07-05__Network-conntest
+    - file: nb/2022-07-01__g_EI
+    - file: nb/2022-05-13__Network
     - file: nb/2022-05-02__STA_mean_vs_peak-to-peak
     - file: nb/2022-04-28__interpolate_N_from_30_to_6000
     - file: nb/2022-03-28__total_stimulation
