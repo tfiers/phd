@@ -192,6 +192,30 @@ p, s, spike_rates = sim_and_plot(
     to_record = [696],
 );
 
+s.spike_times[812] / ms .+ 10
+
+s.spike_times[696] / ms
+
+v,u,g_exc,g_inh = s.signals[696];
+
+@unpack E_exc, E_inh = p.sim.general.synapses
+I = @. (  g_exc * (v - E_exc)
+        + g_inh * (v - E_inh));
+
+plotsig(s.timesteps / ms, (v .- E_inh) / mV, tlim=[1021,1022], marker=".", linestyle="None");
+
+plotsig(s.timesteps / ms, I / nA, tlim=[1021,1022], marker=".", linestyle="None");
+
+plotsig(s.timesteps / ms, s.signals[696].v / mV, tlim=[1021,1022], marker=".", linestyle="None");
+
+plotsig(s.timesteps, s.signals[696].v / mV, tlim=[1.021,1.022]);
+
+plotsig(s.timesteps, s.signals[696].v / mV, tlim=[1.02,1.04])
+
+plotsig(s.timesteps, s.signals[696].u / pA, tlim=[1.02,1.04]);
+
+plotsig(s.timesteps, s.signals[696].g_inh / nS, tlim=[1.02,1.04]);
+
 numspikes = length.(s.spike_times)
 
 findmax(numspikes)  # (val, index)
@@ -215,31 +239,4 @@ sort(s.syn_strengths[s.syns.inh_to_exc] / nS)
 
 # So our man has the second highest synaptic strength.
 
-
-
 plt.hist(length.(values(s.input_neurons)));
-
-# I wanna now if strengths particularly strong.
-
-mysyns = Int[]
-pre_post_pairs = Tuple.(findall(s.is_connected))
-for ((pre, post), synapse) in zip(pre_post_pairs, s.synapse_IDs)
-    if post == 696
-        push!(mysyns, synapse)
-    end
-end
-
-s.syn_strengths[mysyns] / nS
-
-# No, not particularly strong
-
-s.output_synapses
-
-s.ODE.vars.g_exc[696],
-s.ODE.vars.g_inh[696] / nS
-
-s.syn_strengths[s.syns.inh_to_exc] / nS
-
-sort(s.ODE.vars.g_inh.exc / nS)
-
-
