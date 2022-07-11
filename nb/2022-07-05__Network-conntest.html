@@ -484,6 +484,24 @@ const thebe_selector_output = ".output, .cell_output"
    Connection test
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-connections-to-an-inhibitory-neuron">
+   Test connections to an inhibitory neuron
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-neuron-info-for-neuron-1">
+     Use
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       neuron_info
+      </span>
+     </code>
+     for neuron 1
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -523,6 +541,24 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#connection-test">
    Connection test
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-connections-to-an-inhibitory-neuron">
+   Test connections to an inhibitory neuron
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#use-neuron-info-for-neuron-1">
+     Use
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       neuron_info
+      </span>
+     </code>
+     for neuron 1
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -586,6 +622,7 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">g_II</span> <span class="o">=</span> <span class="mi">31</span>  <span class="o">/</span> <span class="n">d</span><span class="p">,</span>
     <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
     <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">to_record</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">801</span><span class="p">],</span>
 <span class="p">);</span>
 <span class="c"># dumps(p)</span>
 </pre></div>
@@ -606,6 +643,24 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:11:31
 Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1e33.jld2` &#8230; done (0.7 s)
 </pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">augment_simdata</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">num_spikes_per_neuron</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">)</span>
+    <span class="n">spike_rates</span>           <span class="o">=</span> <span class="n">num_spikes_per_neuron</span> <span class="o">./</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">duration</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">s</span><span class="o">...</span><span class="p">,</span> <span class="n">num_spikes_per_neuron</span><span class="p">,</span> <span class="n">spike_rates</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">augment_simdata</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -636,18 +691,17 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_15_0.png" src="../_images/2022-07-05__Network-conntest_15_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_17_0.png" src="../_images/2022-07-05__Network-conntest_17_0.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spike_rates</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">)</span> <span class="o">./</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">duration</span>
-<span class="n">histplot_fr</span><span class="p">(</span><span class="n">spike_rates</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">histplot_fr</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_16_0.png" src="../_images/2022-07-05__Network-conntest_16_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_18_0.png" src="../_images/2022-07-05__Network-conntest_18_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -739,45 +793,45 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 <p>Highest firing inputs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sort!</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">spike_rates</span><span class="p">[</span><span class="n">input_neurons</span><span class="p">])),</span> <span class="n">by</span> <span class="o">=</span> <span class="n">tup</span> <span class="o">-&gt;</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sort!</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">input_neurons</span><span class="p">])),</span> <span class="n">by</span> <span class="o">=</span> <span class="n">tup</span> <span class="o">-&gt;</span> <span class="n">tup</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>36-element Vector{Tuple{Int64, Float64}}:
- (337, 0.15166666666666667)
+ (337, 0.152)
  (33, 0.29)
- (136, 0.6233333333333333)
- (516, 0.6833333333333333)
- (800, 0.8316666666666667)
- (70, 0.8333333333333334)
+ (136, 0.623)
+ (516, 0.683)
+ (800, 0.832)
+ (70, 0.833)
  (66, 0.94)
- (169, 0.9583333333333334)
- (303, 1.1983333333333333)
- (145, 1.265)
- (629, 1.3066666666666666)
- (101, 1.3183333333333334)
- (418, 1.4066666666666667)
+ (169, 0.958)
+ (303, 1.2)
+ (145, 1.26)
+ (629, 1.31)
+ (101, 1.32)
+ (418, 1.41)
  &#8942;
  (922, 3.41)
- (565, 4.463333333333333)
- (908, 4.6866666666666665)
- (312, 4.841666666666667)
- (829, 6.091666666666667)
- (897, 7.963333333333333)
- (831, 8.803333333333333)
- (914, 8.816666666666666)
- (928, 8.938333333333333)
- (902, 10.166666666666666)
- (894, 11.481666666666667)
- (988, 11.76)
+ (565, 4.46)
+ (908, 4.69)
+ (312, 4.84)
+ (829, 6.09)
+ (897, 7.96)
+ (831, 8.8)
+ (914, 8.82)
+ (928, 8.94)
+ (902, 10.2)
+ (894, 11.5)
+ (988, 11.8)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">highest_firing_inputs</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">id</span> <span class="o">-&gt;</span> <span class="n">spike_rates</span><span class="p">[</span><span class="n">id</span><span class="p">],</span> <span class="n">rev</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">highest_firing_inputs</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">by</span> <span class="o">=</span> <span class="n">id</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">id</span><span class="p">],</span> <span class="n">rev</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
 <span class="n">highest_firing_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -795,7 +849,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_29_0.png" src="../_images/2022-07-05__Network-conntest_29_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_31_0.png" src="../_images/2022-07-05__Network-conntest_31_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -819,7 +873,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_31_0.png" src="../_images/2022-07-05__Network-conntest_31_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_33_0.png" src="../_images/2022-07-05__Network-conntest_33_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -829,10 +883,10 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_32_0.png" src="../_images/2022-07-05__Network-conntest_32_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_34_0.png" src="../_images/2022-07-05__Network-conntest_34_0.png">
 </div>
 </div>
-<p>So I&#8594;E STAs are much cleaner. This is likely bc their synaptic weights are 36x larger.</p>
+<p>I&#8594;E STAs are much cleaner. This is likely bc their synaptic weights are 36x larger.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spiketrains_by_type</span> <span class="o">=</span> <span class="p">(;</span>
@@ -848,21 +902,27 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span> <span class="o">=</span> <span class="n">evaluate_conntest_perf</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">spiketrains_by_type</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span> <span class="o">=</span> <span class="n">evaluate_conntest_perf</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">spiketrains_by_type</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:01:08</span>9m
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: spiketrains_by_type not defined
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">71</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">373</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1196</span>
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.23076923076923078, TPR_inh = 1.0, FPR = 0.09999999999999998, p_values = (conn = (exc = Any[0.01, 0.84, 0.8, 0.96, 0.84, 0.6, 0.02, 0.87, 0.46, 0.63  &#8230;  0.37, 0.64, 0.3, 0.64, 0.02, 0.34, 0.61, 0.55, 0.37, 0.64], inh = Any[0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]), unconn = Any[0.56, 0.08, 0.01, 0.03, 0.28, 0.72, 0.33, 0.46, 0.94, 0.15  &#8230;  0.37, 0.37, 0.94, 0.05, 0.87, 0.9, 0.19, 0.97, 0.11, 0.31]))
-</pre></div>
 </div>
 </div>
-</div>
+<p>(see bottom of notebook)</p>
 <p>All inhibitory detected! :D</p>
-<p>This is cause I changed reversal potential from -65 to -80 mV (following Roxin).</p>
+<p>This is cause I changed reversal potential from -65 to -80 mV; and cause 36x stronger synapses (both following Roxin).</p>
 <hr class="docutils">
 <p>Check whether detected exc inputs are the highest firing ones.</p>
 <div class="cell docutils container">
@@ -878,7 +938,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_40_0.png" src="../_images/2022-07-05__Network-conntest_40_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_43_0.png" src="../_images/2022-07-05__Network-conntest_43_0.png">
 </div>
 </div>
 <p>No, doesn&#8217;t seem like it.</p>
@@ -905,10 +965,192 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_44_0.png" src="../_images/2022-07-05__Network-conntest_44_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_47_0.png" src="../_images/2022-07-05__Network-conntest_47_0.png">
 </div>
 </div>
 <p>blue and orange are the two lowest p-values, green and red the highest (worst, undetected).</p>
+</div>
+<div class="section" id="test-connections-to-an-inhibitory-neuron">
+<h2>Test connections to an inhibitory neuron<a class="headerlink" href="#test-connections-to-an-inhibitory-neuron" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">neuron_info</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="c"># Return exc and inh inputs, with the highest firing first.</span>
+    <span class="c"># n = neuron ID</span>
+    <span class="c"># s = augmented simdata</span>
+    <span class="c"># p = ExperimentParams</span>
+    <span class="n">input_neurons</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_neurons</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">by</span> <span class="o">=</span> <span class="n">m</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">m</span><span class="p">],</span> <span class="n">rev</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="n">exc_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">input_neurons</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">==</span> <span class="ss">:exc</span><span class="p">]</span>
+    <span class="n">inh_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">input_neurons</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">==</span> <span class="ss">:inh</span><span class="p">]</span>
+    <span class="n">unconnected_neurons</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">s</span><span class="o">.</span><span class="n">neuron_IDs</span> <span class="k">if</span> <span class="n">m</span> <span class="o">&#8713;</span> <span class="n">input_neurons</span><span class="p">]</span>
+    <span class="n">spiketrains</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">conn</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">exc</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">exc_inputs</span><span class="p">],</span>
+            <span class="n">inh</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">inh_inputs</span><span class="p">],</span>
+        <span class="p">),</span>
+        <span class="n">unconn</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">unconnected_neurons</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span>
+        <span class="n">exc_inputs</span><span class="p">,</span>
+        <span class="n">inh_inputs</span><span class="p">,</span>
+        <span class="n">unconnected_neurons</span><span class="p">,</span>
+        <span class="n">spiketrains</span><span class="p">,</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">signals</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">v</span><span class="p">,</span>
+        <span class="n">num_inputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">exc</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">),</span> <span class="n">inh</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">inh_inputs</span><span class="p">)),</span>
+    <span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ni</span> <span class="o">=</span> <span class="n">neuron_info</span><span class="p">(</span><span class="mi">801</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ni</span><span class="o">.</span><span class="n">num_inputs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(exc = 21, inh = 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax1</span> <span class="o">=</span> <span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">);</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="k">end</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-05__Network-conntest_53_0.png" src="../_images/2022-07-05__Network-conntest_53_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_53_1.png" src="../_images/2022-07-05__Network-conntest_53_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_53_2.png" src="../_images/2022-07-05__Network-conntest_53_2.png">
+<img alt="../_images/2022-07-05__Network-conntest_53_3.png" src="../_images/2022-07-05__Network-conntest_53_3.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax1</span> <span class="o">=</span> <span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">);</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plotSTA</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-05__Network-conntest_54_0.png" src="../_images/2022-07-05__Network-conntest_54_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_54_1.png" src="../_images/2022-07-05__Network-conntest_54_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span> <span class="o">=</span> <span class="n">evaluate_conntest_perf</span><span class="p">(</span><span class="n">ni</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni</span><span class="o">.</span><span class="n">spiketrains</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:28</span>9m
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span><span class="o">.</span><span class="n">detection_rates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.714, TPR_inh = 0.9, FPR = 0.05)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="use-neuron-info-for-neuron-1">
+<h3>Use <code class="docutils literal notranslate"><span class="pre">neuron_info</span></code> for neuron 1<a class="headerlink" href="#use-neuron-info-for-neuron-1" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ni1</span> <span class="o">=</span> <span class="n">neuron_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ni1</span><span class="o">.</span><span class="n">num_inputs</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(exc = 26, inh = 10)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">2</span>
+    <span class="n">plotSTA</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">exc</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-05__Network-conntest_60_0.png" src="../_images/2022-07-05__Network-conntest_60_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_60_1.png" src="../_images/2022-07-05__Network-conntest_60_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax1</span> <span class="o">=</span> <span class="n">plotSTA</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">p</span><span class="p">);</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+<span class="n">plotSTA</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">inh</span><span class="p">[</span><span class="k">end</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ylim</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-05__Network-conntest_61_0.png" src="../_images/2022-07-05__Network-conntest_61_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_61_1.png" src="../_images/2022-07-05__Network-conntest_61_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_61_2.png" src="../_images/2022-07-05__Network-conntest_61_2.png">
+<img alt="../_images/2022-07-05__Network-conntest_61_3.png" src="../_images/2022-07-05__Network-conntest_61_3.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span> <span class="o">=</span> <span class="n">evaluate_conntest_perf</span><span class="p">(</span><span class="n">ni1</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ni1</span><span class="o">.</span><span class="n">spiketrains</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:31</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span><span class="o">.</span><span class="n">detection_rates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.154, TPR_inh = 1, FPR = 0.15)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
