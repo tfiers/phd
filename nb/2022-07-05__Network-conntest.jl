@@ -42,6 +42,7 @@ p = get_params(
     g_II = 31  / d,
     ext_current = Normal(-0.5 * pA/√seconds, 5 * pA/√seconds),
     E_inh = -80 * mV,
+    to_record = [1, 801],
 );
 # dumps(p)
 
@@ -55,6 +56,14 @@ s = cached(sim, [p.sim]);
 # Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1e33.jld2` … done (0.7 s)
 # ```
 
+function augment_simdata(s, p)
+    num_spikes_per_neuron = length.(s.spike_times)
+    spike_rates           = num_spikes_per_neuron ./ p.sim.general.duration
+    return (; s..., num_spikes_per_neuron, spike_rates)
+end;
+
+s = augment_simdata(s,p);
+
 import PyPlot
 
 using VoltoMapSim.Plot
@@ -64,8 +73,7 @@ tlim = [0,10]seconds;
 
 rasterplot(s.spike_times; tlim);
 
-spike_rates = length.(s.spike_times) ./ p.sim.general.duration
-histplot_fr(spike_rates);
+histplot_fr(s.spike_rates);
 
 # +
 # VI_sigs = add_VI_noise(s.voltage_traces, p);
@@ -97,9 +105,9 @@ length(unconnected_neurons)
 
 # Highest firing inputs
 
-sort!(collect(zip(input_neurons, spike_rates[input_neurons])), by = tup -> tup[2])
+sort!(collect(zip(input_neurons, s.spike_rates[input_neurons])), by = tup -> tup[2])
 
-highest_firing_inputs = sort(input_neurons, by = id -> spike_rates[id], rev = true);
+highest_firing_inputs = sort(input_neurons, by = id -> s.spike_rates[id], rev = true);
 highest_firing_inputs[1]
 
 plotSTA(v, s.spike_times[highest_firing_inputs[1]], p);
@@ -112,7 +120,7 @@ plotSTA(v, s.spike_times[highest_firing_exc_inputs[1]], p);
 
 plotSTA(v, s.spike_times[highest_firing_inh_inputs[2]], p);
 
-# So I→E STAs are much cleaner. This is likely bc their synaptic weights are 36x larger.
+# I→E STAs are much cleaner. This is likely bc their synaptic weights are 36x larger.
 
 spiketrains_by_type = (;
     conn = (;
@@ -122,11 +130,13 @@ spiketrains_by_type = (;
     unconn = [s.spike_times[n] for n in unconnected_neurons],
 );
 
-perf = evaluate_conntest_perf(v, spiketrains_by_type, p)
+perf = evaluate_conntest_perf(v, spiketrains_by_type, p);
+
+# (see bottom of notebook)
 
 # All inhibitory detected! :D
 
-# This is cause I changed reversal potential from -65 to -80 mV (following Roxin).
+# This is cause I changed reversal potential from -65 to -80 mV; and cause 36x stronger synapses (both following Roxin).
 
 # ----
 
@@ -152,5 +162,69 @@ for i in sortperm(perf.p_values.conn.exc)[[1,2,N-1,N]]
 end
 
 # blue and orange are the two lowest p-values, green and red the highest (worst, undetected).
+
+# ## Test connections to an inhibitory neuron
+
+function neuron_info(n, s, p)
+    # Return exc and inh inputs, with the highest firing first.
+    # n = neuron ID
+    # s = augmented simdata
+    # p = ExperimentParams
+    input_neurons = sort(s.input_neurons[n], by = m -> s.spike_rates[m], rev = true)
+    exc_inputs = [m for m in input_neurons if s.neuron_type[m] == :exc]
+    inh_inputs = [m for m in input_neurons if s.neuron_type[m] == :inh]
+    unconnected_neurons = [m for m in s.neuron_IDs if m ∉ input_neurons]
+    spiketrains = (
+        conn = (
+            exc = [s.spike_times[m] for m in exc_inputs],
+            inh = [s.spike_times[m] for m in inh_inputs],
+        ),
+        unconn = [s.spike_times[m] for m in unconnected_neurons],
+    )
+    return (;
+        exc_inputs,
+        inh_inputs,
+        unconnected_neurons,
+        spiketrains,
+        v = s.signals[n].v,
+        num_inputs = (exc = length(exc_inputs), inh = length(inh_inputs)),
+    )
+end;
+ni = neuron_info(801, s, p);
+
+ni.num_inputs
+
+ax1 = plotSTA(ni.v, ni.spiketrains.conn.exc[1], p);
+ylim = ax1.get_ylim()
+plotSTA(ni.v, ni.spiketrains.conn.exc[2], p; ylim);
+plotSTA(ni.v, ni.spiketrains.conn.exc[3], p; ylim);
+plotSTA(ni.v, ni.spiketrains.conn.exc[end], p; ylim);
+
+ax1 = plotSTA(ni.v, ni.spiketrains.conn.inh[1], p);
+ax2 = plotSTA(ni.v, ni.spiketrains.conn.inh[2], p);
+
+perf = evaluate_conntest_perf(ni.v, ni.spiketrains, p);
+
+perf.detection_rates
+
+# ### Use `neuron_info` for neuron 1
+
+ni1 = neuron_info(1, s, p);
+
+ni1.num_inputs
+
+for i in 1:2
+    plotSTA(ni1.v, ni1.spiketrains.conn.exc[i], p)
+end
+
+ax1 = plotSTA(ni1.v, ni1.spiketrains.conn.inh[3], p);
+ylim = ax1.get_ylim()
+plotSTA(ni1.v, ni1.spiketrains.conn.inh[1], p; ylim);
+plotSTA(ni1.v, ni1.spiketrains.conn.inh[2], p; ylim);
+plotSTA(ni1.v, ni1.spiketrains.conn.inh[end], p; ylim);
+
+perf = evaluate_conntest_perf(ni1.v, ni1.spiketrains, p);
+
+perf.detection_rates
 
 

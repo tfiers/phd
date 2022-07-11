@@ -66,6 +66,6 @@ function evaluate_conntest_perf(vi, input_spikes, p::ExperimentParams)
     TPR_inh    = TP_inh / N_eval_inh
     TPR_unconn = TP_unconn / N_eval_unconn
     FPR = 1 - TPR_unconn
-    return (; TPR_exc, TPR_inh, FPR, p_values)
+    return (; p_values, detection_rates = (; TPR_exc, TPR_inh, FPR))
         # (; syntax for named tuple, using these var names)
 end

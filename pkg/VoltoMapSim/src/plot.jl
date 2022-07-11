@@ -19,7 +19,7 @@ end
 
 function plotSTA(
     vimsig, presynaptic_spikes, p::VoltoMapSim.ExperimentParams; ax=nothing,
-    xlabel="Time after spike (ms)", hylabel="Spike-triggered average (mV)"
+    xlabel="Time after spike (ms)", hylabel="Spike-triggered average (mV)", kw...
 )
     @unpack Δt = p.sim.general
     @unpack STA_window_length = p.conntest
@@ -27,11 +27,10 @@ function plotSTA(
     t_win = linspace(zero(STA_window_length), STA_window_length, win_size)
     STA = calc_STA(vimsig, presynaptic_spikes, p)
     if isnothing(ax)
-        ax = plot(t_win / ms, STA / mV)
-    else
-        plot(ax, t_win / ms, STA / mV)
+        fig, ax = plt.subplots()
     end
-    set(ax; xlabel, hylabel, xlim=(0, STA_window_length / ms))
+    plot(ax, t_win / ms, STA / mV)
+    set(ax; xlabel, hylabel, xlim=(0, STA_window_length / ms), kw...)
     return ax
 end
 

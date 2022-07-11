@@ -309,6 +309,7 @@ p = get_params(
     g_II = 31  / d,
     ext_current = Normal(-0.5 * pA/√seconds, 5 * pA/√seconds),
     E_inh = -80 * mV,
+    to_record = [1, 801],
 );
 s = cached(sim, [p.sim]);
 

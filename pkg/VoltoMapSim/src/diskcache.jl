@@ -48,8 +48,8 @@ reordered.
 """
 Base.hash(p::ParamSet, h::UInt) = hash_contents(p, h)
 
-# By default, `hash(x)` is based on `objectid(x)` (⇔ `is` aka `===`),
-# which is not stable across Julia sessions. This function is.
+# By default, `hash(x)` is based on `objectid(x)` (⇔ `is` aka `===`), which is not stable
+# across Julia sessions for custom structs like `LogNormal`. This function should be.
 function hash_contents(x, h::UInt)
     type = typeof(x)
     h = hash(nameof(type), h)
@@ -57,7 +57,9 @@ function hash_contents(x, h::UInt)
     for fieldname in sort!(collect(fieldnames(type)))
         value = getproperty(x, fieldname)
         h = hash(fieldname, h)
-        if isstructtype(typeof(value))
+        valtype = typeof(value)
+        if isstructtype(valtype) && fieldcount(valtype) > 0
+                # Vectors are structtypes, but have no fields. So use `hash`.
             h = hash_contents(value, h)
         else
             h = hash(value, h)
