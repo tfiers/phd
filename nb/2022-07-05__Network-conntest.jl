@@ -14,7 +14,7 @@
 #     name: julia-1.7
 # ---
 
-# # 2022-05-13 • Network conntest Roxin params
+# # 2022-07-05 • Network conntest Roxin params
 
 # ## Imports
 
@@ -166,7 +166,7 @@ end
 # ## Test connections to an inhibitory neuron
 
 function neuron_info(n, s, p)
-    # Return exc and inh inputs, with the highest firing first.
+    # Return exc and inh inputs, sorted so the highest firing are first.
     # n = neuron ID
     # s = augmented simdata
     # p = ExperimentParams
@@ -207,6 +207,9 @@ perf = evaluate_conntest_perf(ni.v, ni.spiketrains, p);
 
 perf.detection_rates
 
+# 15/21 exc inputs detected, 9/10 inh.  
+# 2/40 tested unconnected.
+
 # ### Use `neuron_info` for neuron 1
 
 ni1 = neuron_info(1, s, p);
@@ -226,5 +229,3 @@ plotSTA(ni1.v, ni1.spiketrains.conn.inh[end], p; ylim);
 perf = evaluate_conntest_perf(ni1.v, ni1.spiketrains, p);
 
 perf.detection_rates
-
-
