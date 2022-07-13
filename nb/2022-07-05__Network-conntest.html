@@ -704,6 +704,20 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 <img alt="../_images/2022-07-05__Network-conntest_18_0.png" src="../_images/2022-07-05__Network-conntest_18_0.png">
 </div>
 </div>
+<p>Aggregated and on log scale (to compare with Roxin fig 8D):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">exp10</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="o">:</span><span class="mf">0.2</span><span class="o">:</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">;</span> <span class="n">bins</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s">"log"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Spike rate (Hz)"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="mi">100</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-05__Network-conntest_20_0.png" src="../_images/2022-07-05__Network-conntest_20_0.png">
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># VI_sigs = add_VI_noise(s.voltage_traces, p);</span>
@@ -849,7 +863,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_31_0.png" src="../_images/2022-07-05__Network-conntest_31_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_33_0.png" src="../_images/2022-07-05__Network-conntest_33_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -873,7 +887,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_33_0.png" src="../_images/2022-07-05__Network-conntest_33_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_35_0.png" src="../_images/2022-07-05__Network-conntest_35_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -883,7 +897,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_34_0.png" src="../_images/2022-07-05__Network-conntest_34_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_36_0.png" src="../_images/2022-07-05__Network-conntest_36_0.png">
 </div>
 </div>
 <p>I&#8594;E STAs are much cleaner. This is likely bc their synaptic weights are 36x larger.</p>
@@ -938,7 +952,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_43_0.png" src="../_images/2022-07-05__Network-conntest_43_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_45_0.png" src="../_images/2022-07-05__Network-conntest_45_0.png">
 </div>
 </div>
 <p>No, doesn&#8217;t seem like it.</p>
@@ -965,7 +979,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_47_0.png" src="../_images/2022-07-05__Network-conntest_47_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_49_0.png" src="../_images/2022-07-05__Network-conntest_49_0.png">
 </div>
 </div>
 <p>blue and orange are the two lowest p-values, green and red the highest (worst, undetected).</p>
@@ -1033,10 +1047,10 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_53_0.png" src="../_images/2022-07-05__Network-conntest_53_0.png">
-<img alt="../_images/2022-07-05__Network-conntest_53_1.png" src="../_images/2022-07-05__Network-conntest_53_1.png">
-<img alt="../_images/2022-07-05__Network-conntest_53_2.png" src="../_images/2022-07-05__Network-conntest_53_2.png">
-<img alt="../_images/2022-07-05__Network-conntest_53_3.png" src="../_images/2022-07-05__Network-conntest_53_3.png">
+<img alt="../_images/2022-07-05__Network-conntest_55_0.png" src="../_images/2022-07-05__Network-conntest_55_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_55_1.png" src="../_images/2022-07-05__Network-conntest_55_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_55_2.png" src="../_images/2022-07-05__Network-conntest_55_2.png">
+<img alt="../_images/2022-07-05__Network-conntest_55_3.png" src="../_images/2022-07-05__Network-conntest_55_3.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1047,8 +1061,8 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_54_0.png" src="../_images/2022-07-05__Network-conntest_54_0.png">
-<img alt="../_images/2022-07-05__Network-conntest_54_1.png" src="../_images/2022-07-05__Network-conntest_54_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_56_0.png" src="../_images/2022-07-05__Network-conntest_56_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_56_1.png" src="../_images/2022-07-05__Network-conntest_56_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1107,8 +1121,8 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_61_0.png" src="../_images/2022-07-05__Network-conntest_61_0.png">
-<img alt="../_images/2022-07-05__Network-conntest_61_1.png" src="../_images/2022-07-05__Network-conntest_61_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_63_0.png" src="../_images/2022-07-05__Network-conntest_63_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_63_1.png" src="../_images/2022-07-05__Network-conntest_63_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1122,10 +1136,10 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\b77ff1c19d7f1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-05__Network-conntest_62_0.png" src="../_images/2022-07-05__Network-conntest_62_0.png">
-<img alt="../_images/2022-07-05__Network-conntest_62_1.png" src="../_images/2022-07-05__Network-conntest_62_1.png">
-<img alt="../_images/2022-07-05__Network-conntest_62_2.png" src="../_images/2022-07-05__Network-conntest_62_2.png">
-<img alt="../_images/2022-07-05__Network-conntest_62_3.png" src="../_images/2022-07-05__Network-conntest_62_3.png">
+<img alt="../_images/2022-07-05__Network-conntest_64_0.png" src="../_images/2022-07-05__Network-conntest_64_0.png">
+<img alt="../_images/2022-07-05__Network-conntest_64_1.png" src="../_images/2022-07-05__Network-conntest_64_1.png">
+<img alt="../_images/2022-07-05__Network-conntest_64_2.png" src="../_images/2022-07-05__Network-conntest_64_2.png">
+<img alt="../_images/2022-07-05__Network-conntest_64_3.png" src="../_images/2022-07-05__Network-conntest_64_3.png">
 </div>
 </div>
 <div class="cell docutils container">
