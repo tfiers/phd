@@ -75,6 +75,13 @@ rasterplot(s.spike_times; tlim);
 
 histplot_fr(s.spike_rates);
 
+# Aggregated and on log scale (to compare with Roxin fig 8D):
+
+bins = exp10.(-3:0.2:3)
+fig, ax = plt.subplots()
+ax.hist(s.spike_rates; bins)
+set(ax, xscale="log", xlabel="Spike rate (Hz)", xlim=(0.01,100));
+
 # +
 # VI_sigs = add_VI_noise(s.voltage_traces, p);
 
