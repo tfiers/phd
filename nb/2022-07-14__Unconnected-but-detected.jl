@@ -254,13 +254,24 @@ all_paths_of_length(2, insignif_unconn[1], m)
 
 # Now do this for all tested neurons, and get the type of the in-between neurons.
 
+# ## Compare between detected (false positive) and not detected (true negative)
+
 # Start simple: number of paths of length 2, for each.
 
-show([length(all_paths_of_length(2, n, m)) for n in signif_unconn])
+macro plothists(expr, title = "", bins = 10)
+    return quote
+        vals_sig = [$expr for n in signif_unconn]
+        vals_insig = [$expr for n in insignif_unconn]
+        plt.hist([vals_sig, vals_insig], $bins, align="left",
+                 label = ["Detected as connected", "Not detected as connected"])
+        plt.legend()
+        plt.xlabel($title, loc="center")
+    end
+end;
 
-show([length(all_paths_of_length(2, n, m)) for n in insignif_unconn])
+@plothists length(all_paths_of_length(2, n, m)) "Number of length-2 paths to target" 0:7;
 
-# No big diff at first sight (to be more rigorous, could plot or stat test).
+# No big diff it seems. The detected maybe have more paths.
 
 # Next, nr of inhibitory in between.
 
@@ -268,13 +279,61 @@ show([length(all_paths_of_length(2, n, m)) for n in insignif_unconn])
 type_of_in_between_neuron(path) = s.neuron_type[path[2]]
 
 num_inh_in_between(start_n) =
-    count([type_of_in_between_neuron(p) for p in all_paths_of_length(2, start_n, m)] .== :inh)
-
-show([num_inh_in_between(n) for n in signif_unconn])
+    count([type_of_in_between_neuron(p) for p in all_paths_of_length(2, start_n, m)] .== :inh);
 # -
 
-show([num_inh_in_between(n) for n in insignif_unconn])
+@plothists(num_inh_in_between(n), "Number of length-2 paths where \nneuron in between is inhibitory", 0:3)
+plt.xticks(0:2);
 
-# So no, not more inhibitory in between; on the contrary, there's other neurons with more inhibitory in between, that didn't get detected.
+# ~~So no, not more inhibitory in between; on the contrary, there's other neurons with more inhibitory in between, that didn't get detected.~~  
+# When I actually plotted it, I did see diff :)
+#
+# The detected-as-connected neurons have more inhibitory neurons as in-between to our target neuron.
 
+# Next, firing rates.
 
+firing_rate_of_in_between_neuron(path) = s.spike_rates[path[2]]
+mean_or_zero(x) = isempty(x) ? 0 : mean(x)
+mean_fr_in_between(n) =
+    mean_or_zero([firing_rate_of_in_between_neuron(p) for p in all_paths_of_length(2, n, m)]);
+
+@plothists mean_fr_in_between(n) "Mean firing rate of in-between neuron (Hz)";
+
+# Again, seems like a bit higher firing rate.
+
+# ## STAs of non-detected
+
+# We repeat the STAs of the detected unconnected here..
+
+STAs = [calc_STA(v, s.spike_times[n], p) for n in signif_unconn]
+ylim = [minimum([minimum(S) for S in STAs]), maximum([maximum(S) for S in STAs])] ./ mV
+for n in signif_unconn
+    _, ax = plt.subplots(figsize=(2.2, 1.8))
+    plotSTA(v, s.spike_times[n], p; ax, ylim)
+end
+
+# ..to then compare them with some STAs of the non-detected unconnected:
+
+for n in insignif_unconn[1:6]
+    _, ax = plt.subplots(figsize=(2.2, 1.8))
+    plotSTA(v, s.spike_times[n], p; ax, ylim)
+end
+
+# Strangely, these STAs do not seem much smaller than the detected ones..
+
+# The first one is very high. What was it's p-value?
+
+perf.p_values.unconn[1]
+
+# Check (we repeat this as it the shuffle is different each time):
+
+mean([test_connection(v, s.spike_times[ii.unconnected_neurons[1]], p) for i in 1:10])
+
+# Quite interesting.  
+# Here the value of the shuffle test (instead of looking at the absolute STA height values) comes up.
+
+# Maybe it is so high because the neuron has only few spikes (and thus a noisy STA).
+
+s.spike_rates[ii.unconnected_neurons[1]]
+
+# Indeed, quite low :)
