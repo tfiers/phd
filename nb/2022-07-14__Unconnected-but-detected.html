@@ -519,6 +519,16 @@ const thebe_selector_output = ".output, .cell_output"
    All paths
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-between-detected-false-positive-and-not-detected-true-negative">
+   Compare between detected (false positive) and not detected (true negative)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stas-of-non-detected">
+   STAs of non-detected
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -587,6 +597,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#all-paths">
    All paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-between-detected-false-positive-and-not-detected-true-negative">
+   Compare between detected (false positive) and not detected (true negative)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stas-of-non-detected">
+   STAs of non-detected
   </a>
  </li>
 </ul>
@@ -1219,63 +1239,170 @@ So we could compare these measures between a detected and an undetected unconnct
 </div>
 </div>
 <p>Now do this for all tested neurons, and get the type of the in-between neurons.</p>
+</div>
+<div class="section" id="compare-between-detected-false-positive-and-not-detected-true-negative">
+<h2>Compare between detected (false positive) and not detected (true negative)<a class="headerlink" href="#compare-between-detected-false-positive-and-not-detected-true-negative" title="Permalink to this headline">&#182;</a></h2>
 <p>Start simple: number of paths of length 2, for each.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">([</span><span class="n">length</span><span class="p">(</span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">signif_unconn</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 2, 1, 2, 2, 2]
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">macro</span> <span class="n">plothists</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="s">""</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">quote</span>
+        <span class="n">vals_sig</span> <span class="o">=</span> <span class="p">[</span><span class="o">$</span><span class="n">expr</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">signif_unconn</span><span class="p">]</span>
+        <span class="n">vals_insig</span> <span class="o">=</span> <span class="p">[</span><span class="o">$</span><span class="n">expr</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">insignif_unconn</span><span class="p">]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="n">vals_sig</span><span class="p">,</span> <span class="n">vals_insig</span><span class="p">],</span> <span class="o">$</span><span class="n">bins</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s">"left"</span><span class="p">,</span>
+                 <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Detected as connected"</span><span class="p">,</span> <span class="s">"Not detected as connected"</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="o">$</span><span class="n">title</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">([</span><span class="n">length</span><span class="p">(</span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">insignif_unconn</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span> <span class="n">length</span><span class="p">(</span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="s">"Number of length-2 paths to target"</span> <span class="mi">0</span><span class="o">:</span><span class="mi">7</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 2, 3, 6, 2, 2, 1, 0, 4, 1, 2, 1, 2, 1, 0, 3, 0, 4, 0, 0, 3, 2, 0, 0, 0, 1, 1, 2, 0, 2, 1, 0, 2, 2]
-</pre></div>
+<img alt="../_images/2022-07-14__Unconnected-but-detected_78_0.png" src="../_images/2022-07-14__Unconnected-but-detected_78_0.png">
 </div>
 </div>
-</div>
-<p>No big diff at first sight (to be more rigorous, could plot or stat test).</p>
+<p>No big diff it seems. The detected maybe have more paths.</p>
 <p>Next, nr of inhibitory in between.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">type_of_in_between_neuron</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
 
 <span class="n">num_inh_in_between</span><span class="p">(</span><span class="n">start_n</span><span class="p">)</span> <span class="o">=</span>
-    <span class="n">count</span><span class="p">([</span><span class="n">type_of_in_between_neuron</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">start_n</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="o">.==</span> <span class="ss">:inh</span><span class="p">)</span>
-
-<span class="n">show</span><span class="p">([</span><span class="n">num_inh_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">signif_unconn</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 1, 1, 0, 1, 1]
+    <span class="n">count</span><span class="p">([</span><span class="n">type_of_in_between_neuron</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">start_n</span><span class="p">,</span> <span class="n">m</span><span class="p">)]</span> <span class="o">.==</span> <span class="ss">:inh</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">([</span><span class="n">num_inh_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">insignif_unconn</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span><span class="p">(</span><span class="n">num_inh_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="s">"Number of length-2 paths where </span><span class="se">\n</span><span class="s">neuron in between is inhibitory"</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">2</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[1, 0, 2, 2, 1, 1, 1, 0, 2, 1, 0, 0, 1, 0, 0, 1, 0, 2, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
+<img alt="../_images/2022-07-14__Unconnected-but-detected_82_0.png" src="../_images/2022-07-14__Unconnected-but-detected_82_0.png">
+</div>
+</div>
+<p>~~So no, not more inhibitory in between; on the contrary, there&#8217;s other neurons with more inhibitory in between, that didn&#8217;t get detected.~~<br>
+When I actually plotted it, I did see diff :)</p>
+<p>The detected-as-connected neurons have more inhibitory neurons as in-between to our target neuron.</p>
+<p>Next, firing rates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">firing_rate_of_in_between_neuron</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">mean_or_zero</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">isempty</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">mean_fr_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">mean_or_zero</span><span class="p">([</span><span class="n">firing_rate_of_in_between_neuron</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)]);</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>So no, not more inhibitory in between; on the contrary, there&#8217;s other neurons with more inhibitory in between, that didn&#8217;t get detected.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span> <span class="n">mean_fr_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="s">"Mean firing rate of in-between neuron (Hz)"</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_86_0.png" src="../_images/2022-07-14__Unconnected-but-detected_86_0.png">
+</div>
+</div>
+<p>Again, seems like a bit higher firing rate.</p>
+</div>
+<div class="section" id="stas-of-non-detected">
+<h2>STAs of non-detected<a class="headerlink" href="#stas-of-non-detected" title="Permalink to this headline">&#182;</a></h2>
+<p>We repeat the STAs of the detected unconnected here..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">STAs</span> <span class="o">=</span> <span class="p">[</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">signif_unconn</span><span class="p">]</span>
+<span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="n">minimum</span><span class="p">([</span><span class="n">minimum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="k">for</span> <span class="n">S</span> <span class="k">in</span> <span class="n">STAs</span><span class="p">]),</span> <span class="n">maximum</span><span class="p">([</span><span class="n">maximum</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="k">for</span> <span class="n">S</span> <span class="k">in</span> <span class="n">STAs</span><span class="p">])]</span> <span class="o">./</span> <span class="n">mV</span>
+<span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">signif_unconn</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">))</span>
+    <span class="n">plotSTA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_0.png" src="../_images/2022-07-14__Unconnected-but-detected_90_0.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_1.png" src="../_images/2022-07-14__Unconnected-but-detected_90_1.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_2.png" src="../_images/2022-07-14__Unconnected-but-detected_90_2.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_3.png" src="../_images/2022-07-14__Unconnected-but-detected_90_3.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_4.png" src="../_images/2022-07-14__Unconnected-but-detected_90_4.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_90_5.png" src="../_images/2022-07-14__Unconnected-but-detected_90_5.png">
+</div>
+</div>
+<p>..to then compare them with some STAs of the non-detected unconnected:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">insignif_unconn</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">))</span>
+    <span class="n">plotSTA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">p</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_0.png" src="../_images/2022-07-14__Unconnected-but-detected_92_0.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_1.png" src="../_images/2022-07-14__Unconnected-but-detected_92_1.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_2.png" src="../_images/2022-07-14__Unconnected-but-detected_92_2.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_3.png" src="../_images/2022-07-14__Unconnected-but-detected_92_3.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_4.png" src="../_images/2022-07-14__Unconnected-but-detected_92_4.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_92_5.png" src="../_images/2022-07-14__Unconnected-but-detected_92_5.png">
+</div>
+</div>
+<p>Strangely, these STAs do not seem much smaller than the detected ones..</p>
+<p>The first one is very high. What was it&#8217;s p-value?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perf</span><span class="o">.</span><span class="n">p_values</span><span class="o">.</span><span class="n">unconn</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.55
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check (we repeat this as it the shuffle is different each time):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span><span class="p">([</span><span class="n">test_connection</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">ii</span><span class="o">.</span><span class="n">unconnected_neurons</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.561
+</pre></div>
+</div>
+</div>
+</div>
+<p>Quite interesting.<br>
+Here the value of the shuffle test (instead of looking at the absolute STA height values) comes up.</p>
+<p>Maybe it is so high because the neuron has only few spikes (and thus a noisy STA).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">ii</span><span class="o">.</span><span class="n">unconnected_neurons</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.242
+</pre></div>
+</div>
+</div>
+</div>
+<p>Indeed, quite low :)</p>
 </div>
 </div>
 
