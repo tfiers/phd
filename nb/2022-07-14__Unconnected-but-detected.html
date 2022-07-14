@@ -529,6 +529,16 @@ const thebe_selector_output = ".output, .cell_output"
    STAs of non-detected
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-detected-but-the-in-betweens-fire-lots">
+   Non detected but the in-betweens fire lots
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -607,6 +617,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#stas-of-non-detected">
    STAs of non-detected
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-detected-but-the-in-betweens-fire-lots">
+   Non detected but the in-betweens fire lots
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#summary">
+   Summary
   </a>
  </li>
 </ul>
@@ -1253,6 +1273,7 @@ So we could compare these measures between a detected and an undetected unconnct
                  <span class="n">label</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Detected as connected"</span><span class="p">,</span> <span class="s">"Not detected as connected"</span><span class="p">])</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="o">$</span><span class="n">title</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Number of tested,</span><span class="se">\n</span><span class="s"> unconnected neurons"</span><span class="p">)</span>
     <span class="k">end</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
@@ -1261,7 +1282,7 @@ So we could compare these measures between a detected and an undetected unconnct
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span> <span class="n">length</span><span class="p">(</span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="s">"Number of length-2 paths to target"</span> <span class="mi">0</span><span class="o">:</span><span class="mi">7</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span> <span class="n">length</span><span class="p">(</span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span> <span class="s">"Number of length-2 paths to target neuron `</span><span class="si">$m</span><span class="s">`"</span> <span class="mi">0</span><span class="o">:</span><span class="mi">7</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -1299,6 +1320,7 @@ When I actually plotted it, I did see diff :)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">firing_rate_of_in_between_neuron</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+
 <span class="n">mean_or_zero</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">isempty</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">mean_fr_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span>
     <span class="n">mean_or_zero</span><span class="p">([</span><span class="n">firing_rate_of_in_between_neuron</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)]);</span>
@@ -1317,6 +1339,20 @@ When I actually plotted it, I did see diff :)</p>
 </div>
 </div>
 <p>Again, seems like a bit higher firing rate.</p>
+<p>It might make more sense to look at the sum of firing rates, as the number of paths is not equal between &#8216;pre&#8217;-neurons:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span> <span class="n">total_firing_rate_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="s">"Sum of firing rates of in-between neurons (Hz)"</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_89_0.png" src="../_images/2022-07-14__Unconnected-but-detected_89_0.png">
+</div>
+</div>
+<p>The distribution still seems higher.</p>
+<p>What about those non detected ones at the far right? What does their STA look like? Why are they <em>not</em> detected?
+See the section after the next one.</p>
 </div>
 <div class="section" id="stas-of-non-detected">
 <h2>STAs of non-detected<a class="headerlink" href="#stas-of-non-detected" title="Permalink to this headline">&#182;</a></h2>
@@ -1333,12 +1369,12 @@ When I actually plotted it, I did see diff :)</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_0.png" src="../_images/2022-07-14__Unconnected-but-detected_90_0.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_1.png" src="../_images/2022-07-14__Unconnected-but-detected_90_1.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_2.png" src="../_images/2022-07-14__Unconnected-but-detected_90_2.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_3.png" src="../_images/2022-07-14__Unconnected-but-detected_90_3.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_4.png" src="../_images/2022-07-14__Unconnected-but-detected_90_4.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_90_5.png" src="../_images/2022-07-14__Unconnected-but-detected_90_5.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_0.png" src="../_images/2022-07-14__Unconnected-but-detected_94_0.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_1.png" src="../_images/2022-07-14__Unconnected-but-detected_94_1.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_2.png" src="../_images/2022-07-14__Unconnected-but-detected_94_2.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_3.png" src="../_images/2022-07-14__Unconnected-but-detected_94_3.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_4.png" src="../_images/2022-07-14__Unconnected-but-detected_94_4.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_94_5.png" src="../_images/2022-07-14__Unconnected-but-detected_94_5.png">
 </div>
 </div>
 <p>..to then compare them with some STAs of the non-detected unconnected:</p>
@@ -1352,12 +1388,12 @@ When I actually plotted it, I did see diff :)</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_0.png" src="../_images/2022-07-14__Unconnected-but-detected_92_0.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_1.png" src="../_images/2022-07-14__Unconnected-but-detected_92_1.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_2.png" src="../_images/2022-07-14__Unconnected-but-detected_92_2.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_3.png" src="../_images/2022-07-14__Unconnected-but-detected_92_3.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_4.png" src="../_images/2022-07-14__Unconnected-but-detected_92_4.png">
-<img alt="../_images/2022-07-14__Unconnected-but-detected_92_5.png" src="../_images/2022-07-14__Unconnected-but-detected_92_5.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_0.png" src="../_images/2022-07-14__Unconnected-but-detected_96_0.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_1.png" src="../_images/2022-07-14__Unconnected-but-detected_96_1.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_2.png" src="../_images/2022-07-14__Unconnected-but-detected_96_2.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_3.png" src="../_images/2022-07-14__Unconnected-but-detected_96_3.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_4.png" src="../_images/2022-07-14__Unconnected-but-detected_96_4.png">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_96_5.png" src="../_images/2022-07-14__Unconnected-but-detected_96_5.png">
 </div>
 </div>
 <p>Strangely, these STAs do not seem much smaller than the detected ones..</p>
@@ -1387,8 +1423,9 @@ When I actually plotted it, I did see diff :)</p>
 </div>
 </div>
 </div>
+<p>(Probably same, check ok)</p>
 <p>Quite interesting.<br>
-Here the value of the shuffle test (instead of looking at the absolute STA height values) comes up.</p>
+Here the usefulness of the shuffle test (instead of looking at the absolute STA height values) comes up.</p>
 <p>Maybe it is so high because the neuron has only few spikes (and thus a noisy STA).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1403,6 +1440,104 @@ Here the value of the shuffle test (instead of looking at the absolute STA heigh
 </div>
 </div>
 <p>Indeed, quite low :)</p>
+</div>
+<div class="section" id="non-detected-but-the-in-betweens-fire-lots">
+<h2>Non detected but the in-betweens fire lots<a class="headerlink" href="#non-detected-but-the-in-betweens-fire-lots" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">([</span><span class="n">total_firing_rate_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">insignif_unconn</span><span class="p">])</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">insignif_unconn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">all_paths_of_length</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6-element Vector{Vector{Int64}}:
+ [7, 516, 1]
+ [7, 681, 1]
+ [7, 710, 1]
+ [7, 766, 1]
+ [7, 897, 1]
+ [7, 928, 1]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_inh_in_between</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotSTA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_111_0.png" src="../_images/2022-07-14__Unconnected-but-detected_111_0.png">
+</div>
+</div>
+<p>This STA is indeed quite random and small.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.09
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ah, what about this for the significant ones?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@plothists</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="s">"Firing rate (Hz)"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-14__Unconnected-but-detected_115_0.png" src="../_images/2022-07-14__Unconnected-but-detected_115_0.png">
+</div>
+</div>
+<p>No clear diff.</p>
+</div>
+<div class="section" id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">&#182;</a></h2>
+<ul>
+<li><p>The network is highly connected: every neuron is maximum three hops (edges, synapses) away from any other. Most only two hops.</p></li>
+<li><p>Excess false positives (above the expected &#945; = 5%) seem stable between shuffle seeds and are thus not flukes.</p></li>
+<li><p>Their STAs often look like inhibitory STAs / PSPs.</p></li>
+<li><p>These detected but not-directly-connected &#8216;pre&#8217; neurons seem to have</p>
+<ul class="simple">
+<li><p>More paths to the voltage-recorded neuron</p></li>
+<li><p>More inhibitory neurons on these paths</p></li>
+<li><p>Higher firing neurons on these paths</p></li>
+</ul>
+<p>They do not have a higher firing rate.</p>
+</li>
+<li><p>Low firing unconnected neurons have high STAs (as not enough spikes to average out the noise); but these get correctly not detected thanks to the shuffle test.</p></li>
+</ul>
 </div>
 </div>
 
