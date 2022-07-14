@@ -14,6 +14,10 @@ function sim(params::SimParams)
     return state
 end
 
+
+# The below functions are for a net sim state.
+
+
 # We don't add the VI noise in the main `sim` function, so that, for different noise levels,
 # that function can be cached once and its output re-used.
 function add_VI_noise(voltage_traces, p::ExperimentParams)
@@ -29,4 +33,40 @@ function add_VI_noise(voltage_traces, p::ExperimentParams)
         VI_sigs[m] = voltage_traces[m] + noise
     end
     return VI_sigs
+end
+
+function augment_simdata(s, p::ExperimentParams)
+    num_spikes_per_neuron = length.(s.spike_times)
+    spike_rates           = num_spikes_per_neuron ./ p.sim.general.duration
+    return (;
+        s...,
+        num_spikes_per_neuron,
+        spike_rates,
+    )
+end
+
+function get_input_info(m, s, p)
+    # Return exc and inh inputs, sorted so the highest firing are first.
+    # m = neuron ID
+    # s = augmented simdata
+    # p = ExperimentParams
+    input_neurons = sort(s.input_neurons[m], by = n -> s.spike_rates[n], rev = true)
+    exc_inputs = [n for n in input_neurons if s.neuron_type[n] == :exc]
+    inh_inputs = [n for n in input_neurons if s.neuron_type[n] == :inh]
+    unconnected_neurons = [n for n in s.neuron_IDs if n ∉ input_neurons && n != m]
+    spiketrains = (
+        conn = (
+            exc = [s.spike_times[n] for n in exc_inputs],
+            inh = [s.spike_times[n] for n in inh_inputs],
+        ),
+        unconn = [s.spike_times[n] for n in unconnected_neurons],
+    )  # This datastructure is used by `evaluate_conntest_perf`
+    return (;
+        exc_inputs,
+        inh_inputs,
+        unconnected_neurons,
+        spiketrains,
+        v = s.signals[m].v,
+        num_inputs = (exc = length(exc_inputs), inh = length(inh_inputs)),
+    )
 end

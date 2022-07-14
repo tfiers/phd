@@ -22,13 +22,18 @@ include("diskcache.jl")
 export cached, cachefilename
 
 include("sim/sim.jl")
-export sim, add_VI_noise
+export sim, add_VI_noise, augment_simdata, get_input_info
 
 include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
 export evaluate_conntest_perf, sim_and_eval
+
+
+function __init__()
+    set_print_precision(3)
+end
 
 
 """
