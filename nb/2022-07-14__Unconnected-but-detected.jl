@@ -266,10 +266,11 @@ macro plothists(expr, title = "", bins = 10)
                  label = ["Detected as connected", "Not detected as connected"])
         plt.legend()
         plt.xlabel($title, loc="center")
+        plt.ylabel("Number of tested,\n unconnected neurons")
     end
 end;
 
-@plothists length(all_paths_of_length(2, n, m)) "Number of length-2 paths to target" 0:7;
+@plothists length(all_paths_of_length(2, n, m)) "Number of length-2 paths to target neuron `$m`" 0:7;
 
 # No big diff it seems. The detected maybe have more paths.
 
@@ -292,14 +293,26 @@ plt.xticks(0:2);
 
 # Next, firing rates.
 
+# +
 firing_rate_of_in_between_neuron(path) = s.spike_rates[path[2]]
+
 mean_or_zero(x) = isempty(x) ? 0 : mean(x)
 mean_fr_in_between(n) =
     mean_or_zero([firing_rate_of_in_between_neuron(p) for p in all_paths_of_length(2, n, m)]);
+# -
 
 @plothists mean_fr_in_between(n) "Mean firing rate of in-between neuron (Hz)";
 
 # Again, seems like a bit higher firing rate.
+
+# It might make more sense to look at the sum of firing rates, as the number of paths is not equal between 'pre'-neurons:
+
+@plothists total_firing_rate_in_between(n) "Sum of firing rates of in-between neurons (Hz)";
+
+# The distribution still seems higher.
+
+# What about those non detected ones at the far right? What does their STA look like? Why are they _not_ detected?
+# See the section after the next one.
 
 # ## STAs of non-detected
 
@@ -329,11 +342,51 @@ perf.p_values.unconn[1]
 
 mean([test_connection(v, s.spike_times[ii.unconnected_neurons[1]], p) for i in 1:10])
 
+# (Probably same, check ok)
+
 # Quite interesting.  
-# Here the value of the shuffle test (instead of looking at the absolute STA height values) comes up.
+# Here the usefulness of the shuffle test (instead of looking at the absolute STA height values) comes up.
 
 # Maybe it is so high because the neuron has only few spikes (and thus a noisy STA).
 
 s.spike_rates[ii.unconnected_neurons[1]]
 
 # Indeed, quite low :)
+
+# ## Non detected but the in-betweens fire lots
+
+i = argmax([total_firing_rate_in_between(n) for n in insignif_unconn])
+n = insignif_unconn[i]
+
+all_paths_of_length(2, n, m)
+
+num_inh_in_between(n)
+
+plotSTA(v, s.spike_times[n], p);
+
+# This STA is indeed quite random and small.
+
+s.spike_rates[n]
+
+# Ah, what about this for the significant ones?
+
+@plothists(s.spike_rates[n], "Firing rate (Hz)");
+
+# No clear diff.
+
+# ## Summary
+
+# - The network is highly connected: every neuron is maximum three hops (edges, synapses) away from any other. Most only two hops.
+#
+# - Excess false positives (above the expected α = 5%) seem stable between shuffle seeds and are thus not flukes.
+#
+# - Their STAs often look like inhibitory STAs / PSPs.
+#
+# - These detected but not-directly-connected 'pre' neurons seem to have
+#     - More paths to the voltage-recorded neuron
+#     - More inhibitory neurons on these paths
+#     - Higher firing neurons on these paths
+#     
+#   They do not have a higher firing rate.
+#
+# - Low firing unconnected neurons have high STAs (as not enough spikes to average out the noise); but these get correctly not detected thanks to the shuffle test.
