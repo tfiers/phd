@@ -54,20 +54,22 @@ s = augment_simdata(s, p);
 
 # ## Add VI noise; eval conntest perf
 
-SNRs = [Inf, 10, 1];
-
-ii = get_input_info(1,s,p);
+SNRs = [Inf, 10, 4, 1];
 
 function f(m, title)
+    detrates = []
     for SNR in SNRs
         q = (@set p.imaging.spike_SNR = SNR)
         vi = add_VI_noise(s.signals[m].v, q)
         ii = get_input_info(m, s, q)
-        perf = evaluate_conntest_perf(vi, ii.spiketrains, p)
+        @show SNR
+        perf = cached(evaluate_conntest_perf, [vi, ii.spiketrains, q], key = [q, m])
+        println(perf.detection_rates, "\n")
+        push!(detrates, perf.detection_rates)
     end
-end
+end;
 
-
+f(1, "Excitatory neuron")
 
 import PyPlot
 

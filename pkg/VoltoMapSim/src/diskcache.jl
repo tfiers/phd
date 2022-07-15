@@ -4,42 +4,43 @@ Load the pre-computed output of `f` from disk, if available. Else, run `f` and s
 
 Useful when re-running a cell in a notebook, or restarting a Julia session later.
 
-Other arguments to the function `f`, besides the user parameters, should be derived from
-these parameters (i.e, be intermediary data), or should have no influence on the output
-(e.g, a 'verbose' flag). Function runs are identified by the parameters and the function
-name. The parameters are saved on disk alongside the output, and can be inspected with an
-HDF5 viewer.
+Function runs are identified by the hashes of the elements of `key`, and the function name.
+The `key` elements are saved on disk alongside the output.
 
 Usage:
 
     function slow_func(intermediary_result_x, params::ExperimentParams) … end
     …
     output = cached(slow_func, [x, p])
-
-..with `ExperimentParams <: ParamSet`.
 """
 function cached(
     f,
-    args::Vector,
+    args::Vector;
+    key::Vector = [last(args)],
+    subdir = string(nameof(f)),
     cacheroot = joinpath(homedir(), ".phdcache"),
-    subdir = string(nameof(f));
-    p::ParamSet = last(args),
 )
     dir = joinpath(cacheroot, "datamodel v$datamodel_version", subdir)
     mkpath(dir)
-    path = joinpath(dir, cachefilename(p))
+    path = joinpath(dir, cachefilename(key))
     if isfile(path)
         output = load(path, "output")
     else
         output = f(args...)
         @withfb "Saving output at `$path`" (
-            jldsave(path; params=p, output)
+            jldsave(path; key, output)
         )
     end
     return output
 end
 
-cachefilename(p::ParamSet) = string(hash(p), base=16) * ".jld2"
+function cachefilename(key::Vector)
+    h = zero(UInt)
+    for el in key
+        h = hash(el, h)
+    end
+    return string(h, base=16) * ".jld2"
+end
 
 """
 The hash of a set of parameters is different if a value is changed, if the struct (the type)
