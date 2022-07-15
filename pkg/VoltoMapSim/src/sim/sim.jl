@@ -15,25 +15,22 @@ function sim(params::SimParams)
 end
 
 
-# The below functions are for a net sim state.
-
-
 # We don't add the VI noise in the main `sim` function, so that, for different noise levels,
 # that function can be cached once and its output re-used.
-function add_VI_noise(voltage_traces, p::ExperimentParams)
+function add_VI_noise(voltage_trace, p::ExperimentParams)
     @unpack v_peak, v_rest = p.sim.general.izh_neuron
     @unpack spike_SNR, rngseed = p.imaging
     spike_height = v_peak - v_rest
     σ_noise = spike_height / spike_SNR
-    N = length(first(voltage_traces))
-    VI_sigs = similar(voltage_traces)
     resetrng!(rngseed)
-    for m in eachindex(voltage_traces)
-        noise = randn(N) * σ_noise
-        VI_sigs[m] = voltage_traces[m] + noise
-    end
-    return VI_sigs
+        # Note that we'll have same noise for every neuorn if applying this func to multiple.
+    noise = randn(length(voltage_trace)) .* σ_noise
+    return VI_sig = voltage_trace + noise
 end
+
+
+
+# The below functions are for a network sim state.
 
 function augment_simdata(s, p::ExperimentParams)
     num_spikes_per_neuron = length.(s.spike_times)
