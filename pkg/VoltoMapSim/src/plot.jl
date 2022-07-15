@@ -34,21 +34,6 @@ function plotSTA(
     return ax
 end
 
-"""
-Rows of `data` correspond to `x` locations. Columns are samples (e.g. RNG seeds).
-"""
-function plot_samples_and_means(
-    x::Vector, data::Matrix, ax;
-    label=nothing, c=Gray(0.2), clip_on=false, kw...
-)
-    plot(x, mean(data, dims=2), ".-", ax; label, c, clip_on, kw...)
-    plot(x, data, ".", ax; alpha=0.5, c, clip_on, kw...)
-end
-
-add_α_line(ax, α, c="black", lw=1, ls="dashed", label=f"α = {α:.3G}", zorder=3) =
-    ax.axhline(α; c, lw, ls, label, zorder)
-
-
 function rasterplot(spiketimes; tlim, ms = 1)
     # `spiketimes` is sim_state.rec.spike_times: a CVec with groups .exc and .inh, and each
     # element a vector of floats: the spike times of one neuron.
@@ -89,3 +74,62 @@ function histplot_fr(spike_rates)
     set(ax, xlabel="Spike rate (Hz)", ylabel="Number of neurons in bin"; xlim);
     return ax
 end
+
+
+function plot_detection_rates(
+    rates, p::VoltoMapSim.ExperimentParams; xticklabels, xlabel = "", title = nothing
+)
+    xs = [1:length(xticklabels);]
+    fig, ax = plt.subplots()
+
+    function plotrate(r; kw...)
+        if length(size(rates)) == 1  # can't put this check outside, as then "method redefined".
+            plot(ax, xs, r, ".-"; clip_on = false, kw...)
+        else
+            plot_samples_and_means(ax, xs, r; kw...)
+        end
+    end
+
+    plotrate(extract(:TPR_exc, rates), label="for excitatory inputs", c=color_exc)
+    plotrate(extract(:TPR_inh, rates), label="for inhibitory inputs", c=color_inh)
+    plotrate(extract(:FPR, rates), label="for unconnected neurons", c=color_unconn)
+
+    set(ax; xtype=:categorical, ytype=:fraction, xticklabels, xlabel=(xlabel, :loc=>"center"))
+
+    if !isnothing(title)
+        ax.set_title(title, y = 1.5, loc = "center");
+    end
+
+    add_α_line(ax, p.evaluation.α)
+
+    l = ax.legend(title="Detection rate", ncol=2, loc="lower right", bbox_to_anchor=(1.06, 1.1))
+    l._legend_box.align = "left"
+    return fig, ax
+end
+
+"""
+Create an array of the same shape as the one given, but with just
+the values stored under `name` in each element of the given array.
+"""
+function extract(name::Symbol, arr #=an array of NamedTuples or structs =#)
+    getval(index) = getproperty(arr[index], name)
+    out = similar(arr, typeof(getval(firstindex(arr))))
+    for index in eachindex(arr)
+        out[index] = getval(index)
+    end
+    return out
+end
+
+"""
+Rows of `data` correspond to `x` locations. Columns are samples (e.g. RNG seeds).
+"""
+function plot_samples_and_means(
+    x::Vector, data::Matrix, ax;
+    label=nothing, c=Gray(0.2), clip_on=false, kw...
+)
+    plot(x, mean(data, dims=2), ".-", ax; label, c, clip_on, kw...)
+    plot(x, data, ".", ax; alpha=0.5, c, clip_on, kw...)
+end
+
+add_α_line(ax, α, c="black", lw=1, ls="dashed", label=f"α = {α:.3G}", zorder=3) =
+    ax.axhline(α; c, lw, ls, label, zorder)

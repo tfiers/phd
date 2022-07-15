@@ -54,23 +54,38 @@ s = augment_simdata(s, p);
 
 # ## Add VI noise; eval conntest perf
 
-SNRs = [Inf, 10, 4, 1];
+SNRs = [Inf, 10, 4, 2, 1];
 
-function f(m, title)
+function get_detection_rates(m; verbose = true)
     detrates = []
     for SNR in SNRs
         q = (@set p.imaging.spike_SNR = SNR)
         vi = add_VI_noise(s.signals[m].v, q)
         ii = get_input_info(m, s, q)
-        @show SNR
+        verbose && @show SNR
         perf = cached(evaluate_conntest_perf, [vi, ii.spiketrains, q], key = [q, m])
-        println(perf.detection_rates, "\n")
+        verbose && println(perf.detection_rates, "\n")
         push!(detrates, perf.detection_rates)
     end
+    return detrates
 end;
 
-f(1, "Excitatory neuron")
+# ## Plot
 
 import PyPlot
 
 using VoltoMapSim.Plot
+
+function plotdetrates(m, title)
+    rates = get_detection_rates(m, verbose = false)
+    plot_detection_rates(rates, p; title,
+        xticklabels = [@sprintf "%.3G" x for x in SNRs],
+        xlabel = "Imaging noise (spike-SNR)",
+    )
+end;
+
+fig, ax = plotdetrates(1, "Excitatory neuron");
+
+plotdetrates(801, "Inhibitory neuron");
+
+
