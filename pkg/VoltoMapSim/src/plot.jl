@@ -1,5 +1,8 @@
 @reexport using Sciplotlib
 
+ExperimentParams = VoltoMapSim.ExperimentParams
+
+
 const color_exc = C0
 const color_inh = C1
 const color_unconn = Gray(0.3)
@@ -18,7 +21,7 @@ function plotsig(t, sig; tlim=nothing, ax=nothing, clip_on=false, kw...)
 end
 
 function plotSTA(
-    vimsig, presynaptic_spikes, p::VoltoMapSim.ExperimentParams; ax=nothing,
+    vimsig, presynaptic_spikes, p::ExperimentParams; ax=nothing,
     xlabel="Time after spike (ms)", hylabel="Spike-triggered average (mV)", kw...
 )
     @unpack Δt = p.sim.general
@@ -77,7 +80,7 @@ end
 
 
 function plot_detection_rates(
-    rates, p::VoltoMapSim.ExperimentParams; xticklabels, xlabel = "", title = nothing
+    rates, p::ExperimentParams; xticklabels, xlabel = "", title = nothing
 )
     xs = [1:length(xticklabels);]
     fig, ax = plt.subplots()
