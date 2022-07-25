@@ -7,11 +7,14 @@ Useful when re-running a cell in a notebook, or restarting a Julia session later
 Function runs are identified by the hashes of the elements of `key`, and the function name.
 The `key` elements are saved on disk alongside the output.
 
+The contents of the files on disk can be inspected using `f = jldopen("blah.jld2")`
+(shows groupnames), and then `f["name"]`. Finally, `close(f)`
+
 Usage:
 
-    function slow_func(intermediary_result_x, params::ExperimentParams) … end
+    function slow_func(intermediary_result_x_for_neuron_n, params::ExperimentParams) … end
     …
-    output = cached(slow_func, [x, p])
+    output = cached(slow_func, [x, p]; key=[p, n]])
 """
 function cached(
     f,

@@ -8,6 +8,7 @@ function step_sim!(state, params::NetworkSimParams, i)
     @unpack v, u, g_exc, g_inh                                   = ODE.vars
     @unpack ext_current, rngseed                                 = params
     @unpack Δt, synapses, izh_neuron                             = params.general
+    @unpack record_v, record_all                                 = params.network
     @unpack τ, E_exc, E_inh                                      = synapses
     @unpack C, k, v_rest, v_thr, a, b, v_peak, v_reset, Δu       = izh_neuron
 
@@ -52,7 +53,10 @@ function step_sim!(state, params::NetworkSimParams, i)
     end
 
     # Record ODE vars of selected neurons.
-    for n in params.network.to_record
+    for n in record_v
+        signals[n].v[i]     = v[n]
+    end
+    for n in record_all
         signals[n].v[i]     = v[n]
         signals[n].u[i]     = u[n]
         signals[n].g_exc[i] = g_exc[n]

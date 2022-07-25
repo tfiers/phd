@@ -2,8 +2,9 @@
 function init_sim(p::NetworkSimParams)
 
     @unpack duration, Δt, synapses, izh_neuron  = p.general
-    @unpack N, EI_ratio, p_conn, to_record,
-            g_EE, g_EI, g_IE, g_II, rngseed     = p.network
+    @unpack N, EI_ratio, p_conn, rngseed,
+            g_EE, g_EI, g_IE, g_II,
+            record_v, record_all                = p.network
     @unpack g_t0, E_exc, E_inh                  = synapses
     @unpack v_t0, u_t0                          = izh_neuron
 
@@ -123,8 +124,13 @@ function init_sim(p::NetworkSimParams)
     end
     # ..but the voltage traces of only a select number of neurons (to save space).
     signals = Dict{Int, Any}()
-    for n in to_record
-        signals[n] = (;
+    for n in record_v
+        signals[n] = (
+            v = Vector{Float64}(undef, num_timesteps),
+        )
+    end
+    for n in record_all
+        signals[n] = (
             v     = Vector{Float64}(undef, num_timesteps),
             u     = Vector{Float64}(undef, num_timesteps),
             g_exc = Vector{Float64}(undef, num_timesteps),

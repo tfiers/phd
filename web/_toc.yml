@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-07-23__Record_many
     - file: nb/2022-07-15__Network_plus_noise
     - file: nb/2022-07-14__Unconnected-but-detected
     - file: nb/2022-07-05__Network-conntest
