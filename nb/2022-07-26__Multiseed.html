@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2020-11-16 Searching for an analytical form for the PSP &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-07-26 &#8226; Multiseed &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,14 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2020-11-16__analytical_PSP.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-07-26__Multiseed.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2020-07-28 &#8226; Storing values in base units" href="2020-07-28__Storing_in_base_units.html">
-    <link rel="prev" title="2020-11-27 &#8226; Factoring out windowing &amp; averaging code" href="2020-11-27__factor_out_STA.html">
+    <link rel="next" title="2022-07-23 &#8226; Record many neurons" href="2022-07-23__Record_many.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -107,9 +105,9 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2022-07-26__Multiseed.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2022-07-26 &#8226; Multiseed
   </a>
  </li>
@@ -304,7 +302,7 @@ const thebe_selector_output = ".output, .cell_output"
   Unpolished Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../unpolished_intro.html">
    Intro
@@ -390,8 +388,8 @@ const thebe_selector_output = ".output, .cell_output"
    2020-11-27 &#8226; Factoring out windowing &amp; averaging code
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
    2020-11-16 Searching for an analytical form for the PSP
   </a>
  </li>
@@ -445,7 +443,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2022-07-26__Multiseed.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -457,8 +455,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2020-11-16__analytical_PSP.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-07-26__Multiseed.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-07-26__Multiseed.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -472,7 +470,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-07-26__Multiseed.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -497,23 +495,23 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+  <a class="reference internal nav-link" href="#params">
+   Params
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solve">
-   Solve
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#examine-solution">
-   Examine &#8216;solution&#8217;
+  <a class="reference internal nav-link" href="#eval-conntest-perf-for-all-v-recorded">
+   Eval conntest perf for all v recorded
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility-info">
-   Reproducibility info
+  <a class="reference internal nav-link" href="#plot-distributions">
+   Plot distributions
   </a>
  </li>
 </ul>
@@ -526,7 +524,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2020-11-16 Searching for an analytical form for the PSP</h1>
+                <h1>2022-07-26 &#8226; Multiseed</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -542,23 +540,23 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
+  <a class="reference internal nav-link" href="#params">
+   Params
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solve">
-   Solve
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#examine-solution">
-   Examine &#8216;solution&#8217;
+  <a class="reference internal nav-link" href="#eval-conntest-perf-for-all-v-recorded">
+   Eval conntest perf for all v recorded
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility-info">
-   Reproducibility info
+  <a class="reference internal nav-link" href="#plot-distributions">
+   Plot distributions
   </a>
  </li>
 </ul>
@@ -570,280 +568,190 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="searching-for-an-analytical-form-for-the-psp">
-<h1>2020-11-16 Searching for an analytical form for the PSP<a class="headerlink" href="#searching-for-an-analytical-form-for-the-psp" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="multiseed">
+<h1>2022-07-26 &#8226; Multiseed<a class="headerlink" href="#multiseed" title="Permalink to this headline">&#182;</a></h1>
 <div class="section" id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.notebook_init</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
- - numpy &#8230; (0.10 s)
- - matplotlib.pyplot &#8230; (0.20 s)
- - numba &#8230; (0.27 s)
- - unitlib &#8230; (0.01 s)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
+<p>Based on Roxin; same as previous nb&#8217;s.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">ps</span> <span class="o">=</span> <span class="p">[</span>
+     <span class="n">get_params</span><span class="p">(</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
+        <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
+        <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span>   <span class="o">/</span> <span class="n">d</span><span class="p">,</span>
+        <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">18</span>  <span class="o">/</span> <span class="n">d</span><span class="p">,</span>
+        <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">36</span>  <span class="o">/</span> <span class="n">d</span><span class="p">,</span>
+        <span class="n">g_II</span> <span class="o">=</span> <span class="mi">31</span>  <span class="o">/</span> <span class="n">d</span><span class="p">,</span>
+        <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
+        <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+        <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">;];</span>
+        <span class="n">rngseed</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">rngseed</span> <span class="k">in</span> <span class="p">[</span><span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">default_rngseed</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-sim">
+<h2>Run sim<a class="headerlink" href="#run-sim" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">cached</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">ps</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ss</span> <span class="o">=</span> <span class="p">[</span><span class="n">augment_simdata</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="k">in</span> <span class="n">zip</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span><span class="n">ps</span><span class="p">)];</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="eval-conntest-perf-for-all-v-recorded">
+<h2>Eval conntest perf for all v recorded<a class="headerlink" href="#eval-conntest-perf-for-all-v-recorded" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">recorded</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">record_v</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Base.Threads</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">detrates</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Dict</span><span class="p">(),</span> <span class="kt">Dict</span><span class="p">()]</span>
 
-Importing from submodules (compiling numba functions) &#8230; &#10004;
-
-Imported `np`, `mpl`, `plt`
-Imported codebase (`voltage_to_wiring_sim`) as `v`
-Imported `*` from `v.support.units`
-Setup autoreload
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+    <span class="c"># @threads for m in recorded</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">recorded</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="n">get_input_info</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">ss</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">evaluate_conntest_perf</span><span class="p">,</span> <span class="p">[</span><span class="n">ii</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">ii</span><span class="o">.</span><span class="n">spiketrains</span><span class="p">,</span> <span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="n">ps</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">m</span><span class="p">])</span>
+        <span class="n">detrates</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf</span><span class="o">.</span><span class="n">detection_rates</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-distributions">
+<h2>Plot distributions<a class="headerlink" href="#plot-distributions" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use `v` for v(t) below.</span>
-<span class="n">vtws</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">Plot</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">v_r</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"a, b, v_r, tau"</span><span class="p">)</span>
-<span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"v, u, g"</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">nonnegative</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_rec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;]</span>
+<span class="n">inh_rec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">;];</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_g</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ydistplot</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">Plot</span><span class="o">.</span><span class="n">ydistplot</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">detplot</span><span class="p">(</span><span class="n">coll</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">coll</span><span class="p">)</span>
+    <span class="n">fill</span> <span class="o">=</span> <span class="s">" "</span><span class="o">^</span><span class="mi">17</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">ydistplot</span><span class="p">(</span>
+        <span class="n">fill</span><span class="o">*</span><span class="s">"Exc. inputs"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="s">""</span>                 <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="n">fill</span><span class="o">*</span><span class="s">"Inh. inputs"</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_inh</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="s">""</span>                 <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_inh</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="n">fill</span><span class="o">*</span><span class="s">"Unconn."</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="s">""</span>             <span class="o">=&gt;</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">coll</span><span class="p">],</span>
+        <span class="n">xpos</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span>  <span class="mf">3.2</span><span class="p">,</span> <span class="mf">3.8</span><span class="p">,</span>  <span class="mf">5.2</span><span class="p">,</span> <span class="mf">5.8</span><span class="p">],</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">hylabel</span> <span class="o">=</span> <span class="p">(</span><span class="s">"Detection rates for </span><span class="si">$</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="s"> neurons (n = </span><span class="si">$N</span><span class="s">)</span><span class="se">\n</span><span class="s">"</span>
+            <span class="o">*</span> <span class="s">"for two different network initializations (left&#8211;right)"</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">add_&#945;_line</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">nothing</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">detplot</span><span class="p">(</span><span class="n">exc_rec</span><span class="p">,</span> <span class="s">"excitatory"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle g{\left(t \right)} = e^{- \frac{t}{\tau}}\]</div>
+<img alt="../_images/2022-07-26__Multiseed_22_0.png" src="../_images/2022-07-26__Multiseed_22_0.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_v</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">Derivative</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">),</span>
-          <span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">eq_g</span><span class="o">.</span><span class="n">lhs</span><span class="p">,</span> <span class="n">eq_g</span><span class="o">.</span><span class="n">rhs</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">detplot</span><span class="p">(</span><span class="n">inh_rec</span><span class="p">,</span> <span class="s">"inhibitory"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{d}{d t} v{\left(t \right)} = - u{\left(t \right)} + v^{2}{\left(t \right)} + v{\left(t \right)} e^{- \frac{t}{\tau}}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_u</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">Derivative</span><span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">),</span>
-          <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{d}{d t} u{\left(t \right)} = a \left(b v{\left(t \right)} - u{\left(t \right)}\right)\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_conditions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">v_r</span><span class="p">,</span>
-    <span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-<span class="p">};</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="solve">
-<h2>Solve<a class="headerlink" href="#solve" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">sol</span> <span class="o">=</span> <span class="n">dsolve</span><span class="p">((</span><span class="n">eq_v</span><span class="p">,</span> <span class="n">eq_u</span><span class="p">),</span> <span class="n">ics</span><span class="o">=</span><span class="n">initial_conditions</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 16.1 s
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle v{\left(t \right)} = - v_{r} \operatorname{x_{0}}{\left(t \right)} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int \left(- \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\right)\, dt + \left(- v_{r} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int\limits^{0} \frac{e^{- a t} e^{- \tau e^{- \frac{t}{\tau}}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt + \frac{v_{r}}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{x_{0}}{\left(t \right)}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle u{\left(t \right)} = - v_{r} \left(\operatorname{y_{0}}{\left(t \right)} \int \left(- \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\right)\, dt + \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}{\left(t \right)}}\right) \operatorname{y_{0}}{\left(0 \right)} e^{\tau} + \left(- v_{r} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int\limits^{0} \frac{e^{- a t} e^{- \tau e^{- \frac{t}{\tau}}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt + \frac{v_{r}}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{y_{0}}{\left(t \right)}\]</div>
-</div>
-</div>
-</div>
-<div class="section" id="examine-solution">
-<h2>Examine &#8216;solution&#8217;<a class="headerlink" href="#examine-solution" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_sol</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Concrete values for constants:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_sol_1</span> <span class="o">=</span> <span class="n">v_sol</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">v_r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \left(e \operatorname{y_{0}}{\left(0 \right)} \int\limits^{0} \frac{e^{- t} e^{- e^{- t}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt - \frac{1}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{x_{0}}{\left(t \right)} - e \operatorname{x_{0}}{\left(t \right)} \operatorname{y_{0}}{\left(0 \right)} \int \frac{e^{- t} e^{- e^{- t}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"x0, y0"</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p><span class="math notranslate nohighlight">\(x_0(t)\)</span> is a new unknown function.</p>
-<p>We only have <span class="math notranslate nohighlight">\(y_0(0)\)</span> (and not <span class="math notranslate nohighlight">\(y_0(t)\)</span>) in the solution for <span class="math notranslate nohighlight">\(v\)</span>, so <span class="math notranslate nohighlight">\(y_0(0)\)</span> is simply a new free constant.</p>
-<p>Set both to a constant:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">v_sol_1_x0_ct</span> <span class="o">=</span> <span class="n">v_sol_1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">x0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">x0</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">y0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle -2 + e e^{- e^{- t}}\]</div>
-</div>
-</div>
-<p>Evaluate and plot for a range of <span class="math notranslate nohighlight">\(t\)</span>&#8217;s:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v_sol_1_x0_ct</span><span class="p">)</span>
-<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"v(t)"</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2020-11-16__analytical_PSP_24_0.png" src="../_images/2020-11-16__analytical_PSP_24_0.png">
-</div>
-</div>
-<p>Not our PSP shape yet, so <span class="math notranslate nohighlight">\(x_0(t)\)</span> is not a constant 1 :)</p>
-<p>Choosing a function of <span class="math notranslate nohighlight">\(t\)</span> for <span class="math notranslate nohighlight">\(x_0\)</span> results in an expression that needs to be integrated numerically to be plotted:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">v_sol_1_x0_exp</span> <span class="o">=</span> <span class="n">v_sol_1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">x0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">x0</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)),</span>
-     <span class="p">(</span><span class="n">y0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle - \left(- e \int e^{t} e^{- e^{- t}}\, dt + e \int\limits^{0} e^{t} e^{- e^{- t}}\, dt + 1\right) e^{- t}\]</div>
-</div>
-</div>
-<p><a class="reference external" href="https://www.wolframalpha.com/input/?i=e%5E%28-t%29+*+%28%28int+e%5E%28t-e%5E%28-t%29%29%29+-+1%29">WolframAlpha evaluation &amp; plot</a>
-(assuming that integral with 0 at the top is 0):</p>
-<p><img alt="" src="../_images/wolfram_alpha_PSP.png"></p>
-<p>This is also not our PSP shape.</p>
-<p>(the exponential integral:)
-<img alt="" src="../_images/exponential_integral.png"></p>
-</div>
-<div class="section" id="reproducibility-info">
-<h2>Reproducibility info<a class="headerlink" href="#reproducibility-info" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vtws</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<p>This cell was last run on <strong>Mon 16 Nov</strong> 2020, at 13:42 (UTC+0100),<br>by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code>.</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/85b90e8f70a70d1c38a583b536ebc665af845e14">Last git commit</a> (Fri 13 Nov 2020, 13:31).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AM notebooks/2020-11-11__unitlib.ipynb
-?? notebooks/2020-11-16__no_analytical_PSP.ipynb
-</pre></div>
-</div>
-<p>Platform:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPython 3.8.3
-Windows-10
-Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
-</pre></div>
-</div>
-<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.2
-matplotlib           3.3.2
-numba                0.51.2
-unitlib              0.3.post22+dirty
-joblib               0.17.0
-preload              2.1
-py-cpuinfo           7.0.0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span>
-<span class="n">sympy</span><span class="o">.</span><span class="n">__version__</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>'1.6.2'
-</pre></div>
-</div>
+<img alt="../_images/2022-07-26__Multiseed_23_0.png" src="../_images/2022-07-26__Multiseed_23_0.png">
 </div>
 </div>
 </div>
@@ -858,33 +766,33 @@ py-cpuinfo           7.0.0
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "julia-1.7",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2020-11-27__factor_out_STA.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2020-11-27 &#8226; Factoring out windowing &amp; averaging code</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2020-07-28__Storing_in_base_units.html" title="next page">
+    <a class="right-next" id="next-link" href="2022-07-23__Record_many.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2020-07-28 &#8226; Storing values in base units</p>
+        <p class="prev-next-title">2022-07-23 &#8226; Record many neurons</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
