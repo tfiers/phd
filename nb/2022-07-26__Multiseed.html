@@ -514,6 +514,16 @@ const thebe_selector_output = ".output, .cell_output"
    Plot distributions
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#is-there-relation-between-exc-and-inh-det-performance">
+   Is there relation between exc and inh det performance?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-about-for-exc-postsyn">
+   What about for exc postsyn
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -557,6 +567,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#plot-distributions">
    Plot distributions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#is-there-relation-between-exc-and-inh-det-performance">
+   Is there relation between exc and inh det performance?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-about-for-exc-postsyn">
+   What about for exc postsyn
   </a>
  </li>
 </ul>
@@ -754,6 +774,45 @@ const thebe_selector_output = ".output, .cell_output"
 <img alt="../_images/2022-07-26__Multiseed_23_0.png" src="../_images/2022-07-26__Multiseed_23_0.png">
 </div>
 </div>
+</div>
+<div class="section" id="is-there-relation-between-exc-and-inh-det-performance">
+<h2>Is there relation between exc and inh det performance?<a class="headerlink" href="#is-there-relation-between-exc-and-inh-det-performance" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_in</span> <span class="o">=</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">inh_rec</span><span class="p">]</span>
+<span class="n">inh_in</span> <span class="o">=</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_inh</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">inh_rec</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.6</span><span class="p">,</span><span class="mf">2.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exc_in</span><span class="p">,</span> <span class="n">inh_in</span><span class="p">,</span> <span class="s">"k."</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"E&#8594;I det rate"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="p">(</span><span class="s">"I&#8594;I det rate"</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;</span><span class="s">"top"</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-26__Multiseed_25_0.png" src="../_images/2022-07-26__Multiseed_25_0.png">
+</div>
+</div>
+<p>Seems not.
+Maybe anticorrelated but eh.</p>
+</div>
+<div class="section" id="what-about-for-exc-postsyn">
+<h2>What about for exc postsyn<a class="headerlink" href="#what-about-for-exc-postsyn" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_in</span> <span class="o">=</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">exc_rec</span><span class="p">]</span>
+<span class="n">inh_in</span> <span class="o">=</span> <span class="p">[</span><span class="n">detrates</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">exc_rec</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span><span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.6</span><span class="p">,</span><span class="mf">2.6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">exc_in</span><span class="p">,</span> <span class="n">inh_in</span><span class="p">,</span> <span class="s">"k."</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"E&#8594;E det rate"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="p">(</span><span class="s">"unconn&#8594;E det rate"</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;</span><span class="s">"top"</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-07-26__Multiseed_28_0.png" src="../_images/2022-07-26__Multiseed_28_0.png">
+</div>
+</div>
+<p>Eh</p>
 </div>
 </div>
 
