@@ -95,9 +95,13 @@ function ydistplot(pairs...; setkw...)
     datas = [p[2] for p in pairs]
     fig, ax = plt.subplots()
     for (x, ys) in enumerate(datas)
-        xs = fill(x, length(ys))
-        xs = x .+ 0.1*rand(length(ys)).-0.05
+        xs = x .- 0.15 .+ 0.1*rand(length(ys))
         ax.plot(xs, ys, "k.", clip_on=false, alpha=0.4)
+        ax.boxplot(
+            ys, whis=(5,95), positions=[x+0.1], showfliers=false, showmeans=true,
+            medianprops=Dict(:color=>"black"),
+            meanprops=Dict(:marker=>"D", :ms=>3, :mfc=>"black", :mec=>"none")
+        )
     end
     N = length(labels)
     set(ax; xtype=:categorical, xlim=[0.5, N+0.5], setkw...)
@@ -122,5 +126,7 @@ end;
 detplot(exc_rec, "excitatory")
 
 detplot(inh_rec, "inhibitory")
+
+plt.boxplot()
 
 
