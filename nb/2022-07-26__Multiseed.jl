@@ -111,4 +111,25 @@ detplot(exc_rec, "excitatory")
 
 detplot(inh_rec, "inhibitory")
 
+# ## Is there relation between exc and inh det performance?
 
+exc_in = [detrates[1][n].TPR_exc for n in inh_rec]
+inh_in = [detrates[1][n].TPR_inh for n in inh_rec]
+fig,ax=plt.subplots(figsize=(2.6,2.6))
+ax.plot(exc_in, inh_in, "k.", clip_on=false)
+ax.set(xlim=[0,1], ylim=[0,1], aspect="equal")
+set(ax, xlabel="E→I det rate", ylabel=("I→I det rate", :loc=>"top"));
+
+# Seems not.
+# Maybe anticorrelated but eh.
+
+# ## What about for exc postsyn
+
+exc_in = [detrates[1][n].TPR_exc for n in exc_rec]
+inh_in = [detrates[1][n].FPR for n in exc_rec]
+fig,ax=plt.subplots(figsize=(2.6,2.6))
+ax.plot(exc_in, inh_in, "k.", clip_on=false)
+ax.set(xlim=[0,1], ylim=[0,1], aspect="equal")
+set(ax, xlabel="E→E det rate", ylabel=("unconn→E det rate", :loc=>"top"));
+
+# Eh
