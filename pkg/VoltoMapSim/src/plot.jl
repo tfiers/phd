@@ -136,3 +136,35 @@ end
 
 add_α_line(ax, α, c="black", lw=1, ls="dashed", label=f"α = {α:.3G}", zorder=3) =
     ax.axhline(α; c, lw, ls, label, zorder)
+
+
+"""
+    ydistplot(
+        "group1" => [data1...],
+        "group2" => [data2...],
+        figsize = (4, 2.4),
+        xpos = nothing,  # default: 1:num_groups
+        set_kw...)
+
+Draws a side-by-side vertical scatterplot and boxplot for each group.
+"""
+function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, setkw...)
+    labels = [p[1] for p in pairs]
+    datas = [p[2] for p in pairs]
+    N = length(labels)
+    isnothing(xpos) && (xpos = 1:N)
+    fig, ax = plt.subplots(;figsize)
+    for (x, ys) in zip(xpos, datas)
+        xs = x .- 0.15 .+ 0.1*rand(length(ys))
+        ax.plot(xs, ys, "k.", clip_on=false, alpha=0.4)
+        ax.boxplot(
+            ys, whis=(5,95), positions=[x+0.1], showfliers=false, showmeans=true,
+            medianprops=Dict(:color=>"black"), boxprops=Dict(:clip_on=>false),
+            meanprops=Dict(:marker=>"D", :ms=>3, :mfc=>"black", :mec=>"none")
+        )
+    end
+    set(ax; xtype=:categorical, xlim=[0.5, N+0.5], setkw...)
+    ax.set_xticks(xpos)  # can't use `set` as that sets xticks
+    ax.set_xticklabels(labels)
+    return ax
+end

@@ -45,10 +45,11 @@ using ..VoltoMapSim
 function __init__()
     @require PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee" begin
         include("plot.jl")
+        export color_exc, color_inh, color_unconn
         export plotsig, plotSTA
         export rasterplot, histplot_fr
         export plot_detection_rates, plot_samples_and_means, add_α_line, extract
-        export color_exc, color_inh, color_unconn
+        export ydistplot
     end
 end
 end # module Plot

@@ -77,7 +77,8 @@ end;
 
 # Testing can happen multithreaded. So we'll set the JULIA_NUM_THREADS env var (to one less than the num logical cores).
 #
-# Ah seems you can use all cores, as it doesn't utilize fully, so there's left for you.
+# ~~Ah seems you can use all cores, as it doesn't utilize fully, so there's left for you.~~
+# Nope, using all cores clogs pc.
 #
 # With the threading it was sometimes up to 7:30 per neuron..
 
@@ -127,6 +128,4 @@ detplot(exc_rec, "excitatory")
 
 detplot(inh_rec, "inhibitory")
 
-plt.boxplot()
-
-
+# Whiskers are the 5 and 95 percentiles.
