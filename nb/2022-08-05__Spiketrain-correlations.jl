@@ -145,4 +145,40 @@ for binsize in [12.5, 25, 50, 100, 200] * ms
     plotcors_for(; binsize)
 end;
 
+# ## Correlation with other inputs
 
+# The guess: unconnected-but-detected are more correlated with actual inputs to the recorded neuron, than unconnected not detected are.
+#
+# To test, we compute spiketrain correlations between inputs (and not between an input and the recorded neuron as above).
+
+all_inputs = [ii.exc_inputs; ii.inh_inputs];
+
+signif_unconn_cors = vcat(
+    [
+        [cor(binned_spikes[m], binned_spikes[n]) for n in all_inputs]
+        for m in signif_unconn
+    ]...
+)
+insignif_unconn_cors = vcat(
+    [
+        [cor(binned_spikes[m], binned_spikes[n]) for n in all_inputs]
+        for m in insignif_unconn
+    ]...
+);
+
+function plotcors_between_inputs(insignif_unconn_cors, signif_unconn_cors, binsize_ms = 100)
+    ax = ydistplot(
+        "Unconnected,\nnot detected" => insignif_unconn_cors,
+        "Unconnected\nbut detected" => signif_unconn_cors,
+        figsize = (6, 3),
+        hylabel = "Binned spiketrain correlations with inputs to neuron $m \nBinsize = $binsize_ms ms",
+        ylabel = "Pearson correlation",
+        # ylim = [-0.04, +0.045],
+    )
+    Plot.add_refline(ax, 0, zorder=1, c="gray")
+end
+plotcors_between_inputs(insignif_unconn_cors, signif_unconn_cors);
+
+# Remove outliers (manually)
+
+insignif_unconn__rm = 
