@@ -1011,12 +1011,17 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\evaluate_conntest
 <img alt="../_images/2022-08-05__Spiketrain-correlations_42_0.png" src="../_images/2022-08-05__Spiketrain-correlations_42_0.png">
 </div>
 </div>
-<p>Remove outliers (manually)</p>
+<p>Remove outliers (manually) to zoom in</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">insignif_unconn__rm</span> <span class="o">=</span> 
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">signif_unconn_cors__rm</span>   <span class="o">=</span> <span class="n">signif_unconn_cors</span><span class="p">[</span><span class="n">signif_unconn_cors</span> <span class="o">.&lt;</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">insignif_unconn_cors__rm</span> <span class="o">=</span> <span class="n">insignif_unconn_cors</span><span class="p">[</span><span class="n">insignif_unconn_cors</span> <span class="o">.&lt;</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="n">plotcors_between_inputs</span><span class="p">(</span><span class="n">insignif_unconn_cors__rm</span><span class="p">,</span> <span class="n">signif_unconn_cors__rm</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-08-05__Spiketrain-correlations_44_0.png" src="../_images/2022-08-05__Spiketrain-correlations_44_0.png">
 </div>
 </div>
 </div>
