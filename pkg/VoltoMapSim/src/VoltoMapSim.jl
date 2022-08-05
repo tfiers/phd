@@ -49,7 +49,7 @@ function __init__()
         export plotsig, plotSTA
         export rasterplot, histplot_fr
         export plot_detection_rates, plot_samples_and_means, add_α_line, extract
-        export ydistplot
+        export ydistplot, add_refline
     end
 end
 end # module Plot

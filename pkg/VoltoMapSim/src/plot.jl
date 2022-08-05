@@ -134,8 +134,10 @@ function plot_samples_and_means(
     plot(x, data, ".", ax; alpha=0.5, c, clip_on, kw...)
 end
 
-add_α_line(ax, α, c="black", lw=1, ls="dashed", label=f"α = {α:.3G}", zorder=3) =
-    ax.axhline(α; c, lw, ls, label, zorder)
+add_refline(ax, y; c = "black", lw = 1, ls = "dashed", zorder = 3, kw...) =
+    ax.axhline(y; c, lw, ls, zorder, kw...)
+
+add_α_line(ax, α; label = f"α = {α:.3G}", kw...) = add_refline(ax, α; label, kw...)
 
 
 """

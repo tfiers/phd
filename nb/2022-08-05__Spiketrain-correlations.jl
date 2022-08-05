@@ -53,7 +53,7 @@ s = augment_simdata(s, p);
 
 # ## Bin spiketrains
 
-function bin(spiketimes; binsize, duration)
+function bin(spiketimes; duration, binsize)
     # `spiketimes` is assumed sorted.
     # `duration` is of the spiketimes signal and determines the number of bins.
     num_bins = ceil(Int, duration / binsize)
@@ -116,16 +116,21 @@ using PyPlot
 
 using VoltoMapSim.Plot
 
-plotcors(cors, binsize_ms) = ydistplot(
-    "Exc inputs" => cors[ii.exc_inputs],
-    "Inh inputs" => cors[ii.inh_inputs],
-    "Unconnected\nbut detected" => cors[signif_unconn],
-    "Unconnected,\nnot detected" => cors[insignif_unconn],
-    figsize = (6, 3),
-    hylabel = "Binned spiketrain correlations to neuron $m  (binsize = $(binsize_ms) ms)",
-    ylabel = "Pearson correlation",
-#     ylim = [-0.04, +0.045],
-)
+Plot.add_refline
+
+function plotcors(cors, binsize_ms)
+    ax = ydistplot(
+        "Exc inputs" => cors[ii.exc_inputs],
+        "Inh inputs" => cors[ii.inh_inputs],
+        "Unconnected\nbut detected" => cors[signif_unconn],
+        "Unconnected,\nnot detected" => cors[insignif_unconn],
+        figsize = (6, 3),
+        hylabel = "Binned spiketrain correlations to neuron $m  (binsize = $(binsize_ms) ms)",
+        ylabel = "Pearson correlation",
+        # ylim = [-0.04, +0.045],
+    )
+    Plot.add_refline(ax, 0, zorder=1, c="gray")
+end
 plotcors(cors, 100);
 
 # ## More bin sizes
