@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-08-05__Spiketrain-correlations
     - file: nb/2022-07-26__Multiseed
     - file: nb/2022-07-23__Record_many
     - file: nb/2022-07-15__Network_plus_noise
