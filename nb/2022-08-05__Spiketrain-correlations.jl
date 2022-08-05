@@ -179,6 +179,10 @@ function plotcors_between_inputs(insignif_unconn_cors, signif_unconn_cors, binsi
 end
 plotcors_between_inputs(insignif_unconn_cors, signif_unconn_cors);
 
-# Remove outliers (manually)
+# Remove outliers (manually) to zoom in
 
-insignif_unconn__rm = 
+signif_unconn_cors__rm   = signif_unconn_cors[signif_unconn_cors .< 0.1]
+insignif_unconn_cors__rm = insignif_unconn_cors[insignif_unconn_cors .< 0.1]
+plotcors_between_inputs(insignif_unconn_cors__rm, signif_unconn_cors__rm);
+
+
