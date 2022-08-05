@@ -53,22 +53,23 @@ s = augment_simdata(s, p);
 
 # ## Bin spiketrains
 
-function bin(events, binsize, duration)
-    # `events` is a list of times, assumed sorted.
-    # `duration` is of the events signal and determines the number of bins.
+function bin(spiketimes; binsize, duration)
+    # `spiketimes` is assumed sorted.
+    # `duration` is of the spiketimes signal and determines the number of bins.
     num_bins = ceil(Int, duration / binsize)
-    counts = fill(0, num_bins)
-    i_event = 1
-    bin_end = binsize
-    for b in 1:num_bins
-        while events[i_event] < bin_end
-            counts[b] += 1
-            i_event += 1
-            if i_event > length(events)
-                return counts
+    spikecounts = fill(0, num_bins)
+    # loop counters:
+    spike = 1
+    bin_end_time = binsize
+    for bin in 1:num_bins
+        while spiketimes[spike] < bin_end_time
+            spikecounts[bin] += 1
+            spike += 1
+            if spike > length(spiketimes)
+                return spikecounts
             end
         end
-        bin_end += binsize
+        bin_end_time += binsize
     end
 end;
 
@@ -77,13 +78,15 @@ end;
 events = s.spike_times[1][1:10]
 show(events)
 
-show(bin(events, 2, 20))
+show(bin(events; duration=20, binsize=2))
 
 # Looks good
 
-# ### Use
+# ### Apply
 
-binned_spikes = [bin(s.spike_times[n], 100ms, 10minutes) for n in s.neuron_IDs];
+p.conntest.STA_window_length / ms
+
+binned_spikes = [bin(s.spike_times[n], duration = 10minutes, binsize = 100ms) for n in s.neuron_IDs];
 
 # ## Correlation with recorded neuron
 
@@ -97,7 +100,7 @@ v = s.signals[m].v
 ii = get_input_info(m, s, p);
 ii.num_inputs
 
-perf = evaluate_conntest_perf(v, ii.spiketrains, p);
+perf = cached(evaluate_conntest_perf, [v, ii.spiketrains, p], key = [p, m]);
 
 perf.detection_rates
 
@@ -113,15 +116,28 @@ using PyPlot
 
 using VoltoMapSim.Plot
 
-ydistplot(
+plotcors(cors, binsize_ms) = ydistplot(
     "Exc inputs" => cors[ii.exc_inputs],
     "Inh inputs" => cors[ii.inh_inputs],
     "Unconnected\nbut detected" => cors[signif_unconn],
     "Unconnected,\nnot detected" => cors[insignif_unconn],
     figsize = (6, 3),
-    hylabel = "Binned spiketrain correlations to neuron $m  (binsize = 100 ms)",
+    hylabel = "Binned spiketrain correlations to neuron $m  (binsize = $(binsize_ms) ms)",
     ylabel = "Pearson correlation",
-    ylim = [-0.04, ]
-);
+#     ylim = [-0.04, +0.045],
+)
+plotcors(cors, 100);
+
+# ## More bin sizes
+
+function plotcors_for(; binsize)
+    binned_spikes = [bin(s.spike_times[n], duration = 10minutes; binsize) for n in s.neuron_IDs]
+    cors = [cor(binned_spikes[m], binned_spikes[n]) for n in s.neuron_IDs]
+    plotcors(cors, binsize/ms)
+end;
+
+for binsize in [12.5, 25, 50, 100, 200] * ms
+    plotcors_for(; binsize)
+end;
 
 
