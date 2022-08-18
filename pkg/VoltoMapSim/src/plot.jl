@@ -165,8 +165,6 @@ function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, setkw...)
             meanprops=Dict(:marker=>"D", :ms=>3, :mfc=>"black", :mec=>"none")
         )
     end
-    set(ax; xtype=:categorical, xlim=[0.5, N+0.5], setkw...)
-    ax.set_xticks(xpos)  # can't use `set` as that sets xticks
-    ax.set_xticklabels(labels)
+    set(ax; xtype=:categorical, xlim=[0.5, N+0.5], xticks=xpos, xticklabels=labels, setkw...)
     return ax
 end
