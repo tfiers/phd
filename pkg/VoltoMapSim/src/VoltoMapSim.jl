@@ -13,7 +13,7 @@ include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean, ptp
+export LogNormal_with_mean, ptp, bin
 
 include("params.jl")
 export get_params
