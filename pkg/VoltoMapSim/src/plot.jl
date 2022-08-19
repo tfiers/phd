@@ -146,11 +146,12 @@ add_α_line(ax, α; label = f"α = {α:.3G}", kw...) = add_refline(ax, α; label
         "group2" => [data2...],
         figsize = (4, 2.4),
         xpos = nothing,  # default: 1:num_groups
+        ref = nothing,  # calls `add_refline` at the given y.
         set_kw...)
 
 Draws a side-by-side vertical scatterplot and boxplot for each group.
 """
-function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, setkw...)
+function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, ref = nothing, setkw...)
     labels = [p[1] for p in pairs]
     datas = [p[2] for p in pairs]
     N = length(labels)
@@ -158,7 +159,7 @@ function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, setkw...)
     fig, ax = plt.subplots(;figsize)
     for (x, ys) in zip(xpos, datas)
         xs = x .- 0.15 .+ 0.1*rand(length(ys))
-        ax.plot(xs, ys, "k.", clip_on=false, alpha=0.4)
+        ax.plot(xs, ys, "k.", alpha=0.4)
         ax.boxplot(
             ys, whis=(5,95), positions=[x+0.1], showfliers=false, showmeans=true,
             medianprops=Dict(:color=>"black"), boxprops=Dict(:clip_on=>false),
@@ -166,5 +167,6 @@ function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, setkw...)
         )
     end
     set(ax; xtype=:categorical, xlim=[0.5, N+0.5], xticks=xpos, xticklabels=labels, setkw...)
+    isnothing(ref) || add_refline(ax, ref, zorder=1, c="gray")
     return ax
 end
