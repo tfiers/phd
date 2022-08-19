@@ -199,10 +199,121 @@ ydistplot(
 
 # inhibitory neurons seem on average to be more correlated with other neurons than excitatory neurons are.
 
-# ## Investigate outliers
+# ## Investigate correlation outliers
 
 # What do their STA's and spiketrains look like?  
 # How are they connected in network?  
 # Why does that one have high cor but is still undetected?
 
+# Get neuron IDs.
 
+IDs_with_high_cor(group_A, group_B) = [(m,n) for m in group_A, n in group_B if cor(binned_spikes[m], binned_spikes[n]) > 0.1];
+
+IDs_with_high_cor(insignif_unconn, ii.inh_inputs)
+
+IDs_with_high_cor(signif_unconn, ii.inh_inputs)
+
+for n in (2, 4, 22)
+    plotSTA(v, s.spike_times[n], p, hylabel="STA using unconnected neuron `$n`")
+end;
+
+# Ok, so STA wise it makes sense the first one (2) is not detected, and the other two are.
+
+# Now I wanna compare the spiking of those pairs. "Look behind" those corr numbers.
+
+# First, are they directly connected?
+
+2 in s.input_neurons[831]
+
+4 in s.input_neurons[928]
+
+22 in s.input_neurons[829]
+
+# Yes, all three are.
+
+# Maybe a cross-correlogram.
+
+# ### Cross-correlograms
+
+function plotxc(m, n; binsize = 10ms)
+    duration = 10minutes
+    x = bin(s.spike_times[m]; binsize, duration)
+    y = bin(s.spike_times[n]; binsize, duration)
+    lags = -2:14
+    xc = crosscor(x,y, lags);
+    plotsig(
+        lags*binsize/ms,
+        xc,
+        hylabel=jn("Cross-correlation of neurons `$m` and `$n`", "(Spike bin size = $(binsize/ms) ms)"),
+        xlabel="Time after neuron `$m` spike (ms)",
+    )
+end
+plotxc(4, 928);
+
+plotxc(2, 831);  # the undetected one
+
+plotxc(22, 829);
+
+# So interestingly, unconnected neuron 2 is highly correlated with connected, inhibitory neuron 831. Yet it's STA is noisy.
+
+# Plot STA of that inhibitory input:
+
+plotSTA(v, s.spike_times[831], p);
+
+# Aha, this STA is not so strong..
+
+# To compare, the other two inh inputs here:
+
+plotSTA(v, s.spike_times[829], p);
+plotSTA(v, s.spike_times[928], p);
+
+# They're stronger.
+
+# Was the 831 even detected?
+
+perf.p_values.conn.inh[findfirst(ii.inh_inputs .== 831)]
+
+# Ok yes it was.
+
+# Maybe 831 just fires less, or has weaker connection weight.
+
+[n => s.spike_rates[n] for n in [831, 829,928]]
+
+# Ok so not firing less.
+
+# (For weights: should edit this in init: save (pre,post) => syn ID mapping). (And then clear cache).
+
+pre_post_pairs = Tuple.(findall(s.is_connected))
+for ((pre,post), ss) in zip(pre_post_pairs, s.syn_strengths / nS)
+    if (pre,post) in [
+        (2, 831),
+        (4, 928),
+        (22, 829),
+    ]
+        println("Synapse strength from $pre to $post: $ss")
+    end
+end
+
+# ..and also not a weaker weight (on the contrary).
+# Hm.
+
+# So, I don't know why 2→831 has high corr and xcorr, but is not detected,
+# while 4→928 and 22→829 are.
+
+# ---
+
+# Most FP neurons did not have high cor (with binsize 100ms). But maybe they have high xcor.
+
+# Hm, don't immediately see how to choose which to plot.
+
+# ---
+
+# Btw: actually connected inputs do not have strong xcorr with recorded neuron:
+
+rec_neuron = 1;
+
+plotxc(ii.inh_inputs[1], rec_neuron);
+
+plotxc(ii.exc_inputs[1], rec_neuron);
+
+# This is a basic spikes-only conndet (network inference) method. Which here does not seem to work at first sight.
