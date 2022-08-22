@@ -5,6 +5,12 @@ function sim_and_eval(params::ExperimentParams)
     perf = evaluate_conntest_perf(vi, input_spikes, params)
     return perf
 end
+# (This method is for Nto1 sim).
+
+
+cached_conntest_perf(m, v, spiketrains, p) =
+    cached(evaluate_conntest_perf, [v, spiketrains, p], key = [p, m])
+    # `m` is ID of neuron used for `v` and input `spiketrains`.
 
 
 function evaluate_conntest_perf(vi, input_spikes, p::ExperimentParams)
