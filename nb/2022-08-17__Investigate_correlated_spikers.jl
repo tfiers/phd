@@ -317,3 +317,11 @@ plotxc(ii.inh_inputs[1], rec_neuron);
 plotxc(ii.exc_inputs[1], rec_neuron);
 
 # This is a basic spikes-only conndet (network inference) method. Which here does not seem to work at first sight.
+
+# (Test some others, namely the ones found above)
+
+plotxc(831, rec_neuron); plt.subplots()
+plotxc(928, rec_neuron); plt.subplots()
+plotxc(829, rec_neuron);
+
+
