@@ -757,12 +757,6 @@ And it&#8217;s 1/5th of all 1000 neurons.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:03:16</span>m
-Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\evaluate_conntest_perf\89b55eb8ef8d2542.jld2` &#8230; done (14.0 s)
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1314,6 +1308,21 @@ while 4&#8594;928 and 22&#8594;829 are.</p>
 </div>
 </div>
 <p>This is a basic spikes-only conndet (network inference) method. Which here does not seem to work at first sight.</p>
+<p>(Test some others, namely the ones found above)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotxc</span><span class="p">(</span><span class="mi">831</span><span class="p">,</span> <span class="n">rec_neuron</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotxc</span><span class="p">(</span><span class="mi">928</span><span class="p">,</span> <span class="n">rec_neuron</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotxc</span><span class="p">(</span><span class="mi">829</span><span class="p">,</span> <span class="n">rec_neuron</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-08-17__Investigate_correlated_spikers_109_0.png" src="../_images/2022-08-17__Investigate_correlated_spikers_109_0.png">
+<img alt="../_images/2022-08-17__Investigate_correlated_spikers_109_1.png" src="../_images/2022-08-17__Investigate_correlated_spikers_109_1.png">
+<img alt="../_images/2022-08-17__Investigate_correlated_spikers_109_2.png" src="../_images/2022-08-17__Investigate_correlated_spikers_109_2.png">
+</div>
+</div>
 </div>
 </div>
 </div>
