@@ -13,7 +13,7 @@ include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean, ptp, bin
+export LogNormal_with_mean, ptp, area, bin
 
 include("params.jl")
 export get_params
@@ -28,7 +28,7 @@ include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
-export evaluate_conntest_perf, sim_and_eval
+export evaluate_conntest_perf, sim_and_eval, cached_conntest_perf
 
 
 function __init__()

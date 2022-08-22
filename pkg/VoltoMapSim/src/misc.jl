@@ -11,6 +11,8 @@ end
 """'peak-to-peak'"""
 ptp(signal) = maximum(signal) - minimum(signal)
 
+area(STA) = sum(STA .- STA[1]);
+
 
 function bin(spiketimes; duration, binsize)
     # `spiketimes` is assumed sorted.
