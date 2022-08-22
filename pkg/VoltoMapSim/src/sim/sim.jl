@@ -35,11 +35,11 @@ end
 function augment_simdata(s, p::ExperimentParams)
     num_spikes_per_neuron = length.(s.spike_times)
     spike_rates           = num_spikes_per_neuron ./ p.sim.general.duration
-    return (;
-        s...,
-        num_spikes_per_neuron,
-        spike_rates,
-    )
+    s = (; s..., num_spikes_per_neuron, spike_rates)
+    @unpack record_v, record_all = p.sim.network
+    recorded_neurons = unique(vcat(record_v, record_all))
+    input_info = Dict([m => get_input_info(m, s, p) for m in recorded_neurons]...)
+    return s = (; s..., input_info)
 end
 
 function get_input_info(m, s, p)
