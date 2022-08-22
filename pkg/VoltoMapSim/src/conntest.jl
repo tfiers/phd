@@ -1,6 +1,6 @@
 
 function calc_STA(VI_sig, presynaptic_spikes, p::ExperimentParams)
-    Δt = p.sim.general.Δt
+    Δt::Float64 = p.sim.general.Δt
     win_size = round(Int, p.conntest.STA_window_length / Δt)
     STA = zeros(eltype(VI_sig), win_size)
     win_starts = round.(Int, presynaptic_spikes / Δt)

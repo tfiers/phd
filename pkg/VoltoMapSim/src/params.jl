@@ -19,14 +19,18 @@ abstract type ParamSet end
 const default_rngseed = 22022022
 
 
+@alias FlDistribution = ContinuousUnivariateDistribution
+# `eltype(Distribution) == Any`, whereas for this it's `Float64`.
+
+
 # Poisson spiking neurons, the input in the N-to-1 setup.
 @with_kw struct Nto1InputParams <: ParamSet
-    N_unconn      ::Int           = 100
-    N_conn        ::Int           = 6500
-    EI_ratio      ::Float64       = 4 / 1
-    spike_rates   ::Distribution  = LogNormal_with_mean(4 * Hz, √0.6)  # (μₓ, σ)
-    avg_stim_rate ::Float64       = 0.1 * nS / seconds                 # [1]
-    rngseed       ::Int           = default_rngseed                    # for ISI generation
+    N_unconn      ::Int             = 100
+    N_conn        ::Int             = 6500
+    EI_ratio      ::Float64         = 4 / 1
+    spike_rates   ::FlDistribution  = LogNormal_with_mean(4 * Hz, √0.6)  # (μₓ, σ)
+    avg_stim_rate ::Float64         = 0.1 * nS / seconds                 # [1]
+    rngseed       ::Int             = default_rngseed                    # for ISI generation
 end
 # [1] `avg_stim_rate` is used to calculate the postsynaptic conductance increase Δg per
 #     spike for all excitatory neurons, by dividing by the mean of the `spike_rates`
@@ -118,7 +122,7 @@ end
 @with_kw struct NetworkSimParams <: SimParams
     general     ::GeneralSimParams  = GeneralSimParams()
     network     ::NetworkParams     = NetworkParams()
-    ext_current ::Distribution      = Normal(0 * pA, 7 * pA)       # noise. [1]
+    ext_current ::FlDistribution    = Normal(0 * pA, 7 * pA)       # noise. [1]
     rngseed     ::Int               = default_rngseed              # for sampling noise
 end
 #

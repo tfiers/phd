@@ -20,7 +20,7 @@ function step_sim!(state, params::NetworkSimParams, i)
     end  # Convention: current positive if outward '+' flow.
 
     # Sample external current
-    I_ext = rand(ext_current, length(u)) ./ √Δt
+    I_ext = rand(ext_current, length(u))::Vector{Float64} ./ √Δt
         # On √Δt: See https://brian2.readthedocs.io/en/stable/user/models.html#noise
 
     # Differential equations.
