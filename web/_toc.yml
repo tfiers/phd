@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-08-28__Centred_STAs
     - file: nb/2022-08-21__Area-under-STA
     - file: nb/2022-08-17__Investigate_correlated_spikers
     - file: nb/2022-08-05__Spiketrain-correlations
