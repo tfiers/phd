@@ -91,6 +91,6 @@ end
 
 # Nice! Graphviz, fun.
 
-# ![image.png](attachment:image.png)
+# ![](images/gephi.png)
 
 
