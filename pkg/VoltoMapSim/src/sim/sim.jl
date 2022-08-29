@@ -35,10 +35,16 @@ end
 function augment_simdata(s, p::ExperimentParams)
     num_spikes_per_neuron = length.(s.spike_times)
     spike_rates           = num_spikes_per_neuron ./ p.sim.general.duration
-    s = (; s..., num_spikes_per_neuron, spike_rates)
+
+    pre_post_pairs = Tuple.(findall(s.is_connected))
+    synapse_ID_of_pair = Dict{Tuple{Int, Int}, Int}(zip(pre_post_pairs, s.synapse_IDs))
+
+    s = (; s..., num_spikes_per_neuron, spike_rates, pre_post_pairs, synapse_ID_of_pair)
+
     @unpack record_v, record_all = p.sim.network
     recorded_neurons = unique(vcat(record_v, record_all))
     input_info = Dict([m => get_input_info(m, s, p) for m in recorded_neurons]...)
+
     return s = (; s..., input_info)
 end
 

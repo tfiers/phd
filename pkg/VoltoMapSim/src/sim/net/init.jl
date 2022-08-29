@@ -148,6 +148,7 @@ function init_sim(p::NetworkSimParams)
         synapse_IDs,
         ODE_var_IDs,
         is_connected,
+        pre_post_pairs,
         neuron_type,
         output_synapses,
         input_synapses,
