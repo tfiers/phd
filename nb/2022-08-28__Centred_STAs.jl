@@ -22,7 +22,7 @@
 #
 # This is useless (in terms of increasing 'SNR' of the STA):
 #
-# If the current STA is this:
+# If the current STA is this*:
 #
 # $$
 # STA_{cur} = \frac{1}{N} \sum_s V[s:s+W]
@@ -37,6 +37,7 @@
 # $$
 #
 # In other words:
+#
 # $$
 # STA_{new} = STA_{cur} - \frac{1}{N} \sum_s V[s] \\
 #           = STA_{cur} - STA_{cur}[1]
@@ -46,12 +47,11 @@
 #
 # ---
 #
-# (Note that the above notation is more programm-y than mathy, with the $[…:…]$ slicing notation. In usual math notation we'd express it per timepoint: $STA[t] = \frac{1}{N} \sum_s V[s+t]$, with $t = 0, 1, …, W$).
+# *
+# Note that this notation is more programm-y than mathy, with the $[…:…]$ slicing notation. In usual math notation we'd express it per timepoint: $STA[t] = \frac{1}{N} \sum_s V[s+t]$, with $t = 0, 1, …, W$.
 #
 # ---
 #
 # This idea would thus have no effect on connection detectability using the peak-to-peak measure (it would stay the same).
 #
 # Neither would it have an effect on the 'exc or inh' test, as that one already uses the $STA[1]$ as reference value.
-
-

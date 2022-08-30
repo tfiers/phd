@@ -70,6 +70,8 @@ ydistplot("Num out" => num_out, "Num in" => num_in);
 
 # Sure yes, 40 = 1000 * 0.04.
 
+# Median is a bit lower than that as we post-hoc deleted the self connections.
+
 # ## Export & draw graphs
 
 # Let's export to Graphviz dot, to explore viz options with Gephi.
