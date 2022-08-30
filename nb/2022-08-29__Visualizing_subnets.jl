@@ -72,13 +72,11 @@ ydistplot("Num out" => num_out, "Num in" => num_in);
 
 # Let's export to Graphviz dot, to explore viz options with Gephi.
 
-"digraph {}"
-
 lines = ["digraph {"]
 for id in s.neuron_IDs
     outputs = join(s.output_neurons[id], ", ")
     type = s.neuron_type[id]
-    push!(lines, "   $(id) [type = $(type), id = $(id)]")
+    push!(lines, "   $(id) [type = $(type)]")
     push!(lines, "   $(id) -> {$(outputs)}")
 end
 push!(lines, "}")
@@ -93,4 +91,42 @@ end
 
 # ![](images/gephi.png)
 
+# All 1000 neurons are drawn (inhibitory in red). The highlighted neurons are the inputs and outputs of one neuron.
 
+# Now I want only a subset of the net.
+# Say: 1, 801, and their inputs and outputs.
+
+lines = ["digraph {"]
+for m in [1, 801]
+    t = s.neuron_type[m]
+    push!(lines, "   $m [type = $t]")
+    for n in s.input_neurons[m]
+        t = s.neuron_type[n]
+        push!(lines, "   $n [type = $t]")
+        push!(lines, "   $n -> $m")
+    end
+    for n in s.output_neurons[m]
+        t = s.neuron_type[n]
+        push!(lines, "   $n [type = $t]")
+        push!(lines, "   $m -> $n")
+    end
+end
+push!(lines, "}")
+open(joinpath(homedir(), ".phdcache", "graph.dot"), "w") do io
+    println(io, join(lines, "\n"))
+end
+
+# Seems like gephi can't handle `{…} -> ` format alas. So all inputs on sep line.
+
+# ![](images/gephi-1-801.png)
+
+# (Yifan Hu layout with default settings)
+
+# So these two random neurons have 7 disynaptic connections between them:
+# 2 from the exc (`1`, left) to the inh (`801`, right); and 5 from the inh to the exc. All 7 pass through an excitatory neuron.
+
+# Same but using graphviz as layouter:
+
+# ![](images/graphviz-1-801.svg)
+
+# (Open in new tab to see full size).
