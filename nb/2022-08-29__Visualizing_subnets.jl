@@ -70,6 +70,8 @@ ydistplot("Num out" => num_out, "Num in" => num_in);
 
 # Sure yes, 40 = 1000 * 0.04.
 
+# ## Export & draw graphs
+
 # Let's export to Graphviz dot, to explore viz options with Gephi.
 
 lines = ["digraph {"]
@@ -130,3 +132,49 @@ end
 # ![](images/graphviz-1-801.svg)
 
 # (Open in new tab to see full size).
+
+# ## Inputs only
+
+# Above has inputs and outputs. What if we export: inputs to both neurons, and inputs to these inputs.
+
+# I should have a function that does this the graphviz.dot file generation..
+# What's its inputs. Let's say (m => n) pairs.
+
+function gen_dot_file(edges, s; dir=joinpath(homedir(), ".phdcache"), filename="graph.dot")
+    nodes = Set()
+    lines = ["digraph {"]  # DIrected graph
+    for (m, n) in edges
+        push!(nodes, m, n)
+        push!(lines, "   $m -> $n")
+    end
+    for n in sort!(collect(nodes))
+        t = s.neuron_type[n]
+        c = (t == :exc) ? "#3fb17d" : "#ee7993"
+        push!(lines, "   $n [type = $t, color = \"$c\"]")
+    end
+    push!(lines, "}")
+    open(joinpath(dir, filename), "w") do io
+        println(io, join(lines, "\n"))
+    end
+end;
+
+edges = []
+n = 1
+for m in s.input_neurons[n]
+    push!(edges, m => n)
+    for l in s.input_neurons[m]
+        push!(edges, l => m)
+    end
+end
+gen_dot_file(edges, s)
+
+# This of just the inputs to the inputs of one neuron contains already 770 neurons, i.e. almost all 1000 of them.
+# Visualizing it is not very helpful, except for showing that the direct inputs are strongly interconnected (Yifan Hu layout, default gephi params):
+
+# ![](images/gephi-in-to-in.png)
+
+# With direct inputs to neuron `1` highlighted:
+
+# ![](images/gephi-in-to-in-high.png)
+
+# Most of the neurons in the tangle in the middle are neurons that connect to multiple (2 to 5) direct inputs of `1`.
