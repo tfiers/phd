@@ -22,7 +22,7 @@
 #
 # This is useless (in terms of increasing 'SNR' of the STA):
 #
-# If the current STA is this*:
+# If the current STA is this [1]:
 #
 # $$
 # STA_{cur} = \frac{1}{N} \sum_s V[s:s+W]
@@ -47,7 +47,7 @@
 #
 # ---
 #
-# *
+# [1]
 # Note that this notation is more programm-y than mathy, with the $[…:…]$ slicing notation. In usual math notation we'd express it per timepoint: $STA[t] = \frac{1}{N} \sum_s V[s+t]$, with $t = 0, 1, …, W$.
 #
 # ---
