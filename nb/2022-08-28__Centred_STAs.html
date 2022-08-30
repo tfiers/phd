@@ -534,7 +534,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>Center spike-triggered windows around 0 (mV) before averaging them.</p>
 <p>..</p>
 <p>This is useless (in terms of increasing &#8216;SNR&#8217; of the STA):</p>
-<p>If the current STA is this:</p>
+<p>If the current STA is this*:</p>
 <div class="math notranslate nohighlight">
 \[
 STA_{cur} = \frac{1}{N} \sum_s V[s:s+W]
@@ -545,14 +545,18 @@ STA_{cur} = \frac{1}{N} \sum_s V[s:s+W]
 \[
 STA_{new} = \frac{1}{N} \sum_s \left( V[s:s+W] - V[s] \right)
 \]</div>
-<p>In other words:
-$<span class="math notranslate nohighlight">\(
+<p>In other words:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 STA_{new} = STA_{cur} - \frac{1}{N} \sum_s V[s] \\
           = STA_{cur} - STA_{cur}[1]
-\)</span>$</p>
+\end{split}\]</div>
 <p>i.e. the STA waveforms would be the same as the current ones, just shifted vertically by some value (namely the average voltage at the start of the window; or, if we had rather chosen <span class="math notranslate nohighlight">\(\texttt{mean}(V[s:s+W])\)</span> as referencing value instead of <span class="math notranslate nohighlight">\(V[s]\)</span>: the average voltage of all windows).</p>
 <hr class="docutils">
-<p>(Note that the above notation is more programm-y than mathy, with the <span class="math notranslate nohighlight">\([&#8230;:&#8230;]\)</span> slicing notation. In usual math notation we&#8217;d express it per timepoint: <span class="math notranslate nohighlight">\(STA[t] = \frac{1}{N} \sum_s V[s+t]\)</span>, with <span class="math notranslate nohighlight">\(t = 0, 1, &#8230;, W\)</span>).</p>
+<ul class="simple">
+<li>
+</ul>
+<p>Note that this notation is more programm-y than mathy, with the <span class="math notranslate nohighlight">\([&#8230;:&#8230;]\)</span> slicing notation. In usual math notation we&#8217;d express it per timepoint: <span class="math notranslate nohighlight">\(STA[t] = \frac{1}{N} \sum_s V[s+t]\)</span>, with <span class="math notranslate nohighlight">\(t = 0, 1, &#8230;, W\)</span>.</p>
 <hr class="docutils">
 <p>This idea would thus have no effect on connection detectability using the peak-to-peak measure (it would stay the same).</p>
 <p>Neither would it have an effect on the &#8216;exc or inh&#8217; test, as that one already uses the <span class="math notranslate nohighlight">\(STA[1]\)</span> as reference value.</p>
