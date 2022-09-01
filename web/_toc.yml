@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-09-01__1144_weights
     - file: nb/2022-08-29__Visualizing_subnets
     - file: nb/2022-08-28__Centred_STAs
     - file: nb/2022-08-21__Area-under-STA

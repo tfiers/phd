@@ -1,7 +1,5 @@
 @reexport using Sciplotlib
 
-ExperimentParams = VoltoMapSim.ExperimentParams
-
 
 const color_exc = C0
 const color_inh = C1
@@ -151,18 +149,24 @@ add_α_line(ax, α; label = f"α = {α:.3G}", kw...) = add_refline(ax, α; label
 
 Draws a side-by-side vertical scatterplot and boxplot for each group.
 """
-function ydistplot(pairs...; figsize = (4, 2.4), xpos = nothing, ref = nothing, setkw...)
-    labels = [p[1] for p in pairs]
-    datas = [p[2] for p in pairs]
+function ydistplot(
+    pairs...;
+    figsize = (4, 2.4),
+    xpos = nothing,
+    ref = nothing,
+    clip_on = false,
+    setkw...
+)
+    labels, datas = zip(pairs...)  # [(a,b), (c,d), (d,e)] → [(a,c,d), (b,d,e)]
     N = length(labels)
     isnothing(xpos) && (xpos = 1:N)
     fig, ax = plt.subplots(;figsize)
     for (x, ys) in zip(xpos, datas)
         xs = x .- 0.15 .+ 0.1*rand(length(ys))
-        ax.plot(xs, ys, "k.", alpha=0.4)
+        ax.plot(xs, ys, "k.", alpha=0.4; clip_on)
         ax.boxplot(
             ys, whis=(5,95), positions=[x+0.1], showfliers=false, showmeans=true,
-            medianprops=Dict(:color=>"black"), boxprops=Dict(:clip_on=>false),
+            medianprops=Dict(:color=>"black"), boxprops=Dict(:clip_on=>clip_on),
             meanprops=Dict(:marker=>"D", :ms=>3, :mfc=>"black", :mec=>"none")
         )
     end

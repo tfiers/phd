@@ -11,7 +11,10 @@ end
 """'peak-to-peak'"""
 ptp(signal) = maximum(signal) - minimum(signal)
 
-area(STA) = sum(STA .- STA[1]);
+# Area over start
+area(STA) = sum(STA .- STA[1])
+
+jn(strs...) = join(strs, "\n")
 
 
 function bin(spiketimes; duration, binsize)

@@ -3,6 +3,7 @@ module VoltoMapSim
 using MyToolbox: @reexport
 @reexport using MyToolbox
 @reexport using Distributions  # Sample from lognormal, exponential, ….
+@reexport using DataFrames
 
 
 const datamodel_version = "2 (net)"
@@ -13,10 +14,11 @@ include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean, ptp, area, bin
+export LogNormal_with_mean, ptp, area, bin, jn
 
 include("params.jl")
-export get_params
+export get_params, ExperimentParams
+@alias ExpParams = ExperimentParams
 
 include("diskcache.jl")
 export cached, cachefilename
@@ -28,7 +30,7 @@ include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
 
 include("eval.jl")
-export evaluate_conntest_perf, sim_and_eval, cached_conntest_perf
+export evaluate_conntest_perf, cached_conntest_eval
 
 
 function __init__()

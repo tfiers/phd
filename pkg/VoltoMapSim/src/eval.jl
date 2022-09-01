@@ -1,77 +1,59 @@
 
-function sim_and_eval(params::ExperimentParams)
-    simresult = cached(sim, [params.sim])
-    @unpack vi, input_spikes = simresult
-    perf = evaluate_conntest_perf(vi, input_spikes, params)
-    return perf
+function test_connection_and_type(v, spikes, p::ExperimentParams)
+    pval = test_connection(v, spikes, p)
+    dt = p.sim.general.Δt
+    A = area(calc_STA(v, spikes, p)) * dt / (mV*ms)
+    if pval ≥ p.evaluation.α
+        predicted_type = :unconn
+    elseif A > 0
+        predicted_type = :exc
+    else
+        predicted_type = :inh
+    end
+    return (; predicted_type, pval, area_over_start=A)
 end
-# (This method is for Nto1 sim).
 
+cached_conntest_eval(s, m, p; verbose = true) =
+    cached(evaluate_conntest_perf, [s, m, p, verbose]; key = [m, p], verbose);
 
-cached_conntest_perf(m, v, spiketrains, p) =
-    cached(evaluate_conntest_perf, [v, spiketrains, p], key = [p, m])
-    # `m` is ID of neuron used for `v` and input `spiketrains`.
-
-
-function evaluate_conntest_perf(vi, input_spikes, p::ExperimentParams)
-    @unpack rngseed, N_tested_presyn, α = p.evaluation
+function evaluate_conntest_perf(s, m, p::ExperimentParams, verbose = true)
+    # s = augmented simdata
+    # m = postsynaptic neuron ID
+    @unpack N_tested_presyn, rngseed = p.evaluation;
     resetrng!(rngseed)
-    TP_exc = 0
-    TP_inh = 0
-    TP_unconn = 0
-    get_N_eval(group) = min(length(group), N_tested_presyn)
-    N_eval_exc    = get_N_eval(input_spikes.conn.exc)
-    N_eval_inh    = get_N_eval(input_spikes.conn.inh)
-    N_eval_unconn = get_N_eval(input_spikes.unconn)
-    N_eval_total = N_eval_exc + N_eval_inh + N_eval_unconn
-    # We could nicely rollup the below three loops with Python's `yield`; alas not so easy here.
-
-    get_subset_to_test(group) = group[1:get_N_eval(group)]  # should correspond to random sample
-    p_values = (conn = (exc = [], inh = []), unconn = [])
-
-    progress_meter = Progress(N_eval_total, 400ms, "Testing connections: ")
-    for input_train in get_subset_to_test(input_spikes.conn.exc)
-        p_value = test_connection(vi, input_train, p)
-        push!(p_values.conn.exc, p_value)
-        if p_value < α
-            TP_exc += 1
-        end
-        next!(progress_meter)
+    function get_IDs_labels(IDs, label)
+        N = min(length(IDs), N_tested_presyn)
+        IDs_sample = sample(IDs, N, replace = false, ordered = true)
+        return zip(IDs_sample, fill(label, N))
     end
-    for input_train in get_subset_to_test(input_spikes.conn.inh)
-        p_value = test_connection(vi, input_train, p)
-        push!(p_values.conn.inh, p_value)
-        if p.conntest.STA_test_statistic == "ptp"
-            # This is cheating: we presuppose to know whether the presyn neuron is exc or inh.
-            if p_value < α
-                TP_inh += 1
-            end
-        else
-            if p_value > 1 - α
-                TP_inh += 1
-            end
-        end
-        next!(progress_meter)
-    end
-    for input_train in get_subset_to_test(input_spikes.unconn)
-        p_value = test_connection(vi, input_train, p)
-        push!(p_values.unconn, p_value)
-        if p.conntest.STA_test_statistic == "ptp"
-            if p_value ≥ α
-                TP_unconn += 1
-            end
-        else
-            if α/2 ≤ p_value ≤ 1 - α/2
-                TP_unconn += 1
-            end
-        end
-        next!(progress_meter)
+    ii = s.input_info[m]
+    IDs_labels = chain(
+        get_IDs_labels(ii.exc_inputs, :exc),
+        get_IDs_labels(ii.inh_inputs, :inh),
+        get_IDs_labels(ii.unconnected_neurons, :unconn),
+    ) |> collect
+    tested_neurons = DataFrame(
+        input_neuron_ID = Int[],     # global ID
+        real_type       = Symbol[],  # :unconn, :exc, :inh
+        predicted_type  = Symbol[],  # idem
+        pval            = Float64[],
+        area_over_start = Float64[],
+    )
+    N = length(IDs_labels)
+    pbar = Progress(N, desc = "Testing connections: ", enabled = verbose, dt = 400ms)
+    for (n, label) in collect(IDs_labels)
+        test_result = test_connection_and_type(ii.v, s.spike_times[n], p)
+        row = (input_neuron_ID = n, real_type = label, test_result...)
+        push!(tested_neurons, Dict(pairs(row)))
+        next!(pbar)
     end
 
-    TPR_exc    = TP_exc / N_eval_exc
-    TPR_inh    = TP_inh / N_eval_inh
-    TPR_unconn = TP_unconn / N_eval_unconn
-    FPR = 1 - TPR_unconn
-    return (; p_values, detection_rates = (; TPR_exc, TPR_inh, FPR))
-        # (; syntax for named tuple, using these var names)
+    tn = tested_neurons
+    det_rate(t) = count((tn.real_type .== t) .& (tn.predicted_type .== t)) / count(tn.real_type .== t)
+    detection_rates = (
+        TPR_exc = det_rate(:exc),
+        TPR_inh = det_rate(:inh),
+        FPR = 1 - det_rate(:unconn),
+    )
+    return (; tested_neurons, detection_rates)
 end

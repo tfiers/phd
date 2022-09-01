@@ -22,6 +22,7 @@ function cached(
     key::Vector = [last(args)],
     subdir = string(nameof(f)),
     cacheroot = joinpath(homedir(), ".phdcache"),
+    verbose = true,
 )
     dir = joinpath(cacheroot, "datamodel v$datamodel_version", subdir)
     mkpath(dir)
@@ -30,9 +31,9 @@ function cached(
         output = load(path, "output")
     else
         output = f(args...)
-        @withfb "Saving output at `$path`" (
-            jldsave(path; key, output)
-        )
+        if verbose @withfb "Saving output at `$path`" jldsave(path; key, output)
+        else jldsave(path; key, output)
+        end
     end
     return output
 end
