@@ -14,7 +14,7 @@
 #     name: julia-1.7
 # ---
 
-# # 2022-08-29 • Visualizing subnets
+# # 2022-09-01 • 1144 weights
 
 # ## Imports
 
