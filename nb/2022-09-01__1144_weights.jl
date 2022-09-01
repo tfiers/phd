@@ -157,7 +157,16 @@ function calcMeanSTA(post; pre)
     N = 0
     @showprogress for n in post
         ii = s.input_info[n]
-        inputs = (pre == :exc) ? ii.exc_inputs : ii.inh_inputs
+        if pre == :exc
+            inputs = ii.exc_inputs
+        elseif pre == :inh
+            inputs = ii.inh_inputs
+        elseif pre == :FP
+            perf = cached_conntest_eval(s,n,p)
+            tn = perf.tested_neurons
+            is_FP = (tn.real_type .== :unconn) .& (tn.predicted_type .!= :unconn)
+            inputs = tn.input_neuron_ID[is_FP]
+        end
         for m in inputs
             STA = calcSTA(m, n, s, p)
             if isnothing(avgSTA) avgSTA = STA
@@ -173,6 +182,9 @@ avgSTA_EI = calcMeanSTA(inh_post, pre=:exc)
 avgSTA_IE = calcMeanSTA(exc_post, pre=:inh)
 avgSTA_II = calcMeanSTA(inh_post, pre=:inh);
 
+avgSTA_FP_E = calcMeanSTA(exc_post, pre=:FP)
+avgSTA_FP_I = calcMeanSTA(inh_post, pre=:FP);
+
 function Plot.plotsig(x, p::ExpParams; tscale = ms, kw...)
     duration = length(x) * p.sim.general.Δt
     t = linspace(zero(duration), duration, length(x)) / tscale
@@ -185,7 +197,9 @@ end;
 plotsig(avgSTA_EE / mV, p, hylabel="Average E→E STA (mV)", ylim=[-49.4, -48]); plt.subplots();
 plotsig(avgSTA_EI / mV, p, hylabel="Average E→I STA (mV)", ylim=[-49.4, -48]); plt.subplots();
 plotsig(avgSTA_IE / mV, p, hylabel="Average I→E STA (mV)", ylim=[-51, -48.5]); plt.subplots();
-plotsig(avgSTA_II / mV, p, hylabel="Average I→I STA (mV)", ylim=[-51, -48.5]);
+plotsig(avgSTA_II / mV, p, hylabel="Average I→I STA (mV)", ylim=[-51, -48.5]); plt.subplots();
+plotsig(avgSTA_FP_E / mV, p, hylabel="Average FP→E STA (mV)"); plt.subplots();
+plotsig(avgSTA_FP_I / mV, p, hylabel="Average FP→I STA (mV)");
 
 # Inhibitory neurons seem to have a lower average voltage, from looking at their STA baselines.
 
@@ -198,6 +212,8 @@ avg_voltage(exc_post) / mV
 avg_voltage(inh_post) / mV
 
 # Yup, that tracks.
+
+# For the average false positive STAs, we indeed see the 2 x (propagation + integration delay) (± 40 ms) dip seen before.
 
 # ## Disynaptic false positive (FP) hypothesis
 
