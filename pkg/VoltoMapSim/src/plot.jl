@@ -6,20 +6,29 @@ const color_inh = C1
 const color_unconn = Gray(0.3)
 
 
-function plotsig(t, sig; tlim=nothing, ax=nothing, clip_on=false, kw...)
+function plotsig(t, x; tlim=nothing, ax=nothing, clip_on=false, kw...)
     # tlim = [200ms, 600ms] e.g
     isnothing(tlim) && (tlim = [t[1], t[end]])
     t0, t1 = tlim
     shown = t0 .≤ t .≤ t1
     if isnothing(ax)
-        plot(t[shown], sig[shown]; clip_on, kw...)
+        plot(t[shown], x[shown]; clip_on, kw...)
     else
-        plot(ax, t[shown], sig[shown]; clip_on, kw...)
+        plot(ax, t[shown], x[shown]; clip_on, kw...)
     end
 end
 
+function plotsig(x, p::ExpParams; tscale = ms, kw...)
+    duration = length(x) * p.sim.general.Δt
+    t = linspace(zero(duration), duration, length(x)) / tscale
+    xlabel = (tscale == ms) ? "Time (ms)" :
+             (tscale == seconds) ? "Time (s)" :
+             (tscale == minutes) ? "Time (minutes)" : ""
+    plotsig(t, x; xlabel, kw...)
+end
+
 function plotSTA(
-    vimsig, presynaptic_spikes, p::ExperimentParams; ax=nothing,
+    vimsig, presynaptic_spikes, p::ExpParams; ax=nothing,
     xlabel="Time after spike (ms)", hylabel="Spike-triggered average (mV)", kw...
 )
     @unpack Δt = p.sim.general
@@ -34,6 +43,10 @@ function plotSTA(
     set(ax; xlabel, hylabel, xlim=(0, STA_window_length / ms), kw...)
     return ax
 end
+
+plotSTA(from::Int, to::Int, s #= simdata =#, p::ExpParams; kw...) =
+    plotSTA(s.signals[to].v, s.spike_times[from], p; kw...)
+
 
 function rasterplot(spiketimes; tlim, ms = 1)
     # `spiketimes` is sim_state.rec.spike_times: a CVec with groups .exc and .inh, and each
@@ -78,7 +91,7 @@ end
 
 
 function plot_detection_rates(
-    rates, p::ExperimentParams; xticklabels, xlabel = "", title = nothing
+    rates, p::ExpParams; xticklabels, xlabel = "", title = nothing
 )
     xs = [1:length(xticklabels);]
     fig, ax = plt.subplots()

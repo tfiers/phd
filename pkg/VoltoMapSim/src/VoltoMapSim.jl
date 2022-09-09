@@ -17,8 +17,8 @@ include("misc.jl")
 export LogNormal_with_mean, ptp, area, bin, jn
 
 include("params.jl")
-export get_params, ExperimentParams
 @alias ExpParams = ExperimentParams
+export get_params, ExperimentParams, ExpParams
 
 include("diskcache.jl")
 export cached, cachefilename

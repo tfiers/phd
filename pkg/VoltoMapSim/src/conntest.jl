@@ -16,6 +16,10 @@ function calc_STA(VI_sig, presynaptic_spikes, p::ExperimentParams)
     return STA
 end
 
+calc_STA(from::Int, to::Int, s #= simdata =#, p::ExpParams) =
+    calc_STA(s.signals[to].v, s.spike_times[from], p)
+
+
 to_ISIs(spiketimes) = [first(spiketimes); diff(spiketimes)]  # copying
 to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
 
