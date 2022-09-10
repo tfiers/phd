@@ -514,14 +514,22 @@ printsimple_(df);
 # - regarding FPR, `corr` is no better or worse than `ptp-area`. `ref-to-start` is worse.
 # - for all TPRs, `ref-to-start` is better than the previous `ptp-area`, and `corr` is even better.
 
-# Filtering and widening the table to highlight the detection improvements:
+# Filtering, widening, and sculpting the table to highlight the detection improvements:
 
-df = copy(maindf)
-subset!(df, :test_method => ByRow(!=("ref-to-start")), :detrate_type => ByRow(!=(:FPR)))
-df = unstack(df, :test_method, :median)
-transform!(df, :detrate_type => ByRow(x -> string(x)[end-2:end]) => :pre, :postsyn_type => ByRow(string) => :post)
-sort!(df, :pre)
-select!(df, [:pre, :post] => ByRow((pre,post) -> "$pre → $post") => "", "ptp-area" => "before", "corr" => "after");
+using DataFramesMeta
+
+df = @chain maindf begin
+    @rsubset :test_method  != "ref-to-start"                # Only keep the cor method and the old method
+    @rsubset string(:detrate_type) != "FPR"                 # Only keep TPRs
+    unstack(:test_method, :median)                          # Widen: make new columns with given names and vals
+    @rtransform! @astable begin
+        :pre    = string(:detrate_type) |> s -> last(s, 3)  # Chop off "TPR_"
+        :post   = string(:postsyn_type)
+        :fromto = "$(:pre) → $(:post)"
+    end
+    sort!(:pre)
+    select("fromto"=>"", "ptp-area"=>"before", "corr"=>"after")
+end;
 
 # ## Summary
 
