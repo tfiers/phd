@@ -53,7 +53,7 @@ s = cached(sim, [p.sim]);
 
 s = augment_simdata(s, p);
 
-# ## .
+# ## STA of undetected inputs (E→E)
 
 perf = cached_conntest_eval(s, 1, p)
 perf.detection_rates
@@ -91,35 +91,31 @@ plott(33);
 
 # ---
 
-# + [markdown] heading_collapsed=true
 # ## Finding window length / time constant
 #
 #
 # We're gonna do something else entirely here, after supervision meeting sept 5. Finding time ct.
 
-# + [markdown] hidden=true
 # First naive idea: calc average STA of *all* other neurons in net to one.
 # Can we see the PSP?
 # hmm but we don't even know whether a neuron is inh or exc, and those might average out...
 #
 # Can we somehow do an "absolute value" to negate that? (Same trick as in variance and MSE etc formulas, where it's done with square).
 
-# + [markdown] hidden=true
 # ..so then we do need to ref. So let's do as before and subtract say the mean over the -- longish -- window.
 
-# + [markdown] hidden=true
 # We can reuse our calc_STA method: just wrap it and at the end subtract ref, and take abs;
 # then average the STAs.
 
-# + hidden=true
+# +
 function rectify_centred_STA(from,to,s,p)
     STA = calc_STA(from,to,s,p)
     return abs.(STA .- STA[1])
 end
 
 Plot.plot(rectify_centred_STA(516,1,s,p) / mV);
+# -
 
-# + hidden=true
 function rect_STA_of_all_other(m, s=s, p=p, f=rectify_centred_STA)
     all_other = [n for n in s.neuron_IDs if n ≠ m]
     avg = f(all_other[1], m, s,p)
@@ -130,33 +126,26 @@ function rect_STA_of_all_other(m, s=s, p=p, f=rectify_centred_STA)
     plotsig(avg / mV, p)
 end;
 
-# + hidden=true
 rect_STA_of_all_other(1);
 
-# + hidden=true
 rect_STA_of_all_other(801);
 
-# + [markdown] hidden=true
 # Using `mean(STA)` as ref, nothing clear.
 # Using `STA[1]`: eh. There's bump around 25 ms? "Where the shape ('average rectified STA of all other neurons') starts decreasing again".
 #
 # Would have to check with networks/neurons with other time constants and transmission delays.
 
-# + [markdown] hidden=true
 # --- 
 # Well I guess strategy to find window length could be: calculate all-to-all individual STAs (which you have to do anyway), with a guess for the window length on the medium-long side. Then look at one of the detected connections, and refine the window length based on the PSP shape you see.
 #
 # We can have a different window duration per neuron like this too. The assumption is that we'll find at least one strong input connection per neuron at this medium-long window length.
 
-# + [markdown] hidden=true
 # ---
 # We could run a simulation with other time constants, sure.
 # Let's try.
 
-# + [markdown] heading_collapsed=true
 # ## Sim with other time cts
 
-# + hidden=true
 pp = get_params(
     duration = 10minutes,
     p_conn = 0.04,
@@ -173,105 +162,75 @@ pp = get_params(
     C = 150pF,  # neuron capacitance, so ~ time constant
 );
 
-# + hidden=true
 ss = cached(sim, [pp.sim]);
 
-# + hidden=true
 ss = augment_simdata(ss, pp);
 
-# + hidden=true
 histplot_fr(ss.spike_rates);
 
-# + [markdown] hidden=true
 # Mean firing rate is about half as with prev params.
 
-# + hidden=true
 pp = (@set pp.conntest.STA_window_length = 200ms);
 
-# + hidden=true
 rect_STA_of_all_other(1, ss, pp);
 rect_STA_of_all_other(801, ss, pp);
 
-# + [markdown] hidden=true
 # "Peak" seems later indeed :). Seems to go with timescales.
 #
 # Above peak was at around 25 ms, here it's around 40 ms.
 
-# + [markdown] hidden=true
 # (Note that window here is 200 ms, and not the 100 ms of before).
 
-# + hidden=true
 perff = cached_conntest_eval(ss, 1, pp);
 
-# + hidden=true
 perff.detection_rates
 
-# + hidden=true
 perff_inh = cached_conntest_eval(ss, 801, pp);
 
-# + hidden=true
 perff_inh.detection_rates
 
-# + hidden=true
 ii = ss.input_info[1];
 ii.exc_inputs[1]
 
-# + hidden=true
 plotSTA(139, 1, ss,pp);
 
-# + [markdown] hidden=true
 # You can nicely see the 20 ms transmission delay.
 
-# + [markdown] hidden=true
 # Let's plot on 100 ms x axis, so easier to compare visually.
 
-# + hidden=true
 pq = (@set pp.conntest.STA_window_length = 100ms);
 # to compare with previous sta plots:
 plotSTA(139, 1, ss, pq);
 
-# + [markdown] hidden=true
 # What about the average STA (only for one neuron though here, instead of 40).
 
-# + hidden=true
 avg = mean([calc_STA(n, 1, ss, pq) for n in ii.exc_inputs]);
 plotsig(avg / mV, pq);
 
-# + [markdown] hidden=true
 # Ah, this makes it clear: changing the capacitance `C` of course only affects the decay of the voltage.
 # We oughta change the synaptic (current integration) time constant, `synapses.τ`.
 
-# + [markdown] hidden=true
 # For prev sim, rise to top of PSP/STA was (starting after the 10 ms tx delay): ~12 ms.
 # Here (after 20 ms tx delay): ~16 ms. Ok so a bit longer sure.
 
-# + [markdown] hidden=true
 # ---
 # So alright, seems like we can find this time constant from that `rect_STA_of_all_other` shape.
 
-# + [markdown] hidden=true
 # What does plain averaging STAs of all others look like again?
 
-# + hidden=true
 rect_STA_of_all_other(1, ss, pp, calc_STA);
 
-# + [markdown] hidden=true
 # (Function name is outdated, should be just "apply given function f to all other neurons, and average result". Where f is by default the STA-center-rectify func; but here is just plain STA).
 
-# + hidden=true
 rect_STA_of_all_other(801, ss, pp, calc_STA);
 
-# + [markdown] hidden=true
 # (Ok, just averaging all STAs seems not helpful).
 
-# + [markdown] hidden=true
 # To properly test all this, I'd need a sim with different time constant and transmission delays per neuron/connection.
 
-# + [markdown] hidden=true
 # ---
 #
 # Back to "why not detected"
-# -
 
 # ## Shuffled STAs
 

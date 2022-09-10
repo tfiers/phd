@@ -25,9 +25,9 @@ to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
 
 shuffle_ISIs(spiketimes) = to_spiketimes!(shuffle!(to_ISIs(spiketimes)));
 
-function test_connection(VI_sig, presynaptic_spikes, p::ExperimentParams)
+function test_connection(VI_sig, presynaptic_spikes, p::ExperimentParams, f = nothing)
     @unpack num_shuffles, STA_test_statistic = p.conntest
-    f = eval(Meta.parse(STA_test_statistic))
+    isnothing(f) && (f = eval(Meta.parse(STA_test_statistic)))
     test_statistic(presynspikes) = f(calc_STA(VI_sig, presynspikes, p))
     real_t = test_statistic(presynaptic_spikes)
     shuffled_t = Vector{typeof(real_t)}(undef, num_shuffles)

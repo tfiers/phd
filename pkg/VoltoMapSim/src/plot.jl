@@ -145,10 +145,11 @@ function plot_samples_and_means(
     plot(x, data, ".", ax; alpha=0.5, c, clip_on, kw...)
 end
 
-add_refline(ax, y; c = "black", lw = 1, ls = "dashed", zorder = 3, kw...) =
+add_refline(ax, y = 0; c = "0.2", lw = 1, ls = "solid", zorder = 1, kw...) =
     ax.axhline(y; c, lw, ls, zorder, kw...)
 
-add_α_line(ax, α; label = f"α = {α:.3G}", kw...) = add_refline(ax, α; label, kw...)
+add_α_line(ax, α; label = f"α = {α:.3G}", zorder = 3, ls = "dashed", c = "black", kw...) =
+    add_refline(ax, α; label, zorder, ls, c, kw...)
 
 
 """
@@ -184,6 +185,8 @@ function ydistplot(
         )
     end
     set(ax; xtype=:categorical, xlim=[0.5, N+0.5], xticks=xpos, xticklabels=labels, setkw...)
-    isnothing(ref) || add_refline(ax, ref, zorder=1, c="gray")
+    isnothing(ref) || add_refline(ax, ref)
     return ax
 end
+
+ydistplot(x::Vector; figsize = (2.4, 2.6), kw...) = ydistplot("" => x; figsize, kw...)
