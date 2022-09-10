@@ -1670,15 +1670,28 @@ Detection rates for inhibitory neurons (n = 10):
 <li><p>regarding FPR, <code class="docutils literal notranslate"><span class="pre">corr</span></code> is no better or worse than <code class="docutils literal notranslate"><span class="pre">ptp-area</span></code>. <code class="docutils literal notranslate"><span class="pre">ref-to-start</span></code> is worse.</p></li>
 <li><p>for all TPRs, <code class="docutils literal notranslate"><span class="pre">ref-to-start</span></code> is better than the previous <code class="docutils literal notranslate"><span class="pre">ptp-area</span></code>, and <code class="docutils literal notranslate"><span class="pre">corr</span></code> is even better.</p></li>
 </ul>
-<p>Filtering and widening the table to highlight the detection improvements:</p>
+<p>Filtering, widening, and sculpting the table to highlight the detection improvements:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">maindf</span><span class="p">)</span>
-<span class="n">subset!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:test_method</span> <span class="o">=&gt;</span> <span class="n">ByRow</span><span class="p">(</span><span class="o">!=</span><span class="p">(</span><span class="s">"ref-to-start"</span><span class="p">)),</span> <span class="ss">:detrate_type</span> <span class="o">=&gt;</span> <span class="n">ByRow</span><span class="p">(</span><span class="o">!=</span><span class="p">(</span><span class="ss">:FPR</span><span class="p">)))</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">unstack</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:test_method</span><span class="p">,</span> <span class="ss">:median</span><span class="p">)</span>
-<span class="n">transform!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:detrate_type</span> <span class="o">=&gt;</span> <span class="n">ByRow</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">string</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="k">end</span><span class="o">-</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="ss">:pre</span><span class="p">,</span> <span class="ss">:postsyn_type</span> <span class="o">=&gt;</span> <span class="n">ByRow</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="ss">:post</span><span class="p">)</span>
-<span class="n">sort!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:pre</span><span class="p">)</span>
-<span class="n">select!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="ss">:pre</span><span class="p">,</span> <span class="ss">:post</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">ByRow</span><span class="p">((</span><span class="n">pre</span><span class="p">,</span><span class="n">post</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s">"</span><span class="si">$pre</span><span class="s"> &#8594; </span><span class="si">$post</span><span class="s">"</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="s">""</span><span class="p">,</span> <span class="s">"ptp-area"</span> <span class="o">=&gt;</span> <span class="s">"before"</span><span class="p">,</span> <span class="s">"corr"</span> <span class="o">=&gt;</span> <span class="s">"after"</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataFramesMeta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="nd">@chain</span> <span class="n">maindf</span> <span class="k">begin</span>
+    <span class="nd">@rsubset</span> <span class="ss">:test_method</span>  <span class="o">!=</span> <span class="s">"ref-to-start"</span>                <span class="c"># Only keep the cor method and the old method</span>
+    <span class="nd">@rsubset</span> <span class="n">string</span><span class="p">(</span><span class="ss">:detrate_type</span><span class="p">)</span> <span class="o">!=</span> <span class="s">"FPR"</span>                 <span class="c"># Only keep TPRs</span>
+    <span class="n">unstack</span><span class="p">(</span><span class="ss">:test_method</span><span class="p">,</span> <span class="ss">:median</span><span class="p">)</span>                          <span class="c"># Widen: make new columns with given names and vals</span>
+    <span class="nd">@rtransform!</span> <span class="nd">@astable</span> <span class="n">begin</span>
+        <span class="o">:</span><span class="n">pre</span>    <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="ss">:detrate_type</span><span class="p">)</span>&#160;<span class="o">|&gt;</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">last</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c"># Chop off "TPR_"</span>
+        <span class="ss">:post</span>   <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="ss">:postsyn_type</span><span class="p">)</span>
+        <span class="ss">:fromto</span> <span class="o">=</span> <span class="s">"</span><span class="si">$</span><span class="p">(</span><span class="ss">:pre</span><span class="p">)</span><span class="s">&#160;&#8594; </span><span class="si">$</span><span class="p">(</span><span class="ss">:post</span><span class="p">)</span><span class="s">"</span>
+    <span class="k">end</span>
+    <span class="n">sort!</span><span class="p">(</span><span class="ss">:pre</span><span class="p">)</span>
+    <span class="n">select</span><span class="p">(</span><span class="s">"fromto"</span><span class="o">=&gt;</span><span class="s">""</span><span class="p">,</span> <span class="s">"ptp-area"</span><span class="o">=&gt;</span><span class="s">"before"</span><span class="p">,</span> <span class="s">"corr"</span><span class="o">=&gt;</span><span class="s">"after"</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -1698,10 +1711,10 @@ Detection rates for inhibitory neurons (n = 10):
 
 <span class=" -Color -Color-Bold">            before  after </span>
 &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
- exc &#8594; exc    0.57   0.79
- exc &#8594; inh    0.57   0.82
- inh &#8594; exc    0.88   1.00
- inh &#8594; inh    0.81   0.96
+ exc&#160;&#8594; exc    0.57   0.79
+ exc&#160;&#8594; inh    0.57   0.82
+ inh&#160;&#8594; exc    0.88   1.00
+ inh&#160;&#8594; inh    0.81   0.96
 </pre></div>
 </div>
 </div>
