@@ -1,6 +1,6 @@
 
-function calc_STA(VI_sig, presynaptic_spikes, p::ExperimentParams)
-    Δt::Float64 = p.sim.general.Δt
+function calc_STA(VI_sig, presynaptic_spikes, p::ExpParams)
+    Δt::Float64 = p.sim.general.Δt  # explicit type annotation needed
     win_size = round(Int, p.conntest.STA_window_length / Δt)
     STA = zeros(eltype(VI_sig), win_size)
     win_starts = round.(Int, presynaptic_spikes / Δt)
@@ -16,7 +16,7 @@ function calc_STA(VI_sig, presynaptic_spikes, p::ExperimentParams)
     return STA
 end
 
-calc_STA(from::Int, to::Int, s #= simdata =#, p::ExpParams) =
+calc_STA((from, to)::Pair{Int, Int}, s::SimData, p::ExpParams) =
     calc_STA(s.signals[to].v, s.spike_times[from], p)
 
 
@@ -25,7 +25,7 @@ to_spiketimes!(ISIs) = cumsum!(ISIs, ISIs)                   # in place
 
 shuffle_ISIs(spiketimes) = to_spiketimes!(shuffle!(to_ISIs(spiketimes)));
 
-function test_connection(VI_sig, presynaptic_spikes, p::ExperimentParams, f = nothing)
+function test_connection(VI_sig, presynaptic_spikes, p::ExpParams, f = nothing)
     @unpack num_shuffles, STA_test_statistic = p.conntest
     isnothing(f) && (f = eval(Meta.parse(STA_test_statistic)))
     test_statistic(presynspikes) = f(calc_STA(VI_sig, presynspikes, p))
