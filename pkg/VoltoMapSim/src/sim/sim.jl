@@ -8,7 +8,7 @@ include("Nto1/step.jl")
 include("post.jl")
 
 function sim(params::SimParams)
-    state::SimData = init_sim(params)
+    state = init_sim(params)
     @showprogress (every = 400ms) "Running simulation: " (
     for i in 1:state.num_timesteps
         step_sim!(state, params, i)

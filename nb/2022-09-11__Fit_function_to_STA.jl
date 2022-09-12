@@ -46,6 +46,12 @@ p = get_params(
 
 s = cached(sim, [p.sim]);
 
+snt = s.data;
+
+
+
+
+
 s = augment(s, p);
 
 # ## ...

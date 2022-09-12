@@ -13,8 +13,7 @@ const datamodel_version = "2 (net)"
 include("units.jl")
 # [see file for exports]
 
-include("types.jl")
-export SimData
+const SimData = NamedTuple
 
 include("misc.jl")
 export LogNormal_with_mean, ptp, area, bin, jn

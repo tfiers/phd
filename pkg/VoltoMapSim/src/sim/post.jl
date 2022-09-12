@@ -31,7 +31,7 @@ function augment(s::SimData, p::ExpParams)
     non_inputs = [[n for n in all if n ∉ inputs[m] && n != m] for m in all]
     num_inputs = [(exc = length(exc_inputs[m]), inh = length(inh_inputs[m])) for m in all]
 
-    return SimData(;
+    return (;
         s.data...,
         num_spikes_per_neuron,
         spike_rates,

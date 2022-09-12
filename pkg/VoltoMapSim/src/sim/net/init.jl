@@ -138,7 +138,7 @@ function init_sim(p::NetworkSimParams)
         )
     end
 
-    return state = SimData(;
+    return state = (;
         #
         # Fixed at init:
         num_timesteps,
