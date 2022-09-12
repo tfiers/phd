@@ -1,8 +1,10 @@
 [deps]
+Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
 Cthulhu = "f68482b8-f384-11e8-15f7-abe071a5a75f"
 DataFramesMeta = "1313f7d8-7da2-5740-9ea0-a2ca25f37964"
 FilePathsBase = "48062228-2e41-5def-b9a4-89aafe57970f"
 IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+LsqFit = "2fda8390-95c7-5789-9bda-21331edee243"
 MyToolbox = "54cd1024-cafd-4d62-948d-ced4874502bf"
 ProfileView = "c46f51b8-102a-5cf2-8d2c-8597cb0e0da7"
 PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
