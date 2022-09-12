@@ -1,9 +1,9 @@
 
 function calc_STA(VI_sig, presynaptic_spikes, p::ExpParams)
-    Δt::Float64 = p.sim.general.Δt  # explicit type annotation needed
-    win_size = round(Int, p.conntest.STA_window_length / Δt)
+    win_size = STA_win_size(p)
     STA = zeros(eltype(VI_sig), win_size)
-    win_starts = round.(Int, presynaptic_spikes / Δt)
+    win_starts = round.(Int, presynaptic_spikes / p.sim.general.Δt::Float64)
+        # Explicit type annotation on Δt needed, as typeof(sim) unknown.
     num_wins = 0
     for a in win_starts
         b = a + win_size - 1
@@ -17,7 +17,7 @@ function calc_STA(VI_sig, presynaptic_spikes, p::ExpParams)
 end
 
 calc_STA((from, to), s::SimData, p::ExpParams) =
-    calc_STA(s.signals[to].v, s.spike_times[from], p)
+    calc_STA(s.v[to], s.spike_times[from], p)
 
 
 to_ISIs(spiketimes) = [first(spiketimes); diff(spiketimes)]  # copying

@@ -45,7 +45,7 @@ function plotSTA(
 end
 
 plotSTA(from::Int, to::Int, s #= simdata =#, p::ExpParams; kw...) =
-    plotSTA(s.signals[to].v, s.spike_times[from], p; kw...)
+    plotSTA(s.v[to], s.spike_times[from], p; kw...)
 
 
 function rasterplot(spiketimes; tlim, ms = 1)

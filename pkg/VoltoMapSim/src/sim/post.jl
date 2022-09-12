@@ -31,8 +31,15 @@ function augment(s::SimData, p::ExpParams)
     non_inputs = [[n for n in all if n ∉ inputs[m] && n != m] for m in all]
     num_inputs = [(exc = length(exc_inputs[m]), inh = length(inh_inputs[m])) for m in all]
 
-    return (;
-        s.data...,
+    v = Dict{Int, Vector{Float64}}()
+        # Purely for type inference (`s.signals` is {Int, Any}).
+    @unpack record_v, record_all = p.sim.network
+    for n in unique!([record_v; record_all])
+        v[n] = s.signals[n].v
+    end
+
+    return s = (;
+        s...,
         num_spikes_per_neuron,
         spike_rates,
         pre_post_pairs,
@@ -41,38 +48,29 @@ function augment(s::SimData, p::ExpParams)
         inh_inputs,
         non_inputs,
         num_inputs,
+        v,
     )
 end
 
-function calc_avg_STA(s::SimData, p::ExpParams, postsyn_neurons, inputs)
-    acc = nothing
+function calc_avg_STA(s::SimData, p::ExpParams; postsyn_neurons, input_type::Symbol)
+    if (input_type == :exc) inputs = s.exc_inputs
+    else                    inputs = s.inh_inputs end
+    acc = zeros(Float64, STA_win_size(p))
     N = 0
-    # @showprogress(
-    for n in postsyn_neurons
-        for m in inputs[n]
-            STA = calc_STA(m => n, s, p)
-            if isnothing(acc) acc = STA
-            else acc .+= STA end
-            N += 1
-        end
-    end
-    # end)
-    return avgSTA = acc ./ N
-end
-
-function calc_avg_STA_v2(s::SimData, p::ExpParams, postsyn_neurons, inputs)
-    Δt::Float64 = p.sim.general.Δt
-    win_size = round(Int, p.conntest.STA_window_length / Δt)
-    acc = zeros(Float64, win_size)
-    N = 0
-    # @showprogress(
+    @showprogress(
     for n in postsyn_neurons
         for m in inputs[n]
             STA = calc_STA(m => n, s, p)
             acc .+= STA
             N += 1
         end
-    # end)
-    end
+    end)
     return avgSTA = acc ./ N
 end
+# We don't use the more compact generator form
+#    `mean(calc_STA(m => n, s, p) for n in 1:40 for m in s.exc_inputs[n])`
+# ..as then we don't get a progress report. (And `@showprogress` on a `reduce` errors here).
+
+STA_win_size(p::ExpParams) =
+    round(Int, p.conntest.STA_window_length / p.sim.general.Δt::Float64)
+        # Explicit type annotation on Δt needed, as typeof(sim) unknown.
