@@ -36,3 +36,11 @@ function bin(spiketimes; duration, binsize)
         bin_end_time += binsize
     end
 end
+
+
+const SimData = NamedTuple
+
+# Hack to not have the NamedTuple containing simulation data take up huge amounts of space
+# in stacktraces and such.
+print_type_compactly(x, typename = "SimData") =
+    eval( :(Base.show(io::IO, ::Type{typeof($x)}) = print(io, $typename)) )

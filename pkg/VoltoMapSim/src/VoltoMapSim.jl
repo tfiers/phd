@@ -13,10 +13,8 @@ const datamodel_version = "2 (net)"
 include("units.jl")
 # [see file for exports]
 
-const SimData = NamedTuple
-
 include("misc.jl")
-export LogNormal_with_mean, ptp, area, bin, jn
+export LogNormal_with_mean, ptp, area, bin, jn, print_type_compactly
 
 include("params.jl")
 @alias ExpParams = ExperimentParams
@@ -26,7 +24,7 @@ include("diskcache.jl")
 export cached, cachefilename
 
 include("sim/sim.jl")
-export sim, add_VI_noise, augment, calc_avg_STA, calc_avg_STA_v2
+export sim, add_VI_noise, augment, calc_avg_STA
 
 include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
