@@ -13,6 +13,9 @@ const datamodel_version = "2 (net)"
 include("units.jl")
 # [see file for exports]
 
+include("types.jl")
+export SimData
+
 include("misc.jl")
 export LogNormal_with_mean, ptp, area, bin, jn
 
@@ -24,7 +27,7 @@ include("diskcache.jl")
 export cached, cachefilename
 
 include("sim/sim.jl")
-export sim, add_VI_noise, augment_simdata, get_input_info
+export sim, add_VI_noise, augment, calc_avg_STA, calc_avg_STA_v2
 
 include("conntest.jl")
 export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection

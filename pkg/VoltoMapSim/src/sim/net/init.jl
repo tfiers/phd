@@ -138,8 +138,7 @@ function init_sim(p::NetworkSimParams)
         )
     end
 
-    # Create state object, as nested NamedTuple.
-    return state = (;
+    return state = SimData(;
         #
         # Fixed at init:
         num_timesteps,

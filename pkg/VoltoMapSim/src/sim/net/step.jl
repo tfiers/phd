@@ -1,5 +1,5 @@
 
-function step_sim!(state, params::NetworkSimParams, i)
+function step_sim!(state::SimData, params::NetworkSimParams, i)
 
     @unpack output_synapses, postsyn_neuron, neuron_type,
             syn_strengths, spike_tx_delay                        = state

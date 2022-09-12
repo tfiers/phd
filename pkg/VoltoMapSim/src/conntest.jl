@@ -16,7 +16,7 @@ function calc_STA(VI_sig, presynaptic_spikes, p::ExpParams)
     return STA
 end
 
-calc_STA((from, to)::Pair{Int, Int}, s::SimData, p::ExpParams) =
+calc_STA((from, to), s::SimData, p::ExpParams) =
     calc_STA(s.signals[to].v, s.spike_times[from], p)
 
 
