@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2 &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-13__Fit_simpler_function_pt_2.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2022-09-13 &#8226; Fit simpler model to STA" href="2022-09-13__Fit_simpler_function.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2022-09-13__Fit_simpler_function_pt_2.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-09-13__Fit_simpler_function_pt_2.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-09-13__Fit_simpler_function_pt_2.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-09-13__Fit_simpler_function_pt_2.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-function">
+   Model function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fit">
+   Fit
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exc-inputs">
+   Exc inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inh-inputs">
+   Inh inputs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#after-changing-max-dip-weight-to-0-6">
+     After changing max dip.weight to 0.6:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-inputs">
+   Non-inputs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     After changing max dip.weight to 0.6:
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-function">
+   Model function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fit">
+   Fit
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#exc-inputs">
+   Exc inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inh-inputs">
+   Inh inputs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#after-changing-max-dip-weight-to-0-6">
+     After changing max dip.weight to 0.6:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-inputs">
+   Non-inputs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     After changing max dip.weight to 0.6:
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="fit-simpler-model-to-sta-part-2">
+<h1>2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2<a class="headerlink" href="#fit-simpler-model-to-sta-part-2" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
+    <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">g_II</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
+    <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">],</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-sim">
+<h2>Run sim<a class="headerlink" href="#run-sim" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">augment</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="model-function">
+<h2>Model function<a class="headerlink" href="#model-function" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">linear_PSP</span><span class="p">(</span><span class="n">t</span><span class="p">;</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span> <span class="o">=</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="n">&#964;1</span> <span class="o">==</span> <span class="n">&#964;2</span><span class="p">)</span>   <span class="nd">@.</span> <span class="n">t</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span>
+    <span class="k">else</span>            <span class="nd">@.</span> <span class="n">&#964;1</span><span class="o">*</span><span class="n">&#964;2</span><span class="o">/</span><span class="p">(</span><span class="n">&#964;1</span><span class="o">-</span><span class="n">&#964;2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;2</span><span class="p">))</span>
+    <span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">loc</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">=</span>  
+
+    <span class="nd">@.</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">loc</span><span class="p">)</span><span class="o">/</span><span class="n">width</span> <span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="c"># Note that unlike in the previous notebook, we do add the 1/2 factor in the exponent here</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rescale_to_max!</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> 
+    
+    <span class="n">x</span> <span class="o">./=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+
+<span class="c"># Note that this returns `NaN`s if x .== 0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">centre!</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">.-=</span> <span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">centre</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">centre!</span><span class="p">(</span><span class="n">copy</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mult!</span><span class="p">(</span><span class="n">by</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">x</span> <span class="o">.*=</span> <span class="n">by</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="o">=</span> <span class="n">CVec</span><span class="p">(</span>
+    <span class="n">tx_delay</span>   <span class="o">=</span> <span class="mi">10</span><span class="n">ms</span><span class="p">,</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">&#964;1</span>     <span class="o">=</span> <span class="mi">10</span><span class="n">ms</span><span class="p">,</span>
+        <span class="n">&#964;2</span>     <span class="o">=</span> <span class="mi">12</span><span class="n">ms</span>
+    <span class="p">),</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">loc</span>    <span class="o">=</span> <span class="mi">40</span><span class="n">ms</span><span class="p">,</span>
+        <span class="n">width</span>  <span class="o">=</span> <span class="mi">40</span><span class="n">ms</span><span class="p">,</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">scale</span>      <span class="o">=</span> <span class="mi">0</span><span class="n">mV</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="n">FitParams</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">p0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pbounds</span> <span class="o">=</span> <span class="n">CVec</span><span class="p">(</span>
+    <span class="n">tx_delay</span>   <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">60</span><span class="n">ms</span><span class="p">],</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">&#964;1</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="n">ms</span><span class="p">],</span>
+        <span class="n">&#964;2</span>     <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="n">ms</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">loc</span>    <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="n">ms</span><span class="p">,</span> <span class="mi">80</span><span class="n">ms</span><span class="p">],</span>
+        <span class="n">width</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="n">ms</span><span class="p">,</span> <span class="mi">80</span><span class="n">ms</span><span class="p">],</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">scale</span>      <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="n">mV</span><span class="p">,</span> <span class="mi">2</span><span class="n">mV</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">pb_flat</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">CVec</span><span class="p">(</span><span class="n">pbounds</span><span class="p">))</span>
+<span class="n">lower</span> <span class="o">=</span> <span class="n">pb_flat</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]</span>
+<span class="n">upper</span> <span class="o">=</span> <span class="n">pb_flat</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">model_STA_components</span><span class="p">(</span><span class="n">ep</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">,</span> <span class="n">fp</span><span class="o">::</span><span class="kt">FitParams</span><span class="p">)</span>
+
+    <span class="n">&#916;t</span><span class="o">::</span><span class="kt">Float64</span>  <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">&#916;t</span>
+    <span class="n">STA_duration</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">STA_window_length</span>
+
+    <span class="nd">@unpack</span> <span class="n">tx_delay</span><span class="p">,</span> <span class="n">bump</span><span class="p">,</span> <span class="n">dip</span> <span class="o">=</span> <span class="n">fp</span>
+    
+    <span class="n">PSP_duration</span> <span class="o">=</span> <span class="n">STA_duration</span> <span class="o">-</span> <span class="n">tx_delay</span>
+
+    <span class="n">delay_size</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tx_delay</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">PSP_size</span>   <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">PSP_duration</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">STA_size</span>   <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">STA_duration</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+
+    <span class="n">t_PSP</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">PSP_duration</span><span class="p">,</span> <span class="n">PSP_size</span><span class="p">))</span>
+    <span class="n">t_STA</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">STA_duration</span><span class="p">,</span> <span class="n">STA_size</span><span class="p">))</span>
+    
+    <span class="n">add_delay</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">zeros</span><span class="p">(</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">delay_size</span><span class="p">),</span> <span class="n">x</span><span class="p">)</span>
+    
+    <span class="c"># &#964;1, &#964;2 = bump</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">linear_PSP</span><span class="p">(</span><span class="n">t_PSP</span><span class="p">;</span> <span class="n">bump</span><span class="o">.</span><span class="n">&#964;1</span><span class="p">,</span> <span class="n">bump</span><span class="o">.</span><span class="n">&#964;2</span><span class="p">)</span>
+        <span class="o">|&gt;</span> <span class="n">rescale_to_max!</span>
+        <span class="o">|&gt;</span> <span class="n">add_delay</span>
+    <span class="p">)</span>
+    
+    <span class="c"># loc, width, weight = bump</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gaussian</span><span class="p">(</span><span class="n">t_STA</span><span class="p">;</span> <span class="n">dip</span><span class="o">.</span><span class="n">loc</span><span class="p">,</span> <span class="n">dip</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+        <span class="o">|&gt;</span> <span class="n">rescale_to_max!</span>
+        <span class="o">|&gt;</span> <span class="n">mult!</span><span class="p">(</span><span class="o">-</span><span class="n">dip</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+    <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">bump</span><span class="p">,</span> <span class="n">dip</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="k">function</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">ep</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">,</span> <span class="n">fp</span><span class="o">::</span><span class="kt">FitParams</span><span class="p">)</span>
+    <span class="n">bump</span><span class="p">,</span> <span class="n">dip</span> <span class="o">=</span> <span class="n">model_STA_components</span><span class="p">(</span><span class="n">ep</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+    <span class="n">STA</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">bump</span> <span class="o">.+</span> <span class="n">dip</span>
+        <span class="o">|&gt;</span> <span class="n">mult!</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+        <span class="o">|&gt;</span> <span class="n">centre!</span>
+    <span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="fit">
+<h2>Fit<a class="headerlink" href="#fit" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">LsqFit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Code to adapt to LsqFit's API</span>
+
+<span class="n">p_buffer</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">CVec</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span>
+
+<span class="k">function</span> <span class="n">toCVec</span><span class="p">(</span><span class="n">params</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">cv_buffer</span><span class="o">::</span><span class="kt">CVec</span> <span class="o">=</span> <span class="n">p_buffer</span><span class="p">)</span>
+    <span class="n">cv_buffer</span> <span class="o">.=</span> <span class="n">params</span>
+    <span class="k">return</span> <span class="n">cv_buffer</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p0</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">toCVec</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+    <span class="n">xdata</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c"># Our model function generates </span>
+                <span class="c"># xdata itself (it's alway the same).</span>
+    <span class="n">ydata</span> <span class="o">=</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+    <span class="n">p0_vec</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">CVec</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">Plot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">m</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span> <span class="n">p0</span> <span class="o">=</span> <span class="n">p0</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="n">STA</span> <span class="o">=</span> <span class="n">calc_STA</span><span class="p">(</span><span class="n">m</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">fitt</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p0</span><span class="p">)</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">toCVec</span><span class="p">(</span><span class="n">fitt</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+    <span class="n">bump</span><span class="p">,</span> <span class="n">dip</span> <span class="o">=</span> <span class="n">model_STA_components</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+    <span class="n">sgn</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">sgn</span> <span class="o">*</span> <span class="n">bump</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">sgn</span> <span class="o">*</span> <span class="n">dip</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">hylabel</span> <span class="o">=</span> <span class="s">"STA </span><span class="si">$m</span><span class="s"> &#8594; 1"</span><span class="p">)</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="kt">NamedTuple</span><span class="p">(</span><span class="n">fp</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fp</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="p">(</span><span class="mi">894</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 0.0101, bump = (&#964;1 = 0.0109, &#964;2 = 0.0111), dip = (loc = 0.0326, width = 0.0349, weight = 0.447), scale = -0.002)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_25_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_25_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_25_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_25_2.png">
+</div>
+</div>
+<p>Aha! So it was the problem :D</p>
+<p>Great. (Lesson: make parameters independent of each other).</p>
+<p>Now to retry the STAs fitted two nb&#8217;s earlier.</p>
+</div>
+<div class="section" id="exc-inputs">
+<h2>Exc inputs<a class="headerlink" href="#exc-inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="o">.</span><span class="p">([</span><span class="mi">139</span><span class="p">,</span> <span class="mi">136</span><span class="p">,</span> <span class="mi">132</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 0.0131, bump = (&#964;1 = 0.0131, &#964;2 = 0.0129), dip = (loc = 0.08, width = 0.08, weight = 0), scale = 0.000357)
+(tx_delay = 0.0128, bump = (&#964;1 = 0.0112, &#964;2 = 0.0111), dip = (loc = 0.0508, width = 0.02, weight = 0.548), scale = 0.000371)
+(tx_delay = 0.018, bump = (&#964;1 = 0.00883, &#964;2 = 0.0168), dip = (loc = 0.08, width = 0.02, weight = 0.122), scale = 0.000218)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_2.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_3.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_3.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_4.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_4.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_5.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_5.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_29_6.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_29_6.png">
+</div>
+</div>
+<p>Excellent. No more wonky fits.</p>
+<p>(The last one had ptp pval 0.03 btw. And avgSTA cor pval 0.12)</p>
+</div>
+<div class="section" id="inh-inputs">
+<h2>Inh inputs<a class="headerlink" href="#inh-inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="o">.</span><span class="p">([</span><span class="mi">988</span><span class="p">,</span> <span class="mi">894</span><span class="p">,</span> <span class="mi">831</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 0.0104, bump = (&#964;1 = 0.00822, &#964;2 = 0.00841), dip = (loc = 0.0739, width = 0.023, weight = 0), scale = -0.00039)
+(tx_delay = 0.0101, bump = (&#964;1 = 0.0109, &#964;2 = 0.0111), dip = (loc = 0.0326, width = 0.0349, weight = 0.447), scale = -0.002)
+(tx_delay = 0.0352, bump = (&#964;1 = 0.0164, &#964;2 = 0.000177), dip = (loc = 0.08, width = 0.02, weight = 1), scale = -0.000179)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_2.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_3.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_3.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_4.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_4.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_5.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_5.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_32_6.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_32_6.png">
+</div>
+</div>
+<p>The first one could use the more important weighting around the bump.</p>
+<p>The last one.. Well it&#8217;s the hardest inh input to detect.</p>
+<p>We could do like a voting approach :P  : &#8220;curve_fit thinks :non-input, ptp-area thinks :inh&#8221;.</p>
+<div class="section" id="after-changing-max-dip-weight-to-0-6">
+<h3>After changing max dip.weight to 0.6:<a class="headerlink" href="#after-changing-max-dip-weight-to-0-6" title="Permalink to this headline">&#182;</a></h3>
+<p>(From 1)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="o">.</span><span class="p">([</span><span class="mi">831</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 0.0147, bump = (&#964;1 = 0.0119, &#964;2 = 0.0124), dip = (loc = 0.08, width = 0.02, weight = 0.6), scale = -0.000177)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_37_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_37_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_37_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_37_2.png">
+</div>
+</div>
+<p>Great, much better.</p>
+</div>
+</div>
+<div class="section" id="non-inputs">
+<h2>Non-inputs<a class="headerlink" href="#non-inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="o">.</span><span class="p">([</span><span class="mi">23</span><span class="p">,</span> <span class="mi">197</span><span class="p">,</span> <span class="mi">367</span><span class="p">,</span><span class="mi">332</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 1.01E-05, bump = (&#964;1 = 0.00248, &#964;2 = 0.00248), dip = (loc = 0.08, width = 0.02, weight = 0.453), scale = -0.000271)
+(tx_delay = 0.00944, bump = (&#964;1 = 0.0254, &#964;2 = 0.0254), dip = (loc = 0.0507, width = 0.0288, weight = 1), scale = 0.000327)
+(tx_delay = 0.0169, bump = (&#964;1 = 0.0123, &#964;2 = 0.00573), dip = (loc = 0.08, width = 0.02, weight = 0.973), scale = -0.000189)
+(tx_delay = 0.0165, bump = (&#964;1 = 0.017, &#964;2 = 0.0169), dip = (loc = 0.0596, width = 0.0471, weight = 0.149), scale = -6.92E-06)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_2.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_3.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_3.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_4.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_4.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_5.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_5.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_6.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_6.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_7.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_7.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_40_8.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_40_8.png">
+</div>
+</div>
+<ul class="simple">
+<li><p>first and last (23, 332) good, nice and noisy</p></li>
+<li><p>367 was a FP for the other two algo&#8217;s too.</p></li>
+</ul>
+<p>197.. this one together with 367 and the last of the inh&#8217;s above makes me think the max weight of the bump is too high.</p>
+<p>and again, that we should weight around the bump more somehow.</p>
+<div class="section" id="id1">
+<h3>After changing max dip.weight to 0.6:<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h3>
+<p>(Middle two)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_STA</span><span class="o">.</span><span class="p">([</span><span class="mi">197</span><span class="p">,</span> <span class="mi">367</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(tx_delay = 0.00866, bump = (&#964;1 = 0.016, &#964;2 = 0.016), dip = (loc = 0.0392, width = 0.0332, weight = 0.6), scale = 0.000186)
+(tx_delay = 0.0161, bump = (&#964;1 = 0.00975, &#964;2 = 0.00799), dip = (loc = 0.08, width = 0.02, weight = 0.6), scale = -0.000234)
+</pre></div>
+</div>
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_44_1.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_44_1.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_44_2.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_44_2.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_44_3.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_44_3.png">
+<img alt="../_images/2022-09-13__Fit_simpler_function_pt_2_44_4.png" src="../_images/2022-09-13__Fit_simpler_function_pt_2_44_4.png">
+</div>
+</div>
+<p>Nice, the 197 is much less well fit now.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.7"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.7",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.7'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2022-09-13__Fit_simpler_function.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2022-09-13 &#8226; Fit simpler model to STA</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
