@@ -15,11 +15,13 @@ Directories:
 - [`pkg/`](pkg) contains Julia packages, which define functions and data types that are reused in multiple notebooks.
 - [`web/`](web) contains config and code to build the [website](https://tfiers.github.io/phd) 
   where the notebooks are hosted (using [JupyterBook](https://jupyterbook.org/)).
+- [`scripts/`](scripts) contains scripts for updating dependencies and speeding up their imports.
+
 
 Files:
 - [`Project.toml`](Project.toml) lists the identifiers of the Julia packages our code directly depends on.  
 - `Manifest.toml` records the exact versions of all packages used to generate the results (i.e. the notebook outputs).  
-- `setup.jl` is used to generate a new `Manifest.toml`, both for the main project and for the packages in `pkg/`.
+- `update.jl` is used to generate a new `Manifest.toml`, both for the main project and for the packages in `pkg/`.
   It is only to be used when working on this codebase; not when you want to reproduce the results.
 
 
@@ -71,7 +73,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
      which is included in the repository for the purpose of reproducibility.
    - Downloading and installing all these packages will take a while.
    - If you want to instead use newer versions of dependencies (maybe because you
-     already have them downloaded), run `julia setup.jl` in the terminal, 
+     already have them downloaded), run `julia scripts/update.jl` in the terminal, 
      instead of `instantiate`.
    </details>
 
