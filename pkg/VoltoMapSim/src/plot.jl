@@ -121,15 +121,15 @@ function plot_detection_rates(
     return fig, ax
 end
 
-"""
-Create an array of the same shape as the one given, but with just
-the values stored under `name` in each element of the given array.
-"""
-function extract(name::Symbol, arr #=an array of NamedTuples or structs =#)
-    getval(index) = getproperty(arr[index], name)
-    out = similar(arr, typeof(getval(firstindex(arr))))
-    for index in eachindex(arr)
-        out[index] = getval(index)
+function extract(name::Symbol, arr)
+    # `arr` is an array of NamedTuples or structs.
+    # Creates an array of the same shape as the one given, but
+    # with just the values stored under `name` in each element of the given array.
+    getval(el) = getproperty(el, name)
+    valtype = arr |> first |> getval |> typeof
+    out = similar(arr, valtype)
+    for i in eachindex(arr)
+        out[i] = getval(arr[i])
     end
     return out
 end
@@ -144,6 +144,7 @@ function plot_samples_and_means(
     plot(x, mean(data, dims=2), ".-", ax; label, c, clip_on, kw...)
     plot(x, data, ".", ax; alpha=0.5, c, clip_on, kw...)
 end
+
 
 add_refline(ax, y = 0; c = "0.2", lw = 1, ls = "solid", zorder = 1, kw...) =
     ax.axhline(y; c, lw, ls, zorder, kw...)
