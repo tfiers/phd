@@ -1,3 +1,6 @@
+__precompile__(false)
+# See note at top of Sciplotlib.jl
+
 module VoltoMapSim
 
 using MyToolbox: @reexport

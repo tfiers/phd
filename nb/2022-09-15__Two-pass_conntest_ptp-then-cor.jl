@@ -14,7 +14,9 @@
 #     name: julia-preloaded-1.7
 # ---
 
-# # 2022-09-15 • Two-pass connection test: peak-to-peak, then correlation with found average
+# # 2022-09-15 • Two-pass connection test: ptp, then corr with found avg
+
+# Two-pass connection test: peak-to-peak, then correlation with found average
 
 # ## Imports
 
@@ -44,15 +46,47 @@ p = get_params(
 
 @time s = cached(sim, [p.sim]);
 
-# (To speed this up: SnoopCompile. Not now).
+# (To speed this up (precompile this further): investigate with SnoopCompile or JET. Not now).
 
 s = augment(s, p);
 
-using VoltoMapSim.Plot
+# ## First pass: peak-to-peak
 
-using Pkg
+# Let's start with just neuron 1 as postsyn.
 
-@time plotSTA(1=>1,s,p);
-# plotSTA(2=>2,s,p);
-# plotSTA(801=>801,s,p);
-# plotSTA(802=>802,s,p);
+m = 1;
+
+perf = cached_conntest_eval(s,m,p);
+
+p.conntest.STA_test_statistic
+
+ENV["LINES"] = 4
+perf.tested_neurons
+
+# We take all inputs with `predicted_type` :exc.
+#
+# Current pval threshold is 0.05.  
+# We could be stricter.
+#
+# It'll be tradeoff: stricter threshold gives less STAs to average to build our template;
+# but there will be less noisy STAs mixed in (or even wrong STAs, i.e. of non-inputs).
+
+# +
+#= implementation note: 
+it's a two stage process, so maybe split dataframe.
+namely:
+
+(inputID, postsynID) -> (pval, area_over_start) -> predicted_type
+
+first step depends on 'test statistics' used (ptp, corr-with-some-template).
+second step depends on α.
+
+(between first and second data, there's a "-> STA ->" step.
+But we don't save that STA in dataframe, too large. it's implicit).
+
+The large work btw is the first step: the shuffles, and for each calculating STA.
+So.. we could indeed store these shuffled STAs.. it's just 1000 samples per.
+=#
+# -
+
+
