@@ -4,5 +4,6 @@
 # Needs
 #    Pkg.add(url="https://github.com/xzackli/PyPlot.jl")
 
-using PyPlot
+import PyPlot  # `import` instead of `using`, so we do not import all the names.
+
 PyPlot.delay_init_until_cell[] = true

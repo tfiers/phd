@@ -1,4 +1,3 @@
-@reexport using Sciplotlib
 
 
 const color_exc = C0

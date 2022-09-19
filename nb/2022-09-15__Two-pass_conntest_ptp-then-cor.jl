@@ -22,8 +22,6 @@
 #
 # -
 
-using Revise
-
 using MyToolbox
 
 using VoltoMapSim
@@ -46,14 +44,15 @@ p = get_params(
 
 @time s = cached(sim, [p.sim]);
 
+# (To speed this up: SnoopCompile. Not now).
+
 s = augment(s, p);
 
-using PyPlot
 using VoltoMapSim.Plot
+
+using Pkg
 
 @time plotSTA(1=>1,s,p);
 # plotSTA(2=>2,s,p);
 # plotSTA(801=>801,s,p);
 # plotSTA(802=>802,s,p);
-
-
