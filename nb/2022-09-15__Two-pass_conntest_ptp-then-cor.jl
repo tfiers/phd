@@ -30,6 +30,8 @@ using VoltoMapSim
 
 # ## Params
 
+using ProfileView
+
 p = get_params(
     duration = 10minutes,
     p_conn = 0.04,
@@ -44,10 +46,16 @@ p = get_params(
 
 # ## Run sim
 
-s = cached(sim, [p.sim]);
+@time s = cached(sim, [p.sim]);
 
-s = augment(s, p);
+@profview s = augment(s, p);
 
-plotSTA(23=>1,s,p);
+using PyPlot
+using VoltoMapSim.Plot
+
+@profview plotSTA(1=>1,s,p);
+plotSTA(2=>2,s,p);
+plotSTA(801=>801,s,p);
+plotSTA(802=>802,s,p);
 
 

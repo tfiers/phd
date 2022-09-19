@@ -15,7 +15,7 @@ Directories:
 - [`pkg/`](pkg) contains Julia packages, which define functions and data types that are reused in multiple notebooks.
 - [`web/`](web) contains config and code to build the [website](https://tfiers.github.io/phd) 
   where the notebooks are hosted (using [JupyterBook](https://jupyterbook.org/)).
-- [`scripts/`](scripts) contains scripts for updating dependencies and speeding up their imports.
+- [`sysimg/`](sysimg) contains instructions for building a custom Julia [system image](https://julialang.github.io/PackageCompiler.jl/dev/sysimages.html). It is not necessary to run the notebooks, but it speeds up package imports and first function calls.
 
 
 Files:
@@ -73,7 +73,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
      which is included in the repository for the purpose of reproducibility.
    - Downloading and installing all these packages will take a while.
    - If you want to instead use newer versions of dependencies (maybe because you
-     already have them downloaded), run `julia scripts/update.jl` in the terminal, 
+     already have them downloaded), run `julia update.jl` in the terminal, 
      instead of `instantiate`.
    </details>
 
