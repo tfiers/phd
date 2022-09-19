@@ -1,15 +1,20 @@
-using PackageCompiler
+using Pkg
+Pkg.activate("..")
 
+using PackageCompiler
 create_sysimage(
     [
         :Revise,
-        :PyCall,
         :IJulia,
         :PyPlot,
         :DataFrames,
         :ComponentArrays,
+        :DataStructures,
+        :Parameters,
+        :StatsBase,
+        :JLD2,
     ];
-    sysimage_path               = "sysimg/mysys.dll",
-    precompile_execution_file   = "sysimg/to_precompile.jl",
-    script                      = "sysimg/pyplot_delay_init.jl",
+    sysimage_path               = "mysys.dll",
+    precompile_execution_file   = "to_precompile.jl",
+    script                      = "pyplot_delay_init.jl",
 )
