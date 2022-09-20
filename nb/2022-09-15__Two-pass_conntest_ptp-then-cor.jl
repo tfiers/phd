@@ -9,9 +9,9 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Julia-preloaded 1.7.0
+#     display_name: Julia 1.8.1
 #     language: julia
-#     name: julia-preloaded-1.7
+#     name: julia-1.8
 # ---
 
 # # 2022-09-15 • Two-pass connection test: ptp, then corr with found avg
@@ -23,6 +23,13 @@
 # +
 #
 # -
+
+using Revise
+import PyPlot
+
+PyPlot.
+
+
 
 using MyToolbox
 
@@ -87,6 +94,15 @@ But we don't save that STA in dataframe, too large. it's implicit).
 The large work btw is the first step: the shuffles, and for each calculating STA.
 So.. we could indeed store these shuffled STAs.. it's just 1000 samples per.
 =#
+# -
+
+# Now
+# - Get the :exc input detections for neuron 1
+# - Average their STA
+# - Apply this template to STAs of all inputs
+
+# +
+# But first: cache STAs :)
 # -
 
 

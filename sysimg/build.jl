@@ -16,5 +16,4 @@ create_sysimage(
     ];
     sysimage_path               = "mysys.dll",
     precompile_execution_file   = "to_precompile.jl",
-    script                      = "pyplot_delay_init.jl",
 )
