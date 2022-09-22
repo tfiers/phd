@@ -9,9 +9,9 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Julia 1.8.1
+#     display_name: Julia 1.8.1 mysys
 #     language: julia
-#     name: julia-1.8
+#     name: julia-1.8-mysys
 # ---
 
 # # 2022-09-15 • Two-pass connection test: ptp, then corr with found avg
@@ -23,13 +23,6 @@
 # +
 #
 # -
-
-using Revise
-import PyPlot
-
-PyPlot.
-
-
 
 using MyToolbox
 
@@ -52,8 +45,6 @@ p = get_params(
 # ## Run sim
 
 @time s = cached(sim, [p.sim]);
-
-# (To speed this up (precompile this further): investigate with SnoopCompile or JET. Not now).
 
 s = augment(s, p);
 
