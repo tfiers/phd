@@ -44,3 +44,21 @@ const SimData = NamedTuple
 # in stacktraces and such.
 print_type_compactly(x, typename = "SimData") =
     eval( :(Base.show(io::IO, ::Type{typeof($x)}) = print(io, $typename)) )
+
+
+"""
+When using a sysimg with PyPlot in it, PyPlot's `__init__` gets called before IJulia is
+initialized. As a result, figures do not get automatically displayed in the notebook.
+(https://github.com/JuliaPy/PyPlot.jl/issues/476).
+Calling `autodisplay_figs()` after IJulia is initialized fixes that.
+"""
+function autodisplay_figs()
+    if (isdefined(Main, :PyPlot) && isdefined(Main, :IJulia) && Main.IJulia.inited
+        && (Main.PyPlot.isjulia_display[] == false)
+    )
+        Main.PyPlot.isjulia_display[] = true
+        Main.IJulia.push_preexecute_hook(Main.PyPlot.force_new_fig)
+        Main.IJulia.push_postexecute_hook(Main.PyPlot.display_figs)
+        Main.IJulia.push_posterror_hook(Main.PyPlot.close_figs)
+    end
+end

@@ -43,6 +43,7 @@ export ydistplot, add_refline
 
 function __init__()
     set_print_precision(3)
+    autodisplay_figs()
 end
 
 
