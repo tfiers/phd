@@ -10,6 +10,7 @@ DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 MyToolbox = "54cd1024-cafd-4d62-948d-ced4874502bf"
 OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 Sciplotlib = "61be95e5-9550-4d5f-a203-92a5acbc3116"
+SnoopPrecompile = "66db9d55-30c0-4569-8b51-7e840670fc0c"
 
 [compat]
 CPUSummary = "=0.1.8"

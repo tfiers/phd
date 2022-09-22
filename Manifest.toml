@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "101b368d2134351c6e61632792db039a51f468b4"
+project_hash = "b22d716bb873ca27f834c25beba7f9dd7d96ad70"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1390,7 +1390,7 @@ uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.2.0"
 
 [[deps.VoltoMapSim]]
-deps = ["CPUSummary", "DataFrames", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Sciplotlib"]
+deps = ["CPUSummary", "DataFrames", "Distributions", "MyToolbox", "OrdinaryDiffEq", "Sciplotlib", "SnoopPrecompile"]
 path = "pkg/VoltoMapSim"
 uuid = "f713100b-c48c-421a-b480-5fcb4c589a9e"
 version = "0.1.0"
