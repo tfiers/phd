@@ -42,7 +42,7 @@ export rasterplot, histplot_fr
 export plot_detection_rates, plot_samples_and_means, add_α_line, extract
 export ydistplot, add_refline
 
-include("precompile.jl")
+# include("precompile.jl")
 
 
 function __init__()

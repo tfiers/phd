@@ -28,7 +28,9 @@ function cached(
     mkpath(dir)
     path = joinpath(dir, cachefilename(key))
     if isfile(path)
-        output = load(path, "output")
+        if verbose @withfb "Loading cached output from `$path`" (output = load(path, "output"))
+        else (output = load(path, "output"))
+        end
     else
         output = f(args...)
         if verbose @withfb "Saving output at `$path`" jldsave(path; key, output)

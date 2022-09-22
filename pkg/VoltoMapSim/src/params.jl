@@ -133,25 +133,11 @@ end
 
 
 @with_kw struct ConnTestParams <: ParamSet
-    STA_window_length  ::Float64   = 100 * ms
+    N_tested_presyn    ::Int       = 40                # Maximum, for each type of input (exc, inh, non-input).
     num_shuffles       ::Int       = 100
-    STA_test_statistic ::String    = "ptp"             # [1]
-    rngseed            ::Int       = default_rngseed   # For shuffling ISIs
+    STA_window_length  ::Float64   = 100 * ms
+    rngseed            ::Int       = default_rngseed   # For selecting tested inputs, and shuffling ISIs.
 end
-# [1] On `STA_test_statistic`: this string gets parsed as a Julia expression; it is a
-#     function of an STA signal. Specifying as a string is needed so that params can be
-#     saved to disk by JLD.
-
-
-
-
-@with_kw struct EvaluationParams <: ParamSet
-    α                ::Float64  = 0.05             # p-value threshold / false detection rate
-    N_tested_postsyn ::Int      = 1                # only used for network (for N-to-1, this is always 1)
-    N_tested_presyn  ::Int      = 40               # ..per group (exc, inh, unconn).
-    rngseed          ::Int      = default_rngseed  # For selecting tested neurons
-end
-
 
 
 
@@ -159,7 +145,6 @@ end
     sim         ::SimParams
     imaging     ::VoltageImagingParams  = noisy_VI
     conntest    ::ConnTestParams        = ConnTestParams()
-    evaluation  ::EvaluationParams      = EvaluationParams()
 end
 
 
