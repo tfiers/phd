@@ -46,22 +46,9 @@ p = get_params(
 
 @time s = cached(sim, [p.sim]);
 
-s
-
 @time s = augment(s, p);
 
-# ## First pass: peak-to-peak
-
-# Let's start with just neuron 1 as postsyn.
-
-m = 1;
-
-perf = cached_conntest_eval(s,m,p);
-
-p.conntest.STA_test_statistic
-
-ENV["LINES"] = 4
-perf.tested_neurons
+# ## 1. peak-to-peak
 
 # We take all inputs with `predicted_type` :exc.
 #
@@ -79,13 +66,15 @@ perf.tested_neurons
 # +
 # But first: cache STAs :)
 # -
+# ### Construct 'tested_connections' table
+
 SimData = typeof(s);
 
 # +
 function get_tested_connections(s::SimData, p::ExpParams)
     # We do not test all N x N connections (that's too much).
     # The connections we do test are determined by which neurons
-    # we record the voltage off, and the `N_tested_presyn` parameter.
+    # we record the voltage of, and the `N_tested_presyn` parameter.
     
     tested_connections = DataFrame(
         post     = Int[],     # neuron ID  
@@ -128,6 +117,9 @@ end
 tc = get_tested_connections(s, p)
 
 disp(tc, 3)
+# -
+
+# ### Calc all STAs
 
 # +
 using Base.Threads
@@ -174,14 +166,292 @@ function calc_all_STAs(s::SimData, p::ExpParams)
 end
 
 # [1] Giving this the same name as the output dict, in combination with `@threads`,
-# confuses type inference and infers `Any` for the `shuffled_STAs` output dict.
+#     confuses type inference and makes it infer `Any` for the `shuffled_STAs` output dict.
+#     (That doesn't matter though, as this is a user-facing, top-level function; not an inner-loop one).
 
 # +
 # For 4000 connections tested (0.4% of all) and 100 shuffles,
 # we get 404_000 STAs.
 # At 1000 Float64 samples per STA, that is 3.2 GB.
+
+# +
+# On typing (code_warntype) of calc_all_STAs:
+# it didn't matter for timing it was untyped
+# (tested with small params `q`, 447 conns).
 # -
 
 out = cached(calc_all_STAs, [s,p], key=[p.sim, p.conntest]);
 
-plotsig(out.STAs[139=>1] / mV, p);
+out = cached(calc_all_STAs, [s,p], key=[p.sim, p.conntest]);
+
+tested_connections, STAs, shuffled_STAs = out;
+
+# ### Calc pval
+
+# +
+Sig = Vector{Float64}
+
+function calc_pval(real_STA::Sig, shuffled_STAs::Vector{Sig}, test_stat)
+    real_t      = test_stat(real_STA)
+    shuffled_ts = [test_stat(STA) for STA in shuffled_STAs]
+    num_shuffled_larger = count(shuffled_ts .> real_t)
+    N = length(shuffled_STAs)
+    return if num_shuffled_larger == 0
+        (pval      = 1/N,
+         pval_type = "<")
+    else
+        (pval      = num_shuffled_larger / N,
+         pval_type = "=")
+    end
+end
+# -
+
+# ### Test connections
+
+# +
+function test_conn__ptp((from,to), STAs, shuffled_STAs; α)
+    # α is the p-value threshold.
+    pval, _ = calc_pval(STAs[from=>to], shuffled_STAs[from=>to], ptp)
+    area = area_over_start(STAs[from=>to])
+    if (pval > α)      predtype = :unconn
+    elseif (area > 0)  predtype = :exc
+    else               predtype = :inh    end
+    return (; predtype, pval, area)
+end;
+
+test_conn__ptp((from,to); α) = test_conn__ptp((from,to), STAs, shuffled_STAs; α);
+# -
+
+test_conn__ptp(139=>1, α = 0.01)
+
+testresults = 
+    @showprogress "Testing connections: " (
+    map(eachrow(tested_connections)) do r
+        test_conn__ptp(r.pre => r.post, α = 0.01)
+    end
+);
+
+tc = hcat(tested_connections, DataFrame(testresults))
+select!(tc, :posttype, :post, :pre, :conntype, :predtype, :pval, :area)
+disp(tc, 3)
+
+# ("predtype" is predicted conntype).
+
+# We used strict α of 0.01.
+#
+# Out of interest, what is the T and FPR.
+
+# ### Detection rates
+
+# Previously, we had detection rates per recorded ('post') neuron.
+# We can also just calculate the rates over the whole table.
+# Corresponds to the mean of previous notebooks.
+
+# +
+detrate(typ) = count((tc.conntype .== typ) .& (tc.predtype .== typ)) / count(tc.conntype .== typ)
+
+(
+    TPR_exc = detrate(:exc),
+    TPR_inh = detrate(:inh),
+    FPR = 1 - detrate(:unconn),
+)
+# -
+
+# We'll use E→E connections for our template.
+#
+# How many of these did we detect,  
+# and how many of the detected are false.
+
+# +
+# so we search for [posttype=:exc],
+# and then - [conntype=:exc, predtpye=:exc]
+#          - [conntype=:unconn, predtype=:exc]
+# -
+
+# This is *precision*, not TPR (aka accuracy).
+
+# ### Precision
+
+using DataFramesMeta
+
+# +
+df = tc[tc.posttype .== :exc, :]
+
+precision = count((df.predtype .== :exc) .& (df.conntype .== :exc)) / count(df.predtype .== :exc)
+# -
+
+num_EE_detections = count(df.predtype .== :exc)
+
+correct_EE_detections = precision * num_EE_detections
+
+incorrect_EE_detections = (1 - precision) * num_EE_detections
+
+# Note that this presumes we know the type of each neuron ('post').
+#
+# Yeah that's not general.
+#
+# Let's instead just take all `exc` detected connections, whether or not post is exc or inh.
+
+# ### ..of *all* detected exc connections
+
+# (So also exc→inh)
+
+# sub back df > tc
+precision = count((tc.predtype .== :exc) .& (tc.conntype .== :exc)) / count(tc.predtype .== :exc)
+
+num_exc_detections = count(tc.predtype .== :exc)
+
+correct_exc_detections = precision * num_exc_detections
+
+incorrect_exc_detections = (1 - precision) * num_exc_detections
+
+# So to summarize, we detected 52% of true exc connections,  
+# and 93% of what we detected as exc is actually exc.
+
+# ## 2. STA template
+
+det_exc_conns = [r.pre=>r.post for r in eachrow(tc) if r.predtype == :exc];
+
+template_ptp = mean(STAs[c] for c in det_exc_conns);
+
+plotsig(template_ptp / mV, p);
+
+# +
+# now to corr this, for all conns.
+
+# +
+function test_conn__corr((from,to), STAs, shuffled_STAs; α, template)
+    # α is the p-value threshold.
+    STA = STAs[from=>to]
+    corr = cor(STA, template)
+
+    if (corr > 0) test_stat = (STA -> cor(STA, template))
+    else          test_stat = (STA -> -cor(STA, template)) end
+
+    pval, _ = calc_pval(STA, shuffled_STAs[from=>to], test_stat)
+    if     (pval > α)  predtype = :unconn
+    elseif (corr > 0)  predtype = :exc
+    else               predtype = :inh end
+    return (; predtype, pval, corr)
+end
+# note: closure of `template`
+
+test_conn__corr((from,to)                     ; α, template = template_ptp) =
+test_conn__corr((from,to), STAs, shuffled_STAs; α, template);
+
+# +
+function test_conns(testfunc; α)
+    testresults = 
+        @showprogress "Testing connections: " (
+        map(eachrow(tested_connections)) do r
+            testfunc(r.pre => r.post; α)
+        end)
+    
+    tc = hcat(tested_connections, DataFrame(testresults))
+    
+    # Reorder first cols:
+    select!(tc, :posttype, :post, :pre, :conntype, :)
+    
+    num_TP(typ) = count((tc.conntype .== typ) .& (tc.predtype .== typ))
+    num_real(typ)     = count(tc.conntype .== typ)
+    num_detected(typ) = count(tc.predtype .== typ)
+    
+    TPR(typ)       = num_TP(typ) / num_real(typ)
+    precision(typ) = num_TP(typ) / num_detected(typ)
+    
+    perf = (
+        TPR_exc     = TPR(:exc),
+        TPR_inh     = TPR(:inh),
+        FPR         = 1 - TPR(:unconn),
+        prec_exc    = precision(:exc),
+        prec_inh    = precision(:inh),
+        prec_unconn = precision(:unconn),
+    )
+    return (; tc, perf)
+end
+
+res = test_conns(test_conn__corr, α = 0.05);
+# -
+
+# Note α = 5% here; in the ptp step, it was the stricter 1%.
+
+res.perf
+
+# (Note that TPR no longer broken down by postsynaptic type here. Also, we added precision as performance measure: how much of detected are correct).
+
+# ## Compare performance
+
+# ..with just ptp-and-area, now with α = 0.05 too:
+
+res_ptp = test_conns(test_conn__ptp, α = 0.05);
+
+# To compare with the previous correlation-test-notebook, where we cheated by using the average STA of all a-priori known E→E connections as template, ..
+#
+# ..we used different measure there (calculate detection rates *per postsynaptic neuron*, and then take the median of that. Also these rates were broken down by postsyn type).
+# The measures here are simpler.
+
+EE_conns = [r.pre=>r.post for r in eachrow(tc) if (r.conntype == :exc) & (r.posttype .== :exc)];
+
+avg_EE_STA = mean(STAs[c] for c in EE_conns);
+
+plotsig(zscore(avg_EE_STA), p, label = "real avg E→E STA");
+plotsig(zscore(template_ptp), p, label = "avg exc STA from ptp test", hylabel="z-scored")
+plt.legend();
+# zscore, as ptp template has larger range (hm!)
+
+# We should not calc the real E→E STA to compare,  
+# but rather the E→any STA.
+
+exc_conns = [r.pre=>r.post for r in eachrow(tc) if (r.conntype == :exc)];
+avg_exc_STA = mean(STAs[c] for c in exc_conns);
+
+plotsig(zscore(avg_exc_STA), p, label = "real avg exc STA");
+plotsig(zscore(template_ptp), p, label = "avg exc STA from ptp test", hylabel="z-scored")
+plt.legend();
+
+# Not a large difference it seems (not identical either).
+#
+# Also interesting that the ptp STA has a larger range than the real avg STA:
+
+plotsig(avg_exc_STA / mV, p, label = "real avg exc STA");
+plotsig(template_ptp / mV, p, label = "avg exc STA from ptp test", hylabel="mV")
+plt.legend();
+
+# Ah of course: reason why real average STA is smaller, is cause it also includes weaker connections, which the strict ptp test did not pick up.
+
+# +
+# Now use this real avg STA as template
+
+testfunc(conn; α) = test_conn__corr(conn; α, template = avg_exc_STA);
+
+res_real_avg = test_conns(testfunc, α = 0.05);
+# -
+
+res_real_avg.perf
+
+df = DataFrame([
+        (; method="ptp only",         res_ptp.perf...),
+        (; method="ptp-then-corr",    res.perf...),
+        (; method="corr w/ real avg", res_real_avg.perf...),
+    ]
+);
+
+# ### Summary table
+
+printsimple(df)
+
+# So the two-pass connection test idea works well -- very nearly as well as the 'cheating' test where we correlate with the real average excitatory STA (instead of an average STA found after a first-pass, strict peak-to-peak test).
+
+# On what the numbers mean:
+#
+# `FPR` is how many non-connections were classified as connected.
+#
+# 85% `precision_unconn` means that 15% of what we said was not connected actually was.
+
+# ---
+#
+# By also calculating precision (aka positive predictive value) as a performance measure, we see that our high inhibitory detection rates trade-off against a lower precision, compared to excitatory connections.
+
+
+
+using PrettyTab

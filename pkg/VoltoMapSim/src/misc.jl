@@ -11,8 +11,7 @@ end
 """'peak-to-peak'"""
 ptp(signal) = maximum(signal) - minimum(signal)
 
-# Area over start
-area(STA) = sum(STA .- STA[1])
+area_over_start(STA) = sum(STA .- STA[1])
 
 jn(strs...) = join(strs, "\n")
 
