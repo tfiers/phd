@@ -370,12 +370,12 @@ function test_conns(testfunc; α)
     return (; tc, perf)
 end
 
-res = test_conns(test_conn__corr, α = 0.05);
+res_2pass = test_conns(test_conn__corr, α = 0.05);
 # -
 
 # Note α = 5% here; in the ptp step, it was the stricter 1%.
 
-res.perf
+res_2pass.perf
 
 # (Note that TPR no longer broken down by postsynaptic type here. Also, we added precision as performance measure: how much of detected are correct).
 
@@ -431,7 +431,7 @@ res_real_avg.perf
 
 df = DataFrame([
         (; method="ptp only",         res_ptp.perf...),
-        (; method="ptp-then-corr",    res.perf...),
+        (; method="ptp-then-corr",    res_2pass.perf...),
         (; method="corr w/ real avg", res_real_avg.perf...),
     ]
 );
@@ -452,6 +452,82 @@ printsimple(df)
 #
 # By also calculating precision (aka positive predictive value) as a performance measure, we see that our high inhibitory detection rates trade-off against a lower precision, compared to excitatory connections.
 
+# ### Confusion matrix
 
+# ..with counts, and ratios too.
 
-using PrettyTab
+function calc_perf_measures(tc::DataFrame)
+    # `tc` is a `tested_connections` table with `predtype` (prediction) column added.
+    conntypes = [:unconn, :exc, :inh]
+    conntypes_matrix = [(pred, real) for pred in conntypes, real in conntypes]
+    counts = similar(conntypes_matrix, Int)  # Detection counts
+    for (i, (pred, real)) in enumerate(conntypes_matrix)
+        counts[i] = count((tc.predtype .== pred) .& (tc.conntype .== real))
+    end
+    N = length(conntypes)
+    sensitivities  = Vector(undef, N)  # aka TPRs
+    precisions     = Vector(undef, N)
+    for i in 1:N
+        num_correct   = counts[i,i]
+        num_real      = sum(counts[:,i])
+        num_predicted = sum(counts[i,:])
+        sensitivities[i] = num_correct / num_real
+        precisions[i]    = num_correct / num_predicted
+    end
+    return (; counts, sensitivities, precisions, conntypes, conntypes_matrix)
+end;
+
+function make_perf_display(tested_connections::DataFrame)
+    
+    data = calc_perf_measures(tested_connections)
+    
+    titlerow = titlecol = 1
+    grouprow = groupcol = 2
+    datarows = datacols = 3:5
+    sens_row = prec_col = 7
+    nrows    = ncols    = 7
+
+    cells = Matrix{Any}(undef, nrows, ncols)
+    fill!(cells, "")
+
+    cells[grouprow, datacols] .= data.conntypes
+    cells[datarows, groupcol] .= data.conntypes
+    cells[datarows, datacols] .= data.counts
+
+    cells[datarows, titlecol] .= [
+        "             ┌",
+        "Predicted type",
+        "             └",
+    ]
+    cells[titlerow, datacols] .= ["┌───────", "Real type", "───────┐"]
+
+    fmt_pct(x) = join([round(Int, 100x), "%"])
+    cells[sens_row, titlecol]  = "Sensitivity"
+    cells[sens_row, datacols] .= fmt_pct.(data.sensitivities)
+    cells[titlerow, prec_col]  = "Precision"
+    cells[datarows, prec_col] .= fmt_pct.(data.precisions)
+
+    title = join(["Tested connections: ", sum(data.counts)])
+    
+    bold_cells = vcat([(titlerow,c) for c in 1:ncols], [(r,titlecol) for r in 1:nrows])
+
+    return DisplayTable(cells, title, bold_cells)
+end;
+
+# (I made `displaytable.jl` in `../pkg/MyToolbox/src/`)
+
+t = make_perf_display(res_2pass.tc);
+print(t)
+
+# ### Show
+
+display(t)
+
+# The above is for the two-pass method (strict ptp, then corr with found average exc STA).
+#
+# Below is for the ptp-only method.  
+# Both at α = 5%.
+
+make_perf_display(res_ptp.tc)
+
+# (Sensitivity = TPR).
