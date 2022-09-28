@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2022-09-13 &#8226; Fit simpler model to STA" href="2022-09-13__Fit_simpler_function.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2022-09-15__Two-pass_conntest_ptp-then-cor.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-09-15__Two-pass_conntest_ptp-then-cor.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-09-15__Two-pass_conntest_ptp-then-cor.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-09-15__Two-pass_conntest_ptp-then-cor.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#peak-to-peak">
+   1. peak-to-peak
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construct-tested-connections-table">
+     Construct &#8216;tested_connections&#8217; table
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calc-all-stas">
+     Calc all STAs
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calc-pval">
+     Calc pval
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-connections">
+     Test connections
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detection-rates">
+     Detection rates
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#precision">
+     Precision
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#of-all-detected-exc-connections">
+     ..of
+     <em>
+      all
+     </em>
+     detected exc connections
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sta-template">
+   2. STA template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-performance">
+   Compare performance
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary-table">
+     Summary table
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#confusion-matrix">
+     Confusion matrix
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#show">
+     Show
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run-sim">
+   Run sim
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#peak-to-peak">
+   1. peak-to-peak
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#construct-tested-connections-table">
+     Construct &#8216;tested_connections&#8217; table
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calc-all-stas">
+     Calc all STAs
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calc-pval">
+     Calc pval
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#test-connections">
+     Test connections
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#detection-rates">
+     Detection rates
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#precision">
+     Precision
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#of-all-detected-exc-connections">
+     ..of
+     <em>
+      all
+     </em>
+     detected exc connections
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sta-template">
+   2. STA template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-performance">
+   Compare performance
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#summary-table">
+     Summary table
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#confusion-matrix">
+     Confusion matrix
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#show">
+     Show
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="two-pass-connection-test-ptp-then-corr-with-found-avg">
+<h1>2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg<a class="headerlink" href="#two-pass-connection-test-ptp-then-corr-with-found-avg" title="Permalink to this headline">&#182;</a></h1>
+<p>Two-pass connection test: peak-to-peak, then correlation with found average</p>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
+    <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">g_II</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
+    <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">],</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="run-sim">
+<h2>Run sim<a class="headerlink" href="#run-sim" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">s</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\ce5e30aee45561ed.jld2` &#8230; done (20.2 s)
+ 25.196100 seconds (12.31 M allocations: 3.040 GiB, 7.48% gc time, 76.01% compilation time: 5% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">s</span> <span class="o">=</span> <span class="n">augment</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7.340564 seconds (4.90 M allocations: 293.127 MiB, 5.85% gc time, 97.17% compilation time: 1% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="peak-to-peak">
+<h2>1. peak-to-peak<a class="headerlink" href="#peak-to-peak" title="Permalink to this headline">&#182;</a></h2>
+<p>We take all inputs with <code class="docutils literal notranslate"><span class="pre">predicted_type</span></code> :exc.</p>
+<p>Current pval threshold is 0.05.<br>
+We could be stricter.</p>
+<p>It&#8217;ll be tradeoff: stricter threshold gives less STAs to average to build our template;
+but there will be less noisy STAs mixed in (or even wrong STAs, i.e. of non-inputs).</p>
+<p>Now</p>
+<ul class="simple">
+<li><p>Get the :exc input detections for neuron 1</p></li>
+<li><p>Average their STA</p></li>
+<li><p>Apply this template to STAs of all inputs</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># But first: cache STAs :)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="construct-tested-connections-table">
+<h3>Construct &#8216;tested_connections&#8217; table<a class="headerlink" href="#construct-tested-connections-table" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">SimData</span> <span class="o">=</span> <span class="n">typeof</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">get_tested_connections</span><span class="p">(</span><span class="n">s</span><span class="o">::</span><span class="kt">SimData</span><span class="p">,</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">)</span>
+    <span class="c"># We do not test all N x N connections (that's too much).</span>
+    <span class="c"># The connections we do test are determined by which neurons</span>
+    <span class="c"># we record the voltage of, and the `N_tested_presyn` parameter.</span>
+    
+    <span class="n">tested_connections</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">post</span>     <span class="o">=</span> <span class="kt">Int</span><span class="p">[],</span>     <span class="c"># neuron ID  </span>
+        <span class="n">pre</span>      <span class="o">=</span> <span class="kt">Int</span><span class="p">[],</span>     <span class="c"># neuron ID</span>
+        <span class="n">conntype</span> <span class="o">=</span> <span class="kt">Symbol</span><span class="p">[],</span>  <span class="c"># :exc or :inh or :unconn</span>
+        <span class="n">posttype</span> <span class="o">=</span> <span class="kt">Symbol</span><span class="p">[],</span>  <span class="c"># :exc or :inh</span>
+    <span class="p">)</span>
+    
+    <span class="nd">@unpack</span> <span class="n">N_tested_presyn</span><span class="p">,</span> <span class="n">rngseed</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span>
+    
+    <span class="n">resetrng!</span><span class="p">(</span><span class="n">rngseed</span><span class="p">)</span>
+    
+    <span class="k">function</span> <span class="n">get_labelled_sample</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">conntype</span><span class="p">)</span>
+        <span class="c"># Example output: `[(3, :exc), (5, :exc), (12, :exc), &#8230;]`.</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">),</span> <span class="n">N_tested_presyn</span><span class="p">)</span>
+        <span class="n">inputs_sample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">input_neurons</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">ordered</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+        <span class="n">zip</span><span class="p">(</span><span class="n">inputs_sample</span><span class="p">,</span> <span class="n">fill</span><span class="p">(</span><span class="n">conntype</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+    <span class="k">end</span>
+    
+    <span class="n">recorded_neurons</span> <span class="o">=</span> <span class="n">keys</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">collect</span> <span class="o">|&gt;</span> <span class="n">sort!</span>
+    
+    <span class="k">for</span> <span class="n">post</span> <span class="k">in</span> <span class="n">recorded_neurons</span>
+        
+        <span class="n">posttype</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">neuron_type</span><span class="p">[</span><span class="n">post</span><span class="p">]</span>
+        
+        <span class="n">inputs_to_test</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span>
+            <span class="n">get_labelled_sample</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">exc_inputs</span><span class="p">[</span><span class="n">post</span><span class="p">],</span> <span class="ss">:exc</span><span class="p">),</span>
+            <span class="n">get_labelled_sample</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">inh_inputs</span><span class="p">[</span><span class="n">post</span><span class="p">],</span> <span class="ss">:inh</span><span class="p">),</span>
+            <span class="n">get_labelled_sample</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">non_inputs</span><span class="p">[</span><span class="n">post</span><span class="p">],</span> <span class="ss">:unconn</span><span class="p">),</span>
+        <span class="p">)</span> <span class="o">|&gt;</span> <span class="n">collect</span>
+        
+        <span class="k">for</span> <span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">conntype</span><span class="p">)</span> <span class="k">in</span> <span class="n">inputs_to_test</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">,</span> <span class="p">(;</span> <span class="n">post</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">conntype</span><span class="p">,</span> <span class="n">posttype</span><span class="p">))</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    
+    <span class="k">return</span> <span class="n">tested_connections</span>
+<span class="k">end</span>
+
+<span class="n">tc</span> <span class="o">=</span> <span class="n">get_tested_connections</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+<span class="n">disp</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="data-frame"><p>3,906 rows &#215; 4 columns</p><table class="data-frame"><thead><tr><th></th><th>post</th><th>pre</th><th>conntype</th><th>posttype</th></tr><tr><th></th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Symbol">Symbol</th><th title="Symbol">Symbol</th></tr></thead><tbody><tr><th>1</th><td>1</td><td>139</td><td>exc</td><td>exc</td></tr><tr><th>2</th><td>1</td><td>681</td><td>exc</td><td>exc</td></tr><tr><th>3</th><td>1</td><td>11</td><td>exc</td><td>exc</td></tr><tr><th>&amp;vellip;</th><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td></tr></tbody></table></div></div></div>
+</div>
+</div>
+<div class="section" id="calc-all-stas">
+<h3>Calc all STAs<a class="headerlink" href="#calc-all-stas" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">.</span><span class="n">Threads</span>
+
+<span class="k">function</span> <span class="n">calc_all_STAs</span><span class="p">(</span><span class="n">s</span><span class="o">::</span><span class="kt">SimData</span><span class="p">,</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">)</span>
+    <span class="c"># Multi-threaded calculation of the real and shuffled STAs of all tested connections.</span>
+    <span class="c">#</span>
+    <span class="c"># We use a Channel to gather calculations,</span>
+    <span class="c"># as inserting items into a Dict is not thread-safe.</span>
+    <span class="nd">@unpack</span> <span class="n">rngseed</span><span class="p">,</span> <span class="n">num_shuffles</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span>
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">tested_connections</span> <span class="o">=</span> <span class="n">get_tested_connections</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">recorded_neurons</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">tested_connections</span><span class="o">.</span><span class="n">post</span><span class="p">)</span>
+    <span class="n">ch</span> <span class="o">=</span> <span class="kt">Channel</span><span class="p">(</span><span class="nb">Inf</span><span class="p">)</span>  <span class="c"># `Inf` size, so no blocking on insert</span>
+    <span class="n">pbar</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">),</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">"Calculating STAs: "</span><span class="p">)</span>
+    <span class="nd">@info</span> <span class="s">"Using </span><span class="si">$</span><span class="p">(</span><span class="n">nthreads</span><span class="p">())</span><span class="s"> threads"</span>
+    <span class="nd">@threads</span><span class="p">(</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">recorded_neurons</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+        <span class="n">inputs_to_test</span> <span class="o">=</span> <span class="n">tc</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">tc</span><span class="o">.</span><span class="n">post</span> <span class="o">.==</span> <span class="n">m</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="k">in</span> <span class="n">inputs_to_test</span>
+            <span class="n">spikes</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">spike_times</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="n">real_STA</span> <span class="o">=</span> <span class="n">calc_STA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">spikes</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="n">shuffled_STAz</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">num_shuffles</span><span class="p">)</span>  <span class="c"># [1]</span>
+            <span class="n">resetrng!</span><span class="p">(</span><span class="n">rngseed</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_shuffles</span>
+                <span class="n">shuffled_spikes</span> <span class="o">=</span> <span class="n">shuffle_ISIs</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+                <span class="n">shuffled_STAz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">calc_STA</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">shuffled_spikes</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="k">end</span>
+            <span class="n">put!</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="p">((</span><span class="n">n</span> <span class="o">=&gt;</span> <span class="n">m</span><span class="p">),</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAz</span><span class="p">))</span>
+            <span class="n">next!</span><span class="p">(</span><span class="n">pbar</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span><span class="p">)</span>
+    <span class="c"># Empty the channel, into the output dicts</span>
+    <span class="n">STAs</span>          <span class="o">=</span> <span class="kt">Dict</span><span class="p">{</span><span class="kt">Pair</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">},</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}()</span>
+    <span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">{</span><span class="kt">Pair</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Int</span><span class="p">},</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}}()</span>
+    <span class="k">while</span> <span class="o">!</span><span class="n">isempty</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+        <span class="n">conn</span><span class="p">,</span> <span class="n">real</span><span class="p">,</span> <span class="n">shuffleds</span> <span class="o">=</span> <span class="n">take!</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+        <span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span>          <span class="o">=</span> <span class="n">real</span>
+        <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span> <span class="o">=</span> <span class="n">shuffleds</span>
+    <span class="k">end</span>
+    <span class="n">close</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">tested_connections</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c"># [1] Giving this the same name as the output dict, in combination with `@threads`,</span>
+<span class="c">#     confuses type inference and makes it infer `Any` for the `shuffled_STAs` output dict.</span>
+<span class="c">#     (That doesn't matter though, as this is a user-facing, top-level function; not an inner-loop one).</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calc_all_STAs (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># For 4000 connections tested (0.4% of all) and 100 shuffles,</span>
+<span class="c"># we get 404_000 STAs.</span>
+<span class="c"># At 1000 Float64 samples per STA, that is 3.2 GB.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># On typing (code_warntype) of calc_all_STAs:</span>
+<span class="c"># it didn't matter for timing it was untyped</span>
+<span class="c"># (tested with small params `q`, 447 conns).</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">calc_all_STAs</span><span class="p">,</span> <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Using 7 threads
+<span class=" -Color -Color-Green">Calculating STAs: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:19:04</span>
+Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (18.2 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">calc_all_STAs</span><span class="p">,</span> <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (48.9 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tested_connections</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="calc-pval">
+<h3>Calc pval<a class="headerlink" href="#calc-pval" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Sig</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}</span>
+
+<span class="k">function</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">real_STA</span><span class="o">::</span><span class="kt">Sig</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Sig</span><span class="p">},</span> <span class="n">test_stat</span><span class="p">)</span>
+    <span class="n">real_t</span>      <span class="o">=</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">real_STA</span><span class="p">)</span>
+    <span class="n">shuffled_ts</span> <span class="o">=</span> <span class="p">[</span><span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="k">for</span> <span class="n">STA</span> <span class="k">in</span> <span class="n">shuffled_STAs</span><span class="p">]</span>
+    <span class="n">num_shuffled_larger</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">shuffled_ts</span> <span class="o">.&gt;</span> <span class="n">real_t</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="k">if</span> <span class="n">num_shuffled_larger</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="p">(</span><span class="n">pval</span>      <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">N</span><span class="p">,</span>
+         <span class="n">pval_type</span> <span class="o">=</span> <span class="s">"&lt;"</span><span class="p">)</span>
+    <span class="k">else</span>
+        <span class="p">(</span><span class="n">pval</span>      <span class="o">=</span> <span class="n">num_shuffled_larger</span> <span class="o">/</span> <span class="n">N</span><span class="p">,</span>
+         <span class="n">pval_type</span> <span class="o">=</span> <span class="s">"="</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calc_pval (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test-connections">
+<h3>Test connections<a class="headerlink" href="#test-connections" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__ptp</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">),</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="c"># &#945; is the p-value threshold.</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">from</span><span class="o">=&gt;</span><span class="n">to</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">from</span><span class="o">=&gt;</span><span class="n">to</span><span class="p">],</span> <span class="n">ptp</span><span class="p">)</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">area_over_start</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">from</span><span class="o">=&gt;</span><span class="n">to</span><span class="p">])</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">pval</span> <span class="o">&gt;</span> <span class="n">&#945;</span><span class="p">)</span>      <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:unconn</span>
+    <span class="k">elseif</span> <span class="p">(</span><span class="n">area</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:exc</span>
+    <span class="k">else</span>               <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:inh</span>    <span class="k">end</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">area</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="n">test_conn__ptp</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">);</span> <span class="n">&#945;</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__ptp</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">),</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">test_conn__ptp</span><span class="p">(</span><span class="mi">139</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, area = 0.17)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testresults</span> <span class="o">=</span> 
+    <span class="nd">@showprogress</span> <span class="s">"Testing connections: "</span> <span class="p">(</span>
+    <span class="n">map</span><span class="p">(</span><span class="n">eachrow</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">))</span> <span class="k">do</span> <span class="n">r</span>
+        <span class="n">test_conn__ptp</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">pre</span> <span class="o">=&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">post</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:05</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tc</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">testresults</span><span class="p">))</span>
+<span class="n">select!</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="ss">:posttype</span><span class="p">,</span> <span class="ss">:post</span><span class="p">,</span> <span class="ss">:pre</span><span class="p">,</span> <span class="ss">:conntype</span><span class="p">,</span> <span class="ss">:predtype</span><span class="p">,</span> <span class="ss">:pval</span><span class="p">,</span> <span class="ss">:area</span><span class="p">)</span>
+<span class="n">disp</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div class="data-frame"><p>3,906 rows &#215; 7 columns</p><table class="data-frame"><thead><tr><th></th><th>posttype</th><th>post</th><th>pre</th><th>conntype</th><th>predtype</th><th>pval</th><th>area</th></tr><tr><th></th><th title="Symbol">Symbol</th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Symbol">Symbol</th><th title="Symbol">Symbol</th><th title="Float64">Float64</th><th title="Float64">Float64</th></tr></thead><tbody><tr><th>1</th><td>exc</td><td>1</td><td>139</td><td>exc</td><td>exc</td><td>0.01</td><td>0.17</td></tr><tr><th>2</th><td>exc</td><td>1</td><td>681</td><td>exc</td><td>unconn</td><td>0.02</td><td>-0.04</td></tr><tr><th>3</th><td>exc</td><td>1</td><td>11</td><td>exc</td><td>exc</td><td>0.01</td><td>0.18</td></tr><tr><th>&amp;vellip;</th><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td></tr></tbody></table></div></div></div>
+</div>
+<p>(&#8220;predtype&#8221; is predicted conntype).</p>
+<p>We used strict &#945; of 0.01.</p>
+<p>Out of interest, what is the T and FPR.</p>
+</div>
+<div class="section" id="detection-rates">
+<h3>Detection rates<a class="headerlink" href="#detection-rates" title="Permalink to this headline">&#182;</a></h3>
+<p>Previously, we had detection rates per recorded (&#8216;post&#8217;) neuron.
+We can also just calculate the rates over the whole table.
+Corresponds to the mean of previous notebooks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">detrate</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">count</span><span class="p">((</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">))</span> <span class="o">/</span> <span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span>
+
+<span class="p">(</span>
+    <span class="n">TPR_exc</span> <span class="o">=</span> <span class="n">detrate</span><span class="p">(</span><span class="ss">:exc</span><span class="p">),</span>
+    <span class="n">TPR_inh</span> <span class="o">=</span> <span class="n">detrate</span><span class="p">(</span><span class="ss">:inh</span><span class="p">),</span>
+    <span class="n">FPR</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">detrate</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.521, TPR_inh = 0.831, FPR = 0.0785)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We&#8217;ll use E&#8594;E connections for our template.</p>
+<p>How many of these did we detect,<br>
+and how many of the detected are false.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># so we search for [posttype=:exc],</span>
+<span class="c"># and then - [conntype=:exc, predtpye=:exc]</span>
+<span class="c">#          - [conntype=:unconn, predtype=:exc]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is <em>precision</em>, not TPR (aka accuracy).</p>
+</div>
+<div class="section" id="precision">
+<h3>Precision<a class="headerlink" href="#precision" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">DataFramesMeta</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">tc</span><span class="p">[</span><span class="n">tc</span><span class="o">.</span><span class="n">posttype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+
+<span class="n">precision</span> <span class="o">=</span> <span class="n">count</span><span class="p">((</span><span class="n">df</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">))</span> <span class="o">/</span> <span class="n">count</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.925
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_EE_detections</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>692
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">correct_EE_detections</span> <span class="o">=</span> <span class="n">precision</span> <span class="o">*</span> <span class="n">num_EE_detections</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>640
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">incorrect_EE_detections</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">precision</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_EE_detections</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>52
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that this presumes we know the type of each neuron (&#8216;post&#8217;).</p>
+<p>Yeah that&#8217;s not general.</p>
+<p>Let&#8217;s instead just take all <code class="docutils literal notranslate"><span class="pre">exc</span></code> detected connections, whether or not post is exc or inh.</p>
+</div>
+<div class="section" id="of-all-detected-exc-connections">
+<h3>..of <em>all</em> detected exc connections<a class="headerlink" href="#of-all-detected-exc-connections" title="Permalink to this headline">&#182;</a></h3>
+<p>(So also exc&#8594;inh)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># sub back df &gt; tc</span>
+<span class="n">precision</span> <span class="o">=</span> <span class="n">count</span><span class="p">((</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">))</span> <span class="o">/</span> <span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.934
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_exc_detections</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>845
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">correct_exc_detections</span> <span class="o">=</span> <span class="n">precision</span> <span class="o">*</span> <span class="n">num_exc_detections</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>789
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">incorrect_exc_detections</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">precision</span><span class="p">)</span> <span class="o">*</span> <span class="n">num_exc_detections</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>56
+</pre></div>
+</div>
+</div>
+</div>
+<p>So to summarize, we detected 52% of true exc connections,<br>
+and 93% of what we detected as exc is actually exc.</p>
+</div>
+</div>
+<div class="section" id="sta-template">
+<h2>2. STA template<a class="headerlink" href="#sta-template" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">det_exc_conns</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">pre</span><span class="o">=&gt;</span><span class="n">r</span><span class="o">.</span><span class="n">post</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">eachrow</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">predtype</span> <span class="o">==</span> <span class="ss">:exc</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">template_ptp</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">det_exc_conns</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">template_ptp</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_57_0.png" src="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_57_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># now to corr this, for all conns.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__corr</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">),</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="c"># &#945; is the p-value threshold.</span>
+    <span class="n">STA</span> <span class="o">=</span> <span class="n">STAs</span><span class="p">[</span><span class="n">from</span><span class="o">=&gt;</span><span class="n">to</span><span class="p">]</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">corr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">test_stat</span> <span class="o">=</span> <span class="p">(</span><span class="n">STA</span> <span class="o">-&gt;</span> <span class="n">cor</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">template</span><span class="p">))</span>
+    <span class="k">else</span>          <span class="n">test_stat</span> <span class="o">=</span> <span class="p">(</span><span class="n">STA</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="n">cor</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">template</span><span class="p">))</span> <span class="k">end</span>
+
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">from</span><span class="o">=&gt;</span><span class="n">to</span><span class="p">],</span> <span class="n">test_stat</span><span class="p">)</span>
+    <span class="k">if</span>     <span class="p">(</span><span class="n">pval</span> <span class="o">&gt;</span> <span class="n">&#945;</span><span class="p">)</span>  <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:unconn</span>
+    <span class="k">elseif</span> <span class="p">(</span><span class="n">corr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>  <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:exc</span>
+    <span class="k">else</span>               <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:inh</span> <span class="k">end</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">corr</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="c"># note: closure of `template`</span>
+
+<span class="n">test_conn__corr</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">)</span>                     <span class="p">;</span> <span class="n">&#945;</span><span class="p">,</span> <span class="n">template</span> <span class="o">=</span> <span class="n">template_ptp</span><span class="p">)</span> <span class="o">=</span>
+<span class="n">test_conn__corr</span><span class="p">((</span><span class="n">from</span><span class="p">,</span><span class="n">to</span><span class="p">),</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">,</span> <span class="n">template</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">testfunc</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="n">testresults</span> <span class="o">=</span> 
+        <span class="nd">@showprogress</span> <span class="s">"Testing connections: "</span> <span class="p">(</span>
+        <span class="n">map</span><span class="p">(</span><span class="n">eachrow</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">))</span> <span class="k">do</span> <span class="n">r</span>
+            <span class="n">testfunc</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">pre</span> <span class="o">=&gt;</span> <span class="n">r</span><span class="o">.</span><span class="n">post</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span>
+        <span class="k">end</span><span class="p">)</span>
+    
+    <span class="n">tc</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">testresults</span><span class="p">))</span>
+    
+    <span class="c"># Reorder first cols:</span>
+    <span class="n">select!</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="ss">:posttype</span><span class="p">,</span> <span class="ss">:post</span><span class="p">,</span> <span class="ss">:pre</span><span class="p">,</span> <span class="ss">:conntype</span><span class="p">,</span> <span class="o">:</span><span class="p">)</span>
+    
+    <span class="n">num_TP</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">count</span><span class="p">((</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">))</span>
+    <span class="n">num_real</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>     <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span>
+    <span class="n">num_detected</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span>
+    
+    <span class="n">TPR</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>       <span class="o">=</span> <span class="n">num_TP</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_real</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+    <span class="n">precision</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">num_TP</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_detected</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+    
+    <span class="n">perf</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">TPR_exc</span>     <span class="o">=</span> <span class="n">TPR</span><span class="p">(</span><span class="ss">:exc</span><span class="p">),</span>
+        <span class="n">TPR_inh</span>     <span class="o">=</span> <span class="n">TPR</span><span class="p">(</span><span class="ss">:inh</span><span class="p">),</span>
+        <span class="n">FPR</span>         <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">TPR</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">),</span>
+        <span class="n">prec_exc</span>    <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="ss">:exc</span><span class="p">),</span>
+        <span class="n">prec_inh</span>    <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="ss">:inh</span><span class="p">),</span>
+        <span class="n">prec_unconn</span> <span class="o">=</span> <span class="n">precision</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">tc</span><span class="p">,</span> <span class="n">perf</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">res_2pass</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">test_conn__corr</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note &#945; = 5% here; in the ptp step, it was the stricter 1%.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">res_2pass</span><span class="o">.</span><span class="n">perf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.815, TPR_inh = 0.936, FPR = 0.148, prec_exc = 0.899, prec_inh = 0.692, prec_unconn = 0.851)
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Note that TPR no longer broken down by postsynaptic type here. Also, we added precision as performance measure: how much of detected are correct).</p>
+</div>
+<div class="section" id="compare-performance">
+<h2>Compare performance<a class="headerlink" href="#compare-performance" title="Permalink to this headline">&#182;</a></h2>
+<p>..with just ptp-and-area, now with &#945; = 0.05 too:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">res_ptp</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">test_conn__ptp</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To compare with the previous correlation-test-notebook, where we cheated by using the average STA of all a-priori known E&#8594;E connections as template, ..</p>
+<p>..we used different measure there (calculate detection rates <em>per postsynaptic neuron</em>, and then take the median of that. Also these rates were broken down by postsyn type).
+The measures here are simpler.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">EE_conns</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">pre</span><span class="o">=&gt;</span><span class="n">r</span><span class="o">.</span><span class="n">post</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">eachrow</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">conntype</span> <span class="o">==</span> <span class="ss">:exc</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">posttype</span> <span class="o">.==</span> <span class="ss">:exc</span><span class="p">)];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">avg_EE_STA</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">EE_conns</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">avg_EE_STA</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"real avg E&#8594;E STA"</span><span class="p">);</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">template_ptp</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"avg exc STA from ptp test"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"z-scored"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="c"># zscore, as ptp template has larger range (hm!)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_70_0.png" src="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_70_0.png">
+</div>
+</div>
+<p>We should not calc the real E&#8594;E STA to compare,<br>
+but rather the E&#8594;any STA.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_conns</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">pre</span><span class="o">=&gt;</span><span class="n">r</span><span class="o">.</span><span class="n">post</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">eachrow</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">conntype</span> <span class="o">==</span> <span class="ss">:exc</span><span class="p">)];</span>
+<span class="n">avg_exc_STA</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">exc_conns</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">avg_exc_STA</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"real avg exc STA"</span><span class="p">);</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">template_ptp</span><span class="p">),</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"avg exc STA from ptp test"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"z-scored"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_73_0.png" src="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_73_0.png">
+</div>
+</div>
+<p>Not a large difference it seems (not identical either).</p>
+<p>Also interesting that the ptp STA has a larger range than the real avg STA:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">avg_exc_STA</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"real avg exc STA"</span><span class="p">);</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">template_ptp</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s">"avg exc STA from ptp test"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"mV"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_75_0.png" src="../_images/2022-09-15__Two-pass_conntest_ptp-then-cor_75_0.png">
+</div>
+</div>
+<p>Ah of course: reason why real average STA is smaller, is cause it also includes weaker connections, which the strict ptp test did not pick up.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Now use this real avg STA as template</span>
+
+<span class="n">testfunc</span><span class="p">(</span><span class="n">conn</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__corr</span><span class="p">(</span><span class="n">conn</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">,</span> <span class="n">template</span> <span class="o">=</span> <span class="n">avg_exc_STA</span><span class="p">);</span>
+
+<span class="n">res_real_avg</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">testfunc</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">res_real_avg</span><span class="o">.</span><span class="n">perf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.815, TPR_inh = 0.936, FPR = 0.147, prec_exc = 0.898, prec_inh = 0.696, prec_unconn = 0.85)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">([</span>
+        <span class="p">(;</span> <span class="n">method</span><span class="o">=</span><span class="s">"ptp only"</span><span class="p">,</span>         <span class="n">res_ptp</span><span class="o">.</span><span class="n">perf</span><span class="o">...</span><span class="p">),</span>
+        <span class="p">(;</span> <span class="n">method</span><span class="o">=</span><span class="s">"ptp-then-corr"</span><span class="p">,</span>    <span class="n">res_2pass</span><span class="o">.</span><span class="n">perf</span><span class="o">...</span><span class="p">),</span>
+        <span class="p">(;</span> <span class="n">method</span><span class="o">=</span><span class="s">"corr w/ real avg"</span><span class="p">,</span> <span class="n">res_real_avg</span><span class="o">.</span><span class="n">perf</span><span class="o">...</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="summary-table">
+<h3>Summary table<a class="headerlink" href="#summary-table" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">printsimple</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> method            TPR_exc  TPR_inh  FPR    prec_exc  prec_inh  prec_unconn </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+ ptp only          0.574    0.849    0.145  0.889     0.466     0.772
+ ptp-then-corr     0.815    0.936    0.148  0.899     0.692     0.851
+ corr w/ real avg  0.815    0.936    0.147  0.898     0.696     0.85
+</pre></div>
+</div>
+</div>
+</div>
+<p>So the two-pass connection test idea works well &#8211; very nearly as well as the &#8216;cheating&#8217; test where we correlate with the real average excitatory STA (instead of an average STA found after a first-pass, strict peak-to-peak test).</p>
+<p>On what the numbers mean:</p>
+<p><code class="docutils literal notranslate"><span class="pre">FPR</span></code> is how many non-connections were classified as connected.</p>
+<p>85% <code class="docutils literal notranslate"><span class="pre">precision_unconn</span></code> means that 15% of what we said was not connected actually was.</p>
+<hr class="docutils">
+<p>By also calculating precision (aka positive predictive value) as a performance measure, we see that our high inhibitory detection rates trade-off against a lower precision, compared to excitatory connections.</p>
+</div>
+<div class="section" id="confusion-matrix">
+<h3>Confusion matrix<a class="headerlink" href="#confusion-matrix" title="Permalink to this headline">&#182;</a></h3>
+<p>..with counts, and ratios too.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">calc_perf_measures</span><span class="p">(</span><span class="n">tc</span><span class="o">::</span><span class="kt">DataFrame</span><span class="p">)</span>
+    <span class="c"># `tc` is a `tested_connections` table with `predtype` (prediction) column added.</span>
+    <span class="n">conntypes</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:unconn</span><span class="p">,</span> <span class="ss">:exc</span><span class="p">,</span> <span class="ss">:inh</span><span class="p">]</span>
+    <span class="n">conntypes_matrix</span> <span class="o">=</span> <span class="p">[(</span><span class="n">pred</span><span class="p">,</span> <span class="n">real</span><span class="p">)</span> <span class="k">for</span> <span class="n">pred</span> <span class="k">in</span> <span class="n">conntypes</span><span class="p">,</span> <span class="n">real</span> <span class="k">in</span> <span class="n">conntypes</span><span class="p">]</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">conntypes_matrix</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)</span>  <span class="c"># Detection counts</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">real</span><span class="p">))</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">conntypes_matrix</span><span class="p">)</span>
+        <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">count</span><span class="p">((</span><span class="n">tc</span><span class="o">.</span><span class="n">predtype</span> <span class="o">.==</span> <span class="n">pred</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">tc</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">real</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">conntypes</span><span class="p">)</span>
+    <span class="n">sensitivities</span>  <span class="o">=</span> <span class="kt">Vector</span><span class="p">(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># aka TPRs</span>
+    <span class="n">precisions</span>     <span class="o">=</span> <span class="kt">Vector</span><span class="p">(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">num_correct</span>   <span class="o">=</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">num_real</span>      <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">num_predicted</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="o">:</span><span class="p">])</span>
+        <span class="n">sensitivities</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_correct</span> <span class="o">/</span> <span class="n">num_real</span>
+        <span class="n">precisions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>    <span class="o">=</span> <span class="n">num_correct</span> <span class="o">/</span> <span class="n">num_predicted</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">counts</span><span class="p">,</span> <span class="n">sensitivities</span><span class="p">,</span> <span class="n">precisions</span><span class="p">,</span> <span class="n">conntypes</span><span class="p">,</span> <span class="n">conntypes_matrix</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">make_perf_display</span><span class="p">(</span><span class="n">tested_connections</span><span class="o">::</span><span class="kt">DataFrame</span><span class="p">)</span>
+    
+    <span class="n">data</span> <span class="o">=</span> <span class="n">calc_perf_measures</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">)</span>
+    
+    <span class="n">titlerow</span> <span class="o">=</span> <span class="n">titlecol</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">grouprow</span> <span class="o">=</span> <span class="n">groupcol</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">datarows</span> <span class="o">=</span> <span class="n">datacols</span> <span class="o">=</span> <span class="mi">3</span><span class="o">:</span><span class="mi">5</span>
+    <span class="n">sens_row</span> <span class="o">=</span> <span class="n">prec_col</span> <span class="o">=</span> <span class="mi">7</span>
+    <span class="n">nrows</span>    <span class="o">=</span> <span class="n">ncols</span>    <span class="o">=</span> <span class="mi">7</span>
+
+    <span class="n">cells</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">{</span><span class="kt">Any</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">)</span>
+    <span class="n">fill!</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+
+    <span class="n">cells</span><span class="p">[</span><span class="n">grouprow</span><span class="p">,</span> <span class="n">datacols</span><span class="p">]</span> <span class="o">.=</span> <span class="n">data</span><span class="o">.</span><span class="n">conntypes</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">datarows</span><span class="p">,</span> <span class="n">groupcol</span><span class="p">]</span> <span class="o">.=</span> <span class="n">data</span><span class="o">.</span><span class="n">conntypes</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">datarows</span><span class="p">,</span> <span class="n">datacols</span><span class="p">]</span> <span class="o">.=</span> <span class="n">data</span><span class="o">.</span><span class="n">counts</span>
+
+    <span class="n">cells</span><span class="p">[</span><span class="n">datarows</span><span class="p">,</span> <span class="n">titlecol</span><span class="p">]</span> <span class="o">.=</span> <span class="p">[</span>
+        <span class="s">"             &#9484;"</span><span class="p">,</span>
+        <span class="s">"Predicted type"</span><span class="p">,</span>
+        <span class="s">"             &#9492;"</span><span class="p">,</span>
+    <span class="p">]</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">titlerow</span><span class="p">,</span> <span class="n">datacols</span><span class="p">]</span> <span class="o">.=</span> <span class="p">[</span><span class="s">"&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;"</span><span class="p">,</span> <span class="s">"Real type"</span><span class="p">,</span> <span class="s">"&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;"</span><span class="p">]</span>
+
+    <span class="n">fmt_pct</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">join</span><span class="p">([</span><span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="mi">100</span><span class="n">x</span><span class="p">),</span> <span class="s">"%"</span><span class="p">])</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">sens_row</span><span class="p">,</span> <span class="n">titlecol</span><span class="p">]</span>  <span class="o">=</span> <span class="s">"Sensitivity"</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">sens_row</span><span class="p">,</span> <span class="n">datacols</span><span class="p">]</span> <span class="o">.=</span> <span class="n">fmt_pct</span><span class="o">.</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">sensitivities</span><span class="p">)</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">titlerow</span><span class="p">,</span> <span class="n">prec_col</span><span class="p">]</span>  <span class="o">=</span> <span class="s">"Precision"</span>
+    <span class="n">cells</span><span class="p">[</span><span class="n">datarows</span><span class="p">,</span> <span class="n">prec_col</span><span class="p">]</span> <span class="o">.=</span> <span class="n">fmt_pct</span><span class="o">.</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">precisions</span><span class="p">)</span>
+
+    <span class="n">title</span> <span class="o">=</span> <span class="n">join</span><span class="p">([</span><span class="s">"Tested connections: "</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">counts</span><span class="p">)])</span>
+    
+    <span class="n">bold_cells</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">([(</span><span class="n">titlerow</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">ncols</span><span class="p">],</span> <span class="p">[(</span><span class="n">r</span><span class="p">,</span><span class="n">titlecol</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nrows</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">DisplayTable</span><span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">bold_cells</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>(I made <code class="docutils literal notranslate"><span class="pre">displaytable.jl</span></code> in <code class="docutils literal notranslate"><span class="pre">../pkg/MyToolbox/src/</span></code>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">make_perf_display</span><span class="p">(</span><span class="n">res_2pass</span><span class="o">.</span><span class="n">tc</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">Tested connections: 3906</span>
+
+<span class=" -Color -Color-Bold">                       &#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; Real type &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;    Precision</span>
+<span class=" -Color -Color-Bold">               </span>          unconn       exc      inh             
+<span class=" -Color -Color-Bold">              &#9484;</span> unconn     1704       274       25          85%
+<span class=" -Color -Color-Bold"> Predicted type</span>    exc      139      1235        0          90%
+<span class=" -Color -Color-Bold">              &#9492;</span>    inh      157         6      366          69%
+<span class=" -Color -Color-Bold">               </span>                                                
+<span class=" -Color -Color-Bold">    Sensitivity</span>             85%       82%      94%             
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="show">
+<h3>Show<a class="headerlink" href="#show" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>|Tested connections: 3906|&#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |
+|------------------|--------|------------|-------------|------------|-------|-------------|
+|                  |        |<strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong>|<strong>Real type</strong>|<strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong>|       |<strong>Precision</strong>|
+|                  |        |    <code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        <code class="docutils literal notranslate"><span class="pre">exc</span></code>|       <code class="docutils literal notranslate"><span class="pre">inh</span></code>|       |             |
+|             <strong>&#9484;</strong>|<code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        1704|          274|          25|       |          85%|
+|<strong>Predicted type</strong>|   <code class="docutils literal notranslate"><span class="pre">exc</span></code>|         139|         1235|           0|       |          90%|
+|             <strong>&#9492;</strong>|   <code class="docutils literal notranslate"><span class="pre">inh</span></code>|         157|            6|         366|       |          69%|
+|                  |        |            |             |            |       |             |
+|   <strong>Sensitivity</strong>|        |         85%|          82%|         94%|       |             |</p>
+</div>
+</div>
+<p>The above is for the two-pass method (strict ptp, then corr with found average exc STA).</p>
+<p>Below is for the ptp-only method.<br>
+Both at &#945; = 5%.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">make_perf_display</span><span class="p">(</span><span class="n">res_ptp</span><span class="o">.</span><span class="n">tc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<p>|Tested connections: 3906|&#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |
+|------------------|--------|------------|-------------|------------|-------|-------------|
+|                  |        |<strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong>|<strong>Real type</strong>|<strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong>|       |<strong>Precision</strong>|
+|                  |        |    <code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        <code class="docutils literal notranslate"><span class="pre">exc</span></code>|       <code class="docutils literal notranslate"><span class="pre">inh</span></code>|       |             |
+|             <strong>&#9484;</strong>|<code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        1709|          459|          47|       |          77%|
+|<strong>Predicted type</strong>|   <code class="docutils literal notranslate"><span class="pre">exc</span></code>|          97|          870|          12|       |          89%|
+|             <strong>&#9492;</strong>|   <code class="docutils literal notranslate"><span class="pre">inh</span></code>|         194|          186|         332|       |          47%|
+|                  |        |            |             |            |       |             |
+|   <strong>Sensitivity</strong>|        |         85%|          57%|         85%|       |             |</p>
+</div>
+</div>
+<p>(Sensitivity = TPR).</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8-mysys"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8-mysys",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8-mysys'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2022-09-13__Fit_simpler_function.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2022-09-13 &#8226; Fit simpler model to STA</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
