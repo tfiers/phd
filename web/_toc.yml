@@ -3,6 +3,7 @@
 - part: Notebooks
   chapters:
     - file: nb/2022-09-15__Two-pass_conntest_ptp-then-cor
+    - file: nb/2022-09-13__Fit_simpler_function_pt_2
     - file: nb/2022-09-13__Fit_simpler_function
     - file: nb/2022-09-11__Fit_function_to_STA
     - file: nb/2022-09-09__Conntest_with_template_matching
