@@ -6,8 +6,6 @@ using MyToolbox: @reexport
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
 
-using SnoopPrecompile
-
 
 const datamodel_version = "2 (net)"
     # Used in diskcache.jl
@@ -43,13 +41,9 @@ export rasterplot, histplot_fr
 export plot_detection_rates, plot_samples_and_means, add_α_line, extract
 export ydistplot, add_refline
 
-# include("precompile.jl")
-
 
 function __init__()
     set_print_precision(3)
-    autodisplay_figs()
 end
-
 
 end # module VoltoMapSim

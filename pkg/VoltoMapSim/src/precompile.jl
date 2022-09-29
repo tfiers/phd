@@ -1,3 +1,7 @@
+# Not used atm.
+# (Did not help).
+
+using SnoopPrecompile
 
 @precompile_all_calls begin
     p = get_params(N = 10, duration = 100ms)

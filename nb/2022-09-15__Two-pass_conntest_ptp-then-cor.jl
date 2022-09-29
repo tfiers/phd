@@ -133,8 +133,8 @@ function calc_all_STAs(s::SimData, p::ExpParams)
     tc = tested_connections = get_tested_connections(s, p)
     recorded_neurons = unique(tested_connections.post)
     ch = Channel(Inf)  # `Inf` size, so no blocking on insert
-    pbar = Progress(nrow(tested_connections), desc = "Calculating STAs: ")
     @info "Using $(nthreads()) threads"
+    pbar = Progress(nrow(tested_connections), desc = "Calculating STAs: ")
     @threads(
     for m in recorded_neurons
         v = s.v[m]
@@ -182,7 +182,7 @@ end
 
 out = cached(calc_all_STAs, [s,p], key=[p.sim, p.conntest]);
 
-out = cached(calc_all_STAs, [s,p], key=[p.sim, p.conntest]);
+@time (out = cached(calc_all_STAs, [s,p], key=[p.sim, p.conntest]));
 
 tested_connections, STAs, shuffled_STAs = out;
 
