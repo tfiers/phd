@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2022-09-29 &#8226; Use parametric STA model for connection testing &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-29__Conntest_with_parametric_STA_model.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2022-09-29 &#8226; Use parametric STA model for connection testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function_pt_2.html">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2022-09-29__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-09-29__Conntest_with_parametric_STA_model.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-09-29__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-09-29__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-sta-s">
+   Load STA&#8217;s
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2022-09-29 &#8226; Use parametric STA model for connection testing</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#params">
+   Params
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-sta-s">
+   Load STA&#8217;s
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="use-parametric-sta-model-for-connection-testing">
+<h1>2022-09-29 &#8226; Use parametric STA model for connection testing<a class="headerlink" href="#use-parametric-sta-model-for-connection-testing" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>precompiling sim
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\d4c1d16bffeede54.jld2` &#8230; done (5.9 s)
+Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\d4c1d16bffeede54.jld2` &#8230; done (1.8 s)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
+    <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">g_II</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
+    <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">],</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="load-sta-s">
+<h2>Load STA&#8217;s<a class="headerlink" href="#load-sta-s" title="Permalink to this headline">&#182;</a></h2>
+<p>(They&#8217;re precalculated).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">begin</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="nd">@set</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">init_sim</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">augment</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4.329196 seconds (9.55 M allocations: 571.011 MiB, 5.14% gc time, 96.07% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">begin</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="nd">@set</span> <span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">init_sim</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">augment</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3.500275 seconds (6.39 M allocations: 403.128 MiB, 3.57% gc time, 96.36% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">begin</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">init_sim</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">augment</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5.976431 seconds (8.69 M allocations: 2.925 GiB, 20.16% gc time, 82.56% compilation time)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(num_timesteps = 6000000, timesteps = 0:0.0001:600, neuron_IDs = (exc = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  791, 792, 793, 794, 795, 796, 797, 798, 799, 800], inh = [801, 802, 803, 804, 805, 806, 807, 808, 809, 810  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000]), synapse_IDs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  39585, 39586, 39587, 39588, 39589, 39590, 39591, 39592, 39593, 39594], ODE_var_IDs = (t = 1, v = (exc = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11  &#8230;  792, 793, 794, 795, 796, 797, 798, 799, 800, 801], inh = [802, 803, 804, 805, 806, 807, 808, 809, 810, 811  &#8230;  992, 993, 994, 995, 996, 997, 998, 999, 1000, 1001]), u = (exc = [1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011  &#8230;  1792, 1793, 1794, 1795, 1796, 1797, 1798, 1799, 1800, 1801], inh = [1802, 1803, 1804, 1805, 1806, 1807, 1808, 1809, 1810, 1811  &#8230;  1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001]), g_exc = (exc = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011  &#8230;  2792, 2793, 2794, 2795, 2796, 2797, 2798, 2799, 2800, 2801], inh = [2802, 2803, 2804, 2805, 2806, 2807, 2808, 2809, 2810, 2811  &#8230;  2992, 2993, 2994, 2995, 2996, 2997, 2998, 2999, 3000, 3001]), g_inh = (exc = [3002, 3003, 3004, 3005, 3006, 3007, 3008, 3009, 3010, 3011  &#8230;  3792, 3793, 3794, 3795, 3796, 3797, 3798, 3799, 3800, 3801], inh = [3802, 3803, 3804, 3805, 3806, 3807, 3808, 3809, 3810, 3811  &#8230;  3992, 3993, 3994, 3995, 3996, 3997, 3998, 3999, 4000, 4001])), is_connected = Bool[0 0 &#8230; 0 1; 0 0 &#8230; 0 0; &#8230; ; 0 0 &#8230; 0 0; 0 0 &#8230; 0 0], pre_post_pairs = [(11, 1), (33, 1), (66, 1), (70, 1), (101, 1), (132, 1), (136, 1), (139, 1), (145, 1), (169, 1)  &#8230;  (844, 1000), (891, 1000), (900, 1000), (944, 1000), (956, 1000), (958, 1000), (960, 1000), (967, 1000), (983, 1000), (991, 1000)], neuron_type = (exc = [:exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc  &#8230;  :exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc, :exc], inh = [:inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh  &#8230;  :inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh, :inh]), output_synapses = Dict(719 =&gt; [156, 1522, 1682, 4148, 4263, 6069, 6183, 7464, 7667, 8984  &#8230;  32658, 32731, 32923, 34044, 34544, 35299, 35379, 37605, 37978, 38505], 699 =&gt; [225, 304, 2337, 2643, 3300, 5586, 6306, 6644, 6951, 8554  &#8230;  34080, 35506, 36029, 36513, 36790, 36866, 37219, 37717, 38417, 38620], 831 =&gt; [28, 619, 907, 2110, 3053, 4773, 4971, 5786, 9917, 10984  &#8230;  29474, 30682, 32311, 35180, 35223, 35681, 37136, 37568, 37885, 38512], 319 =&gt; [175, 369, 3510, 6014, 6663, 6848, 9048, 9254, 9773, 11381  &#8230;  29655, 29694, 29861, 30815, 31707, 33504, 35244, 37462, 37906, 38714], 687 =&gt; [541, 1785, 1891, 1938, 4217, 6862, 6990, 7741, 9316, 10172  &#8230;  33399, 33766, 35377, 35910, 36591, 36628, 37251, 37311, 37947, 38619], 185 =&gt; [92, 1415, 1458, 2077, 2629, 3741, 4353, 5108, 5245, 5641  &#8230;  31701, 32255, 32681, 33016, 35099, 35437, 36729, 38528, 38563, 38785], 823 =&gt; [1095, 1395, 1528, 3686, 4413, 4732, 5590, 6310, 7471, 7632  &#8230;  29444, 31288, 31517, 31565, 31770, 34009, 35553, 35754, 37226, 37658], 420 =&gt; [456, 1312, 3946, 4252, 4955, 6634, 6770, 8266, 8358, 12963  &#8230;  24847, 25961, 26974, 27590, 28056, 29350, 30174, 31272, 31390, 38178], 525 =&gt; [898, 2266, 2607, 2881, 2921, 2956, 4070, 6175, 6266, 6985  &#8230;  22920, 23837, 26824, 28381, 28700, 30553, 31509, 34113, 35455, 35946], 365 =&gt; [1036, 2218, 3209, 3475, 4060, 7209, 7772, 8587, 10095, 11561  &#8230;  19787, 21793, 21993, 22165, 24984, 30694, 31864, 34899, 36705, 37202]&#8230;), input_synapses = Dict(719 =&gt; [28551, 28552, 28553, 28554, 28555, 28556, 28557, 28558, 28559, 28560  &#8230;  28569, 28570, 28571, 28572, 28573, 28574, 28575, 28576, 28577, 28578], 699 =&gt; [27781, 27782, 27783, 27784, 27785, 27786, 27787, 27788, 27789, 27790  &#8230;  27808, 27809, 27810, 27811, 27812, 27813, 27814, 27815, 27816, 27817], 831 =&gt; [32899, 32900, 32901, 32902, 32903, 32904, 32905, 32906, 32907, 32908  &#8230;  32925, 32926, 32927, 32928, 32929, 32930, 32931, 32932, 32933, 32934], 319 =&gt; [12516, 12517, 12518, 12519, 12520, 12521, 12522, 12523, 12524, 12525  &#8230;  12540, 12541, 12542, 12543, 12544, 12545, 12546, 12547, 12548, 12549], 687 =&gt; [27305, 27306, 27307, 27308, 27309, 27310, 27311, 27312, 27313, 27314  &#8230;  27332, 27333, 27334, 27335, 27336, 27337, 27338, 27339, 27340, 27341], 185 =&gt; [7194, 7195, 7196, 7197, 7198, 7199, 7200, 7201, 7202, 7203  &#8230;  7228, 7229, 7230, 7231, 7232, 7233, 7234, 7235, 7236, 7237], 823 =&gt; [32597, 32598, 32599, 32600, 32601, 32602, 32603, 32604, 32605, 32606  &#8230;  32628, 32629, 32630, 32631, 32632, 32633, 32634, 32635, 32636, 32637], 420 =&gt; [16516, 16517, 16518, 16519, 16520, 16521, 16522, 16523, 16524, 16525  &#8230;  16551, 16552, 16553, 16554, 16555, 16556, 16557, 16558, 16559, 16560], 525 =&gt; [20824, 20825, 20826, 20827, 20828, 20829, 20830, 20831, 20832, 20833  &#8230;  20849, 20850, 20851, 20852, 20853, 20854, 20855, 20856, 20857, 20858], 365 =&gt; [14343, 14344, 14345, 14346, 14347, 14348, 14349, 14350, 14351, 14352  &#8230;  14366, 14367, 14368, 14369, 14370, 14371, 14372, 14373, 14374, 14375]&#8230;), postsyn_neuron = Dict(24824 =&gt; 625, 25754 =&gt; 648, 29965 =&gt; 754, 11950 =&gt; 303, 31794 =&gt; 800, 30270 =&gt; 762, 1703 =&gt; 45, 37100 =&gt; 936, 12427 =&gt; 316, 7685 =&gt; 197&#8230;), presyn_neuron = Dict(24824 =&gt; 749, 25754 =&gt; 3, 29965 =&gt; 937, 11950 =&gt; 771, 31794 =&gt; 547, 30270 =&gt; 876, 1703 =&gt; 309, 37100 =&gt; 860, 12427 =&gt; 833, 7685 =&gt; 230&#8230;), input_neurons = Dict(719 =&gt; [42, 49, 75, 176, 209, 219, 238, 259, 277, 322  &#8230;  711, 724, 816, 817, 892, 917, 923, 943, 949, 992], 699 =&gt; [58, 85, 99, 102, 113, 159, 181, 216, 249, 273  &#8230;  775, 776, 855, 859, 909, 937, 959, 960, 979, 990], 831 =&gt; [2, 6, 14, 84, 162, 165, 214, 254, 261, 290  &#8230;  745, 753, 760, 797, 810, 845, 873, 910, 952, 978], 319 =&gt; [30, 45, 149, 171, 190, 209, 312, 313, 328, 340  &#8230;  570, 579, 606, 637, 643, 668, 846, 890, 952, 979], 687 =&gt; [37, 60, 62, 72, 73, 94, 110, 118, 131, 150  &#8230;  622, 655, 667, 672, 743, 766, 837, 869, 918, 962], 185 =&gt; [2, 4, 6, 32, 33, 120, 135, 137, 151, 158  &#8230;  814, 820, 836, 858, 904, 908, 928, 930, 948, 967], 823 =&gt; [24, 25, 50, 93, 109, 111, 153, 154, 175, 183  &#8230;  714, 727, 733, 756, 770, 790, 829, 862, 879, 975], 420 =&gt; [64, 68, 88, 129, 162, 164, 185, 210, 212, 220  &#8230;  760, 762, 808, 823, 827, 857, 905, 914, 944, 956], 525 =&gt; [3, 105, 163, 172, 244, 269, 282, 333, 398, 447  &#8230;  738, 753, 763, 778, 781, 814, 835, 847, 889, 945], 365 =&gt; [12, 28, 45, 87, 110, 117, 143, 251, 258, 369  &#8230;  716, 748, 763, 772, 773, 828, 834, 846, 895, 984]&#8230;), output_neurons = Dict(719 =&gt; [4, 40, 44, 108, 111, 156, 159, 191, 196, 229  &#8230;  824, 826, 831, 861, 874, 892, 894, 949, 959, 972], 699 =&gt; [6, 8, 61, 69, 86, 144, 162, 170, 178, 218  &#8230;  862, 897, 910, 921, 928, 930, 939, 952, 970, 975], 831 =&gt; [1, 16, 24, 55, 79, 124, 129, 149, 252, 279  &#8230;  742, 772, 814, 889, 890, 901, 937, 948, 956, 972], 319 =&gt; [5, 10, 92, 155, 171, 176, 231, 236, 249, 289  &#8230;  747, 748, 752, 776, 798, 847, 891, 946, 957, 978], 687 =&gt; [14, 47, 50, 51, 110, 176, 179, 198, 237, 259  &#8230;  844, 854, 894, 907, 923, 924, 940, 942, 958, 975], 185 =&gt; [3, 38, 39, 55, 69, 98, 114, 133, 136, 146  &#8230;  798, 813, 825, 834, 888, 896, 927, 973, 974, 980], 823 =&gt; [29, 37, 40, 96, 115, 123, 144, 162, 191, 195  &#8230;  741, 787, 793, 794, 799, 860, 898, 903, 939, 950], 420 =&gt; [12, 35, 103, 111, 129, 170, 174, 211, 213, 330  &#8230;  626, 653, 678, 694, 706, 739, 760, 787, 790, 964], 525 =&gt; [24, 59, 68, 75, 76, 77, 106, 159, 161, 179  &#8230;  577, 601, 674, 714, 723, 769, 793, 863, 896, 908], 365 =&gt; [28, 58, 84, 91, 106, 185, 199, 219, 257, 293  &#8230;  500, 549, 554, 558, 629, 773, 802, 883, 926, 939]&#8230;), syns = (exc_to_exc = Any[1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  31793, 31794, 31795, 31796, 31797, 31798, 31799, 31800, 31801, 31802], exc_to_inh = Any[31813, 31814, 31815, 31816, 31817, 31818, 31819, 31820, 31821, 31822  &#8230;  39574, 39575, 39576, 39577, 39578, 39579, 39580, 39581, 39582, 39583], inh_to_exc = Any[27, 28, 29, 30, 31, 32, 33, 34, 35, 36  &#8230;  31803, 31804, 31805, 31806, 31807, 31808, 31809, 31810, 31811, 31812], inh_to_inh = Any[31834, 31835, 31836, 31837, 31838, 31839, 31840, 31841, 31842, 31843  &#8230;  39585, 39586, 39587, 39588, 39589, 39590, 39591, 39592, 39593, 39594]), syn_strengths = [2.53E-10, 8.23E-11, 2.89E-10, 4.86E-10, 1.59E-10, 1.17E-10, 2.47E-10, 1.7E-10, 2.94E-10, 8.05E-10  &#8230;  9.15E-10, 5.88E-10, 7.82E-10, 1.3E-09, 1.27E-10, 3.84E-10, 3.04E-09, 3.2E-10, 2.58E-09, 5.57E-10], spike_tx_delay = [0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01  &#8230;  0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01], upcoming_spike_arrivals = PriorityQueue{Tuple{Int64, Int64, Float64}, Float64, Base.Order.ForwardOrdering}(), ODE = (vars = (t = 0, v = (exc = [-0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06  &#8230;  -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06], inh = [-0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06  &#8230;  -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06, -0.06]), u = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), g_exc = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), g_inh = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0])), diff = (t = 1, v = (exc = [2.12E-314, 8.79E-316, 8.79E-316, 8.21E-316, 8.21E-316, 1.19E-314, 8.49E-314, 8.79E-316, 8.21E-316, 8.79E-316  &#8230;  0, 0, 0, 0, 0, 0, 0, 1.14E-322, 0, 1.48E-323], inh = [0, 1.2E-310, 4.24E-314, 1.91E-313, 0, 0, 0, 3.13E-315, 0, 1.19E-314  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), u = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), g_exc = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), g_inh = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))), spike_times = (exc = [Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[]  &#8230;  Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[]], inh = [Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[]  &#8230;  Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[], Float64[]]), signals = Dict{Int64, Any}(5 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 35 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 30 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 32 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 6 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 808 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 804 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 4 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 13 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],), 12 =&gt; (v = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0],)&#8230;), num_spikes_per_neuron = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), spike_rates = (exc = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], inh = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]), synapse_ID_of_pair = Dict((361, 184) =&gt; 7170, (688, 256) =&gt; 10072, (453, 388) =&gt; 15296, (152, 706) =&gt; 28047, (512, 278) =&gt; 10937, (929, 193) =&gt; 7565, (344, 946) =&gt; 37464, (222, 306) =&gt; 12037, (733, 643) =&gt; 25584, (24, 578) =&gt; 22936&#8230;), exc_inputs = (exc = [[516, 800, 766, 710, 681, 629, 597, 565, 11, 447  &#8230;  194, 169, 145, 139, 136, 132, 101, 70, 66, 33], [636, 643, 724, 737, 750, 776, 779, 794, 591, 616  &#8230;  322, 392, 393, 395, 401, 421, 529, 535, 547, 549], [571, 771, 766, 753, 752, 710, 662, 645, 631, 584  &#8230;  316, 341, 388, 400, 444, 485, 493, 504, 529, 530], [514, 775, 754, 749, 747, 719, 703, 648, 632, 624  &#8230;  243, 211, 200, 181, 125, 124, 110, 108, 89, 68], [528, 780, 751, 705, 656, 623, 620, 563, 548, 540  &#8230;  357, 342, 319, 278, 247, 230, 211, 118, 88, 73], [464, 733, 731, 711, 706, 699, 691, 670, 667, 659  &#8230;  235, 220, 183, 173, 127, 126, 100, 97, 92, 38], [548, 763, 752, 728, 723, 716, 702, 690, 631, 573  &#8230;  290, 198, 173, 168, 161, 111, 88, 57, 46, 44], [709, 563, 572, 631, 632, 644, 646, 653, 694, 699  &#8230;  253, 294, 345, 381, 385, 407, 409, 423, 444, 516], [482, 783, 734, 730, 686, 655, 624, 563, 541, 540  &#8230;  198, 220, 234, 261, 264, 344, 355, 364, 390, 426], [605, 796, 776, 758, 718, 690, 686, 674, 666, 630  &#8230;  384, 341, 319, 305, 302, 257, 168, 157, 156, 5]  &#8230;  [542, 771, 760, 743, 734, 674, 669, 644, 592, 575  &#8230;  254, 222, 220, 211, 177, 127, 126, 56, 40, 24], [618, 773, 726, 691, 676, 623, 27, 587, 526, 449  &#8230;  318, 294, 223, 200, 185, 163, 144, 125, 97, 29], [525, 708, 639, 632, 615, 609, 549, 33, 450, 372  &#8230;  302, 299, 285, 239, 164, 148, 139, 99, 73, 55], [730, 571, 609, 628, 631, 662, 674, 700, 707, 712  &#8230;  312, 313, 329, 389, 399, 408, 410, 434, 438, 532], [478, 772, 759, 721, 665, 636, 627, 495, 489, 24  &#8230;  331, 321, 264, 242, 237, 232, 227, 212, 118, 81], [468, 795, 784, 778, 676, 673, 654, 633, 580, 498  &#8230;  228, 206, 151, 143, 112, 52, 49, 47, 45, 14], [385, 782, 774, 738, 701, 627, 606, 569, 529, 514  &#8230;  235, 237, 281, 300, 304, 339, 343, 347, 350, 374], [426, 791, 786, 772, 687, 674, 604, 577, 533, 516  &#8230;  316, 313, 306, 236, 223, 185, 128, 73, 71, 34], [698, 443, 503, 536, 543, 559, 592, 599, 624, 650  &#8230;  103, 161, 193, 283, 284, 285, 286, 304, 306, 356], [587, 778, 772, 767, 728, 726, 612, 603, 34, 547  &#8230;  305, 272, 268, 253, 222, 205, 146, 102, 96, 45]], inh = [[615, 696, 693, 689, 662, 639, 47, 603, 544, 540  &#8230;  513, 468, 411, 345, 331, 251, 215, 206, 67, 55], [310, 770, 734, 588, 564, 553, 523, 509, 464, 422  &#8230;  161, 135, 118, 62, 56, 47, 40, 37, 36, 22], [587, 782, 759, 757, 693, 691, 685, 613, 600, 126  &#8230;  424, 418, 374, 300, 274, 239, 215, 212, 181, 129], [658, 792, 791, 786, 776, 754, 742, 728, 699, 697  &#8230;  390, 380, 363, 337, 289, 287, 269, 167, 134, 106], [489, 786, 739, 725, 720, 719, 683, 677, 667, 642  &#8230;  285, 215, 172, 171, 170, 128, 118, 55, 8, 4], [524, 753, 746, 734, 725, 720, 715, 634, 594, 592  &#8230;  347, 299, 280, 257, 235, 194, 98, 82, 80, 33], [502, 800, 799, 778, 768, 737, 716, 708, 593, 531  &#8230;  254, 246, 228, 190, 187, 159, 151, 101, 68, 14], [483, 771, 650, 632, 611, 588, 582, 575, 569, 551  &#8230;  456, 448, 380, 377, 321, 320, 281, 266, 221, 97], [594, 797, 793, 738, 694, 679, 622, 617, 598, 11  &#8230;  344, 337, 247, 231, 222, 207, 203, 190, 142, 129], [799, 635, 640, 653, 670, 684, 702, 719, 720, 722  &#8230;  421, 433, 444, 450, 454, 487, 494, 512, 534, 535]  &#8230;  [467, 782, 694, 663, 648, 630, 624, 590, 550, 546  &#8230;  188, 187, 186, 182, 180, 132, 98, 92, 91, 68], [436, 784, 774, 743, 730, 669, 662, 637, 630, 559  &#8230;  144, 129, 120, 90, 87, 84, 82, 78, 71, 50], [760, 541, 558, 576, 591, 610, 630, 657, 669, 726  &#8230;  301, 320, 339, 358, 380, 383, 415, 423, 475, 486], [395, 797, 755, 754, 694, 692, 679, 668, 580, 482  &#8230;  307, 305, 276, 253, 136, 116, 90, 63, 55, 47], [564, 786, 782, 776, 762, 702, 695, 656, 612, 12  &#8230;  271, 269, 233, 232, 207, 163, 160, 80, 41, 39], [484, 780, 770, 760, 681, 600, 565, 519, 88, 412  &#8230;  374, 354, 347, 324, 307, 239, 196, 102, 97, 94], [780, 529, 572, 588, 645, 646, 672, 706, 735, 744  &#8230;  291, 304, 337, 353, 379, 406, 418, 426, 468, 469], [440, 752, 746, 718, 694, 665, 652, 632, 546, 518  &#8230;  221, 200, 122, 102, 84, 73, 67, 53, 48, 20], [550, 783, 775, 773, 740, 706, 694, 620, 599, 594  &#8230;  391, 330, 325, 256, 208, 203, 181, 173, 166, 125], [729, 536, 542, 545, 547, 555, 575, 587, 609, 669  &#8230;  187, 222, 263, 294, 317, 330, 354, 357, 417, 452]]), inh_inputs = (exc = [[928, 922, 914, 908, 902, 897, 894, 831, 829, 988], [809, 803, 811, 815, 817, 821, 825, 836, 838, 873, 881, 909, 911], [978, 965, 964, 945, 927, 920, 910, 902, 894, 884, 870, 999], [967, 966, 930, 926, 810, 974], [959, 939, 866, 862, 859, 841, 972], [836, 949], [993, 987, 977, 976, 957, 889, 879, 864, 995], [833, 857, 862, 883, 942, 946, 967, 972], [969, 960, 958, 954, 903, 872, 845, 825, 820, 810, 998], [984, 890, 880, 840, 987]  &#8230;  [968, 958, 943, 927, 905, 897, 896, 859, 830, 974], [980, 966, 934, 932, 899, 898, 884, 870, 853, 846, 836, 810, 981], [986, 955, 932, 927, 849, 826, 823, 804, 992], [805, 823, 828, 835, 837, 845, 873, 891, 922, 964], [971, 969, 941, 928, 910, 870, 868, 863, 977], [968, 932, 918, 901, 893, 883, 867, 851, 840, 804, 802, 984], [964, 955, 940, 923, 817, 802, 993], [933, 932, 849, 806, 997], [803, 808, 823, 845, 847, 849, 860, 997, 1000], [965, 934, 929, 857, 855, 851, 819, 808, 802, 989]], inh = [[972, 971, 937, 896, 874, 857, 846, 826, 815, 981], [817], [905, 899, 887, 875, 859, 856, 827, 806, 918], [956, 945, 925, 906, 852, 839, 979], [912, 859, 832, 816, 953], [951, 913, 858, 846, 835, 992], [979, 975, 965, 944, 897, 876, 859, 812, 803, 996], [899, 850, 964], [963, 932, 929, 908, 902, 854, 845, 836, 821, 820, 988], [802, 858, 859, 863, 915, 944, 955, 958, 970, 973, 978, 988]  &#8230;  [917, 902, 882, 856, 846, 839, 970], [905, 900, 898, 836, 941], [859, 869, 887, 915, 946, 948, 982, 992, 998, 999], [910, 837, 820, 809, 965], [986, 964, 963, 954, 928, 923, 911, 909, 902, 895, 857, 996], [951, 947, 909, 884, 834, 962], [804, 821, 827, 843, 846, 848, 853, 893, 931, 952, 971], [873, 872, 867, 821, 817, 957], [965, 951, 859, 844, 822, 813, 981], [815, 844, 891, 900, 944, 956, 958, 960, 967, 983, 991]]), non_inputs = (exc = [[2, 3, 4, 5, 6, 7, 8, 9, 10, 12  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 3, 4, 7, 8, 9, 10, 11, 12, 13  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 4, 5, 6, 7, 8, 9, 10, 11  &#8230;  990, 991, 992, 993, 994, 995, 996, 997, 998, 1000], [1, 2, 3, 5, 6, 7, 9, 10, 11, 12  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 6, 7, 8, 9, 10, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 7, 8, 9, 10, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 8, 9, 10, 11  &#8230;  989, 990, 991, 992, 994, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 9, 10, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [2, 3, 4, 5, 6, 7, 8, 10, 11, 12  &#8230;  990, 991, 992, 993, 994, 995, 996, 997, 999, 1000], [2, 3, 4, 6, 7, 8, 9, 11, 12, 13  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000]  &#8230;  [1, 2, 3, 4, 5, 7, 8, 9, 10, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 992, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 7, 8, 9, 10, 11  &#8230;  990, 991, 992, 993, 994, 995, 996, 998, 999, 1000], [1, 2, 3, 5, 6, 7, 8, 9, 10, 12  &#8230;  989, 990, 991, 992, 993, 994, 995, 996, 998, 999], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000]], inh = [[1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [2, 3, 4, 5, 6, 7, 8, 9, 10, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 5, 6, 7, 9, 10, 11, 12, 13  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 4, 5, 6, 7, 8, 9, 10, 11  &#8230;  990, 991, 992, 993, 994, 995, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 11  &#8230;  991, 992, 993, 994, 995, 996, 997, 998, 999, 1000]  &#8230;  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 992, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 993, 994, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  987, 988, 989, 990, 991, 994, 995, 996, 997, 1000], [1, 2, 3, 5, 6, 7, 8, 9, 10, 11  &#8230;  990, 991, 992, 993, 995, 996, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  989, 990, 991, 992, 993, 994, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 992, 993, 994, 995, 997, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 992, 993, 994, 995, 996, 998, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 992, 993, 994, 995, 996, 997, 999, 1000], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10  &#8230;  990, 991, 992, 993, 994, 995, 996, 997, 998, 1000], [2, 3, 4, 5, 6, 7, 8, 10, 11, 12  &#8230;  989, 990, 992, 993, 994, 995, 996, 997, 998, 999]]), num_inputs = (exc = NamedTuple{(:exc, :inh), Tuple{Int64, Int64}}[(exc = 26, inh = 10), (exc = 33, inh = 13), (exc = 32, inh = 12), (exc = 34, inh = 6), (exc = 26, inh = 7), (exc = 30, inh = 2), (exc = 31, inh = 9), (exc = 37, inh = 8), (exc = 33, inh = 11), (exc = 31, inh = 5)  &#8230;  (exc = 33, inh = 10), (exc = 24, inh = 13), (exc = 23, inh = 9), (exc = 39, inh = 10), (exc = 26, inh = 9), (exc = 31, inh = 12), (exc = 37, inh = 7), (exc = 30, inh = 5), (exc = 37, inh = 9), (exc = 26, inh = 10)], inh = NamedTuple{(:exc, :inh), Tuple{Int64, Int64}}[(exc = 21, inh = 10), (exc = 34, inh = 1), (exc = 26, inh = 9), (exc = 28, inh = 7), (exc = 37, inh = 5), (exc = 29, inh = 6), (exc = 32, inh = 10), (exc = 24, inh = 3), (exc = 28, inh = 11), (exc = 37, inh = 12)  &#8230;  (exc = 36, inh = 7), (exc = 37, inh = 5), (exc = 36, inh = 10), (exc = 29, inh = 5), (exc = 30, inh = 12), (exc = 22, inh = 6), (exc = 38, inh = 11), (exc = 31, inh = 6), (exc = 28, inh = 7), (exc = 40, inh = 11)]), v = Dict(5 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 35 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 30 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 32 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 6 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 808 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 804 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 4 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 13 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 12 =&gt; [0, 0, 0, 0, 0, 0, 0, 0, 0, 0  &#8230;  0, 0, 0, 0, 0, 0, 0, 0, 0, 0]&#8230;))
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8-mysys"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8-mysys",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8-mysys'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
