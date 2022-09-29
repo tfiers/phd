@@ -779,6 +779,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="params">
@@ -810,8 +815,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\ce5e30aee45561ed.jld2` &#8230; done (20.2 s)
- 25.196100 seconds (12.31 M allocations: 3.040 GiB, 7.48% gc time, 76.01% compilation time: 5% of which was recompilation)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\sim\ce5e30aee45561ed.jld2` &#8230; done (8.6 s)
+  9.992754 seconds (12.06 M allocations: 3.025 GiB, 9.21% gc time, 69.41% compilation time: 5% of which was recompilation)
 </pre></div>
 </div>
 </div>
@@ -823,7 +828,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7.340564 seconds (4.90 M allocations: 293.127 MiB, 5.85% gc time, 97.17% compilation time: 1% of which was recompilation)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.605456 seconds (4.91 M allocations: 293.675 MiB, 8.31% gc time, 97.97% compilation time: 1% of which was recompilation)
 </pre></div>
 </div>
 </div>
@@ -928,8 +933,8 @@ but there will be less noisy STAs mixed in (or even wrong STAs, i.e. of non-inpu
     <span class="n">tc</span> <span class="o">=</span> <span class="n">tested_connections</span> <span class="o">=</span> <span class="n">get_tested_connections</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     <span class="n">recorded_neurons</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">tested_connections</span><span class="o">.</span><span class="n">post</span><span class="p">)</span>
     <span class="n">ch</span> <span class="o">=</span> <span class="kt">Channel</span><span class="p">(</span><span class="nb">Inf</span><span class="p">)</span>  <span class="c"># `Inf` size, so no blocking on insert</span>
-    <span class="n">pbar</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">),</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">"Calculating STAs: "</span><span class="p">)</span>
     <span class="nd">@info</span> <span class="s">"Using </span><span class="si">$</span><span class="p">(</span><span class="n">nthreads</span><span class="p">())</span><span class="s"> threads"</span>
+    <span class="n">pbar</span> <span class="o">=</span> <span class="n">Progress</span><span class="p">(</span><span class="n">nrow</span><span class="p">(</span><span class="n">tested_connections</span><span class="p">),</span> <span class="n">desc</span> <span class="o">=</span> <span class="s">"Calculating STAs: "</span><span class="p">)</span>
     <span class="nd">@threads</span><span class="p">(</span>
     <span class="k">for</span> <span class="n">m</span> <span class="k">in</span> <span class="n">recorded_neurons</span>
         <span class="n">v</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
@@ -1006,12 +1011,13 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b93
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">calc_all_STAs</span><span class="p">,</span> <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="p">]);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="p">(</span><span class="n">out</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">calc_all_STAs</span><span class="p">,</span> <span class="p">[</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="p">]));</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (48.9 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (19.3 s)
+ 19.725458 seconds (9.35 M allocations: 3.348 GiB, 28.71% gc time, 10.98% compilation time)
 </pre></div>
 </div>
 </div>
@@ -1079,7 +1085,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b93
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, area = 0.17)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, area = 0.16991151700597443)
 </pre></div>
 </div>
 </div>
@@ -1096,7 +1102,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b93
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:05</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
 </pre></div>
 </div>
 </div>
@@ -1110,7 +1116,7 @@ Saving output at `C:\Users\tfiers\.phdcache\datamodel v2 (net)\calc_all_STAs\b93
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div class="data-frame"><p>3,906 rows &#215; 7 columns</p><table class="data-frame"><thead><tr><th></th><th>posttype</th><th>post</th><th>pre</th><th>conntype</th><th>predtype</th><th>pval</th><th>area</th></tr><tr><th></th><th title="Symbol">Symbol</th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Symbol">Symbol</th><th title="Symbol">Symbol</th><th title="Float64">Float64</th><th title="Float64">Float64</th></tr></thead><tbody><tr><th>1</th><td>exc</td><td>1</td><td>139</td><td>exc</td><td>exc</td><td>0.01</td><td>0.17</td></tr><tr><th>2</th><td>exc</td><td>1</td><td>681</td><td>exc</td><td>unconn</td><td>0.02</td><td>-0.04</td></tr><tr><th>3</th><td>exc</td><td>1</td><td>11</td><td>exc</td><td>exc</td><td>0.01</td><td>0.18</td></tr><tr><th>&amp;vellip;</th><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td></tr></tbody></table></div></div></div>
+<div class="output text_html"><div class="data-frame"><p>3,906 rows &#215; 7 columns</p><table class="data-frame"><thead><tr><th></th><th>posttype</th><th>post</th><th>pre</th><th>conntype</th><th>predtype</th><th>pval</th><th>area</th></tr><tr><th></th><th title="Symbol">Symbol</th><th title="Int64">Int64</th><th title="Int64">Int64</th><th title="Symbol">Symbol</th><th title="Symbol">Symbol</th><th title="Float64">Float64</th><th title="Float64">Float64</th></tr></thead><tbody><tr><th>1</th><td>exc</td><td>1</td><td>139</td><td>exc</td><td>exc</td><td>0.01</td><td>0.169912</td></tr><tr><th>2</th><td>exc</td><td>1</td><td>681</td><td>exc</td><td>unconn</td><td>0.02</td><td>-0.0399586</td></tr><tr><th>3</th><td>exc</td><td>1</td><td>11</td><td>exc</td><td>exc</td><td>0.01</td><td>0.180399</td></tr><tr><th>&amp;vellip;</th><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td><td>&amp;vellip;</td></tr></tbody></table></div></div></div>
 </div>
 <p>(&#8220;predtype&#8221; is predicted conntype).</p>
 <p>We used strict &#945; of 0.01.</p>
@@ -1366,7 +1372,7 @@ and 93% of what we detected as exc is actually exc.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
 </pre></div>
 </div>
 </div>
@@ -1379,7 +1385,7 @@ and 93% of what we detected as exc is actually exc.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.815, TPR_inh = 0.936, FPR = 0.148, prec_exc = 0.899, prec_inh = 0.692, prec_unconn = 0.851)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.8151815181518152, TPR_inh = 0.9360613810741688, FPR = 0.14800000000000002, prec_exc = 0.8988355167394468, prec_inh = 0.6918714555765595, prec_unconn = 0.8507239141288068)
 </pre></div>
 </div>
 </div>
@@ -1396,7 +1402,7 @@ and 93% of what we detected as exc is actually exc.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
 </pre></div>
 </div>
 </div>
@@ -1479,7 +1485,7 @@ but rather the E&#8594;any STA.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:00</span>
 </pre></div>
 </div>
 </div>
@@ -1491,7 +1497,7 @@ but rather the E&#8594;any STA.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.815, TPR_inh = 0.936, FPR = 0.147, prec_exc = 0.898, prec_inh = 0.696, prec_unconn = 0.85)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(TPR_exc = 0.8145214521452145, TPR_inh = 0.9360613810741688, FPR = 0.14700000000000002, prec_exc = 0.8981077147016011, prec_inh = 0.6958174904942965, prec_unconn = 0.8504486540378864)
 </pre></div>
 </div>
 </div>
@@ -1636,16 +1642,8 @@ but rather the E&#8594;any STA.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>|Tested connections: 3906|&#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |
-|------------------|--------|------------|-------------|------------|-------|-------------|
-|                  |        |<strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong>|<strong>Real type</strong>|<strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong>|       |<strong>Precision</strong>|
-|                  |        |    <code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        <code class="docutils literal notranslate"><span class="pre">exc</span></code>|       <code class="docutils literal notranslate"><span class="pre">inh</span></code>|       |             |
-|             <strong>&#9484;</strong>|<code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        1704|          274|          25|       |          85%|
-|<strong>Predicted type</strong>|   <code class="docutils literal notranslate"><span class="pre">exc</span></code>|         139|         1235|           0|       |          90%|
-|             <strong>&#9492;</strong>|   <code class="docutils literal notranslate"><span class="pre">inh</span></code>|         157|            6|         366|       |          69%|
-|                  |        |            |             |            |       |             |
-|   <strong>Sensitivity</strong>|        |         85%|          82%|         94%|       |             |</p>
-</div>
+<div class="output text_html"><table><tr><th align="right">Tested connections: 3906</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">1704</td><td align="right">274</td><td align="right">25</td><td align="right"></td><td align="right">85%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">139</td><td align="right">1235</td><td align="right">0</td><td align="right"></td><td align="right">90%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">157</td><td align="right">6</td><td align="right">366</td><td align="right"></td><td align="right">69%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">85%</td><td align="right">82%</td><td align="right">94%</td><td align="right"></td><td align="right"></td></tr></table>
+</div></div>
 </div>
 <p>The above is for the two-pass method (strict ptp, then corr with found average exc STA).</p>
 <p>Below is for the ptp-only method.<br>
@@ -1657,16 +1655,8 @@ Both at &#945; = 5%.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>|Tested connections: 3906|&#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |&#160; &#160; &#160; |&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; |
-|------------------|--------|------------|-------------|------------|-------|-------------|
-|                  |        |<strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong>|<strong>Real type</strong>|<strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong>|       |<strong>Precision</strong>|
-|                  |        |    <code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        <code class="docutils literal notranslate"><span class="pre">exc</span></code>|       <code class="docutils literal notranslate"><span class="pre">inh</span></code>|       |             |
-|             <strong>&#9484;</strong>|<code class="docutils literal notranslate"><span class="pre">unconn</span></code>|        1709|          459|          47|       |          77%|
-|<strong>Predicted type</strong>|   <code class="docutils literal notranslate"><span class="pre">exc</span></code>|          97|          870|          12|       |          89%|
-|             <strong>&#9492;</strong>|   <code class="docutils literal notranslate"><span class="pre">inh</span></code>|         194|          186|         332|       |          47%|
-|                  |        |            |             |            |       |             |
-|   <strong>Sensitivity</strong>|        |         85%|          57%|         85%|       |             |</p>
-</div>
+<div class="output text_html"><table><tr><th align="right">Tested connections: 3906</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">1709</td><td align="right">459</td><td align="right">47</td><td align="right"></td><td align="right">77%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">97</td><td align="right">870</td><td align="right">12</td><td align="right"></td><td align="right">89%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">194</td><td align="right">186</td><td align="right">332</td><td align="right"></td><td align="right">47%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">85%</td><td align="right">57%</td><td align="right">85%</td><td align="right"></td><td align="right"></td></tr></table>
+</div></div>
 </div>
 <p>(Sensitivity = TPR).</p>
 </div>
