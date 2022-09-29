@@ -7,10 +7,6 @@ using MyToolbox: @reexport
 @reexport using DataFrames
 
 
-const datamodel_version = "2 (net)"
-    # Used in diskcache.jl
-
-
 include("units.jl")
 # [see file for exports]
 

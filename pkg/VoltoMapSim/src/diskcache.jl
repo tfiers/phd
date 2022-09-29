@@ -1,4 +1,7 @@
 
+cacheroot::String = joinpath(homedir(), ".phdcache")
+
+
 """
 Load the pre-computed output of `f` from disk, if available. Else, run `f` and save to disk.
 
@@ -16,17 +19,10 @@ Usage:
     …
     output = cached(slow_func, [x, p]; key=[p, n]])
 """
-function cached(
-    f,
-    args::Vector;
-    key::Vector = [last(args)],
-    subdir = string(nameof(f)),
-    cacheroot = joinpath(homedir(), ".phdcache"),
-    verbose = true,
-)
-    dir = joinpath(cacheroot, "datamodel v$datamodel_version", subdir)
+function cached(f, args::Vector; key::Vector = [last(args)], verbose = true)
+    dir = cachedir(f)
     mkpath(dir)
-    path = joinpath(dir, cachefilename(key))
+    path = cachepath(f, key)
     if isfile(path)
         if verbose @withfb "Loading cached output from `$path`" (output = load(path, "output"))
         else (output = load(path, "output"))
@@ -39,6 +35,10 @@ function cached(
     end
     return output
 end
+
+cachedir(f) = joinpath(cacheroot, string(nameof(f)))
+
+cachepath(f, key) = joinpath(cachedir(f), cachefilename(key))
 
 function cachefilename(key::Vector)
     h = zero(UInt)
