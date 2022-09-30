@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-04-28 &#8226; Interpolate N = 30 .. 6000 &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-09-30 &#8226; Use parametric STA model for connection testing &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-04-28__interpolate_N_from_30_to_6000.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-30__Conntest_with_parametric_STA_model.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2022-03-28 &#8226; The invariant measure: total stimulation" href="2022-03-28__total_stimulation.html">
-    <link rel="prev" title="2022-05-02&#8226; STA mean vs peak-to-peak" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+    <link rel="next" title="2022-09-29 &#8226; Summary of two-pass conntest" href="2022-09-29__Two-pass_summary.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,8 +106,8 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2022-09-30 &#8226; Use parametric STA model for connection testing
   </a>
  </li>
@@ -216,8 +216,8 @@ const thebe_selector_output = ".output, .cell_output"
    2022-05-02&#8226; STA mean vs peak-to-peak
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
    2022-04-28 &#8226; Interpolate N = 30 .. 6000
   </a>
  </li>
@@ -513,7 +513,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2022-04-28__interpolate_N_from_30_to_6000.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2022-09-30__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -525,8 +525,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-04-28__interpolate_N_from_30_to_6000.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-04-28__interpolate_N_from_30_to_6000.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-09-30__Conntest_with_parametric_STA_model.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-09-30__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -540,7 +540,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-04-28__interpolate_N_from_30_to_6000.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-09-30__Conntest_with_parametric_STA_model.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -560,8 +560,8 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
+  <a class="reference internal nav-link" href="#imports">
+   Imports
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -570,13 +570,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run">
-   Run
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-results">
-   Plot results
+  <a class="reference internal nav-link" href="#load-sta-s">
+   Load STA&#8217;s
   </a>
  </li>
 </ul>
@@ -589,7 +584,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-04-28 &#8226; Interpolate N = 30 .. 6000</h1>
+                <h1>2022-09-30 &#8226; Use parametric STA model for connection testing</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -600,8 +595,8 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#setup">
-   Setup
+  <a class="reference internal nav-link" href="#imports">
+   Imports
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -610,13 +605,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run">
-   Run
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-results">
-   Plot results
+  <a class="reference internal nav-link" href="#load-sta-s">
+   Load STA&#8217;s
   </a>
  </li>
 </ul>
@@ -628,30 +618,13 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="interpolate-n-30-6000">
-<h1>2022-04-28 &#8226; Interpolate N = 30 .. 6000<a class="headerlink" href="#interpolate-n-30-6000" title="Permalink to this headline">&#182;</a></h1>
-<p>The N = 30 case had a fixed firing rate for the input neurons (of 20 Hz).<br>
-We&#8217;ll now also give it the lognormal (with mean 4 Hz) firing rate distribution.</p>
-<p>We must introduce a new concept / parameter: the desired <strong>stimulation rate</strong> of the input neurons.
-It is a product of average firing rate and &#8216;stimulation&#8217; (synaptic conductance increase, &#916;g) per spike.
-Given that average spike rate is fixed (namely 4 Hz), we use this paramter to calculate &#916;g.</p>
-<p>A sensible value for it is taken from the previous (N = 6600) notebook
-where &#916;g_exc was 0.4 nS and the &#916;g_multiplier was 0.066.</p>
-<p>We&#8217;ll thus choose <code class="docutils literal notranslate"><span class="pre">avg_stimulation_rate__exc</span></code> to be 0.4 nS * 0.066 * 4 Hz, or <strong>0.1 nS/second</strong>.
-Our inhibitory inputs have 4x the strength, so <code class="docutils literal notranslate"><span class="pre">avg_stimulation_rate__inh</span></code> will be <strong>0.4 nS/second</strong>.</p>
-<p>The actual stimulation rate for each input neuron will vary from these, as their firing rates are not 4 Hz, but rather distributed lognormally somewhere around that.</p>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
+  <div class="section" id="use-parametric-sta-model-for-connection-testing">
+<h1>2022-09-30 &#8226; Use parametric STA model for connection testing<a class="headerlink" href="#use-parametric-sta-model-for-connection-testing" title="Permalink to this headline">&#182;</a></h1>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
 </pre></div>
 </div>
 </div>
@@ -665,7 +638,12 @@ Our inhibitory inputs have 4x the strength, so <code class="docutils literal not
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
 </pre></div>
 </div>
 </div>
@@ -675,200 +653,44 @@ Our inhibitory inputs have 4x the strength, so <code class="docutils literal not
 <h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_excs</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="mi">4</span><span class="p">,</span>   <span class="c"># =&gt; N_inh = 1</span>
-    <span class="mi">17</span><span class="p">,</span>  <span class="c"># Same as in `previous_N_30_input`.</span>
-    <span class="mi">80</span><span class="p">,</span>
-    <span class="mi">320</span><span class="p">,</span>
-    <span class="mi">1280</span><span class="p">,</span>
-    <span class="mi">5200</span><span class="p">,</span>
-<span class="p">];</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_params</span><span class="p">(</span><span class="n">N_exc</span><span class="p">)</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
-        <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span><span class="n">cortical_RS</span><span class="p">,</span> <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">),</span>
-        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="p">),</span>
-    <span class="p">),</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
+    <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
+    <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">g_II</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
+    <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">],</span>
 <span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="load-sta-s">
+<h2>Load STA&#8217;s<a class="headerlink" href="#load-sta-s" title="Permalink to this headline">&#182;</a></h2>
+<p>(They&#8217;re precalculated).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">param_sets</span> <span class="o">=</span> <span class="n">get_params</span><span class="o">.</span><span class="p">(</span><span class="n">N_excs</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dumps</span><span class="p">(</span><span class="n">param_sets</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">cached_STAs</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
-  rngseed: 22022022
-  sim: SimParams
-    duration: 600.0
-    &#916;t: 0.0001
-    num_timesteps: 6000000
-    rngseed: 0
-    input: PoissonInputParams
-      N_unconn: 100
-      N_exc: 4
-      N_inh: 1
-      N_conn: 5
-      N: 105
-      spike_rates: LogNormal
-        &#956;: 1.08629
-        &#963;: 0.774597
-    synapses: SynapseParams
-      avg_stim_rate_exc: 1.0e-10
-      avg_stim_rate_inh: 4.0e-10
-      E_exc: 0.0
-      E_inh: -0.065
-      g_t0: 0.0
-      &#964;: 0.007
-    izh_neuron: IzhikevichParams
-      C: 1.0e-10
-      k: 7.0e-7
-      v_rest: -0.06
-      v_thr: -0.04
-      a: 30.0
-      b: -2.0e-9
-      v_peak: 0.035
-      v_reset: -0.05
-      &#916;u: 1.0e-10
-      v_t0: -0.06
-      u_t0: 0.0
-    imaging: VoltageImagingParams
-      spike_SNR: Inf
-      spike_SNR_dB: Inf
-      spike_height: 0.095
-      &#963;_noise: 0.0
-  conntest: ConnTestParams
-    STA_window_length: 0.1
-    num_shuffles: 100
-    rngseed: 22022022
-  evaluation: EvaluationParams
-    &#945;: 0.05
-    num_tested_neurons_per_group: 40
-    rngseed: 22022022
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="run">
-<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">params</span> <span class="k">in</span> <span class="n">param_sets</span>
-    <span class="nd">@show</span> <span class="n">params</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span>
-    <span class="n">perf</span> <span class="o">=</span> <span class="n">performance_for</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-    <span class="nd">@show</span> <span class="n">perf</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">perfs</span><span class="p">,</span> <span class="n">perf</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">()</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>params.sim.input.N_conn = 5
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:14</span>
-perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.07499999999999996)
-
-params.sim.input.N_conn = 21
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:12</span>
-perf = (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)
-
-params.sim.input.N_conn = 100
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:12</span>
-perf = (TPR_exc = 1.0, TPR_inh = 0.85, FPR = 0.0)
-
-params.sim.input.N_conn = 400
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-perf = (TPR_exc = 0.925, TPR_inh = 0.425, FPR = 0.09999999999999998)
-
-params.sim.input.N_conn = 1600
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:45</span>
-perf = (TPR_exc = 0.525, TPR_inh = 0.225, FPR = 0.050000000000000044)
-
-params.sim.input.N_conn = 6500
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:32</span>
-perf = (TPR_exc = 0.05, TPR_inh = 0.5, FPR = 0.15000000000000002)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="plot-results">
-<h2>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="n">PyPlot</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (16.8 s)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">conns</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xlabels</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">param_sets</span><span class="p">]</span>
-<span class="n">xticks</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">xlabels</span><span class="p">);]</span>
-<span class="n">plot_detection_rate</span><span class="p">(</span><span class="n">detection_rate</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span>
-    <span class="n">xticks</span><span class="p">,</span>
-    <span class="n">detection_rate</span><span class="p">,</span>
-    <span class="s">".-"</span><span class="p">;</span>
-    <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-    <span class="n">xminorticks</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-    <span class="n">clip_on</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span>
-    <span class="n">kw</span><span class="o">...</span>
-<span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">TPR_exc</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for excitatory inputs"</span><span class="p">)</span>
-     <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">TPR_inh</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for inhibitory inputs"</span><span class="p">)</span>
-     <span class="n">plot_detection_rate</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">FPR</span> <span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">perfs</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">"for unconnected spikers"</span><span class="p">)</span>
-
-<span class="nd">@unpack</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="n">param_sets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">evaluation</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">&#945;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">"dashed"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s">"&#945; = {&#945;:.3G}"</span><span class="p">)</span>
-
-<span class="c"># We don't use our `set`, as that undoes our `xminorticks=false` command (bug).</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">,</span> <span class="n">xlabels</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"Number of connected inputs"</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">PercentFormatter</span><span class="p">(</span><span class="n">xmax</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s">"bottom"</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="nb">false</span><span class="p">)</span>
-<span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s">"Detection rate"</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower center"</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">));</span>
-<span class="n">l</span><span class="o">.</span><span class="n">_legend_box</span><span class="o">.</span><span class="n">align</span> <span class="o">=</span> <span class="s">"left"</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2022-04-28__interpolate_N_from_30_to_6000_17_0.png" src="../_images/2022-04-28__interpolate_N_from_30_to_6000_17_0.png">
-</div>
-</div>
-<ul class="simple">
-<li><p>We see monotonic breakdown in excitatory connection detectability.</p></li>
-<li><p>Same for inhibitory, except it&#8217;s not monotonic. Fluke due to sampling?</p></li>
-<li><p>This plot must be improved with multiple simulations per condition rather than just single point.<br>
-(takes a while to run multiple 10&#8217; N=6500 sims though).</p></li>
-</ul>
 </div>
 </div>
 
@@ -881,33 +703,33 @@ perf = (TPR_exc = 0.05, TPR_inh = 0.5, FPR = 0.15000000000000002)
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8-mysys"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8-mysys",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8-mysys'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2022-05-02__STA_mean_vs_peak-to-peak.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2022-05-02&#8226; STA mean vs peak-to-peak</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2022-03-28__total_stimulation.html" title="next page">
+    <a class="right-next" id="next-link" href="2022-09-29__Two-pass_summary.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2022-03-28 &#8226; The invariant measure: total stimulation</p>
+        <p class="prev-next-title">2022-09-29 &#8226; Summary of two-pass conntest</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
