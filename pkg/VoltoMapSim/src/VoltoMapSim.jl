@@ -13,7 +13,7 @@ include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean, bin, jn, print_type_compactly
+export LogNormal_with_mean, bin, jn, fmt_pct, sprintf, print_type_compactly
 
 include("params.jl")
 @alias ExpParams = ExperimentParams

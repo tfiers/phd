@@ -1,23 +1,29 @@
 
 function perfmeasures(tc::DataFrame)
     # `tc` is a `tested_connections` table, with `predtype` (prediction) column.
-    conntypes = [:unconn, :exc, :inh]
+    ix = idvec(:unconn, :exc, :inh)
+    conntypes = keys(ix)
     conntypes_matrix = [(pred, real) for pred in conntypes, real in conntypes]
-    counts = similar(conntypes_matrix, Int)  # Detection counts
+    counts = similar(conntypes_matrix, Int)  # Prediction counts
     for (i, (pred, real)) in enumerate(conntypes_matrix)
         counts[i] = count((tc.predtype .== pred) .& (tc.conntype .== real))
     end
-    N = length(conntypes)
-    sensitivities  = Vector(undef, N)  # aka TPRs
-    precisions     = Vector(undef, N)
-    for i in 1:N
-        num_correct   = counts[i,i]
-        num_real      = sum(counts[:,i])
-        num_predicted = sum(counts[i,:])
-        sensitivities[i] = num_correct / num_real
-        precisions[i]    = num_correct / num_predicted
-    end
-    return (; counts, sensitivities, precisions, conntypes, conntypes_matrix)
+    # The below comprehensions become CVecs, like `ix`
+    num_correct = [counts[i,i] for i in ix]
+    num_real    = [sum(counts[:,i]) for i in ix]
+    num_pred    = [sum(counts[i,:]) for i in ix]
+    sensitivity = num_correct ./ num_real  # aka TPR
+    precision   = num_correct ./ num_pred
+    return (;
+        ix,
+        conntypes,
+        counts,
+        num_correct,
+        num_real,
+        num_pred,
+        sensitivity,
+        precision,
+    )
 end
 
 
@@ -40,11 +46,10 @@ function perftable(tested_connections::DataFrame)
         "Predicted type",
         "             └",
     ]
-    fmt_pct(x) = join([round(Int, 100x), "%"])
     table[sens_row, titlecol]  = "Sensitivity"
-    table[sens_row, datacols] .= fmt_pct.(data.sensitivities)
+    table[sens_row, datacols] .= fmt_pct.(data.sensitivity)
     table[titlerow, prec_col]  = "Precision"
-    table[datarows, prec_col] .= fmt_pct.(data.precisions)
+    table[datarows, prec_col] .= fmt_pct.(data.precision)
     title = join(["Tested connections: ", sum(data.counts)])
     bold_cells = vcat([(titlerow,c) for c in 1:ncols], [(r,titlecol) for r in 1:nrows])
     return DisplayTable(table, title, bold_cells)

@@ -30,6 +30,12 @@ end
 
 jn(strs...) = join(strs, "\n")
 
+fmt_pct(x, digits = 0) = sprintf("%.$(digits)f%%", 100x)
+
+sprintf(fmt_str, args...) = Printf.format(Printf.Format(fmt_str), args...)
+# `@sprintf` does not allow interpolation in the format string. This does.
+
+
 const SimData = NamedTuple
 
 # Hack to not have the NamedTuple containing simulation data take up huge amounts of space
