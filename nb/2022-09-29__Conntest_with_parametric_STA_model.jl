@@ -26,6 +26,8 @@ using MyToolbox
 
 using VoltoMapSim
 
+# Note that we consolidated code from the previous notebook in the codebase (see github, `pkg/VoltoMapSim/src/`)
+
 # ## Params
 
 p = get_params(
@@ -44,27 +46,46 @@ p = get_params(
 
 # (They're precalculated).
 
-@time begin
-    q = @set (p.sim.general.duration = 1ms)
-    s = VoltoMapSim.init_sim(q.sim)
-    s = augment(s, q)
+out = cached_STAs(p);
+
+(conns, STAs, shuffled_STAs) = out;
+
+Base.summarysize(out) / GB
+
+# Print info on output of `get_connection_to_test()`
+function summarize_conns_to_test(ctt)
+    n_post = length(unique(ctt.post))
+    println("We test $(nrow(ctt)) putative input connections to $(n_post) neurons.")
+    n(typ) = count(ctt.conntype .== typ)
+    println("$(n(:exc)) of those connections are excitatory, $(n(:inh)) are inhibitory, "*
+            "and the remaining $(n(:unconn)) are non-connections.")
 end;
 
-@time begin
-    q = @set (p.sim.general.duration = 1ms)
-    s = VoltoMapSim.init_sim(q.sim)
-    s = augment(s, q)
-end;
+summarize_conns_to_test(conns)
+
+testall(f; α) = test_conns(f, conns, STAs, shuffled_STAs; α);
+
+tc_ptp = testall(test_conn__ptp, α = 0.01);
+
+function summarize_test_results(tc, typpe)
+    pm = perfmeasures(tc)
+    i = findfirst(pm.conntypes[typpe])
+end
+
+pm = perfmeasures(tc_ptp)
+
+perftable(tc_ptp)
+
+# ```
+# - 845 exc connections found.
+#     - 93% of those are correct.
+#     - 52% of all true exc connections were detected.
+# ```
 
 
 
 
 
-
-
-@time begin
-    s = VoltoMapSim.init_sim(p.sim)
-    s = augment(s, p)
-end;
+length(unique(tc_ptp.post))
 
 

@@ -6,29 +6,40 @@ using MyToolbox: @reexport
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
 
+using Base.Threads
+
 
 include("units.jl")
 # [see file for exports]
 
 include("misc.jl")
-export LogNormal_with_mean, ptp, area_over_start, bin
-export jn, print_type_compactly
+export LogNormal_with_mean, bin, jn, print_type_compactly
 
 include("params.jl")
 @alias ExpParams = ExperimentParams
 export get_params, ExperimentParams, ExpParams
 
 include("diskcache.jl")
-export cached, cachefilename
+export cached, cachedir, cachepath, empty_cache
 
 include("sim/sim.jl")
-export sim, add_VI_noise, augment, calc_avg_STA
+export sim, init_sim, step_sim!, add_VI_noise, augment, dummy_simdata
 
-include("conntest.jl")
-export calc_STA, to_ISIs, to_spiketimes!, shuffle_ISIs, test_connection
+include("conntest/sample_conns.jl")
+export get_connections_to_test
 
-include("eval.jl")
-export evaluate_conntest_perf, cached_conntest_eval
+include("conntest/calc_STA.jl")
+export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
+
+include("conntest/shuffle_test.jl")
+export shuffle_ISIs, calc_pval
+
+include("conntest/conntest.jl")
+export test_conns, test_conn__corr, test_conn__ptp
+export ptp, area_over_start
+
+include("conntest/perfmeasures.jl")
+export perfmeasures, perftable
 
 include("plot.jl")
 export color_exc, color_inh, color_unconn

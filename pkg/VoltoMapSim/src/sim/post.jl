@@ -52,25 +52,11 @@ function augment(s::SimData, p::ExpParams)
     )
 end
 
-function calc_avg_STA(s::SimData, p::ExpParams; postsyn_neurons, input_type::Symbol)
-    if (input_type == :exc) inputs = s.exc_inputs
-    else                    inputs = s.inh_inputs end
-    acc = zeros(Float64, STA_win_size(p))
-    N = 0
-    @showprogress(
-    for n in postsyn_neurons
-        for m in inputs[n]
-            STA = calc_STA(m => n, s, p)
-            acc .+= STA
-            N += 1
-        end
-    end)
-    return avgSTA = acc ./ N
+# For if you don't want to wait to load real simulation data from disk, but need info on the
+# connections in the network.
+# (The existence of this function is a hint that a re-design / decoupling is needed).
+function dummy_simdata(p::ExpParams)
+    q = @set (p.sim.general.duration = 1ms)
+    s = init_sim(q.sim)
+    s = augment(s, q)
 end
-# We don't use the more compact generator form
-#    `mean(calc_STA(m => n, s, p) for n in 1:40 for m in s.exc_inputs[n])`
-# ..as then we don't get a progress report. (And `@showprogress` on a `reduce` errors here).
-
-STA_win_size(p::ExpParams) =
-    round(Int, p.conntest.STA_window_length / p.sim.general.Δt::Float64)
-        # Explicit type annotation on Δt needed, as typeof(sim) unknown.

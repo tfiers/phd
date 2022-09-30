@@ -8,14 +8,6 @@ function LogNormal_with_mean(μₓ, σ)
     return LogNormal(μ, σ)
 end
 
-"""'peak-to-peak'"""
-ptp(signal) = maximum(signal) - minimum(signal)
-
-area_over_start(STA) = sum(STA .- STA[1])
-
-jn(strs...) = join(strs, "\n")
-
-
 function bin(spiketimes; duration, binsize)
     # `spiketimes` is assumed sorted.
     # `duration` is of the spiketimes signal and co-determines the number of bins.
@@ -36,10 +28,11 @@ function bin(spiketimes; duration, binsize)
     end
 end
 
+jn(strs...) = join(strs, "\n")
 
 const SimData = NamedTuple
 
 # Hack to not have the NamedTuple containing simulation data take up huge amounts of space
-# in stacktraces and such.
+# in stacktraces and `@code_warntype` output and such.
 print_type_compactly(x, typename = "SimData") =
     eval( :(Base.show(io::IO, ::Type{typeof($x)}) = print(io, $typename)) )
