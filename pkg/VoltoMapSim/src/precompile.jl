@@ -7,10 +7,7 @@ using SnoopPrecompile
 @precompile_all_calls begin
     @info "precompiling sim"
     p = get_params(N = 10, duration = 10ms)
-    path = cachepath(sim, [p.sim])
-    if isfile(path)
-        rm(path)
-    end
+    empty_cache(sim, [p.sim])
     s = cached(sim, [p.sim])
     s = cached(sim, [p.sim])
     s = augment(s, p)

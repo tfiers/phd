@@ -10,7 +10,7 @@ Useful when re-running a cell in a notebook, or restarting a Julia session later
 Function runs are identified by the hashes of the elements of `key`, and the function name.
 The `key` elements are saved on disk alongside the output.
 
-The contents of the files on disk can be inspected using `f = jldopen("blah.jld2")`
+The contents of the files on disk can be inspected using `f = jldopen(cachepath(f, key))`
 (shows groupnames), and then `f["name"]`. Finally, `close(f)`
 
 Usage:
@@ -38,8 +38,6 @@ end
 
 cachedir(f) = joinpath(cacheroot, string(nameof(f)))
 
-cachepath(f, key) = joinpath(cachedir(f), cachefilename(key))
-
 function cachefilename(key::Vector)
     h = zero(UInt)
     for el in key
@@ -47,6 +45,11 @@ function cachefilename(key::Vector)
     end
     return string(h, base=16) * ".jld2"
 end
+
+cachepath(f, key) = joinpath(cachedir(f), cachefilename(key))
+
+empty_cache(f, key) = rm(cachepath(f, key), force = true)
+
 
 """
 The hash of a set of parameters is different if a value is changed, if the struct (the type)
