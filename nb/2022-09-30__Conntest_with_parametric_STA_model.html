@@ -574,6 +574,11 @@ const thebe_selector_output = ".output, .cell_output"
    Load STA&#8217;s
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-one-conn">
+   Test one conn.
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -609,6 +614,11 @@ const thebe_selector_output = ".output, .cell_output"
    Load STA&#8217;s
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-one-conn">
+   Test one conn.
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -639,11 +649,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
 </pre></div>
 </div>
 </div>
@@ -679,7 +684,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (16.8 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (12.9 s)
 </pre></div>
 </div>
 </div>
@@ -687,6 +692,33 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">conns</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="test-one-conn">
+<h2>Test one conn.<a class="headerlink" href="#test-one-conn" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="p">(</span><span class="n">conns</span><span class="o">.</span><span class="n">pre</span> <span class="o">.=&gt;</span> <span class="n">conns</span><span class="o">.</span><span class="n">post</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LsqFit.LsqFitResult{Vector{Float64}, Vector{Float64}, Matrix{Float64}, Vector{Float64}}([0.0131, 0.0131, 0.0129, 0.08, 0.08, 0, 0.000357], [4.5E-05, 3.61E-05, 3.74E-05, 5.71E-05, 4.09E-05, 2.78E-05, 2.26E-05, -8.39E-06, -4.39E-05, -1.67E-05  &#8230;  -6.25E-05, -8E-05, -7.93E-05, -6.69E-05, -8.25E-05, -0.000109, -0.000101, -0.000101, -0.000119, -0.000119], [0.0105 -0.00452 &#8230; 9.85E-05 -0.35; 0.0105 -0.00452 &#8230; 9.82E-05 -0.35; &#8230; ; 0.011 -0.00273 &#8230; -3.13E-05 -0.327; 0.011 -0.00274 &#8230; -3.12E-05 -0.327], true, Float64[])
 </pre></div>
 </div>
 </div>
