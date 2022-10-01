@@ -5,6 +5,7 @@ using MyToolbox: @reexport
 @reexport using Sciplotlib
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
+@reexport using LsqFit
 
 using Base.Threads
 
@@ -30,6 +31,9 @@ export get_connections_to_test
 
 include("conntest/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
+
+include("conntest/model_STA.jl")
+export fit_STA, toCVec, model_STA, model_STA_components, centre
 
 include("conntest/shuffle_test.jl")
 export shuffle_ISIs, calc_pval

@@ -48,4 +48,10 @@ out = cached_STAs(p);
 
 (conns, STAs, shuffled_STAs) = out;
 
+# ## Test one conn.
+
+conn = (conns.pre .=> conns.post)[1]
+
+fit = fit_STA(STAs[conn], p)
+
 

@@ -8,6 +8,7 @@ function LogNormal_with_mean(μₓ, σ)
     return LogNormal(μ, σ)
 end
 
+
 function bin(spiketimes; duration, binsize)
     # `spiketimes` is assumed sorted.
     # `duration` is of the spiketimes signal and co-determines the number of bins.
@@ -28,11 +29,12 @@ function bin(spiketimes; duration, binsize)
     end
 end
 
+
 jn(strs...) = join(strs, "\n")
 
 fmt_pct(x, digits = 0) = sprintf("%.$(digits)f%%", 100x)
 
-sprintf(fmt_str, args...) = Printf.format(Printf.Format(fmt_str), args...)
+sprintf(fmt, args...) = Printf.format(Printf.Format(fmt), args...)
 # `@sprintf` does not allow interpolation in the format string. This does.
 
 
