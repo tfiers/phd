@@ -27,7 +27,7 @@ include("sim/sim.jl")
 export sim, init_sim, step_sim!, add_VI_noise, augment, dummy_simdata
 
 include("conntest/sample_conns.jl")
-export get_connections_to_test
+export get_connections_to_test, summarize_conns_to_test
 
 include("conntest/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size

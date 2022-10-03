@@ -53,6 +53,10 @@ function model_STA_components(ep::ExpParams, fp::FitParams)
     Δt::Float64  = ep.sim.general.Δt
     STA_duration = ep.conntest.STA_window_length
     @unpack tx_delay, PSP, dip = fp
+    if isnan(tx_delay)
+        # Occasional bug (?) in LsqFit, when near lower bound.
+        tx_delay = toCVec(lower, FitParams).tx_delay
+    end
     PSP_duration = STA_duration - tx_delay
     delay_size = round(Int, tx_delay / Δt)
     PSP_size   = round(Int, PSP_duration / Δt)
@@ -84,12 +88,15 @@ rescale_to_max!(x) =
 
 function fit_STA(STA, p::ExpParams)
     # Code to adapt to LsqFit's API (`curve_fit`), which cannot handle CVecs.
-    model(xdata, pvec) = model_STA(p, toCVec(pvec, FitParams))
+    model(xdata, pvec) = model_STA(p, pvec)
     xdata = []  # Our model function generates `xdata` itself (it's alway the same).
     ydata = centre(STA)
     p0_vec = collect(p0)
     fit = curve_fit(model, xdata, ydata, p0_vec; lower, upper)
+    return toCVec(fit.param, FitParams)
 end
+
+model_STA(ep::ExpParams, fp::Vector{Float64}) = model_STA(ep, toCVec(fp, FitParams))
 
 toCVec(data::Vector, template) = CVec(data, getaxes(template))
     # `template` can be a cvec, or a type of cvec.

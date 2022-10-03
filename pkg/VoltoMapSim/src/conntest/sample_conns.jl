@@ -40,3 +40,12 @@ function get_connections_to_test(s::SimData, p::ExpParams)
     end
     return connections_to_test
 end
+
+# Print info on output of `get_connection_to_test()`
+function summarize_conns_to_test(ctt)
+    n_post = length(unique(ctt.post))
+    println("We test ", nrow(ctt), " putative input connections to ", n_post, " neurons.")
+    n(typ) = count(ctt.conntype .== typ)
+    println(n(:exc), " of those connections are excitatory, ", n(:inh), " are inhibitory, ",
+            "and the remaining ", n(:unconn), " are non-connections.")
+end

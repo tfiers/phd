@@ -28,16 +28,18 @@ end
 # To use with `test_conns`, curry it: `test_conn__corr $ (; template = …)`
 
 
-function test_conns(f, conns, STAs, shuffled_STAs; α)
+function test_conns(f, conns, STAs, shuffled_STAs; α, pbar = true)
     # `f` is a function `f(real_STA, shuffled_STAs, α) -> (; predtype, …)`
     # `conns` is the output of `get_connections_to_test`
     # `α` is the p-value threshold.
-    testresults = @showprogress "Testing connections: " (
-        map(eachrow(conns)) do conn
-            k = conn.pre => conn.post
-            testresult = f(STAs[k], shuffled_STAs[k], α)
-        end
-    )
+    pb = Progress(nrow(conns), desc = "Testing connections: ", enabled = pbar)
+    testresults = map(eachrow(conns)) do conn
+        k = conn.pre => conn.post
+        testresult = f(STAs[k], shuffled_STAs[k], α)
+        if pbar next!(pb)
+        else    print(".") end
+        return testresult
+    end
     tc = hcat(conns, DataFrame(testresults))
     # Reorder first cols:
     select!(tc, :posttype, :post, :pre, :conntype, :)
