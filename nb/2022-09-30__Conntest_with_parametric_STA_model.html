@@ -575,8 +575,38 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-one-conn">
-   Test one conn.
+  <a class="reference internal nav-link" href="#test-single">
+   Test single
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-sample">
+   Test sample
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-proper-test">
+   Try proper test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-autodiff-for-speedup">
+   Try autodiff for speedup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-place-model-jacobian">
+   In-place model &amp; jacobian
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-proper-method-with-autodiff-on-sample">
+   Use proper method, with autodiff, on sample
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -615,8 +645,38 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test-one-conn">
-   Test one conn.
+  <a class="reference internal nav-link" href="#test-single">
+   Test single
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#test-sample">
+   Test sample
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-proper-test">
+   Try proper test
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#try-autodiff-for-speedup">
+   Try autodiff for speedup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#in-place-model-jacobian">
+   In-place model &amp; jacobian
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#use-proper-method-with-autodiff-on-sample">
+   Use proper method, with autodiff, on sample
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
   </a>
  </li>
 </ul>
@@ -649,6 +709,9 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+
+<span class="c"># Note that we've consolidated code from the last model-fitting notebook</span>
+<span class="c"># in this codebase (namely in `src/conntest/model_STA.jl`).</span>
 </pre></div>
 </div>
 </div>
@@ -684,24 +747,72 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (12.9 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (20.4 s)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">conns</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># `ct`: "connections to test table", or simply "connections table".</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="test-one-conn">
-<h2>Test one conn.<a class="headerlink" href="#test-one-conn" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="test-single">
+<h2>Test single<a class="headerlink" href="#test-single" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="p">(</span><span class="n">conns</span><span class="o">.</span><span class="n">pre</span> <span class="o">.=&gt;</span> <span class="n">conns</span><span class="o">.</span><span class="n">post</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">MSE</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yhat</span><span class="p">)</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">abs2</span><span class="p">,</span> <span class="n">y</span> <span class="o">.-</span> <span class="n">yhat</span><span class="p">);</span>
+<span class="c"># We don't use the regression definition of `mse` in LsqFit.jl,</span>
+<span class="c"># where they devide by DOF (= num_obs - num_params) instead of num_obs.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">Eness</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="c"># Eness is 'excitatory-ness'</span>
+    <span class="k">if</span>        <span class="p">(</span><span class="n">pval</span>  <span class="o">&gt;</span> <span class="n">&#945;</span><span class="p">)</span> <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:unconn</span>
+    <span class="k">elseif</span>    <span class="p">(</span><span class="n">Eness</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:exc</span>
+    <span class="k">else</span>                  <span class="n">predtype</span> <span class="o">=</span> <span class="ss">:inh</span> <span class="k">end</span>
+    <span class="n">predtype</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__model_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">)</span>
+    <span class="n">fitted_params</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">)</span>
+    <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">fitted_params</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">MSE</span> <span class="o">=</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">real_STA</span><span class="p">),</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span> 
+<span class="n">conns</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">pre</span> <span class="o">.=&gt;</span> <span class="n">ct</span><span class="o">.</span><span class="n">post</span>
+<span class="n">example_conn</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">conns</span><span class="p">[</span><span class="n">findfirst</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)]</span>
+<span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__model_STA</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">example_conn</span><span class="p">(</span><span class="ss">:exc</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -713,16 +824,1045 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LsqFit.LsqFitResult{Vector{Float64}, Vector{Float64}, Matrix{Float64}, Vector{Float64}}([0.0131, 0.0131, 0.0129, 0.08, 0.08, 0, 0.000357], [4.5E-05, 3.61E-05, 3.74E-05, 5.71E-05, 4.09E-05, 2.78E-05, 2.26E-05, -8.39E-06, -4.39E-05, -1.67E-05  &#8230;  -6.25E-05, -8E-05, -7.93E-05, -6.69E-05, -8.25E-05, -0.000109, -0.000101, -0.000101, -0.000119, -0.000119], [0.0105 -0.00452 &#8230; 9.85E-05 -0.35; 0.0105 -0.00452 &#8230; 9.82E-05 -0.35; &#8230; ; 0.011 -0.00273 &#8230; -3.13E-05 -0.327; 0.011 -0.00274 &#8230; -3.12E-05 -0.327], true, Float64[])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, MSE = -6.43E-09, scale = 0.357)
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>988 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, MSE = -4.81E-09, scale = -0.39)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">example_conn</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, MSE = -7.8E-09, scale = -0.268)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Yeah this obviously won&#8217;t work: the MSE of the STA used for fitting will always be better than the MSE of other STAs &#8211; even if the real STA is unconnected.</p>
+<p>What is fit btw of this last one</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_STA</span> <span class="o">=</span> <span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span>
+<span class="n">fitted_params</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">)</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">real_STA</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">fitted_model</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">fitted_model</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_24_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_24_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_24_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_24_1.png">
+</div>
+</div>
+<p>(real STA left, one of the shuffled STAs right).</p>
+<p>Let&#8217;s see how bad it is for all connections:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># tc = test_conns(test_conn__model_STA $ (;p), ct, STAs, shuffled_STAs; &#945; = 0.05);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>^ This is too slow to run fully.</p>
+<p>And there&#8217;s an error when fitting <code class="docutils literal notranslate"><span class="pre">813</span> <span class="pre">=&gt;</span> <span class="pre">1</span></code>.</p>
+<p>How slow?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.468124 seconds (129.11 k allocations: 614.167 MiB, 6.55% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ETA</span> <span class="o">=</span> <span class="mf">0.468124</span><span class="n">seconds</span> <span class="o">*</span> <span class="n">length</span><span class="p">(</span><span class="n">conns</span><span class="p">)</span> <span class="o">/</span> <span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30.5
+</pre></div>
+</div>
+</div>
+</div>
+<p>Imagine if we fit all shuffles (which would work ig).
+For all our tested connections, we&#8217;d have to wait:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ETA</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">num_shuffles</span><span class="p">)</span> <span class="o">*</span> <span class="n">minutes</span> <span class="o">/</span> <span class="n">hours</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>51.3
+</pre></div>
+</div>
+</div>
+</div>
+<p>4+ days. A bit long.</p>
+<p>Let&#8217;s subsample the connections, to get some estimate for how bad performance is.</p>
+</div>
+<div class="section" id="test-sample">
+<h2>Test sample<a class="headerlink" href="#test-sample" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">samplesize</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">resetrng!</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nrow</span><span class="p">(</span><span class="n">ct</span><span class="p">),</span> <span class="n">samplesize</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="nb">false</span><span class="p">)</span>
+<span class="n">ctsample</span> <span class="o">=</span> <span class="n">ct</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">summarize_conns_to_test</span><span class="p">(</span><span class="n">ctsample</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>We test 100 putative input connections to 45 neurons.
+32 of those connections are excitatory, 15 are inhibitory, and the remaining 53 are non-connections.
+</pre></div>
+</div>
+</div>
+</div>
+<p>(I forgot to resetrng at first run. Tables below are for below sample:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">We</span> <span class="n">test</span> <span class="mi">100</span> <span class="n">putative</span> <span class="nb">input</span> <span class="n">connections</span> <span class="n">to</span> <span class="mi">42</span> <span class="n">neurons</span><span class="o">.</span>
+<span class="mi">34</span> <span class="n">of</span> <span class="n">those</span> <span class="n">connections</span> <span class="n">are</span> <span class="n">excitatory</span><span class="p">,</span> <span class="mi">13</span> <span class="n">are</span> <span class="n">inhibitory</span><span class="p">,</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">remaining</span> <span class="mi">53</span> <span class="n">are</span> <span class="n">non</span><span class="o">-</span><span class="n">connections</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>)</p>
+<p>We have to fix that occasional fitting error too, first.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn</span><span class="p">(</span><span class="mi">917</span> <span class="o">=&gt;</span> <span class="mi">8</span><span class="p">)</span>   <span class="c"># Gives `InexactError: trunc(Int64, NaN)`</span>
+<span class="c"># (which I could step-debug in jupyter; I'll go to vscode, and use the .jl version of this nb).</span>
+
+<span class="c"># reason for error: `tx_delay / &#916;t` is somehow NaN.</span>
+
+<span class="c"># ~~Fixed when lower pound for tx_delay = 1 ms, instead of 0. Strange.~~</span>
+<span class="c"># Even then it errored for other conns. Manually checked for NaN tx_delay in model function.</span>
+<span class="c"># That actually fixed it.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, MSE = -6.65E-08, scale = -1.82)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">tc</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">test_conn__model_STA</span> <span class="o">$</span> <span class="p">(;</span><span class="n">p</span><span class="p">),</span> <span class="n">ctsample</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:39</span>
+ 39.690764 seconds (23.44 M allocations: 54.926 GiB, 7.34% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># strange. it somehow swallows output?</span>
+<span class="c"># but if I copy the cell (or add a `@show` in the loop), the output shows.</span>
+<span class="c"># just copy it, in jupyter, no execution! weird.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perftable</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table><tr><th align="right">Tested connections: 100</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">19</td><td align="right">1</td><td align="right">3</td><td align="right"></td><td align="right">83%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">22</td><td align="right">32</td><td align="right">0</td><td align="right"></td><td align="right">59%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">12</td><td align="right">1</td><td align="right">10</td><td align="right"></td><td align="right">43%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">36%</td><td align="right">94%</td><td align="right">77%</td><td align="right"></td><td align="right"></td></tr></table>
+</div></div>
+</div>
+<p>So detection rates not bad, but low precision, and 64% false positive rate for non-connections.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">-</span><span class="mf">.36</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.64
+</pre></div>
+</div>
+</div>
+</div>
+<p>At least we had some with pval &gt; 0.05, I would&#8217;ve expected all unconn&#8217;s to be detected.</p>
+</div>
+<div class="section" id="try-proper-test">
+<h2>Try proper test<a class="headerlink" href="#try-proper-test" title="Permalink to this headline">&#182;</a></h2>
+<p>..where we fit every shuffle as well.
+This will be very slow, so we do it on just one connection, to get an idea if it&#8217;s worth pursuing (and speeding up, via automatic differentiation of our model STA, maybe).</p>
+<p>This is what we got above:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">example_conn</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, MSE = -8.16E-09, scale = -0.264)
+</pre></div>
+</div>
+</div>
+</div>
+<p>i.e. pval 0.01.</p>
+<p>With template matching, we get pval 0.42 (<a class="reference external" href="https://tfiers.github.io/phd/nb/2022-09-09__Conntest_with_template_matching.html#now-for-unconnected-inputs">ref</a>).
+So it is definitely predictable as unconnected.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__model_STA__proper</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">)</span>
+    <span class="k">function</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>  <span class="c"># hack to progress-track</span>
+        <span class="n">fitted_params</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">testconn2</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__model_STA__proper</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="mf">0.05</span><span class="p">;</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn2</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.56, scale = -0.264)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Aha! That looks good.</p>
+<p>Now for the example exc and inh of above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn2</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:exc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.91, scale = 0.357)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn2</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.94, scale = -0.39)
+</pre></div>
+</div>
+</div>
+</div>
+<p>That&#8217;s no good.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">plot_with_fit</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">fitparams</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitparams</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">fitted_model</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">fit_and_plot</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+    <span class="n">fitted_params</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="o">&#8730;</span><span class="n">MSE</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="s">"RMSE: "</span> <span class="o">*</span> <span class="nd">@sprintf</span> <span class="s">"</span><span class="si">%.3f</span><span class="s"> mV"</span> <span class="n">rmse</span>
+    <span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.35</span><span class="p">]</span>
+    <span class="n">plot_with_fit</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">;</span> <span class="n">ylim</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span> <span class="o">=</span> <span class="n">example_conn</span><span class="p">(</span><span class="ss">:exc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_and_plot</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">])</span>
+<span class="n">fit_and_plot</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fit_and_plot</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">fit_and_plot</span><span class="p">(</span><span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">][</span><span class="mi">3</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_1.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_2.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_3.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_3.png">
+</div>
+</div>
+<p>So the shuffleds have a better MSE.. but that&#8217;s because their scale is narrower.</p>
+<p>We&#8217;ll normalize before calculating mse:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__model_STA__proper2</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">)</span>
+    <span class="k">function</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>  <span class="c"># hack to progress-track</span>
+        <span class="n">fitted_params</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_STA</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">fitted_params</span><span class="p">)</span>
+        <span class="n">zscore</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">./</span> <span class="n">std</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">testconn3</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__model_STA__proper2</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="mf">0.05</span><span class="p">;</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn3</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.35, scale = -0.264)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn3</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:exc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, scale = 0.357)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn3</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, scale = -0.39)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Alright! This seems to work.</p>
+</div>
+<div class="section" id="try-autodiff-for-speedup">
+<h2>Try autodiff for speedup<a class="headerlink" href="#try-autodiff-for-speedup" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<p>It&#8217;s hard to get ForwardDiff.jl to work with ComponentArrays.jl and @unpack.
+(might be possible). But simpler to re-write model func, more &#8216;basic&#8217;:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#916;t</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">general</span><span class="o">.</span><span class="n">&#916;t</span><span class="o">::</span><span class="kt">Float64</span>
+<span class="n">STA_duration</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">conntest</span><span class="o">.</span><span class="n">STA_window_length</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">STA_duration</span><span class="p">,</span> <span class="n">STA_win_size</span><span class="p">(</span><span class="n">p</span><span class="p">)))</span>
+
+<span class="n">linear_PSP</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">&#964;1</span> <span class="o">==</span> <span class="n">&#964;2</span><span class="p">)</span>   <span class="nd">@.</span> <span class="n">t</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span>
+    <span class="k">else</span>            <span class="nd">@.</span> <span class="n">&#964;1</span><span class="o">*</span><span class="n">&#964;2</span><span class="o">/</span><span class="p">(</span><span class="n">&#964;1</span><span class="o">-</span><span class="n">&#964;2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;2</span><span class="p">))</span> <span class="k">end</span>
+
+<span class="n">gaussian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">=</span>
+    <span class="nd">@.</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span> <span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">loc</span><span class="p">)</span><span class="o">/</span><span class="n">width</span> <span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">rescale_to_max!</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">x</span> <span class="o">./=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="k">function</span> <span class="n">model_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">tx_delay</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">,</span> <span class="n">dip_loc</span><span class="p">,</span> <span class="n">dip_width</span><span class="p">,</span> <span class="n">dip_weight</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="n">linear_PSP</span><span class="p">(</span><span class="n">t</span> <span class="o">.-</span> <span class="n">tx_delay</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span>
+    <span class="n">tx_size</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tx_delay</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">bump</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">tx_size</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">0</span>
+    <span class="n">rescale_to_max!</span><span class="p">(</span><span class="n">bump</span><span class="p">)</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="n">gaussian</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">dip_loc</span><span class="p">,</span> <span class="n">dip_width</span><span class="p">)</span>
+    <span class="n">rescale_to_max!</span><span class="p">(</span><span class="n">dip</span><span class="p">)</span>
+    <span class="n">dip</span> <span class="o">.*=</span> <span class="o">-</span><span class="n">dip_weight</span>
+    <span class="n">STA_model</span> <span class="o">=</span> <span class="p">(</span><span class="n">bump</span> <span class="o">.+</span> <span class="n">dip</span><span class="p">)</span> <span class="o">.*</span> <span class="n">scale</span>
+    <span class="n">STA_model</span> <span class="o">.-=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA_model</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">STA_model</span>
+<span class="k">end</span>
+
+<span class="n">p0_vec</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">p0</span><span class="p">)</span>
+<span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">upper</span>
+<span class="k">function</span> <span class="n">fit_</span><span class="p">(</span><span class="n">STA</span><span class="p">;</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:finite</span><span class="p">)</span>  <span class="c"># or :forwarddiff</span>
+    <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">autodiff</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_STA</span> <span class="o">=</span> <span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span>
+
+<span class="nd">@time</span> <span class="n">fit_finite</span> <span class="o">=</span> <span class="n">fit_</span><span class="p">(</span><span class="n">real_STA</span><span class="p">;</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:finite</span><span class="p">);</span>  <span class="c"># default</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.232042 seconds (63.04 k allocations: 294.281 MiB, 7.59% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hah, our simpler function is also just faster with the default.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_STA</span> <span class="o">=</span> <span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]</span>
+
+<span class="nd">@time</span> <span class="n">fit_AD</span> <span class="o">=</span> <span class="n">fit_</span><span class="p">(</span><span class="n">real_STA</span><span class="p">;</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:forwarddiff</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.064877 seconds (10.04 k allocations: 100.619 MiB, 10.43% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>:DDD</p>
+<p>Amazing.</p>
+<p>Is the result correct though?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_with_fit</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="n">hylabel</span> <span class="o">=</span> <span class="s">"Old model func"</span><span class="p">)</span>
+<span class="n">plot_with_fit</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">fit_finite</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">hylabel</span> <span class="o">=</span> <span class="s">"Leaner model func. Finite diff."</span><span class="p">);</span>
+<span class="n">plot_with_fit</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">fit_AD</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">hylabel</span> <span class="o">=</span> <span class="s">"Leaner model func. Autodiff."</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_1.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_2.png">
+</div>
+</div>
+<p>All three give a slightly different fit, interestingly.</p>
+<p>Is there a diff between our two model functions, for the same params, btw?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">real_STA</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">model_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fit_AD</span><span class="o">.</span><span class="n">param</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_86_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_86_0.png">
+</div>
+</div>
+<p>No, nothing perceptible.</p>
+<p>Now, use this model and AD fit for a proper conntest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conn__model_STA__proper_AD</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="k">function</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">fit_</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:forwarddiff</span><span class="p">)</span>
+        <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">model_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">zscore</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">./</span> <span class="n">std</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">testconn4</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__model_STA__proper_AD</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="mf">0.05</span><span class="p">;</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Are the pval results the same on our three examples?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn4</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.35, scale = -0.264)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Was also 0.35 above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn4</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:exc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, scale = 0.357)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testconn4</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :inh, pval = 0.01, scale = -0.39)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Same pvals (and same scales).</p>
+<p>Btw. Can we speedup more by calculating the jacobian beforehand, once?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># ] add ForwardDiff</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>..wait no. ForwardDiff api has just <code class="docutils literal notranslate"><span class="pre">jacobian(f,x)</span></code>, which is the jac evaluated at a specific point.
+No general <code class="docutils literal notranslate"><span class="pre">jacobian(f)</span></code> function.</p>
+<p>Another speedup might be achieved by using non-allocating (i.e. in-place, i.e. buffer-overwriting) model functions: <a class="reference external" href="https://github.com/JuliaNLSolvers/LsqFit.jl#in-place-model-and-jacobian">https://github.com/JuliaNLSolvers/LsqFit.jl#in-place-model-and-jacobian</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">testconn4</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..................................................................................................... 10.967874 seconds (1.98 M allocations: 17.231 GiB, 14.73% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So testing one connection, the &#8216;proper&#8217; way, is now 11 seconds.</p>
+<p>Compare before AD (and before leaner model func):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">testconn3</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..................................................................................................... 51.140615 seconds (27.30 M allocations: 62.864 GiB, 7.87% gc time, 0.38% compilation time: 100% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So 51/11 = 4.6x speedup through AD.</p>
+<p>Testing our sample of 100 connections would take 18 minutes.</p>
+<p>Let&#8217;s try a non-allocating model func.</p>
+</div>
+<div class="section" id="in-place-model-jacobian">
+<h2>In-place model &amp; jacobian<a class="headerlink" href="#in-place-model-jacobian" title="Permalink to this headline">&#182;</a></h2>
+<p>We cannot combine in-place with ForwardDiff by default: <a class="reference external" href="https://github.com/JuliaDiff/ForwardDiff.jl/issues/136">https://github.com/JuliaDiff/ForwardDiff.jl/issues/136</a></p>
+<p>We need <a class="reference external" href="https://github.com/SciML/PreallocationTools.jl">https://github.com/SciML/PreallocationTools.jl</a></p>
+<p>We only need it only for our bump and dip buffers though, not for the output buffer:
+that one is handled by ForwardDiff&#8217;s in-place-model API (<code class="docutils literal notranslate"><span class="pre">jacobian(f!,</span> <span class="pre">y,</span> <span class="pre">x)</span></code>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PreallocationTools</span><span class="p">,</span> <span class="n">ForwardDiff</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">linear_PSP!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">&#964;1</span> <span class="o">==</span> <span class="n">&#964;2</span><span class="p">)</span>   <span class="nd">@.</span> <span class="n">y</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span>
+    <span class="k">else</span>            <span class="nd">@.</span> <span class="n">y</span> <span class="o">=</span> <span class="n">&#964;1</span><span class="o">*</span><span class="n">&#964;2</span><span class="o">/</span><span class="p">(</span><span class="n">&#964;1</span><span class="o">-</span><span class="n">&#964;2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;2</span><span class="p">))</span> <span class="k">end</span>
+
+<span class="n">gaussian!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">loc</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span> <span class="o">=</span>
+    <span class="nd">@.</span> <span class="n">y</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span> <span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">loc</span><span class="p">)</span><span class="o">/</span><span class="n">width</span> <span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">rescale_to_max_!</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span>
+    <span class="n">x</span> <span class="o">./=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c"># Here we assume x positive, so `abs.(x)` (which allocates) is not needed.</span>
+
+<span class="k">function</span> <span class="n">model_!</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">dualcaches</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="c"># -- </span>
+    <span class="c"># -- https://github.com/SciML/PreallocationTools.jl</span>
+    <span class="n">tc</span><span class="p">,</span> <span class="n">bc</span><span class="p">,</span> <span class="n">dc</span> <span class="o">=</span> <span class="n">dualcaches</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># just to get type of input: Float or Dual</span>
+    <span class="n">tshift</span> <span class="o">=</span> <span class="n">get_tmp</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="n">bump</span> <span class="o">=</span> <span class="n">get_tmp</span><span class="p">(</span><span class="n">bc</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="n">dip</span> <span class="o">=</span> <span class="n">get_tmp</span><span class="p">(</span><span class="n">dc</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span>
+    <span class="c"># --</span>
+    <span class="n">tx_delay</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">,</span> <span class="n">dip_loc</span><span class="p">,</span> <span class="n">dip_width</span><span class="p">,</span> <span class="n">dip_weight</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">tshift</span> <span class="o">.=</span> <span class="n">t</span> <span class="o">.-</span> <span class="n">tx_delay</span>
+    <span class="n">linear_PSP!</span><span class="p">(</span><span class="n">bump</span><span class="p">,</span> <span class="n">tshift</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span>
+    <span class="n">tx_size</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tx_delay</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">bump</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">tx_size</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">0</span>
+    <span class="n">rescale_to_max_!</span><span class="p">(</span><span class="n">bump</span><span class="p">)</span>
+    <span class="n">gaussian!</span><span class="p">(</span><span class="n">dip</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dip_loc</span><span class="p">,</span> <span class="n">dip_width</span><span class="p">)</span>
+    <span class="n">rescale_to_max_!</span><span class="p">(</span><span class="n">dip</span><span class="p">)</span>
+    <span class="n">dip</span> <span class="o">.*=</span> <span class="o">-</span><span class="n">dip_weight</span>
+    <span class="n">STA</span> <span class="o">.=</span> <span class="p">(</span><span class="n">bump</span> <span class="o">.+</span> <span class="n">dip</span><span class="p">)</span> <span class="o">.*</span> <span class="n">scale</span>
+    <span class="n">STA</span> <span class="o">.-=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">nothing</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">F0</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">dualcache</span><span class="p">(</span><span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<span class="n">bc</span> <span class="o">=</span> <span class="n">dualcache</span><span class="p">(</span><span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<span class="n">dc</span> <span class="o">=</span> <span class="n">dualcache</span><span class="p">(</span><span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<span class="c"># For curve_fit api:</span>
+<span class="n">model_!</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">model_!</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="p">(</span><span class="n">tc</span><span class="p">,</span><span class="n">bc</span><span class="p">,</span><span class="n">dc</span><span class="p">),</span> <span class="n">&#916;t</span><span class="p">);</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_STA</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">])</span>
+<span class="n">conn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">model_!</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">time</span><span class="p">()</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">model_!</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">time</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000141 seconds (1 allocation: 64 bytes)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">f!</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">model_!</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+
+<span class="n">Jbuf</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="n">f!</span><span class="p">,</span> <span class="n">F0</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># For curve_fit api:</span>
+<span class="n">jac_model!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">jacobian!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">f!</span><span class="p">,</span> <span class="n">F0</span><span class="p">,</span> <span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">jac_model!</span><span class="p">(</span><span class="n">Jbuf</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">time</span><span class="p">()</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">jac_model!</span><span class="p">(</span><span class="n">Jbuf</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">time</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000226 seconds (12 allocations: 251.656 KiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>:OOO so few allocs &#128513;&#128513;&#128513;</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_!</span><span class="p">,</span> <span class="n">jac_model!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.061003 seconds (5.22 k allocations: 46.477 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hmm, that&#8217;s lotsa allocs, and not much faster than non-inplace, it seems.</p>
+<p>non-inplace:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:forward</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.065619 seconds (10.04 k allocations: 100.619 MiB, 11.79% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Yeah. guess LsqFit.jl problem doesn&#8217;t do inplace very well.</p>
+<p>Let&#8217;s test for full pval loop anyway.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_inplace</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_!</span><span class="p">,</span> <span class="n">jac_model!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+
+<span class="n">fitted_model</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="c"># Buffer</span>
+
+<span class="k">function</span> <span class="n">test_conn__model_STA__proper_AD_inplace</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="k">function</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">fit_inplace</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">model_!</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">zscore</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">./</span> <span class="n">std</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">println</span><span class="p">()</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_inplace</span><span class="p">(</span><span class="n">real_STA</span><span class="p">)</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="k">end</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">testconn5</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__model_STA__proper_AD_inplace</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="mf">0.05</span><span class="p">;</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">testconn5</span><span class="p">(</span><span class="n">example_conn</span><span class="p">(</span><span class="ss">:inh</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+  8.942858 seconds (1.41 M allocations: 7.988 GiB, 7.23% gc time, 2.73% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So yeah, same perf as the allocating, non-inplace version<br>
+(11 seconds, 1.98 M allocations: 17.231 GiB)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using ProfileView</span>
+<span class="c"># @profview testconn5(example_conn(:inh));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Annotated flamegraph (execution time profiling):</p>
+<p><img alt="" src="../_images/profile_curve_fit.png">
+(open original for full size)</p>
+<p>Conclusions from this profile:</p>
+<ul class="simple">
+<li><p>The gains by writing an in-place model function were negated by performance hit of that <code class="docutils literal notranslate"><span class="pre">get_tmp</span></code> function.
+(Hence why it was ~as fast as the previous, allocating model).</p></li>
+<li><p>I do not expect a big gain by writing a jacobian function manually: the <code class="docutils literal notranslate"><span class="pre">f</span></code> evaluation
+(right <code class="docutils literal notranslate"><span class="pre">model</span></code> &#8216;tower&#8217; in the flamegraph) is almost as big as the <code class="docutils literal notranslate"><span class="pre">jac(f)</span></code> evaluation (left <code class="docutils literal notranslate"><span class="pre">model</span></code> tower).</p>
+<ul>
+<li><p>In other words, automatic differentiation (ForwardDiff.jl) is magic.</p></li>
+</ul>
+</li>
+<li><p>More generally: I do not expect substantial speedups are possible for this connection test method:
+Most time is already spent in the basic operations to construct our model (<code class="docutils literal notranslate"><span class="pre">exp</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>).
+Maybe a fitting algorithm that needs less function/jacobian evaluations.</p></li>
+</ul>
+</div>
+<div class="section" id="use-proper-method-with-autodiff-on-sample">
+<h2>Use proper method, with autodiff, on sample<a class="headerlink" href="#use-proper-method-with-autodiff-on-sample" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">test_conn__model_STA__proper_AD</span> <span class="o">$</span> <span class="p">(;</span> <span class="n">p</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+
+<span class="nd">@time</span> <span class="n">tc</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">ctsample</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">pbar</span> <span class="o">=</span> <span class="nb">false</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>....................................................................................................1084.939439 seconds (201.36 M allocations: 1.734 TiB, 11.70% gc time, 0.09% compilation time: 82% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">1085</span><span class="o">/</span><span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>1.7 TiB allocations &#128516;</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># backup</span>
+<span class="n">tc_proper</span> <span class="o">=</span> <span class="n">tc</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perftable</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table><tr><th align="right">Tested connections: 100</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">41</td><td align="right">8</td><td align="right">0</td><td align="right"></td><td align="right">84%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">5</td><td align="right">26</td><td align="right">0</td><td align="right"></td><td align="right">84%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">7</td><td align="right">0</td><td align="right">13</td><td align="right"></td><td align="right">65%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">77%</td><td align="right">76%</td><td align="right">100%</td><td align="right"></td><td align="right"></td></tr></table>
+</div></div>
+</div>
+<p>That&#8217;s not bad!<br>
+Comparing with the two-pass (ptp and corr) test of previous nb:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Tested connections: 3906</p></th>
+<th class="head"><p>&#160; &#160; &#160; &#160; &#160; &#160;</p></th>
+<th class="head"><p>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</p></th>
+<th class="head"><p>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</p></th>
+<th class="head"><p>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</p></th>
+<th class="head"><p>&#160; &#160; &#160;</p></th>
+<th class="head"><p>&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p></p></td>
+<td><p></p></td>
+<td><p><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></p></td>
+<td><p><strong>Real type</strong></p></td>
+<td><p><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></p></td>
+<td><p></p></td>
+<td><p><strong>Precision</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unconn</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">exc</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">inh</span></code></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>&#9484;</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">unconn</span></code></p></td>
+<td><p>1704</p></td>
+<td><p>274</p></td>
+<td><p>25</p></td>
+<td><p></p></td>
+<td><p>85%</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Predicted type</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">exc</span></code></p></td>
+<td><p>139</p></td>
+<td><p>1235</p></td>
+<td><p>0</p></td>
+<td><p></p></td>
+<td><p>90%</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>&#9492;</strong></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">inh</span></code></p></td>
+<td><p>157</p></td>
+<td><p>6</p></td>
+<td><p>366</p></td>
+<td><p></p></td>
+<td><p>69%</p></td>
+</tr>
+<tr class="row-odd"><td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Sensitivity</strong></p></td>
+<td><p></p></td>
+<td><p>85%</p></td>
+<td><p>82%</p></td>
+<td><p>94%</p></td>
+<td><p></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<p>Time comparison:
+given precalculated STAs, the ptp-then-corr method takes about 10 seconds to test 3906 connections.
+The curve fitting method takes 18 minutes for 100 connections.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">18</span><span class="n">minutes</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">10</span><span class="n">seconds</span><span class="o">/</span><span class="mi">3906</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.22E+03
+</pre></div>
+</div>
+</div>
+</div>
+<p>4000x faster &#128516;</p>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">&#182;</a></h2>
+<p>In conclusion: connection-testing by curve-fitting a parametric STA model to the STAs (real and shuffled) seems to give respectable performance. However, it is multiple orders of magnitude slower than the ptp-then-corr method, taking 18 minutes to test 100 connections.</p>
+<p>The advantage of the parametric curve-fitting is that it can handle different transmission delays and time scales per synapse, while the ptp-then-corr method might not.
+(Though we haven&#8217;t tested either assertion).</p>
 </div>
 </div>
 
