@@ -139,8 +139,6 @@ ETA * (1+p.conntest.num_shuffles) * minutes / hours
 
 # ## Test sample
 
-
-
 samplesize = 100
 resetrng!(1234)
 i = sample(1:nrow(ct), samplesize, replace = false)
@@ -266,6 +264,7 @@ function test_conn__model_STA__proper2(real_STA, shuffled_STAs, α; p::ExpParams
         t = - MSE(zscore(fitted_model), zscore(STA))
     end
     pval, _ = calc_pval(test_stat, real_STA, shuffled_STAs)
+    println()
     scale = fit_STA(real_STA, p).scale / mV
     predtype = get_predtype(pval, scale, α)
     return (; predtype, pval, scale)
@@ -321,7 +320,7 @@ end
 p0_vec = collect(VoltoMapSim.p0)
 lower, upper = VoltoMapSim.lower, VoltoMapSim.upper
 function fit_(STA; autodiff = :finite)  # or :forwarddiff
-    curve_fit(model_, t, STA, p0_vec; lower, upper, autodiff)
+    curve_fit(model_, t, centre(STA), p0_vec; lower, upper, autodiff)
 end;
 
 # +
@@ -370,6 +369,7 @@ function test_conn__model_STA__proper_AD(real_STA, shuffled_STAs, α; p::ExpPara
         return - MSE(zscore(fitted_model), zscore(STA))
     end
     pval, _ = calc_pval(test_stat, real_STA, shuffled_STAs)
+    verbose && println()
     scale = fit_STA(real_STA, p).scale / mV
     predtype = get_predtype(pval, scale, α)
     return (; predtype, pval, scale)
@@ -409,7 +409,7 @@ testconn4(example_conn(:inh))
 
 @time testconn3(example_conn(:inh));
 
-# So 51/11 = 4.6x speedup through AD.
+# So 49/10.9 = 4.5x speedup through AD.
 
 # Testing our sample of 100 connections would take 18 minutes.
 
@@ -503,7 +503,7 @@ time();
 # Let's test for full pval loop anyway.
 
 # +
-fit_inplace(STA) = curve_fit(model_!, jac_model!, t, STA, p0_vec; lower, upper, inplace = true);
+fit_inplace(STA) = curve_fit(model_!, jac_model!, t, centre(STA), p0_vec; lower, upper, inplace = true);
 
 fitted_model = similar(t)  # Buffer
 
@@ -677,13 +677,16 @@ plotsig(STA, p);
 # -- for the Float case. When called with Duals (in the autodiff), it's probably faster still.
 # Let's try.
 
+# Also, let's see if we can prealloc and reuse the fwddiff "Config" object.
+
 turbomodel!(y, t, params) = turbomodel!(y, t, params, Δt)
 ft! = (y,p) -> turbomodel!(y, t, p)
 y = similar(t)
-jac_turbomodel!(J, t, params) = ForwardDiff.jacobian!(J, ft!, y, params);
+cfg = ForwardDiff.JacobianConfig(ft!, y, p0_vec)
+jac_turbomodel!(J, t, params) = ForwardDiff.jacobian!(J, ft!, y, params, cfg);
 
 # +
-turbofit(STA) = curve_fit(turbomodel!, jac_turbomodel!, t, STA, p0_vec; lower, upper, inplace = true);
+turbofit(STA) = curve_fit(turbomodel!, jac_turbomodel!, t, centre(STA), p0_vec; lower, upper, inplace = true);
 
 fitted_model = similar(t)
 
@@ -711,7 +714,7 @@ conn
 
 # 😁😁 we got it down
 #
-# (from 9 seconds to 6.4 weliswaar maar)
+# (from 8.9 seconds to 5.8 weliswaar maar)
 
 # Summary of speedups  
 # (All for the 'proper', working, test, where we fit all shuffles)
@@ -719,23 +722,184 @@ conn
 # Time to test one connection:
 #
 # ```
-# - finite differences:          51 seconds
+# - finite differences:          49 seconds
 # - autodiff:                    11 seconds
 # - autodiff, in-place:           9 seconds
 # - autodiff, in-place, squeezed: 6 seconds
 # ```
 
 # The 18.1 minutes for 100 connections of above was using the second out of this list.
-# With the fastest version, we'd get it down to 11 minutes.
+# With the fastest version, we'd get it down to 9.7 minutes.
 #
-# Ofc we haven't multithreaded here. For 7 threads, we'd get 6x speedup say. So ~2 minutes / 100 connections.
-# The 3906 tested connections would then take 1h12.
+# Ofc we haven't multithreaded here. For 7 threads, we'd get 6x speedup say. So ~1m36 / 100 connections.
+# The 3906 tested connections would then take 1h03.
 
 # +
 # @profview testconn6(conn);
 # -
 
 # In the new flamegraph, we find exactly the improvements we expected:
-# the three `get_tmp` chimneys gone, the fat `rescale_to_max` towers in jac squeezed out.
+# the three `get_tmp` chimneys gone, the fat `rescale_to_max` towers in jac squeezed out, the `ForwardDiff.JacobianConfig` init blocks gone.
 # In general, a cleaned up picture. Relatively more time in the LM BLAS calls versus our model than before.
 # Much usage of exp_fast.
+
+# ## Inspect curve-fitting algorithm
+#
+# Can we get away with less Levenberg-Marquardt iterations?
+
+STA = copy(STAs[conn]);
+
+# +
+# The below section does not work with `master` version of LsqFit installed.
+# Don't re-execute, and skip to `New LsqFit version` section.
+# -
+
+# ### `my_curve_fit`
+
+# We manually go through the `curve_fit` and `lmfit` api functions, to get to the core algo.
+
+using LsqFit: levenberg_marquardt
+using LsqFit.NLSolversBase: OnceDifferentiable
+
+old_stdout = stdout
+
+# +
+function my_curve_fit(model, jacobian_model, xdata, ydata, p0; kw...)
+    f! = (F,p) -> (model(F,xdata,p); @. F = F - ydata)
+    g! = (G,p)  -> jacobian_model(G, xdata, p)
+    # `wt` is not used in LM. It's just given to `lmfit` to put in FitResult
+    r = copy(ydata)
+    R = OnceDifferentiable(f!, g!, p0, r; inplace = true)
+    # `p0` is `xseed` (or `x`)
+    # `r` is `F`, "cache for f output".
+    res = levenberg_marquardt(R, p0; kw...)
+end
+
+redirect_stdout(devnull)
+@time res = my_curve_fit(turbomodel!, jac_turbomodel!, t, centre(STA), p0_vec;
+                         lower, upper, show_trace = true);
+redirect_stdout(old_stdout)
+# -
+
+# Wth. Without Suppressor (and thus printing), 7.5 seconds. With, 30 seconds (though it does its job).
+# This package keeps disappointing.
+#
+# (I do my own redirection above now).
+#
+# Hm, trying to capture stdout (`rdpipe, _ = redirect_stdout()`) freezes kernel.
+# Seems to be some interaction with ijulia: https://github.com/JuliaIO/Suppressor.jl/issues/31).
+
+dumps(res; skipfields = [:trace])
+
+# ~2x as much f calls than g (jacobian) calls.
+#
+# -- whereas in flamegraph, time spent calling f from ForwardDiff is ~2.8 as much as time spent calling f with Floats.
+# So a manual jacobian might give a decent speedup after all.
+
+show(res.trace[1:3])
+
+tr = res.trace[end]
+
+dumps(tr, skipfields = [:metadata])
+
+show(tr.metadata)
+
+# `lambda` is the "trust region" size.\
+# `g(x)` is same as `g_norm`\
+# `dx` is parameter update.
+
+# Optimization stops when one of the following holds
+# - maxiter (default 1000) reached
+# - `g_norm` < `g_tol` (default 1e-12)
+# - `norm(dx)` < `x_tol * (x_tol + norm(x))`
+#     - default `x_tol` is 1e-8
+#     - `x` is current set of params (i.e. `x0 .+ sum(dxs)`)
+
+using LinearAlgebra
+
+x = res.minimizer
+dx = tr.metadata["dx"]
+xtol = 1e-8
+norm(x), xtol * (xtol+norm(x)), norm(dx)
+
+# Looking at the internals of this algo, it feels like I should 'normalize' my params,
+# to have them on same scale.
+# Luckily they're not too wide apart now:
+
+x
+
+# +
+# dxs = [tr.metadata["dx"] for tr in res.trace[2:end]]
+# -
+
+# ^These are all the same.
+# There's a bug in the code there: in the "show_trace" block, line 200 in lm.jl,
+# at `"dx" => delta_x`, it should instead be `"dx" => copy(delta_x)`.
+
+# Ah, it's fixed, but not yet released: https://github.com/JuliaNLSolvers/LsqFit.jl/pull/222
+
+# Installing master from gh (e9b9e87 currently).
+
+# ### New `LsqFit` version
+
+# We now get the trace in our fitresult:
+
+@time begin 
+    redirect_stdout(devnull)
+    res = curve_fit(turbomodel!, jac_turbomodel!, t, centre(STA), p0_vec;
+                    lower, upper, inplace = true, show_trace = true)
+    redirect_stdout(old_stdout)
+end;
+
+dxs = [tr.metadata["dx"] for tr in res.trace[2:end]];
+showsome(dxs)
+
+# +
+plot(norm.(dxs), xlabel = "Iteration", hylabel="norm(Δp)", yscale = "log");
+
+# Zoom
+plt.subplots()
+sel = 120:200
+plot(sel, norm.(dxs[sel]), xlabel = "Iteration", hylabel="norm(Δp)", yscale = "log");
+# -
+
+# Hm, from this, seems like we can't get away with many less iterations: the parameter changes do not get smaller until the very end.
+
+# I want to see, through an animated model plot, how the fit evolves over the procedure.
+# Can't do `[p0_vec .+ d for d in cumsum(dxs)]`. End result is not same.
+# (Not every iteration is x updated).
+
+# So I'll do it the dumb way and gradually increase `maxIter`.
+
+# PyPlot.jl animation: [thx here](https://genkuroki.github.io/documents/Jupyter/20170624%20Examples%20of%20animations%20in%20Julia%20by%20PyPlot%20and%20matplotlib.animation.html)
+
+using PyCall
+
+@pyimport matplotlib.animation as anim
+
+PyPlot.isjulia_display[] = false
+fig, ax = plt.subplots()
+plotsig(centre(STA) / mV, p; ax)
+tms = collect(linspace(0, 100, 1000))
+y0 = 
+ln, = ax.plot(tms, zeros(length(tms)))
+y = copy(t);
+
+function update(i)
+    res = curve_fit(turbomodel!, jac_turbomodel!, t, centre(STA), p0_vec; lower, upper, inplace = true, maxIter = i)
+    turbomodel!(y, t, res.param)
+    ln.set_ydata(y / mV)
+end
+
+PyPlot.isjulia_display[] = true;  # rerun to clear out buffer :p
+
+anim.writers.list()
+
+rcParams["animation.writer"] = "pillow";
+
+an = anim.FuncAnimation(fig, update, 10);
+an.to_html5_video()
+
+# +
+# This crashes julia, with "pillow".
+# I'ma move to a new notebook.

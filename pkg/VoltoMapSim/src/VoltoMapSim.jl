@@ -21,7 +21,7 @@ include("params.jl")
 export get_params, ExperimentParams, ExpParams
 
 include("diskcache.jl")
-export cached, cachedir, cachepath, empty_cache
+export cached, cachedir, cachepath, savecache, loadcache, empty_cache
 
 include("sim/sim.jl")
 export sim, init_sim, step_sim!, add_VI_noise, augment, dummy_simdata
@@ -33,7 +33,7 @@ include("conntest/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
 
 include("conntest/model_STA.jl")
-export fit_STA, toCVec, model_STA, model_STA_components, centre
+export fit_STA, toCVec, FitParams, model_STA, model_STA_components, centre
 
 include("conntest/shuffle_test.jl")
 export shuffle_ISIs, calc_pval

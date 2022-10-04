@@ -20,35 +20,39 @@ Usage:
     output = cached(slow_func, [x, p]; key=[p, n]])
 """
 function cached(f, args::Vector; key::Vector = [last(args)], verbose = true)
-    dir = cachedir(f)
-    mkpath(dir)
     path = cachepath(f, key)
     if isfile(path)
-        if verbose @withfb "Loading cached output from `$path`" (output = load(path, "output"))
-        else (output = load(path, "output"))
+        if verbose @withfb "Loading cached output from `$path`" (output = loadcache(path))
+        else (output = loadcache(path))
         end
     else
         output = f(args...)
-        if verbose @withfb "Saving output at `$path`" jldsave(path; key, output)
-        else jldsave(path; key, output)
+        if verbose @withfb "Saving output at `$path`" savecache(path, output; key)
+        else savecache(path, output; key)
         end
     end
     return output
 end
 
-cachedir(f) = joinpath(cacheroot, string(nameof(f)))
-
+cachepath(f, key) = joinpath(cachedir(f), cachefilename(key) * ".jld2")
+cachedir(f)              = joinpath(cacheroot, string(nameof(f)))
+cachedir(subdir::String) = joinpath(cacheroot, subdir)
+cachefilename(key::String) = key
 function cachefilename(key::Vector)
     h = zero(UInt)
     for el in key
         h = hash(el, h)
     end
-    return string(h, base=16) * ".jld2"
+    return string(h, base=16)
 end
-
-cachepath(f, key) = joinpath(cachedir(f), cachefilename(key))
-
-empty_cache(f, key) = rm(cachepath(f, key), force = true)
+function savecache(path, output; kw...)
+    dir = dirname(path)
+    mkpath(dir)
+    jldsave(path; output, kw...)
+end
+loadcache(path) = load(path, "output")
+empty_cache(path) = rm(path, force = true)
+empty_cache(f, key) = empty_cache(cachepath(f, key))
 
 
 """
