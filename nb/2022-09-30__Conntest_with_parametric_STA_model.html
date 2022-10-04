@@ -48,6 +48,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-30__Conntest_with_parametric_STA_model.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
@@ -609,6 +611,18 @@ const thebe_selector_output = ".output, .cell_output"
    Conclusion
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#appendix">
+   [appendix]
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#squeezing-out-last-drop-of-performance">
+     Squeezing out last drop of performance
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -678,6 +692,18 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#conclusion">
    Conclusion
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#appendix">
+   [appendix]
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#squeezing-out-last-drop-of-performance">
+     Squeezing out last drop of performance
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -1570,27 +1596,15 @@ that one is handled by ForwardDiff&#8217;s in-place-model API (<code class="docu
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_STA</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">])</span>
-<span class="n">conn</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">model_!</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
-<span class="n">time</span><span class="p">()</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">model_!</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">model_!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">time</span><span class="p">()</span> <span class="o">=</span> <span class="nd">@time</span> <span class="n">model_!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
 <span class="n">time</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000141 seconds (1 allocation: 64 bytes)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000048 seconds (1 allocation: 64 bytes)
 </pre></div>
 </div>
 </div>
@@ -1720,6 +1734,40 @@ that one is handled by ForwardDiff&#8217;s in-place-model API (<code class="docu
 <li><p>More generally: I do not expect substantial speedups are possible for this connection test method:
 Most time is already spent in the basic operations to construct our model (<code class="docutils literal notranslate"><span class="pre">exp</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>).
 Maybe a fitting algorithm that needs less function/jacobian evaluations.</p></li>
+</ul>
+<p>To squeeze out all performance:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rescale_to_max</span></code> not needed: just divide by analytic expression for height of alpha-synpase and gaussian.</p>
+<ul>
+<li><p>I&#8217;d wager one exists for the alpha-synapse, vaguely remember seeing one somewhere even.</p></li>
+<li><p>(better than division: multiply by pre-calculated inverse)</p></li>
+</ul>
+</li>
+<li><p>Only one extra buffer (besides the first arg) is needed (so only one costly <code class="docutils literal notranslate"><span class="pre">get_tmp()</span></code> call).</p>
+<ul>
+<li><p>Maybe we can make a faster version of that dualcache, too</p></li>
+<li><p>Actually maybe we don&#8217;t need any: use first arg buffer <code class="docutils literal notranslate"><span class="pre">y</span></code> for <code class="docutils literal notranslate"><span class="pre">tshift</span></code>, then <code class="docutils literal notranslate"><span class="pre">linear_PSP!(y,</span> <span class="pre">y,</span> <span class="pre">&#964;1,&#160;&#964;2)</span></code>; then add the gaussian to it; etc.</p></li>
+</ul>
+</li>
+<li><p>Provide that <code class="docutils literal notranslate"><span class="pre">JacobianConfig()</span></code> beforehand (if possible)</p></li>
+<li><p>I&#8217;d wager there&#8217;s faster versions of <code class="docutils literal notranslate"><span class="pre">exp</span></code> available (and we can likely get away with a bit less precision).</p>
+<ul>
+<li><p>We can try <a class="reference external" href="https://docs.julialang.org/en/v1/base/math/#Base.FastMath.@fastmath"><code class="docutils literal notranslate"><span class="pre">@fastmath</span></code></a>, though must check whether results are still correct.</p>
+<ul>
+<li><p>ah, it indeed uses <code class="docutils literal notranslate"><span class="pre">exp_fast</span></code>: <a class="reference external" href="https://github.com/JuliaLang/julia/blob/master/base/fastmath.jl">src</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Experiment with levenberg marquardt params &amp; reporting: how many f/jac evals now? Can we get a good fit with fewer evaluations?</p></li>
+</ul>
+<p>The above are quite easy. More difficult:</p>
+<ul class="simple">
+<li><p>Write manual jacobian (so ForwardDiff.jl machinery not needed).</p>
+<ul>
+<li><p>Seems feasible. Can test correctness with autodiff (or finite differences).</p></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="section" id="use-proper-method-with-autodiff-on-sample">
@@ -1863,6 +1911,199 @@ The curve fitting method takes 18 minutes for 100 connections.</p>
 <p>In conclusion: connection-testing by curve-fitting a parametric STA model to the STAs (real and shuffled) seems to give respectable performance. However, it is multiple orders of magnitude slower than the ptp-then-corr method, taking 18 minutes to test 100 connections.</p>
 <p>The advantage of the parametric curve-fitting is that it can handle different transmission delays and time scales per synapse, while the ptp-then-corr method might not.
 (Though we haven&#8217;t tested either assertion).</p>
+</div>
+<hr class="docutils">
+<div class="section" id="appendix">
+<h2>[appendix]<a class="headerlink" href="#appendix" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="squeezing-out-last-drop-of-performance">
+<h3>Squeezing out last drop of performance<a class="headerlink" href="#squeezing-out-last-drop-of-performance" title="Permalink to this headline">&#182;</a></h3>
+<p>Max of the gaussian func as I defined it is simply 1 (namely at <code class="docutils literal notranslate"><span class="pre">t</span> <span class="pre">=</span> <span class="pre">loc</span></code>).</p>
+<p>Max of <span class="math notranslate nohighlight">\(t e^{-t/&#964;}\)</span> is at <span class="math notranslate nohighlight">\(t = &#964;\)</span>, so: <span class="math notranslate nohighlight">\(&#964;/e\)</span></p>
+<p>Max of <span class="math notranslate nohighlight">\(\frac{&#964;_1 &#964;_2}{&#964;_1 - &#964;_2} \left( e^{-t/&#964;_1} - e^{-t/&#964;_2} \right)\)</span></p>
+<p>is at <span class="math notranslate nohighlight">\(t = \frac{&#964;_1 &#964;_2}{&#964;_1 - &#964;_2} \log\left( \frac{&#964;_2}{&#964;_1} \right)\)</span></p>
+<p>evaluated: max = <span class="math notranslate nohighlight">\(&#964;_2 \left( \frac{&#964;_2}{&#964;_1} \right)^\frac{&#964;_2}{&#964;_1 - &#964;_2}\)</span></p>
+<p>(<a class="reference external" href="https://www.wolframalpha.com/input?i=d%2Fdt+%28+a*b%2F%28a-b%29+*+%28exp%28-t%2Fa%29+-+exp%28-t%2Fb%29%29+%29+%3D+0">thanks wolfram</a>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">linear_PSP_fm!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">&#964;1</span> <span class="o">==</span> <span class="n">&#964;2</span><span class="p">)</span>   <span class="nd">@.</span> <span class="nd">@fastmath</span> <span class="n">y</span> <span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span>
+    <span class="k">else</span>            <span class="nd">@.</span> <span class="nd">@fastmath</span> <span class="n">y</span> <span class="o">=</span> <span class="n">&#964;1</span><span class="o">*</span><span class="n">&#964;2</span><span class="o">/</span><span class="p">(</span><span class="n">&#964;1</span><span class="o">-</span><span class="n">&#964;2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">&#964;2</span><span class="p">))</span> <span class="k">end</span>
+
+<span class="k">function</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">tx_delay</span><span class="p">,</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">,</span> <span class="n">dip_loc</span><span class="p">,</span> <span class="n">dip_width</span><span class="p">,</span> <span class="n">dip_weight</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">tx_delay</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">T</span><span class="o">:</span><span class="n">end</span><span class="p">]</span> <span class="o">.=</span> <span class="nd">@view</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="n">T</span><span class="o">:</span><span class="n">end</span><span class="p">])</span> <span class="o">.-</span> <span class="n">tx_delay</span>    
+    <span class="nd">@views</span> <span class="n">linear_PSP_fm!</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">T</span><span class="o">:</span><span class="n">end</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">T</span><span class="o">:</span><span class="n">end</span><span class="p">],</span> <span class="n">&#964;1</span><span class="p">,</span> <span class="n">&#964;2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">&#964;1</span> <span class="o">==</span> <span class="n">&#964;2</span><span class="p">)</span> <span class="n">max</span> <span class="o">=</span> <span class="n">&#964;1</span><span class="o">/</span><span class="nb">&#8495;</span>
+    <span class="k">else</span>          <span class="n">max</span> <span class="o">=</span> <span class="n">&#964;2</span><span class="o">*</span><span class="p">(</span><span class="n">&#964;2</span><span class="o">/</span><span class="n">&#964;1</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="n">&#964;2</span><span class="o">/</span><span class="p">(</span><span class="n">&#964;1</span><span class="o">-</span><span class="n">&#964;2</span><span class="p">))</span> <span class="k">end</span>
+    <span class="nd">@views</span> <span class="n">y</span><span class="p">[</span><span class="n">T</span><span class="o">:</span><span class="n">end</span><span class="p">]</span> <span class="o">.*=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">max</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">T</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">0</span>
+    <span class="n">y</span> <span class="o">.-=</span> <span class="nd">@.</span> <span class="nd">@fastmath</span> <span class="n">dip_weight</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span> <span class="p">(</span><span class="n">t</span><span class="o">-</span><span class="n">dip_loc</span><span class="p">)</span><span class="o">/</span><span class="n">dip_width</span> <span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">.*=</span> <span class="n">scale</span>
+    <span class="n">y</span> <span class="o">.-=</span> <span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">nothing</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check if correct:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">STA</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">p0_</span> <span class="o">=</span> <span class="nd">@set</span> <span class="p">(</span><span class="n">p0_vec</span><span class="p">[</span><span class="k">end</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">turbomodel!</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
+<span class="n">STA_prev</span> <span class="o">=</span> <span class="n">model_</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p0_</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">STA_prev</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">p</span><span class="p">);</span>
+<span class="c"># plotsig(1e5 * (STA .- STA_prev), p);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_150_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_150_0.png">
+</div>
+</div>
+<p>Yah that&#8217;s the same</p>
+<p>Comparison with previous in place model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@benchmark</span> <span class="n">model_!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range (<span class=" -Color -Color-Bold -Color-Bold-Cyan">min</span> &#8230; <span class=" -Color -Color-Magenta">max</span>):  <span class=" -Color -Color-Bold -Color-Bold-Cyan">22.600 &#956;s</span> &#8230; <span class=" -Color -Color-Magenta">233.500 &#956;s</span>  &#9482; GC (min &#8230; max): 0.00% &#8230; 0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Blue">median</span>):     <span class=" -Color -Color-Bold -Color-Bold-Blue">28.000 &#956;s               </span>&#9482; GC (median):    0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Green">mean</span> &#177; <span class=" -Color -Color-Green">&#963;</span>):   <span class=" -Color -Color-Bold -Color-Bold-Green">29.567 &#956;s</span> &#177; <span class=" -Color -Color-Green">  5.547 &#956;s</span>  &#9482; GC (mean &#177; &#963;):  0.00% &#177; 0.00%
+
+  &#9601; &#9602;&#9602;&#9603;&#9604;&#9603;&#9605;&#9605;&#9604;&#9607;&#9604;&#9608;<span class=" -Color -Color-Blue">&#9603;</span>&#9607;&#9601;<span class=" -Color -Color-Green">&#9605;</span> &#9602; &#9601;&#9601;&#9601;&#9603;&#9602;&#9601;&#9602;&#9601; &#9602;  &#9602;  &#9602;&#9601;  &#9603;   &#9602;                 &#9602;
+  &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;<span class=" -Color -Color-Blue">&#9608;</span>&#9608;&#9608;<span class=" -Color -Color-Green">&#9608;</span>&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9607;&#9608;&#9608;&#9607;&#9608;&#9608;&#9607;&#9607;&#9608;&#9608;&#9608;&#9607;&#9608;&#9608;&#9606;&#9607;&#9606;&#9606;&#9606;&#9606;&#9606;&#9606;&#9606;&#9606;&#9606;&#9607;&#9606;&#9606;&#9605; &#9608;
+  22.6 &#956;s       Histogram: <span class=" -Color -Color-Bold">log(</span>frequency<span class=" -Color -Color-Bold">)</span> by time      48.4 &#956;s <span class=" -Color -Color-Bold">&lt;</span>
+
+ Memory estimate: <span class=" -Color -Color-Yellow">64 bytes</span>, allocs estimate: <span class=" -Color -Color-Yellow">1</span>.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@benchmark</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range (<span class=" -Color -Color-Bold -Color-Bold-Cyan">min</span> &#8230; <span class=" -Color -Color-Magenta">max</span>):  <span class=" -Color -Color-Bold -Color-Bold-Cyan">15.300 &#956;s</span> &#8230; <span class=" -Color -Color-Magenta">117.200 &#956;s</span>  &#9482; GC (min &#8230; max): 0.00% &#8230; 0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Blue">median</span>):     <span class=" -Color -Color-Bold -Color-Bold-Blue">18.600 &#956;s               </span>&#9482; GC (median):    0.00%
+ Time  (<span class=" -Color -Color-Bold -Color-Bold-Green">mean</span> &#177; <span class=" -Color -Color-Green">&#963;</span>):   <span class=" -Color -Color-Bold -Color-Bold-Green">20.385 &#956;s</span> &#177; <span class=" -Color -Color-Green">  4.746 &#956;s</span>  &#9482; GC (mean &#177; &#963;):  0.00% &#177; 0.00%
+
+  &#9603;&#9603;&#9603;&#9604;&#9605;&#9605;&#9607;&#9606;&#9605;&#9608;<span class=" -Color -Color-Blue">&#9606;</span>&#9605;  &#9605;<span class=" -Color -Color-Green"> </span>       &#9605;&#9601; &#9601;       &#9606;&#9604;  &#9602;   &#9602;                  &#9602;
+  &#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;<span class=" -Color -Color-Blue">&#9608;</span>&#9608;&#9607;&#9608;&#9608;<span class=" -Color -Color-Green">&#9608;</span>&#9606;&#9607;&#9607;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9607;&#9607;&#9608;&#9606;&#9606;&#9607;&#9605;&#9608;&#9608;&#9607;&#9605;&#9608;&#9606;&#9606;&#9607;&#9608;&#9606;&#9606;&#9607;&#9607;&#9608;&#9606;&#9607;&#9605;&#9604;&#9604;&#9604;&#9604;&#9605;&#9606;&#9607;&#9606;&#9605; &#9608;
+  15.3 &#956;s       Histogram: <span class=" -Color -Color-Bold">log(</span>frequency<span class=" -Color -Color-Bold">)</span> by time      36.1 &#956;s <span class=" -Color -Color-Bold">&lt;</span>
+
+ Memory estimate: <span class=" -Color -Color-Yellow">0 bytes</span>, allocs estimate: <span class=" -Color -Color-Yellow">0</span>.
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Yay, got rid of last alloc).</p>
+<p>Alright, so our last optims got us a 1.5x speedup.
+&#8211; for the Float case. When called with Duals (in the autodiff), it&#8217;s probably faster still.
+Let&#8217;s try.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
+<span class="n">ft!</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<span class="n">jac_turbomodel!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">jacobian!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">ft!</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">params</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">turbofit</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+
+<span class="n">fitted_model</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<span class="k">function</span> <span class="n">test_conn__turbofit</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">;</span> <span class="n">p</span><span class="o">::</span><span class="kt">ExpParams</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="k">function</span> <span class="n">test_stat</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">print</span><span class="p">(</span><span class="s">"."</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">turbofit</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="n">turbomodel!</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">zscore</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">./</span> <span class="n">std</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">println</span><span class="p">()</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="n">turbofit</span><span class="p">(</span><span class="n">real_STA</span><span class="p">)</span><span class="o">.</span><span class="n">param</span><span class="p">[</span><span class="k">end</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span>
+    <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">testconn6</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn__turbofit</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="n">shuffled_STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">],</span> <span class="mf">0.05</span><span class="p">;</span> <span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>139 =&gt; 1
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">testconn6</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+  6.359755 seconds (552.15 k allocations: 1.839 GiB, 2.24% gc time)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, scale = 0.517)
+</pre></div>
+</div>
+</div>
+</div>
+<p>&#128513;&#128513; we got it down</p>
+<p>(from 9 seconds to 6.4 weliswaar maar)</p>
+<p>Summary of speedups<br>
+(All for the &#8216;proper&#8217;, working, test, where we fit all shuffles)</p>
+<p>Time to test one connection:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">finite</span> <span class="n">differences</span><span class="p">:</span>          <span class="mi">51</span> <span class="n">seconds</span>
+<span class="o">-</span> <span class="n">autodiff</span><span class="p">:</span>                    <span class="mi">11</span> <span class="n">seconds</span>
+<span class="o">-</span> <span class="n">autodiff</span><span class="p">,</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span><span class="p">:</span>           <span class="mi">9</span> <span class="n">seconds</span>
+<span class="o">-</span> <span class="n">autodiff</span><span class="p">,</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span><span class="p">,</span> <span class="n">squeezed</span><span class="p">:</span> <span class="mi">6</span> <span class="n">seconds</span>
+</pre></div>
+</div>
+<p>The 18.1 minutes for 100 connections of above was using the second out of this list.
+With the fastest version, we&#8217;d get it down to 11 minutes.</p>
+<p>Ofc we haven&#8217;t multithreaded here. For 7 threads, we&#8217;d get 6x speedup say. So ~2 minutes / 100 connections.
+The 3906 tested connections would then take 1h12.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># @profview testconn6(conn);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the new flamegraph, we find exactly the improvements we expected:
+the three <code class="docutils literal notranslate"><span class="pre">get_tmp</span></code> chimneys gone, the fat <code class="docutils literal notranslate"><span class="pre">rescale_to_max</span></code> towers in jac squeezed out.
+In general, a cleaned up picture. Relatively more time in the LM BLAS calls versus our model than before.
+Much usage of exp_fast.</p>
+</div>
 </div>
 </div>
 
