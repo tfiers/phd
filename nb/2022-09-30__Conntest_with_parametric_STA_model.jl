@@ -469,11 +469,9 @@ dc = dualcache(similar(t))
 # For curve_fit api:
 model_!(STA, t, params) = model_!(STA, t, params, (tc,bc,dc), Δt);  
 
-real_STA = copy(STAs[conn])
-conn
-
-model_!(real_STA, t, p0_vec)
-time() = @time model_!(real_STA, t, p0_vec)
+y = similar(t)
+model_!(y, t, p0_vec)
+time() = @time model_!(y, t, p0_vec)
 time();
 
 # +
@@ -552,6 +550,23 @@ testconn5(conn) = test_conn__model_STA__proper_AD_inplace(STAs[conn], shuffled_S
 #   Most time is already spent in the basic operations to construct our model (`exp`, `*`).
 #   Maybe a fitting algorithm that needs less function/jacobian evaluations.
 
+# To squeeze out all performance:
+# - `rescale_to_max` not needed: just divide by analytic expression for height of alpha-synpase and gaussian.
+#     - I'd wager one exists for the alpha-synapse, vaguely remember seeing one somewhere even.
+#     - (better than division: multiply by pre-calculated inverse)
+# - Only one extra buffer (besides the first arg) is needed (so only one costly `get_tmp()` call).
+#     - Maybe we can make a faster version of that dualcache, too
+#     - Actually maybe we don't need any: use first arg buffer `y` for `tshift`, then `linear_PSP!(y, y, τ1, τ2)`; then add the gaussian to it; etc.
+# - Provide that `JacobianConfig()` beforehand (if possible)
+# - I'd wager there's faster versions of `exp` available (and we can likely get away with a bit less precision).
+#     - We can try [`@fastmath`](https://docs.julialang.org/en/v1/base/math/#Base.FastMath.@fastmath), though must check whether results are still correct.
+#         - ah, it indeed uses `exp_fast`: [src](https://github.com/JuliaLang/julia/blob/master/base/fastmath.jl)
+# - Experiment with levenberg marquardt params & reporting: how many f/jac evals now? Can we get a good fit with fewer evaluations?
+#
+# The above are quite easy. More difficult:
+# - Write manual jacobian (so ForwardDiff.jl machinery not needed).
+#     - Seems feasible. Can test correctness with autodiff (or finite differences).
+
 # ## Use proper method, with autodiff, on sample
 
 # +
@@ -596,3 +611,131 @@ perftable(tc)
 
 # The advantage of the parametric curve-fitting is that it can handle different transmission delays and time scales per synapse, while the ptp-then-corr method might not.
 # (Though we haven't tested either assertion).
+
+# ---
+
+# ## [appendix]
+
+# ### Squeezing out last drop of performance
+
+# Max of the gaussian func as I defined it is simply 1 (namely at `t = loc`).
+#
+# Max of $t e^{-t/τ}$ is at $t = τ$, so: $τ/e$  
+#
+#
+# Max of $\frac{τ_1 τ_2}{τ_1 - τ_2} \left( e^{-t/τ_1} - e^{-t/τ_2} \right)$
+#
+# is at $t = \frac{τ_1 τ_2}{τ_1 - τ_2} \log\left( \frac{τ_2}{τ_1} \right)$
+#
+# evaluated: max = $τ_2 \left( \frac{τ_2}{τ_1} \right)^\frac{τ_2}{τ_1 - τ_2}$
+#
+# ([thanks wolfram](https://www.wolframalpha.com/input?i=d%2Fdt+%28+a*b%2F%28a-b%29+*+%28exp%28-t%2Fa%29+-+exp%28-t%2Fb%29%29+%29+%3D+0))
+
+# +
+linear_PSP_fm!(y, t, τ1, τ2) =
+    if (τ1 == τ2)   @. @fastmath y = t * exp(-t/τ1)
+    else            @. @fastmath y = τ1*τ2/(τ1-τ2) * (exp(-t/τ1) - exp(-t/τ2)) end
+
+function turbomodel!(y, t, params, Δt)
+    tx_delay, τ1, τ2, dip_loc, dip_width, dip_weight, scale = params
+    T = round(Int, tx_delay / Δt) + 1
+    y[T:end] .= @view(t[T:end]) .- tx_delay    
+    @views linear_PSP_fm!(y[T:end], y[T:end], τ1, τ2)
+    if (τ1 == τ2) max = τ1/ℯ
+    else          max = τ2*(τ2/τ1)^(τ2/(τ1-τ2)) end
+    @views y[T:end] .*= (1/max)
+    y[1:T-1] .= 0
+    y .-= @. @fastmath dip_weight * exp(-0.5*( (t-dip_loc)/dip_width )^2)
+    y .*= scale
+    y .-= mean(y)
+    return nothing
+end;
+# -
+
+# Check if correct:
+
+STA = similar(t)
+p0_ = @set (p0_vec[end] = 1)
+turbomodel!(STA, t, p0_, Δt)
+STA_prev = model_(t, p0_)
+plt.subplots()
+plotsig(STA_prev, p, lw=4)
+plotsig(STA, p);
+# plotsig(1e5 * (STA .- STA_prev), p);
+
+# Yah that's the same
+
+# Comparison with previous in place model:
+
+@benchmark model_!(y, t, p0_vec)
+
+@benchmark turbomodel!(y, t, p0_vec, Δt)
+
+# (Yay, got rid of last alloc).
+#
+# Alright, so our last optims got us a 1.5x speedup.
+# -- for the Float case. When called with Duals (in the autodiff), it's probably faster still.
+# Let's try.
+
+turbomodel!(y, t, params) = turbomodel!(y, t, params, Δt)
+ft! = (y,p) -> turbomodel!(y, t, p)
+y = similar(t)
+jac_turbomodel!(J, t, params) = ForwardDiff.jacobian!(J, ft!, y, params);
+
+# +
+turbofit(STA) = curve_fit(turbomodel!, jac_turbomodel!, t, STA, p0_vec; lower, upper, inplace = true);
+
+fitted_model = similar(t)
+
+function test_conn__turbofit(real_STA, shuffled_STAs, α; p::ExpParams, verbose = true)
+    function test_stat(STA)
+        verbose && print(".")
+        fit = turbofit(STA)
+        turbomodel!(fitted_model, t, fit.param)
+        zscore(x) = (x .- mean(STA)) ./ std(STA)
+        return - MSE(zscore(fitted_model), zscore(STA))
+    end
+    pval, _ = calc_pval(test_stat, real_STA, shuffled_STAs)
+    verbose && println()
+    scale = turbofit(real_STA).param[end] / mV
+    predtype = get_predtype(pval, scale, α)
+    return (; predtype, pval, scale)
+end
+
+testconn6(conn) = test_conn__turbofit(STAs[conn], shuffled_STAs[conn], 0.05; p);
+# -
+
+conn
+
+@time testconn6(conn)
+
+# 😁😁 we got it down
+#
+# (from 9 seconds to 6.4 weliswaar maar)
+
+# Summary of speedups  
+# (All for the 'proper', working, test, where we fit all shuffles)
+#
+# Time to test one connection:
+#
+# ```
+# - finite differences:          51 seconds
+# - autodiff:                    11 seconds
+# - autodiff, in-place:           9 seconds
+# - autodiff, in-place, squeezed: 6 seconds
+# ```
+
+# The 18.1 minutes for 100 connections of above was using the second out of this list.
+# With the fastest version, we'd get it down to 11 minutes.
+#
+# Ofc we haven't multithreaded here. For 7 threads, we'd get 6x speedup say. So ~2 minutes / 100 connections.
+# The 3906 tested connections would then take 1h12.
+
+# +
+# @profview testconn6(conn);
+# -
+
+# In the new flamegraph, we find exactly the improvements we expected:
+# the three `get_tmp` chimneys gone, the fat `rescale_to_max` towers in jac squeezed out.
+# In general, a cleaned up picture. Relatively more time in the LM BLAS calls versus our model than before.
+# Much usage of exp_fast.
