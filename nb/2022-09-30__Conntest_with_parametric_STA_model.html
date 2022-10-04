@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
     <link rel="next" title="2022-09-29 &#8226; Summary of two-pass conntest" href="2022-09-29__Two-pass_summary.html">
-    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <link rel="prev" title="2022-10-04 &#8226; Inspect curve-fitting procedure" href="2022-10-04__inspect_curve_fit.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -108,6 +108,11 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-04__inspect_curve_fit.html">
+   2022-10-04 &#8226; Inspect curve-fitting procedure
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2022-09-30 &#8226; Use parametric STA model for connection testing
@@ -623,6 +628,33 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inspect-curve-fitting-algorithm">
+   Inspect curve-fitting algorithm
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#my-curve-fit">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       my_curve_fit
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#new-lsqfit-version">
+     New
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LsqFit
+      </span>
+     </code>
+     version
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
             </nav>
@@ -705,6 +737,33 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inspect-curve-fitting-algorithm">
+   Inspect curve-fitting algorithm
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#my-curve-fit">
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       my_curve_fit
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#new-lsqfit-version">
+     New
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       LsqFit
+      </span>
+     </code>
+     version
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
                         </nav>
@@ -741,6 +800,28 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
+WARNING: Method definition setindex(AbstractArray{T, 2} where T, Any, Int64, Int64) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:163 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:310.
+  ** incremental compilation may be fatally broken for this module **
+
+WARNING: Method definition setindex(AbstractArray{T, 1} where T, Any, Int64) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:158 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:305.
+  ** incremental compilation may be fatally broken for this module **
+
+WARNING: Method definition setindex(AbstractArray{T, N} where N where T, Any, Any...) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:152 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:299.
+  ** incremental compilation may be fatally broken for this module **
+
+WARNING: Method definition setindex(AbstractArray{T, 2} where T, Any, Int64, Int64) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:163 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:310.
+  ** incremental compilation may be fatally broken for this module **
+
+WARNING: Method definition setindex(AbstractArray{T, 1} where T, Any, Int64) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:158 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:305.
+  ** incremental compilation may be fatally broken for this module **
+
+WARNING: Method definition setindex(AbstractArray{T, N} where N where T, Any, Any...) in module ArrayInterface at C:\Users\tfiers\.julia\packages\ArrayInterface\TCj9U\src\ArrayInterface.jl:152 overwritten in module ArrayInterfaceCore at C:\Users\tfiers\.julia\packages\ArrayInterfaceCore\j22dF\src\ArrayInterfaceCore.jl:299.
+  ** incremental compilation may be fatally broken for this module **
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="params">
@@ -773,7 +854,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (20.4 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (14.5 s)
 </pre></div>
 </div>
 </div>
@@ -1227,10 +1308,10 @@ So it is definitely predictable as unconnected.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_0.png">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_1.png">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_2.png">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_3.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_65_3.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_1.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_2.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_3.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_64_3.png">
 </div>
 </div>
 <p>So the shuffleds have a better MSE.. but that&#8217;s because their scale is narrower.</p>
@@ -1246,6 +1327,7 @@ So it is definitely predictable as unconnected.</p>
         <span class="n">t</span> <span class="o">=</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
     <span class="k">end</span>
     <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">()</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
     <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
@@ -1352,7 +1434,7 @@ So it is definitely predictable as unconnected.</p>
 <span class="n">p0_vec</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">p0</span><span class="p">)</span>
 <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">VoltoMapSim</span><span class="o">.</span><span class="n">upper</span>
 <span class="k">function</span> <span class="n">fit_</span><span class="p">(</span><span class="n">STA</span><span class="p">;</span> <span class="n">autodiff</span> <span class="o">=</span> <span class="ss">:finite</span><span class="p">)</span>  <span class="c"># or :forwarddiff</span>
-    <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">autodiff</span><span class="p">)</span>
+    <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">autodiff</span><span class="p">)</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -1367,7 +1449,7 @@ So it is definitely predictable as unconnected.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.232042 seconds (63.04 k allocations: 294.281 MiB, 7.59% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.236855 seconds (64.51 k allocations: 301.317 MiB, 8.62% gc time)
 </pre></div>
 </div>
 </div>
@@ -1382,7 +1464,7 @@ So it is definitely predictable as unconnected.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.064877 seconds (10.04 k allocations: 100.619 MiB, 10.43% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.058227 seconds (10.04 k allocations: 100.627 MiB, 11.74% gc time)
 </pre></div>
 </div>
 </div>
@@ -1399,9 +1481,9 @@ So it is definitely predictable as unconnected.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_0.png">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_1.png">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_83_2.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_1.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_2.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_82_2.png">
 </div>
 </div>
 <p>All three give a slightly different fit, interestingly.</p>
@@ -1415,7 +1497,7 @@ So it is definitely predictable as unconnected.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_86_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_86_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_85_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_85_0.png">
 </div>
 </div>
 <p>No, nothing perceptible.</p>
@@ -1431,6 +1513,7 @@ So it is definitely predictable as unconnected.</p>
         <span class="k">return</span> <span class="o">-</span> <span class="n">MSE</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">fitted_model</span><span class="p">),</span> <span class="n">zscore</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span>
     <span class="k">end</span>
     <span class="n">pval</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">calc_pval</span><span class="p">(</span><span class="n">test_stat</span><span class="p">,</span> <span class="n">real_STA</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">&amp;&amp;</span> <span class="n">println</span><span class="p">()</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="n">fit_STA</span><span class="p">(</span><span class="n">real_STA</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">scale</span> <span class="o">/</span> <span class="n">mV</span>
     <span class="n">predtype</span> <span class="o">=</span> <span class="n">get_predtype</span><span class="p">(</span><span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">&#945;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(;</span> <span class="n">predtype</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
@@ -1452,7 +1535,7 @@ So it is definitely predictable as unconnected.</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.35, scale = -0.264)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :unconn, pval = 0.35, scale = -0.268)
 </pre></div>
 </div>
 </div>
@@ -1507,7 +1590,8 @@ No general <code class="docutils literal notranslate"><span class="pre">jacobian
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..................................................................................................... 10.967874 seconds (1.98 M allocations: 17.231 GiB, 14.73% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+ 10.903671 seconds (1.98 M allocations: 17.263 GiB, 11.85% gc time)
 </pre></div>
 </div>
 </div>
@@ -1521,12 +1605,13 @@ No general <code class="docutils literal notranslate"><span class="pre">jacobian
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>..................................................................................................... 51.140615 seconds (27.30 M allocations: 62.864 GiB, 7.87% gc time, 0.38% compilation time: 100% of which was recompilation)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
+ 49.033385 seconds (27.78 M allocations: 64.933 GiB, 9.67% gc time)
 </pre></div>
 </div>
 </div>
 </div>
-<p>So 51/11 = 4.6x speedup through AD.</p>
+<p>So 49/10.9 = 4.5x speedup through AD.</p>
 <p>Testing our sample of 100 connections would take 18 minutes.</p>
 <p>Let&#8217;s try a non-allocating model func.</p>
 </div>
@@ -1671,7 +1756,7 @@ that one is handled by ForwardDiff&#8217;s in-place-model API (<code class="docu
 <p>Let&#8217;s test for full pval loop anyway.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_inplace</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_!</span><span class="p">,</span> <span class="n">jac_model!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit_inplace</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">model_!</span><span class="p">,</span> <span class="n">jac_model!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
 
 <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>  <span class="c"># Buffer</span>
 
@@ -1962,7 +2047,7 @@ The curve fitting method takes 18 minutes for 100 connections.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_150_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_150_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_149_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_149_0.png">
 </div>
 </div>
 <p>Yah that&#8217;s the same</p>
@@ -2013,19 +2098,21 @@ The curve fitting method takes 18 minutes for 100 connections.</p>
 <p>Alright, so our last optims got us a 1.5x speedup.
 &#8211; for the Float case. When called with Duals (in the autodiff), it&#8217;s probably faster still.
 Let&#8217;s try.</p>
+<p>Also, let&#8217;s see if we can prealloc and reuse the fwddiff &#8220;Config&#8221; object.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
 <span class="n">ft!</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="n">jac_turbomodel!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">jacobian!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">ft!</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">params</span><span class="p">);</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">JacobianConfig</span><span class="p">(</span><span class="n">ft!</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">)</span>
+<span class="n">jac_turbomodel!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="n">ForwardDiff</span><span class="o">.</span><span class="n">jacobian!</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="n">ft!</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">cfg</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">turbofit</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">STA</span><span class="p">,</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">turbofit</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
 
 <span class="n">fitted_model</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
 
@@ -2069,7 +2156,7 @@ Let&#8217;s try.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>.....................................................................................................
-  6.359755 seconds (552.15 k allocations: 1.839 GiB, 2.24% gc time)
+  5.845163 seconds (435.56 k allocations: 83.741 MiB, 0.25% gc time)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(predtype = :exc, pval = 0.01, scale = 0.517)
@@ -2078,20 +2165,20 @@ Let&#8217;s try.</p>
 </div>
 </div>
 <p>&#128513;&#128513; we got it down</p>
-<p>(from 9 seconds to 6.4 weliswaar maar)</p>
+<p>(from 8.9 seconds to 5.8 weliswaar maar)</p>
 <p>Summary of speedups<br>
 (All for the &#8216;proper&#8217;, working, test, where we fit all shuffles)</p>
 <p>Time to test one connection:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">finite</span> <span class="n">differences</span><span class="p">:</span>          <span class="mi">51</span> <span class="n">seconds</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">finite</span> <span class="n">differences</span><span class="p">:</span>          <span class="mi">49</span> <span class="n">seconds</span>
 <span class="o">-</span> <span class="n">autodiff</span><span class="p">:</span>                    <span class="mi">11</span> <span class="n">seconds</span>
 <span class="o">-</span> <span class="n">autodiff</span><span class="p">,</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span><span class="p">:</span>           <span class="mi">9</span> <span class="n">seconds</span>
 <span class="o">-</span> <span class="n">autodiff</span><span class="p">,</span> <span class="ow">in</span><span class="o">-</span><span class="n">place</span><span class="p">,</span> <span class="n">squeezed</span><span class="p">:</span> <span class="mi">6</span> <span class="n">seconds</span>
 </pre></div>
 </div>
 <p>The 18.1 minutes for 100 connections of above was using the second out of this list.
-With the fastest version, we&#8217;d get it down to 11 minutes.</p>
-<p>Ofc we haven&#8217;t multithreaded here. For 7 threads, we&#8217;d get 6x speedup say. So ~2 minutes / 100 connections.
-The 3906 tested connections would then take 1h12.</p>
+With the fastest version, we&#8217;d get it down to 9.7 minutes.</p>
+<p>Ofc we haven&#8217;t multithreaded here. For 7 threads, we&#8217;d get 6x speedup say. So ~1m36 / 100 connections.
+The 3906 tested connections would then take 1h03.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># @profview testconn6(conn);</span>
@@ -2100,9 +2187,396 @@ The 3906 tested connections would then take 1h12.</p>
 </div>
 </div>
 <p>In the new flamegraph, we find exactly the improvements we expected:
-the three <code class="docutils literal notranslate"><span class="pre">get_tmp</span></code> chimneys gone, the fat <code class="docutils literal notranslate"><span class="pre">rescale_to_max</span></code> towers in jac squeezed out.
+the three <code class="docutils literal notranslate"><span class="pre">get_tmp</span></code> chimneys gone, the fat <code class="docutils literal notranslate"><span class="pre">rescale_to_max</span></code> towers in jac squeezed out, the <code class="docutils literal notranslate"><span class="pre">ForwardDiff.JacobianConfig</span></code> init blocks gone.
 In general, a cleaned up picture. Relatively more time in the LM BLAS calls versus our model than before.
 Much usage of exp_fast.</p>
+</div>
+</div>
+<div class="section" id="inspect-curve-fitting-algorithm">
+<h2>Inspect curve-fitting algorithm<a class="headerlink" href="#inspect-curve-fitting-algorithm" title="Permalink to this headline">&#182;</a></h2>
+<p>Can we get away with less Levenberg-Marquardt iterations?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">STA</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># The below section does not work with `master` version of LsqFit installed.</span>
+<span class="c"># Don't re-execute, and skip to `New LsqFit version` section.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="my-curve-fit">
+<h3><code class="docutils literal notranslate"><span class="pre">my_curve_fit</span></code><a class="headerlink" href="#my-curve-fit" title="Permalink to this headline">&#182;</a></h3>
+<p>We manually go through the <code class="docutils literal notranslate"><span class="pre">curve_fit</span></code> and <code class="docutils literal notranslate"><span class="pre">lmfit</span></code> api functions, to get to the core algo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">LsqFit</span><span class="o">:</span> <span class="n">levenberg_marquardt</span>
+<span class="k">using</span> <span class="n">LsqFit</span><span class="o">.</span><span class="n">NLSolversBase</span><span class="o">:</span> <span class="n">OnceDifferentiable</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">old_stdout</span> <span class="o">=</span> <span class="nb">stdout</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IJulia.IJuliaStdio{Base.PipeEndpoint}(IOContext(Base.PipeEndpoint(Base.Libc.WindowsRawSocket(0x000000000000052c) open, 0 bytes waiting)))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">my_curve_fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">jacobian_model</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">p0</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">f!</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">p</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">xdata</span><span class="p">,</span><span class="n">p</span><span class="p">);</span> <span class="nd">@.</span> <span class="n">F</span> <span class="o">=</span> <span class="n">F</span> <span class="o">-</span> <span class="n">ydata</span><span class="p">)</span>
+    <span class="n">g!</span> <span class="o">=</span> <span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>  <span class="o">-&gt;</span> <span class="n">jacobian_model</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="c"># `wt` is not used in LM. It's just given to `lmfit` to put in FitResult</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">ydata</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">OnceDifferentiable</span><span class="p">(</span><span class="n">f!</span><span class="p">,</span> <span class="n">g!</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="c"># `p0` is `xseed` (or `x`)</span>
+    <span class="c"># `r` is `F`, "cache for f output".</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">levenberg_marquardt</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">p0</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">redirect_stdout</span><span class="p">(</span><span class="nb">devnull</span><span class="p">)</span>
+<span class="nd">@time</span> <span class="n">res</span> <span class="o">=</span> <span class="n">my_curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span>
+                         <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">show_trace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">);</span>
+<span class="n">redirect_stdout</span><span class="p">(</span><span class="n">old_stdout</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wth. Without Suppressor (and thus printing), 7.5 seconds. With, 30 seconds (though it does its job).
+This package keeps disappointing.</p>
+<p>(I do my own redirection above now).</p>
+<p>Hm, trying to capture stdout (<code class="docutils literal notranslate"><span class="pre">rdpipe,</span> <span class="pre">_</span> <span class="pre">=</span> <span class="pre">redirect_stdout()</span></code>) freezes kernel.
+Seems to be some interaction with ijulia: <a class="reference external" href="https://github.com/JuliaIO/Suppressor.jl/issues/31">https://github.com/JuliaIO/Suppressor.jl/issues/31</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dumps</span><span class="p">(</span><span class="n">res</span><span class="p">;</span> <span class="n">skipfields</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:trace</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MultivariateOptimizationResults{LevenbergMarquardt, Float64, 1}
+  method: LevenbergMarquardt()
+  initial_x: [0.01, 0.01, 0.012, 0.04, 0.04, 0.15, 0]
+  minimizer: [0.00945, 0.0183, 0.0224, 0.0468, 0.02, 0.338, 0.000517]
+  minimum: 5.39E-06
+  iterations: 380
+  iteration_converged: false
+  x_converged: true
+  x_tol: 0
+  x_residual: 0
+  f_converged: false
+  f_tol: 0
+  f_residual: 0
+  g_converged: false
+  g_tol: 1E-12
+  g_residual: 0
+  f_increased: false
+  trace: [skipped]
+  f_calls: 381
+  g_calls: 192
+  h_calls: 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>~2x as much f calls than g (jacobian) calls.</p>
+<p>&#8211; whereas in flamegraph, time spent calling f from ForwardDiff is ~2.8 as much as time spent calling f with Floats.
+So a manual jacobian might give a decent speedup after all.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter     Function value   Gradient norm 
+------   --------------   --------------
+     0     2.145634e-05              NaN
+ * lambda: 10.0
+     1     1.926252e-05     3.269444e-02
+ * g(x): 0.032694442223395195
+ * lambda: 1.0
+ * dx: [-4.34E-12, -5.41E-12, -1.25E-11, -3.67E-12, 0, 6.53E-10, 9.78E-14]
+     2     1.926252e-05     3.269444e-02
+ * g(x): 0.032694442223395195
+ * lambda: 10.0
+ * dx: [-4.34E-12, -5.41E-12, -1.25E-11, -3.67E-12, 0, 6.53E-10, 9.78E-14]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tr</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="k">end</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   380     5.388893e-06     5.863555e-05
+ * g(x): 5.863555159292355e-5
+ * lambda: 1.0000000000000002e6
+ * dx: [-4.34E-12, -5.41E-12, -1.25E-11, -3.67E-12, 0, 6.53E-10, 9.78E-14]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dumps</span><span class="p">(</span><span class="n">tr</span><span class="p">,</span> <span class="n">skipfields</span> <span class="o">=</span> <span class="p">[</span><span class="ss">:metadata</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>OptimizationState{LevenbergMarquardt}
+  iteration: 380
+  value: 5.39E-06
+  g_norm: 5.86E-05
+  metadata: [skipped]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dict{String, Any}("g(x)" =&gt; 5.86E-05, "lambda" =&gt; 1E+06, "dx" =&gt; [-4.34E-12, -5.41E-12, -1.25E-11, -3.67E-12, 0, 6.53E-10, 9.78E-14])
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">lambda</span></code> is the &#8220;trust region&#8221; size.<br>
+<code class="docutils literal notranslate"><span class="pre">g(x)</span></code> is same as <code class="docutils literal notranslate"><span class="pre">g_norm</span></code><br>
+<code class="docutils literal notranslate"><span class="pre">dx</span></code> is parameter update.</p>
+<p>Optimization stops when one of the following holds</p>
+<ul class="simple">
+<li><p>maxiter (default 1000) reached</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">g_norm</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">g_tol</span></code> (default 1e-12)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">norm(dx)</span></code> &lt; <code class="docutils literal notranslate"><span class="pre">x_tol</span> <span class="pre">*</span> <span class="pre">(x_tol</span> <span class="pre">+</span> <span class="pre">norm(x))</span></code></p>
+<ul>
+<li><p>default <code class="docutils literal notranslate"><span class="pre">x_tol</span></code> is 1e-8</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code> is current set of params (i.e. <code class="docutils literal notranslate"><span class="pre">x0</span> <span class="pre">.+</span> <span class="pre">sum(dxs)</span></code>)</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">LinearAlgebra</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">minimizer</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s">"dx"</span><span class="p">]</span>
+<span class="n">xtol</span> <span class="o">=</span> <span class="mf">1e-8</span>
+<span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">xtol</span> <span class="o">*</span> <span class="p">(</span><span class="n">xtol</span><span class="o">+</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">norm</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.343, 3.43E-09, 6.53E-10)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Looking at the internals of this algo, it feels like I should &#8216;normalize&#8217; my params,
+to have them on same scale.
+Luckily they&#8217;re not too wide apart now:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7-element Vector{Float64}:
+ 0.00945
+ 0.0183
+ 0.0224
+ 0.0468
+ 0.02
+ 0.338
+ 0.000517
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># dxs = [tr.metadata["dx"] for tr in res.trace[2:end]]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>^These are all the same.
+There&#8217;s a bug in the code there: in the &#8220;show_trace&#8221; block, line 200 in lm.jl,
+at <code class="docutils literal notranslate"><span class="pre">"dx"</span> <span class="pre">=&gt;</span> <span class="pre">delta_x</span></code>, it should instead be <code class="docutils literal notranslate"><span class="pre">"dx"</span> <span class="pre">=&gt;</span> <span class="pre">copy(delta_x)</span></code>.</p>
+<p>Ah, it&#8217;s fixed, but not yet released: <a class="reference external" href="https://github.com/JuliaNLSolvers/LsqFit.jl/pull/222">https://github.com/JuliaNLSolvers/LsqFit.jl/pull/222</a></p>
+<p>Installing master from gh (e9b9e87 currently).</p>
+</div>
+<div class="section" id="new-lsqfit-version">
+<h3>New <code class="docutils literal notranslate"><span class="pre">LsqFit</span></code> version<a class="headerlink" href="#new-lsqfit-version" title="Permalink to this headline">&#182;</a></h3>
+<p>We now get the trace in our fitresult:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">begin</span> 
+    <span class="n">redirect_stdout</span><span class="p">(</span><span class="nb">devnull</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span>
+                    <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span> <span class="n">show_trace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">old_stdout</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.052076 seconds (54.61 k allocations: 5.669 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tr</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s">"dx"</span><span class="p">]</span> <span class="k">for</span> <span class="n">tr</span> <span class="k">in</span> <span class="n">res</span><span class="o">.</span><span class="n">trace</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]];</span>
+<span class="n">showsome</span><span class="p">(</span><span class="n">dxs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>380-element Vector{Vector{Float64}}:
+   1: [0, 0, 0, 0, 0, 0, 3.2E-05]
+   2: [0.00475, 0.025, 0.0266, 0.04, 0.04, -0.142, 0.000133]
+   &#8942;
+  68: [-1.28E-05, 9.96E-05, -7.72E-05, 1.55E-05, 0, 0.00132, 5.89E-07]
+   &#8942;
+ 271: [6.64E-05, 0.000188, 0.000108, 0.000185, 0, -0.00866, 1.3E-06]
+   &#8942;
+ 379: [-4.34E-11, -5.41E-11, -1.25E-10, -3.67E-11, 0, 6.53E-09, 9.78E-13]
+ 380: [-4.34E-12, -5.41E-12, -1.25E-11, -3.67E-12, 0, 6.53E-10, 9.78E-14]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">norm</span><span class="o">.</span><span class="p">(</span><span class="n">dxs</span><span class="p">),</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Iteration"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"norm(&#916;p)"</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="s">"log"</span><span class="p">);</span>
+
+<span class="c"># Zoom</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="mi">120</span><span class="o">:</span><span class="mi">200</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sel</span><span class="p">,</span> <span class="n">norm</span><span class="o">.</span><span class="p">(</span><span class="n">dxs</span><span class="p">[</span><span class="n">sel</span><span class="p">]),</span> <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Iteration"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"norm(&#916;p)"</span><span class="p">,</span> <span class="n">yscale</span> <span class="o">=</span> <span class="s">"log"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_194_0.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_194_0.png">
+<img alt="../_images/2022-09-30__Conntest_with_parametric_STA_model_194_1.png" src="../_images/2022-09-30__Conntest_with_parametric_STA_model_194_1.png">
+</div>
+</div>
+<p>Hm, from this, seems like we can&#8217;t get away with many less iterations: the parameter changes do not get smaller until the very end.</p>
+<p>I want to see, through an animated model plot, how the fit evolves over the procedure.
+Can&#8217;t do <code class="docutils literal notranslate"><span class="pre">[p0_vec</span> <span class="pre">.+</span> <span class="pre">d</span> <span class="pre">for</span> <span class="pre">d</span> <span class="pre">in</span> <span class="pre">cumsum(dxs)]</span></code>. End result is not same.
+(Not every iteration is x updated).</p>
+<p>So I&#8217;ll do it the dumb way and gradually increase <code class="docutils literal notranslate"><span class="pre">maxIter</span></code>.</p>
+<p>PyPlot.jl animation: <a class="reference external" href="https://genkuroki.github.io/documents/Jupyter/20170624%20Examples%20of%20animations%20in%20Julia%20by%20PyPlot%20and%20matplotlib.animation.html">thx here</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyCall</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@pyimport</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">animation</span> <span class="n">as</span> <span class="n">anim</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">PyPlot</span><span class="o">.</span><span class="n">isjulia_display</span><span class="p">[]</span> <span class="o">=</span> <span class="nb">false</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plotsig</span><span class="p">(</span><span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">p</span><span class="p">;</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">tms</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="n">y0</span> <span class="o">=</span> 
+<span class="n">ln</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tms</span><span class="p">,</span> <span class="n">zeros</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">tms</span><span class="p">)))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">t</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">turbomodel!</span><span class="p">,</span> <span class="n">jac_turbomodel!</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">centre</span><span class="p">(</span><span class="n">STA</span><span class="p">),</span> <span class="n">p0_vec</span><span class="p">;</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">inplace</span> <span class="o">=</span> <span class="nb">true</span><span class="p">,</span> <span class="n">maxIter</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">turbomodel!</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">param</span><span class="p">)</span>
+    <span class="n">ln</span><span class="o">.</span><span class="n">set_ydata</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">mV</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">PyPlot</span><span class="o">.</span><span class="n">isjulia_display</span><span class="p">[]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>  <span class="c"># rerun to clear out buffer :p</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">anim</span><span class="o">.</span><span class="n">writers</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{String}:
+ "pillow"
+ "html"
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rcParams</span><span class="p">[</span><span class="s">"animation.writer"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"pillow"</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">an</span> <span class="o">=</span> <span class="n">anim</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="n">an</span><span class="o">.</span><span class="n">to_html5_video</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># This crashes julia, with "pillow".</span>
+<span class="c"># I'ma move to a new notebook.</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2132,11 +2606,11 @@ Much usage of exp_fast.</p>
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="2022-10-04__inspect_curve_fit.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+            <p class="prev-next-title">2022-10-04 &#8226; Inspect curve-fitting procedure</p>
         </div>
     </a>
     <a class="right-next" id="next-link" href="2022-09-29__Two-pass_summary.html" title="next page">
