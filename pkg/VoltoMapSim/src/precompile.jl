@@ -1,5 +1,5 @@
-# We do not use this at the moment.
-# The code in this package (e.g. `augment`) is not type stable, and can not be precompiled.
+# We do not use this at the moment. The code in this package (e.g. `augment`) is not type
+# stable (output types can not be predicted from input types), and can not be precompiled.
 # The below has thus no effect (except for precompiling some JLD2 methods).
 
 using SnoopPrecompile
