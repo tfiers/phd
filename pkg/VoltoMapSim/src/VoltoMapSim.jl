@@ -26,23 +26,23 @@ export cached, cachedir, cachepath, savecache, loadcache, empty_cache
 include("sim/sim.jl")
 export sim, init_sim, step_sim!, add_VI_noise, augment, dummy_simdata
 
-include("conntest/sample_conns.jl")
+include("infer/sample_conns.jl")
 export get_connections_to_test, summarize_conns_to_test
 
-include("conntest/calc_STA.jl")
+include("infer/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
 
-include("conntest/model_STA.jl")
+include("infer/model_STA.jl")
 export fit_STA, toCVec, FitParams, model_STA, model_STA_components, centre
 
-include("conntest/shuffle_test.jl")
+include("infer/shuffle_test.jl")
 export shuffle_ISIs, calc_pval
 
-include("conntest/conntest.jl")
+include("infer/test_conn.jl")
 export test_conns, test_conn__corr, test_conn__ptp
 export ptp, area_over_start
 
-include("conntest/perfmeasures.jl")
+include("infer/perfmeasures.jl")
 export perfmeasures, perftable
 
 include("plot.jl")
