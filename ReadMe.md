@@ -21,7 +21,7 @@ Directories:
 Files:
 - [`Project.toml`](Project.toml) lists the identifiers of the Julia packages our code directly depends on.  
 - `Manifest.toml` records the exact versions of all packages used to generate the results (i.e. the notebook outputs).  
-- `update.jl` is used to generate a new `Manifest.toml`, both for the main project and for the packages in `pkg/`.
+- `gen_manifest.jl` is used to generate a new `Manifest.toml`.
   It is only to be used when working on this codebase; not when you want to reproduce the results.
 
 
@@ -73,8 +73,7 @@ To reproduce results, *i.e.* to succesfully run one of the notebooks:
      which is included in the repository for the purpose of reproducibility.
    - Downloading and installing all these packages will take a while.
    - If you want to instead use newer versions of dependencies (maybe because you
-     already have them downloaded), run `julia update.jl` in the terminal, 
-     instead of `instantiate`.
+     already have them downloaded), run `julia gen_manifest.jl` in the terminal.
    </details>
 
 5. <details><summary>
