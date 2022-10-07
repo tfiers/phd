@@ -6,6 +6,7 @@ using MyToolbox: @reexport
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
 @reexport using LsqFit
+@reexport using ForwardDiff
 
 using Base.Threads
 
@@ -33,7 +34,7 @@ include("infer/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
 
 include("infer/model_STA.jl")
-export fit_STA, toCVec, FitParams, model_STA, model_STA_components, centre
+export STA_modelling_funcs, centre, toFitCVec
 
 include("infer/shuffle_test.jl")
 export shuffle_ISIs, calc_pval
