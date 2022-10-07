@@ -40,7 +40,7 @@ include("infer/shuffle_test.jl")
 export shuffle_ISIs, calc_pval
 
 include("infer/test_conn.jl")
-export test_conns, test_conn__corr, test_conn__ptp
+export test_conn, test_conns, corr_test, ptp_test
 export ptp, area_over_start
 
 include("infer/perfmeasures.jl")

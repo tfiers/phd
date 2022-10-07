@@ -4,38 +4,40 @@ ptp(STA) = maximum(STA) - minimum(STA)
 
 area_over_start(STA) = sum(STA .- STA[1])
 
-
-function test_conn__ptp(real_STA, shuffled_STAs, α)
-    pval, _ = calc_pval(ptp, real_STA, shuffled_STAs)
-    area = area_over_start(real_STA)
-    if     (pval > α)  predtype = :unconn
-    elseif (area > 0)  predtype = :exc
-    else               predtype = :inh end
-    return (; predtype, pval, area)
+function ptp_test(STA)
+    test_stat = ptp
+    Eness = area_over_start(STA)
+    return test_stat, Eness
 end
 
-
-function test_conn__corr(real_STA, shuffled_STAs, α; template)
-    corr = cor(real_STA, template)
-    if (corr > 0) test_stat = (STA -> cor(STA, template))
-    else          test_stat = (STA -> -cor(STA, template)) end
-    pval, _ = calc_pval(test_stat, real_STA, shuffled_STAs)
-    if     (pval > α)  predtype = :unconn
-    elseif (corr > 0)  predtype = :exc
-    else               predtype = :inh end
-    return (; predtype, pval, corr)
+function corr_test(STA; template)
+    Eness = cor(STA, template)
+    if (Eness > 0) test_stat = (sta -> cor(sta, template))
+    else           test_stat = (sta -> -cor(sta, template)) end
+    return test_stat, Eness
 end
-# To use with `test_conns`, curry it: `test_conn__corr $ (; template = …)`
+# To use with `test_conn`, curry it: `corr_test $ (; template = …)`
+
+
+function test_conn(testfunc, real_STA, shuffled_STAs; α)
+    # `testfunc` is a function `f(real_STA) -> (pval_test_stat, excitatory-ness)`
+    #   - the former is passed to `calc_pval`
+    # `α` is the p-value threshold.
+    test_stat, Eness = testfunc(real_STA)
+    pval, pval_type = calc_pval(test_stat, real_STA, shuffled_STAs)
+    if        (pval  > α) predtype = :unconn
+    elseif    (Eness > 0) predtype = :exc
+    else                  predtype = :inh end
+    return (; predtype, pval, pval_type, Eness)
+end
 
 
 function test_conns(f, conns, STAs, shuffled_STAs; α, pbar = true)
-    # `f` is a function `f(real_STA, shuffled_STAs, α) -> (; predtype, …)`
     # `conns` is the output of `get_connections_to_test`
-    # `α` is the p-value threshold.
     pb = Progress(nrow(conns), desc = "Testing connections: ", enabled = pbar)
     testresults = map(eachrow(conns)) do conn
         k = conn.pre => conn.post
-        testresult = f(STAs[k], shuffled_STAs[k], α)
+        testresult = test_conn(STAs[k], shuffled_STAs[k]; α)
         if pbar next!(pb)
         else    print(".") end
         return testresult
