@@ -8,6 +8,7 @@ cv = ComponentVector(a=3, b=8)
 fig, ax = plt.subplots()
 ax.plot(df.a, collect(cv))
 
+repr(MIME("text/html"), df)
 
 using JLD2
 

@@ -34,4 +34,9 @@ To use the generated system image:
 - If on Linux or MacOS, you can replace the `.dll` extension inside these scripts with `.so` or `.dylib` respectively (though leaving it as is will also just work).
 
 - For me, the generated Jupyter kernel definition file is located at:  
-  `C:\Users\tfiers\AppData\Roaming\jupyter\kernels\julia-preloaded-1.7\kernel.json`
+  `C:\Users\tfiers\AppData\Roaming\jupyter\kernels\julia-mysis-1.8\kernel.json`
+
+- The packages included in `Project.toml` where those imported in `MyToolbox.jl` with the slowest slowest load times.
+
+- `repl_trace.jl` was generated like [here](https://julialang.github.io/PackageCompiler.jl/dev/examples/ohmyrepl.html), i.e. with `julia --trace-compile=repl_trace.jl`.
+  In [my julia startup script](https://github.com/tfiers/dotfiles/blob/main/.julia/config/startup.jl), OhMyREPL was imported and configured.
