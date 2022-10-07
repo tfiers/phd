@@ -20,7 +20,7 @@ To use the generated system image:
 
 - On the command line, in the repo root:
   ```
-  julia --sysimg=sysimg/mysis.dll
+  julia --sysimage=sysimg/mysis.dll
   ```
 
 - As a 'kernel' in Jupyter: see the
