@@ -31,9 +31,8 @@ const pbounds = CVec(
 )
 
 const FitParams = typeof(p0)
-toFitCVec(params::Vector{Float64}) = toCVec(params, FitParams)
-toCVec(data, template::Union{CVec, Type{CVec}}) = CVec(data, getaxes(template))
-
+toCVec(data, template::Union{CVec, Type{<:CVec}}) = CVec(data, getaxes(template))
+toParamCVec(fitr::LsqFit.LsqFitResult) = toCVec(fitr.param, FitParams)
 
 
 # Model

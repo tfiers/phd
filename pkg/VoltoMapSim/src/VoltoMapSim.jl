@@ -34,14 +34,15 @@ include("infer/calc_STA.jl")
 export calc_STA, calc_all_STAs, cached_STAs, STA_win_size
 
 include("infer/model_STA.jl")
-export STA_modelling_funcs, centre, toFitCVec
+export STA_modelling_funcs, centre, toParamCVec
 
 include("infer/shuffle_test.jl")
 export shuffle_ISIs, calc_pval
 
 include("infer/test_conn.jl")
-export test_conn, test_conns, corr_test, ptp_test
-export ptp, area_over_start
+export test_conn, test_conns
+export corr_test, ptp_test, modelfit_test
+export ptp, area_over_start, MSE
 
 include("infer/perfmeasures.jl")
 export perfmeasures, perftable

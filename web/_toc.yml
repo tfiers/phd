@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-10-07__Conntest_with_faster_curve_fit
     - file: nb/2022-10-04__inspect_curve_fit
     - file: nb/2022-09-30__Conntest_with_parametric_STA_model
     - file: nb/2022-09-29__Two-pass_summary
