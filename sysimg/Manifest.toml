@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "3c151db1caed7ba28d437d2604035ed7625d305b"
+project_hash = "f8882bcb037524cd1557e3fdc73bd87b2b790fcf"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -192,6 +192,12 @@ git-tree-sha1 = "1c3ff7416cb727ebf4bab0491a56a296d7b8cf1d"
 uuid = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 version = "0.4.25"
 
+[[deps.JLFzf]]
+deps = ["Pipe", "REPL", "Random", "fzf_jll"]
+git-tree-sha1 = "f377670cda23b6b7c1c0b3893e37451c5c1a2185"
+uuid = "1019f520-868f-41f5-a6de-eb00f4b6a39c"
+version = "0.1.5"
+
 [[deps.JLLWrappers]]
 deps = ["Preferences"]
 git-tree-sha1 = "abc9885a7ca2052a736a600f7fa66209f96506e1"
@@ -298,6 +304,12 @@ version = "2022.2.1"
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
 
+[[deps.OhMyREPL]]
+deps = ["Crayons", "JLFzf", "Markdown", "Pkg", "Printf", "REPL", "Tokenize"]
+git-tree-sha1 = "0774b1c80676d95673bee5238f818d99ce88531a"
+uuid = "5fb14364-9ced-5910-84b2-373655c76a03"
+version = "0.5.12"
+
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
@@ -310,9 +322,9 @@ version = "1.4.1"
 
 [[deps.PackageCompiler]]
 deps = ["Artifacts", "LazyArtifacts", "Libdl", "Pkg", "Printf", "RelocatableFolders", "TOML", "UUIDs"]
-git-tree-sha1 = "c497e2bb9c2127a411b74dbff56b11f258d67d12"
+git-tree-sha1 = "df635a425ffc877428497f5c412d1531b5c2340a"
 uuid = "9b87118b-4619-50d2-8e1e-99f35a4d4d9d"
-version = "2.0.9"
+version = "2.0.11"
 
 [[deps.Parameters]]
 deps = ["OrderedCollections", "UnPack"]
@@ -325,6 +337,11 @@ deps = ["Dates"]
 git-tree-sha1 = "3d5bf43e3e8b412656404ed9466f1dcbf7c50269"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.4.0"
+
+[[deps.Pipe]]
+git-tree-sha1 = "6842804e7867b115ca9de748a0cf6b364523c16d"
+uuid = "b98c9c47-44ae-5843-9183-064241ee97a0"
+version = "1.3.0"
 
 [[deps.Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
@@ -380,9 +397,9 @@ version = "1.2.2"
 
 [[deps.RelocatableFolders]]
 deps = ["SHA", "Scratch"]
-git-tree-sha1 = "cdbd3b1338c72ce29d9584fdbe9e9b70eeb5adca"
+git-tree-sha1 = "90bc7a7c96410424509e4263e277e43250c05691"
 uuid = "05181044-ff0b-4ac5-8273-598c1e38db00"
-version = "0.1.3"
+version = "1.0.0"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
@@ -490,6 +507,11 @@ version = "1.10.0"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
+[[deps.Tokenize]]
+git-tree-sha1 = "2b3af135d85d7e70b863540160208fa612e736b9"
+uuid = "0796e94c-ce3b-5d07-9a54-7f471281c624"
+version = "0.5.24"
+
 [[deps.TranscodingStreams]]
 deps = ["Random", "Test"]
 git-tree-sha1 = "8a75929dcd3c38611db2f8d08546decb514fcadf"
@@ -529,6 +551,12 @@ version = "4.3.4+0"
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
 version = "1.2.12+3"
+
+[[deps.fzf_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "868e669ccb12ba16eaf50cb2957ee2ff61261c56"
+uuid = "214eeab7-80f7-51ab-84ad-2988db7cef09"
+version = "0.29.0+0"
 
 [[deps.libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]

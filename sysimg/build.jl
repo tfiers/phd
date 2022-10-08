@@ -7,6 +7,7 @@ pkgs = [
 ]
 
 using PackageCompiler
+ENV["JULIA_DEBUG"] = PackageCompiler
 create_sysimage(
     pkgs;
     sysimage_path               = "mysys.dll",
