@@ -11,7 +11,7 @@ To build the image, run, in this directory:
 ```
 julia build.jl
 ```
-This takes a few minutes.
+This takes 10+ minutes.
 
 
 ## Use
@@ -36,7 +36,11 @@ To use the generated system image:
 - For me, the generated Jupyter kernel definition file is located at:  
   `C:\Users\tfiers\AppData\Roaming\jupyter\kernels\julia-mysis-1.8\kernel.json`
 
-- The packages included in `Project.toml` where those imported in `MyToolbox.jl` with the slowest slowest load times.
+- The packages included in `Project.toml` are those imported by `VoltoMapSim.jl` with the slowest load times (determined with `@time_imports`).
+ - Plus: OhMyREPL, ProfileView.
+ - Minus: Unitful. Including that errors the build.
 
 - `repl_trace.jl` was generated like [here](https://julialang.github.io/PackageCompiler.jl/dev/examples/ohmyrepl.html), i.e. with `julia --trace-compile=repl_trace.jl`.
   In [my julia startup script](https://github.com/tfiers/dotfiles/blob/main/.julia/config/startup.jl), OhMyREPL was imported and configured.
+
+- `ijulia_trace` was similar; but with the cmdline option in a new "julia-trace" kernel.
