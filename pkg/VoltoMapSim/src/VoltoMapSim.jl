@@ -1,5 +1,10 @@
 module VoltoMapSim
 
+__precompile__(false)
+# I change this module more often than I restart a Julia session. So precompilation is not
+# worth it (modifying one file -- even just an mtime change -- means re-precompiling the
+# whole thing).
+
 using MyToolbox: @reexport
 @reexport using MyToolbox
 @reexport using Sciplotlib
