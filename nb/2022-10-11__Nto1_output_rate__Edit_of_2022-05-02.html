@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2021-01-01 &#8226; Influence of simulation params on connection test &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;) &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,11 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2020-12-30 &#8226; Test connection of all incoming neurons" href="2020-12-30__test_all_connections.html">
-    <link rel="prev" title="2021-01-06 &#8226; ROC" href="2021-01-06__ROC.html">
+    <link rel="next" title="2022-10-04 &#8226; Use faster curve fit for connection inference" href="2022-10-07__Conntest_with_faster_curve_fit.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -69,7 +70,7 @@ const thebe_selector_output = ".output, .cell_output"
                         ga('send', 'pageview');
                     </script>
 
-  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"><link rel="canonical" href="https://tfiers.github.io/phd/nb/2021_01_01__vary_params.html"></head>
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
     <div class="container-fluid" id="banner"></div>
@@ -105,8 +106,8 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)
   </a>
  </li>
@@ -319,8 +320,8 @@ const thebe_selector_output = ".output, .cell_output"
    2021-01-06 &#8226; ROC
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
    2021-01-01 &#8226; Influence of simulation params on connection test
   </a>
  </li>
@@ -527,7 +528,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -539,8 +540,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2021-01-01__vary_params.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -554,7 +555,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2021-01-01__vary_params.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -579,44 +580,36 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#base-parameters">
-   Base parameters
+  <a class="reference internal nav-link" href="#params">
+   Params
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#short-recording-duration">
-   Short recording duration
+  <a class="reference internal nav-link" href="#run">
+   Run
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#low-number-of-incoming-spike-trains">
-   Low number of incoming spike trains
+  <a class="reference internal nav-link" href="#addon">
+   (Addon)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fast-spiking">
-   Fast spiking
+  <a class="reference internal nav-link" href="#check-if-output-rate-increases">
+   Check if output rate increases
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#noisy-imaging">
-   Noisy imaging
+  <a class="reference internal nav-link" href="#plot">
+   Plot
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#noisy-short-recording">
-   Noisy &amp; short recording
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#just-for-fun-no-noise">
-   Just for fun: no noise
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility">
-   Reproducibility
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#peak-to-peak">
+     Peak-to-peak
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -628,7 +621,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2021-01-01 &#8226; Influence of simulation params on connection test</h1>
+                <h1>2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -644,44 +637,36 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#base-parameters">
-   Base parameters
+  <a class="reference internal nav-link" href="#params">
+   Params
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#short-recording-duration">
-   Short recording duration
+  <a class="reference internal nav-link" href="#run">
+   Run
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#low-number-of-incoming-spike-trains">
-   Low number of incoming spike trains
+  <a class="reference internal nav-link" href="#addon">
+   (Addon)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#fast-spiking">
-   Fast spiking
+  <a class="reference internal nav-link" href="#check-if-output-rate-increases">
+   Check if output rate increases
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#noisy-imaging">
-   Noisy imaging
+  <a class="reference internal nav-link" href="#plot">
+   Plot
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#noisy-short-recording">
-   Noisy &amp; short recording
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#just-for-fun-no-noise">
-   Just for fun: no noise
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility">
-   Reproducibility
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#peak-to-peak">
+     Peak-to-peak
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -692,327 +677,359 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="influence-of-simulation-params-on-connection-test">
-<h1>2021-01-01 &#8226; Influence of simulation params on connection test<a class="headerlink" href="#influence-of-simulation-params-on-connection-test" title="Permalink to this headline">&#182;</a></h1>
-<p>Here for the first time we run the entire workflow / &#8216;loop&#8217; in one function (biology &amp; imaging simulation, plus connection test). We then call this function with varying parameters, to test thei influence  how well the connection test performs.</p>
-<p>We stimulate the neuron with multiple spike trains, but only test the connection with one spike train (because it&#8217;s easier and faster), for now.</p>
+  <div class="section" id="n-to-1-output-rate-edit-of-2022-05-02">
+<h1>2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)<a class="headerlink" href="#n-to-1-output-rate-edit-of-2022-05-02" title="Permalink to this headline">&#182;</a></h1>
+<p>I found an &#8216;error&#8217; in the N-to-1 code (used in <a class="reference external" href="https://tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html">2022-05-02 &#8226; STA mean vs peak-to-peak</a> amongst others):
+the &#8216;input per spike&#8217; (&#916;g) is not scaled with the total number of inputs.</p>
+<p>I.e, the more inputs, the stronger the one simulated neuron will spike.<br>
+The worry is that in the high-N cases, the output will be constantly firing, making connection detection via STA&#8217;s difficult (and that would be the reason for the observed poor performance in those cases).</p>
+<p>So I went back in time (downloading <a class="reference external" href="https://github.com/tfiers/phd/tree/da6bc5bc1">old zips</a> of repo and its submodules) and re-ran this notebook, to check/confirm this issue.</p>
+<p>Conclusion:</p>
+<p>The error was indeed there.</p>
+<p>But the fear that the highest was drowning in spikes was not true. This is because the input in all the other cases (except N = 6400) was so low that the output did not spike at all.</p>
+<p>The breakdown really is cause too much inputs, so the STAs become very noisy (SNR: &#8216;signal&#8217; stays same (no downscaling of input with many N here (the &#8216;error&#8217;) &#8211; but noise goes up).</p>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.notebook_init</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>I <code class="docutils literal notranslate"><span class="pre">instantiate</span></code>d old Manifest. Worked great.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">]</span> <span class="n">st</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
- - numpy &#8230; (0.10 s)
- - matplotlib.pyplot &#8230; (0.22 s)
- - numba &#8230; (0.30 s)
-
-Importing from submodules &#8230; &#10004;
-
-Imported `np`, `mpl`, `plt`
-Imported codebase (`voltage_to_wiring_sim`) as `v`
-Imported `*` from `v.support.units`
-Setup autoreload
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">Status</span> `C:\Users\tfiers\phd-althist\da6bc5\Project.toml`
+<span class=" -Color -Color-Green">&#8963;</span> [a93c6f00] DataFrames v1.3.2
+<span class=" -Color -Color-Green">&#8963;</span> [48062228] FilePathsBase v0.9.17
+<span class=" -Color -Color-Green">&#8963;</span> [7073ff75] IJulia v1.23.2
+  [54cd1024] MyToolbox v0.1.0 `pkg\MyToolbox`
+<span class=" -Color -Color-Green">&#8963;</span> [d330b81b] PyPlot v2.10.0
+<span class=" -Color -Color-Green">&#8963;</span> [295af30f] Revise v3.3.3
+  [61be95e5] Sciplotlib v0.1.0 `pkg\Sciplotlib`
+  [fd094767] Suppressor v0.2.1
+<span class=" -Color -Color-Green">&#8963;</span> [5d786b92] TerminalLoggers v0.1.5
+  [b3b8fdc5] VoltageToMap v0.1.0 `pkg\VoltageToMap`
+  [964570a8] WhatIsHappening v0.1.0 `pkg\WhatIsHappening`
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">Info</span> Packages marked with <span class=" -Color -Color-Green">&#8963;</span> have new versions available
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pwd</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Sat 02 Jan</strong> 2021, at 00:25 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/37eb33d1b36a9c7ecefe9bf40b9252eae65b0407">Last git commit</a> (Fri 01 Jan 2021, 23:38).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>?? notebooks/2020_12_30__vary_params.ipynb
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>"C:\\Users\\tfiers\\phd-althist\\da6bc5\\nb"
+</pre></div>
+</div>
+</div>
+</div>
+<p>i.e. we at <a class="reference external" href="https://hyp.is/8k1PvkjtEe2q8bOPbkntDA/tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html">https://hyp.is/8k1PvkjtEe2q8bOPbkntDA/tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># using Revise</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="base-parameters">
-<h2>Base parameters<a class="headerlink" href="#base-parameters" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="params">
+<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">default_sim_params</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">default_params</span>
-<span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_excs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="mi">4</span><span class="p">,</span>   <span class="c"># =&gt; N_inh = 1</span>
+    <span class="mi">17</span><span class="p">,</span>  <span class="c"># Same as in `previous_N_30_input`.</span>
+    <span class="mi">80</span><span class="p">,</span>
+    <span class="mi">320</span><span class="p">,</span>
+    <span class="mi">1280</span><span class="p">,</span>
+    <span class="mi">5200</span><span class="p">,</span>  
+<span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rngseeds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">];</span> <span class="c">#, 1, 2, 3, 4];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_params</span><span class="p">((</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">))</span> <span class="o">=</span> <span class="n">ExperimentParams</span><span class="p">(</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">SimParams</span><span class="p">(</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span><span class="p">,</span>
+        <span class="n">imaging</span> <span class="o">=</span> <span class="n">get_VI_params_for</span><span class="p">(</span><span class="n">cortical_RS</span><span class="p">,</span> <span class="n">spike_SNR</span> <span class="o">=</span> <span class="nb">Inf</span><span class="p">),</span>
+        <span class="n">input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(;</span> <span class="n">N_exc</span><span class="p">);</span>
+        <span class="n">rngseed</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">conntest</span> <span class="o">=</span> <span class="n">ConnTestParams</span><span class="p">(;</span> <span class="n">STA_test_statistic</span><span class="p">,</span> <span class="n">rngseed</span><span class="p">);</span>
+    <span class="n">evaluation</span> <span class="o">=</span> <span class="n">EvaluationParams</span><span class="p">(;</span> <span class="n">rngseed</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">variableparams</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="n">N_excs</span><span class="p">,</span> <span class="n">rngseeds</span><span class="p">,</span> <span class="p">[</span><span class="s">"ptp"</span><span class="p">]))</span> <span class="c">#, "mean"]))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N_to_1_SimParams
-----------------
-                time_grid = {'duration': 600, 'start': 0, 'timestep': 0.0001}
-num_incoming_spike_trains = 15
-               spike_rate = 20
-                   &#916;g_syn = 8E-10
-                    &#964;_syn = 0.007
-            neuron_params = {'C': 1e-10, 'a': 30.0, 'b': -2e-09, 'c': -0.05, ...}
-        imaging_spike_SNR = 10
-</pre></div>
-</div>
-</div>
-</div>
-<p>(All quantities are in unprefixed SI units: second, Hz, Farad, Siemens &#8230;. Pretty printing, in human readable units, is not here yet).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">sim_and_test</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">zoom_start</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">):</span>
-    
-    <span class="n">v</span><span class="o">.</span><span class="n">fix_rng_seed</span><span class="p">()</span>
-    
-    <span class="n">sim_result</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
-    
-    <span class="n">zoom_window</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">TimeGrid</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">zoom_start</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">1</span> <span class="o">*</span> <span class="n">second</span><span class="p">,</span>
-                             <span class="n">timestep</span><span class="o">=</span><span class="n">params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">timestep</span><span class="p">)</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">N_to_1_simulation</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sim_result</span><span class="p">,</span> <span class="n">zoom_window</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  <span class="c1"># don't wait till function has completed to show plot.</span>
-    
-    <span class="n">spike_train</span> <span class="o">=</span> <span class="n">sim_result</span><span class="o">.</span><span class="n">spike_trains</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">window_duration</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">ms</span>
-    
-    <span class="n">STA</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">calculate_STA</span><span class="p">(</span><span class="n">sim_result</span><span class="o">.</span><span class="n">VI_signal</span><span class="p">,</span> <span class="n">spike_train</span><span class="p">,</span> <span class="n">window_duration</span><span class="p">)</span>
-    
-    <span class="n">test_data</span><span class="p">,</span> <span class="n">test_summary</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">test_connection</span><span class="p">(</span>
-        <span class="n">spike_train</span><span class="p">,</span>
-        <span class="n">sim_result</span><span class="o">.</span><span class="n">VI_signal</span><span class="p">,</span>
-        <span class="n">window_duration</span><span class="p">,</span>
-        <span class="n">num_shuffles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="p">)</span>
-    
-    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">left_ax</span><span class="p">,</span> <span class="n">right_ax</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">v</span><span class="o">.</span><span class="n">figsize</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">700</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">plot_STA</span><span class="p">(</span><span class="n">STA</span><span class="p">,</span> <span class="n">left_ax</span><span class="p">)</span>
-    <span class="n">left_ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"STA of VI signal (mV)"</span><span class="p">)</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">connection_test</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">right_ax</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">v</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">test_summary</span><span class="p">)</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;1&#215;1 Array{Tuple{Int64, Int64, String}, 3}:
+[:, :, 1] =
+ (4, 0, "ptp")
+ (17, 0, "ptp")
+ (80, 0, "ptp")
+ (320, 0, "ptp")
+ (1280, 0, "ptp")
+ (5200, 0, "ptp")
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_and_test</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">paramsets</span> <span class="o">=</span> <span class="n">get_params</span><span class="o">.</span><span class="p">(</span><span class="n">variableparams</span><span class="p">);</span>
+<span class="n">print</span><span class="p">(</span><span class="n">summary</span><span class="p">(</span><span class="n">paramsets</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_9_0.png" src="../_images/2021-01-01__vary_params_9_0.png">
-<img alt="../_images/2021-01-01__vary_params_9_1.png" src="../_images/2021-01-01__vary_params_9_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 3.571
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="short-recording-duration">
-<h2>Short recording duration<a class="headerlink" href="#short-recording-duration" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>  <span class="c1"># 'deep' to also make a copy of `time_grid`</span>
-
-<span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">);</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;1&#215;1 Array{ExperimentParams, 3}
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">second</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dumps</span><span class="p">(</span><span class="n">paramsets</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_12_0.png" src="../_images/2021-01-01__vary_params_12_0.png">
-<img alt="../_images/2021-01-01__vary_params_12_1.png" src="../_images/2021-01-01__vary_params_12_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 1.428
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ExperimentParams
+  sim: SimParams
+    duration: 600.0
+    &#916;t: 0.0001
+    num_timesteps: 6000000
+    rngseed: 0
+    input: PoissonInputParams
+      N_unconn: 100
+      N_exc: 4
+      N_inh: 1
+      N_conn: 5
+      N: 105
+      spike_rates: LogNormal
+        &#956;: 1.08629
+        &#963;: 0.774597
+    synapses: SynapseParams
+      avg_stim_rate_exc: 1.0e-10
+      avg_stim_rate_inh: 4.0e-10
+      E_exc: 0.0
+      E_inh: -0.065
+      g_t0: 0.0
+      &#964;: 0.007
+    izh_neuron: IzhikevichParams
+      C: 1.0e-10
+      k: 7.0e-7
+      v_rest: -0.06
+      v_thr: -0.04
+      a: 30.0
+      b: -2.0e-9
+      v_peak: 0.035
+      v_reset: -0.05
+      &#916;u: 1.0e-10
+      v_t0: -0.06
+      u_t0: 0.0
+    imaging: VoltageImagingParams
+      spike_SNR: Inf
+      spike_SNR_dB: Inf
+      spike_height: 0.095
+      &#963;_noise: 0.0
+  conntest: ConnTestParams
+    STA_window_length: 0.1
+    num_shuffles: 100
+    STA_test_statistic: ptp
+    rngseed: 0
+  evaluation: EvaluationParams
+    &#945;: 0.05
+    num_tested_neurons_per_group: 40
+    rngseed: 0
 </pre></div>
 </div>
 </div>
 </div>
-<p>Still a PSP visible and the connection test can still find that the spike train is connected; but less convincing.</p>
 </div>
-<div class="section" id="low-number-of-incoming-spike-trains">
-<h2>Low number of incoming spike trains<a class="headerlink" href="#low-number-of-incoming-spike-trains" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
-
-<span class="n">sim_params</span><span class="o">.</span><span class="n">num_incoming_spike_trains</span> <span class="o">=</span> <span class="mi">5</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># @edit cached(sim_and_eval, [paramsets[1]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">paramsets</span><span class="p">,</span> <span class="kt">NamedTuple</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">paramsets</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">)</span> <span class="o">=</span> <span class="n">variableparams</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">paramset</span> <span class="o">=</span> <span class="n">paramsets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">println</span><span class="p">((;</span> <span class="n">N_exc</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">STA_test_statistic</span><span class="p">),</span> <span class="s">" "</span><span class="p">,</span> <span class="n">cachefilename</span><span class="p">(</span><span class="n">paramset</span><span class="p">))</span>
+    <span class="n">perf</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim_and_eval</span><span class="p">,</span> <span class="p">[</span><span class="n">paramset</span><span class="p">])</span>
+    <span class="n">println</span><span class="p">()</span>
+    <span class="n">perfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">perf</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_15_0.png" src="../_images/2021-01-01__vary_params_15_0.png">
-<img alt="../_images/2021-01-01__vary_params_15_1.png" src="../_images/2021-01-01__vary_params_15_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 3.157
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_exc = 4, seed = 0, STA_test_statistic = "ptp") c8d783d95f512dc5.jld2
+
+(N_exc = 17, seed = 0, STA_test_statistic = "ptp") e64544c498689eef.jld2
+
+(N_exc = 80, seed = 0, STA_test_statistic = "ptp") ebc2597ef978ce7b.jld2
+
+(N_exc = 320, seed = 0, STA_test_statistic = "ptp") ca4714362c8f1ab0.jld2
+
+(N_exc = 1280, seed = 0, STA_test_statistic = "ptp") d6e32f016e6e0926.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:43</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\26944e9fec650c10.jld2` &#8230; done (2.5 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d6e32f016e6e0926.jld2` &#8230; done
+
+(N_exc = 5200, seed = 0, STA_test_statistic = "ptp") 9b71fe260597c2c4.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:47</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\8087ca0c2729388b.jld2` &#8230; done (2.5 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\9b71fe260597c2c4.jld2` &#8230; done
 </pre></div>
 </div>
 </div>
 </div>
-<p>No spikes (not enough input); but still a PSP.</p>
-<p>Note though that the STA shape is different now: no after-hyperpolarisation because no spikes.</p>
-</div>
-<div class="section" id="fast-spiking">
-<h2>Fast spiking<a class="headerlink" href="#fast-spiking" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
-
-<span class="n">sim_params</span><span class="o">.</span><span class="n">spike_rate</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="n">Hz</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_18_0.png" src="../_images/2021-01-01__vary_params_18_0.png">
-<img alt="../_images/2021-01-01__vary_params_18_1.png" src="../_images/2021-01-01__vary_params_18_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 3.632
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6&#215;1&#215;1 Array{NamedTuple, 3}:
+[:, :, 1] =
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.0)
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.050000000000000044)
+ (TPR_exc = 1.0, TPR_inh = 1.0, FPR = 0.050000000000000044)
+ (TPR_exc = 1.0, TPR_inh = 0.725, FPR = 0.050000000000000044)
+ (TPR_exc = 0.775, TPR_inh = 0.5, FPR = 0.09999999999999998)
+ (TPR_exc = 0.075, TPR_inh = 0.075, FPR = 0.09999999999999998)
 </pre></div>
 </div>
 </div>
 </div>
-<p>Interesting: STA shape is more time-compressed.</p>
-<p>There&#8217;s maybe even some oscillation visible?</p>
 </div>
-<div class="section" id="noisy-imaging">
-<h2>Noisy imaging<a class="headerlink" href="#noisy-imaging" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="addon">
+<h2>(Addon)<a class="headerlink" href="#addon" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
-
-<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Printf</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span> <span class="o">=</span> <span class="nd">@printf</span> <span class="n">io</span> <span class="s">"</span><span class="si">%.3g</span><span class="s">"</span> <span class="n">x</span>
+<span class="mi">1</span><span class="o">/</span><span class="mi">3</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_21_0.png" src="../_images/2021-01-01__vary_params_21_0.png">
-<img alt="../_images/2021-01-01__vary_params_21_1.png" src="../_images/2021-01-01__vary_params_21_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 1.405
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.333
 </pre></div>
 </div>
 </div>
 </div>
-<p>Interesting: with strong noise (here: as strong as spike height), we can still resolve the PSPs.</p>
 </div>
-<div class="section" id="noisy-short-recording">
-<h2>Noisy &amp; short recording<a class="headerlink" href="#noisy-short-recording" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="check-if-output-rate-increases">
+<h2>Check if output rate increases<a class="headerlink" href="#check-if-output-rate-increases" title="Permalink to this headline">&#182;</a></h2>
+<p>Hah there was not even output spike recording. Oops.</p>
+<p>I&#8217;ll detect manually.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
-
-<span class="n">sim_params</span><span class="o">.</span><span class="n">time_grid</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">minute</span>
-<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="mi">2</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">f</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">]);</span>
+    <span class="n">ot</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">v</span> <span class="o">.&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">izh_neuron</span><span class="o">.</span><span class="n">v_thr</span>   <span class="c"># over thr</span>
+    <span class="n">spike_ix</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">ot</span><span class="p">)</span> <span class="o">.==</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># pos thr crossings</span>
+    <span class="n">spiketimes</span> <span class="o">=</span> <span class="n">spike_ix</span> <span class="o">*</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">&#916;t</span>
+    <span class="n">num_spikes</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">spiketimes</span><span class="p">)</span>
+    <span class="n">spike_rate</span> <span class="o">=</span> <span class="n">num_spikes</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">duration</span> <span class="o">*</span> <span class="n">Hz</span>
+    <span class="n">time_between</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">spike_rate</span> <span class="o">*</span> <span class="n">seconds</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">N_conn</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span><span class="p">,</span> <span class="n">num_spikes</span><span class="p">,</span> <span class="n">spike_rate</span><span class="p">,</span> <span class="n">time_between</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="k">for</span> <span class="n">p</span> <span class="k">in</span> <span class="n">paramsets</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_24_0.png" src="../_images/2021-01-01__vary_params_24_0.png">
-<img alt="../_images/2021-01-01__vary_params_24_1.png" src="../_images/2021-01-01__vary_params_24_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.02
-       p_value_type = '='
-relative_STA_height = 1.195
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_conn = 5, num_spikes = 0, spike_rate = 0, time_between = Inf)
+(N_conn = 21, num_spikes = 0, spike_rate = 0, time_between = Inf)
+(N_conn = 100, num_spikes = 0, spike_rate = 0, time_between = Inf)
+(N_conn = 400, num_spikes = 0, spike_rate = 0, time_between = Inf)
+(N_conn = 1600, num_spikes = 0, spike_rate = 0, time_between = Inf)
+(N_conn = 6500, num_spikes = 95, spike_rate = 0.158, time_between = 6.32)
 </pre></div>
 </div>
 </div>
 </div>
-<p>..but only when our recording is long enough.</p>
-<p>Note that the PSP is still vaguely visible in the STA, however.</p>
+<p>Ok.
+So the fear that the highest was drowning in spikes was not true.
+The breakdown really is cause too much inputs, so signal is less clear.</p>
 </div>
-<div class="section" id="just-for-fun-no-noise">
-<h2>Just for fun: no noise<a class="headerlink" href="#just-for-fun-no-noise" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
+<p>(Just figure copied from older nb)</p>
+<div class="section" id="peak-to-peak">
+<h3>Peak-to-peak<a class="headerlink" href="#peak-to-peak" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sim_params</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">default_sim_params</span><span class="p">)</span>
-
-<span class="n">sim_params</span><span class="o">.</span><span class="n">imaging_spike_SNR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
-
-<span class="n">sim_and_test</span><span class="p">(</span><span class="n">sim_params</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">make_figure</span><span class="p">(</span><span class="n">perfs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2021-01-01__vary_params_27_0.png" src="../_images/2021-01-01__vary_params_27_0.png">
-<img alt="../_images/2021-01-01__vary_params_27_1.png" src="../_images/2021-01-01__vary_params_27_1.png">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ConnectionTestSummary
----------------------
-            p_value = 0.01
-       p_value_type = '&lt;'
-relative_STA_height = 5.006
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="reproducibility">
-<h2>Reproducibility<a class="headerlink" href="#reproducibility" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<p>This cell was last run by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code><br>on <strong>Fri 01 Jan</strong> 2021, at 23:00 (UTC+0100).</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/d5d0790cdb5a61a68872195e0d13b4121225903e">Last git commit</a> (Fri 01 Jan 2021, 22:59).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>?? notebooks/2020_12_30__vary_params.ipynb
-</pre></div>
-</div>
-<p>Platform:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Windows-10
-CPython 3.8.3 (C:\conda\python.exe)
-Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
-</pre></div>
-</div>
-<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.2
-matplotlib           3.3.2
-numba                0.51.2
-seaborn              0.10.1
-scipy                1.5.2
-scikit-learn         0.23.2
-preload              2.1
-py-cpuinfo           7.0.0
-nptyping             1.3.0
-tqdm                 4.55.0
-</pre></div>
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_32_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_32_0.png">
 </div>
 </div>
 </div>
@@ -1028,33 +1045,33 @@ tqdm                 4.55.0
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "julia-1.8",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2021-01-06__ROC.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2021-01-06 &#8226; ROC</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2020-12-30__test_all_connections.html" title="next page">
+    <a class="right-next" id="next-link" href="2022-10-07__Conntest_with_faster_curve_fit.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2020-12-30 &#8226; Test connection of <em>all</em> incoming neurons</p>
+        <p class="prev-next-title">2022-10-04 &#8226; Use faster curve fit for connection inference</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
