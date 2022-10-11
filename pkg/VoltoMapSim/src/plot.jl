@@ -120,18 +120,12 @@ function plot_detection_rates(
     return fig, ax
 end
 
-function extract(name::Symbol, arr)
-    # `arr` is an array of NamedTuples or structs.
-    # Creates an array of the same shape as the one given, but
-    # with just the values stored under `name` in each element of the given array.
-    getval(el) = getproperty(el, name)
-    valtype = arr |> first |> getval |> typeof
-    out = similar(arr, valtype)
-    for i in eachindex(arr)
-        out[i] = getval(arr[i])
-    end
-    return out
-end
+extract(name::Symbol, array) = [getproperty(el, name) for el in array]
+# Create an array of the same shape as the one given, but with just the values stored under
+# `name` in each element of the given array.
+# (Unlike in Python, the above comprehension syntax returns an array of the same shape as
+# `arr`).
+
 
 """
 Rows of `data` correspond to `x` locations. Columns are samples (e.g. RNG seeds).
