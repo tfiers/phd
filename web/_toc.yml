@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02
     - file: nb/2022-10-07__Conntest_with_faster_curve_fit
     - file: nb/2022-10-04__inspect_curve_fit
     - file: nb/2022-09-30__Conntest_with_parametric_STA_model
