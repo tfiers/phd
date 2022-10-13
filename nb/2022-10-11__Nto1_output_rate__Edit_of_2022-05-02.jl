@@ -34,15 +34,13 @@
 
 # ## Setup
 
-# +
-#
-# -
+# https://github.com/tfiers/phd/tree/da6bc5/pkg/VoltageToMap/src
+
+] activate "../../phd-althist/da6bc5"
 
 # I `instantiate`d old Manifest. Worked great.
 
 ] st
-
-pwd()
 
 # i.e. we at https://hyp.is/8k1PvkjtEe2q8bOPbkntDA/tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html
 
@@ -94,6 +92,8 @@ dumps(paramsets[1])
 # @edit cached(sim_and_eval, [paramsets[1]])
 # -
 
+# Note: the caching doesn't work here between sessions: I still used wrong implementation with naive `hash`.
+
 perfs = similar(paramsets, NamedTuple)
 for i in eachindex(paramsets)
     (N_exc, seed, STA_test_statistic) = variableparams[i]
@@ -109,7 +109,7 @@ perfs
 # ## (Addon)
 
 using Printf
-Base.show(io::IO, x::Float64) = @printf io "%.3g" x
+Base.show(io::IO, x::Float64) = @printf io "%.4g" x
 1/3
 
 # ## Check if output rate increases
@@ -138,8 +138,169 @@ end
 
 # ## Plot
 
-# (Just figure copied from older nb)
+# (Just the figure output, copied from older nb)
 
 # ### Peak-to-peak
 
 fig, ax = make_figure(perfs[:,:,1]);
+
+# ## Inputs' Firing rates distribution
+
+# I want to check something else suspicious.
+#
+# In this nb (a bit earlier), input firing rates are sampled from a LogNormal distr.
+# But looking at this plot here: https://tfiers.github.io/phd/nb/2022-03-28__total_stimulation.html#total-stimulation
+# -- where "total stimulation" is directly proportional to num spikes (every inh neuron has same Δg) -- the fr distributions look very un-lognormal to me..
+
+p = paramsets[end]
+p.sim.input.N_conn
+
+p.sim.input.spike_rates
+
+# (Real mean of that is 4Hz).
+
+s = cached(sim, [p.sim]);
+
+mean_ISI = [d.θ for d in s.state.fixed_at_init.ISI_distributions]  # scale = β = θ = mean
+plt.hist(mean_ISI / seconds, bins=20);
+
+mean_spikes_per_sec = 1 ./ mean_ISI  # λ = rate
+plt.hist(mean_spikes_per_sec / Hz, bins=20);
+
+# Ok that's not Normal, good
+
+num_spikes = length.(s.input_spikes)
+plt.hist(num_spikes);
+
+# .. and that is.
+
+# I must have made a reasoning error somewhere.
+# Or a programming error (all sampled from same distr or sth).
+
+@unpack ISI_distributions, = s.state.fixed_at_init;
+
+findmax(mean_spikes_per_sec)
+
+findmin(mean_spikes_per_sec)
+
+some_ISIs = rand(ISI_distributions[1862], 3) / ms  |> show
+
+some_ISIs = rand(ISI_distributions[2613], 3) / ms  |> show
+
+# Ok, that's all good.
+#
+# So why do these input spikes look normal.
+#
+# Let's simulate ourselves, again.
+
+spikes = Dict()
+for (n, ISI_distr) in enumerate(ISI_distributions[1:1000])
+    t = 0.0
+    spikes[n] = Float64[]
+    while true
+        t += rand(ISI_distr)
+        if t ≥ p.sim.duration
+            break
+        end
+        push!(spikes[n], t)
+    end
+end
+
+num_spikes = length.(values(spikes))
+plt.hist(num_spikes);
+
+# Akkerdjie. Dit is wel lognormal.
+#
+# What's diff with sim code.
+
+# +
+function simstep(spikerec, upcoming_input_spikes, ISI_distributions, t)
+    t_next_input_spike = peek(upcoming_input_spikes).second  # (.first is neuron ID).
+    if t ≥ t_next_input_spike
+        n = dequeue!(upcoming_input_spikes)  # ID of the fired input neuron
+        push!(spikerec[n], t)
+        tn = t + rand(ISI_distributions[n])  # Next spike time for the fired neuron
+        enqueue!(upcoming_input_spikes, n => tn)
+    end
+end
+
+input_neuron_IDs = CVec(collect(1:length(ISI_distributions)), getaxes(ISI_distributions))
+
+@unpack upcoming_input_spikes = s.state.variable_in_time;
+
+first_input_spike_times = rand.(ISI_distributions)
+spikerec = Dict{Int, Vector{Float64}}()
+
+empty!(upcoming_input_spikes)
+for (n, t) in zip(input_neuron_IDs, first_input_spike_times)
+    enqueue!(upcoming_input_spikes, n => t)
+    spikerec[n] = []
+end
+
+# duration = p.sim.duration
+duration = 1minutes
+@showprogress for t in linspace(0, duration, round(Int, duration / p.sim.Δt))
+    simstep(spikerec, upcoming_input_spikes, ISI_distributions, t)
+end
+# -
+
+num_spikes = length.(values(spikes))
+spikerates = num_spikes ./ duration
+plt.hist(spikerates);
+
+# (Note that here we sim for all inputs but not all time; in previous plot we sim'ed for all time but not all inputs).
+
+# Ma huh?
+# This is almost exactly the code in `step_sim!`
+
+@less VoltageToMap.step_sim!(s, p.sim, [], 1)
+
+# (https://github.com/tfiers/phd/blob/da6bc5b/pkg/VoltageToMap/src/sim/step.jl)
+
+mean_ISIs_sim = mean.(VoltageToMap.to_ISIs.(s.input_spikes))
+plt.hist(mean_ISIs_sim / seconds, bins=20);
+
+# Wait what. The mean ISI distr does look lognormal i.e. correct.
+#
+# Then why doesn't the rate distr?
+
+plt.hist(length.(s.input_spikes) / p.sim.duration / Hz, bins=20);
+
+# Let's investigate two concrete neurons.
+
+findmin(mean_ISIs_sim), findmax(mean_ISIs_sim)
+
+length(s.input_spikes[1862]), length(s.input_spikes[5513])
+
+# Wut. (This is a great, expected spread).
+
+1742/10minutes, 81/10minutes
+
+# Ok so the normal diagram has correct values.
+
+# How does a normal simulated fr distr arise from lognormal mean ISIs.
+
+
+
+#
+
+# ## Prez
+
+# $$
+# v(t) = 
+# \begin{cases}
+# e^{-t/τ}                                                          & τ_1 = τ_2 \\
+# \frac{τ_1 τ_2}{τ_1 - τ_2} \left(e^{-t/τ_1} - e^{-t/τ_2} \right)   & τ_1 ≠ τ_2
+# \end{cases}
+# $$
+# <!-- for codecogs, only ascii:
+#   
+# v(t) = 
+# \begin{cases}
+# e^{-t/\tau}                                                          & \tau_1 = \tau_2 \\
+# \frac{\tau_1 \tau_2}{\tau_1 - \tau_2} \left(e^{-t/\tau_1} - e^{-t/\tau_2} \right)   & \tau_1 \neq \tau_2
+# \end{cases}
+#
+# -->
+
+
