@@ -48,6 +48,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
@@ -611,6 +613,16 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs-firing-rates-distribution">
+   Inputs&#8217; Firing rates distribution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prez">
+   Prez
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -668,6 +680,16 @@ const thebe_selector_output = ".output, .cell_output"
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs-firing-rates-distribution">
+   Inputs&#8217; Firing rates distribution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prez">
+   Prez
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -690,9 +712,15 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 <p>The breakdown really is cause too much inputs, so the STAs become very noisy (SNR: &#8216;signal&#8217; stays same (no downscaling of input with many N here (the &#8216;error&#8217;) &#8211; but noise goes up).</p>
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
+<p><a class="reference external" href="https://github.com/tfiers/phd/tree/da6bc5/pkg/VoltageToMap/src">https://github.com/tfiers/phd/tree/da6bc5/pkg/VoltageToMap/src</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">]</span> <span class="n">activate</span> <span class="s">"../../phd-althist/da6bc5"</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">  Activating</span> project at `C:\Users\tfiers\phd-althist\da6bc5`
 </pre></div>
 </div>
 </div>
@@ -722,18 +750,6 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pwd</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>"C:\\Users\\tfiers\\phd-althist\\da6bc5\\nb"
-</pre></div>
-</div>
-</div>
-</div>
 <p>i.e. we at <a class="reference external" href="https://hyp.is/8k1PvkjtEe2q8bOPbkntDA/tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html">https://hyp.is/8k1PvkjtEe2q8bOPbkntDA/tfiers.github.io/phd/nb/2022-05-02__STA_mean_vs_peak-to-peak.html</a></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -748,10 +764,21 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#9484; Info: Precompiling MyToolbox [54cd1024-cafd-4d62-948d-ced4874502bf]
+&#9492; @ Base loading.jl:1662
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltageToMap</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltageToMap [b3b8fdc5-3c26-4000-a0c8-f17415fdf48e]
 </pre></div>
 </div>
 </div>
@@ -760,6 +787,12 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
 <span class="k">using</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">Plot</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling PyPlot [d330b81b-6aea-500a-939a-2ce795aea3ee]
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [61be95e5-9550-4d5f-a203-92a5acbc3116]
 </pre></div>
 </div>
 </div>
@@ -905,6 +938,7 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 </div>
 </div>
 </div>
+<p>Note: the caching doesn&#8217;t work here between sessions: I still used wrong implementation with naive <code class="docutils literal notranslate"><span class="pre">hash</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfs</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">paramsets</span><span class="p">,</span> <span class="kt">NamedTuple</span><span class="p">)</span>
@@ -920,25 +954,41 @@ The worry is that in the high-N cases, the output will be constantly firing, mak
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_exc = 4, seed = 0, STA_test_statistic = "ptp") c8d783d95f512dc5.jld2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(N_exc = 4, seed = 0, STA_test_statistic = "ptp") d597e9845d59167c.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\7ee3bb860249ab23.jld2` &#8230; done (11.2 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d597e9845d59167c.jld2` &#8230; done (0.9 s)
 
-(N_exc = 17, seed = 0, STA_test_statistic = "ptp") e64544c498689eef.jld2
+(N_exc = 17, seed = 0, STA_test_statistic = "ptp") 4375a8fd3d519fa2.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\d4c4c08c9216be57.jld2` &#8230; done (2.2 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\4375a8fd3d519fa2.jld2` &#8230; done
 
-(N_exc = 80, seed = 0, STA_test_statistic = "ptp") ebc2597ef978ce7b.jld2
+(N_exc = 80, seed = 0, STA_test_statistic = "ptp") 164a7233f370837b.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:03</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\df4c33888513643b.jld2` &#8230; done (2.1 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\164a7233f370837b.jld2` &#8230; done
 
-(N_exc = 320, seed = 0, STA_test_statistic = "ptp") ca4714362c8f1ab0.jld2
-
-(N_exc = 1280, seed = 0, STA_test_statistic = "ptp") d6e32f016e6e0926.jld2
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:43</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim\26944e9fec650c10.jld2` &#8230; done (2.5 s)
+(N_exc = 320, seed = 0, STA_test_statistic = "ptp") 96e074504cde04fc.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\1d3d36db4ce3bc06.jld2` &#8230; done (2.2 s)
 <span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\d6e32f016e6e0926.jld2` &#8230; done
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\96e074504cde04fc.jld2` &#8230; done
 
-(N_exc = 5200, seed = 0, STA_test_statistic = "ptp") 9b71fe260597c2c4.jld2
-<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:47</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim\8087ca0c2729388b.jld2` &#8230; done (2.5 s)
-<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
-Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\9b71fe260597c2c4.jld2` &#8230; done
+(N_exc = 1280, seed = 0, STA_test_statistic = "ptp") 3b39418f81f46f30.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:38</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\2b004720f7fc3850.jld2` &#8230; done (2.0 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:17</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\3b39418f81f46f30.jld2` &#8230; done
+
+(N_exc = 5200, seed = 0, STA_test_statistic = "ptp") 164cd3deb12bfdf8.jld2
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:29</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim\10badb65c823d91.jld2` &#8230; done (2.0 s)
+<span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
+Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\164cd3deb12bfdf8.jld2` &#8230; done
 </pre></div>
 </div>
 </div>
@@ -968,13 +1018,13 @@ Saving output at `C:\Users\tfiers\.phdcache\sim_and_eval\9b71fe260597c2c4.jld2` 
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Printf</span>
-<span class="n">Base</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span> <span class="o">=</span> <span class="nd">@printf</span> <span class="n">io</span> <span class="s">"</span><span class="si">%.3g</span><span class="s">"</span> <span class="n">x</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">io</span><span class="o">::</span><span class="kt">IO</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span> <span class="o">=</span> <span class="nd">@printf</span> <span class="n">io</span> <span class="s">"</span><span class="si">%.4g</span><span class="s">"</span> <span class="n">x</span>
 <span class="mi">1</span><span class="o">/</span><span class="mi">3</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.333
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.3333
 </pre></div>
 </div>
 </div>
@@ -1019,7 +1069,7 @@ The breakdown really is cause too much inputs, so signal is less clear.</p>
 </div>
 <div class="section" id="plot">
 <h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
-<p>(Just figure copied from older nb)</p>
+<p>(Just the figure output, copied from older nb)</p>
 <div class="section" id="peak-to-peak">
 <h3>Peak-to-peak<a class="headerlink" href="#peak-to-peak" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
@@ -1029,11 +1079,372 @@ The breakdown really is cause too much inputs, so signal is less clear.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_32_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_32_0.png">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_33_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_33_0.png">
 </div>
 </div>
 </div>
 </div>
+<div class="section" id="inputs-firing-rates-distribution">
+<h2>Inputs&#8217; Firing rates distribution<a class="headerlink" href="#inputs-firing-rates-distribution" title="Permalink to this headline">&#182;</a></h2>
+<p>I want to check something else suspicious.</p>
+<p>In this nb (a bit earlier), input firing rates are sampled from a LogNormal distr.
+But looking at this plot here: <a class="reference external" href="https://tfiers.github.io/phd/nb/2022-03-28__total_stimulation.html#total-stimulation">https://tfiers.github.io/phd/nb/2022-03-28__total_stimulation.html#total-stimulation</a>
+&#8211; where &#8220;total stimulation&#8221; is directly proportional to num spikes (every inh neuron has same &#916;g) &#8211; the fr distributions look very un-lognormal to me..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">paramsets</span><span class="p">[</span><span class="k">end</span><span class="p">]</span>
+<span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">N_conn</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">spike_rates</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64}(&#956;=1.09, &#963;=0.775)
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Real mean of that is 4Hz).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mean_ISI</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">&#952;</span> <span class="k">for</span> <span class="n">d</span> <span class="k">in</span> <span class="n">s</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">]</span>  <span class="c"># scale = &#946; = &#952; = mean</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mean_ISI</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_40_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_40_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mean_spikes_per_sec</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">./</span> <span class="n">mean_ISI</span>  <span class="c"># &#955; = rate</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mean_spikes_per_sec</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_41_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_41_0.png">
+</div>
+</div>
+<p>Ok that&#8217;s not Normal, good</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">num_spikes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_43_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_43_0.png">
+</div>
+</div>
+<p>.. and that is.</p>
+<p>I must have made a reasoning error somewhere.
+Or a programming error (all sampled from same distr or sth).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@unpack</span> <span class="n">ISI_distributions</span><span class="p">,</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">findmax</span><span class="p">(</span><span class="n">mean_spikes_per_sec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(56.98, 1862)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">findmin</span><span class="p">(</span><span class="n">mean_spikes_per_sec</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.1305, 2613)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">some_ISIs</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="mi">1862</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">ms</span>  <span class="o">|&gt;</span> <span class="n">show</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[6.734, 0.3597, 5.217]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">some_ISIs</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="mi">2613</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="n">ms</span>  <span class="o">|&gt;</span> <span class="n">show</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[8215, 9845, 1695]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok, that&#8217;s all good.</p>
+<p>So why do these input spikes look normal.</p>
+<p>Let&#8217;s simulate ourselves, again.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spikes</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">()</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ISI_distr</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">1000</span><span class="p">])</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">spikes</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="kt">Float64</span><span class="p">[]</span>
+    <span class="k">while</span> <span class="nb">true</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&#8805;</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">duration</span>
+            <span class="k">break</span>
+        <span class="k">end</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">spikes</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="n">spikes</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">num_spikes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_53_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_53_0.png">
+</div>
+</div>
+<p>Akkerdjie. Dit is wel lognormal.</p>
+<p>What&#8217;s diff with sim code.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">simstep</span><span class="p">(</span><span class="n">spikerec</span><span class="p">,</span> <span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">ISI_distributions</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">t_next_input_spike</span> <span class="o">=</span> <span class="n">peek</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">)</span><span class="o">.</span><span class="n">second</span>  <span class="c"># (.first is neuron ID).</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">&#8805;</span> <span class="n">t_next_input_spike</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">dequeue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">)</span>  <span class="c"># ID of the fired input neuron</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">spikerec</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">tn</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>  <span class="c"># Next spike time for the fired neuron</span>
+        <span class="n">enqueue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">n</span> <span class="o">=&gt;</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">input_neuron_IDs</span> <span class="o">=</span> <span class="n">CVec</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">)),</span> <span class="n">getaxes</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">))</span>
+
+<span class="nd">@unpack</span> <span class="n">upcoming_input_spikes</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">variable_in_time</span><span class="p">;</span>
+
+<span class="n">first_input_spike_times</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">)</span>
+<span class="n">spikerec</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}()</span>
+
+<span class="n">empty!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">in</span> <span class="n">zip</span><span class="p">(</span><span class="n">input_neuron_IDs</span><span class="p">,</span> <span class="n">first_input_spike_times</span><span class="p">)</span>
+    <span class="n">enqueue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">n</span> <span class="o">=&gt;</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">spikerec</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">end</span>
+
+<span class="c"># duration = p.sim.duration</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span><span class="n">minutes</span>
+<span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">&#916;t</span><span class="p">))</span>
+    <span class="n">simstep</span><span class="p">(</span><span class="n">spikerec</span><span class="p">,</span> <span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">ISI_distributions</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="n">spikes</span><span class="p">))</span>
+<span class="n">spikerates</span> <span class="o">=</span> <span class="n">num_spikes</span> <span class="o">./</span> <span class="n">duration</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">spikerates</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_56_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_56_0.png">
+</div>
+</div>
+<p>(Note that here we sim for all inputs but not all time; in previous plot we sim&#8217;ed for all time but not all inputs).</p>
+<p>Ma huh?
+This is almost exactly the code in <code class="docutils literal notranslate"><span class="pre">step_sim!</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@less</span> <span class="n">VoltageToMap</span><span class="o">.</span><span class="n">step_sim!</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="p">,</span> <span class="p">[],</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>function step_sim!(state, params::SimParams, rec, i)
+
+    @unpack ISI_distributions, postsynapses, &#916;g, E           = state.fixed_at_init
+    @unpack vars, diff, upcoming_input_spikes                = state.variable_in_time
+    @unpack t, v, u, g                                       = vars
+    @unpack &#916;t, synapses, izh_neuron                         = params
+    @unpack C, k, v_rest, v_thr, a, b, v_peak, v_reset, &#916;u   = izh_neuron
+
+    # Sum synaptic currents
+    I_s = zero(u)
+    for (gi, Ei) in zip(g, E)
+        I_s += gi * (v - Ei)
+    end
+
+    # Differential equations
+    diff.v = (k * (v - v_rest) * (v - v_thr) - u - I_s) / C
+    diff.u = a * (b * (v - v_rest) - u)
+    for i in eachindex(g)
+        diff.g[i] = -g[i] / synapses.&#964;
+    end
+
+    # Euler integration
+    @. vars += diff * &#916;t
+
+    # Izhikevich neuron spiking threshold
+    if v &#8805; v_peak
+        vars.v = v_reset
+        vars.u += &#916;u
+    end
+
+    # Record membrane voltage
+    rec.v[i] = v
+
+    # Input spikes
+    t_next_input_spike = peek(upcoming_input_spikes).second  # (.first is neuron ID).
+    if t &#8805; t_next_input_spike
+        n = dequeue!(upcoming_input_spikes)  # ID of the fired input neuron
+        push!(rec.input_spikes[n], t)
+        for s in postsynapses[n]
+            g[s] += &#916;g[s]
+        end
+        tn = t + rand(ISI_distributions[n])  # Next spike time for the fired neuron
+        enqueue!(upcoming_input_spikes, n =&gt; tn)
+    end
+    # Unhandled edge case: multiple spikes in the same time bin get processed with
+    # increasing delay. (This problem goes away when using diffeq.jl, `adaptive`).
+end
+</pre></div>
+</div>
+</div>
+</div>
+<p>(<a class="reference external" href="https://github.com/tfiers/phd/blob/da6bc5b/pkg/VoltageToMap/src/sim/step.jl">https://github.com/tfiers/phd/blob/da6bc5b/pkg/VoltageToMap/src/sim/step.jl</a>)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mean_ISIs_sim</span> <span class="o">=</span> <span class="n">mean</span><span class="o">.</span><span class="p">(</span><span class="n">VoltageToMap</span><span class="o">.</span><span class="n">to_ISIs</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mean_ISIs_sim</span> <span class="o">/</span> <span class="n">seconds</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_61_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_61_0.png">
+</div>
+</div>
+<p>Wait what. The mean ISI distr does look lognormal i.e. correct.</p>
+<p>Then why doesn&#8217;t the rate distr?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">length</span><span class="o">.</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">)</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">duration</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_63_0.png" src="../_images/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02_63_0.png">
+</div>
+</div>
+<p>Let&#8217;s investigate two concrete neurons.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">findmin</span><span class="p">(</span><span class="n">mean_ISIs_sim</span><span class="p">),</span> <span class="n">findmax</span><span class="p">(</span><span class="n">mean_ISIs_sim</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((0.3444, 1862), (7.393, 5513))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">[</span><span class="mi">1862</span><span class="p">]),</span> <span class="n">length</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">[</span><span class="mi">5513</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1742, 81)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wut. (This is a great, expected spread).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">1742</span><span class="o">/</span><span class="mi">10</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">81</span><span class="o">/</span><span class="mi">10</span><span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2.903, 0.135)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok so the normal diagram has correct values.</p>
+<p>How does a normal simulated fr distr arise from lognormal mean ISIs.</p>
+</div>
+<div class="section" id="prez">
+<h2>Prez<a class="headerlink" href="#prez" title="Permalink to this headline">&#182;</a></h2>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+v(t) = 
+\begin{cases}
+e^{-t/&#964;}                                                          &amp; &#964;_1 = &#964;_2 \\
+\frac{&#964;_1 &#964;_2}{&#964;_1 - &#964;_2} \left(e^{-t/&#964;_1} - e^{-t/&#964;_2} \right)   &amp; &#964;_1 &#8800; &#964;_2
+\end{cases}
+\end{split}\]</div>
+<!-- for codecogs, only ascii:
+  
+v(t) = 
+\begin{cases}
+e^{-t/\tau}                                                          & \tau_1 = \tau_2 \\
+\frac{\tau_1 \tau_2}{\tau_1 - \tau_2} \left(e^{-t/\tau_1} - e^{-t/\tau_2} \right)   & \tau_1 \neq \tau_2
+\end{cases}
+
+--></div>
 </div>
 
     <script type="text/x-thebe-config">
