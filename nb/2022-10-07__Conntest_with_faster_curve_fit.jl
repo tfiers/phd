@@ -26,7 +26,7 @@
 
 using MyToolbox
 
-using VoltoMapSim
+@time_imports using VoltoMapSim
 
 # The faster modelling code has been consolidated in the codebase (`src/infer/model_STA.jl`).
 
@@ -47,7 +47,7 @@ p = get_params(
 
 # Skip this section if you want just one.
 
-out = cached_STAs(p);  # Takes 15.2 seconds
+out = cached_STAs(p);
 
 (ct, STAs, shuffled_STAs) = out;
 
@@ -102,7 +102,7 @@ tc = test_conns(testfunc, ctsample, STAs, shuffled_STAs, α = 0.05);
 
 perftable(tc)
 
-tc[(tc.conntype .== :exc), :]
+tc[(tc.conntype .== :exc), :] 
 
 plotsig(STAs[20=>28] / mV, p);
 plotsig(STAs[451=>6] / mV, p);
@@ -110,5 +110,3 @@ plotsig(STAs[770=>18] / mV, p);
 plotsig(STAs[33=>806] / mV, p);
 
 # oh ow, is this the nonlinearity of Izhikevich at play? (Weaker excitation at lower voltages). Hm or is that sth else ([nb](https://tfiers.github.io/phd/nb/2021-12-08__biology_vs_Izh_subhtr.html)).
-
-

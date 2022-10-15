@@ -30,7 +30,7 @@ function modelfit_test(real_STA; modelling_funcs)
     return test_stat, Eness
 end
 
-MSE(y, yhat) = mean((y .- yhat).^2)
+MSE(y, ŷ) = mean((y .- ŷ).^2)
 
 
 function test_conn(testfunc, real_STA, shuffled_STAs; α = 0.05)
