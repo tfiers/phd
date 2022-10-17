@@ -2,6 +2,8 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2022-10-17__General_simulator_software_design
+    - file: nb/2022-10-13__Fix_Nto1_non-lognormal_input_rates
     - file: nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02
     - file: nb/2022-10-07__Conntest_with_faster_curve_fit
     - file: nb/2022-10-04__inspect_curve_fit
