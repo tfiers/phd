@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2022-10-13 &#8226; Find non-lognormal firing rates &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-10-13__Fix_Nto1_non-lognormal_input_rates.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+    <link rel="prev" title="2022-10-17 &#8226; General simulator software design" href="2022-10-17__General_simulator_software_design.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-17__General_simulator_software_design.html">
+   2022-10-17 &#8226; General simulator software design
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2022-10-13 &#8226; Find non-lognormal firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+   2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-07__Conntest_with_faster_curve_fit.html">
+   2022-10-04 &#8226; Use faster curve fit for connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-04__inspect_curve_fit.html">
+   2022-10-04 &#8226; Inspect curve-fitting procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+   2022-09-30 &#8226; Use parametric STA model for connection testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-29__Two-pass_summary.html">
+   2022-09-29 &#8226; Summary of two-pass conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function_pt_2.html">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2022-10-13__Fix_Nto1_non-lognormal_input_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-10-13__Fix_Nto1_non-lognormal_input_rates.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-10-13__Fix_Nto1_non-lognormal_input_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-10-13__Fix_Nto1_non-lognormal_input_rates.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#poisson-spikes">
+   Poisson spikes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lognormal-firing-rates">
+   LogNormal firing rates
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debug-old-code">
+   Debug old code
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2022-10-13 &#8226; Find non-lognormal firing rates</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#poisson-spikes">
+   Poisson spikes
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lognormal-firing-rates">
+   LogNormal firing rates
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#debug-old-code">
+   Debug old code
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="find-non-lognormal-firing-rates">
+<h1>2022-10-13 &#8226; Find non-lognormal firing rates<a class="headerlink" href="#find-non-lognormal-firing-rates" title="Permalink to this headline">&#182;</a></h1>
+<p>The direct scientific motivation is to fix the error discovered in the N-to-1 simulations, where the Poisson inputs&#8217; firing rates turned out not to be lognormal, as was desired.</p>
+<p>When writing the network simulation code, the N-to-1 simulation code was copied and adapted.
+I.e. there is duplication in functionality, and divergence in their APIs.
+It&#8217;s time for consolidation.
+Advantage: easier to also investigate LIF/EIF neurons, different neuron types, etc.</p>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Skipping precompilation since __precompile__(false). Importing VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e].
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="poisson-spikes">
+<h2>Poisson spikes<a class="headerlink" href="#poisson-spikes" title="Permalink to this headline">&#182;</a></h2>
+<p>Spikes at constant mean rate and independent of last spike.</p>
+<p>pdf of num spikes:</p>
+<div class="math notranslate nohighlight">
+\[P(k \text{ spikes over duration } T) = \frac{&#955;^k e^{-&#955;}}{k!} \ \ \text{ with } &#955; = rT\]</div>
+<p>(<span class="math notranslate nohighlight">\(r\)</span> is spikes / second).</p>
+<p>So could evaluate this at every timestep, i.e. for <span class="math notranslate nohighlight">\(T\)</span> = <code class="docutils literal notranslate"><span class="pre">&#916;t</span></code>.</p>
+<p>That&#8217;s silly ofc, you&#8217;d have to do it for k = 0, 1, &#8230;</p>
+<p>So we use the property that for a Poisson process*, the inter-arrival times are exponentially distributed <a class="reference external" href="https://www.wikiwand.com/en/Poisson_distribution#:~:text=the%20sequence%20of%20inter%2Darrival%20times">1</a></p>
+<p>*In a Poisson process of length T, the number of events is <span class="math notranslate nohighlight">\(\sim \text{Pois}(rT)\)</span>.</p>
+<p>(Note that on <a class="reference external" href="https://en.wikipedia.org/wiki/Poisson_distribution">Poisson_distribution</a>, &#955; = number of events, r = rate.<br>
+But on <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_distribution">Exponential_distribution</a>, &#955; = rate.)</p>
+<p>So ISIs <span class="math notranslate nohighlight">\(\sim \text{Exp}(r)\)</span></p>
+<p>On to Distributions.jl.<br>
+They parametrize with scale &#952; (on wp: &#946;), = 1/&#955;.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spike_rate</span> <span class="o">=</span> <span class="mi">20</span><span class="n">Hz</span>   <span class="c"># &#955;</span>
+<span class="n">mean_ISI</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">spike_rate</span>  <span class="c"># &#946;</span>
+<span class="n">ISI_distr</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="n">mean_ISI</span><span class="p">)</span>
+
+<span class="n">ISIs</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">to_spiketimes</span><span class="p">(</span><span class="n">ISIs</span><span class="p">)</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">ISIs</span><span class="p">)</span>
+<span class="n">to_spiketimes</span><span class="p">(</span><span class="n">ISIs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, I want to fill a set interval with spikes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="c"># The number of spikes N in a time interval [0, T] is ~ Poisson(mean = rT)</span>
+    <span class="c"># &lt;--&gt; Inter-spike-intervals ~ Exponential(rate = r).</span>
+    <span class="c"># </span>
+    <span class="c"># We simulate the Poisson process by drawing such ISIs, and accumulating them until we</span>
+    <span class="c"># reach T. We cannot predict how many spikes we will have at that point. Hence, we</span>
+    <span class="c"># allocate an array long enough to very likely fit all of them, and trim off the unused</span>
+    <span class="c"># end upon reaching T.</span>
+    <span class="c"># </span>
+    <span class="n">max_N</span> <span class="o">=</span> <span class="n">cquantile</span><span class="p">(</span><span class="n">Poisson</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">),</span> <span class="mf">1e-14</span><span class="p">)</span>  <span class="c"># complementary quantile. [1]</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">max_N</span><span class="p">)</span>
+    <span class="n">ISI_distr</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>         <span class="c"># Parametrized by scale = 1 / rate</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&#8804;</span> <span class="n">T</span>
+        <span class="n">N</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">spikes</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">resize!</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="c"># [1] If the provided probability is smaller than ~1e15, we get an error (`Inf`):</span>
+<span class="c">#     https://github.com/JuliaStats/Rmath-julia/blob/master/src/qpois.c#L86</span>
+<span class="c">#     For an idea of the expected overhead of creating a roomy array: for r = 100 Hz and T =</span>
+<span class="c">#     10 minutes, the expected N is 60000, and max_N is 61855.</span>
+
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
+<span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="mi">100</span><span class="n">Hz</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spikerate</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">T</span><span class="p">)</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">/</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@show</span> <span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="mf">0.1</span><span class="n">Hz</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">spikerate</span>
+<span class="nd">@show</span> <span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="mi">10</span><span class="n">Hz</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="o">|&gt;</span> <span class="n">spikerate</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gen_Poisson_spikes(0.1Hz, T) |&gt; spikerate = 0.107
+gen_Poisson_spikes(10Hz, T) |&gt; spikerate = 10.1
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="lognormal-firing-rates">
+<h2>LogNormal firing rates<a class="headerlink" href="#lognormal-firing-rates" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#955;_distr</span> <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">quantile</span><span class="p">(</span><span class="n">&#955;_distr</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Float64}:
+ 0.0417
+ 7.02
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">xloghist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">extrema</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">.^</span> <span class="n">range</span><span class="p">(</span><span class="n">log10</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">log10</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">nbins</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">bins</span><span class="p">)</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xscale</span> <span class="o">=</span> <span class="ss">:log</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">yloghist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">input_fr</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">&#955;_distr</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Firing rate (Hz)"</span>
+<span class="n">yloghist</span><span class="p">(</span><span class="n">input_fr</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<span class="n">xloghist</span><span class="p">(</span><span class="n">input_fr</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_20_0.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_20_0.png">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_20_1.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_20_1.png">
+</div>
+</div>
+<p>^ that&#8217;s desired firing rates.</p>
+<p>Now to sim the poisson process..</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">actual_rates</span> <span class="o">=</span> <span class="p">[</span><span class="n">spikerate</span><span class="p">(</span><span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="n">&#955;</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span> <span class="k">for</span> <span class="n">&#955;</span> <span class="k">in</span> <span class="n">input_fr</span><span class="p">]</span>
+<span class="n">yloghist</span><span class="p">(</span><span class="n">actual_rates</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<span class="n">xloghist</span><span class="p">(</span><span class="n">actual_rates</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_22_0.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_22_0.png">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_22_1.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_22_1.png">
+</div>
+</div>
+<p>Wut.</p>
+<p>Now it works.</p>
+<p>(Compare with <a class="reference external" href="https://tfiers.github.io/phd/nb/2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html#inputs-firing-rates-distribution:~:text=plt.hist(length.(s.input_spikes)%20/%20p.sim.duration%20/%20Hz%2C%20bins%3D20)%3B">here</a>)</p>
+<p>Copy paste last N-to-1 sim code, see if it has the bug.</p>
+</div>
+<div class="section" id="debug-old-code">
+<h2>Debug old code<a class="headerlink" href="#debug-old-code" title="Permalink to this headline">&#182;</a></h2>
+<p>This is from <code class="docutils literal notranslate"><span class="pre">src/sim/Nto1/</span></code>, with irrelevant code (v, u, g diffeqs; connections) pruned out.</p>
+<p><a class="reference external" href="https://github.com/tfiers/phd/tree/da6bc5/pkg/VoltageToMap/src">https://github.com/tfiers/phd/tree/da6bc5/pkg/VoltageToMap/src</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">module</span> <span class="n">ToDebug</span>
+
+<span class="k">using</span> <span class="o">..</span><span class="n">VoltoMapSim</span>
+
+<span class="k">const</span> <span class="n">default_rngseed</span> <span class="o">=</span> <span class="mi">22022022</span>
+<span class="nd">@with_kw</span> <span class="k">struct</span> <span class="kt">PoissonInputParams</span>
+    <span class="n">N_unconn</span>     <span class="o">::</span><span class="kt">Int</span>            <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">N_exc</span>        <span class="o">::</span><span class="kt">Int</span>            <span class="o">=</span> <span class="mi">5200</span>
+    <span class="n">N_inh</span>        <span class="o">::</span><span class="kt">Int</span>            <span class="o">=</span> <span class="n">N_exc</span> <span class="o">&#247;</span> <span class="mi">4</span>
+    <span class="n">N_conn</span>       <span class="o">::</span><span class="kt">Int</span>            <span class="o">=</span> <span class="n">N_inh</span> <span class="o">+</span> <span class="n">N_exc</span>
+    <span class="n">N</span>            <span class="o">::</span><span class="kt">Int</span>            <span class="o">=</span> <span class="n">N_conn</span> <span class="o">+</span> <span class="n">N_unconn</span>
+    <span class="n">spike_rates</span>  <span class="o">::</span><span class="kt">Distribution</span>   <span class="o">=</span> <span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">0.6</span><span class="p">)</span>  <span class="c"># (&#956;&#8339;, &#963;)</span>
+<span class="k">end</span>
+<span class="k">const</span> <span class="n">realistic_N_6600_input</span> <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">()</span>
+<span class="k">const</span> <span class="n">previous_N_30_input</span>    <span class="o">=</span> <span class="n">PoissonInputParams</span><span class="p">(</span><span class="n">N_unconn</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">N_exc</span> <span class="o">=</span> <span class="mi">17</span><span class="p">)</span>
+<span class="nd">@with_kw</span> <span class="k">struct</span> <span class="kt">SimParams</span>
+    <span class="n">duration</span>       <span class="o">::</span><span class="kt">Float64</span>                <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">seconds</span>
+    <span class="n">&#916;t</span>             <span class="o">::</span><span class="kt">Float64</span>                <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
+    <span class="n">num_timesteps</span>  <span class="o">::</span><span class="kt">Int</span>                    <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">rngseed</span>        <span class="o">::</span><span class="kt">Int</span>                    <span class="o">=</span> <span class="n">default_rngseed</span>
+    <span class="n">input</span>          <span class="o">::</span><span class="kt">PoissonInputParams</span>     <span class="o">=</span> <span class="n">realistic_N_6600_input</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">init_Nto1_sim</span><span class="p">(</span><span class="n">p</span><span class="o">::</span><span class="kt">SimParams</span><span class="p">)</span>
+    
+    <span class="nd">@unpack</span> <span class="n">N_unconn</span><span class="p">,</span> <span class="n">N_exc</span><span class="p">,</span> <span class="n">N_inh</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">input</span>
+
+    <span class="c"># IDs, subgroup names.</span>
+    <span class="n">input_neuron_IDs</span> <span class="o">=</span> <span class="n">idvec</span><span class="p">(</span><span class="n">conn</span> <span class="o">=</span> <span class="n">idvec</span><span class="p">(</span><span class="n">exc</span> <span class="o">=</span> <span class="n">N_exc</span><span class="p">,</span> <span class="n">inh</span> <span class="o">=</span> <span class="n">N_inh</span><span class="p">),</span> <span class="n">unconn</span> <span class="o">=</span> <span class="n">N_unconn</span><span class="p">)</span>
+    <span class="n">var_IDs</span>          <span class="o">=</span> <span class="n">idvec</span><span class="p">(</span><span class="n">t</span> <span class="o">=</span> <span class="n">scalar</span><span class="p">)</span>
+
+    <span class="n">resetrng!</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">rngseed</span><span class="p">)</span>
+
+    <span class="c"># Inter-spike&#8212;interval distributions</span>
+    <span class="n">&#955;</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">input_neuron_IDs</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">)</span>
+    <span class="n">&#955;</span> <span class="o">.=</span> <span class="n">rand</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">input</span><span class="o">.</span><span class="n">spike_rates</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">&#955;</span><span class="p">))</span>
+    <span class="n">&#946;</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">./</span> <span class="n">&#955;</span>
+    <span class="n">ISI_distributions</span> <span class="o">=</span> <span class="n">Exponential</span><span class="o">.</span><span class="p">(</span><span class="n">&#946;</span><span class="p">)</span>
+
+    <span class="c"># Input spikes queue</span>
+    <span class="n">first_input_spike_times</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">)</span>
+    <span class="n">upcoming_input_spikes</span>   <span class="o">=</span> <span class="kt">PriorityQueue</span><span class="p">{</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">}()</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">in</span> <span class="n">zip</span><span class="p">(</span><span class="n">input_neuron_IDs</span><span class="p">,</span> <span class="n">first_input_spike_times</span><span class="p">)</span>
+        <span class="n">enqueue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">n</span> <span class="o">=&gt;</span> <span class="n">t</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="c"># Allocate memory to be overwritten every simulation step.</span>
+    <span class="n">vars</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">var_IDs</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">)</span>
+    <span class="n">vars</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">vars</span><span class="p">)</span>  <span class="c"># = &#8706;x/&#8706;t for every x in `vars`</span>
+    <span class="n">diff</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">seconds</span><span class="o">/</span><span class="n">seconds</span>
+
+    <span class="c"># Where to record to</span>
+    <span class="n">input_spikes</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">input_neuron_IDs</span><span class="p">,</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">input_spikes</span><span class="p">)</span>
+        <span class="n">input_spikes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}()</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">fixed_at_init</span>    <span class="o">=</span> <span class="p">(;</span> <span class="n">ISI_distributions</span><span class="p">),</span>
+            <span class="n">variable_in_time</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">vars</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">upcoming_input_spikes</span><span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">rec</span>   <span class="o">=</span> <span class="p">(;</span> <span class="n">input_spikes</span><span class="p">),</span>
+    <span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">step_Nto1_sim!</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="o">::</span><span class="kt">SimParams</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="nd">@unpack</span> <span class="n">ISI_distributions</span>      <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span>
+    <span class="nd">@unpack</span> <span class="n">vars</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">upcoming_input_spikes</span>  <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">variable_in_time</span>
+    <span class="nd">@unpack</span> <span class="n">t</span>                      <span class="o">=</span> <span class="n">vars</span>
+    <span class="nd">@unpack</span> <span class="n">&#916;t</span>                     <span class="o">=</span> <span class="n">params</span>
+
+    <span class="nd">@.</span> <span class="n">vars</span> <span class="o">+=</span> <span class="n">diff</span> <span class="o">*</span> <span class="n">&#916;t</span>
+    <span class="c"># lil bug here: `t` below is the one of the previous time step.</span>
+
+    <span class="n">t_next_input_spike</span> <span class="o">=</span> <span class="n">peek</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">)</span><span class="o">.</span><span class="n">second</span>  <span class="c"># (.first is neuron ID).</span>
+    <span class="k">if</span> <span class="n">t</span> <span class="o">&#8805;</span> <span class="n">t_next_input_spike</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">dequeue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">)</span>  <span class="c"># ID of the fired input neuron</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">t</span><span class="p">)</span>
+        <span class="c"># ..</span>
+        <span class="n">tn</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>  <span class="c"># Next spike time for the fired neuron</span>
+        <span class="n">enqueue!</span><span class="p">(</span><span class="n">upcoming_input_spikes</span><span class="p">,</span> <span class="n">n</span> <span class="o">=&gt;</span> <span class="n">tn</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">sim_Nto1</span><span class="p">(</span><span class="n">params</span><span class="o">::</span><span class="kt">SimParams</span><span class="p">)</span>
+    <span class="n">state</span><span class="p">,</span> <span class="n">rec</span> <span class="o">=</span> <span class="n">init_Nto1_sim</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">duration</span><span class="p">,</span> <span class="n">num_timesteps</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="nd">@showprogress</span> <span class="s">"Running simulation: "</span> <span class="p">(</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_timesteps</span>
+        <span class="n">step_Nto1_sim!</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">end</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">rec</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">end</span>
+<span class="k">using</span> <span class="o">.</span><span class="n">ToDebug</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">SimParams</span><span class="p">(</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">)</span>
+<span class="n">spikes</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">sim_Nto1</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: replacing module ToDebug.
+<span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">actual_rates_old</span> <span class="o">=</span> <span class="n">spikerate</span><span class="o">.</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">yloghist</span><span class="p">(</span><span class="n">actual_rates_old</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<span class="n">xloghist</span><span class="p">(</span><span class="n">actual_rates_old</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_29_0.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_29_0.png">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_29_1.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_29_1.png">
+</div>
+</div>
+<p>Alright, so the problem is reproducible at least, good.</p>
+<p>Maybe the diff is cause &#963; too small?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#955;s_same_as_old</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">LogNormal_with_mean</span><span class="p">(</span><span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="o">&#8730;</span><span class="mf">0.6</span><span class="p">),</span> <span class="mi">7000</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">spikerate</span><span class="p">(</span><span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="n">&#955;</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span> <span class="k">for</span> <span class="n">&#955;</span> <span class="k">in</span> <span class="n">&#955;s_same_as_old</span><span class="p">]</span>
+<span class="n">yloghist</span><span class="p">(</span><span class="n">r</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<span class="n">xloghist</span><span class="p">(</span><span class="n">r</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_32_0.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_32_0.png">
+<img alt="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_32_1.png" src="../_images/2022-10-13__Fix_Nto1_non-lognormal_input_rates_32_1.png">
+</div>
+</div>
+<p>No.</p>
+<p>What is range of input firing rates?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span><span class="p">(</span><span class="n">rate</span><span class="o">.</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">)</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.178, 49.6)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So in our left plot above <code class="docutils literal notranslate"><span class="pre">yloghist(actual_rates_old;</span> <span class="pre">xlabel)</span></code>, max should be at 50Hz, not 2.9Hz.</p>
+<p>Try.. step through a simple example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">input</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">PoissonInputParams</span><span class="p">(</span><span class="n">N_unconn</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N_exc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">SimParams</span><span class="p">(;</span> <span class="n">input</span><span class="p">)</span>
+
+<span class="n">s</span><span class="p">,</span> <span class="n">rec</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">init_Nto1_sim</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+
+<span class="n">s</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">0.178</span><span class="n">Hz</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mf">49.7</span><span class="n">Hz</span><span class="p">)</span>
+<span class="c"># The first two events in </span>
+<span class="n">s</span><span class="o">.</span><span class="n">variable_in_time</span><span class="o">.</span><span class="n">upcoming_input_spikes</span>
+<span class="c"># ..are now not correct. But that's fine; subsequent will.</span>
+
+<span class="n">mean_ISIs</span> <span class="o">=</span> <span class="n">scale</span><span class="o">.</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">))</span>
+<span class="c"># set_print_precision("4f")</span>
+<span class="nd">@show</span> <span class="n">mean_ISIs</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">p</span><span class="o">.</span><span class="n">num_timesteps</span>
+    <span class="n">ToDebug</span><span class="o">.</span><span class="n">step_Nto1_sim!</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">rec</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c"># @show s.variable_in_time.vars.t collect(rec.input_spikes)</span>
+
+<span class="n">spikerate</span><span class="o">.</span><span class="p">([</span><span class="n">rec</span><span class="o">.</span><span class="n">input_spikes</span><span class="p">;],</span> <span class="n">p</span><span class="o">.</span><span class="n">duration</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mean_ISIs = [5.6180, 0.0201]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Float64}:
+  0.1000
+ 52.2000
+</pre></div>
+</div>
+</div>
+</div>
+<p>Alright, that is good and as expected.</p>
+<p>But if we do it as follows, it&#8217;s wrong</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pfull</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">SimParams</span><span class="p">(</span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">)</span>
+<span class="n">spikes</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">ToDebug</span><span class="o">.</span><span class="n">sim_Nto1</span><span class="p">(</span><span class="n">pfull</span><span class="p">);</span>
+<span class="n">extrema</span><span class="p">(</span><span class="n">spikerate</span><span class="o">.</span><span class="p">([</span><span class="n">spikes</span><span class="p">;],</span> <span class="n">pfull</span><span class="o">.</span><span class="n">duration</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Running simulation: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:04</span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.1483, 2.8833)
+</pre></div>
+</div>
+</div>
+</div>
+<p>cause:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span><span class="p">(</span><span class="n">rate</span><span class="o">.</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">fixed_at_init</span><span class="o">.</span><span class="n">ISI_distributions</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.1778, 49.6098)
+</pre></div>
+</div>
+</div>
+</div>
+<p>(So the lower end is kinda fine. It&#8217;s the high spiking that&#8217;s wrong).</p>
+<p>Ah. Problem found.</p>
+<p>I put it in comment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Unhandled edge case: multiple spikes in the same time bin get processed with
+increasing delay. (This problem goes away when using diffeq.jl, `adaptive`).
+</pre></div>
+</div>
+<p>..and I&#8217;d assumed that was fine.
+But if you share one queue between 7000 inputs, then yeah.</p>
+<p>Ach, ach.</p>
+<p>I bet if we look at queue, it&#8217;s gonna be backed up.</p>
+<p>Ah it cannot even have a backed up queue, as there can be just one entry per key (neuron ID).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">set_print_precision</span><span class="p">(</span><span class="s">"4f"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="o">.</span><span class="n">variable_in_time</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">t</span> <span class="o">-</span> <span class="n">pfull</span><span class="o">.</span><span class="n">&#916;t</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>599.9999
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">state</span><span class="o">.</span><span class="n">variable_in_time</span><span class="o">.</span><span class="n">upcoming_input_spikes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PriorityQueue{Int64, Float64, Base.Order.ForwardOrdering} with 6600 entries:
+  5020 =&gt; 599.6734
+  3711 =&gt; 599.6735
+  4815 =&gt; 599.6737
+  1701 =&gt; 599.6737
+  2689 =&gt; 599.6738
+  4440 =&gt; 599.6738
+  1286 =&gt; 599.6738
+  6517 =&gt; 599.6741
+  457  =&gt; 599.6744
+  4748 =&gt; 599.6750
+  3674 =&gt; 599.6751
+  2513 =&gt; 599.6752
+  1720 =&gt; 599.6753
+  3421 =&gt; 599.6753
+  3493 =&gt; 599.6753
+  3643 =&gt; 599.6753
+  4823 =&gt; 599.6753
+  395  =&gt; 599.6754
+  415  =&gt; 599.6755
+  244  =&gt; 599.6755
+  2861 =&gt; 599.6756
+  6037 =&gt; 599.6756
+  946  =&gt; 599.6758
+  207  =&gt; 599.6760
+  5389 =&gt; 599.6761
+  &#8942;    =&gt; &#8942;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">9999</span><span class="o">-</span><span class="mi">6734</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3265
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok the queue is kinda backed up: <code class="docutils literal notranslate"><span class="pre">t</span></code> is already at the 599.9999 timestep,<br>
+but the there are still unprocessed spikes from up to 3265 timesteps back.</p>
+<p>So there is no overwriting as above, but there is just minimum processing time.
+Say it does all 7000 inputs after each other, then maximum firing rate is once every 7000 timesteps, or 1/700ms = 1.4 Hz.</p>
+<p>That&#8217;s where the mean of the ylog hist lies.
+The higher effective firing rates (up to 3Hz) are then due to chance.</p>
+<p>Conclusion:</p>
+<ul class="simple">
+<li><p>I found the bug.</p></li>
+<li><p>Bug was not present in the (newer) network code (there, spike queue keeps being processed while there are any non-future spikes left; instead of processing just one as in the here debugged code).</p></li>
+<li><p>Why was bug there? Wrong implicit assumption.</p>
+<ul>
+<li><p>&#8220;This spike queueing code will be used for just a few input Poisson neurons stimulating our neuron&#8221;
+-&gt; so it was justified to not care about the edge case of multiple spikes per timestep, as they are rare there.</p></li>
+<li><p>But then later, we upscaled our simulation, where this wasn&#8217;t justified any longer: 6500 inputs at mean rate of 4 Hz is 2.6 spikes per &#916;t = 0.1 ms (!!)</p>
+<ul>
+<li><p>and as the code was already there and &#8216;working&#8217;, I didn&#8217;t look at it anymore.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Learnings:</p>
+<ul>
+<li><p>An automated test (here: test whether output distribution matches input specification) would have caught it.
+I &#8220;just looked at it&#8221; to test, and that was indeed fine; but all these little manual inspections.. you do it just once.
+Can&#8217;t catch &#8216;regressions&#8217;. When changing code, and in this case the code wasn&#8217;t changed (!), just the params.</p>
+<ul>
+<li><p>This corresponds to an automated test <em>suite</em>: test our assumptions over whole range of params.</p></li>
+<li><p>&#8230;so what would other assumptions be.</p>
+<ul>
+<li><p>i.g: look at &#8216;sanity check&#8217; plots in prev notebooks. Quantize them.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.8-mysys"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.8-mysys",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.8-mysys'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="2022-10-17__General_simulator_software_design.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">2022-10-17 &#8226; General simulator software design</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
