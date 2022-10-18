@@ -184,3 +184,19 @@ function ydistplot(
 end
 
 ydistplot(x::Vector; figsize = (2.4, 2.6), kw...) = ydistplot("" => x; figsize, kw...)
+
+function xloghist(x, nbins = 20; kw...)
+    fig, ax = plt.subplots()
+    a, b = extrema(x)
+    bins = 10 .^ range(log10(a), log10(b), nbins)
+    ax.hist(x; bins)
+    set(ax, xscale = :log; kw...)
+    return ax
+end
+
+function yloghist(x, nbins = 20; kw...)
+    fig, ax = plt.subplots()
+    ax.hist(x, bins = nbins, log = true)
+    set(ax; kw...)
+    return ax
+end
