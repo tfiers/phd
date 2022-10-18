@@ -48,6 +48,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-10-17__General_simulator_software_design.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
@@ -590,8 +592,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poisson-spikes">
-   Poisson spikes
+  <a class="reference internal nav-link" href="#id1">
+   .
   </a>
  </li>
 </ul>
@@ -620,8 +622,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poisson-spikes">
-   Poisson spikes
+  <a class="reference internal nav-link" href="#id1">
+   .
   </a>
  </li>
 </ul>
@@ -655,12 +657,6 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#9484; Info: Precompiling MyToolbox [54cd1024-cafd-4d62-948d-ced4874502bf]
-&#9492; @ Base loading.jl:1662
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -670,74 +666,184 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 </div>
 </div>
 </div>
-<div class="section" id="poisson-spikes">
-<h2>Poisson spikes<a class="headerlink" href="#poisson-spikes" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="id1">
+<h2>.<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
-    <span class="c"># The number of spikes N in a time interval [0, T] is ~ Poisson(mean = rT)</span>
-    <span class="c"># &lt;--&gt; Inter-spike-intervals ~ Exponential(rate = r).</span>
-    <span class="c"># </span>
-    <span class="c"># We simulate the Poisson process by drawing such ISIs, and accumulating them until we</span>
-    <span class="c"># reach T. We cannot predict how many spikes we will have at that point. Hence, we</span>
-    <span class="c"># allocate an array long enough to very likely fit all of them, and trim off the unused</span>
-    <span class="c"># end upon reaching T.</span>
-    <span class="c"># </span>
-    <span class="n">max_N</span> <span class="o">=</span> <span class="n">cquantile</span><span class="p">(</span><span class="n">Poisson</span><span class="p">(</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">),</span> <span class="mf">1e-14</span><span class="p">)</span>  <span class="c"># complementary quantile. [1]</span>
-    <span class="n">spikes</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">max_N</span><span class="p">)</span>
-    <span class="n">ISI_distr</span> <span class="o">=</span> <span class="n">Exponential</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>         <span class="c"># Parametrized by scale = 1 / rate</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">)</span>
-    <span class="k">while</span> <span class="n">t</span> <span class="o">&#8804;</span> <span class="n">T</span>
-        <span class="n">N</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">spikes</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
-        <span class="n">t</span> <span class="o">+=</span> <span class="n">rand</span><span class="p">(</span><span class="n">ISI_distr</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="n">resize!</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="k">end</span>
-<span class="c"># [1] If the provided probability is smaller than ~1e15, we get an error (`Inf`):</span>
-<span class="c">#     https://github.com/JuliaStats/Rmath-julia/blob/master/src/qpois.c#L86</span>
-<span class="c">#     For an idea of the expected overhead of creating a roomy array: for r = 100 Hz and T =</span>
-<span class="c">#     10 minutes, the expected N is 60000, and max_N is 61855.</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span> <span class="o">=</span> <span class="nd">@eqs</span> <span class="k">begin</span>
+    
+    <span class="n">dv</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#7523;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">-</span> <span class="n">I_syn</span> <span class="o">+</span> <span class="n">I_ext</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
+    <span class="n">du</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#7523;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
 
+    <span class="n">I_syn</span> <span class="o">=</span> <span class="n">g&#8337;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#8337;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#7522;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#7522;</span><span class="p">)</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
-<span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="mi">100</span><span class="n">Hz</span><span class="p">,</span> <span class="n">T</span><span class="p">);</span>
+    <span class="n">dg&#8337;</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#8337;</span> <span class="o">/</span> <span class="n">&#964;</span>  <span class="c"># Represents sum over all exc synapses</span>
+    <span class="n">dg&#7522;</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#7522;</span> <span class="o">/</span> <span class="n">&#964;</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">xloghist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">extrema</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">.^</span> <span class="n">range</span><span class="p">(</span><span class="n">log10</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">log10</span><span class="p">(</span><span class="n">b</span><span class="p">),</span> <span class="n">nbins</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">bins</span><span class="p">)</span>
-    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xscale</span> <span class="o">=</span> <span class="ss">:log</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="k">function</span> <span class="n">yloghist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="nb">true</span><span class="p">)</span>
-    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">input_fr</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">&#955;_distr</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Firing rate (Hz)"</span>
-<span class="n">yloghist</span><span class="p">(</span><span class="n">input_fr</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
-<span class="n">xloghist</span><span class="p">(</span><span class="n">input_fr</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeLab.Model2
+ with variables {v, u, I_syn, g&#8337;, g&#7522;}
+ and parameters {C, E&#7522;, E&#8337;, I_ext, a, b, k, v&#7523;, v&#8348;, &#964;}
 </pre></div>
 </div>
 </div>
 </div>
-<p>^ that&#8217;s desired firing rates.</p>
-<p>Now to sim the poisson process..</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">actual_rates</span> <span class="o">=</span> <span class="p">[</span><span class="n">spikerate</span><span class="p">(</span><span class="n">gen_Poisson_spikes</span><span class="p">(</span><span class="n">&#955;</span><span class="p">,</span> <span class="n">T</span><span class="p">))</span> <span class="k">for</span> <span class="n">&#955;</span> <span class="k">in</span> <span class="n">input_fr</span><span class="p">]</span>
-<span class="n">yloghist</span><span class="p">(</span><span class="n">actual_rates</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
-<span class="n">xloghist</span><span class="p">(</span><span class="n">actual_rates</span><span class="p">;</span> <span class="n">xlabel</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span><span class="o">.</span><span class="n">generated_func</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>:((diff, vars, params)-&gt;begin
+          @unpack (v, u, I_syn, g&#8337;, g&#7522;) = vars
+          @unpack (C, E&#7522;, E&#8337;, I_ext, a, b, k, v&#7523;, v&#8348;, &#964;) = params
+          diff.v = (((k * (v - v&#7523;) * (v - v&#8348;) - u) - I_syn) + I_ext) / C
+          diff.u = a * (b * (v - v&#7523;) - u)
+          vars.I_syn = g&#8337; * (v - E&#8337;) + g&#7522; * (v - E&#7522;)
+          diff.g&#8337; = -g&#8337; / &#964;
+          diff.g&#7522; = -g&#7522; / &#964;
+      end)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show_eqs</span><span class="p">(</span><span class="n">izh</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\begin{align} 
+\frac{\mathrm{d}v}{\mathrm{d}t} &amp;= \ \left. \left( {k \left( v - v_r \right) \left( v - v_t \right) - u - I_{syn} + I_{ext}} \right)\,\middle/ \,{C}\right. \\ 
+\frac{\mathrm{d}u}{\mathrm{d}t} &amp;= \ a \left( b \left( v - v_r \right) - u \right)\\ 
+I_{syn} &amp;= \ g_e \left( v - E_e \right) + g_i \left( v - E_i \right)\\ 
+\frac{\mathrm{d}g_e}{\mathrm{d}t} &amp;= \ \left. \left( { - g_e} \right)\,\middle/ \,{\tau}\right. \\ 
+\frac{\mathrm{d}g_i}{\mathrm{d}t} &amp;= \ \left. \left( { - g_i} \right)\,\middle/ \,{\tau}\right. \\ 
+\end{align}\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span> <span class="o">=</span> <span class="kt">CVec</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">I_syn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">g&#8337;</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">g&#7522;</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">diff</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">vars</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">idvec</span><span class="p">(</span><span class="ss">:C</span><span class="p">,</span> <span class="ss">:E&#7522;</span><span class="p">,</span> <span class="ss">:E&#8337;</span><span class="p">,</span> <span class="ss">:I_ext</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:k</span><span class="p">,</span> <span class="ss">:v&#7523;</span><span class="p">,</span> <span class="ss">:v&#8348;</span><span class="p">,</span> <span class="ss">:&#964;</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">)</span>
+<span class="n">params</span> <span class="o">.=</span> <span class="mi">1</span>
+<span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="n">diff</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 2.0, u = -1.0, I_syn = 1.3145426e-315, g&#8337; = -0.0, g&#7522; = -0.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span> <span class="o">.+=</span> <span class="n">diff</span> <span class="o">*</span>&#160;<span class="mf">0.1</span> <span class="c">#ms</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 0.2, u = -0.1, I_syn = 1.3145426e-316, g&#8337; = 0.0, g&#7522; = 0.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 0.2, u = -0.1, I_syn = 1.3145426e-316, g&#8337; = 0.0, g&#7522; = 0.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching (::var"#7#8")()
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
+  <span class="p">(::</span><span class="n">var</span><span class="s2">"#7#8"</span><span class="p">)(::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">phd</span>\<span class="n">pkg</span>\<span class="n">SpikeLab</span>\<span class="n">src</span>\<span class="n">eqparse</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">61</span>
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">]:</span><span class="mi">1</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">params_any</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="kt">Any</span><span class="p">)</span>
+<span class="n">params_any</span> <span class="o">.=</span> <span class="n">params</span>
+<span class="n">params_any</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="s">"wrongtype"</span>
+<span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params_any</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching /(::Float64, ::String)
+<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
+  <span class="o">/</span><span class="p">(::</span><span class="n">T</span><span class="p">,</span> <span class="p">::</span><span class="n">T</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span><span class="o">&lt;</span><span class="p">:</span><span class="n">Union</span><span class="p">{</span><span class="n">Float16</span><span class="p">,</span> <span class="n">Float32</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}</span> <span class="n">at</span> <span class="nb">float</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">386</span>
+  <span class="o">/</span><span class="p">(::</span><span class="n">Union</span><span class="p">{</span><span class="n">Float16</span><span class="p">,</span> <span class="n">Float32</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="p">::</span><span class="n">BigFloat</span><span class="p">)</span> <span class="n">at</span> <span class="n">mpfr</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">465</span>
+  <span class="o">/</span><span class="p">(::</span><span class="n">ChainRulesCore</span><span class="o">.</span><span class="n">AbstractThunk</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">ChainRulesCore</span>\<span class="n">C73ay</span>\<span class="n">src</span>\<span class="n">tangent_types</span>\<span class="n">thunks</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">37</span>
+  <span class="o">...</span>
+
+<span class="ne">Stacktrace</span>:
+ <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">(::</span><span class="n">var</span><span class="s2">"#7#8"</span><span class="p">)(</span><span class="n">diff</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)}}},</span> <span class="nb">vars</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)}}},</span> <span class="n">params</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Any</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">E&#7522;</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">E&#8337;</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">I_ext</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">v&#7523;</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">v&#8348;</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">&#964;</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)}}})</span>
+   <span class="o">@</span> <span class="n">Main</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">phd</span>\<span class="n">pkg</span>\<span class="n">SpikeLab</span>\<span class="n">src</span>\<span class="n">eqparse</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">3</span>
+ <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
+   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">48</span><span class="p">]:</span><span class="mi">4</span>
+ <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="nb">eval</span>
+   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
+   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">mV</span><span class="p">,</span> <span class="n">nS</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="n">mV</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 mV
 </pre></div>
 </div>
 </div>
