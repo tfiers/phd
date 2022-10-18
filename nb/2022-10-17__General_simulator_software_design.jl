@@ -66,4 +66,8 @@ vars
 
 izh.f()
 
+using Unitful: mV, nS
+
+3mV
+
 

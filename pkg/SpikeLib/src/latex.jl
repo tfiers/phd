@@ -24,7 +24,7 @@ prettify_eq(s::String; lhsfrac) = begin
     rhs = replace(rhs, " \\cdot " => " ")
     lhs = replace(lhs, "\\frac{d" => "\\frac{\\mathrm{d}")
     lhs = replace(lhs, "{dt}" => "{\\mathrm{d}t}")
-    if !lhsfrac
+    if lhsfrac == false
         lhs = replace_fracs(lhs)
     end
     lhs * " = \\ " * rhs

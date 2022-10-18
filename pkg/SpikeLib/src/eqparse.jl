@@ -44,32 +44,32 @@ function process_eqs!(eqs::Expr)
     insert!(lines, 1, :( @unpack ($(vars.name...),) = vars ))
     insert!(lines, 2, :( @unpack ($(params...),)    = params ))
     # Make an anonymous function
-    f = :( (diff, vars, params) -> $(eqs.args...) )
+    f = :( (diff, vars, params) -> $(lines...) )
     return striplines(f), original_eqs, rhss, vars, params
 end
 
-function get_names(expr)
+function get_names(eqs::Expr)
     names = SortedSet{Symbol}()
     vars = Var[]
-    for line in expr.args
+    for line in eqs.args
         @test line.head == :(=)
         lhs, rhs = line.args
-        push!(vars, parse_lhs(lhs))
-        record_varnames(unblock(rhs), names)
+        push!(vars, parse_var(lhs))
+        record_names(unblock(rhs), names)
     end
     vars = StructVector(vars)
     params = [n for n in names if n ∉ vars.name]
     return vars, params
 end
 
-parse_lhs(lhs::Symbol) = Var(lhs, false)  # I_syn = …
-parse_lhs(lhs::Expr) = begin
+parse_var(lhs::Symbol) = Var(lhs, false)  # I_syn = …
+parse_var(lhs::Expr) = begin
     @test lhs.head == :call
     f, dx, dt = lhs.args
     @test f == :/
     @test dt == :dt
     if dx isa Symbol                      # dx/dt = …
-        x = Symbol(string(dx)[2:end])
+        x = string(dx)[2:end] |> Symbol
     else                                  # d(g_syn)/dt = …
         @test dx.head == :call
         f, arg = dx.args
@@ -79,12 +79,14 @@ parse_lhs(lhs::Expr) = begin
     Var(x, true)
 end
 
-record_varnames(x,         out) = nothing  # For literals
-record_varnames(x::Symbol, out) = push!(out, x)
-record_varnames(x::Expr,   out) = begin
+record_names(x::Expr, out) = begin
     @test x.head == :call
     f, args... = x.args
     for e in args
-        record_varnames(e, out)
+        record_names(e,out)
     end
 end
+record_names(x::Symbol, out) = push!(out, x)
+
+# For numeric literals:
+record_names(x, out) = nothing
