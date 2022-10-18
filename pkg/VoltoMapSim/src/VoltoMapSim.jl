@@ -8,7 +8,7 @@ __precompile__(false)
 using MyToolbox: @reexport
 @reexport using MyToolbox
 @reexport using Sciplotlib
-@reexport using SpikeLib
+@reexport using SpikeLab
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
 @reexport using LsqFit

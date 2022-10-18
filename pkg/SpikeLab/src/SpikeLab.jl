@@ -1,4 +1,4 @@
-module SpikeLib
+module SpikeLab
 
 using UnPack
 using MacroTools: striplines, unblock
