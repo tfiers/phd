@@ -60,11 +60,16 @@ params .= 1
 izh.f(diff, vars, params)
 diff
 
-vars .+= diff * 0.1ms
+vars .+= diff * 0.1 #ms
 
 vars
 
 izh.f()
+
+params_any = similar(params, Any)
+params_any .= params
+params_any.C = "wrongtype"
+izh.f(diff, vars, params_any)
 
 using Unitful: mV, nS
 

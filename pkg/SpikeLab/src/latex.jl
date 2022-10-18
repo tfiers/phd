@@ -1,4 +1,10 @@
 
+using Latexify
+using LaTeXStrings
+using PartialFunctions
+using Chain
+
+
 function show_eqs(m::Model; lhsfrac = true)
     eqs = map(prep_for_align $ (; lhsfrac), m.original_eqs)
     lines = ["\\begin{align}" eqs... "\\end{align}"]
