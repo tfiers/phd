@@ -44,6 +44,11 @@ izh = @eqs begin
 
     dgₑ/dt = -gₑ / τ  # Represents sum over all exc synapses
     dgᵢ/dt = -gᵢ / τ
+    
+    @spike if v > v_peak
+        v = v_reset
+        u += Δu
+    end
 end;
 
 izh
@@ -74,5 +79,3 @@ izh.f(diff, vars, params_any)
 using Unitful: mV, nS
 
 3mV
-
-

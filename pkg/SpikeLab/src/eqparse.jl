@@ -7,14 +7,15 @@ using DataStructures: SortedSet
 using Test  # We use @test instead of @assert as it gives a more useful error message
 using UnPack
 
-@kwdef struct Var1
+
+@kwdef struct Var_
     name       ::Symbol
     has_diffeq ::Bool
 end
-Var = Var1
+Var = Var_
 # ^ For Revise'ing structs: https://timholy.github.io/Revise.jl/stable/limitations/
 
-struct Model1
+struct Model_
     original_eqs   ::Vector{Expr}
     generated_func ::Expr
     f              ::Function
@@ -22,7 +23,7 @@ struct Model1
     vars           ::StructVector{Var}
     params         ::Vector{Symbol}
 end
-Model = Model1
+Model = Model_
 
 Base.show(io::IO, x::Var) = print(io, x.name)
 Base.show(io::IO, m::Model) = begin
