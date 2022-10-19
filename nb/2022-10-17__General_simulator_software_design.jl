@@ -55,8 +55,6 @@ izh
 
 izh.generated_func
 
-show_eqs(izh)
-
 vars = CVec{Float64}(v=0, u=0, I_syn=0, gₑ=0, gᵢ=0)
 diff = similar(vars)
 params = idvec(:C, :Eᵢ, :Eₑ, :I_ext, :a, :b, :k, :vᵣ, :vₜ, :τ)

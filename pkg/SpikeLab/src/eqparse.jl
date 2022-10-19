@@ -34,7 +34,11 @@ end
 
 
 macro eqs(ex)
-    f, original_eqs, rhss, vars, params = process_eqs!(ex)
+    try
+        f, original_eqs, rhss, vars, params = process_eqs!(ex)
+    catch
+        throw(ArgumentError("Could not parse the given model."))
+    end
     qg = Expr(:quote, striplines(f))  # Trick to return an expression from a macro
     return :( Model($original_eqs, $qg, $f, $rhss, $vars, $params) )
 end

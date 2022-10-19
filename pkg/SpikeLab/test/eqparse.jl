@@ -10,6 +10,11 @@ izh_expr = quote
 
     d(gₑ)/dt = -gₑ / τ
     dgᵢ  /dt = -gᵢ / τ
+
+    @spike if v > v_peak
+        v = v_reset
+        u += Δu
+    end
 end
 
 out = process_eqs!(izh_expr)
