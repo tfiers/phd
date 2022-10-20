@@ -12,12 +12,12 @@ nano  = 1e-9
 pico  = 1e-12
 export mega, kilo, milli, centi, micro, nano, pico
 
-seconds = 1
-Hz = 1 / seconds
-ms = milli * seconds
-minutes = 60 * seconds
-hours = 60 * minutes
-export seconds, Hz, ms, minutes, hours
+second = 1
+Hz = 1 / second
+ms = milli * second
+minute = 60 * second
+hour = 60 * minute
+export second, Hz, ms, minute, hour
 
 metre = meter = 1
 cm = centi * metre
@@ -48,7 +48,7 @@ Mohm = mega * ohm
 Gohm = giga * ohm
 export siemens, ohm, mS, nS, pS, Mohm
 
-coulomb = ampere * seconds
+coulomb = ampere * second
 farad = coulomb / volt
 uF = μF = micro * farad
 nF = nano * farad

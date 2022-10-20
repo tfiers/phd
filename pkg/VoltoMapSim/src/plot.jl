@@ -21,8 +21,8 @@ function plotsig(x, p::ExpParams; tscale = ms, kw...)
     duration = length(x) * p.sim.general.Δt
     t = linspace(zero(duration), duration, length(x)) / tscale
     xlabel = (tscale == ms) ? "Time (ms)" :
-             (tscale == seconds) ? "Time (s)" :
-             (tscale == minutes) ? "Time (minutes)" : ""
+             (tscale == second) ? "Time (s)" :
+             (tscale == minute) ? "Time (minutes)" : ""
     plotsig(t, x; xlabel, kw...)
 end
 

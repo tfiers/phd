@@ -109,7 +109,7 @@ function init_sim(p::NetworkSimParams)
     vars.g_exc .= g_t0
     vars.g_inh .= g_t0
     diff = similar(vars)  # = ∂x/∂t for every x in `vars`
-    diff.t = 1 * seconds/seconds
+    diff.t = 1 * second/second
 
     # Spike transmission queue. key = spike_ID. priority/val = spike_arrival_time.
     # a spike ID = (presyn neuron ID, synapse ID, spike time)

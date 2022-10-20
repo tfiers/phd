@@ -29,7 +29,7 @@ const default_rngseed = 22022022
     N_conn        ::Int             = 6500
     EI_ratio      ::Float64         = 4 / 1
     spike_rates   ::FlDistribution  = LogNormal_with_mean(4 * Hz, √0.6)  # (μₓ, σ)
-    avg_stim_rate ::Float64         = 0.1 * nS / seconds                 # [1]
+    avg_stim_rate ::Float64         = 0.1 * nS / second                  # [1]
     rngseed       ::Int             = default_rngseed                    # for ISI generation
 end
 # [1] `avg_stim_rate` is used to calculate the postsynaptic conductance increase Δg per
@@ -106,7 +106,7 @@ const zero_noise_VI = VoltageImagingParams(spike_SNR = Inf)
 
 
 @with_kw struct GeneralSimParams <: ParamSet
-    duration        ::Float64                 = 10 * seconds
+    duration        ::Float64                 = 10 * second
     Δt              ::Float64                 = 0.1 * ms
     izh_neuron      ::IzhikevichParams        = cortical_RS
     synapses        ::SynapseParams           = realistic_synapses
