@@ -34,11 +34,13 @@ end
 
 
 macro eqs(ex)
+    out = nothing  # `try` is a new scope (unlike `if`). So local vars not visible outside.
     try
-        f, original_eqs, rhss, vars, params = process_eqs!(ex)
-    catch
+        out = process_eqs!(ex)
+    catch e
         throw(ArgumentError("Could not parse the given model."))
     end
+    f, original_eqs, rhss, vars, params = out
     qg = Expr(:quote, striplines(f))  # Trick to return an expression from a macro
     return :( Model($original_eqs, $qg, $f, $rhss, $vars, $params) )
 end
