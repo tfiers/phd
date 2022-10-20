@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "8b164e4e5094b9a6016481eedf7664dfabbb18e5"
+project_hash = "9febef97fc6aab6a702110b4d0379c7bd1d2cad4"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -931,7 +931,7 @@ uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
 version = "2.1.7"
 
 [[deps.SpikeLab]]
-deps = ["Chain", "DataStructures", "LaTeXStrings", "Latexify", "MacroTools", "PartialFunctions", "StructArrays", "Test", "UnPack"]
+deps = ["Chain", "DataStructures", "Distributions", "LaTeXStrings", "Latexify", "MacroTools", "PartialFunctions", "Reexport", "StructArrays", "Test", "UnPack"]
 path = "pkg/SpikeLab"
 uuid = "fe4ab31d-2284-4e18-9761-4109e720cf88"
 version = "0.1.0"

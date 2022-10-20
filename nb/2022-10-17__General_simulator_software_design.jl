@@ -31,49 +31,84 @@
 
 using MyToolbox
 
-using VoltoMapSim
+@time_imports using VoltoMapSim
 
-# ## .
+# ## Differential equations
 
 izh = @eqs begin
     
-    dv/dt = (k*(v-vᵣ)*(v-vₜ) - u - I_syn + I_ext) / C
+    dv/dt = (k*(v-vₗ)*(v-vₜ) - u - I_syn) / C
     du/dt = a*(b*(v-vᵣ) - u)
 
     I_syn = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
 
     dgₑ/dt = -gₑ / τ  # Represents sum over all exc synapses
     dgᵢ/dt = -gᵢ / τ
-    
-    @spike if v > v_peak
-        v = v_reset
-        u += Δu
-    end
 end;
 
 izh
 
 izh.generated_func
 
-vars = CVec{Float64}(v=0, u=0, I_syn=0, gₑ=0, gᵢ=0)
+# ## Initialize buffers
+
+# +
+params = (
+    # Cortical regular spiking (same as always)
+    C  =  100    * pF,
+    k  =    0.7  * (nS/mV),
+    vₗ = - 60    * mV,
+    vₜ = - 40    * mV,
+    a  =    0.03 / ms,
+    b  = -  2    * nS,
+    # Not in model eqs above (yet)
+    vₛ =   35    * mV,  # spike
+    vᵣ = - 50    * mV,  # reset
+    Δu =  100    * pA,
+
+    # Synapses
+    Eₑ =   0 * mV,
+    Eᵢ = -80 * mV,  # Higher than Nto1 (was -65); same as nets.
+    τ  =   7 * ms,
+)
+
+init = (
+    v  = params.vᵣ,
+    u  = 0 * pA,
+    gₑ = 0 * nS,
+    gᵢ = 0 * nS,
+    I_syn = 0 * nA,
+);
+# -
+
+vars = CVec{Float64}(init)
 diff = similar(vars)
-params = idvec(:C, :Eᵢ, :Eₑ, :I_ext, :a, :b, :k, :vᵣ, :vₜ, :τ)
-params = similar(params, Float64)
-params .= 1
+diff .= 0
+
+
+]resolve
+
+Revise.revise(SpikeLab);
+
+SpikeLab.LogNormal(median=3,g=1)
+
+
+
+
+
+duration = 1 * second
+Δt       = 0.1 * ms
+
+
 izh.f(diff, vars, params)
 diff
 
-vars .+= diff * 0.1 #ms
+# +
+# Revise.revise(VoltoMapSim);
+# -
+
+vars .+= diff * 0.1ms
 
 vars
 
-izh.f()
 
-params_any = similar(params, Any)
-params_any .= params
-params_any.C = "wrongtype"
-izh.f(diff, vars, params_any)
-
-using Unitful: mV, nS
-
-3mV
