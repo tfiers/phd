@@ -20,10 +20,11 @@ Around `x = 0` it smoothly transitions between those two, with ``ρ(0) = 1``.
 # Hodgkin-Huxley-type equations.
 #
 # - Adapted from https://brian2.readthedocs.io/en/stable/examples/COBAHH.html, which
-#     references Brette et al. 2007, “Simulation of Networks of Spiking Neurons”
-#     (appendix B.3.2: HH neurons), which in turn modified the equations from
-#     Traub & Miles 1991, “Neuronal Networks of the Hippocampus”.
-#     'COBA' stands for conductance-based (as opposed to simpler current-based models).
+#     references Brette al. 2007, “Simulation of Networks of Spiking Neurons” (see appendix
+#     B.3.2: HH neurons), which in turn modified the equations from Traub & Miles 1991,
+#     “Neuronal Networks of the Hippocampus”.
+#     ('COBA' in the Brian notebook and in the Brette paper stands for 'conductance based';
+#     as opposed to simpler "current-based" models for the membrane voltage))
 #
 # - The Dayan & Abbott book has a good explanation of the Hodgkin-Huxley model (ch. 5).
 #
