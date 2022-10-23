@@ -19,6 +19,13 @@ minute = 60 * second
 hour = 60 * minute
 export second, Hz, ms, minute, hour
 
+seconds = second
+minutes = minute
+hours = hour
+export seconds, minutes, hours
+# Plural makes more sense in e.g. `10minutes`.
+# Singular makes more sense in `f(x, unit = second)`.
+
 metre = meter = 1
 cm = centi * metre
 mm = milli * metre
@@ -63,7 +70,7 @@ gibi = 2^30
 bytes = 1
     # We choose bytes as base unit (instead of bits), as that is what e.g. `sizeof` and
     # `Base.summarysize` report.
-bits = bytes // 8
+bits = bytes / 8
 kB = kilo * bytes
 MB = mega * bytes
 GB = giga * bytes
