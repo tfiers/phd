@@ -57,8 +57,13 @@ HH = @eqs begin
     dgₑ/dt = -gₑ/τₑ
     dgᵢ/dt = -gᵢ/τᵢ
 end
-# ¹ The three gating variables {n, m, h} evolve towards 1 with rate (1/τ) = αᵢ, and towards
-#   0 with rate (1/τ) = βᵢ.
+# ¹ The three gating variables {n, m, h} evolve towards 1 with rate αᵢ, and towards 0 with
+#   rate βᵢ. Or more precisely, their differential equations can be rewritten as simple
+#   exponential decay/growth:
+#
+#       dn/dt = (n∞ - n) / τₙ
+#
+#   with n∞ = weighted mean of 1 and 0, with weights αₙ and βₙ; and 1/τₙ = αₙ + βₙ.
 
 
 #=
