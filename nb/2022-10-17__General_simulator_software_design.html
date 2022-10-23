@@ -48,8 +48,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-10-17__General_simulator_software_design.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
@@ -592,8 +590,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   .
+  <a class="reference internal nav-link" href="#differential-equations">
+   Differential equations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-buffers">
+   Initialize buffers
   </a>
  </li>
 </ul>
@@ -622,8 +625,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#id1">
-   .
+  <a class="reference internal nav-link" href="#differential-equations">
+   Differential equations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#initialize-buffers">
+   Initialize buffers
   </a>
  </li>
 </ul>
@@ -660,19 +668,19 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time_imports</span> <span class="k">using</span> <span class="n">VoltoMapSim</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="id1">
-<h2>.<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="differential-equations">
+<h2>Differential equations<a class="headerlink" href="#differential-equations" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span> <span class="o">=</span> <span class="nd">@eqs</span> <span class="k">begin</span>
     
-    <span class="n">dv</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#7523;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">-</span> <span class="n">I_syn</span> <span class="o">+</span> <span class="n">I_ext</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
+    <span class="n">dv</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8343;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">-</span> <span class="n">I_syn</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
     <span class="n">du</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#7523;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
 
     <span class="n">I_syn</span> <span class="o">=</span> <span class="n">g&#8337;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#8337;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#7522;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#7522;</span><span class="p">)</span>
@@ -691,9 +699,9 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeLab.Model2
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeLab.Model_
  with variables {v, u, I_syn, g&#8337;, g&#7522;}
- and parameters {C, E&#7522;, E&#8337;, I_ext, a, b, k, v&#7523;, v&#8348;, &#964;}
+ and parameters {C, E&#7522;, E&#8337;, a, b, k, v&#7523;, v&#8343;, v&#8348;, &#964;}
 </pre></div>
 </div>
 </div>
@@ -707,8 +715,8 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>:((diff, vars, params)-&gt;begin
           @unpack (v, u, I_syn, g&#8337;, g&#7522;) = vars
-          @unpack (C, E&#7522;, E&#8337;, I_ext, a, b, k, v&#7523;, v&#8348;, &#964;) = params
-          diff.v = (((k * (v - v&#7523;) * (v - v&#8348;) - u) - I_syn) + I_ext) / C
+          @unpack (C, E&#7522;, E&#8337;, a, b, k, v&#7523;, v&#8343;, v&#8348;, &#964;) = params
+          diff.v = ((k * (v - v&#8343;) * (v - v&#8348;) - u) - I_syn) / C
           diff.u = a * (b * (v - v&#7523;) - u)
           vars.I_syn = g&#8337; * (v - E&#8337;) + g&#7522; * (v - E&#7522;)
           diff.g&#8337; = -g&#8337; / &#964;
@@ -718,136 +726,151 @@ Advantage: easier to also investigate LIF/EIF neurons, different neuron types, e
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="initialize-buffers">
+<h2>Initialize buffers<a class="headerlink" href="#initialize-buffers" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">show_eqs</span><span class="p">(</span><span class="n">izh</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c"># Cortical regular spiking (same as always)</span>
+    <span class="n">C</span>  <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pF</span><span class="p">,</span>
+    <span class="n">k</span>  <span class="o">=</span>    <span class="mf">0.7</span>  <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">),</span>
+    <span class="n">v&#8343;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">60</span>    <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">v&#8348;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">40</span>    <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">a</span>  <span class="o">=</span>    <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span><span class="p">,</span>
+    <span class="n">b</span>  <span class="o">=</span> <span class="o">-</span>  <span class="mi">2</span>    <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
+    <span class="c"># Not in model eqs above (yet)</span>
+    <span class="n">v&#8347;</span> <span class="o">=</span>   <span class="mi">35</span>    <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>  <span class="c"># spike</span>
+    <span class="n">v&#7523;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">50</span>    <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>  <span class="c"># reset</span>
+    <span class="n">&#916;u</span> <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pA</span><span class="p">,</span>
+
+    <span class="c"># Synapses</span>
+    <span class="n">E&#8337;</span> <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">E&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>  <span class="c"># Higher than Nto1 (was -65); same as nets.</span>
+    <span class="n">&#964;</span>  <span class="o">=</span>   <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">init</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">v</span>  <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">v&#7523;</span><span class="p">,</span>
+    <span class="n">u</span>  <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span><span class="p">,</span>
+    <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
+    <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
+    <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nA</span><span class="p">,</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\begin{split}\begin{align} 
-\frac{\mathrm{d}v}{\mathrm{d}t} &amp;= \ \left. \left( {k \left( v - v_r \right) \left( v - v_t \right) - u - I_{syn} + I_{ext}} \right)\,\middle/ \,{C}\right. \\ 
-\frac{\mathrm{d}u}{\mathrm{d}t} &amp;= \ a \left( b \left( v - v_r \right) - u \right)\\ 
-I_{syn} &amp;= \ g_e \left( v - E_e \right) + g_i \left( v - E_i \right)\\ 
-\frac{\mathrm{d}g_e}{\mathrm{d}t} &amp;= \ \left. \left( { - g_e} \right)\,\middle/ \,{\tau}\right. \\ 
-\frac{\mathrm{d}g_i}{\mathrm{d}t} &amp;= \ \left. \left( { - g_i} \right)\,\middle/ \,{\tau}\right. \\ 
-\end{align}\end{split}\]</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span> <span class="o">=</span> <span class="kt">CVec</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">v</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">u</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">I_syn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">g&#8337;</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">g&#7522;</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span> <span class="o">=</span> <span class="kt">CVec</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">init</span><span class="p">)</span>
 <span class="n">diff</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">vars</span><span class="p">)</span>
-<span class="n">params</span> <span class="o">=</span> <span class="n">idvec</span><span class="p">(</span><span class="ss">:C</span><span class="p">,</span> <span class="ss">:E&#7522;</span><span class="p">,</span> <span class="ss">:E&#8337;</span><span class="p">,</span> <span class="ss">:I_ext</span><span class="p">,</span> <span class="ss">:a</span><span class="p">,</span> <span class="ss">:b</span><span class="p">,</span> <span class="ss">:k</span><span class="p">,</span> <span class="ss">:v&#7523;</span><span class="p">,</span> <span class="ss">:v&#8348;</span><span class="p">,</span> <span class="ss">:&#964;</span><span class="p">)</span>
-<span class="n">params</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="kt">Float64</span><span class="p">)</span>
-<span class="n">params</span> <span class="o">.=</span> <span class="mi">1</span>
-<span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
-<span class="n">diff</span>
+<span class="n">diff</span> <span class="o">.=</span> <span class="mi">0</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 2.0, u = -1.0, I_syn = 1.3145426e-315, g&#8337; = -0.0, g&#7522; = -0.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 0, u = 0, g&#8337; = 0, g&#7522; = 0, I_syn = 0)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span> <span class="o">.+=</span> <span class="n">diff</span> <span class="o">*</span>&#160;<span class="mf">0.1</span> <span class="c">#ms</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">second</span>
+<span class="n">&#916;t</span>       <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
+<span class="n">Nt</span> <span class="o">=</span> <span class="n">to_timesteps</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 0.2, u = -0.1, I_syn = 1.3145426e-316, g&#8337; = 0.0, g&#7522; = 0.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vars</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ComponentVector{Float64}(v = 0.2, u = -0.1, I_syn = 1.3145426e-316, g&#8337; = 0.0, g&#7522; = 0.0)
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ti</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Nt</span>
+    <span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">vars</span> <span class="o">.+=</span> <span class="n">diff</span> <span class="o">.*</span> <span class="n">&#916;t</span>
+<span class="k">end</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Revise</span><span class="o">.</span><span class="n">revise</span><span class="p">(</span><span class="n">SpikeLab</span><span class="p">);</span>
+<span class="n">Revise</span><span class="o">.</span><span class="n">revise</span><span class="p">(</span><span class="n">VoltoMapSim</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">poisson_spikes</span><span class="p">(</span><span class="mi">5</span><span class="n">Hz</span><span class="p">,</span> <span class="mi">20</span><span class="n">minutes</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching (::var"#7#8")()
-<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
-  <span class="p">(::</span><span class="n">var</span><span class="s2">"#7#8"</span><span class="p">)(::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">phd</span>\<span class="n">pkg</span>\<span class="n">SpikeLab</span>\<span class="n">src</span>\<span class="n">eqparse</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">61</span>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6086-element Vector{Float64}:
+ 0.0584
+ 0.246
+ 0.264
+ 0.304
+ 0.318
+ 0.369
+ 0.445
+ 0.821
+ 0.9
+ 1.04
+ 1.28
+ 1.31
+ 1.35
+ &#8942;
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+ 1.2E+03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(julia.exe:17984): Gdk-CRITICAL **: 13:16:50.068: gdk_seat_default_remove_tool: assertion 'tool != NULL' failed
 
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">]:</span><span class="mi">1</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">params_any</span> <span class="o">=</span> <span class="n">similar</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="kt">Any</span><span class="p">)</span>
-<span class="n">params_any</span> <span class="o">.=</span> <span class="n">params</span>
-<span class="n">params_any</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="s">"wrongtype"</span>
-<span class="n">izh</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span> <span class="n">vars</span><span class="p">,</span> <span class="n">params_any</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">MethodError</span>: no method matching /(::Float64, ::String)
-<span class="n">Closest</span> <span class="n">candidates</span> <span class="n">are</span><span class="p">:</span>
-  <span class="o">/</span><span class="p">(::</span><span class="n">T</span><span class="p">,</span> <span class="p">::</span><span class="n">T</span><span class="p">)</span> <span class="n">where</span> <span class="n">T</span><span class="o">&lt;</span><span class="p">:</span><span class="n">Union</span><span class="p">{</span><span class="n">Float16</span><span class="p">,</span> <span class="n">Float32</span><span class="p">,</span> <span class="n">Float64</span><span class="p">}</span> <span class="n">at</span> <span class="nb">float</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">386</span>
-  <span class="o">/</span><span class="p">(::</span><span class="n">Union</span><span class="p">{</span><span class="n">Float16</span><span class="p">,</span> <span class="n">Float32</span><span class="p">,</span> <span class="n">Float64</span><span class="p">},</span> <span class="p">::</span><span class="n">BigFloat</span><span class="p">)</span> <span class="n">at</span> <span class="n">mpfr</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">465</span>
-  <span class="o">/</span><span class="p">(::</span><span class="n">ChainRulesCore</span><span class="o">.</span><span class="n">AbstractThunk</span><span class="p">,</span> <span class="p">::</span><span class="n">Any</span><span class="p">)</span> <span class="n">at</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="o">.</span><span class="n">julia</span>\<span class="n">packages</span>\<span class="n">ChainRulesCore</span>\<span class="n">C73ay</span>\<span class="n">src</span>\<span class="n">tangent_types</span>\<span class="n">thunks</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">37</span>
-  <span class="o">...</span>
+(julia.exe:17984): Gdk-CRITICAL **: 13:16:50.284: gdk_seat_default_remove_tool: assertion 'tool != NULL' failed
 
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">(::</span><span class="n">var</span><span class="s2">"#7#8"</span><span class="p">)(</span><span class="n">diff</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)}}},</span> <span class="nb">vars</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Float64</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">v</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">u</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)}}},</span> <span class="n">params</span><span class="p">::</span><span class="n">ComponentVector</span><span class="p">{</span><span class="n">Any</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Any</span><span class="p">},</span> <span class="n">Tuple</span><span class="p">{</span><span class="n">Axis</span><span class="p">{(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">E&#7522;</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">E&#8337;</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">I_ext</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">v&#7523;</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">v&#8348;</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">&#964;</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)}}})</span>
-   <span class="o">@</span> <span class="n">Main</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">phd</span>\<span class="n">pkg</span>\<span class="n">SpikeLab</span>\<span class="n">src</span>\<span class="n">eqparse</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">3</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">48</span><span class="p">]:</span><span class="mi">4</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
+(julia.exe:17984): Gdk-CRITICAL **: 13:16:50.420: gdk_seat_default_remove_tool: assertion 'tool != NULL' failed
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Unitful</span><span class="o">:</span> <span class="n">mV</span><span class="p">,</span> <span class="n">nS</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="n">mV</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="n">poisson_spikes</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 mV
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>search: <span class=" -Color -Color-Bold">poisson_spikes</span> gen_<span class=" -Color -Color-Bold">Poisson_spikes</span>
 </pre></div>
 </div>
+<div class="output text_html"><div class="markdown"><pre><code>poisson_spikes(r, T)</code></pre>
+<p>Generate a Poisson spike train with firing rate $r$ on the time interval $[0, T]$.</p>
+<p>More precisely, simulate a Poisson process by drawing inter-spike-intervals from an Exponential distribution with rate parameter $r$, accumulating them until $T$ is reached. The number of spikes $N$ in $[0, T]$ will be Poisson-distributed, with mean = $rT$.</p>
+<p>The output is a length-$N$ (i.e. variable length) vector of spike times.</p>
+
+
+</div></div></div>
 </div>
-</div>
+<p>Pause for now, and continue with the science.</p>
 </div>
 </div>
 
