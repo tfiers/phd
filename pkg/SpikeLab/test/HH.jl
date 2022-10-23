@@ -14,8 +14,9 @@ i.e. for ``x < 0``, ``ρ(x) → -x`` and for ``x > 0``, ``ρ(x) → 0``. \\
 Around `x = 0` it smoothly transitions between those two, with ``ρ(0) = 1``.
 """
 ρ(x) =
-    if (x == 0)  one(x)              # 0 / (exp(0) - 1)  ->  1
-    else         x / expm1(x)  end
+    if (x == 0)        one(x)         # 0 / (exp(0) - 1)  ->  1
+    else         x / expm1(x)  end    # x / (exp(x) - 1)
+
 
 # Hodgkin-Huxley-type equations.
 #
@@ -23,8 +24,8 @@ Around `x = 0` it smoothly transitions between those two, with ``ρ(0) = 1``.
 #     references Brette al. 2007, “Simulation of Networks of Spiking Neurons” (see appendix
 #     B.3.2: HH neurons), which in turn modified the equations from Traub & Miles 1991,
 #     “Neuronal Networks of the Hippocampus”.
-#     ('COBA' in the Brian notebook and in the Brette paper stands for 'conductance based';
-#     as opposed to simpler "current-based" models for the membrane voltage))
+#     ('COBA' in the Brian notebook and in the Brette paper stands for 'conductance-based';
+#      as opposed to simpler "current-based" models for the membrane voltage))
 #
 # - The Dayan & Abbott book has a good explanation of the Hodgkin-Huxley model (ch. 5).
 #
@@ -37,24 +38,28 @@ HH = @eqs begin
         + ḡₖ *Pₖ * (v-Eₖ)          # Slow (persistent) K⁺ channels
         + ḡₙₐ*Pₙₐ* (v-Eₙₐ)         # Fast (transient) Na⁺ channels
     # Channel open probabilities:
-    Pₖ  = n^4                      # '4 independent subunits' (see Dayan & Abbott)
-    Pₙₐ = m^3 * h                  # '3 independent subunits and ball'
-    dn/dt = αₙ * (1-n) - βₙ * n    # n ≈ P[K⁺ subunit open]
-    dm/dt = αₘ * (1-m) - βₘ * m    # m ≈ P[Na⁺ subunit open]           (activation gate)
-    dh/dt = αₕ * (1-h) - βₕ * h    # h ≈ P[Na⁺ ball not blocking pore] (inactivation gate)
+    Pₖ  = n^4                      # Proportion of K⁺ channels open
+    Pₙₐ = m^3 * h                  # Proportion of Na⁺ channels open
+    # Gating variables:¹
+    dn/dt = αₙ * (1-n) - βₙ * n    # n ≈ P[1 of the 4 K⁺ subunits is open]
+    dm/dt = αₘ * (1-m) - βₘ * m    # m ≈ P[1 of the 3 Na⁺ subunits is open] (activation variable)
+    dh/dt = αₕ * (1-h) - βₕ * h    # h ≈ P[Na⁺ ball is not blocking pore]   (inactivation variable)
     # Voltage-dependent opening (α) and closing (β) rates:
-    αₙ = 0.032 /mV * 5mV * ρ( (v - 48mV) /  5mV)   /ms
-    αₘ = 0.32  /mV * 4mV * ρ( (v - 50mV) /  4mV)   /ms
-    αₕ = 0.128 *         exp( (v - 46mV) / 18mV)   /ms
-    βₙ = 0.5   *         exp( (v - 53mV) / 40mV)   /ms
-    βₘ = 0.28  /mV * 5mV * ρ(-(v - 23mV) /  5mV    /ms
-    βₕ = 4 /       ( 1 + exp( (v - 23mV) /  5mV) ) /ms
+    αₙ = 0.16  *    ρ( (v-(-48mV)) /  5mV )  /ms    # K⁺ activation
+    βₙ = 0.5   *  exp( (v-(-53mV)) / 40mV )  /ms    # K⁺ deactivation
+    αₘ = 1.28  *    ρ( (v-(-50mV)) /  4mV )  /ms    # Na⁺ activation
+    βₘ = 1.4   *    ρ(-(v-(-23mV)) /  5mV )  /ms    # Na⁺ deactivation
+    αₕ = 0.128 *  exp( (v-(-46mV)) / 18mV )  /ms    # Na⁺ deinactivation
+    βₕ = 4 / (1 + exp( (v-(-23mV)) /  5mV )) /ms    # Na⁺ inactivation
 
     # Synaptic current
     Iₛ = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
     dgₑ/dt = -gₑ/τₑ
     dgᵢ/dt = -gᵢ/τᵢ
 end
+# ¹ The three gating variables {n, m, h} evolve towards 1 with rate (1/τ) = αᵢ, and towards
+#   0 with rate (1/τ) = βᵢ.
+
 
 #=
 - When rendering these equations in latex, it should automatically add the used function:
