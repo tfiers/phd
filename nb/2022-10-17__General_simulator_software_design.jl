@@ -86,29 +86,20 @@ diff = similar(vars)
 diff .= 0
 
 
-]resolve
-
-Revise.revise(SpikeLab);
-
-SpikeLab.LogNormal(median=3,g=1)
-
-
-
-
-
 duration = 1 * second
 Δt       = 0.1 * ms
+Nt = to_timesteps(duration, Δt)
 
+for ti in 1:Nt
+    izh.f(diff, vars, params)
+    vars .+= diff .* Δt
+end
 
-izh.f(diff, vars, params)
-diff
+Revise.revise(SpikeLab);
+Revise.revise(VoltoMapSim);
 
-# +
-# Revise.revise(VoltoMapSim);
-# -
+poisson_spikes(5Hz, 20minutes)
 
-vars .+= diff * 0.1ms
+?poisson_spikes
 
-vars
-
-
+# Pause for now, and continue with the science.
