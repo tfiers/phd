@@ -1,7 +1,9 @@
 module SpikeLab
 
 using Reexport
-@reexport using Distributions
+using Distributions
+# Don't `@reexport`: this macro somehow also exports our own `LogNormal` (see below),
+# creating a conflict.
 
 include("poisson.jl")
 export poisson_spikes

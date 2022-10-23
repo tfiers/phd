@@ -23,7 +23,9 @@ appropriate methods:
 - `mean(d) * mV`
 etc.
 """
-LogNormal(; median, g, unit = oneunit(median)) = Distributions.LogNormal(log(median/unit), log(g))
+LogNormal(; median, g, unit = oneunit(median)) =
+
+    Distributions.LogNormal(log(median/unit), log(g))
 
 # If you want to add other parametrizations:
-# LogNormal(; kw...), and then switch.
+# LogNormal(; kw...), and then a switch/match stmt.
