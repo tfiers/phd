@@ -45,12 +45,12 @@ HH = @eqs begin
     dm/dt = αₘ * (1-m) - βₘ * m    # m ≈ P[1 of the 3 Na⁺ subunits is open] (activation variable)
     dh/dt = αₕ * (1-h) - βₕ * h    # h ≈ P[Na⁺ ball is not blocking pore]   (inactivation variable)
     # Voltage-dependent opening (α) and closing (β) rates:
-    αₙ = 0.16  *    ρ( (v-(-48mV)) /  5mV )  /ms    # K⁺ activation
-    βₙ = 0.5   *  exp( (v-(-53mV)) / 40mV )  /ms    # K⁺ deactivation
-    αₘ = 1.28  *    ρ( (v-(-50mV)) /  4mV )  /ms    # Na⁺ activation
-    βₘ = 1.4   *    ρ(-(v-(-23mV)) /  5mV )  /ms    # Na⁺ deactivation
-    αₕ = 0.128 *  exp( (v-(-46mV)) / 18mV )  /ms    # Na⁺ deinactivation
-    βₕ = 4 / (1 + exp( (v-(-23mV)) /  5mV )) /ms    # Na⁺ inactivation
+    αₙ = 0.16  *    ρ(- (v-(-48mV)) /  5mV)  /ms    # K⁺ activation
+    βₙ = 0.5   *  exp(- (v-(-53mV)) / 40mV)  /ms    # K⁺ deactivation
+    αₘ = 1.28  *    ρ(- (v-(-50mV)) /  4mV)  /ms    # Na⁺ activation
+    βₘ = 1.4   *    ρ(  (v-(-23mV)) /  5mV)  /ms    # Na⁺ deactivation
+    αₕ = 0.128 *  exp(- (v-(-46mV)) / 18mV)  /ms    # Na⁺ deinactivation
+    βₕ = 4 / (1 + exp(- (v-(-23mV)) /  5mV)) /ms    # Na⁺ inactivation
 
     # Synaptic current
     Iₛ = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
