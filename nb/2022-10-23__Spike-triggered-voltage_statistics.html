@@ -614,6 +614,11 @@ const thebe_selector_output = ".output, .cell_output"
    Voltage histogram
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-uniform-bins">
+   Non-uniform bins
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -657,6 +662,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#voltage-histogram">
    Voltage histogram
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#non-uniform-bins">
+   Non-uniform bins
   </a>
  </li>
 </ul>
@@ -777,7 +787,7 @@ So <code class="docutils literal notranslate"><span class="pre">k</span></code> 
 <span class="n">fmt_bigint</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Int</span><span class="p">;</span> <span class="n">sep</span> <span class="o">=</span> <span class="sc">' '</span><span class="p">)</span> <span class="o">=</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">digit</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">in</span> <span class="n">Iterators</span><span class="o">.</span><span class="n">reverse</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">digits</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="o">:</span><span class="n">ndigits</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">print</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+            <span class="n">print</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>  <span class="c"># This will currently print " 100".</span>
         <span class="k">end</span>
         <span class="n">print</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
     <span class="k">end</span>
@@ -879,7 +889,7 @@ So</p>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_bins</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">v_range</span> <span class="o">/</span> <span class="n">v_resolution</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_bins</span> <span class="o">=</span> <span class="n">N_bins__uniform_fine</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">v_range</span> <span class="o">/</span> <span class="n">v_resolution</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
@@ -909,9 +919,10 @@ vs<br>
 <p>Hm, guess it&#8217;s indeed faster to save values themselves rather than to bin them finely.</p>
 <p>We could:</p>
 <ul class="simple">
-<li><p>simulate shorter</p>
+<li><p>~~simulate shorter~~</p>
 <ul>
 <li><p>..but didn&#8217;t we find that 10&#8217; is needed for conntesting</p></li>
+<li><p>..this won&#8217;t help for bin disk size, that&#8217;s already aggregated over spikes (time)</p></li>
 </ul>
 </li>
 <li><p>aggregate over connections, by types</p>
@@ -956,9 +967,12 @@ vs<br>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">bars</span> <span class="o">=</span> 
-    
-    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">200</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">bars</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span>
+    <span class="n">bins</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"V&#8344; (mV)"</span><span class="p">,</span>
+    <span class="n">hylabel</span> <span class="o">=</span> <span class="s">"Simulated voltage distribution"</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1006,6 +1020,218 @@ vs<br>
 <p>Ye that last bin location tracks with izh&#8217;s v_peak of 35 mV.</p>
 <p><code class="docutils literal notranslate"><span class="pre">v_thr</span></code> is -40 mV (and then there&#8217;s the slow quadratic runaway).
 This distribution might look different around -40 with a more realistic model, like AdEx (EIF).</p>
+</div>
+<div class="section" id="non-uniform-bins">
+<h2>Non-uniform bins<a class="headerlink" href="#non-uniform-bins" title="Permalink to this headline">&#182;</a></h2>
+<p>To get non uniform bins, we could simply take the ecdf of the above historgram, and invert uniform probability bins.</p>
+<p>Problem with non-uniform: comparing pdf&#8217;s between simulations. Say an AdEx simulation would have other bins.</p>
+<p>So we&#8217;d need to save the bins found here and use them for all future simulations.</p>
+<p>(..but then these bins might not be good for those simulations! They might have a different base-level voltage (say a higher EI input ratio), or have a different tail weight (like exponential vs quadratic spike runoff, presumably)).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">vcdf</span> <span class="o">=</span> <span class="n">ecdf</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>  <span class="c"># Sorts values. Returns a callable</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.398035 seconds (9 allocations: 91.553 MiB, 2.46% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">extrema</span><span class="p">(</span><span class="n">vcdf</span><span class="p">)</span> <span class="o">./</span> <span class="n">mV</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-70.32, 35)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">vcdf</span><span class="p">(</span><span class="o">-</span><span class="mi">40</span><span class="n">mV</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9384
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="n">extrema</span><span class="p">(</span><span class="n">vcdf</span><span class="p">)</span><span class="o">...</span><span class="p">;</span> <span class="n">length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">vcdf</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"V&#8344; (mV)"</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"ECDF"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-23__Spike-triggered-voltage_statistics_53_0.png" src="../_images/2022-10-23__Spike-triggered-voltage_statistics_53_0.png">
+</div>
+</div>
+<p>We need the inverse, i.e. quantiles, not the ECDF.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">nqs</span> <span class="o">=</span> <span class="n">nquantile</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">nqs</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="s">"."</span><span class="p">;</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Quantile nr."</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"mV"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2022-10-23__Spike-triggered-voltage_statistics_56_0.png" src="../_images/2022-10-23__Spike-triggered-voltage_statistics_56_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">qbins</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">nqs</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nqs</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]));</span>
+<span class="nd">@show</span> <span class="n">qbins</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">./</span> <span class="n">mV</span>
+<span class="nd">@show</span> <span class="n">qbins</span><span class="p">[</span><span class="mi">50</span><span class="p">]</span> <span class="o">./</span> <span class="n">mV</span>
+<span class="nd">@show</span> <span class="n">qbins</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="o">./</span> <span class="n">mV</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>qbins[1] ./ mV = (-70.32, -63.15)
+qbins[50] ./ mV = (-54.01, -53.88)
+qbins[100] ./ mV = (-11.71, 35)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">only</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">bin</span><span class="p">)))</span>
+
+<span class="nd">@show</span> <span class="n">binsize</span><span class="p">(</span><span class="n">qbins</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">mV</span>
+<span class="nd">@show</span> <span class="n">binsize</span><span class="p">(</span><span class="n">qbins</span><span class="p">[</span><span class="mi">50</span><span class="p">])</span> <span class="o">/</span> <span class="n">mV</span>
+<span class="nd">@show</span> <span class="n">binsize</span><span class="p">(</span><span class="n">qbins</span><span class="p">[</span><span class="mi">100</span><span class="p">])</span> <span class="o">/</span> <span class="n">mV</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>binsize(qbins[1]) / mV = 7.168
+binsize(qbins[50]) / mV = 0.1295
+binsize(qbins[100]) / mV = 46.71
+</pre></div>
+</div>
+</div>
+</div>
+<p>With 100 bins, how big are pdfs on disk?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">N_pdfs</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">bytes_per_bin</span><span class="p">)</span> <span class="o">/</span> <span class="n">GB</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.8
+</pre></div>
+</div>
+</div>
+</div>
+<p>Pfoe! still too large :(</p>
+<p>Ok, with aggregating over connection type:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_pdf_agg_conn</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">samples_per_window</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_pdf_agg_conn</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">bytes_per_bin</span> <span class="o">/</span> <span class="n">MB</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok. That&#8217;s what we&#8217;ll do then.</p>
+<p>We could have 10x (1000) bins, and still have only 20.4 MB.</p>
+<p>What with <code class="docutils literal notranslate"><span class="pre">N_bins__uniform_fine</span></code>? (at 0.003 mV per bin; i.e. so that typical sta range has 1000 bins)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_bins__uniform_fine</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>41669
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N_pdf_agg_conn</span> <span class="o">*</span> <span class="n">N_bins__uniform_fine</span> <span class="o">*</span> <span class="n">bytes_per_bin</span> <span class="o">/</span> <span class="n">MB</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1000
+</pre></div>
+</div>
+</div>
+</div>
+<p>One gig. eh.</p>
+<p>I&#8217;ll go for non-uniform; but more than 100 bins.
+And then we need to save these bins, so we can reuse for other simulations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">nquantile_bins</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">nqs</span> <span class="o">=</span> <span class="n">nquantile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">collect</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">nqs</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nqs</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]));</span>
+<span class="k">end</span>
+
+<span class="n">binsize</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">only</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="n">bin</span><span class="p">)))</span>
+<span class="n">bin_info</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span> <span class="o">=</span> <span class="n">println</span><span class="p">(</span>
+    <span class="n">rpad</span><span class="p">(</span><span class="s">"Bin </span><span class="si">$</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="s">: "</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">rpad</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span> <span class="s">" </span><span class="si">$</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="s">. "</span><span class="p">,</span>
+    <span class="s">"Width: "</span><span class="p">,</span> <span class="n">binsize</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="s">" </span><span class="si">$</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span><span class="s">"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">bin_info</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">bins</span><span class="p">)</span>
+    <span class="n">mid</span> <span class="o">=</span> <span class="n">N</span> <span class="o">&#247;</span> <span class="mi">2</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">mid</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mid</span><span class="p">,</span> <span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">]</span>
+        <span class="n">bin_info</span><span class="p">(</span><span class="n">bins</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">bin_info</span><span class="p">(</span><span class="n">nquantile_bins</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="s">"mV"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Bin 1:    (-70.32, -65.49) mV. Width: 4.826 mV
+Bin 2:    (-65.49, -64.87) mV. Width: 0.6177 mV
+Bin 499:  (-53.9, -53.89)  mV. Width: 0.01327 mV
+Bin 500:  (-53.89, -53.88) mV. Width: 0.01278 mV
+Bin 501:  (-53.88, -53.86) mV. Width: 0.01307 mV
+Bin 999:  (18.29, 25.73)   mV. Width: 7.438 mV
+Bin 1000: (25.73, 35)      mV. Width: 9.27 mV
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 </div>
 
