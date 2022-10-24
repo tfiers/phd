@@ -71,14 +71,13 @@ end
 
 function get_names(eqs::Vector{Expr})
     names = SortedSet{Symbol}()
-    vars = Var[]
+    vars = StructVector{Var}(undef, 0)  # They didn't implement `SV{T}()` syntax.
     for eq in eqs
         @test eq.head == :(=)
         lhs, rhs = eq.args
         push!(vars, parse_lhs_var(lhs))
         record_names(unblock(rhs), names)
     end
-    vars = StructVector(vars)
     params = [n for n in names if n ∉ vars.name]
     return vars, params
 end
