@@ -78,7 +78,7 @@ N_conns = N_recorded * N_pre_per_post
 fmt_bigint(x::Int; sep = ' ') =
     for (digit, i) in Iterators.reverse(zip(digits(x), 1:ndigits(x)))
         if (i % 3 == 0)
-            print(sep)
+            print(sep)  # This will currently print " 100".
         end
         print(digit)
     end
@@ -145,7 +145,7 @@ v_range = v_peak - v_min;
 sta_range = -48mV - -51mV
 (v_resolution = sta_range / 1000) / mV
 
-N_bins = round(Int, v_range / v_resolution) + 2
+N_bins = N_bins__uniform_fine = round(Int, v_range / v_resolution) + 2
 
 (disk_size = N_pdfs * N_bins * bytes_per_bin) / GB
 
@@ -159,8 +159,9 @@ N_bins = round(Int, v_range / v_resolution) + 2
 # Hm, guess it's indeed faster to save values themselves rather than to bin them finely.
 
 # We could:
-# - simulate shorter
+# - ~~simulate shorter~~
 #     - ..but didn't we find that 10' is needed for conntesting
+#     - ..this won't help for bin disk size, that's already aggregated over spikes (time)
 # - aggregate over connections, by types
 #     - only 1000 * 3 pdf's then: exc, inh, unconn
 #     - you then don't have option to see distr of false-positive conns
@@ -179,9 +180,12 @@ s = cached(sim, [p.sim]);
 
 s = augment(s, p);
 
-counts, bins, bars = 
-    
-    plt.hist(s.v[1] / mV, bins=200);
+ax, counts, bins, bars = hist(
+    s.v[1] / mV,
+    bins = 200,
+    xlabel = "Vₘ (mV)",
+    hylabel = "Simulated voltage distribution"
+);
 
 length(bins), length(counts)
 
@@ -197,5 +201,92 @@ bins[end-1:end], counts[end]
 #
 # `v_thr` is -40 mV (and then there's the slow quadratic runaway).
 # This distribution might look different around -40 with a more realistic model, like AdEx (EIF).
+
+# ## Non-uniform bins
+
+# To get non uniform bins, we could simply take the ecdf of the above historgram, and invert uniform probability bins.
+#
+# Problem with non-uniform: comparing pdf's between simulations. Say an AdEx simulation would have other bins.
+#
+# So we'd need to save the bins found here and use them for all future simulations.
+#
+# (..but then these bins might not be good for those simulations! They might have a different base-level voltage (say a higher EI input ratio), or have a different tail weight (like exponential vs quadratic spike runoff, presumably)).
+
+@time vcdf = ecdf(s.v[1]);  # Sorts values. Returns a callable
+
+extrema(vcdf) ./ mV
+
+vcdf(-40mV)
+
+x = range(extrema(vcdf)...; length=100)
+plot(x / mV, vcdf.(x); xlabel="Vₘ (mV)", hylabel="ECDF");
+
+# We need the inverse, i.e. quantiles, not the ECDF.
+
+nqs = nquantile(s.v[1], 100);
+
+plot(nqs / mV, "."; xlabel="Quantile nr.", hylabel="mV");
+
+qbins = collect(zip(nqs[1:end-1], nqs[2:end]));
+@show qbins[1] ./ mV
+@show qbins[50] ./ mV
+@show qbins[100] ./ mV;
+
+# +
+binsize(bin) = only(diff(collect(bin)))
+
+@show binsize(qbins[1]) / mV
+@show binsize(qbins[50]) / mV
+@show binsize(qbins[100]) / mV;
+# -
+
+# With 100 bins, how big are pdfs on disk?
+
+(N_pdfs * 100 * bytes_per_bin) / GB
+
+# Pfoe! still too large :(
+
+# Ok, with aggregating over connection type:
+
+N_pdf_agg_conn = 3 * samples_per_window
+
+N_pdf_agg_conn * 100 * bytes_per_bin / MB
+
+# Ok. That's what we'll do then.
+#
+# We could have 10x (1000) bins, and still have only 20.4 MB.
+
+# What with `N_bins__uniform_fine`? (at 0.003 mV per bin; i.e. so that typical sta range has 1000 bins)
+
+N_bins__uniform_fine
+
+N_pdf_agg_conn * N_bins__uniform_fine * bytes_per_bin / MB
+
+# One gig. eh.
+
+# I'll go for non-uniform; but more than 100 bins.
+# And then we need to save these bins, so we can reuse for other simulations.
+
+# +
+nquantile_bins(x, n) = begin
+    nqs = nquantile(x, n)
+    collect(zip(nqs[1:end-1], nqs[2:end]));
+end
+
+binsize(bin) = only(diff(collect(bin)))
+bin_info(bins, i, unit) = println(
+    rpad("Bin $(i): ", 10), rpad(bins[i], 16), " $(unit). ",
+    "Width: ", binsize(bins[i]), " $(unit)",
+)
+bin_info(bins, unit) = begin
+    N = length(bins)
+    mid = N ÷ 2
+    for i in [1, 2, mid-1, mid, mid+1, N-1, N]
+        bin_info(bins, i, unit)
+    end
+end
+
+bin_info(nquantile_bins(s.v[1] / mV, 1000), "mV")
+# -
 
 
