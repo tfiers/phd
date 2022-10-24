@@ -27,6 +27,8 @@ function perfmeasures(tc::DataFrame)
 end
 
 
+using MyToolbox: DisplayTable
+
 function perftable(tested_connections::DataFrame)
     # Creates a nicely-printing table with performance measures.
     data = perfmeasures(tested_connections)

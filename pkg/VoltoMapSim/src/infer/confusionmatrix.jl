@@ -1,9 +1,10 @@
+using MyToolbox: @NT
 
 struct ConfusionMatrix
-    TP::Int  # (+, predicted +)   correct detections
-    TN::Int  # (-, predicted -)   correct rejections
-    FP::Int  # (-, predicted +)   wrong detections    (missed rejections)  Type I error
-    FN::Int  # (+, predicted -)   missed detections   (wrong rejections)   Type II error
+    TP::Int  # (real +, predicted +)   correct detections
+    TN::Int  # (real -, predicted -)   correct rejections
+    FP::Int  # (real -, predicted +)   wrong detections (missed rejections). Type I error
+    FN::Int  # (real +, predicted -)   missed detections (wrong rejections). Type II error
 end
 
 Base.propertynames(cm::ConfusionMatrix) = keys(metrics(cm))
