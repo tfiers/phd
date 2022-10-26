@@ -67,6 +67,12 @@ function init_sim(p::NetworkSimParams)
     pre_post_pairs = Tuple.(findall(is_connected))
         # Yields (row,col) i.e. neuron ID pairs. Traversed column-major (r1c1, r2c1, …).
 
+    syngroup = Dict(
+        (:exc => :exc) => syns.exc_to_exc,
+        (:exc => :inh) => syns.exc_to_inh,
+        (:inh => :exc) => syns.inh_to_exc,
+        (:inh => :inh) => syns.inh_to_inh,
+    )
     for ((pre, post), synapse) in zip(pre_post_pairs, synapse_IDs)
         push!(output_synapses[pre], synapse)
         push!(input_synapses[post], synapse)
@@ -74,13 +80,8 @@ function init_sim(p::NetworkSimParams)
         push!(output_neurons[pre], post)
         postsyn_neuron[synapse] = post
         presyn_neuron[synapse] = pre
-        syngroup = @match (neuron_type[pre], neuron_type[post]) begin
-            (:exc, :exc) => syns.exc_to_exc
-            (:exc, :inh) => syns.exc_to_inh
-            (:inh, :exc) => syns.inh_to_exc
-            (:inh, :inh) => syns.inh_to_inh
-        end
-        push!(syngroup, synapse)
+        conntype = (neuron_type[pre] => neuron_type[post])
+        push!(syngroup[conntype], synapse)
     end
 
     # Sample synaptic weights

@@ -3,7 +3,7 @@
 # __________
 
 # Default starting parameters for fitting procedure
-const p0 = CVec(
+get_p0() = CVec(
     tx_delay   = 10ms,
     PSP = (
         τ1     = 10ms,
@@ -16,7 +16,7 @@ const p0 = CVec(
     ),
     scale      = 0mV,    # Positive for excitory STAs, negative for inhibitory.
 )
-const pbounds = CVec(
+get_pbounds() = CVec(
     tx_delay   = [0, 60ms],
     PSP = (
         τ1     = [0, 100ms],
@@ -29,10 +29,12 @@ const pbounds = CVec(
     ),
     scale      = [-2mV, 2mV],
 )
+# We make these functions instead of `const`s, so the CVecs needn't be compiled on package
+# load.
 
-const FitParams = typeof(p0)
 toCVec(data, template::Union{CVec, Type{<:CVec}}) = CVec(data, getaxes(template))
-toParamCVec(fitr::LsqFit.LsqFitResult) = toCVec(fitr.param, FitParams)
+
+toParamCVec(fitr::LsqFit.LsqFitResult) = toCVec(fitr.param, get_p0())
 
 
 # Model
@@ -83,7 +85,7 @@ end
 
 centre(STA) = STA .- mean(STA)
 
-function STA_modelling_funcs(ep::ExpParams; p0 = p0, pbounds = pbounds)
+function STA_modelling_funcs(ep::ExpParams; p0 = get_p0(), pbounds = get_pbounds())
     Δt           = ep.sim.general.Δt::Float64
     STA_duration = ep.conntest.STA_window_length
     t = collect(linspace(0, STA_duration, STA_win_size(ep)))

@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "9febef97fc6aab6a702110b4d0379c7bd1d2cad4"
+project_hash = "f9a88ad1d61488055722518bad70f551e143e2f2"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -92,9 +92,9 @@ version = "0.1.4"
 
 [[deps.CodeTracking]]
 deps = ["InteractiveUtils", "UUIDs"]
-git-tree-sha1 = "1833bda4a027f4b2a1c984baddcf755d77266818"
+git-tree-sha1 = "cc4bd91eba9cdbbb4df4746124c22c0832a460d6"
 uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
-version = "1.1.0"
+version = "1.1.1"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -667,7 +667,7 @@ uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
 version = "2022.2.1"
 
 [[deps.MyToolbox]]
-deps = ["BenchmarkTools", "Chain", "ComponentArrays", "DataFrames", "DataStructures", "FilePathsBase", "IJulia", "JLD2", "LaTeXStrings", "Logging", "LoggingExtras", "Markdown", "Match", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "StatsBase"]
+deps = ["BenchmarkTools", "Chain", "ComponentArrays", "DataFrames", "DataStructures", "FilePathsBase", "IJulia", "JLD2", "LaTeXStrings", "Logging", "LoggingExtras", "Markdown", "Match", "Parameters", "PartialFunctions", "Pkg", "PrettyTables", "Printf", "Profile", "ProfileView", "ProgressMeter", "PyFormattedStrings", "PyPlot", "Random", "Reexport", "Requires", "Setfield", "SnoopPrecompile", "StatsBase"]
 path = "pkg/MyToolbox"
 uuid = "54cd1024-cafd-4d62-948d-ced4874502bf"
 version = "0.1.0"
@@ -874,7 +874,7 @@ uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
 [[deps.Sciplotlib]]
-deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Reexport", "Unitful"]
+deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Reexport", "Requires", "Unitful"]
 path = "pkg/Sciplotlib"
 uuid = "61be95e5-9550-4d5f-a203-92a5acbc3116"
 version = "0.1.0"
