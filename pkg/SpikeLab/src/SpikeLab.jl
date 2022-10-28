@@ -5,6 +5,8 @@ using Distributions
 # Don't `@reexport`: this macro somehow also exports our own `LogNormal` (see below),
 # creating a conflict.
 
+include("spikefeed.jl")
+
 include("poisson.jl")
 export poisson_spikes
 
