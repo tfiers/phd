@@ -12,7 +12,7 @@ nano  = 1e-9
 pico  = 1e-12
 export mega, kilo, milli, centi, micro, nano, pico
 
-second = 1
+second = 1.0
 Hz = 1 / second
 ms = milli * second
 minute = 60 * second
@@ -24,23 +24,23 @@ minutes = minute
 hours = hour
 export seconds, minutes, hours
 # Plural makes more sense in e.g. `10minutes`.
-# Singular makes more sense in `f(x, unit = second)`.
+# Singular makes more sense in `f(x, unit = second)` or `x = 80 * second`.
 
-metre = meter = 1
+metre = meter = 1.0
 cm = centi * metre
 mm = milli * metre
 μm = um = micro * metre
 nm = nano * metre
 export metre, meter, cm, mm, μm, um, nm
 
-ampere = 1
+ampere = 1.0
 mA = milli * ampere
 uA = μA = micro * ampere
 nA = nano * ampere
 pA = pico * ampere
 export ampere, mA, μA, uA, nA, pA
 
-volt = 1
+volt = 1.0
 mV = milli * volt
 uV = μV = micro * volt
 nV = nano * volt
