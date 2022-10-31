@@ -20,6 +20,9 @@ export to_timesteps
 include("eqparse.jl")
 export @eqs
 
+include("model.jl")
+export Model
+
 include("latex.jl")
 export show_eqs
 

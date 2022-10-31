@@ -5,7 +5,7 @@ using PartialFunctions
 using Chain
 
 
-function show_eqs(m::Model; lhsfrac = true)
+function show_eqs(m::ParsedDiffeqs; lhsfrac = true)
     eqs = map(prep_for_align $ (; lhsfrac), m.original_eqs)
     lines = ["\\begin{align}" eqs... "\\end{align}"]
     LaTeXString(join(lines, " \n"))

@@ -1,5 +1,4 @@
 
-using Base: @kwdef
 using StructArrays
 using MacroTools: striplines, unblock
 using Base.Iterators: flatten
@@ -8,25 +7,22 @@ using Test  # We use @test instead of @assert as it gives a more useful error me
 using UnPack
 
 
-@kwdef struct Var_
+struct Var
     name       ::Symbol
     has_diffeq ::Bool
 end
-Var = Var_
-# ^ For Revise'ing structs: https://timholy.github.io/Revise.jl/stable/limitations/
 
-struct Model_
+struct ParsedDiffeqs
     original_eqs   ::Vector{Expr}
     generated_func ::Expr
-    f              ::Function
+    f!             ::Function
     rhss           ::Vector{Expr}
     vars           ::StructVector{Var}
     params         ::Vector{Symbol}
 end
-Model = Model_
 
 Base.show(io::IO, x::Var) = print(io, x.name)
-Base.show(io::IO, m::Model) = begin
+Base.show(io::IO, m::ParsedDiffeqs) = begin
     println(io, typeof(m))
     println(io, " with variables {", join(m.vars, ", "), "}")
     println(io, " and parameters {", join(m.params, ", "), "}")
@@ -38,11 +34,11 @@ macro eqs(ex)
     try
         out = process_eqs!(ex)
     catch e
-        throw(ArgumentError("Could not parse the given model."))
+        throw(ArgumentError("Could not parse the given equations."))
     end
     f, original_eqs, rhss, vars, params = out
     qg = Expr(:quote, striplines(f))  # Trick to return an expression from a macro
-    return :( Model($original_eqs, $qg, $f, $rhss, $vars, $params) )
+    return :( ParsedDiffeqs($original_eqs, $qg, $f, $rhss, $vars, $params) )
 end
 
 function process_eqs!(block::Expr)
