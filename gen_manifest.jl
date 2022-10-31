@@ -1,6 +1,6 @@
-# This script contains steps necessary to install the project when not using the
-# `Manifest.toml` commited to the repository (see ReadMe).
-# (These are steps that cannot be recorded in `Project.toml`).
+# The below actions are necessary to install the project when not using the `Manifest.toml`
+# committed to the repository (see ReadMe).
+# (The below actions cannot be recorded in `Project.toml`).
 
 using Pkg
 
