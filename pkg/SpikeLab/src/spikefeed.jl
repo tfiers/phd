@@ -41,11 +41,11 @@ end
 num_processed(sf::SpikeFeed) = sf.next[] - 1
 num_total(sf::SpikeFeed) = length(sf.spikes)
 
-Base.show(io::IO, ::MIME"text/plain", sf::SpikeFeed) = begin
+Base.show(io::IO, sf::SpikeFeed) = begin
     print(io, SpikeFeed, " [", num_processed(sf), "/", num_total(sf), "] ")
     if is_exhausted(sf)
-        println(io, "(exhausted)")
+        print(io, "(exhausted)")
     else
-        println(io, "(next: ", time_of_next(sf), ")")
+        print(io, "(next: ", time_of_next(sf), ")")
     end
 end

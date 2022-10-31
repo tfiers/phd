@@ -22,35 +22,12 @@
 #
 # -
 
-using MyToolbox
+Revise.retry()
 
-@time @time_imports using VoltoMapSim;  # after precompile & w/o touching src files
-
-@time @time_imports using VoltoMapSim;  # with precompile on
-
-
-
-@time @time_imports using VoltoMapSim;  # no showprogress, match
-
-@time @time_imports using VoltoMapSim;  # no showprogress, match
-
-@time @time_imports using VoltoMapSim;  # after vtms cleanup
-
-
-
-
-
-using ProfileView, SnoopCompile
-
-tinf = @snoopi_deep (using VoltoMapSim);
-
-ProfileView.view(flamegraph(tinf), windowname="snoopcompile");
-
-
-
-
-
-
+@time using MyToolbox
+@time using Sciplotlib
+@time using SpikeLab
+@time using VoltoMapSim
 
 # ## Differential equations
 
@@ -67,26 +44,31 @@ end
 
 # ## Parameters
 
-params = (
+# +
+params = @NT begin
     # Cortical regular spiking (same as always)
-    C  =  100    * pF,
-    k  =    0.7  * (nS/mV),
-    vₗ = - 60    * mV,
-    vₜ = - 40    * mV,
-    a  =    0.03 / ms,
-    b  = -  2    * nS,
+    C  =  100    * pF
+    k  =    0.7  * (nS/mV)
+    vₗ = - 60    * mV
+    vₜ = - 40    * mV
+    a  =    0.03 / ms
+    b  = -  2    * nS
     # Not in model eqs above (yet)
-    vₛ =   35    * mV,  # spike
-    vᵣ = - 50    * mV,  # reset
-    Δu =  100    * pA,
+    vₛ =   35    * mV  # spike
+    vᵣ = - 50    * mV  # reset
+    Δu =  100    * pA
 
     # Synapses
-    Eₑ =   0 * mV,
-    Eᵢ = -80 * mV,  # Higher than Nto1 (was -65); same as nets.
-    τ  =   7 * ms,
-);
-
-# ## Init buffers
+    Eₑ =   0 * mV
+    Eᵢ = -80 * mV  # Larger than Nto1 (was -65); same as nets.
+    τ  =   7 * ms
+    
+    # Inputs
+    Nₑ = 40
+    Nᵢ = 10
+    Δgₑ = 60nS / Nₑ
+    Δgᵢ = 60nS / Nᵢ
+end
 
 init = (
     v  = params.vᵣ,
@@ -95,18 +77,84 @@ init = (
     gᵢ = 0 * nS,
     I_syn = 0 * nA,
 )
-vars = CVec{Float64}(init)
-diff = similar(vars)
-diff .= 0
 
-init.gᵢ += w
+Δt       = 0.1ms
+duration = 10second;
+# -
 
-showsome(poisson_spikes(4Hz, 10minutes))
+# ## Spiking
+#
+# Ugly verbose for now, not nicely parsed as the diffeqs above yet.
 
-izh.generated_func
+has_spiked(vars, params) = begin
+    @unpack v = vars
+    @unpack vₛ = params
+
+    return (v ≥ vₛ)
+end;
+
+on_self_spike!(vars, params) = begin
+    @unpack vᵣ, Δu = params
+    
+    vars.v = vᵣ
+    vars.u += Δu
+end;
+
+# ## Poisson inputs
+
+fr_distr = SpikeLab.LogNormal(median = 4Hz, g = 2)
+# 66% in [2Hz, 8Hz]
+# 95% in [1Hz, 16Hz]
 
 # +
-# izh.f(diff, vars, params)
+on_spike_arrival_exc!(vars, params) = begin
+    @unpack Δgₑ = params
+    
+    vars.gₑ += Δgₑ
+end
+
+on_spike_arrival_inh!(vars, params) = begin
+    @unpack Δgᵢ = params
+    
+    vars.gᵢ += Δgᵢ
+end;
 # -
+
+inputs = CVec(
+    exc = [PoissonInput(rand(fr_distr), duration, on_spike_arrival_exc!) for _ in 1:params.Nₑ],
+    inh = [PoissonInput(rand(fr_distr), duration, on_spike_arrival_inh!) for _ in 1:params.Nᵢ],
+);
+
+inputs[1]
+
+m = Model(izh, has_spiked, on_self_spike!, inputs);
+
+sim!(m, init, params; duration, Δt)
+
+
+
+
+
+t = linspace(0, duration, Nt)
+plotsig(t, v_rec / mV);
+
+# +
+aggregate_spikes(inputs::AbstractVector{PoissonInput}) = begin
+    spikes = reduce(vcat, pi.sq.spikes for pi in inputs)
+    return sort!(spikes)
+    # mergesort might be faster than default of quicksort
+    # .. but then specifying that no sub-sort recursion needed...
+    # https://github.com/vvjn/MergeSorted.jl
+    # via https://stackoverflow.com/a/48772313/2611913
+    # "5x faster than sort!(), and 2x faster and less memory than sort!(alg=MergeSort)"
+    # even better, i do self :))
+    #  > alloc array with len (sum(lengths))
+    #  > fill one by one, each time lookin through each of the inputs (an index pointer for each -- ooh can use SpikeFeed :))
+end
+
+aggregate_spikes(inputs);
+# -
+
+izh.generated_func
 
 

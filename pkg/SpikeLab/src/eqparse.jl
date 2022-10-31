@@ -1,4 +1,5 @@
 
+using Base: @kwdef
 using StructArrays
 using MacroTools: striplines, unblock
 using Base.Iterators: flatten
@@ -7,7 +8,8 @@ using Test  # We use @test instead of @assert as it gives a more useful error me
 using UnPack
 
 
-struct Var
+# `kwdef`: for more readable constructor calls (see below).
+@kwdef struct Var
     name       ::Symbol
     has_diffeq ::Bool
 end
@@ -34,7 +36,9 @@ macro eqs(ex)
     try
         out = process_eqs!(ex)
     catch e
-        throw(ArgumentError("Could not parse the given equations."))
+        throw(e)
+        # throw(ArgumentError("Could not parse the given equations."))
+        # Seems like a `throw(custom_err)` does _not_ preseve error stack?
     end
     f, original_eqs, rhss, vars, params = out
     qg = Expr(:quote, striplines(f))  # Trick to return an expression from a macro

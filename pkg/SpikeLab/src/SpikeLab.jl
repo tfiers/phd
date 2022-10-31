@@ -21,7 +21,7 @@ include("eqparse.jl")
 export @eqs
 
 include("model.jl")
-export Model
+export Model, PoissonInput, sim!
 
 include("latex.jl")
 export show_eqs
