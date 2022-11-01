@@ -105,18 +105,18 @@ end
 Inner loop body of the simulation. Update the state `s` by integrating differential
 equations, handling incoming and self-generated spikes, and recording signals.
 """
-function step!(s::SimState, m::Model)
+function step!(s::SimState, eval_diffeqs!, has_spiked, on_self_spike!, inputs)
     i = (s.i[] += 1)                    # Increase step counter
     (; Δt, x, ẋ, p, v_rec, spikes) = s  # Unpack state variables, for readability
-    m.eval_diffeqs!(ẋ, kw(s))           # Calculate differentials
+    eval_diffeqs!(ẋ, kw(s))             # Calculate differentials
     x .+= ẋ .* Δt                       # Euler integration
     (; t, v) = x
     v_rec[i] = v                        # Record membrane voltage..
-    if m.has_spiked(kw(s))
+    if has_spiked(kw(s))
         push!(spikes, t)                # ..and self-spikes.
-        m.on_self_spike!(x, kw(s))      # Apply spike discontinuity
+        on_self_spike!(x, kw(s))        # Apply spike discontinuity
     end
-    for spiker in m.inputs
+    for spiker in inputs
         N = count_new_spikes!(spiker, t)
         for _ in 1:N
             spiker.f!(x, kw(s))         # Apply the on-spike-arrival function
@@ -124,6 +124,9 @@ function step!(s::SimState, m::Model)
     end
     return s                            # (By convention for mutating functions)
 end
+
+step!(s::SimState, m::Model) = step!(s, m.eval_diffeqs!, m.has_spiked,
+                                        m.on_self_spike!, m.inputs)
 
 """
     sim(m::Model, x₀, p, T, Δt)
