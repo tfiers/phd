@@ -5,6 +5,7 @@ using Distributions
 # creating a conflict.
 using ComponentArrays: CVector  # alias for ComponentVector
 
+include("units.jl")
 
 include("spikefeed.jl")
 
