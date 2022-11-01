@@ -125,18 +125,6 @@ inputs = CVec(
     inh = [PoissonInput(rand(fr_distr), duration, on_spike_arrival_inh!) for _ in 1:params.Nᵢ],
 );
 
-]st -m --outdated
-
-
-
-] st CodeTracking
-
-
-
-]resolve
-
-Revise.retry()
-
 using SpikeLab: SpikingInput, SpikeFeed
 
 inputs[1]

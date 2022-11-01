@@ -3,7 +3,7 @@
     SpikingInput(s, f!)
 
 - `s`:  Vector of spiketimes.
-- `f!`: Function of `(vars, params)`, called when a spike of `s` arrives at the target
+- `f!`: Function of `(vars; params...)`, called when a spike of `s` arrives at the target
         neuron.
 """
 struct SpikingInput_
@@ -38,24 +38,24 @@ function sim(m::Model, init, params; duration, Δt)
     vars = CVector{Float64}(; init..., t)
     diff = similar(vars)  # = ∂x/∂t for every x in `vars`
     diff .= 0
-    diff.t = 1second/second
+    diff.t = 1  # dt/dt = 1 second/second
     # Where to record to
     v_rec = Vector{Float64}(undef, N)
     spikes = Float64[]
     # The core, the simulation loop
     for i in 1:N
-        m.eval_diffeqs!(diff, vars, params)
+        m.eval_diffeqs!(diff; vars..., params...)
         vars .+= diff .* Δt  # Euler integration
         @unpack t, v = vars
         v_rec[i] = v
-        if m.has_spiked(vars, params)
+        if m.has_spiked(; vars..., params...)
             push!(spikes, t)
-            m.on_self_spike!(vars, params)
+            m.on_self_spike!(vars; params...)
         end
         for input in m.inputs  # ..of this neuron
             n = count_new_spikes!(input, t)
             for _ in 1:n
-                input.f!(vars, params)
+                input.f!(vars; params...)
             end
         end
     end
