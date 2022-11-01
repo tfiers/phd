@@ -1,31 +1,25 @@
-using SpikeLab: @eqs, PoissonInput, Model, sim
-using SpikeLab: SpikingInput, SpikeFeed, CVector
+using SpikeLab
+using SpikeLab: SpikingInput, SpikeFeed, CVector, SimState
 using SpikeLab.Units
 
-izh_generated = @eqs begin
-
-    dv/dt = (k*(v-vₗ)*(v-vₜ) - u - I_syn) / C
-    du/dt = a*(b*(v-vᵣ) - u)
-
+izh!(D, (;v, u, gₑ, gᵢ, C, Eᵢ, Eₑ, a, b, k, vᵣ, vₗ, vₜ, τ)) = begin
+    # Conductance-based synaptic current
     I_syn = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
-
-    dgₑ/dt = -gₑ / τ  # Represents sum over all exc synapses
-    dgᵢ/dt = -gᵢ / τ
-end
-
-function izh!(D; v, u, gₑ, gᵢ, C, Eᵢ, Eₑ, a, b, k, vᵣ, vₗ, vₜ, τ)
-
-    I_syn = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
-
+    # Izhikevich 2D system: v and adaptation
     D.v = (k*(v-vₗ)*(v-vₜ) - u - I_syn) / C
     D.u = a*(b*(v-vᵣ) - u)
-
+    # Synaptic conductance decay
+    # (gₑ is sum over all exc synapses)
     D.gₑ = -gₑ / τ
     D.gᵢ = -gᵢ / τ
 end
-
+has_spiked((;v, vₛ)) = (v ≥ vₛ)
+on_self_spike!(vars, (;vᵣ, Δu)) = begin
+    vars.v = vᵣ
+    vars.u += Δu
+end
 # Params
-Nₑ = 40
+Nₑ = 40  # Number of excitatory Poisson inputs.
 Nᵢ = 10
 params = (
     C  =  100    * pF,
@@ -54,22 +48,18 @@ init = (
 )
 Δt = 0.1ms
 T  = 10seconds
-
-has_spiked(; v, vₛ) = (v ≥ vₛ)
-on_self_spike!(vars; vᵣ, Δu) = begin
-    vars.v = vᵣ
-    vars.u += Δu
-end
+# Poisson inputs firing rate: distribution Λ and samples λ.
 Λ = SpikeLab.LogNormal(median = 4Hz, g = 2)
 λ = CVector{Float64}(exc = 1:Nₑ, inh = 1:Nᵢ)
 λ .= rand(Λ, length(λ))
-# on-spike-arrival functions:
-fₑ!(vars; Δgₑ) = (vars.gₑ += Δgₑ)
-fᵢ!(vars; Δgᵢ) = (vars.gᵢ += Δgᵢ)
-inputs = similar(λ, PoissonInput)
-inputs.exc .= PoissonInput.(λ.exc, T, fₑ!)
-inputs.inh .= PoissonInput.(λ.inh, T, fᵢ!)
+# On-spike-arrival functions:
+fₑ!(vars, (;Δgₑ)) = (vars.gₑ += Δgₑ)
+fᵢ!(vars, (;Δgᵢ)) = (vars.gᵢ += Δgᵢ)
+inputs = similar(λ, SpikingInput)
+inputs.exc .= poisson_input.(λ.exc, T, fₑ!)
+inputs.inh .= poisson_input.(λ.inh, T, fᵢ!)
 
 m = Model(izh!, has_spiked, on_self_spike!, inputs)
-
-sim(m, init, par T, Δt)
+# s = sim(m, init, params, T, Δt)
+s = init_sim(init, params, T, Δt)
+s = step!(s, m)
