@@ -33,5 +33,10 @@ end
 # ² If the provided probability here is smaller than ~1E15, we get an error (`Inf`):
 #   https://github.com/JuliaStats/Rmath-julia/blob/master/src/qpois.c#L86
 
+"""
+    poisson_input(r, T, f!)
 
-PoissonInput(rate, duration, f!) = SpikingInput(poisson_spikes(rate, duration), f!)
+Create a new [`SpikingInput`](@ref) with a spiketrain of [`poisson_spikes(r, T)`](@ref),
+and an on-spike-arrival callback `f!`.
+"""
+poisson_input(r, T, f!) = SpikingInput(poisson_spikes(r, T), f!)

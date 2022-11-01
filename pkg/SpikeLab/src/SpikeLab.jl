@@ -23,7 +23,7 @@ include("sim.jl")
 export Model, sim
 
 include("poisson.jl")
-export poisson_spikes, PoissonInput
+export poisson_spikes, poisson_input
 
 include("latex.jl")
 export show_eqs
