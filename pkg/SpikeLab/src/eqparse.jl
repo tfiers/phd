@@ -61,11 +61,15 @@ function process_eqs!(block::Expr)
     end
     lines = collect(flatten(zip(line_nrs, assignments)))
     # Unpack variables and parameterss at the top of the function
-    insert!(lines, 1, :( (;$(vars.name...),) = vars ))
-    insert!(lines, 2, :( (;$(params...),)    = params ))
+    insert!(lines, 1, :( (; $(vars.name...),) = vars ))
+    insert!(lines, 2, :( (; $(params...),)    = params ))
+    # ----NOTE this is broken atm:
+    #     1. no anonymous funcs please (at least not without `let`)
+    #     2. changing `@unpack` to `(; ,)` broke sth
+    #     3. model funcs need diff signature now.
     # Make an anonymous function
-    f = :( (diff, vars, params) -> $(lines...) )
-    return f, eqs, rhss, vars, params
+    f! = :( (diff, vars, params) -> $(lines...) )
+    return f!, eqs, rhss, vars, params
 end
 
 function get_names(eqs::Vector{Expr})
