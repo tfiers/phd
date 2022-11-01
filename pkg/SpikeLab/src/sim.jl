@@ -20,11 +20,11 @@ Base.show(io::IO, si::SpikingInput) = begin
 end
 
 
-struct Nto1Model
+struct Nto1Model{T<:AbstractVector{<:SpikingInput}}
     eval_diffeqs!  ::Function
     has_spiked     ::Function
     on_self_spike! ::Function
-    inputs         ::AbstractVector{SpikingInput}
+    inputs         ::T
 end
 Nto1Model(pd::ParsedDiffeqs, args...) = Nto1Model(pd.f!, args...)
 Nto1Model = Nto1Model
@@ -54,7 +54,7 @@ Container for the data needed in the inner simulation loop ([`step!`](@ref)):
 Typically constructed via [`init_sim`](@ref).
 """
 struct SimState{T, V<:AbstractVector{T}, P}
-    i      ::Ref{Int}
+    i      ::RefValue{Int}
     N      ::Int
     Δt     ::T
     x      ::V

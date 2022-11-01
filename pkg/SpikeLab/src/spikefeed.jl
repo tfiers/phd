@@ -10,7 +10,7 @@ See [Usage](@ref).
 """
 struct SpikeFeed
     spikes  ::Vector{Float64}  # Spike times, assumed sorted
-    next    ::Ref{Int}         # Index of next unseen spike
+    next    ::RefValue{Int}    # Index of next unseen spike
 end
 SpikeFeed(spikes) = SpikeFeed(spikes, Ref(1))
 
