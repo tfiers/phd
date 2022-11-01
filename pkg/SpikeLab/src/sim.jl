@@ -6,12 +6,12 @@
 - `f!`: Function of `(vars; params...)`, called when a spike of `s` arrives at the target
         neuron.
 """
-struct SpikingInput_
+struct SpikingInput
     sf::SpikeFeed
     f!::Function
 end
-SpikingInput_(spikes::Vector{Float64}, f!) = SpikingInput_(SpikeFeed(spikes), f!)
-SpikingInput = SpikingInput_
+SpikingInput(spikes::AbstractVector, f!) = SpikingInput(SpikeFeed(spikes), f!)
+SpikingInput = SpikingInput
 
 count_new_spikes!(i::SpikingInput, t) = advance_to!(i.sf, t)
 Base.length(::SpikingInput) = 1  # To work as part of a ComponentArray.
@@ -20,46 +20,123 @@ Base.show(io::IO, si::SpikingInput) = begin
 end
 
 
-struct Model_
+struct Nto1Model
     eval_diffeqs!  ::Function
     has_spiked     ::Function
     on_self_spike! ::Function
     inputs         ::AbstractVector{SpikingInput}
 end
-Model_(pd::ParsedDiffeqs, args...) = Model_(pd.f!, args...)
-Model = Model_
+Nto1Model(pd::ParsedDiffeqs, args...) = Nto1Model(pd.f!, args...)
+Nto1Model = Nto1Model
+
+Base.show(io::IO, m::Nto1Model) = begin
+    print(io, Nto1Model, " with functions (")
+    print(io, m.eval_diffeqs!, ", ")
+    print(io, m.has_spiked, ", ")
+    print(io, m.on_self_spike!, ") and ")
+    print(io, length(m.inputs), " ", eltype(m.inputs), "s")
+end
+# "Nto1Model with functions (izh!, has_spiked, on_self_spike!) and 33 SpikingInputs"
+
+const Model = Nto1Model  # mjeh.
 
 
-function sim(m::Model, init, params; duration, Δt)
-    N = to_timesteps(duration, Δt)
-    # User can provide non-zero start time; but by default t = 0s.
-    t = get(init, :t, zero(duration))
+"""
+    SimState
+
+Container for the data needed in the inner simulation loop ([`step!`](@ref)):
+- Buffers overwritten each time step: the simulated variables `x`, and their time
+  derivatives `ẋ`.
+- The current and total number of simulation steps: `i` and `N`.
+- Containers to record simulated signals (`spikes`, `v_rec`).
+- User-supplied fixed parameters `p` and the integration timestep `Δt`.
+
+Typically constructed via [`init_sim`](@ref).
+"""
+struct SimState{T, V<:AbstractVector{T}, P}
+    i      ::Ref{Int}
+    N      ::Int
+    Δt     ::T
+    x      ::V
+    ẋ      ::V
+    p      ::P           # Can't have `P <: AbstractVector{T}`: not true for `NamedTuple`.
+    v_rec  ::Vector{T}
+    spikes ::Vector{T}
+end
+kw(s::SimState) = (; s.x..., s.p...)
+
+step_str(s::SimState) = begin
+    i = s.i[]
+    N = s.N
+    if     (i <  N)  "$i/$N"
+    elseif (i == N)  "$i (complete)" end
+end
+Base.show(io::IO, s::SimState) =
+    print(io, SimState, " [step ", step_str(s), ", ", length(s.spikes), " spikes]")
+
+
+"""
+    init_sim(x₀, p, T, Δt)
+
+Initialize a [`SimState`](@ref) object using initial values for the simulated variables
+`x₀`, parameters `p`, simulation length `T`, and integration timestep `Δt`.
+"""
+function init_sim(x₀, p, T, Δt)
+    i = Ref(0)
+    N = to_timesteps(T, Δt)
+    # User can provide non-zero start time; but by default t₀ = 0s.
+    t = get(x₀, :t, zero(T))
     # Initialize buffers:
-    vars = CVector{Float64}(; init..., t)
-    diff = similar(vars)  # = ∂x/∂t for every x in `vars`
-    diff .= 0
-    diff.t = 1  # dt/dt = 1 second/second
+    x = CVector{Float64}(; x₀..., t)
+    # ↪ `ComponentArray(…)` cannot be type inferred!
+    #    Hence, function boundary between this init and `step!`.
+    ẋ = similar(x)  # = ∂xᵢ/∂t for every x in `x`
+    ẋ .= 0
+    ẋ.t = 1  # dt/dt = 1second/second
     # Where to record to
     v_rec = Vector{Float64}(undef, N)
-    spikes = Float64[]
-    # The core, the simulation loop
-    for i in 1:N
-        m.eval_diffeqs!(diff; vars..., params...)
-        vars .+= diff .* Δt  # Euler integration
-        @unpack t, v = vars
-        v_rec[i] = v
-        if m.has_spiked(; vars..., params...)
-            push!(spikes, t)
-            m.on_self_spike!(vars; params...)
-        end
-        for input in m.inputs  # ..of this neuron
-            n = count_new_spikes!(input, t)
-            for _ in 1:n
-                input.f!(vars; params...)
-            end
+    spikes = Vector{Float64}()
+    return SimState(i, N, Δt, x, ẋ, p, v_rec, spikes)
+end
+
+"""
+    step!(s::SimState, m::Model)
+
+Inner loop body of the simulation. Update the state `s` by integrating differential
+equations, handling incoming and self-generated spikes, and recording signals.
+"""
+function step!(s::SimState, m::Model)
+    i = (s.i[] += 1)                    # Increase step counter
+    (; Δt, x, ẋ, p, v_rec, spikes) = s  # Unpack state variables, for readability
+    m.eval_diffeqs!(ẋ, kw(s))           # Calculate differentials
+    x .+= ẋ .* Δt                       # Euler integration
+    (; t, v) = x
+    v_rec[i] = v                        # Record membrane voltage..
+    if m.has_spiked(kw(s))
+        push!(spikes, t)                # ..and self-spikes.
+        m.on_self_spike!(x, kw(s))      # Apply spike discontinuity
+    end
+    for spiker in m.inputs
+        N = count_new_spikes!(spiker, t)
+        for _ in 1:N
+            spiker.f!(x, kw(s))         # Apply the on-spike-arrival function
         end
     end
-    return v_rec, spikes
+    return s                            # (By convention for mutating functions)
 end
-# Note we're not passing `diff` to the new m. and input. funcs;
-# but a model may want that.
+
+"""
+    sim(m::Model, x₀, p, T, Δt)
+
+Initialize the simulation state with [`init_sim(x₀, p, T, Δt)`](@ref), and [`step!`](@ref)
+through it using the given `Model` equations `m`, until time `T` is reached. Return the
+final state, which includes the recorded signals.
+"""
+function sim(m::Model, x₀, p, T, Δt)
+    s = init_sim(x₀, p, T, Δt)
+    num_steps = s.N
+    for _ in 1:num_steps
+        step!(s, m)
+    end
+    return s
+end
