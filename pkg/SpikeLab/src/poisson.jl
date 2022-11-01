@@ -32,3 +32,6 @@ end
 #   expected N is 60000, and at P(N > max_N) = 1E-14, max_N is 61855.
 # ² If the provided probability here is smaller than ~1E15, we get an error (`Inf`):
 #   https://github.com/JuliaStats/Rmath-julia/blob/master/src/qpois.c#L86
+
+
+PoissonInput(rate, duration, f!) = SpikingInput(poisson_spikes(rate, duration), f!)

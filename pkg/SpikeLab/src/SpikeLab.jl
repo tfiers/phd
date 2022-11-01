@@ -1,14 +1,12 @@
 module SpikeLab
 
-using Reexport
 using Distributions
 # Don't `@reexport`: this macro somehow also exports our own `LogNormal` (see below),
 # creating a conflict.
+using ComponentArrays: CVector  # alias for ComponentVector
+
 
 include("spikefeed.jl")
-
-include("poisson.jl")
-export poisson_spikes
 
 include("distributions.jl")
 # Don't export LogNormal, to not conflict with Distributions.jl
@@ -21,7 +19,10 @@ include("eqparse.jl")
 export @eqs
 
 include("model.jl")
-export Model, PoissonInput, sim!
+export Model, sim!
+
+include("poisson.jl")
+export poisson_spikes, PoissonInput
 
 include("latex.jl")
 export show_eqs
