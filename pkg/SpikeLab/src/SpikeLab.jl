@@ -18,8 +18,8 @@ export to_timesteps
 include("eqparse.jl")
 export @eqs
 
-include("model.jl")
-export Model, sim!
+include("sim.jl")
+export Model, sim
 
 include("poisson.jl")
 export poisson_spikes, PoissonInput

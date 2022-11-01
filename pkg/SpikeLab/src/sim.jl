@@ -30,7 +30,7 @@ Model_(pd::ParsedDiffeqs, args...) = Model_(pd.f!, args...)
 Model = Model_
 
 
-function sim!(m::Model, init, params; duration, Δt)
+function sim(m::Model, init, params; duration, Δt)
     N = to_timesteps(duration, Δt)
     # User can provide non-zero start time; but by default t = 0s.
     t = get(init, :t, zero(duration))
