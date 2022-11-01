@@ -5,7 +5,6 @@ using MacroTools: striplines, unblock
 using Base.Iterators: flatten
 using DataStructures: SortedSet
 using Test  # We use @test instead of @assert as it gives a more useful error message
-using UnPack
 
 
 # `kwdef`: for more readable constructor calls (see below).
@@ -62,8 +61,8 @@ function process_eqs!(block::Expr)
     end
     lines = collect(flatten(zip(line_nrs, assignments)))
     # Unpack variables and parameterss at the top of the function
-    insert!(lines, 1, :( @unpack ($(vars.name...),) = vars ))
-    insert!(lines, 2, :( @unpack ($(params...),)    = params ))
+    insert!(lines, 1, :( (;$(vars.name...),) = vars ))
+    insert!(lines, 2, :( (;$(params...),)    = params ))
     # Make an anonymous function
     f = :( (diff, vars, params) -> $(lines...) )
     return f, eqs, rhss, vars, params
