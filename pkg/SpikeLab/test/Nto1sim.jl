@@ -1,65 +1,78 @@
 using SpikeLab
-using SpikeLab: SpikingInput, SpikeFeed, CVector, SimState
+using SpikeLab: SpikingInput, SpikeFeed, CVector, SimState, LogNormal
 using SpikeLab.Units
 
-izh!(D, (;v, u, gₑ, gᵢ, C, Eᵢ, Eₑ, a, b, k, vᵣ, vₗ, vₜ, τ)) = begin
+# Parameters
+# ‾‾‾‾‾‾‾‾‾‾
+# Izhikevich neuron
+const C  =  100    * pF
+const k  =    0.7  * (nS/mV)
+const vₗ = - 60    * mV
+const vₜ = - 40    * mV
+const a  =    0.03 / ms
+const b  = -  2    * nS
+const vₛ =   35    * mV
+const vᵣ = - 50    * mV
+const Δu =  100    * pA
+# Synapses
+const Eₑ =   0 * mV
+const Eᵢ = -80 * mV
+const τ  =   7 * ms
+# Inputs
+const Nₑ = 40
+const Nᵢ = 10
+const N = Nₑ + Nᵢ
+const Δgₑ = 60nS / Nₑ
+const Δgᵢ = 60nS / Nᵢ
+# Integration
+const Δt = 0.1ms
+const T  = 10seconds
+
+
+# Variables and their initial values
+# ‾‾‾‾‾‾‾‾‾
+const v     = [vᵣ]
+const u     = [0 * pA]
+const gₑ    = [0 * nS]
+const gᵢ    = [0 * nS]
+const I_syn = [0 * nA]
+# Differential
+const vars = CVector(; v, u, gₑ, gᵢ)
+const Δ = zero(vars ./ Δt)
+
+izh() = @. begin
     # Conductance-based synaptic current
     I_syn = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
     # Izhikevich 2D system: v and adaptation
-    D.v = (k*(v-vₗ)*(v-vₜ) - u - I_syn) / C
-    D.u = a*(b*(v-vᵣ) - u)
+    Δ.v = (k*(v-vₗ)*(v-vₜ) - u - I_syn) / C
+    Δ.u = a*(b*(v-vᵣ) - u)
     # Synaptic conductance decay
     # (gₑ is sum over all exc synapses)
-    D.gₑ = -gₑ / τ
-    D.gᵢ = -gᵢ / τ
+    Δ.gₑ = -gₑ / τ
+    Δ.gᵢ = -gᵢ / τ
 end
-has_spiked((;v, vₛ)) = (v ≥ vₛ)
-on_self_spike!(vars, (;vᵣ, Δu)) = begin
-    vars.v = vᵣ
-    vars.u += Δu
+has_spiked() = @. (v ≥ vₛ)
+on_self_spike() = @. begin
+    v = vᵣ
+    u += Δu
 end
-# Params
-Nₑ = 40  # Number of excitatory Poisson inputs.
-Nᵢ = 10
-params = (
-    C  =  100    * pF,
-    k  =    0.7  * (nS/mV),
-    vₗ = - 60    * mV,
-    vₜ = - 40    * mV,
-    a  =    0.03 / ms,
-    b  = -  2    * nS,
-    vₛ =   35    * mV,
-    vᵣ = - 50    * mV,
-    Δu =  100    * pA,
-    # Synapses,
-    Eₑ =   0 * mV,
-    Eᵢ = -80 * mV,
-    τ  =   7 * ms,
-    # Inputs,
-    Δgₑ = 60nS / Nₑ,
-    Δgᵢ = 60nS / Nᵢ,
-)
-init = (
-    v  = params.vᵣ,
-    u  = 0 * pA,
-    gₑ = 0 * nS,
-    gᵢ = 0 * nS,
-    I_syn = 0 * nA,
-)
-Δt = 0.1ms
-T  = 10seconds
-# Poisson inputs firing rate: distribution Λ and samples λ.
-Λ = SpikeLab.LogNormal(median = 4Hz, g = 2)
-λ = CVector{Float64}(exc = 1:Nₑ, inh = 1:Nᵢ)
-λ .= rand(Λ, length(λ))
-# On-spike-arrival functions:
-fₑ!(vars, (;Δgₑ)) = (vars.gₑ += Δgₑ)
-fᵢ!(vars, (;Δgᵢ)) = (vars.gᵢ += Δgᵢ)
-inputs = similar(λ, SpikingInput)
-inputs.exc .= poisson_input.(λ.exc, T, fₑ!)
-inputs.inh .= poisson_input.(λ.inh, T, fᵢ!)
 
-m = Model(izh!, has_spiked, on_self_spike!, inputs)
+neuron_type(i) = if (i ≤ Nₑ)  :exc
+                 else         :inh
+                 end
+on_spike_arrival(from) =
+    if (neuron_type(from) == :exc)  gₑ .+= Δg
+    else                            gᵢ .+= Δg
+    end
+# ↪ If we had `gₑ::Float64 = 0nS` (instead of `const gₑ = [0nS]`), this could be w/o `.`
+
+# Poisson inputs firing rates: distribution Λ and samples λ.
+Λ = LogNormal(median = 4Hz, g = 2)
+λ = rand(Λ, N)
+inputs = poisson_input.(λ, T, on_spike_arrival)
+
+m = Model(izh, has_spiked, on_self_spike, inputs)
+
 # s = sim(m, init, params, T, Δt)
 s = init_sim(init, params, T, Δt)
 s = step!(s, m)
