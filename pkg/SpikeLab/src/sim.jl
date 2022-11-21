@@ -20,11 +20,11 @@ Base.show(io::IO, si::SpikingInput) = begin
 end
 
 
-struct Nto1Model{T<:AbstractVector{<:SpikingInput}}
-    eval_diffeqs!  ::Function
-    has_spiked     ::Function
-    on_self_spike! ::Function
-    inputs         ::T
+struct Nto1Model{F<:Function, G<:Function, H<:Function, I<:AbstractVector{<:SpikingInput}}
+    eval_diffeqs!  ::F
+    has_spiked     ::G
+    on_self_spike! ::H
+    inputs         ::I
 end
 Nto1Model(pd::ParsedDiffeqs, args...) = Nto1Model(pd.f!, args...)
 Nto1Model = Nto1Model
@@ -90,7 +90,7 @@ function init_sim(x₀, p, T, Δt)
     x = CVector{Float64}(; x₀..., t)
     # ↪ `ComponentArray(…)` cannot be type inferred!
     #    Hence, function boundary between this init and `step!`.
-    ẋ = similar(x)  # = ∂xᵢ/∂t for every x in `x`
+    ẋ = similar(x)  # = [∂xᵢ/∂t]
     ẋ .= 0
     ẋ.t = 1  # dt/dt = 1second/second
     # Where to record to
@@ -105,18 +105,18 @@ end
 Inner loop body of the simulation. Update the state `s` by integrating differential
 equations, handling incoming and self-generated spikes, and recording signals.
 """
-function step!(s::SimState, eval_diffeqs!, has_spiked, on_self_spike!, inputs)
+function step!(s::SimState, m::Model)
     i = (s.i[] += 1)                    # Increase step counter
     (; Δt, x, ẋ, p, v_rec, spikes) = s  # Unpack state variables, for readability
-    eval_diffeqs!(ẋ, kw(s))             # Calculate differentials
+    m.eval_diffeqs!(ẋ, kw(s))           # Calculate differentials
     x .+= ẋ .* Δt                       # Euler integration
     (; t, v) = x
     v_rec[i] = v                        # Record membrane voltage..
-    if has_spiked(kw(s))
+    if m.has_spiked(kw(s))
         push!(spikes, t)                # ..and self-spikes.
-        on_self_spike!(x, kw(s))        # Apply spike discontinuity
+        m.on_self_spike!(x, kw(s))      # Apply spike discontinuity
     end
-    for spiker in inputs
+    for spiker in m.inputs
         N = count_new_spikes!(spiker, t)
         for _ in 1:N
             spiker.f!(x, kw(s))         # Apply the on-spike-arrival function
@@ -124,9 +124,6 @@ function step!(s::SimState, eval_diffeqs!, has_spiked, on_self_spike!, inputs)
     end
     return s                            # (By convention for mutating functions)
 end
-
-step!(s::SimState, m::Model) = step!(s, m.eval_diffeqs!, m.has_spiked,
-                                        m.on_self_spike!, m.inputs)
 
 """
     sim(m::Model, x₀, p, T, Δt)
