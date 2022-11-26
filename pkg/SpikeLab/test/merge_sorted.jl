@@ -16,3 +16,14 @@ merged = merge_sorted(vecs)
 @assert issorted(merged)
 @assert length(merged) == sum(length, vecs)
 @assert merged == quicksort_merge(vecs)
+
+
+# julia> vecs = [poisson_spikes(10Hz, 10minutes) for _ in 1:100];
+
+# julia> @time merge_sorted(vecs);
+#   0.768417 seconds (1.20 M allocations: 22.961 MiB, 1.95% gc time)
+
+# julia> @time quicksort_merge(vecs);
+#   0.033903 seconds (3 allocations: 4.583 MiB)
+#
+# 😂
