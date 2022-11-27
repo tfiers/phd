@@ -31,16 +31,16 @@ const T  = 10seconds
 
 # Variables and their initial values
 # ‾‾‾‾‾‾‾‾‾
-const v     = [vᵣ]
-const u     = [0 * pA]
-const gₑ    = [0 * nS]
-const gᵢ    = [0 * nS]
-const I_syn = [0 * nA]
-# Differential
+v     ::Float64   = vᵣ
+u     ::Float64   = 0 * pA
+gₑ    ::Float64   = 0 * nS
+gᵢ    ::Float64   = 0 * nS
+I_syn ::Float64   = 0 * nA
+# Derivatives
 const vars = CVector(; v, u, gₑ, gᵢ)
 const Δ = zero(vars ./ Δt)
 
-izh() = @. begin
+izh() = begin
     # Conductance-based synaptic current
     I_syn = gₑ*(v-Eₑ) + gᵢ*(v-Eᵢ)
     # Izhikevich 2D system: v and adaptation
@@ -51,8 +51,8 @@ izh() = @. begin
     Δ.gₑ = -gₑ / τ
     Δ.gᵢ = -gᵢ / τ
 end
-has_spiked() = @. (v ≥ vₛ)
-on_self_spike() = @. begin
+has_spiked() = (v ≥ vₛ)
+on_self_spike() = begin
     v = vᵣ
     u += Δu
 end
@@ -61,15 +61,15 @@ neuron_type(i) = if (i ≤ Nₑ)  :exc
                  else         :inh
                  end
 on_spike_arrival(from) =
-    if (neuron_type(from) == :exc)  gₑ .+= Δg
-    else                            gᵢ .+= Δg
+    if (neuron_type(from) == :exc)  gₑ += Δg
+    else                            gᵢ += Δg
     end
-# ↪ If we had `gₑ::Float64 = 0nS` (instead of `const gₑ = [0nS]`), this could be w/o `.`
 
 # Poisson inputs firing rates: distribution Λ and samples λ.
 Λ = LogNormal(median = 4Hz, g = 2)
 λ = rand(Λ, N)
-inputs = poisson_input.(λ, T, on_spike_arrival)
+input_spiketrains = poisson_spikes.(λ, T)
+all_input_spikes = merge(input_spiketrains)
 
 m = Model(izh, has_spiked, on_self_spike, inputs)
 
