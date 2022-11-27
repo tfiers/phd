@@ -2,14 +2,13 @@
 """
     poisson_spikes(r, T)
 
-Generate a Poisson spike train with firing rate ``r`` on the time interval ``[0, T]``.
+Generate Poisson spiketimes with firing rate `r` on the time interval `[0, T]`.
 
 More precisely, simulate a Poisson process by drawing inter-spike-intervals from an
-Exponential distribution with rate parameter ``r``, accumulating them until ``T`` is
-reached. The number of spikes ``N`` in ``[0, T]`` will be Poisson-distributed, with mean =
-``rT``.
+Exponential distribution with rate parameter `r`, accumulating them until `T` is reached.
+The number of spikes `N` in `[0, T]` will be Poisson-distributed, with mean = `rT`.
 
-The output is a length-``N`` (i.e. variable-length) vector of spike times.
+The output is a length-`N` (i.e. variable-length) vector of spike times.
 """
 function poisson_spikes(r, T)
     # As we cannot predict how many spikes we will have generated when reaching `T`, we
@@ -33,10 +32,5 @@ end
 # ² If the provided probability here is smaller than ~1E15, we get an error (`Inf`):
 #   https://github.com/JuliaStats/Rmath-julia/blob/master/src/qpois.c#L86
 
-"""
-    poisson_input(r, T, f!)
 
-Create a new [`SpikingInput`](@ref) with a spiketrain of [`poisson_spikes(r, T)`](@ref),
-and an on-spike-arrival callback `f!`.
-"""
-poisson_input(r, T, f!) = SpikingInput(poisson_spikes(r, T), f!)
+poisson_SpikeTrain(r,T) = SpikeTrain(poisson_spikes(r,T), T; checksorted = false)
