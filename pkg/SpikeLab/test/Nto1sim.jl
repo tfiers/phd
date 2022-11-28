@@ -65,11 +65,19 @@ on_spike_arrival(from) =
     else                            gᵢ += Δg
     end
 
-# Poisson inputs firing rates: distribution Λ and samples λ.
-Λ = LogNormal(median = 4Hz, g = 2)
-λ = rand(Λ, N)
-input_spiketrains = poisson_spikes.(λ, T)
-all_input_spikes = merge(input_spiketrains)
+# Poisson inputs firing rates λ
+fr_distr = LogNormal(median = 4Hz, g = 2)
+λ = rand(fr_distr, N)
+spiketimes = poisson_spikes.(λ, T)
+spikesources = similar.(spiketimes)
+for (srcID, array) in enumerate(spikesources)
+    array .= srcID
+end
+spiketimes_merged   = reduce(vcat, spiketimes)
+spikesources_merged = reduce(vcat, spikesources)
+order = sortperm(spiketimes_merged)
+permute!(spiketimes_merged,   order)
+permute!(spikesources_merged, order)
 
 m = Model(izh, has_spiked, on_self_spike, inputs)
 
