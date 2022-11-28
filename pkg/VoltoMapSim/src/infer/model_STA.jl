@@ -57,14 +57,14 @@ subtract_gaussian!(y, t, loc, w, h) =
     @fastmath @. y -= h * exp(-0.5*( (t-loc)/w )^2)
 
 function model_STA!(y, t, params, Δt)
-    tx_delay, τ1, τ2, dip_loc, dip_width, dip_height, scale = params
-    k = round(Int, tx_delay / Δt)
-    y[1:k] .= 0
-    yv = @view(y[k+1:end])
-    yv .= @view(t[k+1:end]) .- tx_delay  # [1]
-    linear_PSP!(yv, yv, τ1, τ2)
-    yv .*= (1 / max_of_PSP(τ1, τ2))
-    subtract_gaussian!(y, t, dip_loc, dip_width, dip_height)
+    tx_delay, τ1, τ2, loc, w, h, scale = params
+    k = round(Int, tx_delay / Δt)        # The PSP shape starts only after tx_delay (k)
+    y[1:k] .= 0                          # ..before that, output is 0 (except gaussian below).
+    yv = td = @view(y[k+1:end])          # "y-view = time-delayed"
+    td .= @view(t[k+1:end]) .- tx_delay  # [1]
+    linear_PSP!(yv, td, τ1, τ2)
+    yv .*= inv(max_of_PSP(τ1, τ2))       # Normalize PSP height to 1
+    subtract_gaussian!(y, t, loc, w, h)
     y .*= scale
     y .-= mean(y)
     return nothing
