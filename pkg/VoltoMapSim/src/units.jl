@@ -2,7 +2,7 @@
 # 'Fake' units, until a better solution exists.
 # (`Unitful` works great, but the interactive UX is bad because of its very verbose types).
 
-# [most units moved to SpikeLab]
+# [most units moved to Firework]
 
 const kibi = 2^10
 const mebi = 2^20
