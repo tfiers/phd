@@ -4,6 +4,8 @@
 
 # [most units moved to Firework]
 
+@reexport using Firework.Units
+
 const kibi = 2^10
 const mebi = 2^20
 const gibi = 2^30
