@@ -40,12 +40,7 @@ toParamCVec(fitr::LsqFit.LsqFitResult) = toCVec(fitr.param, get_p0())
 # Model
 # _____
 
-# The below model function is rather optimized.
-# For a more didactic version, see here:
-# https://github.com/tfiers/phd/blob/06f600f/pkg/VoltoMapSim/src/conntest/model_STA.jl
-# or the notebooks (https://tfiers.github.io/phd/nb/2022-09-11__Fit_function_to_STA.html)
-
-linear_PSP(t, τ1, τ2) =
+PSP(t, τ1, τ2) =
     if     (t ≤ 0)      0
     elseif (τ1 == τ2)   t * exp(-t/τ1)
     else                τ1*τ2/(τ1-τ2) * (exp(-t/τ1) - exp(-t/τ2)) end
@@ -56,27 +51,23 @@ max_of_PSP(τ1, τ2) =
 
 gaussian(t, loc, w, h) = h * exp(-0.5*((t-loc)/w)^2)
 
-model_STA!(y, t, params, Δt) = @fastmath begin
-    tx_delay, τ1, τ2, loc, w, h, scale = params
-    k = round(Int, tx_delay / Δt)        # The PSP shape starts only after tx_delay (k)
-    y[1:k] .= 0                          # …before that, output is 0 (except gaussian later)
-    yv = td = @view(y[k+1:end])          # "y-view", "time-delayed"
-    td .= @view(t[k+1:end]) .- tx_delay  # [1]
-    yv .= linear_PSP.(td, τ1, τ2)
-    yv .*= inv(max_of_PSP(τ1, τ2))       # Normalize PSP height to 1
-    y .-= gaussian.(t, loc, w, h)
-    y .*= scale
-    y .-= mean(y)
+model_STA!(y, t, params) = @fastmath @. begin
+    # Unpack parameters, and bind them
+    delay, τ1, τ2, loc, w, h, scale = params
+    PSP(t) = PSP(t, τ1, τ2)
+    dip(t) = gaussian(t, loc, w, h)
+    # To normalize PSP height to 1:
+    m = max_of_PSP(τ1, τ2)
+    # Evaluate the model
+    y = ( PSP(t - delay) / m
+        - dip(t)
+        ) * scale
+    # Center around 0
+    y -= mean(y)
     return nothing
 end
-# Some explanatory notes:
-# - `y` is a buffer that by the end holds the STA model curve.
-#   The goal is to not allocate any new memory in this function; only modify passed memory.
-# - A 'view' is a lazy reference, i.e. it avoids copying / allocating memory on slicing.
-# - In [1], we temporarily use `y` to store a shifted version of the time vector `t`.
-#   (This then immediately gets used and overwritten in `linear_PSP!`).
-# - The runtime of this function is dominated by calculating the `exp` functions (even when
-#   using faster approximations of exp, through `@fastmath`).
+# The runtime of this function is dominated by calculating the `exp` functions (even when
+# using faster approximations of exp, through `@fastmath`).
 
 
 
@@ -86,24 +77,22 @@ end
 centre(STA) = STA .- mean(STA)
 
 function STA_modelling_funcs(ep::ExpParams; p0 = get_p0(), pbounds = get_pbounds())
-    Δt           = ep.sim.general.Δt::Float64
     STA_duration = ep.conntest.STA_window_length
     t = collect(linspace(0, STA_duration, STA_win_size(ep)))
     p0_vec = collect(p0)
     lower = pbounds[1:2:end]
     upper = pbounds[2:2:end]
 
-    model!(y, t, params) = model_STA!(y, t, params, Δt)
-    f!(y, p) = model!(y, t, p)
+    f!(y, p) = model_STA!(y, t, p)
     y = similar(t)  # Allocate the one and only buffer
     cfg                      = ForwardDiff.JacobianConfig(f!, y, p0_vec)
     jac_model!(J, t, params) = ForwardDiff.jacobian!(J, f!, y, params, cfg)
 
     fit(STA; kw...) = curve_fit(
-        model!, jac_model!, t, centre(STA), p0_vec;
+        model_STA!, jac_model!, t, centre(STA), p0_vec;
         lower, upper, inplace = true, kw...
     )
-    model(params) = (model!(y, t, params); y)
+    model(params) = (model_STA!(y, t, params); y)
 
     return (; fit, model)
 end
