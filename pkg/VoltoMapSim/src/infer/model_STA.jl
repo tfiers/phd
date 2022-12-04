@@ -45,26 +45,26 @@ toParamCVec(fitr::LsqFit.LsqFitResult) = toCVec(fitr.param, get_p0())
 # https://github.com/tfiers/phd/blob/06f600f/pkg/VoltoMapSim/src/conntest/model_STA.jl
 # or the notebooks (https://tfiers.github.io/phd/nb/2022-09-11__Fit_function_to_STA.html)
 
-linear_PSP!(y, t, τ1, τ2) =
-    if (τ1 == τ2)   @fastmath @. y = t * exp(-t/τ1)
-    else            @fastmath @. y = τ1*τ2/(τ1-τ2) * (exp(-t/τ1) - exp(-t/τ2)) end
+linear_PSP(t, τ1, τ2) =
+    if     (t ≤ 0)      0
+    elseif (τ1 == τ2)   t * exp(-t/τ1)
+    else                τ1*τ2/(τ1-τ2) * (exp(-t/τ1) - exp(-t/τ2)) end
 
 max_of_PSP(τ1, τ2) =
-    if (τ1 == τ2)   τ1/ℯ
-    else            τ2*(τ2/τ1)^(τ2/(τ1-τ2)) end
+    if     (τ1 == τ2)   τ1/ℯ
+    else                τ2*(τ2/τ1)^(τ2/(τ1-τ2)) end
 
-subtract_gaussian!(y, t, loc, w, h) =
-    @fastmath @. y -= h * exp(-0.5*( (t-loc)/w )^2)
+gaussian(t, loc, w, h) = h * exp(-0.5*((t-loc)/w)^2)
 
-function model_STA!(y, t, params, Δt)
+model_STA!(y, t, params, Δt) = @fastmath begin
     tx_delay, τ1, τ2, loc, w, h, scale = params
     k = round(Int, tx_delay / Δt)        # The PSP shape starts only after tx_delay (k)
-    y[1:k] .= 0                          # ..before that, output is 0 (except gaussian below).
-    yv = td = @view(y[k+1:end])          # "y-view = time-delayed"
+    y[1:k] .= 0                          # …before that, output is 0 (except gaussian later)
+    yv = td = @view(y[k+1:end])          # "y-view", "time-delayed"
     td .= @view(t[k+1:end]) .- tx_delay  # [1]
-    linear_PSP!(yv, td, τ1, τ2)
+    yv .= linear_PSP.(td, τ1, τ2)
     yv .*= inv(max_of_PSP(τ1, τ2))       # Normalize PSP height to 1
-    subtract_gaussian!(y, t, loc, w, h)
+    y .-= gaussian.(t, loc, w, h)
     y .*= scale
     y .-= mean(y)
     return nothing
