@@ -9,12 +9,12 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.13.7
 #   kernelspec:
-#     display_name: Julia 1.8.1 mysys
+#     display_name: Julia 1.8.1
 #     language: julia
-#     name: julia-1.8-mysys
+#     name: julia-1.8
 # ---
 
-# # 2022-10-24 • N-to-1 with lognormal inputs (for real now)
+# # 2022-10-24 • N-to-1 with lognormal inputs
 
 # ## Imports
 
@@ -22,11 +22,15 @@
 #
 # -
 
+] st
+
+
+
 Revise.retry()
 
 @time using MyToolbox
 @time using Sciplotlib
-@time using SpikeLab
+@time using Spikelib
 @time using VoltoMapSim
 
 # ## Differential equations

@@ -23,3 +23,15 @@ iframe {
 .figure .caption {
     text-align: left;
 }
+
+
+@font-face {
+    font-family: JuliaMono-Light;
+    src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Light.woff2");
+}
+div.cell pre {
+    font-size: 14px !important;
+    font-family: JuliaMono-Light, Consolas, monospace !important;
+    font-variant-ligatures: contextual;
+    font-feature-settings: "ss14", "ss05";
+}
