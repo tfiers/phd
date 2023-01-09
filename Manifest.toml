@@ -2,7 +2,7 @@
 
 julia_version = "1.8.1"
 manifest_format = "2.0"
-project_hash = "ad761434567771114b6e72720c4179f96ddb463c"
+project_hash = "e6b2e0613da23252042245828bedb54eaf925d3c"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -62,7 +62,7 @@ uuid = "159f3aea-2a34-519c-b102-8c37f9878175"
 version = "1.0.5"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -281,12 +281,6 @@ deps = ["ArrayInterfaceCore", "LinearAlgebra", "Requires", "Setfield", "SparseAr
 git-tree-sha1 = "5a2cff9b6b77b33b89f3d97a4d367747adce647e"
 uuid = "6a86dc24-6348-571c-b903-95158fe2bd41"
 version = "2.15.0"
-
-[[deps.Firework]]
-deps = ["Chain", "ComponentArrays", "Crayons", "DataStructures", "Distributions", "LaTeXStrings", "Latexify", "MacroTools", "PartialFunctions", "Printf", "Reexport", "StructArrays", "Test", "UnPack"]
-path = "pkg/Firework"
-uuid = "fe4ab31d-2284-4e18-9761-4109e720cf88"
-version = "0.1.0"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -936,6 +930,12 @@ git-tree-sha1 = "d75bda01f8c31ebb72df80a46c88b25d1c79c56d"
 uuid = "276daf66-3868-5448-9aa4-cd146d93841b"
 version = "2.1.7"
 
+[[deps.SpikeWorks]]
+deps = ["Chain", "ComponentArrays", "Crayons", "DataStructures", "Distributions", "LaTeXStrings", "Latexify", "MacroTools", "PartialFunctions", "Printf", "Reexport", "StructArrays", "Test", "UnPack"]
+path = "pkg/SpikeWorks"
+uuid = "fe4ab31d-2284-4e18-9761-4109e720cf88"
+version = "0.1.0"
+
 [[deps.Static]]
 deps = ["IfElse"]
 git-tree-sha1 = "de4f0a4f049a4c87e4948c04acff37baf1be01a6"
@@ -1069,7 +1069,7 @@ uuid = "81def892-9a0e-5fdd-b105-ffc91e053289"
 version = "1.3.0"
 
 [[deps.VoltoMapSim]]
-deps = ["DataFrames", "Distributions", "Firework", "ForwardDiff", "LsqFit", "MyToolbox", "Sciplotlib", "SnoopPrecompile"]
+deps = ["DataFrames", "Distributions", "ForwardDiff", "LsqFit", "MyToolbox", "Sciplotlib", "SnoopPrecompile", "SpikeWorks"]
 path = "pkg/VoltoMapSim"
 uuid = "f713100b-c48c-421a-b480-5fcb4c589a9e"
 version = "0.1.0"

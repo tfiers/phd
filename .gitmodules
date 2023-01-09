@@ -4,6 +4,6 @@
 [submodule "pkg/MyToolbox"]
 	path = pkg/MyToolbox
 	url = git@github.com:tfiers/MyToolbox.jl.git
-[submodule "pkg/Firework"]
-	path = pkg/Firework
-	url = git@github.com:tfiers/Firework.jl.git
+[submodule "pkg/SpikeWorks"]
+	path = pkg/SpikeWorks
+	url = git@github.com:tfiers/SpikeWorks.jl.git
