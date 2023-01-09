@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-10-24 &#8226; N-to-1 with lognormal inputs (for real now) &#8212; Voltage-to-Wiring Sim</title>
+    <title>2022-10-24 &#8226; N-to-1 with lognormal inputs &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -36,8 +36,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -108,7 +108,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   2022-10-24 &#8226; N-to-1 with lognormal inputs (for real now)
+   2022-10-24 &#8226; N-to-1 with lognormal inputs
   </a>
  </li>
  <li class="toctree-l1">
@@ -600,24 +600,36 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#differential-equations">
-   Differential equations
+  <a class="reference internal nav-link" href="#start">
+   Start
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#parameters">
-   Parameters
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spiking">
-   Spiking
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poisson-inputs">
-   Poisson inputs
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#neuron-model-parameters">
+     Neuron-model parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simulated-variables-and-their-initial-values">
+     Simulated variables and their initial values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#differential-equations">
+     Differential equations:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spike-discontinuity">
+     Spike discontinuity
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conductance-based-izhikevich-neuron">
+     Conductance-based Izhikevich neuron
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -629,7 +641,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-10-24 &#8226; N-to-1 with lognormal inputs (for real now)</h1>
+                <h1>2022-10-24 &#8226; N-to-1 with lognormal inputs</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -645,24 +657,36 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#differential-equations">
-   Differential equations
+  <a class="reference internal nav-link" href="#start">
+   Start
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#parameters">
-   Parameters
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spiking">
-   Spiking
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poisson-inputs">
-   Poisson inputs
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#neuron-model-parameters">
+     Neuron-model parameters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#simulated-variables-and-their-initial-values">
+     Simulated variables and their initial values
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#differential-equations">
+     Differential equations:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spike-discontinuity">
+     Spike discontinuity
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conductance-based-izhikevich-neuron">
+     Conductance-based Izhikevich neuron
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -673,8 +697,8 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="n-to-1-with-lognormal-inputs-for-real-now">
-<h1>2022-10-24 &#8226; N-to-1 with lognormal inputs (for real now)<a class="headerlink" href="#n-to-1-with-lognormal-inputs-for-real-now" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="n-to-1-with-lognormal-inputs">
+<h1>2022-10-24 &#8226; N-to-1 with lognormal inputs<a class="headerlink" href="#n-to-1-with-lognormal-inputs" title="Permalink to this headline">&#182;</a></h1>
 <div class="section" id="imports">
 <h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -686,7 +710,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Revise</span><span class="o">.</span><span class="n">retry</span><span class="p">()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
 </pre></div>
 </div>
 </div>
@@ -694,112 +718,99 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">MyToolbox</span>
+<span class="nd">@time</span> <span class="k">using</span> <span class="n">Firework</span>
 <span class="nd">@time</span> <span class="k">using</span> <span class="n">Sciplotlib</span>
-<span class="nd">@time</span> <span class="k">using</span> <span class="n">SpikeLab</span>
 <span class="nd">@time</span> <span class="k">using</span> <span class="n">VoltoMapSim</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001573 seconds (347 allocations: 21.695 KiB)
-  0.001348 seconds (347 allocations: 21.695 KiB)
-  0.001413 seconds (347 allocations: 21.695 KiB)
-  0.001501 seconds (347 allocations: 21.695 KiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: using MyToolbox.@withfb in module Main conflicts with an existing identifier.
+  4.076853 seconds (3.28 M allocations: 206.465 MiB, 4.45% gc time, 27.33% compilation time: 64% of which was recompilation)
+ 16.632293 seconds (15.08 M allocations: 807.433 MiB, 2.64% gc time, 47.59% compilation time: 55% of which was recompilation)
+  1.657824 seconds (2.38 M allocations: 144.210 MiB, 1.37% gc time, 7.80% compilation time)
+  6.224578 seconds (10.19 M allocations: 643.531 MiB, 4.37% gc time, 11.69% compilation time: 74% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="start">
+<h2>Start<a class="headerlink" href="#start" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="neuron-model-parameters">
+<h3>Neuron-model parameters<a class="headerlink" href="#neuron-model-parameters" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@typed</span> <span class="k">begin</span>
+    <span class="c"># Izhikevich params</span>
+    <span class="n">C</span>  <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pF</span>        <span class="c"># Cell capacitance</span>
+    <span class="n">k</span>  <span class="o">=</span>    <span class="mf">0.7</span>  <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>   <span class="c"># Steepness of parabola in v&#775;(v)</span>
+    <span class="n">v&#8343;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">60</span>    <span class="o">*</span> <span class="n">mV</span>        <span class="c"># Resting ('leak') membrane potential</span>
+    <span class="n">v&#8348;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">40</span>    <span class="o">*</span> <span class="n">mV</span>        <span class="c"># Spiking threshold (when no syn. &amp; adaptation currents)</span>
+    <span class="n">a</span>  <span class="o">=</span>    <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span>        <span class="c"># Reciprocal of time constant of adaptation current `u`</span>
+    <span class="n">b</span>  <span class="o">=</span> <span class="o">-</span>  <span class="mi">2</span>    <span class="o">*</span> <span class="n">nS</span>        <span class="c"># (v-v&#8343;)&#8594;u coupling strength</span>
+    <span class="n">v&#8347;</span> <span class="o">=</span>   <span class="mi">35</span>    <span class="o">*</span> <span class="n">mV</span>        <span class="c"># Spike cutoff (defines spike time)</span>
+    <span class="n">v&#7523;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">50</span>    <span class="o">*</span> <span class="n">mV</span>        <span class="c"># Reset voltage after spike</span>
+    <span class="n">&#916;u</span> <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pA</span>        <span class="c"># Adaptation current inflow on self-spike</span>
+    <span class="c"># Conductance-based synapses</span>
+    <span class="n">E&#8337;</span> <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span>            <span class="c"># Reversal potential at excitatory synapses</span>
+    <span class="n">E&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span>            <span class="c"># Reversal potential at inhibitory synapses</span>
+    <span class="n">&#964;</span>  <span class="o">=</span>   <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span>            <span class="c"># Time constant for synaptic conductances' decay</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="simulated-variables-and-their-initial-values">
+<h3>Simulated variables and their initial values<a class="headerlink" href="#simulated-variables-and-their-initial-values" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x&#8320;</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="c"># Izhikevich variables</span>
+    <span class="n">v</span>   <span class="o">=</span> <span class="n">v&#7523;</span><span class="p">,</span>      <span class="c"># Membrane potential</span>
+    <span class="n">u</span>   <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span><span class="p">,</span>  <span class="c"># Adaptation current</span>
+    <span class="c"># Synaptic conductances g</span>
+    <span class="n">g&#8337;</span>  <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>  <span class="c"># = Sum over all exc. synapses</span>
+    <span class="n">g&#7522;</span>  <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>  <span class="c"># = Sum over all inh. synapses</span>
+<span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="differential-equations">
-<h2>Differential equations<a class="headerlink" href="#differential-equations" title="Permalink to this headline">&#182;</a></h2>
+<h3>Differential equations:<a class="headerlink" href="#differential-equations" title="Permalink to this headline">&#182;</a></h3>
+<p>calculate time derivatives of simulated vars<br>
+(and store them &#8220;in-place&#8221;, in <code class="docutils literal notranslate"><span class="pre">D&#8348;</span></code>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span> <span class="o">=</span> <span class="nd">@eqs</span> <span class="k">begin</span>
-    
-    <span class="n">dv</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8343;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">-</span> <span class="n">I_syn</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
-    <span class="n">du</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#7523;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">f!</span><span class="p">(</span><span class="n">D&#8348;</span><span class="p">,</span> <span class="n">vars</span><span class="p">)</span>
+    <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">g&#8337;</span><span class="p">,</span> <span class="n">g&#7522;</span> <span class="o">=</span> <span class="n">vars</span>
 
-    <span class="n">I_syn</span> <span class="o">=</span> <span class="n">g&#8337;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#8337;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#7522;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#7522;</span><span class="p">)</span>
+    <span class="c"># Conductance-based synaptic current</span>
+    <span class="n">I&#8347;</span> <span class="o">=</span> <span class="n">g&#8337;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#8337;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#7522;</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">E&#7522;</span><span class="p">)</span>
 
-    <span class="n">dg&#8337;</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#8337;</span> <span class="o">/</span> <span class="n">&#964;</span>  <span class="c"># Represents sum over all exc synapses</span>
-    <span class="n">dg&#7522;</span><span class="o">/</span><span class="n">dt</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#7522;</span> <span class="o">/</span> <span class="n">&#964;</span>
-<span class="k">end</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeLab.ParsedDiffeqs
- with variables {v, u, I_syn, g&#8337;, g&#7522;}
- and parameters {C, E&#7522;, E&#8337;, a, b, k, v&#7523;, v&#8343;, v&#8348;, &#964;}
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="parameters">
-<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="nd">@NT</span> <span class="k">begin</span>
-    <span class="c"># Cortical regular spiking (same as always)</span>
-    <span class="n">C</span>  <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pF</span>
-    <span class="n">k</span>  <span class="o">=</span>    <span class="mf">0.7</span>  <span class="o">*</span> <span class="p">(</span><span class="n">nS</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
-    <span class="n">v&#8343;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">60</span>    <span class="o">*</span> <span class="n">mV</span>
-    <span class="n">v&#8348;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">40</span>    <span class="o">*</span> <span class="n">mV</span>
-    <span class="n">a</span>  <span class="o">=</span>    <span class="mf">0.03</span> <span class="o">/</span> <span class="n">ms</span>
-    <span class="n">b</span>  <span class="o">=</span> <span class="o">-</span>  <span class="mi">2</span>    <span class="o">*</span> <span class="n">nS</span>
-    <span class="c"># Not in model eqs above (yet)</span>
-    <span class="n">v&#8347;</span> <span class="o">=</span>   <span class="mi">35</span>    <span class="o">*</span> <span class="n">mV</span>  <span class="c"># spike</span>
-    <span class="n">v&#7523;</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">50</span>    <span class="o">*</span> <span class="n">mV</span>  <span class="c"># reset</span>
-    <span class="n">&#916;u</span> <span class="o">=</span>  <span class="mi">100</span>    <span class="o">*</span> <span class="n">pA</span>
+    <span class="c"># Izhikevich 2D system</span>
+    <span class="n">D&#8348;</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8343;</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span> <span class="o">-</span> <span class="n">I&#8347;</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
+    <span class="n">D&#8348;</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v&#8343;</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
 
-    <span class="c"># Synapses</span>
-    <span class="n">E&#8337;</span> <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span>
-    <span class="n">E&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span>  <span class="c"># Larger than Nto1 (was -65); same as nets.</span>
-    <span class="n">&#964;</span>  <span class="o">=</span>   <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span>
-    
-    <span class="c"># Inputs</span>
-    <span class="n">N&#8337;</span> <span class="o">=</span> <span class="mi">40</span>
-    <span class="n">N&#7522;</span> <span class="o">=</span> <span class="mi">10</span>
-    <span class="n">&#916;g&#8337;</span> <span class="o">=</span> <span class="mi">60</span><span class="n">nS</span> <span class="o">/</span> <span class="n">N&#8337;</span>
-    <span class="n">&#916;g&#7522;</span> <span class="o">=</span> <span class="mi">60</span><span class="n">nS</span> <span class="o">/</span> <span class="n">N&#7522;</span>
-<span class="k">end</span>
-
-<span class="n">init</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">v</span>  <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">v&#7523;</span><span class="p">,</span>
-    <span class="n">u</span>  <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span><span class="p">,</span>
-    <span class="n">g&#8337;</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
-    <span class="n">g&#7522;</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="p">,</span>
-    <span class="n">I_syn</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nA</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="n">&#916;t</span>       <span class="o">=</span> <span class="mf">0.1</span><span class="n">ms</span>
-<span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">second</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="spiking">
-<h2>Spiking<a class="headerlink" href="#spiking" title="Permalink to this headline">&#182;</a></h2>
-<p>Ugly verbose for now, not nicely parsed as the diffeqs above yet.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">has_spiked</span><span class="p">(</span><span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="nd">@unpack</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vars</span>
-    <span class="nd">@unpack</span> <span class="n">v&#8347;</span> <span class="o">=</span> <span class="n">params</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">v</span> <span class="o">&#8805;</span> <span class="n">v&#8347;</span><span class="p">)</span>
+    <span class="c"># Synaptic conductance decay</span>
+    <span class="n">D&#8348;</span><span class="o">.</span><span class="n">g&#8337;</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#8337;</span> <span class="o">/</span> <span class="n">&#964;</span>
+    <span class="n">D&#8348;</span><span class="o">.</span><span class="n">g&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#7522;</span> <span class="o">/</span> <span class="n">&#964;</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="spike-discontinuity">
+<h3>Spike discontinuity<a class="headerlink" href="#spike-discontinuity" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">on_self_spike!</span><span class="p">(</span><span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="nd">@unpack</span> <span class="n">v&#7523;</span><span class="p">,</span> <span class="n">&#916;u</span> <span class="o">=</span> <span class="n">params</span>
-    
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">has_spiked</span><span class="p">(</span><span class="n">vars</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">vars</span><span class="o">.</span><span class="n">v</span> <span class="o">&#8805;</span> <span class="n">v&#8347;</span><span class="p">)</span>
+
+<span class="k">function</span> <span class="n">on_self_spike!</span><span class="p">(</span><span class="n">vars</span><span class="p">)</span>
     <span class="n">vars</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">v&#7523;</span>
     <span class="n">vars</span><span class="o">.</span><span class="n">u</span> <span class="o">+=</span> <span class="n">&#916;u</span>
 <span class="k">end</span><span class="p">;</span>
@@ -808,108 +819,11 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<div class="section" id="poisson-inputs">
-<h2>Poisson inputs<a class="headerlink" href="#poisson-inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="section" id="conductance-based-izhikevich-neuron">
+<h3>Conductance-based Izhikevich neuron<a class="headerlink" href="#conductance-based-izhikevich-neuron" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fr_distr</span> <span class="o">=</span> <span class="n">SpikeLab</span><span class="o">.</span><span class="n">LogNormal</span><span class="p">(</span><span class="n">median</span> <span class="o">=</span> <span class="mi">4</span><span class="n">Hz</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
-<span class="c"># 66% in [2Hz, 8Hz]</span>
-<span class="c"># 95% in [1Hz, 16Hz]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>LogNormal{Float64}(&#956;=1.39, &#963;=0.693)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">on_spike_arrival_exc!</span><span class="p">(</span><span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="nd">@unpack</span> <span class="n">&#916;g&#8337;</span> <span class="o">=</span> <span class="n">params</span>
-    
-    <span class="n">vars</span><span class="o">.</span><span class="n">g&#8337;</span> <span class="o">+=</span> <span class="n">&#916;g&#8337;</span>
-<span class="k">end</span>
-
-<span class="n">on_spike_arrival_inh!</span><span class="p">(</span><span class="n">vars</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="nd">@unpack</span> <span class="n">&#916;g&#7522;</span> <span class="o">=</span> <span class="n">params</span>
-    
-    <span class="n">vars</span><span class="o">.</span><span class="n">g&#7522;</span> <span class="o">+=</span> <span class="n">&#916;g&#7522;</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span> <span class="o">=</span> <span class="n">CVec</span><span class="p">(</span>
-    <span class="n">exc</span> <span class="o">=</span> <span class="p">[</span><span class="n">PoissonInput</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">fr_distr</span><span class="p">),</span> <span class="n">duration</span><span class="p">,</span> <span class="n">on_spike_arrival_exc!</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">params</span><span class="o">.</span><span class="n">N&#8337;</span><span class="p">],</span>
-    <span class="n">inh</span> <span class="o">=</span> <span class="p">[</span><span class="n">PoissonInput</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">fr_distr</span><span class="p">),</span> <span class="n">duration</span><span class="p">,</span> <span class="n">on_spike_arrival_inh!</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">params</span><span class="o">.</span><span class="n">N&#7522;</span><span class="p">],</span>
-<span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">SpikeLab</span><span class="o">:</span> <span class="n">SpikingInput</span><span class="p">,</span> <span class="n">SpikeFeed</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeLab.SpikingInput_ with SpikeLab.SpikeFeed [0/21] (next: 0.934) and on_spike_arrival_exc!
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">izh</span><span class="p">,</span> <span class="n">has_spiked</span><span class="p">,</span> <span class="n">on_self_spike!</span><span class="p">,</span> <span class="n">inputs</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Revise</span><span class="o">.</span><span class="n">revise</span><span class="p">(</span><span class="n">SpikeLab</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9484; Warning: </span>Replacing docs for `SpikeLab.SpikeFeed :: Union{}` in module `SpikeLab`
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9492; </span>@ Base.Docs docs\Docs.jl:240
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9484; Warning: </span>Replacing docs for `SpikeLab.advance_to! :: Tuple{SpikeLab.SpikeFeed, Any}` in module `SpikeLab`
-<span class=" -Color -Color-Bold -Color-Bold-Yellow">&#9492; </span>@ Base.Docs docs\Docs.jl:240
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sim!</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">init</span><span class="p">,</span> <span class="n">params</span><span class="p">;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="ne">UndefVarError</span>: CVec not defined
-
-<span class="ne">Stacktrace</span>:
- <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">sim</span><span class="o">!(</span>m::SpikeLab.Model4, init::NamedTuple<span class="o">{(</span>:v, :u, :g&#8337;, :g&#7522;, :I_syn<span class="o">)</span>, NTuple<span class="o">{</span><span class="m">5</span>, Float64<span class="o">}}</span>, params::NamedTuple<span class="o">{(</span>:C, :k, :v&#8343;, :v&#8348;, :a, :b, :v&#8347;, :v&#7523;, :&#916;u, :E&#8337;, :E&#7522;, :&#964;, :N&#8337;, :N&#7522;, :&#916;g&#8337;, :&#916;g&#7522;<span class="o">)</span>, Tuple<span class="o">{</span>Float64, Float64, Float64, Float64, Float64, Float64, Float64, Float64, Float64, Float64, Float64, Float64, Int64, Int64, Float64, Float64<span class="o">}}</span><span class="p">;</span> duration::Float64, &#916;t::Float64<span class="o">)</span>
-   <span class="o">@</span> <span class="n">SpikeLab</span> <span class="n">C</span><span class="p">:</span>\<span class="n">Users</span>\<span class="n">tfiers</span>\<span class="n">phd</span>\<span class="n">pkg</span>\<span class="n">SpikeLab</span>\<span class="n">src</span>\<span class="n">model</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">35</span>
- <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="n">top</span><span class="o">-</span><span class="n">level</span> <span class="n">scope</span>
-   <span class="o">@</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">]:</span><span class="mi">1</span>
- <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="nb">eval</span>
-   <span class="o">@</span> <span class="o">.</span>\<span class="n">boot</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">368</span> <span class="p">[</span><span class="n">inlined</span><span class="p">]</span>
- <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="n">include_string</span><span class="p">(</span><span class="n">mapexpr</span><span class="p">::</span><span class="n">typeof</span><span class="p">(</span><span class="n">REPL</span><span class="o">.</span><span class="n">softscope</span><span class="p">),</span> <span class="n">mod</span><span class="p">::</span><span class="n">Module</span><span class="p">,</span> <span class="n">code</span><span class="p">::</span><span class="n">String</span><span class="p">,</span> <span class="n">filename</span><span class="p">::</span><span class="n">String</span><span class="p">)</span>
-   <span class="o">@</span> <span class="n">Base</span> <span class="o">.</span>\<span class="n">loading</span><span class="o">.</span><span class="n">jl</span><span class="p">:</span><span class="mi">1428</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">coba_izh_neuron</span> <span class="o">=</span> <span class="n">NeuronModel</span><span class="p">(</span><span class="n">x&#8320;</span><span class="p">,</span> <span class="n">f!</span><span class="p">;</span> <span class="n">has_spiked</span><span class="p">,</span> <span class="n">on_self_spike!</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -922,46 +836,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2022-10-24__Nto1_with_fixed_lognormal_inputs_23_0.png" src="../_images/2022-10-24__Nto1_with_fixed_lognormal_inputs_23_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">aggregate_spikes</span><span class="p">(</span><span class="n">inputs</span><span class="o">::</span><span class="kt">AbstractVector</span><span class="p">{</span><span class="kt">PoissonInput</span><span class="p">})</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="n">spikes</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">vcat</span><span class="p">,</span> <span class="nb">pi</span><span class="o">.</span><span class="n">sq</span><span class="o">.</span><span class="n">spikes</span> <span class="k">for</span> <span class="nb">pi</span> <span class="k">in</span> <span class="n">inputs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">sort!</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
-    <span class="c"># mergesort might be faster than default of quicksort</span>
-    <span class="c"># .. but then specifying that no sub-sort recursion needed...</span>
-    <span class="c"># https://github.com/vvjn/MergeSorted.jl</span>
-    <span class="c"># via https://stackoverflow.com/a/48772313/2611913</span>
-    <span class="c"># "5x faster than sort!(), and 2x faster and less memory than sort!(alg=MergeSort)"</span>
-    <span class="c"># even better, i do self :))</span>
-    <span class="c">#  &gt; alloc array with len (sum(lengths))</span>
-    <span class="c">#  &gt; fill one by one, each time lookin through each of the inputs (an index pointer for each -- ooh can use SpikeFeed :))</span>
-<span class="k">end</span>
-
-<span class="n">aggregate_spikes</span><span class="p">(</span><span class="n">inputs</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span><span class="o">.</span><span class="n">generated_func</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>:((diff, vars, params)-&gt;begin
-          @unpack (v, u, I_syn, g&#8337;, g&#7522;) = vars
-          @unpack (C, E&#7522;, E&#8337;, a, b, k, v&#7523;, v&#8343;, v&#8348;, &#964;) = params
-          diff.v = ((k * (v - v&#8343;) * (v - v&#8348;) - u) - I_syn) / C
-          diff.u = a * (b * (v - v&#7523;) - u)
-          vars.I_syn = g&#8337; * (v - E&#8337;) + g&#7522; * (v - E&#7522;)
-          diff.g&#8337; = -g&#8337; / &#964;
-          diff.g&#7522; = -g&#7522; / &#964;
-      end)
-</pre></div>
+<img alt="../_images/2022-10-24__Nto1_with_fixed_lognormal_inputs_21_0.png" src="../_images/2022-10-24__Nto1_with_fixed_lognormal_inputs_21_0.png">
 </div>
 </div>
 </div>
@@ -977,16 +852,16 @@ const thebe_selector_output = ".output, .cell_output"
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8-mysys"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.8-mysys",
+            kernelName: "julia-1.8",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8-mysys'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               
