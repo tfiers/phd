@@ -3,7 +3,7 @@ module VoltoMapSim
 using MyToolbox: @reexport
 @reexport using MyToolbox
 @reexport using Sciplotlib
-@reexport using Firework
+@reexport using SpikeWorks
 @reexport using Distributions  # Sample from lognormal, exponential, ….
 @reexport using DataFrames
 @reexport using LsqFit
