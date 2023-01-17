@@ -1,9 +1,14 @@
 
 function calc_STA(VI_sig, presynaptic_spikes, p::ExpParams)
     win_size = STA_win_size(p)
+    Δt::Float64 = p.sim.general.Δt
+    calc_STA(VI_sig, presynaptic_spikes, Δt, win_size)
+end
+
+function calc_STA(VI_sig, presynaptic_spikes, Δt, win_size)
     STA = zeros(eltype(VI_sig), win_size)
-    Δt::Float64 = p.sim.general.Δt  # Explicit typing needed, as typeof(p.sim) unknown.
-    win_starts = round.(Int, presynaptic_spikes / Δt)
+    # We assume here that spiketimes occur in [0, T)
+    win_starts = floor.(Int, presynaptic_spikes / Δt) .+ 1
     num_wins = 0
     for a in win_starts
         b = a + win_size - 1
