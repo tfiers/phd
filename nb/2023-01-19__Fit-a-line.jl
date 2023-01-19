@@ -457,6 +457,12 @@ conntest(niₑ)
 
 conntest(niᵢ)
 
+conntest(shuffled(niₑ))
+
+conntest(shuffled(niₑ))
+
+conntest(shuffled(niᵢ))
+
 # That works nicely!
 #
 # Let's try on shuffled spiketrains
