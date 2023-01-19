@@ -19,7 +19,7 @@ Usage:
     …
     output = cached(slow_func, [x, p]; key=[p, n]])
 """
-function cached(f, args::Vector; key = [last(args)], verbose = true)
+function cached(f, args; key = [last(args)], verbose = true)
     path = cachepath(f, key)
     if isfile(path)
         if verbose @withfb "Loading cached output from `$path`" (output = loadcache(path))
