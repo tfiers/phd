@@ -2,6 +2,8 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-01-19__Fit-a-line
+    - file: nb/2023-01-19__[input]
     - file: nb/2022-10-24__Nto1_with_fixed_lognormal_inputs
     - file: nb/2022-10-23__Spike-triggered-voltage_statistics
     - file: nb/2022-10-17__General_simulator_software_design
