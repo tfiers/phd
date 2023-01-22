@@ -1,5 +1,5 @@
 # See buid.py > copy_down_notebooks_dir()
-notebooks
+nb
 
 # Jupyter Book html output directory
 _build
