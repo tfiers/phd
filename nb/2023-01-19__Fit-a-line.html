@@ -1388,21 +1388,24 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 \[
 \hat{&#946;}_1 \sim \mathcal{N}(0, &#963;&#178; Q_{[2,2]})
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(Q\)</span> is the inverse of the Gram matrix <span class="math notranslate nohighlight">\(X^T X\)</span>:
-$<span class="math notranslate nohighlight">\(
+<p>where <span class="math notranslate nohighlight">\(Q\)</span> is the inverse of the Gram matrix <span class="math notranslate nohighlight">\(X^T X\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
 Q = (X'X)^{-1}
-\)</span><span class="math notranslate nohighlight">\(
-(\)</span>Q$ &#8216;is related to&#8217; the covariance matrix, and is called the cofactor matrix.<br>
+\]</div>
+<p>(<span class="math notranslate nohighlight">\(Q\)</span> &#8216;is related to&#8217; the covariance matrix, and is called the cofactor matrix.<br>
 <a class="reference external" href="https://en.wikipedia.org/wiki/Ordinary_least_squares#Estimation">https://en.wikipedia.org/wiki/Ordinary_least_squares#Estimation</a>)</p>
 <p>..and with <span class="math notranslate nohighlight">\(&#963;\)</span> the (unkown) standard-deviation of our
-supposedly-Gaussian-distributed noise <span class="math notranslate nohighlight">\(&#949;\)</span> in our model
-$<span class="math notranslate nohighlight">\(
+supposedly-Gaussian-distributed noise <span class="math notranslate nohighlight">\(&#949;\)</span> in our model</p>
+<div class="math notranslate nohighlight">
+\[
 y_i = &#946;_0 + &#946;_1 x_i + &#949;_i,
-\)</span><span class="math notranslate nohighlight">\(
-i.e.
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>i.e.</p>
+<div class="math notranslate nohighlight">
+\[
 &#949; \sim \mathcal{N}(0, &#963;&#178;).
-\)</span>$</p>
+\]</div>
 <p>(&#8216;<span class="math notranslate nohighlight">\(Q_{[2,2]}\)</span>&#8217; is the second diagonal element of <span class="math notranslate nohighlight">\(Q\)</span>.
 The indices are off-by-one as the intercept is conventionally <span class="math notranslate nohighlight">\(&#946;_0\)</span> instead of <span class="math notranslate nohighlight">\(_1\)</span>).</p>
 </div>
@@ -1824,16 +1827,16 @@ end;
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8"
+            mode: "julia-1.9"
         },
         kernelOptions: {
-            kernelName: "julia-1.8",
+            kernelName: "julia-1.9",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8'</script>
+    <script>kernelName = 'julia-1.9'</script>
 
               </div>
               
