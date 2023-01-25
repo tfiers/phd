@@ -672,6 +672,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#eval">
    Eval
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#proper-eval">
+     Proper eval
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -759,6 +766,13 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#eval">
    Eval
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#proper-eval">
+     Proper eval
+    </a>
+   </li>
+  </ul>
  </li>
 </ul>
 
@@ -778,7 +792,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="section" id="setup">
 <h2>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">&#182;</a></h2>
 <p>I&#8217;ll put the work from previous notebook in a script (not package, this time)</p>
-<p>(Thanks to &#8216;jupytext&#8217; extension, this script&#8217;ll also be a notebook)</p>
+<p>(Thanks to &#8216;jupytext&#8217; extension, that script&#8217;ll also be a notebook)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"2023-01-19__[input].jl"</span><span class="p">);</span>
@@ -786,22 +800,23 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise: 0.001277 seconds (347 allocations: 21.688 KiB)
-using MyToolbox: 0.001094 seconds (347 allocations: 21.695 KiB)
-using SpikeWorks: 0.001079 seconds (347 allocations: 21.695 KiB)
-using Sciplotlib: 0.001144 seconds (347 allocations: 21.695 KiB)
-using VoltoMapSim: 0.001049 seconds (347 allocations: 21.695 KiB)
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=5.jld2` &#8230; done
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=20.jld2` &#8230; done
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=100.jld2` &#8230; done
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=400.jld2` &#8230; done
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=1600.jld2` &#8230; done (0.1 s)
-Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]__N=6500.jld2` &#8230; done (0.4 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise: 2.418806 seconds (603.38 k allocations: 36.618 MiB, 4.00% gc time, 1.02% compilation time)
+WARNING: using MyToolbox.@withfb in module Main conflicts with an existing identifier.
+using MyToolbox: 5.079011 seconds (1.63 M allocations: 103.773 MiB, 2.95% gc time, 0.44% compilation time)
+using SpikeWorks: 2.238519 seconds (1.28 M allocations: 78.599 MiB, 5.98% gc time)
+using Sciplotlib: 26.325986 seconds (7.10 M allocations: 455.083 MiB, 1.64% gc time, 2.21% compilation time: 100% of which was recompilation)
+using VoltoMapSim: 14.394408 seconds (4.98 M allocations: 328.898 MiB, 3.82% gc time)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=5.jld2` &#8230; done (17.3 s)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=20.jld2` &#8230; done (0.3 s)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=100.jld2` &#8230; done (0.3 s)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=400.jld2` &#8230; done (0.3 s)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=1600.jld2` &#8230; done (2.6 s)
+Loading cached output from `/root/.phdcache/runsim/2023-01-19__[input]__N=6500.jld2` &#8230; done (4.5 s)
 </pre></div>
 </div>
 </div>
 </div>
-<p>I disabled STA calculating/caching/loading in there: we&#8217;re gon work on individual windows.</p>
+<p>(I disabled STA calculating/caching/loading in there: we&#8217;re gon work on individual windows).</p>
 </div>
 <div class="section" id="start">
 <h2>Start<a class="headerlink" href="#start" title="Permalink to this headline">&#182;</a></h2>
@@ -837,21 +852,18 @@ Loading cached output from `C:\Users\tfiers\.phdcache\runsim\2023-01-19__[input]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulation{Nto1System{NeuronModel{NamedTuple{(:v, :u, :g&#8337;, :g&#7522;), NTuple{4, Float64}}, typeof(f!), typeof(has_spiked), typeof(on_self_spike!)}, var"#on_spike_arrival!#7"{Float64, Float64, var"#neuron_type#6"{Int64}}}, CVec{(:v, :u, :g&#8337;, :g&#7522;)}}
-Summary: completed. 4.9 spikes/s
-Properties: 
-       system: Nto1System, x&#8320;: (v = -0.05, u = 0, g&#8337; = 0, g&#7522; = 0), input feed: all 20248738 spikes processed
-           &#916;t: 0.0001
-     duration: 600
-  stepcounter: 6000000 (complete)
-        state: t = 600 seconds, neuron = vars: (v: -0.0377, u: -3.5E-11, g&#8337;: 3.55E-09, g&#7522;: 3.09E-09), D&#8348;vars: (v: 0.738, u: -2.86E-10, g&#8337;: -5.15E-07, g&#7522;: -4.47E-07)
-          rec
-</pre></div>
-</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>: v: [-0.0501, -0.0501, -0.0502, -0.0503, -0.0503, -0.0504, -0.0505, -0.0505, -0.0506, -0.0506  &#8230;  -0.0383, -0.0383, -0.0382, -0.0381, -0.0381, -0.038, -0.0379, -0.0378, -0.0378, -0.0377], spiketimes: [0.151, 0.318, 0.514, 0.716, 0.952, 1.16, 1.34, 1.56, 1.69, 1.92  &#8230;  598, 598, 598, 598, 599, 599, 599, 599, 600, 600]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Simulation{Nto1System{NeuronModel{NamedTuple{(:v, :u, :g&#8337;, :g&#7522;), NTuple{4, Float64}}, typeof(f!), typeof(has_spiked), typeof(on_self_spike!)}, var"#on_spike_arrival!#9"{Float64, Float64, var"#neuron_type#8"{Int64}}}, CVec{(:v, :u, :g&#8337;, :g&#7522;)}}
+Summary: completed. 5.3 spikes/s
+Properties: 
+       system: Nto1System, x&#8320;: (v = -0.05, u = 0, g&#8337; = 0, g&#7522; = 0), input feed: all 19426057 spikes processed
+           &#916;t: 0.0001
+     duration: 600
+  stepcounter: 6000000 (complete)
+        state: t = 600 seconds, neuron = vars: (v: -0.0374, u: -2.95E-11, g&#8337;: 3.59E-09, g&#7522;: 2.45E-09), D&#8348;vars: (v: 0.994, u: -4.64E-10, g&#8337;: -5.2E-07, g&#7522;: -3.55E-07)
+          rec: v: [-0.0501, -0.0501, -0.0502, -0.0503, -0.0504, -0.0504, -0.0505, -0.0506, -0.0506, -0.0507  &#8230;  -0.0383, -0.0382, -0.0381, -0.038, -0.0379, -0.0378, -0.0377, -0.0376, -0.0375, -0.0374], spiketimes: [0.116, 0.264, 0.504, 0.68, 0.881, 1.08, 1.25, 1.46, 1.66, 1.84  &#8230;  598, 598, 598, 599, 599, 599, 599, 600, 600, 600]
 </pre></div>
 </div>
 </div>
@@ -863,7 +875,7 @@ Properties:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.9
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.29
 </pre></div>
 </div>
 </div>
@@ -896,18 +908,6 @@ Properties:
 <p>Let&#8217;s find highest spiking exc neuron</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spikerate_</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>spikerate_ (generic function with 2 methods)
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">actual_spike_rates</span> <span class="o">=</span> <span class="n">spikerate_</span><span class="o">.</span><span class="p">(</span><span class="n">inp</span><span class="o">.</span><span class="n">inputs</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -922,10 +922,10 @@ Properties:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> minimum: 0.373 Hz
-  median: 4.04 Hz
-    mean: 5.19 Hz
- maximum: 51.6 Hz
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> minimum: 0.338 Hz
+  median: 3.96 Hz
+    mean: 4.98 Hz
+ maximum: 63.5 Hz
 </pre></div>
 </div>
 </div>
@@ -949,7 +949,7 @@ Properties:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(51.6, 4562)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(63.5, 3743)
 </pre></div>
 </div>
 </div>
@@ -963,11 +963,12 @@ Properties:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-01-19__Fit-a-line_24_0.png" src="../_images/2023-01-19__Fit-a-line_24_0.png">
+<img alt="../_images/2023-01-19__Fit-a-line_23_0.png" src="../_images/2023-01-19__Fit-a-line_23_0.png">
 </div>
 </div>
 <p>But we&#8217;re not fitting STAs, we&#8217;re fitting indiv windows.
 So.</p>
+<p>(Wow, this one (3743, on WSL) is weird).</p>
 </div>
 <div class="section" id="windows">
 <h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">&#182;</a></h2>
@@ -1017,9 +1018,9 @@ So.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.144035 seconds (175.57 k allocations: 248.503 MiB, 32.35% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.248030 seconds (97.44 k allocations: 300.789 MiB, 20.77% gc time)
 
-30958-element Vector{Vector{Float64}}
+38091-element Vector{Vector{Float64}}
 </pre></div>
 </div>
 </div>
@@ -1054,7 +1055,7 @@ So.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.760810 seconds (3.64 M allocations: 358.886 MiB, 38.46% gc time, 25.80% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.270752 seconds (4.09 M allocations: 426.801 MiB, 6.93% gc time)
 </pre></div>
 </div>
 </div>
@@ -1075,7 +1076,7 @@ So.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3095800, 2)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3809100, 2)
 </pre></div>
 </div>
 </div>
@@ -1087,7 +1088,7 @@ So.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3095800,)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3809100,)
 </pre></div>
 </div>
 </div>
@@ -1103,17 +1104,17 @@ So.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11&#215;3 Matrix{Float64}:
- 1   95  -49.5
- 1   96  -49.5
- 1   97  -49.5
- 1   98  -49.4
- 1   99  -49.4
- 1  100  -49.4
- 1    1  -49.1
- 1    2  -49.1
- 1    3  -49.1
- 1    4  -49.1
- 1    5  -49.1
+ 1   95  -46.5
+ 1   96  -46.5
+ 1   97  -46.5
+ 1   98  -46.5
+ 1   99  -46.5
+ 1  100  -46.5
+ 1    1  -45.2
+ 1    2  -45.2
+ 1    3  -45.2
+ 1    4  -45.2
+ 1    5  -45.2
 </pre></div>
 </div>
 </div>
@@ -1136,16 +1137,17 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.059550 seconds (33 allocations: 70.924 MiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.311424 seconds (31 allocations: 87.250 MiB)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-element Vector{Float64}:
  -0.0463
-  6.57E-07
+  9.59E-07
 </pre></div>
 </div>
 </div>
 </div>
+<p>(First run time i.e. including compilation: 4 seconds)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">intercept</span> <span class="o">=</span> <span class="n">&#946;&#770;</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">mV</span>
@@ -1167,7 +1169,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.000657
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.000959
 </pre></div>
 </div>
 </div>
@@ -1181,7 +1183,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.57
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.59
 </pre></div>
 </div>
 </div>
@@ -1199,10 +1201,11 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-01-19__Fit-a-line_52_0.png" src="../_images/2023-01-19__Fit-a-line_52_0.png">
+<img alt="../_images/2023-01-19__Fit-a-line_53_0.png" src="../_images/2023-01-19__Fit-a-line_53_0.png">
 </div>
 </div>
-<p>It&#8217;s the spikes we see there.</p>
+<p>It&#8217;s the spikes we see there.<br>
+(and the unrealistically slow quadratic ramp-ups of Izhikevich)</p>
 <p>so let&#8217;s zoom in</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1211,7 +1214,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3095800
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3809100
 </pre></div>
 </div>
 </div>
@@ -1233,9 +1236,10 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-01-19__Fit-a-line_56_0.png" src="../_images/2023-01-19__Fit-a-line_56_0.png">
+<img alt="../_images/2023-01-19__Fit-a-line_57_0.png" src="../_images/2023-01-19__Fit-a-line_57_0.png">
 </div>
 </div>
+<p>(Not very informative)</p>
 </div>
 <div class="section" id="use-as-conntest">
 <h2>Use as conntest<a class="headerlink" href="#use-as-conntest" title="Permalink to this headline">&#182;</a></h2>
@@ -1260,7 +1264,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6080
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5798
 </pre></div>
 </div>
 </div>
@@ -1272,7 +1276,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>39.9
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>43.9
 </pre></div>
 </div>
 </div>
@@ -1319,14 +1323,15 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.477347 seconds (2.46 M allocations: 536.014 MiB, 17.74% gc time, 19.87% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.573785 seconds (2.69 M allocations: 589.847 MiB, 22.97% gc time)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-16.2
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-26
 </pre></div>
 </div>
 </div>
 </div>
+<p>(First run time: 2.7 seconds)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ni&#8337;</span> <span class="o">=</span> <span class="n">ni</span>
@@ -1334,7 +1339,7 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4562
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3743
 </pre></div>
 </div>
 </div>
@@ -1346,10 +1351,10 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.535695 seconds (3.16 M allocations: 692.900 MiB, 18.84% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.091091 seconds (3.89 M allocations: 852.352 MiB, 12.40% gc time)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.57
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.59
 </pre></div>
 </div>
 </div>
@@ -1365,10 +1370,10 @@ and a rank estimate of <code class="docutils literal notranslate"><span class="p
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.412741 seconds (3.16 M allocations: 693.462 MiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.472024 seconds (4.60 M allocations: 902.115 MiB, 6.14% gc time)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-7.97
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.06
 </pre></div>
 </div>
 </div>
@@ -1413,22 +1418,28 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 <h3>Estimate noise on model<a class="headerlink" href="#estimate-noise-on-model" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c"># Num params</span>
-<span class="n">dof</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3095798
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fitt</span> <span class="o">=</span> <span class="n">fitwins</span><span class="p">(</span><span class="n">ni&#8337;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">fitwins</span><span class="p">(</span><span class="n">ni&#8337;</span><span class="p">)</span>
-<span class="n">&#949;&#770;</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">residuals</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">fitt</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c"># Num params</span>
+<span class="n">dof</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="n">p</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3809098
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#949;&#770;</span> <span class="o">=</span> <span class="n">fitt</span><span class="o">.</span><span class="n">residuals</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
@@ -1441,7 +1452,7 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.78E-05
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7.59E-05
 </pre></div>
 </div>
 </div>
@@ -1454,7 +1465,7 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.78E-05
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7.59E-05
 </pre></div>
 </div>
 </div>
@@ -1468,7 +1479,7 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.23
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.71
 </pre></div>
 </div>
 </div>
@@ -1479,29 +1490,29 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 <h3>Gram matrix<a class="headerlink" href="#gram-matrix" title="Permalink to this headline">&#182;</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">X</span>
-<span class="n">N</span> <span class="o">=</span> <span class="n">X</span><span class="o">'</span> <span class="o">*</span> <span class="n">X</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">fitt</span><span class="o">.</span><span class="n">X</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">X</span><span class="o">'</span> <span class="o">*</span> <span class="n">X</span>  <span class="c"># not calling it N, that's used already</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2&#215;2 Matrix{Float64}:
- 3.1E+06   1.56E+08
- 1.56E+08  1.05E+10
+ 3.81E+06  1.92E+08
+ 1.92E+08  1.29E+10
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2&#215;2 Matrix{Float64}:
-  1.31E-06  -1.96E-08
- -1.96E-08   3.88E-10
+  1.07E-06  -1.59E-08
+ -1.59E-08   3.15E-10
 </pre></div>
 </div>
 </div>
@@ -1514,7 +1525,7 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.62E-07
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.55E-07
 </pre></div>
 </div>
 </div>
@@ -1526,24 +1537,24 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.000162
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.000155
 </pre></div>
 </div>
 </div>
 </div>
-<p>Aka standard error or &#8216;se(<span class="math notranslate nohighlight">\(&#946;&#770;&#8322;\)</span>)&#8217;</p>
+<p>Aka standard error or &#8216;se(<span class="math notranslate nohighlight">\(\hat{&#946;}_2\)</span>)&#8217;</p>
 </div>
 <div class="section" id="t-statistic">
 <h3>t-statistic<a class="headerlink" href="#t-statistic" title="Permalink to this headline">&#182;</a></h3>
 <p>Slope in mV:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="o">.</span><span class="n">slope</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fitt</span><span class="o">.</span><span class="n">slope</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.57
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.59
 </pre></div>
 </div>
 </div>
@@ -1551,12 +1562,12 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 <p>In original units of the (X,y) fit, i.e. volt/timestep:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#946;&#770;&#8322;</span> <span class="o">=</span> <span class="n">fit</span><span class="o">.</span><span class="n">&#946;&#770;</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#946;&#770;&#8322;</span> <span class="o">=</span> <span class="n">fitt</span><span class="o">.</span><span class="n">&#946;&#770;</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.57E-07
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9.59E-07
 </pre></div>
 </div>
 </div>
@@ -1568,7 +1579,7 @@ The indices are off-by-one as the intercept is conventionally <span class="math 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.06
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6.21
 </pre></div>
 </div>
 </div>
@@ -1582,7 +1593,7 @@ which, at our</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3095798
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3809098
 </pre></div>
 </div>
 </div>
@@ -1656,12 +1667,12 @@ So alternative is that it can be both larger and smaller.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.01E-05
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.45E-10
 </pre></div>
 </div>
 </div>
 </div>
-<p>i.e. p = 0.00005 &lt; 0.05</p>
+<p>i.e. p &lt; 0.05</p>
 <p>This happens by chance once in</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1670,12 +1681,12 @@ So alternative is that it can be both larger and smaller.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2E+04
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.84E+09
 </pre></div>
 </div>
 </div>
 </div>
-<p>20_000 universes.</p>
+<p>1_8400_000_000 universes.</p>
 <p>Now to package this up in a function</p>
 </div>
 <div class="section" id="summary">
@@ -1703,16 +1714,29 @@ end;
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">htest</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">htest</span><span class="p">(</span><span class="n">fitt</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(t = 4.06, pval = 5.01E-05, noise_mV = 8.23)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(t = 6.21, pval = 5.45E-10, noise_mV = 8.71)
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">htest</span><span class="p">(</span><span class="n">fitt</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.046876 seconds (6 allocations: 1.422 KiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>That&#8217;s fast :)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">conntest</span><span class="p">(</span><span class="n">z</span><span class="p">;</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">)</span>
@@ -1740,7 +1764,7 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = 6.57, pval = 5.01E-05, predtype = :exc)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = 9.59, pval = 5.45E-10, predtype = :exc)
 </pre></div>
 </div>
 </div>
@@ -1752,7 +1776,15 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = -16.2, pval = 1.29E-18, predtype = :inh)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = -26, pval = 2.57E-45, predtype = :inh)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let&#8217;s try on shuffled spiketrains</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">shuffled</span><span class="p">(</span><span class="n">ni</span><span class="p">)</span> <span class="o">=</span> <span class="n">shuffle_ISIs</span><span class="p">(</span><span class="n">spiketimes</span><span class="p">(</span><span class="n">ni</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
@@ -1764,7 +1796,7 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = 1.48, pval = 0.369, predtype = :unconn)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = 9.39, pval = 6.16E-10, predtype = :exc)
 </pre></div>
 </div>
 </div>
@@ -1776,7 +1808,7 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = -2.24, pval = 0.172, predtype = :unconn)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = -9.01, pval = 2.53E-09, predtype = :inh)
 </pre></div>
 </div>
 </div>
@@ -1788,24 +1820,17 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = -1.92, pval = 0.308, predtype = :unconn)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(slope = 16.2, pval = 1.22E-18, predtype = :exc)
 </pre></div>
 </div>
 </div>
 </div>
-<p>That works nicely!</p>
-<p>Let&#8217;s try on shuffled spiketrains</p>
+<p>That&#8217;s not great.</p>
+<p>(In previous iteration of this notebook, with a different sim, all three of these were <code class="docutils literal notranslate"><span class="pre">:unconn</span></code>)</p>
 </div>
 </div>
 <div class="section" id="eval">
 <h2>Eval<a class="headerlink" href="#eval" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">shuffled</span><span class="p">(</span><span class="n">ni</span><span class="p">)</span> <span class="o">=</span> <span class="n">shuffle_ISIs</span><span class="p">(</span><span class="n">spiketimes</span><span class="p">(</span><span class="n">ni</span><span class="p">));</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrame</span><span class="p">(</span><span class="n">conntest</span><span class="p">(</span><span class="n">shuffled</span><span class="p">(</span><span class="n">ni&#8337;</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="p">)</span>
@@ -1813,7 +1838,141 @@ end;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div><div style="float: left;"><span>10&#215;3 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">slope</th><th style="text-align: left;">pval</th><th style="text-align: left;">predtype</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Symbol" style="text-align: left;">Symbol</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">-0.44</td><td style="text-align: right;">0.789</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">2.41</td><td style="text-align: right;">0.143</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">-3.85</td><td style="text-align: right;">0.0206</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">1.82</td><td style="text-align: right;">0.267</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">2.96</td><td style="text-align: right;">0.0745</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: right;">6.58</td><td style="text-align: right;">5.82E-05</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: right;">-6.37</td><td style="text-align: right;">0.000107</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: right;">-4.27</td><td style="text-align: right;">0.00804</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">9</td><td style="text-align: right;">5.07</td><td style="text-align: right;">0.00196</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">10</td><td style="text-align: right;">-4.02</td><td style="text-align: right;">0.0158</td><td style="text-align: left;">inh</td></tr></tbody></table></div></div></div>
+<div class="output text_html"><div><div style="float: left;"><span>10&#215;3 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">slope</th><th style="text-align: left;">pval</th><th style="text-align: left;">predtype</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Symbol" style="text-align: left;">Symbol</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">-2.55</td><td style="text-align: right;">0.0967</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">1.99</td><td style="text-align: right;">0.188</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">4.37</td><td style="text-align: right;">0.00358</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">6.25</td><td style="text-align: right;">3.39E-05</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">2.97</td><td style="text-align: right;">0.0498</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: right;">-2.87</td><td style="text-align: right;">0.0568</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: right;">2.43</td><td style="text-align: right;">0.109</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: right;">-3.28</td><td style="text-align: right;">0.0308</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">9</td><td style="text-align: right;">6.62</td><td style="text-align: right;">1.36E-05</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">10</td><td style="text-align: right;">4.8</td><td style="text-align: right;">0.00166</td><td style="text-align: left;">exc</td></tr></tbody></table></div></div></div>
+</div>
+<p>Ok this is similar as in prev instantiation of this notebook / prev sim.</p>
+<p>(The three unconns above were thus lucky).</p>
+<div class="section" id="proper-eval">
+<h3>Proper eval<a class="headerlink" href="#proper-eval" title="Permalink to this headline">&#182;</a></h3>
+<p>I didn&#8217;t sim a 100 unconnected spikers, as before.<br>
+So we can&#8217;t use that for an FPR estimate.<br>
+But we can shuffle some real spiketrains to get sth similar.<br>
+Let&#8217;s draw from all, so there&#8217;s a mix of spikerates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ids</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">unconnected_trains</span> <span class="o">=</span> <span class="n">shuffle_ISIs</span><span class="o">.</span><span class="p">(</span><span class="n">spiketimes</span><span class="o">.</span><span class="p">(</span><span class="n">ids</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our <code class="docutils literal notranslate"><span class="pre">perftable</span></code> expects a dataframe with :predtype and :conntype columns</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">inh_neurons</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5201:6500
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">real_spiketrains</span> <span class="o">=</span> <span class="n">spiketimes</span><span class="o">.</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">all_spiketrains</span> <span class="o">=</span> <span class="p">[</span><span class="n">real_spiketrains</span><span class="p">;</span> <span class="n">unconnected_trains</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conntype</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> 
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">N&#8337;</span>
+        <span class="n">conntype</span> <span class="o">=</span> <span class="ss">:exc</span>
+    <span class="k">elseif</span> <span class="n">i</span> <span class="o">&#8804;</span> <span class="n">N</span>
+        <span class="n">conntype</span> <span class="o">=</span> <span class="ss">:inh</span>
+    <span class="k">else</span>
+        <span class="n">conntype</span> <span class="o">=</span> <span class="ss">:unconn</span>
+    <span class="k">end</span>
+
+<span class="n">makerow</span><span class="p">(</span><span class="n">i</span><span class="p">;</span> <span class="n">&#945;</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">all_spiketrains</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">conntest</span><span class="p">(</span><span class="n">spikes</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span>
+    <span class="p">(;</span> <span class="n">conntype</span> <span class="o">=</span> <span class="n">conntype</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">test</span><span class="o">...</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">makerow</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.075884 seconds (312.28 k allocations: 68.547 MiB)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(conntype = :exc, slope = 17.9, pval = 0.000771, predtype = :exc)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">makerow</span><span class="p">(</span><span class="mi">6600</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.077716 seconds (236.50 k allocations: 51.938 MiB)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(conntype = :unconn, slope = 11.6, pval = 0.0702, predtype = :unconn)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conntest_all</span><span class="p">()</span> <span class="o">=</span> <span class="nd">@showprogress</span> <span class="n">map</span><span class="p">(</span><span class="n">makerow</span><span class="p">,</span> <span class="n">eachindex</span><span class="p">(</span><span class="n">all_spiketrains</span><span class="p">))</span>
+
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cached</span><span class="p">(</span><span class="n">conntest_all</span><span class="p">,</span> <span class="p">[],</span> <span class="n">key</span><span class="o">=</span><span class="s">"2023-01-19__Fit-a-line"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:10:16</span>
+Saving output at `/root/.phdcache/conntest_all/2023-01-19__Fit-a-line.jld2` &#8230; done (5.0 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">|&gt;</span> <span class="n">disp</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>6600&#215;4 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">6575 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">conntype</th><th style="text-align: left;">slope</th><th style="text-align: left;">pval</th><th style="text-align: left;">predtype</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Symbol" style="text-align: left;">Symbol</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Symbol" style="text-align: left;">Symbol</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">exc</td><td style="text-align: right;">17.9</td><td style="text-align: right;">0.000771</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">exc</td><td style="text-align: right;">32.2</td><td style="text-align: right;">1.31E-08</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">exc</td><td style="text-align: right;">-18.1</td><td style="text-align: right;">0.000375</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">exc</td><td style="text-align: right;">45.4</td><td style="text-align: right;">5.06E-08</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">exc</td><td style="text-align: right;">-46.1</td><td style="text-align: right;">4.47E-07</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: left;">exc</td><td style="text-align: right;">-8.75</td><td style="text-align: right;">0.0415</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: left;">exc</td><td style="text-align: right;">-28.8</td><td style="text-align: right;">0.000224</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: left;">exc</td><td style="text-align: right;">6.1</td><td style="text-align: right;">0.279</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">9</td><td style="text-align: left;">exc</td><td style="text-align: right;">10.1</td><td style="text-align: right;">0.167</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">10</td><td style="text-align: left;">exc</td><td style="text-align: right;">-25.8</td><td style="text-align: right;">5.28E-06</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">11</td><td style="text-align: left;">exc</td><td style="text-align: right;">-11.8</td><td style="text-align: right;">0.156</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">12</td><td style="text-align: left;">exc</td><td style="text-align: right;">-19.1</td><td style="text-align: right;">2.65E-09</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">13</td><td style="text-align: left;">exc</td><td style="text-align: right;">-10.7</td><td style="text-align: right;">0.0209</td><td style="text-align: left;">unconn</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6589</td><td style="text-align: left;">unconn</td><td style="text-align: right;">8.59</td><td style="text-align: right;">0.144</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6590</td><td style="text-align: left;">unconn</td><td style="text-align: right;">-2.19</td><td style="text-align: right;">0.727</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6591</td><td style="text-align: left;">unconn</td><td style="text-align: right;">-15</td><td style="text-align: right;">0.0281</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6592</td><td style="text-align: left;">unconn</td><td style="text-align: right;">23.8</td><td style="text-align: right;">1.56E-10</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6593</td><td style="text-align: left;">unconn</td><td style="text-align: right;">24.4</td><td style="text-align: right;">0.00157</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6594</td><td style="text-align: left;">unconn</td><td style="text-align: right;">9.96</td><td style="text-align: right;">0.309</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6595</td><td style="text-align: left;">unconn</td><td style="text-align: right;">-4.63</td><td style="text-align: right;">0.101</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6596</td><td style="text-align: left;">unconn</td><td style="text-align: right;">131</td><td style="text-align: right;">1.65E-29</td><td style="text-align: left;">exc</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6597</td><td style="text-align: left;">unconn</td><td style="text-align: right;">-16.5</td><td style="text-align: right;">1.81E-07</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6598</td><td style="text-align: left;">unconn</td><td style="text-align: right;">-27.9</td><td style="text-align: right;">1.36E-06</td><td style="text-align: left;">inh</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6599</td><td style="text-align: left;">unconn</td><td style="text-align: right;">0.594</td><td style="text-align: right;">0.932</td><td style="text-align: left;">unconn</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6600</td><td style="text-align: left;">unconn</td><td style="text-align: right;">11.6</td><td style="text-align: right;">0.0702</td><td style="text-align: left;">unconn</td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perftable</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table><tr><th align="right">Tested connections: 6600</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">66</td><td align="right">3177</td><td align="right">706</td><td align="right"></td><td align="right">2%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">20</td><td align="right">1259</td><td align="right">120</td><td align="right"></td><td align="right">90%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">14</td><td align="right">763</td><td align="right">475</td><td align="right"></td><td align="right">38%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">66%</td><td align="right">24%</td><td align="right">37%</td><td align="right"></td><td align="right"></td></tr></table>
+</div></div>
+</div>
+<p>(Code should be written / dug up to sweep threshold i.e. get AUC scores etc, but):</p>
+<p>At this arbitrary &#8216;&#945;&#8217; = 0.001:<br>
+FPR: 34%<br>
+TPR&#8337;: 24%<br>
+TPR&#7522;: 37%</p>
 </div>
 </div>
 </div>
