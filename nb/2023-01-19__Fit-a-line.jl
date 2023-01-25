@@ -9,9 +9,9 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.14.4
 #   kernelspec:
-#     display_name: Julia 1.8.1
+#     display_name: Julia 1.9.0-beta3
 #     language: julia
-#     name: julia-1.8
+#     name: julia-1.9
 # ---
 
 # # 2023-01-19 • Fit a line
@@ -30,13 +30,13 @@
 
 # I'll put the work from previous notebook in a script (not package, this time)
 
-# (Thanks to 'jupytext' extension, this script'll also be a notebook)
+# (Thanks to 'jupytext' extension, that script'll also be a notebook)
 
 # + tags=[]
 include("2023-01-19__[input].jl");
 # -
 
-# I disabled STA calculating/caching/loading in there: we're gon work on individual windows.
+# (I disabled STA calculating/caching/loading in there: we're gon work on individual windows).
 
 # ## Start
 
@@ -67,8 +67,6 @@ _numspikes = 50Hz*10minutes
 
 # Let's find highest spiking exc neuron
 
-spikerate_
-
 actual_spike_rates = spikerate_.(inp.inputs);
 
 for f in [minimum, median, mean, maximum]
@@ -87,6 +85,8 @@ plot(calcSTA(ni) / mV);
 
 # But we're not fitting STAs, we're fitting indiv windows.
 # So.
+
+# (Wow, this one (3743, on WSL) is weird).
 
 # ## Windows
 
@@ -188,6 +188,8 @@ _r = 95:105
 
 @time β̂ = X \ y
 
+# (First run time i.e. including compilation: 4 seconds)
+
 intercept = β̂[1] / mV
 
 # Ok check
@@ -211,7 +213,8 @@ sel = 1:10000
 plot(ts[sel]*Δt/ms, y[sel]/mV, ".", alpha=0.1);
 # -
 
-# It's the spikes we see there.
+# It's the spikes we see there.\
+# (and the unrealistically slow quadratic ramp-ups of Izhikevich)
 #
 # so let's zoom in
 
@@ -231,6 +234,8 @@ plot(
     clip_on = true,
 );
 # -
+
+# (Not very informative)
 
 # ## Use as conntest
 
@@ -273,6 +278,8 @@ end;
 
 @time fitwins(niᵢ).slope
 
+# (First run time: 2.7 seconds)
+
 niₑ = ni
 
 @time fitwins(niₑ).slope
@@ -307,18 +314,22 @@ stₑ = spiketimes(niₑ)
 # \hat{β}_1 \sim \mathcal{N}(0, σ² Q_{[2,2]})
 # $$
 # where $Q$ is the inverse of the Gram matrix $X^T X$:
+#
 # $$
 # Q = (X'X)^{-1}
 # $$
+#
 # ($Q$ 'is related to' the covariance matrix, and is called the cofactor matrix.\
 # https://en.wikipedia.org/wiki/Ordinary_least_squares#Estimation)
 #
 # ..and with $σ$ the (unkown) standard-deviation of our
 # supposedly-Gaussian-distributed noise $ε$ in our model
+#
 # $$
 # y_i = β_0 + β_1 x_i + ε_i,
 # $$
 # i.e.
+#
 # $$
 # ε \sim \mathcal{N}(0, σ²).
 # $$
@@ -328,12 +339,13 @@ stₑ = spiketimes(niₑ)
 
 # ### Estimate noise on model
 
-n = length(fit.y)
+fitt = fitwins(niₑ);
+
+n = length(fitt.y)
 p = 2  # Num params
 dof = n - p
 
-fit = fitwins(niₑ)
-ε̂ = fit.residuals;
+ε̂ = fitt.residuals;
 
 # OLS estimate of variance σ² of Gaussian noise ε:
 
@@ -353,10 +365,10 @@ s² = ε̂' * ε̂ / dof
 
 # ### Gram matrix
 
-X = fit.X
-N = X' * X
+X = fitt.X
+G = X' * X  # not calling it N, that's used already
 
-Q = inv(N)
+Q = inv(G)
 
 # So, estimated stddev of our slope distribution.
 
@@ -364,17 +376,17 @@ Q = inv(N)
 
 σ̂β₂ / mV
 
-# Aka standard error or 'se($β̂₂$)'
+# Aka standard error or 'se($\hat{β}_2$)'
 
 # ### t-statistic
 
 # Slope in mV:
 
-fit.slope
+fitt.slope
 
 # In original units of the (X,y) fit, i.e. volt/timestep:
 
-β̂₂ = fit.β̂[2]
+β̂₂ = fitt.β̂[2]
 
 t = β̂₂ / σ̂β₂
 
@@ -408,13 +420,13 @@ cquantile(𝒩, α/2)
 
 pval = cdf(𝒩, -t) + ccdf(𝒩, t)
 
-# i.e. p = 0.00005 < 0.05
+# i.e. p < 0.05
 #
 # This happens by chance once in
 
 1/pval
 
-# 20_000 universes.
+# 1_8400_000_000 universes.
 
 # Now to package this up in a function
 
@@ -436,7 +448,11 @@ function htest(fit)
     return (; t, pval, noise_mV)
 end;
 
-htest(fit)
+htest(fitt)
+
+@time htest(fitt);
+
+# That's fast :)
 
 function conntest(z; α = 0.05)
     fit = fitwins(z)
@@ -457,20 +473,81 @@ conntest(niₑ)
 
 conntest(niᵢ)
 
+# Let's try on shuffled spiketrains
+
+shuffled(ni) = shuffle_ISIs(spiketimes(ni));
+
 conntest(shuffled(niₑ))
 
 conntest(shuffled(niₑ))
 
 conntest(shuffled(niᵢ))
 
-# That works nicely!
+# That's not great.
 #
-# Let's try on shuffled spiketrains
+# (In previous iteration of this notebook, with a different sim, all three of these were `:unconn`)
 
 # ## Eval
 
-shuffled(ni) = shuffle_ISIs(spiketimes(ni));
-
 DataFrame(conntest(shuffled(niₑ)) for _ in 1:10)
 
+# Ok this is similar as in prev instantiation of this notebook / prev sim.
+#
+# (The three unconns above were thus lucky).
 
+# ### Proper eval
+
+# I didn't sim a 100 unconnected spikers, as before.\
+# So we can't use that for an FPR estimate.\
+# But we can shuffle some real spiketrains to get sth similar.\
+# Let's draw from all, so there's a mix of spikerates.
+
+ids = sample(1:N, 100, replace=true)
+unconnected_trains = shuffle_ISIs.(spiketimes.(ids));
+
+# Our `perftable` expects a dataframe with :predtype and :conntype columns
+
+inh_neurons
+
+real_spiketrains = spiketimes.(1:N);
+
+all_spiketrains = [real_spiketrains; unconnected_trains];
+
+# +
+conntype(i) = 
+    if i < Nₑ
+        conntype = :exc
+    elseif i ≤ N
+        conntype = :inh
+    else
+        conntype = :unconn
+    end
+
+makerow(i; α=0.001) = begin
+    spikes = all_spiketrains[i]
+    test = conntest(spikes; α)
+    (; conntype = conntype(i), test...)
+end;
+# -
+
+@time makerow(1)
+
+@time makerow(6600)
+
+# +
+conntest_all() = @showprogress map(makerow, eachindex(all_spiketrains))
+
+rows = cached(conntest_all, [], key="2023-01-19__Fit-a-line");
+# -
+
+df = DataFrame(rows)
+df |> disp(20)
+
+perftable(df)
+
+# (Code should be written / dug up to sweep threshold i.e. get AUC scores etc, but):
+#
+# At this arbitrary 'α' = 0.001:\
+# FPR: 34%\
+# TPRₑ: 24%\
+# TPRᵢ: 37%
