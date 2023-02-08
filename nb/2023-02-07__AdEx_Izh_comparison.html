@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-02-07__AdEx_Izh_comparison.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2023-01-19 &#8226; Fit a line" href="2023-01-19__Fit-a-line.html">
+    <link rel="prev" title="2023-02-07 &#8226; [input] to &#8216;AdEx Nto1&#8217;" href="2023-02-07__%5Binput-linefit-wins%5D.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__AdEx_Nto1.html">
+   2023-02-07 &#8226; AdEx Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__%5Binput-linefit-wins%5D.html">
+   2023-02-07 &#8226; [input] to &#8216;AdEx Nto1&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__Fit-a-line.html">
+   2023-01-19 &#8226; Fit a line
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__%5Binput%5D.html">
+   2023-01-19 &#8226; [input] to &#8216;Fit a line&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-24__Nto1_with_fixed_lognormal_inputs.html">
+   2022-10-24 &#8226; N-to-1 with lognormal inputs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-23__Spike-triggered-voltage_statistics.html">
+   2022-10-23 &#8226; Spike-triggered voltage statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-17__General_simulator_software_design.html">
+   2022-10-17 &#8226; General simulator software design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-13__Fix_Nto1_non-lognormal_input_rates.html">
+   2022-10-13 &#8226; Find non-lognormal firing rates bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+   2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-07__Conntest_with_faster_curve_fit.html">
+   2022-10-04 &#8226; Use faster curve fit for connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-04__inspect_curve_fit.html">
+   2022-10-04 &#8226; Inspect curve-fitting procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+   2022-09-30 &#8226; Use parametric STA model for connection testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-29__Two-pass_summary.html">
+   2022-09-29 &#8226; Summary of two-pass conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function_pt_2.html">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2023-02-07__AdEx_Izh_comparison.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-02-07__AdEx_Izh_comparison.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-02-07__AdEx_Izh_comparison.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-02-07__AdEx_Izh_comparison.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#converting-izh-to-adex-params">
+   Converting Izh to AdEx params
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adex">
+     AdEx
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izhikevich">
+     Izhikevich
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#param-comparison">
+     Param comparison
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adex-has-one-parameter-more-than-izhikevich">
+     AdEx has one parameter more than Izhikevich
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-reduction">
+     Parameter reduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#i-v-relation">
+     I-V relation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sign-of-b-izh-a-adex">
+     Sign of
+     <span class="math notranslate nohighlight">
+      \(b\)
+     </span>
+     (Izh) /
+     <span class="math notranslate nohighlight">
+      \(a\)
+     </span>
+     (AdEx)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#same-parametrization">
+     Same parametrization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-g-l">
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     &#8596;
+     <span class="math notranslate nohighlight">
+      \(g_L\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-delta-t">
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     &#8596;
+     <span class="math notranslate nohighlight">
+      \(\Delta_T\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#value-for-delta-t">
+     Value for
+     <span class="math notranslate nohighlight">
+      \(\Delta_T\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#param-value-comparison-for-cortical-rs-neuron">
+     Param value comparison, for cortical RS neuron
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izh-time-constant-for-voltage">
+     Izh time constant for voltage
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-params">
+     Define params
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#converting-izh-to-adex-params">
+   Converting Izh to AdEx params
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adex">
+     AdEx
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izhikevich">
+     Izhikevich
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#param-comparison">
+     Param comparison
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#adex-has-one-parameter-more-than-izhikevich">
+     AdEx has one parameter more than Izhikevich
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-reduction">
+     Parameter reduction
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#i-v-relation">
+     I-V relation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sign-of-b-izh-a-adex">
+     Sign of
+     <span class="math notranslate nohighlight">
+      \(b\)
+     </span>
+     (Izh) /
+     <span class="math notranslate nohighlight">
+      \(a\)
+     </span>
+     (AdEx)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#same-parametrization">
+     Same parametrization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-g-l">
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     &#8596;
+     <span class="math notranslate nohighlight">
+      \(g_L\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-delta-t">
+     <span class="math notranslate nohighlight">
+      \(k\)
+     </span>
+     &#8596;
+     <span class="math notranslate nohighlight">
+      \(\Delta_T\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#value-for-delta-t">
+     Value for
+     <span class="math notranslate nohighlight">
+      \(\Delta_T\)
+     </span>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#param-value-comparison-for-cortical-rs-neuron">
+     Param value comparison, for cortical RS neuron
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#izh-time-constant-for-voltage">
+     Izh time constant for voltage
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-params">
+     Define params
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="adex-izhikevich-comparison">
+<h1>2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison<a class="headerlink" href="#adex-izhikevich-comparison" title="Permalink to this headline">&#182;</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@showtime</span> <span class="k">using</span> <span class="n">MyToolbox</span>
+<span class="nd">@showtime</span> <span class="k">using</span> <span class="n">SpikeWorks</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using MyToolbox: 2.824050 seconds (607.32 k allocations: 43.399 MiB, 34.11% gc time)
+using SpikeWorks: 0.000211 seconds (150 allocations: 14.000 KiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="converting-izh-to-adex-params">
+<h2>Converting Izh to AdEx params<a class="headerlink" href="#converting-izh-to-adex-params" title="Permalink to this headline">&#182;</a></h2>
+<p>Equations:</p>
+<div class="section" id="adex">
+<h3>AdEx<a class="headerlink" href="#adex" title="Permalink to this headline">&#182;</a></h3>
+<p>aka aEIF</p>
+<p><a class="reference external" href="https://tfiers.github.io/phd/nb/2021-12-08__biology_vs_Izh_subhtr.html">https://tfiers.github.io/phd/nb/2021-12-08__biology_vs_Izh_subhtr.html</a></p>
+<p>Richard Naud, Nicolas Marcille, Claudia Clopath, and Wulfram Gerstner,<br>
+&#8216;Firing patterns in the adaptive exponential integrate-and-fire model&#8217;,<br>
+Biol Cybern, Nov. 2008, <a class="reference external" href="https://doi.org/10.1007/s00422-008-0264-7">https://doi.org/10.1007/s00422-008-0264-7</a></p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+C \frac{dV}{dt}      &amp;= -g_L (V - E_L) + g_L \Delta_T \exp \left( \frac{V - V_T}{\Delta_T} \right) + I - w\\
+\tau_w \frac{dw}{dt} &amp;= a (V - E_L) - w
+\end{align}
+\end{split}\]</div>
+<p>if <span class="math notranslate nohighlight">\(V &gt; 0\)</span> mV, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+V &amp;&#8594; V_r\\
+w &amp;&#8594; w + b
+\end{align}
+\end{split}\]</div>
+</div>
+<div class="section" id="izhikevich">
+<h3>Izhikevich<a class="headerlink" href="#izhikevich" title="Permalink to this headline">&#182;</a></h3>
+<p>2007 Book, eqs 5.7-5.8 (&#8220;Reduction to Simple model&#8221; &#8594; &#8220;Derivation via I-V relations&#8221;)</p>
+<p>(See also <a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">https://www.izhikevich.org/publications/spikes.htm</a> for the 2003 version, with &#8216;hardcoded&#8217; <span class="math notranslate nohighlight">\(C\)</span>, <span class="math notranslate nohighlight">\(v_r\)</span>, <span class="math notranslate nohighlight">\(v_t\)</span>;<br>
+so that only four params <span class="math notranslate nohighlight">\(\{a, b, c, d\}\)</span>).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+C \frac{dv}{dt} &amp;= k(v-v_r)(v-v_t) - u + I\\
+\frac{du}{dt} &amp;= a(b(v-v_r) - u)
+\end{align}
+\end{split}\]</div>
+<p>if <span class="math notranslate nohighlight">\(v &#8805; v_\text{peak}\)</span>, then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+v &amp;&#8594; c\\
+u &amp;&#8594; u + d
+\end{align}
+\end{split}\]</div>
+</div>
+<div class="section" id="param-comparison">
+<h3>Param comparison<a class="headerlink" href="#param-comparison" title="Permalink to this headline">&#182;</a></h3>
+<p>Exactly equal:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AdEx LIF</p></th>
+<th class="text-align:left head"><p>Izhikevich</p></th>
+<th class="text-align:left head"><p>My Izh. code</p></th>
+<th class="text-align:left head"><p>Units</p></th>
+<th class="text-align:left head"><p>Function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(V\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v\)</span></p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Membrane voltage</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(w\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(u\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(u\)</span></p></td>
+<td class="text-align:left"><p>[A]</p></td>
+<td class="text-align:left"><p>Adaptation current</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-align:left"><p>[F]</p></td>
+<td class="text-align:left"><p>Membrane capacitance</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(&#964;_w\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(1\ /\ a\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(1\ /\ a\)</span></p></td>
+<td class="text-align:left"><p>[s]</p></td>
+<td class="text-align:left"><p>Time ct. of adaptation current</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-align:left"><p>[A/V = S]</p></td>
+<td class="text-align:left"><p>Sensitivity of adapt. current on v (*)</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(+I\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(+I\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(-I\)</span></p></td>
+<td class="text-align:left"><p>[A]</p></td>
+<td class="text-align:left"><p>Synaptic &amp; electrode current</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(0\)</span> mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_\text{peak}\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_s\)</span></p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Spike definition/cutoff threshold</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(V_r\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(c\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_r\)</span></p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Reset voltage after spike</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(d\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(&#916;u\)</span></p></td>
+<td class="text-align:left"><p>[A]</p></td>
+<td class="text-align:left"><p>Adapt. current bump after spike</p></td>
+</tr>
+</tbody>
+</table>
+<p>(*) Sensitivity of adapt. current, o or coupling strength of <span class="math notranslate nohighlight">\((V-V_L)\)</span> on it</p>
+<p>Same role, approximately same:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AdEx LIF</p></th>
+<th class="text-align:left head"><p>Izhikevich</p></th>
+<th class="text-align:left head"><p>My Izh. code</p></th>
+<th class="text-align:left head"><p>Units</p></th>
+<th class="text-align:left head"><p>Function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(E_L\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_r\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_l\)</span></p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Resting (&#8216;leak&#8217;) membrane potential</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(V_T\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_t\)</span></p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_t\)</span></p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Spike run-off threshold (when no adapt. &amp; ext. current)</p></td>
+</tr>
+</tbody>
+</table>
+<p>Approx same role:</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AdEx LIF</p></th>
+<th class="text-align:left head"><p>Izhikevich</p></th>
+<th class="text-align:left head"><p>Units</p></th>
+<th class="text-align:left head"><p>Function</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>/</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(k\)</span></p></td>
+<td class="text-align:left"><p>[S/V]</p></td>
+<td class="text-align:left"><p>Larger: steeper parabola (of v&#775;) &#8211; and v&#775; more sensitive to depolarization</p></td>
+</tr>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(g_L\)</span></p></td>
+<td class="text-align:left"><p>/</p></td>
+<td class="text-align:left"><p>[S]</p></td>
+<td class="text-align:left"><p>Larger: steeper exponential (of v&#775;) &#8211; and v&#775; more sensitive to depolarization. (Leak conductance)</p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(&#916;_T\)</span></p></td>
+<td class="text-align:left"><p>/</p></td>
+<td class="text-align:left"><p>[V]</p></td>
+<td class="text-align:left"><p>Smaller: steeper exponential (of v&#775;). &#8216;Threshold slope factor&#8217;</p></td>
+</tr>
+</tbody>
+</table>
+<p>Thus:</p>
+<div class="math notranslate nohighlight">
+\[
+k \propto \frac{g_L}{&#916;_T}
+\]</div>
+<hr class="docutils">
+<p>(Dayan &amp; Abbott book has <span class="math notranslate nohighlight">\(V\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+c_m \frac{dV}{dt} = -i_m + \frac{I_e}{A}
+\]</div>
+<p>Multiplying out the cell membrane size <span class="math notranslate nohighlight">\(A\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+C \frac{dV}{dt} = -I_m + I_e
+\]</div>
+<p>)</p>
+<p>On <span class="math notranslate nohighlight">\(I\)</span>:<br>
+<code class="docutils literal notranslate"><span class="pre">sign</span> <span class="pre">convention</span> <span class="pre">for</span> <span class="pre">current</span> <span class="pre">entering/leaving</span> <span class="pre">cell:</span> <span class="pre">C</span> <span class="pre">v&#775;</span> <span class="pre">=</span> <span class="pre">&#8211;I&#8344;&#8337;&#8344;</span> <span class="pre">+I&#8337;&#8339;&#8348;</span></code><br>
+Positive charges flowing <strong>out</strong> of membrane: I&#8344;&#8337;&#8344; pos.<br>
+Positive charges flowing from electrode <strong>into</strong> cell: I&#8337;&#8339;&#8348; pos.<br>
+(So I made a mistake here). (Which seems to be cancelled out: exc STAs are upwards).</p>
+</div>
+<div class="section" id="adex-has-one-parameter-more-than-izhikevich">
+<h3>AdEx has one parameter more than Izhikevich<a class="headerlink" href="#adex-has-one-parameter-more-than-izhikevich" title="Permalink to this headline">&#182;</a></h3>
+<p>This allows it to decouple the two sensitivities of V&#775;, around its two fixed points (resting potential and spiking threshold).<br>
+In Izhikevich, you cannot make one more sensitive without also making the other more sensitive.</p>
+</div>
+<div class="section" id="parameter-reduction">
+<h3>Parameter reduction<a class="headerlink" href="#parameter-reduction" title="Permalink to this headline">&#182;</a></h3>
+<p>Naud et al 2008 divide their nine params into:</p>
+<ul class="simple">
+<li><p>Scaling parameters: <span class="math notranslate nohighlight">\(C, g_L, E_L, &#916;_T, V_T\)</span></p></li>
+<li><p>Bifurcation parameters: <span class="math notranslate nohighlight">\(a, &#964;_w, b, V_r\)</span></p></li>
+</ul>
+<p>In Izh reduction, these four bifurcation parameters are:</p>
+<ul class="simple">
+<li><p>In the same order: <span class="math notranslate nohighlight">\(b, 1/a, d, c\)</span></p></li>
+</ul>
+<p>(Now the other way round:</p>
+<ul class="simple">
+<li><p>Izh  <span class="math notranslate nohighlight">\(a, b, c, d = \)</span></p></li>
+<li><p>AdEx <span class="math notranslate nohighlight">\(1/&#964;_w, a, V_r, b\)</span></p></li>
+</ul>
+<p>)</p>
+<p>Note that for both models, when transforming a model in biological units (with all 9 or 8 params)<br>
+to a dimensionless one, with just 4 bifurcation parameters,<br>
+the bifurcation parameters (<em>with the same names</em>), will get different values.</p>
+</div>
+<div class="section" id="i-v-relation">
+<h3>I-V relation<a class="headerlink" href="#i-v-relation" title="Permalink to this headline">&#182;</a></h3>
+<p>Re Izh book, same place as reff&#8217;ed above.</p>
+<p>Guide to the derivation there, and fig 5.24:</p>
+<ul class="simple">
+<li><p>&#8220;Instantaneous I-V relation, <span class="math notranslate nohighlight">\(I_0(V)\)</span>&#8221; is for <span class="math notranslate nohighlight">\(\dot{v} = 0\)</span> and <span class="math notranslate nohighlight">\(u = 0\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(I = -k(v-v_r)(v-v_t)\)</span></p></li>
+</ul>
+</li>
+<li><p>&#8220;Steady-state I-V relation, <span class="math notranslate nohighlight">\(I_\infty(V)\)</span>&#8221; is for <span class="math notranslate nohighlight">\(\dot{v} = 0\)</span> and <span class="math notranslate nohighlight">\(u \neq 0\)</span>; but <span class="math notranslate nohighlight">\(\dot{u} = 0\)</span></p>
+<ul>
+<li><p><span class="math notranslate nohighlight">\(I = -k(v-v_r)(v-v_t) + u\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(\ \ = -k(v-v_r)(v-v_t) + b(v-v_r)\)</span></p></li>
+<li><p>(<span class="math notranslate nohighlight">\(\ \ = -k v^2 + (kv_t+kv_r+b)v + (bv_r - kv_rv_t)\)</span>)</p></li>
+</ul>
+</li>
+</ul>
+<p>indeed around <span class="math notranslate nohighlight">\(v_r\)</span> (<span class="math notranslate nohighlight">\(= E_L\)</span>), the linearization (derivative) of V&#775; wrt V gives the input conductance
+(= 1/R, with R the input resistance).</p>
+<p>Derivative of steady-state I(V) wrt <span class="math notranslate nohighlight">\(v\)</span>:<br>
+<span class="math notranslate nohighlight">\(-2kv + (kv_t+kv_r+b)\)</span></p>
+<p>At <span class="math notranslate nohighlight">\(v=v_r\)</span>:<br>
+<span class="math notranslate nohighlight">\(b + k(v_t - v_r)\)</span>.</p>
+<p>Rheobase = smallest current with which cell generates action potential, when applied &#8216;infinitely&#8217; (300 ms) long.</p>
+</div>
+<div class="section" id="sign-of-b-izh-a-adex">
+<h3>Sign of <span class="math notranslate nohighlight">\(b\)</span> (Izh) / <span class="math notranslate nohighlight">\(a\)</span> (AdEx)<a class="headerlink" href="#sign-of-b-izh-a-adex" title="Permalink to this headline">&#182;</a></h3>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(b &lt; 0\)</span>: positive feedback</p></li>
+<li><p><span class="math notranslate nohighlight">\(b &gt; 0\)</span>: negative feedback</p></li>
+</ul>
+<p>Confusing, yes.<br>
+The former is &#8216;amplifying&#8217;,<br>
+the latter is &#8216;resonant&#8217;, adaptation.</p>
+</div>
+<div class="section" id="same-parametrization">
+<h3>Same parametrization<a class="headerlink" href="#same-parametrization" title="Permalink to this headline">&#182;</a></h3>
+<p>Let&#8217;s choose AdEx&#8217;s.</p>
+<p>i.e. express Izhikevich equation w/ AdEx names for params.</p>
+<p>As the diff.eq. for the adaptation current is exactly the same, we omit it.<br>
+Idem for the non-continuous spike detection and reset.<br>
+That leaves us the membrane potential diff.eq, from which we leave out the non-membrane currents, as they are also identical.</p>
+<p>Izh:</p>
+<div class="math notranslate nohighlight">
+\[
+C \dot{V} = k(V-E_L)(V-V_T)
+\]</div>
+<p>AdEx:</p>
+<div class="math notranslate nohighlight">
+\[
+C \dot{V} = -g_L(V-E_L) + g_L &#916;_T \exp \left( \frac{V - V_T}{\Delta_T} \right)
+\]</div>
+</div>
+<div class="section" id="k-g-l">
+<h3><span class="math notranslate nohighlight">\(k\)</span> &#8596; <span class="math notranslate nohighlight">\(g_L\)</span><a class="headerlink" href="#k-g-l" title="Permalink to this headline">&#182;</a></h3>
+<p>In Izhikevich, the slope of v&#775;(v) around the resting potential (= the input conductance)
+is, for <span class="math notranslate nohighlight">\(u = 0\)</span>, and at <span class="math notranslate nohighlight">\(v = v_r\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+ &amp; \frac{d}{dv}\left( k(v-v_r)(v-v_t) \right)\\
+=&amp; 2kv - kv_t - kv_r\\
+=&amp; k(v_r - v_t)
+\end{align}
+\end{split}\]</div>
+<p>Linearizing AdEx&#8217;s v&#775;(v) around the resting potential,
+ignoring the exponential as it&#8217;s small:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+ &amp; \frac{d}{dV}\left( -g_L (V - E_L) \right)\\
+=&amp; -g_L
+\end{align}
+\end{split}\]</div>
+<p>Is input conductance same thing as leak conductance? I suppose so.<br>
+(Yes, caption of table 1 <a class="reference external" href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1002550">here</a> says so, e.g: &#8220;Total leak conductance (a.k.a. input conductance)&#8221;).</p>
+<p>So, we then have our relationship:</p>
+<div class="math notranslate nohighlight">
+\[
+g_L = k(v_t - v_r)
+\]</div>
+<p>For our good old Cortical RS (regular spiking) parameters we&#8217;ve always used, this is:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(k = 0.7\)</span> nS/mV</p></li>
+<li><p><span class="math notranslate nohighlight">\(v_r = -60\)</span> mV</p></li>
+<li><p><span class="math notranslate nohighlight">\(v_t = -40\)</span> mV</p></li>
+</ul>
+<p>and thus</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(v_t - v_r = 20\)</span> mV</p></li>
+<li><p><span class="math notranslate nohighlight">\(g_L = 14 \)</span> nS</p></li>
+</ul>
+<p>Is this realistic?<br>
+Table 1 (after fig 4) in Naud 2008 gives <span class="math notranslate nohighlight">\(g_L\)</span> values between 2.9 and 18 nS.<br>
+So yes, totally.</p>
+</div>
+<div class="section" id="k-delta-t">
+<h3><span class="math notranslate nohighlight">\(k\)</span> &#8596; <span class="math notranslate nohighlight">\(\Delta_T\)</span><a class="headerlink" href="#k-delta-t" title="Permalink to this headline">&#182;</a></h3>
+<p>We will linearize AdEx&#8217;s V&#775;(V) around <span class="math notranslate nohighlight">\(V=V_T\)</span><br>
+We cannot ignore the linear (leak) term now, I think.</p>
+<p>(Given that a parabola has the same slope at both zeros (just inversed sign),
+we already know it for Izh (namely <span class="math notranslate nohighlight">\(k(v_t-v_r)\)</span>)).</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+ &amp; \frac{d}{dV}\left( -g_L (V - E_L) + g_L &#916;_T \exp\left(\frac{V - V_T}{&#916;_T}\right) \right)\\
+=&amp; -g_L + g_L &#916;_T\ \ \frac{d}{dV}\left(\frac{V - V_T}{&#916;_T}\right)\ \  \exp\left(\frac{V - V_T}{&#916;_T}\right)\\
+=&amp; -g_L + g_L &#916;_T\ \ \frac{1}{&#916;_T} \ \ \ \ \ \  \exp\left(\frac{V - V_T}{&#916;_T}\right)\\
+\\
+&amp; \text{(substituting $V=V_T$)}\\
+=&amp; -g_L + g_L \frac{&#916;_T}{&#916;_T}  \exp(0)\\
+=&amp; -g_L + g_L\\
+=&amp;\ 0
+\end{align}
+\end{split}\]</div>
+<p>Aha.<br>
+<span class="math notranslate nohighlight">\(V_T\)</span> is thus not the approx runaway threshold.<br>
+It&#8217;s where V&#775;(V) is minimal.<br>
+(The derivative at <span class="math notranslate nohighlight">\(V_T\)</span> is zero).</p>
+<hr class="docutils">
+<p>(For Izh, minimum is where <span class="math notranslate nohighlight">\(2kv - kv_t - kv_r = 0\)</span>,<br>
+or <span class="math notranslate nohighlight">\(v = (v_t + v_r)/2\)</span>.
+That makes total sense.</p>
+<hr class="docutils">
+<p>So where is the unstable fixed point?<br>
+At V&#775;=0, or:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+V - E_L &amp;= &#916;_T \exp\left(\frac{V - V_T}{&#916;_T}\right)\\
+\\
+\left(\frac{V - E_L}{&#916;_T}\right) &amp;= \exp\left(\frac{V - V_T}{&#916;_T}\right)
+\end{align}
+\end{split}\]</div>
+<p>(We can take log; but doesn&#8217;t help much).</p>
+<p>WolframAlpha <a class="reference external" href="https://www.wolframalpha.com/input?i=f%28V%29+%3D+-g*%28V-L%29%2Bg*D*exp%28%28V-T%29%2FD%29">says</a> root at:</p>
+<div class="math notranslate nohighlight">
+\[
+V = E_L - &#916;_T\ W(-e^{(E_L/&#916;_T - V_T/&#916;_T)})
+\]</div>
+<p>with W = ProductLog = <a class="reference external" href="https://mathworld.wolfram.com/LambertW-Function.html">https://mathworld.wolfram.com/LambertW-Function.html</a></p>
+<p>Evaluating the second term for the Naud&#8217;s cortical RS (below):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">E_L</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="c"># mV</span>
+<span class="n">V_T</span> <span class="o">=</span> <span class="o">-</span><span class="mi">52</span> <span class="c"># mV</span>
+<span class="n">&#916;_T</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="c"># mV</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The exponent is</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">E_L</span><span class="o">/</span><span class="n">&#916;_T</span> <span class="o">-</span> <span class="n">V_T</span><span class="o">/</span><span class="n">&#916;_T</span><span class="p">)</span>  <span class="c"># mV</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-16.2
+</pre></div>
+</div>
+</div>
+</div>
+<p>The LambertW function passes through 0.<br>
+So this root is just our resting potential.<br>
+(It&#8217;s <span class="math notranslate nohighlight">\(E_L\)</span>, minus a tiny correction due to the exponential term; which is nearly 0 there).</p>
+<p>So where is our second root??</p>
+<p>We&#8217;ll plot it. Above values,<br>
+and g_L = 1.<br>
+<a class="reference external" href="https://www.wolframalpha.com/input?i=plot+f%28V%29+%3D+-%28V%2B65%29%2B0.8*exp%28%28V%2B52%29%2F0.8%29+from+-70+to+-48">Link</a></p>
+<p>Ok so phew, I&#8217;m not crazy, there&#8217;s two roots.</p>
+<p>Eh, I guess it just can&#8217;t be found analytically.</p>
+<p>So let&#8217;s do numerically then.<br>
+Unstable fixed point (firing thr), and slope there:</p>
+<p>Or not, it&#8217;s fine. Not needed now. (We could do it, if we wanted).</p>
+<p>WolframAlpha of the plot above gives -49.6 mV.</p>
+<p>The slope there is:</p>
+<div class="math notranslate nohighlight">
+\[
+g_L \left( \exp\left(\frac{V - V_T}{&#916;_T}\right) - 1 \right)
+\]</div>
+<p>Or:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">g_L</span> <span class="o">=</span> <span class="mf">4.3</span> <span class="c"># nS</span>
+<span class="n">V</span> <span class="o">=</span> <span class="o">-</span><span class="mf">49.6</span> <span class="c"># mV</span>
+
+<span class="n">exponent</span> <span class="o">=</span> <span class="p">(</span><span class="n">V</span><span class="o">-</span><span class="n">V_T</span><span class="p">)</span><span class="o">/</span><span class="n">&#916;_T</span>  <span class="c"># [unitless]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">slope</span> <span class="o">=</span> <span class="n">g_L</span> <span class="o">*</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">exponent</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># nS</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>82.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>That looks about right.</p>
+</div>
+<div class="section" id="value-for-delta-t">
+<h3>Value for <span class="math notranslate nohighlight">\(\Delta_T\)</span><a class="headerlink" href="#value-for-delta-t" title="Permalink to this headline">&#182;</a></h3>
+<p>They compare with real regular spiking cells, &#8216;RS&#8217;.<br>
+Again table 1: <span class="math notranslate nohighlight">\(&#916;_T = 0.8\)</span> mV (lowest of the table; highest is 5.5 mV).</p>
+</div>
+<div class="section" id="param-value-comparison-for-cortical-rs-neuron">
+<h3>Param value comparison, for cortical RS neuron<a class="headerlink" href="#param-value-comparison-for-cortical-rs-neuron" title="Permalink to this headline">&#182;</a></h3>
+<p>Putting it all together, param comparison of AdEx RS of Naud et al, with Izhikevich&#8217;s RS (Mark&#8217;s technical report):</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:right head"><p>Naud 2008 AdEx</p></th>
+<th class="text-align:left head"><p>Val</p></th>
+<th class="text-align:left head"><p>Val</p></th>
+<th class="text-align:left head"><p>Izh / report</p></th>
+<th class="text-align:left head"><p>What</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-align:left"><p>104 pF</p></td>
+<td class="text-align:left"><p>100  pF</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C\)</span></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(C/g_L\)</span></p></td>
+<td class="text-align:left"><p>24 ms</p></td>
+<td class="text-align:left"><p>?</p></td>
+<td class="text-align:left"><p>?</p></td>
+<td class="text-align:left"><p>Time constant of voltage</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p>0.14  ms&#183;mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(C/k\)</span></p></td>
+<td class="text-align:left"><p>?</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p>&#8212;&#8212;&#8212;&#8212;&#8211;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;&#8212;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;&#8212;&#8211;</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(g_L\)</span></p></td>
+<td class="text-align:left"><p>4.3 nS</p></td>
+<td class="text-align:left"><p>14  nS</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(k(v_t-v_r)\)</span></p></td>
+<td class="text-align:left"><p>Slope of V&#775;(V) at rest</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(E_L\)</span></p></td>
+<td class="text-align:left"><p>-65 mV</p></td>
+<td class="text-align:left"><p>-60  mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_r\)</span></p></td>
+<td class="text-align:left"><p>Rest (stable fixed point)</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(V_T\)</span></p></td>
+<td class="text-align:left"><p>-52 mV</p></td>
+<td class="text-align:left"><p>-50  mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\((v_t+v_r)/2\)</span></p></td>
+<td class="text-align:left"><p>Minimum of V&#775;(V)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p></p></td>
+<td class="text-align:left"><p>-49.6 mV</p></td>
+<td class="text-align:left"><p>-40  mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(v_t\)</span></p></td>
+<td class="text-align:left"><p>Threshold (unstable fixed point)</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p></p></td>
+<td class="text-align:left"><p>82 nS</p></td>
+<td class="text-align:left"><p>14  nS</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(k(v_t-v_r)\)</span></p></td>
+<td class="text-align:left"><p>Slope of V&#775;(V) at threshold</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(&#916;_T\)</span></p></td>
+<td class="text-align:left"><p>0.8 mV</p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p>&#8212;&#8212;&#8212;&#8212;&#8211;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;&#8212;</p></td>
+<td class="text-align:left"><p>&#8212;&#8212;&#8212;&#8212;&#8211;</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(a\)</span></p></td>
+<td class="text-align:left"><p>-0.8 nS</p></td>
+<td class="text-align:left"><p>-2  nS</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-align:left"><p>Sensitivity of adapt. current</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(&#964;_w\)</span></p></td>
+<td class="text-align:left"><p>88 ms</p></td>
+<td class="text-align:left"><p>33 ms</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(a^{-1}\)</span></p></td>
+<td class="text-align:left"><p>Time ct of adapt. current</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(b\)</span></p></td>
+<td class="text-align:left"><p>65 pA</p></td>
+<td class="text-align:left"><p>100  pA</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(d\)</span></p></td>
+<td class="text-align:left"><p>Adapt. current bump after spike</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p><span class="math notranslate nohighlight">\(V_r\)</span></p></td>
+<td class="text-align:left"><p>-53 mV</p></td>
+<td class="text-align:left"><p>-50  mV</p></td>
+<td class="text-align:left"><p><span class="math notranslate nohighlight">\(c\)</span></p></td>
+<td class="text-align:left"><p>Reset voltage after spike</p></td>
+</tr>
+</tbody>
+</table>
+<p>So the Naud RS neuron has a range -65 mV &#8211; -50 mV  (15 mV wide)<br>
+Ours has -60 mV &#8211; -40 mV  (20 mV wide).</p>
+<p>Their neuron&#8217;s adaptation current adapts slower, is less influenced by V.<br>
+Ours is less smoothed, and has larger bumps on a spike.</p>
+<p>They reset quite high: almost at the &#8216;knik&#8217; (minimum, <span class="math notranslate nohighlight">\(V_T\)</span>)<br>
+We reset in the middle of our interval.</p>
+<p>Around rest, their neuron is less sensitive (more than 3x less).<br>
+I.e. they should have smaller STAs.<br>
+(and conversely, at threshold their V&#775; is almost 6x more sensitive).</p>
+<p>Their V&#775; is linear over a large range<br>
+(see <a class="reference external" href="https://www.wolframalpha.com/input?i=plot+f%28V%29+%3D+-%28V%2B65%29%2B0.8*exp%28%28V%2B52%29%2F0.8%29+from+-70+to+-48">plot</a> again).<br>
+Ours is linear nowhere.</p>
+</div>
+<div class="section" id="izh-time-constant-for-voltage">
+<h3>Izh time constant for voltage<a class="headerlink" href="#izh-time-constant-for-voltage" title="Permalink to this headline">&#182;</a></h3>
+<p>Can we find it?</p>
+<p>Not now.</p>
+</div>
+<div class="section" id="define-params">
+<h3>Define params<a class="headerlink" href="#define-params" title="Permalink to this headline">&#182;</a></h3>
+<p>We could write code to convert our current Izh params to AdEx<br>
+(e.g. <code class="docutils literal notranslate"><span class="pre">g_L</span> <span class="pre">=</span> <span class="pre">k*(v_t</span> <span class="pre">-</span> <span class="pre">v_r)</span></code>).<br>
+But why not just go with Naud 2008 cortical RS params.</p>
+<p>[&#8594; Next notebook]</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.9"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.9",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.9'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="2023-02-07__%5Binput-linefit-wins%5D.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">2023-02-07 &#8226; [input] to &#8216;AdEx Nto1&#8217;</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2023-01-19__Fit-a-line.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2023-01-19 &#8226; Fit a line</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
