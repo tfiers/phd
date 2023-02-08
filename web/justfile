@@ -1,0 +1,10 @@
+
+# Need to `conda activate phd-web` first
+serve:
+    python build.py
+    python -m http.server -d _build/html -b localhost
+# (no, can't activate here, for some reason. Neither with && nor with sep command)
+# (comment above is not multiline, as `just -l` only takes last line (🙄))
+
+# You can ignore the build error (sth about a regex)
+# (it disappears when clearing the nb dir (uncomment line in build.py); but then slower rebuilds).

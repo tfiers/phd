@@ -96,7 +96,7 @@ def add_to_head(tag, tree):
 
 if __name__ == "__main__":
     copy_down_notebooks_dir()
-    run_jupyterbook_cmd("clean")
+    # run_jupyterbook_cmd("clean")
     run_jupyterbook_cmd("build")
     add_google_meta_tags_to_all_pages()
     add_link_tag_to_renamed_pages()

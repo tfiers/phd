@@ -3,8 +3,8 @@ author: Tomas Fiers
 
 only_build_toc_files: true
 
-bibtex_bibfiles:
-  - thesis/references.bib
+# bibtex_bibfiles:
+#   - thesis/references.bib
 
 sphinx:
   config:
