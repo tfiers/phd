@@ -733,6 +733,13 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">winsize</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>  <span class="c"># first 10 ms</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">windows</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">&#916;t</span><span class="p">,</span> <span class="n">winsize</span><span class="p">)</span>
     <span class="c"># Assuming that times occur in [0, T)</span>
     <span class="n">win_starts</span> <span class="o">=</span> <span class="n">floor</span><span class="o">.</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">times</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span> <span class="o">.+</span> <span class="mi">1</span>
@@ -937,7 +944,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># spiketimes(i::Int) = spiketimes(inp.inputs[i])</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spiketimes</span><span class="p">(</span><span class="n">i</span><span class="o">::</span><span class="kt">Int</span><span class="p">)</span> <span class="o">=</span> <span class="n">spiketimes</span><span class="p">(</span><span class="n">inp</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 
 <span class="c"># st&#8337; = spiketimes(ni&#8337;)</span>
 
