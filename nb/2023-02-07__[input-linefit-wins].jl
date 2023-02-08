@@ -20,6 +20,8 @@
 
 # ## Windows
 
+winsize = 100;  # first 10 ms
+
 # +
 function windows(v, times, Δt, winsize)
     # Assuming that times occur in [0, T)
@@ -168,7 +170,7 @@ end;
 # @time fitwins(niᵢ).slope
 
 # +
-# spiketimes(i::Int) = spiketimes(inp.inputs[i])
+spiketimes(i::Int) = spiketimes(inp.inputs[i])
 
 # stₑ = spiketimes(niₑ)
 

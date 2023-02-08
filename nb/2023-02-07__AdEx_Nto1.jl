@@ -290,7 +290,9 @@ vrec(s::Simulation{<:Nto1System}) = s.rec.v;
 #
 # / end same
 
+# + [markdown] tags=[] jp-MarkdownHeadingCollapsed=true
 # ### Plot
+# -
 
 # Let's see what this AdEx guy looks like.
 
@@ -319,7 +321,9 @@ Nt = s.stepcounter.N
 t = linspace(0, sim_duration, Nt)
 plotsig(t, v / mV; tlim=[0, 10seconds]);
 
+# + [markdown] tags=[]
 # ## Conntest pooled windows - linear regress 10 ms
+# -
 
 i = 6
 N = Ns[i]
@@ -375,20 +379,30 @@ all_spiketrains = [real_spiketrains; unconnected_trains];
 using Base.Threads: @threads
 
 Nrows = length(all_spiketrains)
-rows = Vector(undef, Nrows)
-p = Progress(Nrows)
-@threads for r in 1:Nrows
-    rows[r] = makerow(r)
-    next!(p)
+
+# (Below calc takes 3'25 on laptop, 7 threads)
+
+# +
+makerows() = begin
+    rows = Vector(undef, Nrows)
+    p = Progress(Nrows)
+    @threads for r in 1:Nrows
+        rows[r] = makerow(r)
+        next!(p)
+    end
+    return rows
 end;
 
+rows = cached(makerows, (), key=cachekey(N));
+# -
+
 df = DataFrame(rows)
-df |> disp(20)
+disp(df, 5)  # (huh, disp no work no more here)
 
 perftable(df)
 
 # At this arbitrary ‘α’ = 0.001:
-# - FPR: 22%
+# - FPR: 14%
 # - TPRₑ: 26%
 # - TPRᵢ: 43%
 #
@@ -400,6 +414,47 @@ perftable(df)
 #
 # So, that seems like a def increase :)
 
+# ### Now with lower FPR / lower α
+
+Nrows = length(all_spiketrains)
+# Nrows = 20
+
+α=0.0001;
+rows2 = Vector(undef, Nrows)
+p = Progress(Nrows)
+@threads for r in 1:Nrows
+    rows2[r] = makerow(r; α)
+    next!(p)
+end;
+df2 = DataFrame(rows2)
+perftable(df2)
+
+# (FPR 16%)
+
+# ### Even lowerr
+#
+# It's dumb to recalculate; we have the p-values.
+
+# (Plus, there's some memory thing it seems: process dies halfway here).
+
+# +
+update_predtype(row::DataFrameRow; α) = begin
+    if row.pval < α
+        predtype = (row.slope > 0 ? :exc : :inh)
+    else
+        predtype = :unconn
+    end
+    row.predtype = predtype
+end;
+
+df3 = deepcopy(df)
+foreach(row -> update_predtype(row, α = 0.0000008), eachrow(df3))
+perftable(df3)
+# -
+
+# :D
+
+# + [markdown] tags=[]
 # ## Conntest STA
 
 # +
@@ -411,11 +466,12 @@ calcSTA(sim, spiketimes) =
 # +
 # @code_warntype calc_STA(vrec(s), st1, s.Δt, winsize)
 # all good
+
+# + [markdown] tags=[]
+# ### Cache STA calc
 # -
 
-# ### Cache STA calc
-
-using Distributed
+using Base.Threads: @threads
 
 # +
 function calc_STA_and_shufs(spiketimes, sim)
@@ -430,16 +486,21 @@ end
 "calc_all_STAs_and_shufs"
 function calc_all_STAz(inputs, sim)
     f(input) = calc_STA_and_shufs(spiketimes(input), sim)
-    @showprogress pmap(f, inputs)
+    N = length(inputs)
+    res = Vector(undef, N)
+    p = Progress(N)
+    # @threads for i in 1:N
+    for i in 1:N
+        res[i] = f(inputs[i])
+        next!(p)
+    end
+    res
 end
 calc_all_STAz(simrun) = calc_all_STAz(unpakk(simrun)...);
 unpakk(simrun) = (; simrun.input.inputs, simrun.sim);
 
 # out = calc_all_STAz(simruns[1])
 # print(Base.summary(out))
-# -
-
-
 
 # + tags=[]
 calc_all_cached(i) = cached(calc_all_STAz, [simruns[i]], key=cachekey(Ns[i]))
