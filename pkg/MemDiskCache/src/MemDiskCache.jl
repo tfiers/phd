@@ -1,9 +1,7 @@
-module ThreadedMemDiskCache
+module MemDiskCache
 
 using ThreadSafeDicts
 using JLD2
-using Base.Threads: @threads
-using ProgressMeter
 
 """
 The contents of the files on disk can be inspected using
@@ -104,22 +102,10 @@ empty_diskcache!(c::CachedFunction) = begin
 end
 
 
-function threaded_foreach(f, collection)
-    pb = Progress(length(collection))
-    @threads for el in collection
-        f(el)
-        next!(pb)
-    end
-    finish!(pb)
-end
-
-
 export CachedFunction
 export set_cachedir, get_cachedir
 export empty_memcache!, rm_from_memcache!
 export filelist, empty_diskcache!
 export jldopen  # = a reexport
-export threaded_foreach
 
-
-end # module ThreadedMemDiskCache
+end

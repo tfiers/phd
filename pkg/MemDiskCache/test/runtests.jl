@@ -1,7 +1,7 @@
 
-using ThreadedMemDiskCache
+using MemDiskCache
 
-set_cachedir("2023-05-03__test_ThreadedMemDiskCache")
+set_cachedir("2023-05-03__test_MemDiskCache")
 
 function run_sim(; N, duration, seed=1)
     println("Actually running `run_sim`")
