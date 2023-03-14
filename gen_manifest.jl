@@ -6,7 +6,15 @@ using Pkg
 
 Pkg.activate(".")
 
-local_pkgs = ["VoltoMapSim", "SpikeWorks", "Sciplotlib", "MyToolbox", "ThreadedMemDiskCache"]
+local_pkgs = [
+    "VoltoMapSim",
+    "ConnectionTests",
+    "SpikeWorks",
+    "Sciplotlib",
+    "MyToolbox",
+    "MemDiskCache",
+    "ThreadProgress",
+]
 # This list is sorted so the more top-level packages occur earlier.
 # (VoltoMapSim depends on Sciplotlib and MyToolbox. Sciplotlib depends on MyToolbox).
 

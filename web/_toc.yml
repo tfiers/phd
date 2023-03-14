@@ -2,6 +2,8 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-03-14__Nto1_sim_AdEx
+    - file: nb/2023-02-07__multisim-winline
     - file: nb/2023-02-07__AdEx_Nto1
     - file: nb/2023-02-07__[input-linefit-wins]
     - file: nb/2023-02-07__AdEx_Izh_comparison
