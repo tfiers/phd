@@ -1,0 +1,4 @@
+name = "ConnectionTests"
+uuid = "4ec9db02-d517-45d2-bd92-62a00b158019"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
