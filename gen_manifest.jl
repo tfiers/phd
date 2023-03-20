@@ -7,7 +7,6 @@ using Pkg
 Pkg.activate(".")
 
 local_pkgs = [
-    "VoltoMapSim",
     "ConnectionTests",
     "ConnTestEval",
     "SpikeWorks",
@@ -17,7 +16,7 @@ local_pkgs = [
     "ThreadProgress",
 ]
 # This list is sorted so the more top-level packages occur earlier.
-# (VoltoMapSim depends on Sciplotlib and MyToolbox. Sciplotlib depends on MyToolbox).
+# (Sciplotlib depends on MyToolbox).
 
 for name in local_pkgs
     # Without these temporarily removals, we'd get "LoadError: expected package {local_dep}
