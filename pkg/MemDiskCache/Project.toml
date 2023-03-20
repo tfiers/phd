@@ -4,5 +4,6 @@ authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+DefaultApplication = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
 ThreadSafeDicts = "4239201d-c60e-5e0a-9702-85d713665ba7"

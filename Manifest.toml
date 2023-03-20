@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "25f7aeddff59fc8748fae6fcb817cdbaa1599932"
+project_hash = "e7a2b101f1b5a8a74936673c86cbec6203ecf043"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -149,6 +149,12 @@ git-tree-sha1 = "6e47d11ea2776bc5627421d59cdcc1296c058071"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
 version = "1.7.0"
 
+[[deps.ConnTestEval]]
+deps = ["StaticArrays"]
+path = "pkg/ConnTestEval"
+uuid = "03fa6f02-708e-42e1-9f65-1513c92445f8"
+version = "0.1.0"
+
 [[deps.ConnectionTests]]
 path = "pkg/ConnectionTests.jl"
 uuid = "4ec9db02-d517-45d2-bd92-62a00b158019"
@@ -219,6 +225,12 @@ deps = ["CodeTracking", "Crayons", "Highlights", "InteractiveUtils", "JuliaInter
 git-tree-sha1 = "6798d210d8277b96cee6a6af387ed249b6e744ab"
 uuid = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
 version = "0.7.8"
+
+[[deps.DefaultApplication]]
+deps = ["InteractiveUtils"]
+git-tree-sha1 = "c0dfa5a35710a193d83f03124356eef3386688fc"
+uuid = "3f0dd361-4fe0-5fc6-8523-80b14ec94d85"
+version = "1.1.0"
 
 [[deps.DensityInterface]]
 deps = ["InverseFunctions", "Test"]
@@ -676,7 +688,7 @@ uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
 version = "2.28.0+0"
 
 [[deps.MemDiskCache]]
-deps = ["JLD2", "ThreadSafeDicts"]
+deps = ["DefaultApplication", "JLD2", "ThreadSafeDicts"]
 path = "pkg/MemDiskCache"
 uuid = "40c6d27e-4dd7-460c-8c4c-2ed37df2112f"
 version = "0.1.0"

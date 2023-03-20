@@ -2,6 +2,7 @@ module MemDiskCache
 
 using ThreadSafeDicts
 using JLD2
+using DefaultApplication
 
 """
 The contents of the files on disk can be inspected using
@@ -101,11 +102,15 @@ empty_diskcache!(c::CachedFunction) = begin
     @info "Emptied and removed [$(c.dir)]"
 end
 
+open_cachedir() = DefaultApplication.open(get_cachedir())
+open_dir(c::CachedFunction) = DefaultApplication.open(c.dir)
+
 
 export CachedFunction
 export set_cachedir, get_cachedir
 export empty_memcache!, rm_from_memcache!
 export filelist, empty_diskcache!
+export open_cachedir, open_dir
 export jldopen  # = a reexport
 
 end
