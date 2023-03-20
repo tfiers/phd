@@ -1,5 +1,6 @@
 
 using ConnTestEval
+using Test
 
 conns = [
     (:exc, 1),
@@ -14,3 +15,9 @@ conntypes = first.(conns)
 tvals = last.(conns)
 
 s = sweep_threshold(tvals, conntypes)
+
+@test s.threshold == [1.1, 1.0, 0.3, 0.2, 0.1, 0.0]
+@test s[1].FPR == 0.0
+@test s[end].FPR == 1.0
+@test s[1].real_types == s[3].real_types
+@test s[1].predicted_types[1] == :unc

@@ -15,7 +15,6 @@ otherwise, depending on t's sign (`:exc` for t > 0, and `:inh` for t < 0).
 module ConnTestEval
 
 
-using StaticArrays
 using StructArrays
 
 

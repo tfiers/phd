@@ -4,7 +4,7 @@ struct PredictionTable
     tvals            ::Vector{Float64}
     real_types       ::Vector{Symbol}
     predicted_types  ::Vector{Symbol}
-    confusion_matrix ::SMatrix{3,3,Int}  # Indexed as [real type, predicted type]
+    confusion_matrix ::Matrix{Int}    # Indexed as [real type, predicted type]
     TPRₑ             ::Float64
     TPRᵢ             ::Float64
     TPR              ::Float64
@@ -26,11 +26,11 @@ classify(t, θ) =
                     :inh  )
 
 confusion_matrix(real_types, predicted_types) = begin
-    cm = zeros(MMatrix{3,3,Int})
+    cm = zeros(Int, 3, 3)
     for (real, pred) in zip(real_types, predicted_types)
         cm[index(real), index(pred)] += 1
     end
-    return SMatrix(cm)
+    return cm
 end
 
 detection_rates(cm) = begin
@@ -110,7 +110,7 @@ print_table(io, rows) =
         pretty_table(io, rows, show_subheader=false, tf=tf_compact)
     else
         @info "Load PrettyTables for prettier tables"
-        for r in rows(p)
+        for r in rows
             println(io, r)
         end
     end
