@@ -14,7 +14,7 @@
 #     name: julia-1.9
 # ---
 
-# # 2023-03-14 • N-to-1 simulation of AdEx neuron
+# # 2023-03-14 • [setup] N-to-1 simulation of AdEx neuron
 
 # This is a script, to be 'imported' (included, run) by other notebooks.
 
@@ -107,20 +107,22 @@ end
 
 using SpikeWorks: newsim, run!
 
-function run_Nto1_AdEx_sim(; N, duration, seed, δ)
-    # δ: Strength, in nS, of each incoming spike:
-    #    How much does it increase the postsynaptic conductance, g.
+using Random
+
+function run_Nto1_AdEx_sim(; N, duration, seed, δ_nS)
+    # δ_nS: Strength, in nS, of each incoming spike:
+    #       How much does it increase the postsynaptic conductance, g.
     Random.seed!(seed)
     firing_rates = rand(fr_distr, N)
     input_IDs = 1:N
     inputs = [
-        Nto1Input(ID, poisson_SpikeTrain(λ, sim_duration))
+        Nto1Input(ID, poisson_SpikeTrain(λ, duration))
         for (ID, λ) in zip(input_IDs, firing_rates)
     ]
     (; Nₑ, Nᵢ) = EIMix(N, EIratio)
     neuron_type(ID) = (ID ≤ Nₑ) ? :exc : :inh
-    Δgₑ = δ * nS
-    Δgᵢ = δ * nS * EIratio
+    Δgₑ = δ_nS * nS
+    Δgᵢ = δ_nS * nS * EIratio
     on_spike_arrival!(vars, spike) =
         if neuron_type(source(spike)) == :exc
             vars.gₑ += Δgₑ
@@ -144,38 +146,49 @@ function run_Nto1_AdEx_sim(; N, duration, seed, δ)
         sim_duration  = duration,
         firing_rates, input_IDs, N, seed, δ
     )
-    return sd = simdata
+    return simdata
 end
 
+# An alias for human readability.
+# We don't make it a proper (concrete) type, as we want to be able to
+# change it, without having to restart Julia.
+const SimData = NamedTuple
+
 "Spiking rate of the output neuron in an Nto1 sim"
-spikerate(sd) = sd.spikerate
+spikerate(sd::SimData) = sd.spikerate
 
 "Voltage signal of the output neuron in an Nto1 sim"
-voltsig(sd) = sd.voltsig
+voltsig(sd::SimData) = sd.voltsig
 
 "List of spiketime-lists"
-spiketrains(sd) = sd.spiketrains
+spiketrains(sd::SimData) = sd.spiketrains
 
 "Neuron type (exc or inh) of each input spiker"
-input_types(sd) = sd.neuron_types
+input_types(sd::SimData) = sd.input_types
 
 
 
 # ---
 
-gen_unconnected_trains(sd, num; seed = 1) = begin
+gen_unconnected_trains(sd::SimData, num; seed = 1) = begin
     Random.seed!(seed)
     firing_rates = rand(fr_distr, num)
     T = sd.sim_duration
     trains = [SpikeWorks.poisson_spikes(r, T) for r in firing_rates]
 end
 
-conntest_all(sd; method, N_unconn) = begin
+conntest_all(sd::SimData, method; N_unconn) = begin
     v = voltsig(sd)
     trains_conn = spiketrains(sd)
     trains_unconn = gen_unconnected_trains(sd, N_unconn)
-    trains = [trains_conn; trains_unconn]
-    conntypes = [input_types(sd); fill(:unconn, N_unconn)]
+    trains = [
+        trains_conn...,
+        trains_unconn...,
+    ]
+    conntypes = [
+        input_types(sd)...,
+        fill(:unc, N_unconn)...,
+    ]
     rows = []
     for (train, conntype) in zip(trains, conntypes)
         spikerate = length(train) / sd.sim_duration
