@@ -9,6 +9,7 @@ Pkg.activate(".")
 local_pkgs = [
     "VoltoMapSim",
     "ConnectionTests",
+    "ConnTestEval",
     "SpikeWorks",
     "Sciplotlib",
     "MyToolbox",

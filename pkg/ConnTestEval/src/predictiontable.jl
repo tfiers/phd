@@ -1,0 +1,116 @@
+
+struct PredictionTable
+    threshold        ::Float64
+    tvals            ::Vector{Float64}
+    real_types       ::Vector{Symbol}
+    predicted_types  ::Vector{Symbol}
+    confusion_matrix ::SMatrix{3,3,Int}  # Indexed as [real type, predicted type]
+    TPRₑ             ::Float64
+    TPRᵢ             ::Float64
+    TPR              ::Float64
+    FPR              ::Float64
+
+    PredictionTable(θ, tvals, conntypes) = begin
+        preds = predicted_types(tvals, θ)
+        cm = confusion_matrix(conntypes, preds)
+        (; TPRₑ, TPRᵢ, TPR, FPR) = detection_rates(cm)
+        new(θ, tvals, conntypes, preds, cm, TPRₑ, TPRᵢ, TPR, FPR)
+    end
+end
+
+predicted_types(tvals, θ) = [classify(t, θ) for t in tvals]
+
+classify(t, θ) =
+    ( abs(t) ≤ θ ?  :unc  :
+      t > 0      ?  :exc  :
+                    :inh  )
+
+confusion_matrix(real_types, predicted_types) = begin
+    cm = zeros(MMatrix{3,3,Int})
+    for (real, pred) in zip(real_types, predicted_types)
+        cm[index(real), index(pred)] += 1
+    end
+    return SMatrix(cm)
+end
+
+detection_rates(cm) = begin
+    # Count positives (P), true positives (TP), etc.
+    Pₑ  = count(cm, real=:exc)
+    TPₑ = count(cm, real=:exc, pred=:exc)
+    Pᵢ  = count(cm, real=:inh)
+    TPᵢ = count(cm, real=:inh, pred=:inh)
+    N   = count(cm, real=:unc)
+    TN  = count(cm, real=:unc, pred=:unc)
+    P   = Pₑ + Pᵢ
+    TP  = TPₑ + TPᵢ
+    FP  = N - TN
+    return (;
+        TPRₑ = TPₑ / Pₑ,
+        TPRᵢ = TPᵢ / Pᵢ,
+        TPR  = TP  / P,
+        FPR  = FP  / N,
+    )
+end
+
+count(cm; real=:, pred=:) = sum(cm[index(real), index(pred)])
+
+index(x::Colon) = x
+index(conntype) =
+    ( conntype == :exc ?  1  :
+      conntype == :inh ?  2  :
+      conntype == :unc ?  3  :
+      error("Unknown connection type `$conntype`") )
+
+
+
+
+# ---------------
+# --- Display ---
+# ---------------
+
+confusion_matrix_string(cm) = begin
+    s = """
+                  Predicted
+               exc   inh   unc
+          exc XXXX  XXXX  XXXX
+    Real  inh XXXX  XXXX  XXXX
+          unc XXXX  XXXX  XXXX
+    """
+    # Julia is 'column-major', which means it goes [1,1], [2,1], ..
+    for count in transpose(cm)
+        s = replace(s, "XXXX"=>lpad(count, 4), count=1)
+    end
+    return s
+end
+
+rows(p::PredictionTable) = [
+    (; t, real, pred)
+    for (t, real, pred)
+    in zip(
+        p.tvals,
+        p.real_types,
+        p.predicted_types,
+    )
+]
+
+Base.show(io::IO, ::MIME"text/plain", p::PredictionTable) = begin
+    println(io, PredictionTable, "\n")
+    println(io, "Threshold: ", p.threshold, "\n")
+    print_table(io, rows(p))
+    println(io)
+    println(io, confusion_matrix_string(p.confusion_matrix))
+    for name in [:TPRₑ, :TPRᵢ, :TPR, :FPR]
+        val = getproperty(p, name)
+        println(io, rpad(name, 4), ": ", round(val, digits=2))
+    end
+end
+
+print_table(io, rows) =
+    if isdefined(Main, :PrettyTables)
+        pretty_table(io, rows, show_subheader=false, tf=tf_compact)
+    else
+        @info "Load PrettyTables for prettier tables"
+        for r in rows(p)
+            println(io, r)
+        end
+    end
