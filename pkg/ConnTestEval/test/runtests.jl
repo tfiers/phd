@@ -12,7 +12,9 @@ conns = [
     (:unc, -1.1)
 ]
 conntypes = first.(conns)
-tvals = last.(conns)
+tvals = Vector{Float64}(last.(conns))
+     # If not, is a Vector{Real},
+     # and every predtable will have own copy (to make Vector{Float64})
 
 s = sweep_threshold(tvals, conntypes)
 

@@ -37,7 +37,32 @@ highest recall and 100% false positive rate (threshold 0).
 """
 thresholds(tvals) = sort!(unique!([abs.(tvals); 0]), rev=true)
 
+"""
+    at_FPR(tables, max_FPR = 0.05)
 
-export sweep_threshold, PredictionTable
+Given the `tables` resulting from a threshold sweep, get the table that
+has an FPR closest to the given value (but not above it).
+"""
+at_FPR(tables, max_FPR = 0.05) = tables[findlast(≤(max_FPR), tables.FPR)]
+
+calc_AUROCs(tables) = (;
+    AUC  = trapz(tables.FPR, tables.TPR),
+    AUCₑ = trapz(tables.FPR, tables.TPRₑ),
+    AUCᵢ = trapz(tables.FPR, tables.TPRᵢ),
+)
+
+trapz(x, y) = begin
+    auc = 0
+    dx = diff(x)
+    N = length(x) - 1
+    for i in 1:N
+        h = (y[i] + y[i+1]) / 2  # Height of trapezius in middle
+        auc += h * dx[i]
+    end
+    return auc
+end
+
+
+export sweep_threshold, PredictionTable, at_FPR, calc_AUROCs
 
 end
