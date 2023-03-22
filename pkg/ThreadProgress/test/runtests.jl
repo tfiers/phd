@@ -2,9 +2,10 @@
 using ThreadProgress
 
 work(el) = begin
-    for i in 1:4
+    for i in 1:3
         @info "Work $el, step $i"
         sleep(1)
+        @info "done"
     end
 end
 
