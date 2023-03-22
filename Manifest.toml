@@ -1103,9 +1103,9 @@ version = "0.1.6"
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
-[[deps.ThreadProgress]]
+[[deps.ThreadLogging]]
 deps = ["ProgressMeter"]
-path = "pkg/ThreadProgress"
+path = "pkg/ThreadLogging"
 uuid = "7235a734-d916-4811-a770-8b82c6ae1075"
 version = "0.1.0"
 

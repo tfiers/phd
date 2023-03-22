@@ -13,7 +13,7 @@ local_pkgs = [
     "Sciplotlib",
     "MyToolbox",
     "MemDiskCache",
-    "ThreadProgress",
+    "ThreadLogging",
 ]
 # This list is sorted so the more top-level packages occur earlier.
 # (Sciplotlib depends on MyToolbox).

@@ -52,7 +52,7 @@ conntest_methods = Dict(
 )
 
 using MemDiskCache
-using ThreadProgress
+using ThreadLogging
 
 set_cachedir("2023-02-24__multisim-winpoolreg")
 

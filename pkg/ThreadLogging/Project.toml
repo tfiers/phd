@@ -1,4 +1,4 @@
-name = "ThreadProgress"
+name = "ThreadLogging"
 uuid = "7235a734-d916-4811-a770-8b82c6ae1075"
 authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
