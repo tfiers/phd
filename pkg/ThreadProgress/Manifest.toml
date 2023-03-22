@@ -1,12 +1,15 @@
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.9.0-beta3"
+julia_version = "1.9.0-rc1"
 manifest_format = "2.0"
-project_hash = "ead88d718d76311b89d27bda5ebf9eab16288dd1"
+project_hash = "bc3912990905be24cff1dacea33d3c15aff4ae21"
 
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+
+[[deps.Logging]]
+uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[deps.Printf]]
 deps = ["Unicode"]
