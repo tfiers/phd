@@ -14,11 +14,12 @@ and then `f["name"]`. Finally, `close(f)`
 struct CachedFunction
     f
     memcache
+    disk
     dir
     default_kw
 end
-CachedFunction(f; dir = fdir(f), default_kw...) =
-    CachedFunction(f, ThreadSafeDict(), dir, default_kw)
+CachedFunction(f; disk = true, dir = fdir(f), default_kw...) =
+    CachedFunction(f, ThreadSafeDict(), disk, dir, default_kw)
 
 fdir(f) = joinpath(get_cachedir(), string(nameof(f)))
 
@@ -26,15 +27,21 @@ fdir(f) = joinpath(get_cachedir(), string(nameof(f)))
 (c::CachedFunction)(; kw...) = begin
     fkw = full_kw(c; kw...)
     if fkw in keys(c.memcache)
+        @info "Found $fkw in memory"
         output = c.memcache[fkw]
     else
         fp = filepath(c, fkw)
         if ispath(fp)
+            @info "Loading [$fp]"
             output = load(fp, "output")
         else
+            @info "Running `$(c.f)` for $fkw"
             output = c.f(; fkw...)
-            mkdir_if_needed(dirname(fp))
-            jldsave(fp; output)
+            if c.disk
+                mkdir_if_needed(dirname(fp))
+                @info "Saving output at [$fp]"
+                jldsave(fp; output)
+            end
         end
         c.memcache[fkw] = output
     end
@@ -83,8 +90,8 @@ full_kw(c::CachedFunction; kw...) = begin
 end
 
 to_string(full_kw::NamedTuple) = begin
-    parts = ("$(k)_$v" for (k,v) in pairs(full_kw))
-    join(parts, "  ")
+    parts = ("$(k)=$v" for (k,v) in pairs(full_kw))
+    join(parts, "  ") * " "
 end
 
 empty_memcache!(c::CachedFunction) = empty!(c.memcache)
@@ -97,10 +104,13 @@ filelist(c::CachedFunction) = begin
     filter!(endswith(".jld2"), paths)
 end
 
-empty_diskcache!(c::CachedFunction) = begin
-    rm(c.dir, recursive=true, force=true)
-    @info "Emptied and removed [$(c.dir)]"
+rmdir(d) = begin
+    rm(d, recursive=true, force=true)
+    @info "Emptied and removed [$d]"
 end
+
+empty_diskcache!(c::CachedFunction) = rmdir(c.dir)
+empty_cachedir() = rmdir(get_cachedir())
 
 open_cachedir() = DefaultApplication.open(get_cachedir())
 open_dir(c::CachedFunction) = DefaultApplication.open(c.dir)
@@ -109,7 +119,7 @@ open_dir(c::CachedFunction) = DefaultApplication.open(c.dir)
 export CachedFunction
 export set_cachedir, get_cachedir
 export empty_memcache!, rm_from_memcache!
-export filelist, empty_diskcache!
+export filelist, empty_diskcache!, empty_cachedir
 export open_cachedir, open_dir
 export jldopen  # = a reexport
 

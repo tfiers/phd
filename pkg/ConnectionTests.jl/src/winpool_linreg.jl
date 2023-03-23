@@ -48,7 +48,9 @@ function build_Xy(windows, timepoints)
     i = 1
     for win in windows
         for (tᵢ, yᵢ) in zip(timepoints, win[timepoints])
-            X[i,:] .= [1, tᵢ]
+            # X[i,:] .= [1, tᵢ]  # Tryin to make faster:
+            X[i,1] = 1
+            X[i,2] = tᵢ
             y[i] = yᵢ
             i += 1
         end

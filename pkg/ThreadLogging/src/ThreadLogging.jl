@@ -30,14 +30,7 @@ Logging.handle_message(
     queue_redraw!(l)
 end
 
-clean(msg) = truncate(replace(msg, "\n"=>" "))
-
-truncate(str, n = 20) =
-    if length(str) > n
-        str[1:(n-1)] * "…"
-    else
-        str
-    end
+clean(msg) = replace(msg, "\n"=>"  ")
 
 queue_redraw!(l::ThreadLogger) =
     if isempty(l.redraw_channel)
@@ -47,6 +40,7 @@ queue_redraw!(l::ThreadLogger) =
     end
 
 redraw_on_cue(l::ThreadLogger) = begin
+    println("Drawing on thread $(threadid())")
     draw(l)
     while isopen(l.redraw_channel)
         take!(l.redraw_channel)  # Blocks when empty
@@ -54,7 +48,10 @@ redraw_on_cue(l::ThreadLogger) = begin
     end
 end
 
-start!(l::ThreadLogger) = @async redraw_on_cue(l)
+start!(l::ThreadLogger) = begin
+    @spawn sleep(1)  # Hack to have our boy run not on t1
+    @spawn redraw_on_cue(l)
+end
 
 done!(l::ThreadLogger) = begin
     close(l.redraw_channel)
@@ -68,6 +65,7 @@ draw(l::ThreadLogger) = begin
     for (i, msg) in enumerate(l.msgs)
         println("Thread $i: ", msg)
     end
+    # flush(stdout)
 end
 nlines(l::ThreadLogger) = 2 + length(l.msgs)
 
@@ -129,5 +127,8 @@ end
 
 
 export threaded_foreach, ThreadLogger, LoopMonitor
+
+# re-
+export threadid, nthreads
 
 end

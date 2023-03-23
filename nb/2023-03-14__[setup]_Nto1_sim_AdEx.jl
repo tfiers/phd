@@ -20,7 +20,7 @@
 
 # Based on `2023-02-07__AdEx_Nto1`.
 
-cd("/root/phd/pkg/SpikeWorks")
+cd(joinpath(homedir(), "phd", "pkg" , "SpikeWorks"))
 run(`git switch metdeklak`)
 
 @showtime using Revise
@@ -144,7 +144,7 @@ function run_Nto1_AdEx_sim(; N, duration, seed, δ_nS)
         spikerate     = SpikeWorks.spikerate(sim),
         input_types   = neuron_type.(input_IDs),
         sim_duration  = duration,
-        firing_rates, input_IDs, N, seed, δ
+        firing_rates, input_IDs, N, seed, δ_nS
     )
     return simdata
 end
