@@ -18,10 +18,39 @@ struct CachedFunction
     dir
     default_kw
 end
-CachedFunction(f; disk = true, dir = fdir(f), default_kw...) =
-    CachedFunction(f, ThreadSafeDict(), disk, dir, default_kw)
+CachedFunction(
+    f,
+    prefixdir = nothing;
+    dir = nothing,
+    disk = true,
+    default_f_kw...
+) =
+    CachedFunction(
+        f,
+        ThreadSafeDict(),
+        disk,
+        fdir(f, prefixdir, dir),
+        default_f_kw
+    )
 
-fdir(f) = joinpath(get_cachedir(), string(nameof(f)))
+fdir(f, prefixdir, dir) = begin
+    if !isnothing(prefixdir)
+        dir = joinpath(prefixdir, string(nameof(f)))
+    elseif isnothing(dir)  # && isnothing(prefixdir)
+        error("At least one dir must be given")
+    end
+    to_abs_dir(dir)
+end
+
+to_abs_dir(dir) = begin
+    if !isabspath(dir)
+        dir = joinpath(rootdir, dir)
+    end
+    dir
+end
+
+const rootdir = joinpath(homedir(), ".julia", "tfiers-MemDiskCache")
+
 
 # Functor (calling the object itself)
 (c::CachedFunction)(; kw...) = begin
@@ -48,20 +77,6 @@ fdir(f) = joinpath(get_cachedir(), string(nameof(f)))
     return output
 end
 
-const default_basedir = joinpath(homedir(), ".julia", "datacache")
-const default_cachedir = joinpath(default_basedir, "global")
-const cachedir = Ref(default_cachedir)
-
-get_cachedir() = cachedir[]
-set_cachedir(dir) = begin
-    if !isabspath(dir)
-        dir = joinpath(default_basedir, dir)
-    end
-    cachedir[] = dir
-    mkdir_if_needed(dir)
-    return dir
-end
-
 mkdir_if_needed(dir) = begin
     if !isdir(dir)
         @info "Creating [$dir]"
@@ -70,6 +85,7 @@ mkdir_if_needed(dir) = begin
     return dir
 end
 
+filepath(c::CachedFunction; kw...) = filepath(c, full_kw(c; kw...))
 filepath(c::CachedFunction, full_kw) = joinpath(c.dir, filename(full_kw))
 filename(full_kw) = to_string(full_kw) * ".jld2"
 
@@ -91,7 +107,7 @@ end
 
 to_string(full_kw::NamedTuple) = begin
     parts = ("$(k)=$v" for (k,v) in pairs(full_kw))
-    join(parts, "  ") * " "
+    "_  " * join(parts, "  ") * "  _"
 end
 
 empty_memcache!(c::CachedFunction) = empty!(c.memcache)
@@ -99,28 +115,28 @@ empty_memcache!(c::CachedFunction) = empty!(c.memcache)
 rm_from_memcache!(c::CachedFunction; kw...) =
     delete!(c.memcache, full_kw(c; kw...))
 
+rm_from_disk(c::CachedFunction; kw...) =
+    rm(filepath(c; kw...), force=true)
+
 filelist(c::CachedFunction) = begin
     paths = readdir(c.dir, join=true)
     filter!(endswith(".jld2"), paths)
 end
 
-rmdir(d) = begin
+_rmdir(d) = begin
     rm(d, recursive=true, force=true)
     @info "Emptied and removed [$d]"
 end
 
-empty_diskcache!(c::CachedFunction) = rmdir(c.dir)
-empty_cachedir() = rmdir(get_cachedir())
+empty_diskcache(c::CachedFunction) = _rmdir(c.dir)
 
-open_cachedir() = DefaultApplication.open(get_cachedir())
 open_dir(c::CachedFunction) = DefaultApplication.open(c.dir)
 
 
 export CachedFunction
-export set_cachedir, get_cachedir
 export empty_memcache!, rm_from_memcache!
-export filelist, empty_diskcache!, empty_cachedir
-export open_cachedir, open_dir
+export filelist, empty_diskcache, rm_from_disk
+export open_dir
 export jldopen  # = a reexport
 
 end
