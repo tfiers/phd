@@ -7,9 +7,9 @@ module WithFeedback
 export @withfb
 
 """
-    @withfb [descr] ex
+    @withfb [options] ex
 
-Print something just before and after running an expression.
+Print something just before and after running the expression.
 
 ## Example:
 
@@ -27,41 +27,62 @@ hangs.
 If the expression took more than 0.1 seconds to run, the time taken is
 also printed.
 
-By default the expression itself is printed beforehand.
-But a custom description of what is happening can be given too:
+By default, the expression itself is printed before execution.
+But a custom description of what is happening can be given instead:
 
     julia> @withfb "Reticulating splines" begin
-            s = spline(8)
-            r = reticulate(s)
-        end
+              s = spline(8)
+              r = reticulate(s)
+           end;
     Reticulating splines …
 
 (and an instant later:)
 
     Reticulating splines … ✔
+
+A boolean flag may be used to dynamically turn off the feedback printing
+(this can e.g. be useful when passing through a '`verbose`' flag):
+
+    julia> @withfb false reticulate(s);
+
+    julia> @withfb false "Doing work" reticulate(s);
+
+(These print nothing).
 """
 macro withfb(ex)
     _withfb(ex)
 end
 
 macro withfb(descr, ex)
-    _withfb(ex, descr)
+    _withfb(ex; descr)
 end
 
-_withfb(ex, descr = nothing) = quote
+macro withfb(enabled::Bool, ex)
+    _withfb(ex; enabled)
+end
+
+macro withfb(enabled::Bool, descr, ex)
+    _withfb(ex; descr, enabled)
+end
+
+_withfb(ex; descr = nothing, enabled = true) =
+    enabled ? _withfb(ex, descr) : esc(ex)
+
+_withfb(ex, descr) = quote
     if isnothing($descr)
         print($(_stringify(ex)), " … ")
     else
         print($descr, " … ")
     end
     t0 = time()
-    $(esc(ex))
+    r = $(esc(ex))
     dt = time() - t0
     print("✔")
     if dt ≥ 0.1
         print(" (", round(dt, digits=1), " s)")
     end
     println()
+    r
 end
 
 _stringify(ex) = begin
