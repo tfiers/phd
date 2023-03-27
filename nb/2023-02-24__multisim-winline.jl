@@ -16,11 +16,25 @@
 
 # # 2023-02-24 • Multi-sim Window pool regression
 
-include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")  # rel to cur file
-cd(joinpath(homedir(), "phd"))
+cd(joinpath(homedir(), "phd", "pkg" , "SpikeWorks"))
+run(`git switch metdeklak`)
+# ↪ Doing here and not in include, as multiprocs on same git repo crashes
 
+cd(joinpath(homedir(), "phd"))
+Pkg.activate(".")
 # To paste in terminal, if you wanna run this whole file at once:
 # > include("nb/2023-02-24__multisim-winline.jl")
+
+using Distributed
+using WithFeedback
+
+already_running = nworkers()
+# (when running this script multiple times in a REPL)
+@show to_launch = 7 - already_running
+@withfb addprocs(to_launch)
+
+@everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")
+    # Path is always relative  to current file
 
 # Num inputs list
 Ns_and_δs = [
@@ -39,41 +53,34 @@ Ns_and_δs = [
 seeds = 1:5
 # seeds = 1:3
 
-duration = 10minutes
-# duration = 30seconds
+@everywhere begin
 
-conntest_methods = Dict(
-    :winpoolreg     => ConnectionTests.WinPoolLinReg(),
-    # :STA_corr_2pass => test_conn_STA_corr_2pass,
-    # :STA_height     => test_conn_STA_height,
-    # :STA_modelfit   => test_conn_STA_modelfit,
-)
+    duration = 10minutes
+    # duration = 30seconds
 
-using MemDiskCache
-using ThreadLogging
+    conntest_methods = Dict(
+        :winpoolreg     => ConnectionTests.WinPoolLinReg(),
+        # :STA_corr_2pass => test_conn_STA_corr_2pass,
+        # :STA_height     => test_conn_STA_height,
+        # :STA_modelfit   => test_conn_STA_modelfit,
+    )
 
-set_cachedir("2023-02-24__multisim-winpoolreg")
+    function conntest_Nto1_sim(;
+        N, δ_nS, seed, method, duration, N_unconn=100
+    )
+        simdata = sims(; N, seed, δ_nS, duration)
+        m = conntest_methods[method]
+        table = conntest_all(simdata, m; N_unconn)
+        return table
+    end
 
-sims = CachedFunction(run_Nto1_AdEx_sim, disk=true)
-
-function conntest_Nto1_sim(; N, δ_nS, seed, method, duration, N_unconn=100)
-    simdata = sims(; N, seed, δ_nS, duration)
-    m = conntest_methods[method]
-    @info "Conntestin, t$(threadid())"
-    table = conntest_all(simdata, m; N_unconn)
-    return table
+    dir = "2023-02-24__multisim-winline-conntests"
+    conntests = CachedFunction(conntest_Nto1_sim; duration, dir)
 end
-
-conntests = CachedFunction(conntest_Nto1_sim; duration)
 
 simkeys = [(; N, δ_nS, seed) for (N, δ_nS) in Ns_and_δs, seed in seeds]
 
-println("Warming up JLD2 funcs")
-sims(; simkeys[1]..., duration)
-
-println("Starting threaded foreach")
-threaded_foreach(simkeys) do key
-# for key in simkeys
+@sync @distributed for key in simkeys
     for method in keys(conntest_methods)
         conntests(; key..., method)
     end

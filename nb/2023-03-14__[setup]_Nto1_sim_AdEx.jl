@@ -20,14 +20,17 @@
 
 # Based on `2023-02-07__AdEx_Nto1`.
 
-cd(joinpath(homedir(), "phd", "pkg" , "SpikeWorks"))
-run(`git switch metdeklak`)
+# cd(joinpath(homedir(), "phd", "pkg" , "SpikeWorks"))
+# run(`git switch metdeklak`)
+# ↪ Not doing here, as multiprocs on same git repo crashes
 
-@showtime using Revise
-@showtime using SpikeWorks
-@showtime using SpikeWorks.Units
-@showtime using ConnectionTests
-@showtime using DataFrames
+using WithFeedback
+@withfb using Distributed
+@withfb using Revise
+@withfb using SpikeWorks
+@withfb using SpikeWorks.Units
+@withfb using ConnectionTests
+@withfb using DataFrames
 
 @typed begin
     # AdEx LIF neuron params (cortical RS)
@@ -165,6 +168,24 @@ spiketrains(sd::SimData) = sd.spiketrains
 
 "Neuron type (exc or inh) of each input spiker"
 input_types(sd::SimData) = sd.input_types
+
+
+
+# --- Caching ---
+
+@withfb using MemDiskCache
+
+dir = "2023-03-14__Nto1_AdEx_sims"
+sims = CachedFunction(run_Nto1_AdEx_sim; dir)
+
+println("Warming up sim & JLD2 funcs")
+# For multiproccessing: every
+kw = (; N=5, δ_nS=5.0, duration=1seconds, seed=100+myid())
+rm_from_disk(sims; kw...)
+sims(; kw...)
+rm_from_memcache!(sims; kw...)
+sims(; kw...)
+println(" … done")
 
 
 
