@@ -13,7 +13,6 @@ local_pkgs = [
     "Sciplotlib",
     "MyToolbox",
     "MemDiskCache",
-    "ThreadLogging",
     "DistributedLoopMonitor",
     "WithFeedback",
 ]

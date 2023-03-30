@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "ba8f282ed79813c18453cb8a1297256295c244e4"
+project_hash = "c6389fc1af6ec9fe417acf7ec9f291428a52b2fa"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1108,12 +1108,6 @@ version = "0.1.6"
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[[deps.ThreadLogging]]
-deps = ["Logging"]
-path = "pkg/ThreadLogging"
-uuid = "7235a734-d916-4811-a770-8b82c6ae1075"
-version = "0.1.0"
 
 [[deps.ThreadSafeDicts]]
 git-tree-sha1 = "8800982249f3657fbf176624db7d39107efb0062"
