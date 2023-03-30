@@ -25,13 +25,12 @@ Pkg.activate(".")
 # To paste in terminal, if you wanna run this whole file at once:
 # > include("nb/2023-02-24__multisim-winline.jl")
 
-using Distributed
+using DistributedLoopMonitor
 using WithFeedback
 
-already_running = nworkers()
-# (when running this script multiple times in a REPL)
-@show to_launch = 7 - already_running
-@withfb addprocs(to_launch)
+WithFeedback.always_print_newline()
+
+@start_workers(7)
 
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")
     # Path is always relative  to current file
@@ -70,6 +69,7 @@ seeds = 1:5
     )
         simdata = sims(; N, seed, δ_nS, duration)
         m = conntest_methods[method]
+        println("Running conntest_all, N=$N, seed=$seed, method=$method")
         table = conntest_all(simdata, m; N_unconn)
         return table
     end
@@ -80,7 +80,7 @@ end
 
 simkeys = [(; N, δ_nS, seed) for (N, δ_nS) in Ns_and_δs, seed in seeds]
 
-@sync @distributed for key in simkeys
+distributed_foreach(simkeys) do key
     for method in keys(conntest_methods)
         conntests(; key..., method)
     end

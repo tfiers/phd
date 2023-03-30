@@ -11,6 +11,8 @@ using DistributedLoopMonitor
     println("Done")
 end
 
+@everywhere println("Hello")
+
 Ns = [5, 100, 3300]
 
 distributed_foreach(Ns) do N

@@ -1,9 +1,10 @@
 module DistributedLoopMonitor
 
-export @start_workers, distributed_foreach
-
 using Distributed
 using WithFeedback
+
+export @start_workers, distributed_foreach
+export @everywhere
 
 
 macro start_workers(N = Sys.CPU_THREADS - 1)
@@ -14,20 +15,26 @@ macro start_workers(N = Sys.CPU_THREADS - 1)
 
         _start_workers($N)
 
+        DistributedLoopMonitor._create_printer()
+
         @everywhere using DistributedLoopMonitor
         # This is needed for some reason.
         # Hence the necessity for a macro, also.
-
+        # (together with the Distributed method override above;
+        #  otherwise "incremental compilation may be broken").
     end
 end
 
-m = nothing
+include("printing.jl")
+
+p = nothing
+
+_create_printer() = (global p = OverviewPrinter())
 
 _redirect_worker_output(id, io) = begin
-    global m
     t = @async while !eof(io)
         line = readline(io)
-        handle_message(m, id, line)
+        handle_message(p, id, line)
     end
     errormonitor(t)
 end
@@ -40,11 +47,12 @@ _start_workers(N) = begin
     @withfb "Initializing workers" addprocs(ns)
 end
 
-include("printing.jl")
+m = nothing
 
 distributed_foreach(f, collection) = begin
     N = length(collection)
-    global m = LoopMonitor(N)
+    global m = LoopMonitor(N, p)
+        # Needed for the item_done below to work.
     println()
     start!(m)
     @sync @distributed for el in collection

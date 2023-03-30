@@ -22,16 +22,6 @@ handle_message(p::OverviewPrinter, worker_id, msg) = begin
     queue_redraw!(p)
 end
 
-# Logging.handle_message(
-#     p::OverviewPrinter, lvp::LogLevel, msg, args...; kwargs...
-# ) = begin
-#     i = threadid()
-#     p.msgs[i] = clean(msg)
-#     queue_redraw!(p)
-# end
-
-# clean(msg) = replace(msg, "\n"=>"  ")
-
 queue_redraw!(p::OverviewPrinter) =
     if isempty(p.redraw_channel)
         # If not empty, there's already a redraw queued:
@@ -61,11 +51,16 @@ draw(p::OverviewPrinter) = begin
     println(p.header)
     println()
     for (id, msg) in zip(workers(), p.msgs)
-        println("Worker $id: ", msg)
+        println(truncate("Worker $id: $msg"))
     end
     flush(stdout)
 end
 nlines(p::OverviewPrinter) = 2 + length(p.msgs)
+
+truncate(msg, N = termwidth()) =
+    length(msg) > N ? msg[1:(N-1)] * "…" : msg
+
+termwidth() = displaysize(stdout)[2]  # (lines, cols)
 
 redraw(p::OverviewPrinter) = (clear(p); draw(p))
 
@@ -89,8 +84,8 @@ mutable struct LoopMonitor
     @atomic num_done ::Int
     printer          ::OverviewPrinter
 
-    LoopMonitor(num_el) = begin
-        m = new(num_el, 0, OverviewPrinter())
+    LoopMonitor(num_el, printer = OverviewPrinter()) = begin
+        m = new(num_el, 0, printer)
         update_header!(m)
         return m
     end
