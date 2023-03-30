@@ -14,6 +14,7 @@ local_pkgs = [
     "MyToolbox",
     "MemDiskCache",
     "ThreadLogging",
+    "DistributedLoopMonitor",
     "WithFeedback",
 ]
 # This list is sorted so the more top-level packages occur earlier.

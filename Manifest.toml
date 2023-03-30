@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "bc5217645d708a8104130207e3e1c5ec0c905fe3"
+project_hash = "ba8f282ed79813c18453cb8a1297256295c244e4"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -253,6 +253,12 @@ version = "1.12.2"
 [[deps.Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+
+[[deps.DistributedLoopMonitor]]
+deps = ["Distributed", "WithFeedback"]
+path = "pkg/DistributedLoopMonitor"
+uuid = "019de50b-5e20-4407-86b9-f655e2d8ca95"
+version = "0.1.0"
 
 [[deps.Distributions]]
 deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]

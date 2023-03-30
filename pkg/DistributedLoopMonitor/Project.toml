@@ -1,0 +1,8 @@
+name = "DistributedLoopMonitor"
+uuid = "019de50b-5e20-4407-86b9-f655e2d8ca95"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+WithFeedback = "5e413c25-1502-46af-a5a5-d847cf9e0e8b"
