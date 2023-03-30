@@ -68,21 +68,24 @@ end
 _withfb(ex; descr = nothing, enabled = true) =
     enabled ? _withfb(ex, descr) : esc(ex)
 
-_withfb(ex, descr) = quote
-    if isnothing($descr)
-        print($(_stringify(ex)), " … ")
-    else
-        print($descr, " … ")
+_withfb(ex, descr) = begin
+    if isnothing(descr)
+        descr = _stringify(ex)
     end
-    t0 = time()
-    r = $(esc(ex))
-    dt = time() - t0
-    print("✔")
-    if dt ≥ 0.1
-        print(" (", round(dt, digits=1), " s)")
+    start_of_line = descr * " … "
+    quote
+        print($start_of_line)
+        $always_newline && println()
+        t0 = time()
+        r = $(esc(ex))
+        dt = time() - t0
+        $always_newline && print($start_of_line)
+        print("✔")
+        if dt ≥ 0.1
+            print(" (", round(dt, digits=1), " s)")
+        end
+        println()
     end
-    println()
-    r
 end
 
 _stringify(ex) = begin
@@ -92,5 +95,9 @@ _stringify(ex) = begin
     end
     return string(ex)
 end
+
+always_newline::Bool = false
+
+always_print_newline(val = true) = (global always_newline = val)
 
 end
