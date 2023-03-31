@@ -7,11 +7,11 @@ using Pkg
 Pkg.activate(".")
 
 local_pkgs = [
-    "ConnectionTests",
-    "ConnTestEval",
-    "SpikeWorks",
     "Sciplotlib",
     "MyToolbox",
+    "SpikeWorks",
+    "ConnectionTests",  # Depends on ConnTestEval
+    "ConnTestEval",
     "MemDiskCache",
     "DistributedLoopMonitor",
     "WithFeedback",

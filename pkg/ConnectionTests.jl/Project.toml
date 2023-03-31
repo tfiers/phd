@@ -2,3 +2,7 @@ name = "ConnectionTests"
 uuid = "4ec9db02-d517-45d2-bd92-62a00b158019"
 authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
+
+[deps]
+ConnTestEval = "03fa6f02-708e-42e1-9f65-1513c92445f8"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"

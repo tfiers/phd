@@ -156,6 +156,7 @@ uuid = "03fa6f02-708e-42e1-9f65-1513c92445f8"
 version = "0.1.0"
 
 [[deps.ConnectionTests]]
+deps = ["ConnTestEval"]
 path = "pkg/ConnectionTests.jl"
 uuid = "4ec9db02-d517-45d2-bd92-62a00b158019"
 version = "0.1.0"
