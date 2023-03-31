@@ -9,8 +9,8 @@ Input is
       which should be one of `(:exc, :inh, :unc)`.
 
 For a certain t-value-threshold `θ`, each connection is classified as
-follows: unconnected (`:unc`) if `|t| ≤ θ`; and excitatory or inhibitory
-otherwise, depending on t's sign (`:exc` for t > 0, and `:inh` for t < 0).
+follows: unconnected (`:unc`) if `|t| < θ`; and excitatory or inhibitory
+otherwise, depending on t's sign (`:exc` for t > 0, and `:inh` for t ≤ 0).
 """
 module ConnTestEval
 
