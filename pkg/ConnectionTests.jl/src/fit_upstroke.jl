@@ -1,16 +1,16 @@
 
-@kwdef struct WinPoolLinReg <: ConnTestMethod
+@kwdef struct FitUpstroke <: ConnTestMethod
     winsize::Int = 100
     offset::Int = 0
 end
 
-function test_conn(m::WinPoolLinReg, v, times)
+function test_conn(m::FitUpstroke, v, times)
     fit = fitwins(m, v, times)
     t = calc_slope_0_test_stat(fit)
     return t
 end
 
-function fitwins(m::WinPoolLinReg, v, times)
+function fitwins(m::FitUpstroke, v, times)
     (; winsize, offset) = m
     wins = windows(v, times, winsize, offset)
     timepoints = (1:winsize) .+ offset
