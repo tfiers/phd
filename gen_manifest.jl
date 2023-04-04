@@ -7,17 +7,16 @@ using Pkg
 Pkg.activate(".")
 
 local_pkgs = [
-    "Sciplotlib",
+    "Sciplotlib",  # Depends on MyToolbox
     "MyToolbox",
     "SpikeWorks",
-    "ConnectionTests",  # Depends on ConnTestEval
+    "ConnectionTests",  # Depends on ConnTestEval, WithFeedback
     "ConnTestEval",
-    "MemDiskCache",
+    "MemDiskCache",  # Depends on WithFeedback
     "DistributedLoopMonitor",
     "WithFeedback",
 ]
 # This list is sorted so the more top-level packages occur earlier.
-# (Sciplotlib depends on MyToolbox).
 
 for name in local_pkgs
     # Without these temporarily removals, we'd get "LoadError: expected package {local_dep}

@@ -25,12 +25,15 @@
 # ↪ Not doing here, as multiprocs on same git repo crashes
 
 using WithFeedback
+
 @withfb using Distributed
 @withfb using Revise
 @withfb using SpikeWorks
 @withfb using SpikeWorks.Units
 @withfb using ConnectionTests
 @withfb using DataFrames
+
+WithFeedback.nested()
 
 @typed begin
     # AdEx LIF neuron params (cortical RS)
@@ -112,7 +115,7 @@ using SpikeWorks: newsim, run!
 
 using Random
 
-function run_Nto1_AdEx_sim(; N, duration, seed, δ_nS)
+function run_sim(; N, duration, seed, δ_nS)
     # δ_nS: Strength, in nS, of each incoming spike:
     #       How much does it increase the postsynaptic conductance, g.
     Random.seed!(seed)
@@ -169,23 +172,26 @@ spiketrains(sd::SimData) = sd.spiketrains
 "Neuron type (exc or inh) of each input spiker"
 input_types(sd::SimData) = sd.input_types
 
+sim_duration(sd::SimData) = sd.sim_duration
+
 
 
 # --- Caching ---
 
 @withfb using MemDiskCache
 
-dir = "2023-03-14__Nto1_AdEx_sims"
-sims = CachedFunction(run_Nto1_AdEx_sim; dir)
+prefixdir = "2023-03-14__Nto1_AdEx"
+sims = CachedFunction(run_sim, prefixdir)
 
-println("Warming up sim & JLD2 funcs")
-# For multiproccessing: every
-kw = (; N=5, δ_nS=5.0, duration=1seconds, seed=100+myid())
-rm_from_disk(sims; kw...)
-sims(; kw...)
-rm_from_memcache!(sims; kw...)
-sims(; kw...)
-println(" … done")
+@withfb "Warming up sim & JLD2 funcs" begin
+    # For multiproccessing: diff processes can't write to same JLD2 file.
+    # So to avoid crash: process id as seed (which is in filename).
+    kw = (; N=5, δ_nS=5.0, duration=1seconds, seed=100+myid())
+    rm_from_disk(sims; kw...)
+    sims(; kw...)
+    rm_from_memcache!(sims; kw...)
+    sims(; kw...)
+end
 
 
 
@@ -197,9 +203,12 @@ gen_unconnected_trains(sd::SimData, num; seed = 1) = begin
     T = sd.sim_duration
     trains = [SpikeWorks.poisson_spikes(r, T) for r in firing_rates]
 end
+# This is cheap -- and with the seed, reproducible.
+# So caching is a waste of code. We instead regen, everytime
+# the below is queried.
 
-conntest_all(sd::SimData, method; N_unconn) = begin
-    v = voltsig(sd)
+simdata_with_unconns(; N_unconn, simkw...) = begin
+    sd = sims(; simkw...)
     trains_conn = spiketrains(sd)
     trains_unconn = gen_unconnected_trains(sd, N_unconn)
     trains = [
@@ -210,11 +219,60 @@ conntest_all(sd::SimData, method; N_unconn) = begin
         input_types(sd)...,
         fill(:unc, N_unconn)...,
     ]
-    rows = []
-    for (train, conntype) in zip(trains, conntypes)
-        spikerate = length(train) / sd.sim_duration
-        t = test_conn(method, v, train)
-        push!(rows, (; spikerate, conntype, t))
-    end
-    return DataFrame(rows)
+    return (; sd..., trains_conn, trains_unconn, trains, conntypes)
 end
+
+# Another human readability alias.
+const AugmentedSimData = NamedTuple
+
+all_spiketrains(sd::AugmentedSimData) = sd.trains
+connection_types(sd::AugmentedSimData) = sd.conntypes
+
+
+
+
+# ---
+
+calc_all_STAs(; kw...) = begin
+    sd = simdata_with_unconns(; kw...)
+    v = voltsig(sd)
+    trains = all_spiketrains(sd)
+    (; reals, shufs) = ConnectionTests.calc_all_STAs(v, trains)
+end
+
+STA_sets = CachedFunction(calc_all_STAs, prefixdir)
+
+
+
+# ---
+
+conntest_methods = Dict(
+    :fit_upstroke     => ConnectionTests.FitUpstroke(),
+    :STA_height       => ConnectionTests.STAHeight(),
+    :STA_corr_2pass   => ConnectionTests.TwoPassCorrTest(),
+    # :STA_modelfit   => test_conn_STA_modelfit,
+)
+
+function conntest_all(; method, N_unconn=100, simkw...)
+    m = conntest_methods[method]
+    sd = simdata_with_unconns(; N_unconn, simkw...)
+    spiketime_vecs = all_spiketrains(sd)
+    N_total = length(spiketime_vecs)
+    descr = "[$(typeof(m))]"
+    if m isa STABasedConnTest
+        reals, shufs = STA_sets(; N_unconn, simkw...)
+        @withfb descr (tvals = test_conns(m, reals, shufs))
+    else
+        v = voltsig(sd)
+        vs = fill(v, N_total)
+        @withfb descr (tvals = test_conns(m, vs, spiketime_vecs))
+    end
+    table = DataFrame(;
+        t = tvals,
+        conntype = connection_types(sd),
+        spikerate = length.(spiketime_vecs) ./ sim_duration(sd),
+    )
+    return table
+end
+
+conntest_tables = CachedFunction(conntest_all, prefixdir)
