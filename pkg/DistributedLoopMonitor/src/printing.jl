@@ -51,14 +51,22 @@ draw(p::OverviewPrinter) = begin
     println(p.header)
     println()
     for (id, msg) in zip(workers(), p.msgs)
-        println(truncate("Worker $id: $msg"))
+        println(truncate_middle("Worker $id: $msg"))
     end
     flush(stdout)
 end
 nlines(p::OverviewPrinter) = 2 + length(p.msgs)
 
-truncate(msg, N = termwidth()) =
+truncate_end(msg, N = termwidth()) =
     length(msg) > N ? msg[1:(N-1)] * "…" : msg
+
+truncate_middle(msg, N = termwidth()) = begin
+    length(msg) ≤ N && return msg
+    ellipsis = "… […] …"
+    m = length(ellipsis)
+    h = floor(Int, (N - m) / 2)
+    msg[1:h] * ellipsis * msg[N-h+1:end]
+end
 
 termwidth() = displaysize(stdout)[2]  # (lines, cols)
 

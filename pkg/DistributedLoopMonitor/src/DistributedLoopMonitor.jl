@@ -50,6 +50,7 @@ end
 m = nothing
 
 distributed_foreach(f, collection) = begin
+    isnothing(p) && error("Call `@start_workers` first")
     N = length(collection)
     global m = LoopMonitor(N, p)
         # Needed for the item_done below to work.
