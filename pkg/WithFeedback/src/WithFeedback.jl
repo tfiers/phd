@@ -68,23 +68,43 @@ end
 _withfb(ex; descr = nothing, enabled = true) =
     enabled ? _withfb(ex, descr) : esc(ex)
 
+
+const descriptions::Vector{String} = String[]
+
 _withfb(ex, descr) = begin
-    if isnothing(descr)
-        descr = _stringify(ex)
-    end
-    start_of_line = descr * " … "
-    quote
-        print($start_of_line)
-        $always_newline && println()
-        t0 = time()
-        r = $(esc(ex))
-        dt = time() - t0
-        $always_newline && print($start_of_line)
-        print("✔")
-        if dt ≥ 0.1
-            print(" (", round(dt, digits=1), " s)")
+    isnothing(descr) && (descr = _stringify(ex))
+    if _nested
+        quote
+            push!(WithFeedback.descriptions, $(esc(descr)))
+            join(stdout, WithFeedback.descriptions, " > ")
+            println(" … ")
+            t0 = time()
+            value = $(esc(ex))
+            dt = time() - t0
+            join(stdout, WithFeedback.descriptions, " > ")
+            print(" … ✔")
+            if dt ≥ 0.1
+                print(" (", round(dt, digits=1), " s)")
+            end
+            println()
+            pop!(WithFeedback.descriptions)
+            value
         end
-        println()
+    else
+        quote
+            print($(esc(descr)), " … ")
+            $always_newline && println()
+            t0 = time()
+            value = $(esc(ex))
+            dt = time() - t0
+            $always_newline && print($(esc(descr)), " … ")
+            print("✔")
+            if dt ≥ 0.1
+                print(" (", round(dt, digits=1), " s)")
+            end
+            println()
+            value
+        end
     end
 end
 
@@ -97,7 +117,9 @@ _stringify(ex) = begin
 end
 
 always_newline::Bool = false
-
 always_print_newline(val = true) = (global always_newline = val)
+
+_nested::Bool = false
+nested(val = true) = (global _nested = val)
 
 end
