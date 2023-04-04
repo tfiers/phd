@@ -1,5 +1,6 @@
 
 using Random
+using Statistics  # for `cor`
 using ConnTestEval
 
 abstract type STABasedConnTest <: ConnTestMethod end
@@ -46,6 +47,19 @@ calc_STA(v, times, Δt = Δt, win_size = STA_length) = begin
     end
     STA ./= num_wins
     return STA
+end
+
+calc_all_STAs(v, spiketime_vecs) = begin
+    reals = STA[]
+    shufs = Vector{STA}[]
+    N = length(spiketime_vecs)
+    for (i, times) in enumerate(spiketime_vecs)
+        @withfb "Calculating STAs for connection $i / $N" begin
+            push!(reals, calc_STA(v, times))
+            push!(shufs, calc_shuffle_STAs(v, times))
+        end
+    end
+    return (; reals, shufs)
 end
 
 calc_pval(test_stat, real_STA, shuffled_STAs) = begin
@@ -118,13 +132,16 @@ test_conns(
     real_STAs  ::Vector{STA},
     shuf_lists ::Vector{Vector{STA}},
 ) = begin
-    # First 'pass':
-    tvals = test_conns(STAHeight(), real_STAs, shuf_lists)
-    predtypes = ConnTestEval.predicted_types(tvals, m.θ)
+    @withfb "First pass" begin
+        tvals₁ = test_conns(STAHeight(), real_STAs, shuf_lists)
+    end
+    predtypes = ConnTestEval.predicted_types(tvals₁, m.θ)
     exc_STAs = real_STAs[predtypes .== :exc]
     template = mean(exc_STAs)  # Vectors add (ofc)
-    # Second pass:
-    return test_conns(TemplateCorr(template), real_STAs, shuf_lists)
+    @withfb "Second pass" begin
+        tvals₂ = test_conns(TemplateCorr(template), real_STAs, shuf_lists)
+    end
+    return tvals₂
 end
 
 mean(xs) = sum(xs) ./ length(xs)
