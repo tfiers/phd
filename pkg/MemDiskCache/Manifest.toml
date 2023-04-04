@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "a4462b80dc2ce765521f8ca7a942f43a0ab510a2"
+project_hash = "add9814ad9e5218f4a8467b99e07c32c9030c5e0"
 
 [[deps.ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
@@ -173,6 +173,11 @@ uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [[deps.Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+
+[[deps.WithFeedback]]
+path = "../WithFeedback"
+uuid = "5e413c25-1502-46af-a5a5-d847cf9e0e8b"
+version = "0.1.0"
 
 [[deps.Zlib_jll]]
 deps = ["Libdl"]

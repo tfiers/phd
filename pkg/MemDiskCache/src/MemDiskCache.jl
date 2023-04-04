@@ -3,6 +3,7 @@ module MemDiskCache
 using ThreadSafeDicts
 using JLD2
 using DefaultApplication
+using WithFeedback
 
 """
 The contents of the files on disk can be inspected using
@@ -13,9 +14,9 @@ and then `f["name"]`. Finally, `close(f)`
 
 struct CachedFunction
     f
-    memcache
-    disk
-    dir
+    memcache     ::ThreadSafeDict
+    disk         ::Bool
+    dir          ::String
     default_kw
 end
 CachedFunction(
@@ -49,27 +50,30 @@ to_abs_dir(dir) = begin
     dir
 end
 
-const rootdir = joinpath(homedir(), ".julia", "tfiers-MemDiskCache")
+const rootdir = joinpath(homedir(), ".julia", "MemDiskCache.jl")
 
 
 # Functor (calling the object itself)
 (c::CachedFunction)(; kw...) = begin
     fkw = full_kw(c; kw...)
     if fkw in keys(c.memcache)
-        @info "Found $fkw in memory"
+        # @info "Found $fkw in memory"
         output = c.memcache[fkw]
     else
         fp = filepath(c, fkw)
         if ispath(fp)
-            @info "Loading [$fp]"
-            output = load(fp, "output")
+            @withfb "Loading [$fp]" begin
+                output = load(fp, "output")
+            end
         else
-            @info "Running `$(c.f)` for $fkw"
-            output = c.f(; fkw...)
+            @withfb "Running `$(c.f)` for $fkw" begin
+                output = c.f(; fkw...)
+            end
             if c.disk
                 mkdir_if_needed(dirname(fp))
-                @info "Saving output at [$fp]"
-                jldsave(fp; output)
+                @withfb "Saving output at [$fp]" begin
+                    jldsave(fp; output)
+                end
             end
         end
         c.memcache[fkw] = output
