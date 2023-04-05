@@ -52,6 +52,13 @@ detection_rates(cm) = begin
     )
 end
 
+detection_rates(p::PredictionTable) = (;
+    p.TPRₑ,
+    p.TPRᵢ,
+    p.TPR,
+    p.FPR,
+)
+
 count(cm; real=:, pred=:) = sum(cm[index(real), index(pred)])
 
 index(x::Colon) = x
@@ -106,11 +113,8 @@ Base.show(io::IO, ::MIME"text/plain", p::PredictionTable) = begin
 end
 
 print_table(io, rows) =
-    if isdefined(Main, :PrettyTables)
-        pretty_table(io, rows, show_subheader=false, tf=tf_compact)
-    else
-        @info "Load PrettyTables for prettier tables"
-        for r in rows
-            println(io, r)
-        end
+    for r in rows
+        println(io, r)
     end
+    # If user did `using PrettyTables`, could do instead:
+    # pretty_table(io, rows, show_subheader=false, tf=tf_compact)

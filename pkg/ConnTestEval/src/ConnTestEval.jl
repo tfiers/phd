@@ -38,12 +38,12 @@ highest recall and 100% false positive rate (threshold 0).
 thresholds(tvals) = sort!(unique!([abs.(tvals); 0]), rev=true)
 
 """
-    at_FPR(tables, max_FPR = 0.05)
+    at_FPR(tables, FPR = 0.05)
 
 Given the `tables` resulting from a threshold sweep, get the table that
-has an FPR closest to the given value (but not above it).
+has an FPR closest to the given value.
 """
-at_FPR(tables, max_FPR = 0.05) = tables[findlast(≤(max_FPR), tables.FPR)]
+at_FPR(tables, FPR = 0.05) = tables[argmin(abs.(tables.FPR .- FPR))]
 
 calc_AUROCs(tables) = (;
     AUC  = trapz(tables.FPR, tables.TPR),

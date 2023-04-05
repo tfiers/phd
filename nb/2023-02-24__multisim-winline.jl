@@ -56,7 +56,7 @@ simkeys = [
 
 using DistributedLoopMonitor
 
-@start_workers(4)
+# @start_workers(4)
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")
     # Path is always relative  to current file
 
@@ -68,14 +68,29 @@ using DistributedLoopMonitor
 
 @everywhere N_unconn = 100
 
-# for simkw in simkeys
-distributed_foreach(simkeys) do simkw
+for simkw in simkeys
+# distributed_foreach(simkeys) do simkw
     for method in conntest_method_names
+        (method != :fit_upstroke) && (simkw.seed != 5) && continue
         conntest_tables(; simkw..., method, N_unconn)
     end
+    # Do some manual 'garbage collection', to hopefully avoid OOM crashes
     rm_from_memcache!(sims; simkw...)
+    rm_from_memcache!(STA_sets; simkw..., N_unconn)
 end
 
 using ConnTestEval
 
-# sweeps = sweep_threshold.(conntest_tables)
+sweeps = Dict()
+rows = []
+for (key, table) in conntest_tables.memcache
+    sweeps[key] = sweep = sweep_threshold(table)
+    table_at_5pct_FPR = at_FPR(sweep, 0.05)
+    detrates_at_5pct_FPR = ConnTestEval.detection_rates(table_at_5pct_FPR)
+    push!(rows, (;
+        key...,
+        detrates_at_5pct_FPR...,
+        calc_AUROCs(sweep)...,
+    ))
+end
+df = DataFrame(rows)
