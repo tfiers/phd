@@ -16,6 +16,7 @@ struct CachedFunction
     f
     memcache     ::ThreadSafeDict
     disk         ::Bool
+    mem          ::Bool
     dir          ::String
     default_kw
 end
@@ -24,12 +25,14 @@ CachedFunction(
     prefixdir = nothing;
     dir = nothing,
     disk = true,
+    mem = true,
     default_f_kw...
 ) =
     CachedFunction(
         f,
         ThreadSafeDict(),
         disk,
+        mem,
         fdir(f, prefixdir, dir),
         default_f_kw
     )
@@ -76,7 +79,9 @@ const rootdir = joinpath(homedir(), ".julia", "MemDiskCache.jl")
                 end
             end
         end
-        c.memcache[fkw] = output
+        if c.mem
+            c.memcache[fkw] = output
+        end
     end
     return output
 end
