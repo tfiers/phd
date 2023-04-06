@@ -123,7 +123,7 @@ end
 
 
 @kwdef struct TwoPassCorrTest <: STABasedConnTest
-    θ::Float64 = 0.99  # Threshold on 'connectedness values'.
+    θ::Float64 = 0.98  # Threshold on 'connectedness values'.
                        # = 1 - p_value_threshold
 end
 

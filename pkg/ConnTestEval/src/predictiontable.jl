@@ -21,7 +21,7 @@ end
 predicted_types(tvals, θ) = [classify(t, θ) for t in tvals]
 
 classify(t, θ) =
-    ( abs(t) < θ ?  :unc  :
+    ( abs(t) ≤ θ ?  :unc  :
       t > 0      ?  :exc  :
                     :inh  )
 
