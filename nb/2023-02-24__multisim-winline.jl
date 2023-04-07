@@ -56,7 +56,9 @@ simkeys = [
 
 using DistributedLoopMonitor
 
-# @start_workers(4)
+@start_workers(3)
+
+warmup = false
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")
     # Path is always relative  to current file
 
@@ -66,17 +68,18 @@ using DistributedLoopMonitor
     :STA_corr_2pass,
 ]
 
-@everywhere N_unconn = 100
+@everywhere Nᵤ = 100  # Number of unconnected input spikers
 
-for simkw in simkeys
-# distributed_foreach(simkeys) do simkw
+# for simkw in simkeys
+distributed_foreach(simkeys) do simkw
     for method in conntest_method_names
-        (method != :fit_upstroke) && (simkw.seed != 5) && continue
-        conntest_tables(; simkw..., method, N_unconn)
+        # (method != :fit_upstroke) && (simkw.seed != 5) && continue
+        conntest_tables(; simkw..., method, Nᵤ)
     end
     # Do some manual 'garbage collection', to hopefully avoid OOM crashes
     rm_from_memcache!(sims; simkw...)
-    rm_from_memcache!(STA_sets; simkw..., N_unconn)
+    rm_from_memcache!(STA_sets; simkw..., Nᵤ)
+    @withfb GC.gc()
 end
 
 using ConnTestEval

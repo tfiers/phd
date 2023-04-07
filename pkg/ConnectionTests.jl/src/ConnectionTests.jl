@@ -55,6 +55,7 @@ export FitUpstroke
 include("spike-trig-avg.jl")
 export STABasedConnTest, STAHeight, TemplateCorr, TwoPassCorrTest
 export calc_STA, calc_shuffle_STAs
+export get_STAs_for_template
 
 export test_conn, test_conns
 

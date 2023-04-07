@@ -181,16 +181,21 @@ sim_duration(sd::SimData) = sd.sim_duration
 @withfb using MemDiskCache
 
 prefixdir = "2023-03-14__Nto1_AdEx"
-sims = CachedFunction(run_sim, prefixdir)
 
-@withfb "Warming up sim & JLD2 funcs" begin
-    # For multiproccessing: diff processes can't write to same JLD2 file.
-    # So to avoid crash: process id as seed (which is in filename).
-    kw = (; N=5, δ_nS=5.0, duration=1seconds, seed=100+myid())
-    rm_from_disk(sims; kw...)
-    sims(; kw...)
-    rm_from_memcache!(sims; kw...)
-    sims(; kw...)
+kw_order = [:N, :Nᵤ, :δ_nS, :duration, :seed, :batch_size, :part]
+
+sims = CachedFunction(run_sim, prefixdir, kw_order)
+
+if @isdefined(warmup) && warmup
+    @withfb "Warming up sim & JLD2 funcs" begin
+        # For multiproccessing: diff processes can't write to same JLD2 file.
+        # So to avoid crash: process id as seed (which is in filename).
+        kw = (; N=5, δ_nS=5.0, duration=1seconds, seed=100+myid())
+        rm_from_disk(sims; kw...)
+        sims(; kw...)
+        rm_from_memcache!(sims; kw...)
+        sims(; kw...)
+    end
 end
 
 
@@ -207,17 +212,17 @@ end
 # So caching is a waste of code. We instead regen, everytime
 # the below is queried.
 
-simdata_with_unconns(; N_unconn, simkw...) = begin
+simdata_with_unconns(; Nᵤ, simkw...) = begin
     sd = sims(; simkw...)
     trains_conn = spiketrains(sd)
-    trains_unconn = gen_unconnected_trains(sd, N_unconn)
+    trains_unconn = gen_unconnected_trains(sd, Nᵤ)
     trains = [
         trains_conn...,
         trains_unconn...,
     ]
     conntypes = [
         input_types(sd)...,
-        fill(:unc, N_unconn)...,
+        fill(:unc, Nᵤ)...,
     ]
     return (; sd..., trains_conn, trains_unconn, trains, conntypes)
 end
@@ -233,14 +238,38 @@ connection_types(sd::AugmentedSimData) = sd.conntypes
 
 # ---
 
-calc_all_STAs(; kw...) = begin
-    sd = simdata_with_unconns(; kw...)
+batch_size = 300  # Number of STAs. One STA is ≈ 0.8 MB
+
+calc_all_STAs(; batch_size, part, simkw...) = begin
+    sd = simdata_with_unconns(; simkw...)
     v = voltsig(sd)
-    trains = all_spiketrains(sd)
+    trains = subset(all_spiketrains(sd), batch_size, part)
     (; reals, shufs) = ConnectionTests.calc_all_STAs(v, trains)
 end
 
-STA_sets = CachedFunction(calc_all_STAs, prefixdir)
+STA_sets = CachedFunction(calc_all_STAs, prefixdir, kw_order, mem = false)
+# No storing in memory: too large to fit.
+
+
+subset(vec, batch_size::Integer, part::Integer) = begin
+    N = length(vec)
+    start = (part-1) * batch_size + 1
+    stop = part * batch_size
+    if stop > N
+        stop = N
+    end
+    return vec[start:stop]
+end
+
+for_each_STA_batch(f, N_total, batch_size, simkw) = begin
+    for part in parts(N_total, batch_size)
+        reals, shufs = STA_sets(; simkw..., batch_size, part)
+        f(reals, shufs)
+    end
+end
+
+parts(N, batch_size) = 1:ceil(Int, N / batch_size)
+
 
 
 
@@ -253,15 +282,33 @@ conntest_methods = Dict(
     # :STA_modelfit   => test_conn_STA_modelfit,
 )
 
-function conntest_all(; method, N_unconn=100, simkw...)
+function conntest_all(; method, simkw...)
+    # (`simkw` includes `Nᵤ` here)
     m = conntest_methods[method]
-    sd = simdata_with_unconns(; N_unconn, simkw...)
+    sd = simdata_with_unconns(; simkw...)
     spiketime_vecs = all_spiketrains(sd)
     N_total = length(spiketime_vecs)
     descr = "[$(typeof(m))]"
-    if m isa STABasedConnTest
-        reals, shufs = STA_sets(; N_unconn, simkw...)
-        @withfb descr (tvals = test_conns(m, reals, shufs))
+    if m isa STAHeight
+        tvals = Float64[]
+        for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
+            @withfb descr (ts = test_conns(m, reals, shufs))
+            append!(tvals, ts)
+            @withfb GC.gc()
+        end
+    elseif m isa TwoPassCorrTest
+        template = zeros(Float64, ConnectionTests.STA_length)
+        for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
+            exc_STAs = get_STAs_for_template(m, reals, shufs)
+            template += sum(exc_STAs)
+        end
+        template ./= N_total
+        tvals = Float64[]
+        m₂ = TemplateCorr(template)
+        for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
+            @withfb descr (ts = test_conns(m₂, reals, shufs))
+            append!(tvals, ts)
+        end
     else
         v = voltsig(sd)
         vs = fill(v, N_total)
@@ -275,4 +322,4 @@ function conntest_all(; method, N_unconn=100, simkw...)
     return table
 end
 
-conntest_tables = CachedFunction(conntest_all, prefixdir)
+conntest_tables = CachedFunction(conntest_all, prefixdir, kw_order)

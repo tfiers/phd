@@ -123,20 +123,18 @@ end
 
 
 @kwdef struct TwoPassCorrTest <: STABasedConnTest
+    first_test::STAHeight = STAHeight()
     θ::Float64 = 0.98  # Threshold on 'connectedness values'.
                        # = 1 - p_value_threshold
 end
 
+# This is only to be used if all STAs fit in memory at once.
 test_conns(
     m          ::TwoPassCorrTest,
     real_STAs  ::Vector{STA},
     shuf_lists ::Vector{Vector{STA}},
 ) = begin
-    @withfb "First pass" begin
-        tvals₁ = test_conns(STAHeight(), real_STAs, shuf_lists)
-    end
-    predtypes = ConnTestEval.predicted_types(tvals₁, m.θ)
-    exc_STAs = real_STAs[predtypes .== :exc]
+    exc_STAs = get_STAs_for_template(m, real_STAs, shuf_lists)
     template = mean(exc_STAs)  # Vectors add (ofc)
     @withfb "Second pass" begin
         tvals₂ = test_conns(TemplateCorr(template), real_STAs, shuf_lists)
@@ -145,3 +143,15 @@ test_conns(
 end
 
 mean(xs) = sum(xs) ./ length(xs)
+
+get_STAs_for_template(
+    m          ::TwoPassCorrTest,
+    real_STAs  ::Vector{STA},
+    shuf_lists ::Vector{Vector{STA}},
+) = begin
+    @withfb "First pass" begin
+        tvals₁ = test_conns(m.first_test, real_STAs, shuf_lists)
+    end
+    predtypes = ConnTestEval.predicted_types(tvals₁, m.θ)
+    return exc_STAs = real_STAs[predtypes .== :exc]
+end
