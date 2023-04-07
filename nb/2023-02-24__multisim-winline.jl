@@ -56,7 +56,9 @@ simkeys = [
 
 using DistributedLoopMonitor
 
-@start_workers 6
+kill_stray_worker_procs()
+
+@start_workers 7
 
 warmup = false
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")

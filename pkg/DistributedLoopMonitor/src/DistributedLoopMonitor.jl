@@ -4,6 +4,9 @@ using Distributed
 using WithFeedback
 
 export @start_workers, distributed_foreach
+export kill_stray_worker_procs
+
+# re-
 export @everywhere
 
 
@@ -74,6 +77,18 @@ distributed_foreach(f, collection) = begin
         end
     end
     done!(m)
+end
+
+kill_stray_worker_procs() = begin
+    Sys.islinux() || return
+    # If a previous run was exited forcefully,
+    # worker processes are still around, hogging memory.
+    pattern = "julia .* --worker"
+    if success(run(`pgrep -f $pattern`, wait=false))
+        println("Julia worker processes to terminate:")
+        println(read(`pgrep -f $pattern`, String))
+        run(`pkill -f $pattern`)
+    end
 end
 
 end
