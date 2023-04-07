@@ -292,9 +292,12 @@ function conntest_all(; method, simkw...)
     if m isa STAHeight
         tvals = Float64[]
         for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
+            t₀ = time()
             @withfb descr (ts = test_conns(m, reals, shufs))
             append!(tvals, ts)
-            @withfb GC.gc()
+            if time() - t₀ > 10
+                @withfb GC.gc()
+            end
         end
     elseif m isa TwoPassCorrTest
         template = zeros(Float64, ConnectionTests.STA_length)
