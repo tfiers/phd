@@ -18,11 +18,14 @@ struct CachedFunction
     disk         ::Bool
     mem          ::Bool
     dir          ::String
+    kw_order     ::Vector{Symbol}
     default_kw
 end
 CachedFunction(
     f,
-    prefixdir = nothing;
+    prefixdir = nothing,
+    kw_order = Symbol[],
+    ;
     dir = nothing,
     disk = true,
     mem = true,
@@ -34,6 +37,7 @@ CachedFunction(
         disk,
         mem,
         fdir(f, prefixdir, dir),
+        kw_order,
         default_f_kw
     )
 
@@ -101,6 +105,8 @@ filename(full_kw) = to_string(full_kw) * ".jld2"
 """
 Joins the given keyword arguments with the default keyword args for this
 cache, and returns a NamedTuple, sorted alphabetically by key.
+(Actually: taking the user specified order, if any; and sorting the rest
+alphabetically, after that).
 """
 full_kw(c::CachedFunction; kw...) = begin
     out = Dict{Symbol, Any}()
@@ -110,8 +116,13 @@ full_kw(c::CachedFunction; kw...) = begin
     for (k, v) in kw
         out[k] = v
     end
-    sorted_names = sort!(collect(keys(out)))
-    return (; (k => out[k] for k in sorted_names)...)
+    # Select names from the user-specified order that
+    # we actually have
+    names = [k for k in c.kw_order if k ∈ keys(out)]
+    # Now collect the remaining `out` keys (not specified in user order)
+    remaining = [k for k in keys(out) if k ∉ names]
+    append!(names, sort!(remaining))
+    return (; (k => out[k] for k in names)...)
 end
 
 to_string(full_kw::NamedTuple) = begin
