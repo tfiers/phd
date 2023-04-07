@@ -303,7 +303,9 @@ function conntest_all(; method, simkw...)
         template = zeros(Float64, ConnectionTests.STA_length)
         for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
             exc_STAs = get_STAs_for_template(m, reals, shufs)
-            template += sum(exc_STAs)
+            if !isempty(exc_STAs)
+                template += sum(exc_STAs)
+            end
         end
         template ./= N_total
         tvals = Float64[]
