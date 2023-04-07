@@ -53,12 +53,25 @@ distributed_foreach(f, collection) = begin
     isnothing(p) && error("Call `@start_workers` first")
     N = length(collection)
     global m = LoopMonitor(N, p)
-        # Needed for the item_done below to work.
+        # `global` needed for the `item_done` below to work.
+    T = eltype(collection)
+    jobs = RemoteChannel(()->Channel{T}(Inf))
+    for el in collection
+        put!(jobs, el)
+    end
     println()
     start!(m)
-    @sync @distributed for el in collection
-        f(el)
-        @spawnat 1 item_done!(m)
+    @sync begin
+        for i in workers()
+            @spawnat i begin
+                while isready(jobs)
+                    el = take!(jobs)
+                    f(el)
+                    @spawnat 1 item_done!(m)
+                end
+                println("No more jobs")
+            end
+        end
     end
     done!(m)
 end
