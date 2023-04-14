@@ -102,6 +102,7 @@ for (key, table) in conntest_tables.memcache
     ))
 end
 df = DataFrame(rows)
+sort!(df, [:N, :seed])
 
 mkpath("data")
 @withfb using CSV

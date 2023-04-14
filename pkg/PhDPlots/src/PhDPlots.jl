@@ -10,7 +10,7 @@ const color_unconn = Gray(0.3)
 
 
 include("signal.jl")
-export plotsig
+export plotsig, plotSTA
 
 
 using IJulia
