@@ -1,0 +1,7 @@
+name = "Units"
+uuid = "5f9f03f5-0b03-427c-97a9-9b017c0d1095"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+GlobalMacros = "4356e881-4961-4a42-bf31-d836fc29b3e6"

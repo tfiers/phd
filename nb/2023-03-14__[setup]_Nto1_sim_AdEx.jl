@@ -33,7 +33,7 @@ using WithFeedback
 @withfb using ConnectionTests
 @withfb using DataFrames
 
-WithFeedback.nested()
+nworkers() > 1 && WithFeedback.nested()
 
 @typed begin
     # AdEx LIF neuron params (cortical RS)

@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "86c71b9a99bd931d40907b4b27d30efc7815b281"
+project_hash = "99d0b46c23143cc468e33e02179e944d43850429"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -404,6 +404,11 @@ deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libic
 git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
 version = "2.74.0+2"
+
+[[deps.GlobalMacros]]
+path = "pkg/GlobalMacros"
+uuid = "4356e881-4961-4a42-bf31-d836fc29b3e6"
+version = "0.1.0"
 
 [[deps.Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -825,6 +830,12 @@ git-tree-sha1 = "b3901ea034cfd8aae57a2fa0dde0b0ea18bad1cb"
 uuid = "570af359-4316-4cb7-8c74-252c00c2016b"
 version = "1.1.1"
 
+[[deps.PhDPlots]]
+deps = ["IJulia", "Sciplotlib", "Units"]
+path = "pkg/PhDPlots"
+uuid = "3ec2fb83-7a18-4ae0-b3ef-a58e1f4042a1"
+version = "0.1.0"
+
 [[deps.Pixman_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
 git-tree-sha1 = "b4f5d02549a10e20780a24fce72bea96b6329e29"
@@ -951,7 +962,7 @@ uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
 
 [[deps.Sciplotlib]]
-deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Reexport", "Requires", "Unitful"]
+deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PyCall", "PyPlot", "Reexport", "Requires"]
 path = "pkg/Sciplotlib"
 uuid = "61be95e5-9550-4d5f-a203-92a5acbc3116"
 version = "0.1.0"
@@ -1179,6 +1190,12 @@ deps = ["ConstructionBase", "Dates", "LinearAlgebra", "Random"]
 git-tree-sha1 = "d670a70dd3cdbe1c1186f2f17c9a68a7ec24838c"
 uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
 version = "1.12.2"
+
+[[deps.Units]]
+deps = ["GlobalMacros"]
+path = "pkg/Units"
+uuid = "5f9f03f5-0b03-427c-97a9-9b017c0d1095"
+version = "0.1.0"
 
 [[deps.VersionParsing]]
 git-tree-sha1 = "58d6e80b4ee071f5efd07fda82cb9fbe17200868"

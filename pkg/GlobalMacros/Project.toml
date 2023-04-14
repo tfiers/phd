@@ -1,0 +1,4 @@
+name = "GlobalMacros"
+uuid = "4356e881-4961-4a42-bf31-d836fc29b3e6"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
