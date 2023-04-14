@@ -58,7 +58,7 @@ using DistributedLoopMonitor
 
 kill_stray_worker_procs()
 
-@start_workers 7
+# @start_workers 7
 
 warmup = false
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")
@@ -72,8 +72,8 @@ warmup = false
 
 @everywhere Nᵤ = 100  # Number of unconnected input spikers
 
-# for simkw in simkeys
-distributed_foreach(simkeys) do simkw
+for simkw in simkeys
+# distributed_foreach(simkeys) do simkw
     t₀ = time()
     for method in conntest_method_names
         # (method != :fit_upstroke) && (simkw.seed != 5) && continue
@@ -102,3 +102,7 @@ for (key, table) in conntest_tables.memcache
     ))
 end
 df = DataFrame(rows)
+
+mkpath("data")
+@withfb using CSV
+@withfb CSV.write("data/Nto1_AdEx.csv", df)

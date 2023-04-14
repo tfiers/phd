@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-04-11__Nto1_AdEx_conntest_methods_comparison.ipynb
     - file: nb/2023-03-14__Nto1_sim_AdEx
     - file: nb/2023-02-07__multisim-winline
     - file: nb/2023-02-07__AdEx_Nto1
