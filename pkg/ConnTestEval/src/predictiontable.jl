@@ -75,6 +75,9 @@ index(conntype) =
 # --- Display ---
 # ---------------
 
+print_confusion_matrix(p::PredictionTable) =
+    println(confusion_matrix_string(p.confusion_matrix))
+
 confusion_matrix_string(cm) = begin
     s = """
                   Predicted

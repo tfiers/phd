@@ -58,7 +58,7 @@ using DistributedLoopMonitor
 
 kill_stray_worker_procs()
 
-# @start_workers 7
+# @start_workers 4
 
 warmup = false
 @everywhere include("2023-03-14__[setup]_Nto1_sim_AdEx.jl")

@@ -64,5 +64,6 @@ end
 
 
 export sweep_threshold, PredictionTable, at_FPR, calc_AUROCs
+export print_confusion_matrix
 
 end
