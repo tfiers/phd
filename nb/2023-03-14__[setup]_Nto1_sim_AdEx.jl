@@ -202,8 +202,10 @@ end
 
 # ---
 
-gen_unconnected_trains(sd::SimData, num; seed = 1) = begin
-    Random.seed!(seed)
+gen_unconnected_trains(sd::SimData, num) = begin
+    Random.seed!(sd.seed + num)
+        # If seed where the same as sim's seed, and N = Nᵤ
+        # we'd generate the same spike trains for the unconnected as the connected.
     firing_rates = rand(fr_distr, num)
     T = sd.sim_duration
     trains = [SpikeWorks.poisson_spikes(r, T) for r in firing_rates]
