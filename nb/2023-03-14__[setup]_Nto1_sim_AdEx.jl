@@ -284,6 +284,18 @@ conntest_methods = Dict(
     # :STA_modelfit   => test_conn_STA_modelfit,
 )
 
+get_template(m, simkw, batch_size) = begin
+    N_total = simkw.N + simkw.Nᵤ
+    template = zeros(Float64, ConnectionTests.STA_length)
+    for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
+        exc_STAs = get_STAs_for_template(m, reals, shufs)
+        if !isempty(exc_STAs)
+            template += sum(exc_STAs)
+        end
+    end
+    template ./= N_total
+end
+
 function conntest_all(; method, simkw...)
     # (`simkw` includes `Nᵤ` here)
     m = conntest_methods[method]
@@ -302,14 +314,7 @@ function conntest_all(; method, simkw...)
             end
         end
     elseif m isa TwoPassCorrTest
-        template = zeros(Float64, ConnectionTests.STA_length)
-        for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
-            exc_STAs = get_STAs_for_template(m, reals, shufs)
-            if !isempty(exc_STAs)
-                template += sum(exc_STAs)
-            end
-        end
-        template ./= N_total
+        template = get_template(m, simkw, batch_size)
         tvals = Float64[]
         m₂ = TemplateCorr(template)
         for_each_STA_batch(N_total, batch_size, simkw) do reals, shufs
