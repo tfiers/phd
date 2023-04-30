@@ -7,3 +7,6 @@
 [submodule "pkg/SpikeWorks"]
 	path = pkg/SpikeWorks
 	url = git@github.com:tfiers/SpikeWorks.jl.git
+[submodule "thesis/totex"]
+	path = thesis/totex
+	url = git@github.com:tfiers/totex.git
