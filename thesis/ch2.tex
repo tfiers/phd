@@ -1,0 +1,43 @@
+
+\section{Neuron model}
+
+We choose to simulate the `AdEx' neuron model, or the `adaptive exponential integrate-and-fire' neuron.
+This is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
+First, the full upstroke of each spike is simulated, as an exponential runoff.
+Second, an extra dynamic variable is added: the adaptation current.
+This allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation and post-inhibitory rebound. (Note however that we do not focus on any of these effects in this thesis).
+
+The AdEx model consists of two differential equations, one to simulate the membrane voltage $V$, and one for the adaptation current $w$:
+
+\begin{align*}
+    \d{V} &=  \\
+    \d{w} &=
+\end{align*}
+
+We solve these equations using first-order (Euler) integration.
+
+In addition to the two differential equations, the AdEx model also consists of an instantaneous reset condition. When the membrane voltage $V$ reaches a certain threshold, a spike is recorded, $V$ is reset, and $w$ is increased:
+
+\begin{align*}
+    \text{if}\ V > \theta\ \text{then:}\
+    & V \leftarrow V_r \\
+    & w \leftarrow w + \Delta w
+\end{align*}
+
+
+\section{Input spikes}
+
+In our simplest experimental setup, we simulate just one AdEx neuron.
+Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process. We call this the `N-to-1' setup.
+
+The inter-event intervals of a Poisson process follow an exponential distribution.
+We use that fact to generate spike trains: we draw samples from $\mathrm{Exp}(\lambda)$ (with $\lambda$ the desired firing rate), and cumulatively sum up these intervals  to obtain spike times. This is done until we have reached the desired input train duration.
+
+
+\section{Voltage imaging}
+
+The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage signals of which they are a reflection.
+
+We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage. As in the voltage imaging literature, we quantify the amount of this  noise by a `spike-SNR' measure (spike signal-to-noise ratio). This is defined as the height of an average spike relative to the standard deviation of the noise.
+
+A more realistic model of the voltage-imaging transformation would also incorporate the exponential decay over time of the SNR, and the short-term 'smearing in time' of voltage indicators. The latter could be done by passing the voltage signal through a linear filter with non-instantaneous impulse response.

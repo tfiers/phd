@@ -2,8 +2,170 @@
 \input{totex/Settings.tex}
 \input{totex/Commands.tex}
 
+\renewcommand{\d}[1]{\ensuremath{\mathrm{d}#1 / \mathrm{d}t}}
+
 \begin{document}
 
-Hellö :)
+\chapter{Introduction}
+
+\begin{itemize}
+    \item Problem statement
+    \item Opportunity of voltage imaging, core idea of inverting the causal `presynaptic spike → postsynaptic PSP' relation
+    \item Overview of thesis
+\end{itemize}
+
+
+\section{Connectomics}
+
+\begin{itemize}
+    \item Motivation
+    \item Ground-truth connectomics: tracing of electron microscopy and fluoresent injection imaging
+    \item Necessity of connection \emph{inference}
+    \item Mention `invasive' connection testing (stimulate one cell, record possible neighbours)
+    \item Limitations of `connectomics', and of inferred vs `actual' connectomics.\\
+        Terminology, e.g. `functional connectomics'
+\end{itemize}
+
+
+\section{Voltage imaging}
+
+\begin{itemize}
+    \item Technologies (from dyes to GEVIs)
+    \item Specs: cell yield, tissue depth, recording duration, SNR, species
+    \item ..and growth of these over time, and comparison with calcium imaging.\\
+        To extrapolate how these might advance in the future
+    \item Comparison with other recording techniques: ephys, calcium imaging, (and briefly mention coarser methods)
+\end{itemize}
+
+
+\section{Network inference}
+
+\begin{itemize}
+    \item Working with events/spikes only, versus working with continuous signals; or a hybrid as here.
+    \item Overview of the spikes-only methods
+    \item The connectomics competition, and the findings about the best methods
+    \item Mention other application domains, like gene regulatory networks
+    \item 'Spike-triggered voltage regression' of Zhou/Cai
+\end{itemize}
+
+
+
+% \chapter{Connection tests \&\\ the N-to-1 experiment}
+
+\chapter{The neuron model}
+
+In this chapter, we decribe our experimental setup: the neuron model we simulate, its inputs, and how we simulate voltage imaging.
+
+\input{ch2.tex}
+
+% \begin{itemize}
+%     \item AdEx neuron, synapse model, exc and inh inputs
+%     \item Poisson spike generation
+%     \item Lognormal distribution of input firing rates
+%     \item Influence of N \& input strength, on output firing rate \& average voltage level
+%     % \item Evaluation plots
+% \end{itemize}
+
+
+\chapter{Spike-triggered averaging}
+
+\begin{itemize}
+    \item Principle, example STAs
+    \item Influence on STA of E/I balance, output firing rate, reversal potentials
+    \item Use as connection test: shuffled spike trains and height of STA, p-values, and the `area-over-start' heuristic for E vs I classification.
+    \item Evaluation of a connection test: `ternary' classification, summary measures, AUROC
+    \item Performance of the simple STA-height test, for different N
+    \item Influence of window length
+\end{itemize}
+
+
+\chapter{New connection inference methods}
+
+\section{STA Template correlation}
+
+\begin{itemize}
+    \item Idea for the two-pass test
+    \item Template examples. Both ideal and template found with first-pass (STA height-only)
+    \item Peformance for different N, \& comparison with previous method
+\end{itemize}
+
+
+\section{Linear regression of the upstroke}
+
+\begin{itemize}
+    \item Non-STA method: concatenated individual windows as (X, y)
+    \item Examples of pooled windows, and fits
+    \item Mention the problem of unknown transmission delays
+    \item Perfomance for different N, \& comparison with previous methods
+\end{itemize}
+
+
+\section{Fitting a full STA model}
+
+\begin{itemize}
+    \item Model design
+    \item Iterative model fitting
+    \item Problem of overfitting, and parameter-constraints to solve it
+    \item An advantage: fit parameters (like transmission delay and time constants) are biologically ~meaningful
+    \item Perfomance for different N, \& comparison with previous methods
+\end{itemize}
+
+
+
+\section{Clustering, \& Hierarchical model fitting}
+
+\begin{itemize}
+    \item (Time-permitting)
+\end{itemize}
+
+
+\section{Zhou/Cai's `Spike-triggered regression'}
+
+\begin{itemize}
+    \item (Time-permitting)
+\end{itemize}
+
+
+\section{Computational cost}
+
+\begin{itemize}
+    \item Timings of each method, extrapolation for larger number of tested connections
+\end{itemize}
+
+\section{Summary}
+
+\begin{itemize}
+    \item Conclusions of the N-to-1 experiment
+    \item Leadup to the network experiments: what we could not yet test (the problem of indirect connections, as e.g. identified in the connectomics challenge)
+\end{itemize}
+
+
+
+\chapter{Network model}
+
+\begin{itemize}
+    \item Network connectivity, E/I balance, raster plots
+    \item Too many possible connections to test them all → Subsampling
+    \item Performance of last chapter's methods
+    \item If time: experiment with a network that is less densely connected than our current fully-random one. Why? To better examine the effect of indirect connections / colliders (For the current connectivity, there are too many of those. But in a more realistic, 'localized' network, there are less, and so it seems easier to isolate and examine their effect).
+\end{itemize}
+
+
+\chapter{Discussion}
+
+\section{Summary \& conclusions}
+
+..
+
+\section{Future work}
+
+\begin{itemize}
+    \item Test on real data
+    \item Direct comparison with spikes-only methods
+    \item More complexity in the testing setup: different transmission delays and time constants per synapse / neuron, plus:
+    \item Short term synaptic plasticity. Bursting. Oscillations.
+    \item Simulate different brain areas (different cell types and connectivity patterns). Simulate the same area, but in different states (up vs down, e.g.)
+    \item New connection test method to try: something deep learning-based (we have infinite training data, given our simulation)
+\end{itemize}
 
 \end{document}

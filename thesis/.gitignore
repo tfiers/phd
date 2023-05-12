@@ -2,3 +2,6 @@
 *.aux
 *.bcf
 *.run.xml
+*.xdv
+*.fls
+*.fdb_latexmk
