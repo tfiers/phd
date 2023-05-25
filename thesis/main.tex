@@ -2,7 +2,14 @@
 \input{totex/Settings.tex}
 \input{totex/Commands.tex}
 
-\renewcommand{\d}[1]{\ensuremath{\mathrm{d}#1 / \mathrm{d}t}}
+% \renewcommand{\d}[1]{\ensuremath{\mathrm{d}#1 / \mathrm{d}t}}
+\renewcommand{\d}[1]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}t}}}
+
+\newcommand*{\exc}{\text{exc}}
+\newcommand*{\inh}{\text{inh}}
+\newcommand*{\syn}{\text{syn}}
+
+\addbibresource{references.bib}
 
 \begin{document}
 
@@ -52,7 +59,7 @@
 
 % \chapter{Connection tests \&\\ the N-to-1 experiment}
 
-\chapter{The neuron model}
+\chapter{Simulation details}
 
 In this chapter, we decribe our experimental setup: the neuron model we simulate, its inputs, and how we simulate voltage imaging.
 
