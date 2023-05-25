@@ -8,13 +8,12 @@ Second, an extra dynamic variable is added: the adaptation current.
 This allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation and post-inhibitory rebound. (Note however that we do not focus on any of these effects in this thesis).
 
 The AdEx model consists of two differential equations, one to simulate the membrane voltage $V$, and one for the adaptation current $w$:
-
 \begin{align}
     C \d{V} &=  -g_L (V - E_L)
                             + g_L \Delta_T \exp \left(\frac{V-V_T}{\Delta_T}  \right)
                             - I_\syn - w
                             \label{eq:AdEx-V}
-                            \\
+                            \\[1em]
     \d{w} &= a (V - E_L) - w
         \label{eq:AdEx-w}
 \end{align}
@@ -33,13 +32,14 @@ In addition to the two differential equations, the AdEx model also consists of a
     \label{eq:AdEx-reset}
 \end{align}
 
+
 \subsection{Alternative neuron models}
 
-Why did we choose the AdEx model to simulate neuron voltages? In short, because it strikes a good balance between realism and complexity, as in: still having a compact set of free parameters. We discuss here briefly two alternative neuron models: the simple leaky-integrate-and-fire (LIF) neuron, and the more complex Hodgkin-Huxley (HH) neuron.
+Why did we choose the AdEx model to simulate neuron voltages? In short, because it strikes a good balance between realism and complexity. (Complexity, as in: still having a compact set of free parameters). We discuss here briefly two alternative neuron models: the simple leaky-integrate-and-fire (LIF) neuron, and the more complex Hodgkin-Huxley (HH) neuron.
 
-A simpler model than AdEx would be the well-known leaky-integrate-and fire (LIF) neuron.
+A simpler model than AdEx would be the well-known LIF neuron:
 \begin{align*}
-    C \d{V} =  -g_L (V - E_L) - I \\[1em]
+    C \d{V} =  -g_L (V - E_L) - I_\syn \\[1em]
     \text{if}\ V > \theta\ \text{then:}\ V \leftarrow V_r \\
 \end{align*}
 As is apparent from comparing with \cref{eq:AdEx-V,eq:AdEx-reset}, the AdEx model is an extension of the LIF model. The LIF neuron lacks a simulation of the upstroke of spikes (the exponential term in \cref{eq:AdEx-V}), and the slower time-scale adaptation current (\cref{eq:AdEx-w}), which allows the simulation of many qualitatively different real neuron types.
@@ -95,16 +95,17 @@ The sums of conductance signals $g_i(t)$ can also be simplified. Say that the va
 \begin{equation}
     g_i(t) = G_i\ e^{-t/\tau}
 \end{equation}
-With this, and when all synapses have the same time constant $\tau$, the two sums in \cref{eq:I_syn_factor} can be factored as follows. In the time before any new spikes arrive:
-
+With this, and when all synapses have the same time constant $\tau$, the two sums in \cref{eq:I_syn_factor} can be factored as follows:\footnotemark
 \begin{equation}
     \sum_i g_i(t) = \sum_i \left( G_i\ e^{-t/\tau} \right)
                             = \left( \sum_i G_i  \right) e^{-t/\tau}
 \end{equation}
+\footnotetext{
+    This is only valid in the time before any new spikes arrive.
+    To see that this still holds after a new spike arrives, the above reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/\tau}$, and one increased by a bump $\Delta_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
+}
 
-To see that this still holds after a new spike arrives, the above reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/\tau}$, and one increased by a bump $\Delta_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
-
-The above means that we need to only keep track of two conductance signals, $g_\exc$ and $g_\inh$, each the sum of all excitatory or all inhibitory synaptic conductances.
+This means that we need to only keep track of two conductance signals, $g_\exc$ and $g_\inh$: each the sum of all excitatory or all inhibitory synaptic conductances.
 
 Our synaptic current sum then becomes simply:
 

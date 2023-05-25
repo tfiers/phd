@@ -7,3 +7,5 @@
 *.fdb_latexmk
 *.bbl
 *.blg
+*.dvi
+*.out.ps

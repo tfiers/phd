@@ -12,9 +12,12 @@ wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 [2]: https://github.com/rstudio/tinytex-releases
 
 Then installed these extra packages in addition to the included ones: \
-`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref`
+`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo`
 
-Then: `xelatex main.tex` (note, `xelatex`, not `xetex`)
+<!-- Then: `xelatex main.tex` (note, `xelatex`, not `xetex`) -->
 
+<!-- For continous compilation: `latexmk -pvc -pdfxe main.tex`. -->
 
-For continous compilation: `latexmk -pvc -pdfxe main.tex`.
+For continuous comiplation: latexmk -pvc -pdf main.tex
+
+On font-related errors, running `updmap` might help.
