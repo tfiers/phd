@@ -53,7 +53,10 @@ On the other hand, when the neuron would continuously teeter just below its firi
 
 Another well-known alternative neuron model is the class of Hodgin-Huxley (HH)-like neurons. These models simulate the full trajectory of a spike: both its upstroke and its downstroke. Unfortunately they also have many free parameters. They also take a bit longer to simulate, being higher dimensional (having more differential equations), and containing many more exponential terms, which take the brunt of the time when numerically evaluating a differential expression.
 
+
 \subsection{Comparison between the AdEx and Izhikevich neurons}
+
+...
 
 
 \subsection{Synapse model}
@@ -61,31 +64,39 @@ Another well-known alternative neuron model is the class of Hodgin-Huxley (HH)-l
 
 One unexplained term in our neuron model \cref{eq:AdEx-V} is the synaptic current, $I_\syn$.
 This is the following sum over all input synapses $i$ of the neuron:
-
 \begin{equation}
     I_\syn = \sum_i g_i (V - E_i)
     \label{eq:I_syn}
 \end{equation}
-
 where $V$ is the global membrane voltage of the neuron, $E_i$ is the reversal potential of that synapse, and $g_i$ is the local synaptic conductance, which is modulated by presynaptic spikes.
 
 For an excitatory synapse, $V < E_i$, making $g_i (V - E_i)$ negative, increasing the membrane voltage according to the sign convention for $I_\syn$ in \cref{eq:AdEx-V}.
 
 We simulate the synaptic conductances $g_i$ as exponentially decaying signals (with time constant $\tau$), and bump them up instantaneously on arrival of a presynaptic spike:
-
 \begin{gather}
     \d{g_i} = -g_i / \tau
     \label{eq:g_i}
-    \\\notag \\\notag
+    \\[1em]
     \text{On incoming presynaptic spike:}\notag\\
-    \ g_i \leftarrow g_i + \Delta_i
+    \ g_i \leftarrow g_i + Δg_i
 \end{gather}
 
-Note that these are not the so called alpha-synapses, which are two dimensional and also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
+\marginpar{
+    \includegraphics{g1.pdf}
+    \captionof{figure}{Example synaptic conductance trace $g_1(t)$, with a single incoming spike at $t = 20$ ms.}
+    \label{fig:g1}
+}
+\marginpar{
+    \vspace*{3em}
+    \includegraphics{g2.pdf}
+    \captionof{figure}{Another example trace $g_2(t)$, with spikes at $t = 10$ ms and $30$ ms, and a smaller $Δg$.}
+    \label{fig:g2}
+}
+
+Note that these are not the so called alpha-synapses. Those are two dimensional and also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
 Simulating a full alpha synapse might increase the realism of our voltage traces, for a small simulation cost. We did not try this however. Foremost because alpha synapses fit to real data often have very fast rise times that are almost indistinguishable from instantaneous jumps.
 
 For efficiency, we give all our excitatory synapses the same reversal potential, $E_\exc$. Idem for the inhibitory synapses, with $E_\inh$. This allows us to factor the synaptic current sum (\cref{eq:I_syn}) as follows:
-
 \begin{equation}
     I_\syn = (V - E_\exc) \sum_{\exc\ i} g_i \  + \  (V - E_\inh) \sum_{\inh\ i} g_i
     \label{eq:I_syn_factor}
@@ -95,30 +106,34 @@ The sums of conductance signals $g_i(t)$ can also be simplified. Say that the va
 \begin{equation}
     g_i(t) = G_i\ e^{-t/\tau}
 \end{equation}
+
 With this, and when all synapses have the same time constant $\tau$, the two sums in \cref{eq:I_syn_factor} can be factored as follows:\footnotemark
+\footnotetext{
+    This is only valid in the time before any new spikes arrive.
+    To see that the 'summability' still holds after a new spike arrives, the above reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/\tau}$, and one increased by a bump $Δg_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
+}
 \begin{equation}
     \sum_i g_i(t) = \sum_i \left( G_i\ e^{-t/\tau} \right)
                             = \left( \sum_i G_i  \right) e^{-t/\tau}
 \end{equation}
-\footnotetext{
-    This is only valid in the time before any new spikes arrive.
-    To see that this still holds after a new spike arrives, the above reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/\tau}$, and one increased by a bump $\Delta_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
+This means that we need to only keep track of two conductance signals: $g_\exc$ and $g_\inh$, each the sum of all excitatory or all inhibitory synaptic conductances.
+
+\marginpar{
+    \vspace*{2em}
+    \includegraphics{g3.pdf}
+    \captionof{figure}{A third synaptic conductance trace $g_3(t)$, with three input spikes at the same times and strengths as in \cref{fig:g1,fig:g2}. This signal is simulated independently, but turns out to be equal to the sum of the two others: $g_3(t) ≡ g_1(t) + g_2(t)$.}
 }
 
-This means that we need to only keep track of two conductance signals, $g_\exc$ and $g_\inh$: each the sum of all excitatory or all inhibitory synaptic conductances.
-
 Our synaptic current sum then becomes simply:
-
 \begin{equation}
     I_\syn = (V - E_\exc)\ g_\exc \  + \  (V - E_\inh)\ g_\inh,
 \end{equation}
-
 and we only need to simulate two differential equations, instead of one for every synapse:
 \begin{align*}
     \d{g_\exc} &= -g_\exc / \tau \\
     \d{g_\inh} &= -g_\inh / \tau,
 \end{align*}
-where on arrival of a spike at synapse $i$ either $g_\exc$ or $g_\inh$ is instantaneously increased by a value $\Delta_i$, depending on whether the synapse is excitatory or inhibitory.
+where on arrival of a spike at synapse $i$ either $g_\exc$ or $g_\inh$ is instantaneously increased by a value $Δg_i$, depending on whether that synapse is excitatory or inhibitory.
 
 
 \section{Input spikes}
