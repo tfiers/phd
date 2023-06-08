@@ -14,7 +14,7 @@ The AdEx model consists of two differential equations, one to simulate the membr
                             - I_\syn - w
                             \label{eq:AdEx-V}
                             \\[1em]
-    \d{w} &= a (V - E_L) - w
+    \tau_w \d{w} &= a (V - E_L) - w
         \label{eq:AdEx-w}
 \end{align}
 
@@ -31,6 +31,8 @@ In addition to the two differential equations, the AdEx model also consists of a
     & w \leftarrow w + \Delta w
     \label{eq:AdEx-reset}
 \end{align}
+
+[explain parameters]
 
 
 \subsection{Alternative neuron models}
@@ -56,9 +58,24 @@ Another well-known alternative neuron model is the class of Hodgin-Huxley (HH)-l
 
 \subsection{Comparison between the AdEx and Izhikevich neurons}
 
-...
+These models are very similar. Their phase spaces are topologically identical:
+the adaptive current equation is identical (up to a renaming of the variables); and the $\dot{V}(V)$-graph has the same shape, with two fixed points: a stable fixed point at the resting potential, and an unstable one at the firing threshold.
 
+They differ in the exact shape: Izhikevich's $\dot{V}(V)$ is a parabola, while AdEx is the more realistic 'linear subthreshold and then transitioning to an exponential'. [ref bio fig]
+As a result, Izhikevich neurons have an unrealistically slow spike upstroke.
 
+\begin{align}
+    C \d{V} &=  (V - E_L) (V - E_T) - I_\syn - w
+        \label{eq:Izh-V}  \\[1em]
+    \d{w} &= a (V - E_L) - w
+        \label{eq:Izh-w}
+\end{align}
+
+[equation with original names]
+
+[comparison table: from nb]
+
+\clearpage
 \subsection{Synapse model}
 \label{sec:synapse_model}
 
