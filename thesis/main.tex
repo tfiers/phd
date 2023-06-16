@@ -2,8 +2,12 @@
 \input{totex/Settings.tex}
 \input{totex/Commands.tex}
 
-% \renewcommand{\d}[1]{\ensuremath{\mathrm{d}#1 / \mathrm{d}t}}
-\renewcommand{\d}[1]{\ensuremath{\frac{\mathrm{d}#1}{\mathrm{d}t}}}
+% No '(2.8)' for equations, rather just '(10)'
+\counterwithout{figure}{chapter}
+\counterwithout{equation}{chapter}
+
+\renewcommand{\d}[2][t]{\ensuremath{\frac{\mathrm{d}#2}{\mathrm{d}#1}}}
+\newcommand*{\dd}[1]{\ensuremath{\frac{\mathrm{d}}{\mathrm{d}#1}}}
 
 \newcommand*{\exc}{\text{exc}}
 \newcommand*{\inh}{\text{inh}}
@@ -19,6 +23,7 @@
 %   \newunicodechar{Δ}{\Delta}
 % doesn't.
 \newunicodechar{α}{\ensuremath{\alpha}}
+\newunicodechar{θ}{\ensuremath{\theta}}
 \newunicodechar{μ}{\ensuremath{\mu}}
 \newunicodechar{σ}{\ensuremath{\sigma}}
 \newunicodechar{τ}{\ensuremath{\tau}}
@@ -32,6 +37,7 @@
 \newunicodechar{ⱼ}{\ensuremath{_{j}}}
 \newunicodechar{–}{\ensuremath{-}}
 \newunicodechar{·}{\ensuremath{\cdot}}
+\newunicodechar{←}{\ensuremath{\leftarrow}}
 
 
 \addbibresource{references.bib}
