@@ -5,11 +5,12 @@ We choose to simulate the `AdEx' neuron model, or the `adaptive exponential inte
 This is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
 First, the full upstroke of each spike is simulated, as an exponential runoff.
 Second, an extra dynamic variable is added: the adaptation current.
-This current allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation and post-inhibitory rebound. (Note however that we do not focus on adaptation effects in this thesis).
+This current allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation and post-inhibitory rebound.
+% (Note however that we do not focus on adaptation effects in this thesis).
 
 \marginpar{
     \includegraphics[w=1]{exIF-fit.png}
-    \captionof{figure}{A linear-plus-exponential model (red) fit to a real cortical pyrimidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
+    \captionof{figure}{A linear-plus-exponential model (red) fit to data from a real cortical pyrimidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
     \label{fig:exIF-fit}
 }
 
@@ -29,13 +30,13 @@ We use the sign convention of inter alia Dayan \& Abbott\footnote{\cite{Dayan200
 
 Other parameters are explained in \cref{tab:AdEx-params}.
 
-In this chapter, we will often analyse $C\d{V}$ as a function of $V$, i.e. analyse it as a dynamical system: will the voltage increase or decrease at the current voltage?
-For conciceness, we will call this function $F(V)$. I.e. $F(V) = C \d{V} =$ the right-hand-side of \cref{eq:AdEx-V}, here. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
+In this chapter, we will often analyse $\d{V}$ as a function of $V$, i.e. analyse it as a dynamical system: will the voltage increase or decrease at the current voltage?
+For conciceness, we will call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
 \Cref{fig:exIF-fit} shows the $F(V)$ curve for an AdEx neuron fit to a real neuron.
 
 \begin{table}[h]
     \begin{sidecaption}
-        {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. By defining the location of $F(V)$'s minmum, $V_T$ also determines the location of the firing threshold.}
+        {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. By defining the location of $\d{V}$'s minmum, $V_T$ also determines the location of the firing threshold.}
         [tab:AdEx-params]
         \begin{tabular}{c l l}
             Name  & Description & Units \\
@@ -43,8 +44,8 @@ For conciceness, we will call this function $F(V)$. I.e. $F(V) = C \d{V} =$ the 
             $V$  & Membrane voltage & V \\
             $g_L$ & Input / leak conductance & S (V/A) \\
             $E_L$  & Resting / leak potential & V \\
-            $Δ_T$  & Steepness of $F$ around the firing threshold & V \\
-            $V_T$  & Location of minimum of $F$ & V \\
+            $Δ_T$  & Steepness of $\d{V}$ around the firing threshold & V \\
+            $V_T$  & Location of minimum of $\d{V}$ & V \\
             $w$   & Adaptation current & A \\
             $τ_w$   & Time constant of adaptation current & s \\
             $a$ & Sensitivity of adaptation current to $V$ & S \\
@@ -61,9 +62,16 @@ In addition to the two differential equations, the AdEx model also consists of a
     & w ← w + Δw \notag
 \end{align}
 
+% Slowly injecting current $I$ shifts Izhikevich's parabola upwards, raising the resting potential and lowering the spiking threshold. At a certain point, the two fixed points merge and disappear ("annihilate"), in a "saddle--node"\fnm or "fold" bifurcation. The voltage can only go up -- and with the reset of \cref{eq:Izh_V_reset}, the neuron keeps spiking.
+
+% \fnt{In the full $(V, u)$ phase plane, at $V_r$ there is a node (both eigendirections are attracting), and at $V_t$ there is a saddle (only one eigendirection attracts, the other repels). Hence, "saddle--node" bifurcation.}
+
+% On the other hand, negative input currents or a positive adaptation current $u$ shift $\dot{V}$ downwards, giving a lower resting potential and a higher spiking threshold. This is how the model creates spike rate adaptation: every spike increases $u$ (\cref{eq:Izh_u_update}), and thus the spiking threshold.
+
+
 \subsection{Analysis}
 
-Where are the fixed points of the dynamical system $C\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
+Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
 We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is indeed a fixed point -- or rather lies very close to a fixed point: the exponential term is negligibly small at $V = E_L$.
 \marginpar{
@@ -107,7 +115,7 @@ In the next section, we go into more depth on a third alternative, the very simi
 A simpler model than AdEx would be the well-known LIF neuron:
 \begin{align*}
     C \d{V} =  -g_L (V - E_L) - I_\syn \\[1em]
-    \text{if}\ V > θ\ \text{then:}\ V ← V_r \\
+    \text{if}\ V > θ,\ \text{then:}\ V ← V_r \\
 \end{align*}
 As is apparent from comparing this with \cref{eq:AdEx-V,eq:AdEx-reset}, the AdEx model is an extension of the LIF model. The LIF neuron lacks a simulation of the upstroke of spikes (the exponential term in \cref{eq:AdEx-V}), and the slower time-scale adaptation current (\cref{eq:AdEx-w}), which allows the simulation of many qualitatively different real neuron types.
 It is especially this first addition, the full upstroke simulation, that seems relevant in generating realistic voltage traces.
@@ -134,16 +142,15 @@ Another alternative neuron model is the Izhikevich neuron, which is exceedingly 
 These are the Izhikevich equations, using the same symbols as used before (in \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}):
 \begin{align}
     C \d{V} &=  k (V - E_L) (V - E_T) - I_\syn - w  \label{eq:Izh-V}  \\[1em]
-    τ_w \d{w} &= b (V - E_L) - w     \label{eq:Izh-w} \\[2em]
+    τ_w \d{w} &= a (V - E_L) - w     \label{eq:Izh-w} \\[2em]
     \text{if}\ V& > θ,\ \text{then:}  \label{eq:Izh-reset} \\
         &V ← V_r \notag \\
         &w ← w + Δw \notag
 \end{align}
 
-We have introduced two new parameters not present in the AdEx equations: a `steepness' parameter $k$; and $E_T$, the instantaneous firing threshold -- that is, the firing threshold in the absence of any synaptic or adaptation currents.
+The only difference is in \cref{eq:Izh-V}, where the $F(V)$ curve is not made by a linear plus exponential term as in AdEx; but rather by a quadratic (a parabola). Its two zeros (the fixed points) are readily apparent, as $E_L$ and $E_T$.
 
-Note that, in the absence of synaptic and adaptation currents, \cref{eq:Izh-V} is a quadratic function of $V$, and its two zeros, $E_L$ and $E_T$, are directly apparent.
-These two zeros are respectively the stable fixed point (the resting threshold or leak potential $E_L$), and the unstable fixed point (the firing threshold $E_T$).
+We have introduced two new parameters not present in the AdEx equations: the steepness of the parabola, $k$; and $E_T$, the instantaneous firing threshold (the firing threshold in the absence of any synaptic or adaptation currents).
 
 
 \subsection{Correspondences with AdEx}
@@ -178,21 +185,21 @@ In Izhikevich's book\footnote{\cite{Izhikevich2007DynamicalSystemsNeuroscience},
     \end{sidecaption}
 \end{table}
 
-Beside these straightforward correspondences, there are some parameters in either model that have no direct equivalent in the other: $k$ and $E_T$ in Izhikevich, and $g_L$, $Δ_T$, and $V_T$ in AdEx.
+Beside these straightforward correspondences, there are some parameters in either model that have no direct equivalent in the other: $k$ and $v_t$ in Izhikevich, and $g_L$, $Δ_T$, and $V_T$ in AdEx.
 For those, we'll look at the shape of Izhikevich's $F(V)$, as we've done for the AdEx neuron before.
 
-First, the AdEx parameter $g_L$. This is the input conductance, a.k.a. the leak conductance, a.k.a. the slope of $F(V)$ around the leak potential. We can find this same conductance for the Izhikevich neuron too, by taking the derivative with respect to $V$ of the right hand side of \cref{eq:Izh-V}, at $w = 0$, $I_\syn = 0$, and $V = E_L$. We find:
+First, the AdEx parameter $g_L$. This is the input conductance, a.k.a. the leak conductance, and the slope of $F(V)$ around the leak potential. We can find this same conductance for the Izhikevich neuron by taking the derivative with respect to $v$ of the right hand side of \cref{eq:IzhIzh-v}, at $w = 0$, $I_\syn = 0$, and $v = v_r$. We find:
 \begin{equation}
-    \dd{V}(k(V-E_L)(V-E_T)) \Big|_{V=E_L} = k(E_L - E_T)
+    \dd{v}(k(v-v_r)(v-v_t)) \Big|_{v=v_r} = k(v_r - v_t)
 \end{equation}
 (this value is negative: the leak potential is a stable fixed point. This corresponds to \cref{eq:AdEx-V}, where we find `$-g_L$').
 Thus, our first nontrivial correspondence:
 \begin{equation}
-    g_L = k (E_T - E_L)  \label{eq:leak_conductance}
+    g_L = k (v_t - v_r)  \label{eq:leak_conductance}
 \end{equation}
 
 We've seen that $V_T$ is the minimum of AdEx's $F$.
-The minimum of Izhikevich's $F$ is easily found as the average of the parabola's two zeros. I.e, $V_T$ corresponds to $(E_L + E_T) / 2$.
+The minimum of Izhikevich's $F$ is easily found as the average of the parabola's two zeros. I.e, $V_T$ corresponds to $(v_r + v_t) / 2$.
 
 Finally, $Δ_T$ co-determines the slope of AdEx's $F$ at the firing threshold (\cref{eq:AdEx-slope}). Given that Izhikevich's $F$ is a parabola, with slopes equal in magnitude at both roots, we already know the firing threshold slope: it is the same as the leak conductance, \cref{eq:leak_conductance}.\\
 Here, the AdEx model is more expressive than Izhikevich's: the slope of $\d{V}$ at the firing threshold can be independently tweaked from the leak conductance; in Izhikevich these two are clung together by the form of the quadratic equation.
@@ -203,8 +210,23 @@ Here, the AdEx model is more expressive than Izhikevich's: the slope of $\d{V}$ 
 The Izhikevich and AdEx models are very similar. Their phase spaces are topologically identical:
 the adaptive current equation is identical (up to a renaming of the variables); and the $F(V)$-graph has the same shape, with two fixed points: a stable fixed point at the resting potential, and an unstable one at the firing threshold (\cref{fig:dynsys}).
 
-They differ in the exact shape: Izhikevich's $F(V)$ is a parabola, while AdEx is the more realistic 'linear subthreshold, and then transitioning to an exponential'. [ref bio fig]
+They differ in the exact shape: Izhikevich's $F(V)$ is a parabola, while AdEx is the more realistic 'linear subthreshold, and then transitioning to an exponential' (see \cref{fig:exIF-fit,fig:dynsys}).
 As a result, Izhikevich neurons have an unrealistically slow spike upstroke.
+
+\begin{figure}
+    \hspace*{10em}
+    \includegraphics[w=1.5]{testbench-I-Izh-EIF.png}
+    \caption{The nonlinear response of Izhikevich neurons to subthreshold input currents. `EIF' stands for exponential integrate-and-fire; it has the same $\d{V}$ as an AdEx neuron. Adaptation currents are negligibly small for both models in this test scenario.
+    % Izhikevich parameters from \cite{Izhikevich2007DynamicalSystemsNeuroscience,Humphries2006UnderstandingUsingIzhikevich}, for a Cortical Regular Spiking neuron.
+    % EIF parameters chosen to match: $C = 100$ pF, $E_L = -60$ mV, $R = 80\, \si{\mega\ohm}$.
+    }
+    \label{fig:testbench-I-Izh-EIF}
+\end{figure}
+
+A second issue is Izhikevich's subthreshold nonlinearity. The effects of this can be seen in \cref{fig:testbench-I-Izh-EIF}. Positive input currents produce stronger responses than equally large negative input currents. This is explained by the quadratic $\d{V}$ shape: positive deviations are attenuated less, and negative deviations more, than a linear neuron would. Real and AdEx neurons do not suffer this assymetry.
+
+This nonlinearity is not visible for small voltage deviations, which is what the postsynaptic potentials we are interested in in this thesis tend to be. There is however an effect of the neuron's average voltage: if this voltage is constantly on the higher side, then inputs -- both negative and positive -- will cause larger responses than if the median voltage was lower.
+
 
 
 \clearpage
