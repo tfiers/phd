@@ -10,7 +10,7 @@ This current allows the simulation of many non-linear effects of real neurons, l
 
 \marginpar{
     \includegraphics[w=1]{exIF-fit.png}
-    \captionof{figure}{A linear-plus-exponential model (red) fit to data from a real cortical pyrimidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
+    \captionof{figure}{A linear-plus-exponential model (red) fit to data from a cortical pyramidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
     \label{fig:exIF-fit}
 }
 
@@ -42,6 +42,7 @@ For conciceness, we will call this function $F(V)$. I.e. $F(V) = \d{V} =$ the ri
             Name  & Description & Units \\
             \hline
             $V$  & Membrane voltage & V \\
+            $C$ & Membrane capacitance & F \\
             $g_L$ & Input / leak conductance & S (V/A) \\
             $E_L$  & Resting / leak potential & V \\
             $Δ_T$  & Steepness of $\d{V}$ around the firing threshold & V \\
@@ -73,13 +74,13 @@ In addition to the two differential equations, the AdEx model also consists of a
 
 Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
-We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is indeed a fixed point -- or rather lies very close to a fixed point: the exponential term is negligibly small at $V = E_L$.
+We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is indeed a fixed point -- or rather lies very close to one: the exponential term is negligibly small at $V = E_L$.
 \marginpar{
     \includegraphics[w=1]{LambertW.png}
     \captionof{figure}{The Lambert $W$ functions for real numbers.}
     \label{fig:LambertW}
 }
-The second fixed point has no straightforward expression. The exact solutions for $F$'s roots need the so called Lambert $W$ or `product logarithm' functions $W_0$ and $W_{-1}$ (see \cref{fig:LambertW}). $F$'s roots are found at:
+The second fixed point has no straightforward expression. The exact solutions for $F$'s roots need the so called Lambert $W$ or `product logarithm' functions $W_0$ and $W_{-1}$ (see \cref{fig:LambertW}). The roots are found at:
 \begin{equation}
     V = E_L - Δ_T W_k \left( -\exp\left( \frac{E_L - V_T}{Δ_T} \right) \right) \label{eq:LambertW}
 \end{equation}
@@ -148,9 +149,9 @@ These are the Izhikevich equations, using the same symbols as used before (in \c
         &w ← w + Δw \notag
 \end{align}
 
-The only difference is in \cref{eq:Izh-V}, where the $F(V)$ curve is not made by a linear plus exponential term as in AdEx; but rather by a quadratic (a parabola). Its two zeros (the fixed points) are readily apparent, as $E_L$ and $E_T$.
-
 We have introduced two new parameters not present in the AdEx equations: the steepness of the parabola, $k$; and $E_T$, the instantaneous firing threshold (the firing threshold in the absence of any synaptic or adaptation currents).
+
+The only difference with AdEx is in \cref{eq:Izh-V}, where the $F(V)$ curve is not made by a linear plus exponential term, as in AdEx; but rather by a quadratic (a parabola). Its two zeros (the fixed points) are readily apparent, as $E_L$ and $E_T$.
 
 
 \subsection{Correspondences with AdEx}
@@ -233,7 +234,7 @@ This nonlinearity is not visible for small voltage deviations, which is what the
 \section{Synapse model}
 \label{sec:synapse_model}
 
-One unexplained term in our neuron model \cref{eq:AdEx-V} is the synaptic current, $I_\syn$.
+One unexplained term in our neuron model, \cref{eq:AdEx-V}, is the synaptic current $I_\syn$.
 This is the following sum over all input synapses $i$ of the neuron:
 \begin{equation}
     I_\syn = \sum_i g_i (V - E_i)
