@@ -99,7 +99,7 @@ Also of interest -- especially when comparing with the Izhikevich neuron later -
 \end{align}
 This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in \cite{Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
 
-From \cref{eq:dFdV}, we also calculate the slope of $F$ at its two roots. At $V = E_L$, the slope (also known as the leak or input conductance here) is $-g_L$, plus a negligibly small exponential term. The negative sign shows that this is a stable fixed point: in a linearization of $F$ around this point, at voltages below the resting potential, $F$ (i.e. $C \d{V}$) is positive and thus $V$ will increase. At voltages above $E_L$, $F$ is negative and $V$ will decrease. Small deviations on either side of the resting potential will thus decay back to this resting potential.
+From \cref{eq:dFdV}, we also calculate the slope of $F$ at its two roots. At $V = E_L$, the slope (also known as the leak or input conductance here) is $-g_L$, plus a negligibly small exponential term. The negative sign shows that this is a stable fixed point: in a linearization of $F$ around this point, at voltages below the resting potential, $F$ (i.e. $\d{V}$) is positive and thus $V$ will increase. At voltages above $E_L$, $F$ is negative and $V$ will decrease. Small deviations on either side of the resting potential will thus decay back to this resting potential.
 
 At the firing threshold $V = E_T$ (i.e. the second solution to \cref{eq:LambertW}), the slope is:
 \begin{equation}
@@ -212,19 +212,20 @@ The Izhikevich and AdEx models are very similar. Their phase spaces are topologi
 the adaptive current equation is identical (up to a renaming of the variables); and the $F(V)$-graph has the same shape, with two fixed points: a stable fixed point at the resting potential, and an unstable one at the firing threshold (\cref{fig:dynsys}).
 
 They differ in the exact shape: Izhikevich's $F(V)$ is a parabola, while AdEx is the more realistic 'linear subthreshold, and then transitioning to an exponential' (see \cref{fig:exIF-fit,fig:dynsys}).
-As a result, Izhikevich neurons have an unrealistically slow spike upstroke, which can be seen in \cref{fig:Vm_Izh_vs_AdEx}.
+As a result, Izhikevich neurons have an unrealistically slow spike upstroke, examples of which can be seen in \cref{fig:Vm_Izh_vs_AdEx}.
 
-\begin{figure}
+\begin{figure}[h]
     \hspace*{10em}
     \includegraphics*[w=1.4]{Vm_Izh_vs_AdEx.pdf}
-    \caption{Example voltage traces of two neuron models. Both models have the same resting and instantaneous firing threshold potentials ($E_L = -65$ mV and $E_T = -49.6$ mV), the same input conductance ($g_L = 4.3$ nS), and approximately the same synaptic input (6500 Poisson spike trains with lognormal firing rates with mean $μ_x = 4$ Hz. These inputs are divided $4 : 1$ in excitatory and inhibitory synapses, with synaptic weight $Δg = 10$ pS for excitatory synapses -- $14$ pS for the AdEx neuron -- and four times that for inhibitory synapses). The input strength was slightly altered between the two simulations so as to obtain the same number of output spikes.}
+    \captionn{Two neuron models behave differently for (near) identical parameters and input}{
+    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given slightly stronger inputs ($Δg_\exc = 14$ pS) than the Izhikevich neuron ($Δg_\exc = 10$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). See \url{https://tfiers.github.io/phd/nb/2023-06-23__Vm_traces_AdEx_Izh__Brian.html} for more details.}}
     \label{fig:Vm_Izh_vs_AdEx}
 \end{figure}
 
 \begin{figure}
     \hspace*{10em}
     \includegraphics[w=1.5]{testbench-I-Izh-EIF.png}
-    \caption{The nonlinear response of Izhikevich neurons to subthreshold input currents. `EIF' stands for exponential integrate-and-fire; it has the same $\d{V}$ as an AdEx neuron. Adaptation currents are negligibly small for both models in this test scenario.
+    \captionn{The nonlinear response of Izhikevich neurons to subthreshold input currents}{`EIF' stands for exponential integrate-and-fire; it has the same $\d{V}$ as an AdEx neuron. Adaptation currents are negligibly small for both models in this test scenario.
     % Izhikevich parameters from \cite{Izhikevich2007DynamicalSystemsNeuroscience,Humphries2006UnderstandingUsingIzhikevich}, for a Cortical Regular Spiking neuron.
     % EIF parameters chosen to match: $C = 100$ pF, $E_L = -60$ mV, $R = 80\, \si{\mega\ohm}$.
     }
