@@ -792,7 +792,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">izh</span> <span class="o">=</span> <span class="s2">"dV/dt = ( k*(V - E_L)*(V - E_T) -I -w) / C : volt"</span>
-<span class="n">adx</span> <span class="o">=</span> <span class="s2">"dV/dt = ( -g_L*(V - E_L) + g_L * D_T * exp((V-V_T)/D_T) -I ) / C : volt"</span>
+<span class="n">adx</span> <span class="o">=</span> <span class="s2">"dV/dt = ( -g_L*(V - E_L) + g_L * D_T * exp((V-V_T)/D_T) -I -w) / C : volt"</span>
 
 <span class="n">eqs</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">F</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"""</span>
 <span class="si">{</span><span class="n">F</span><span class="si">}</span><span class="s2"></span>
@@ -839,7 +839,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html">NeuronGroup 'neurongroup' with 1 neurons.<br>
+<div class="output text_html">NeuronGroup 'neurongroup_2' with 1 neurons.<br>
 <b>Model:</b><nr>
 \begin{align*}I &amp;= g_{e} \left(- E_{e} + V\right) + g_{i} \left(- E_{i} + V\right) &amp;&amp; \text{(unit of $I$: $\mathrm{A}$)}\\
 \frac{\mathrm{d}V}{\mathrm{d}t} &amp;= \frac{- I + k \left(- E_{L} + V\right) \left(- E_{T} + V\right) - w}{C} &amp;&amp; \text{(unit of $V$: $\mathrm{V}$)}\\
@@ -873,7 +873,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 2s
+1. s (100%) simulated in 1s
 </pre></div>
 </div>
 </div>
@@ -892,7 +892,7 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'center'</span><span class="p">)</span>
     
 <span class="n">plotV</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">V</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"Izhikevich"</span><span class="p">)</span>
-<span class="c1"># savefig("../thesis/figs/Vm_izh.pdf")</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s2">"../thesis/figs/Vm_izh.pdf"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -917,7 +917,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\frac{\mathrm{d}V}{\mathrm{d}t} = \frac{D_{T} g_{L} e^{\frac{V - V_{T}}{D_{T}}} - I - g_{L} \left(- E_{L} + V\right)}{C}\]</div>
+\[\frac{\mathrm{d}V}{\mathrm{d}t} = \frac{D_{T} g_{L} e^{\frac{V - V_{T}}{D_{T}}} - I - g_{L} \left(- E_{L} + V\right) - w}{C}\]</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -933,7 +933,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 3s
+1. s (100%) simulated in 1s
 </pre></div>
 </div>
 </div>
@@ -968,7 +968,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotV</span><span class="p">(</span><span class="n">Vx</span><span class="p">,</span> <span class="s2">"AdEx"</span><span class="p">)</span>
-<span class="c1"># savefig("../thesis/figs/Vm_adx.pdf")</span>
+<span class="n">savefig</span><span class="p">(</span><span class="s2">"../thesis/figs/Vm_adx.pdf"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1014,7 +1014,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output text_latex math notranslate nohighlight">
-\[\left[\begin{matrix}-60.24801208 &amp; -51.13244468 &amp; -36.52982082 &amp; \dots &amp; -65.61489688 &amp; -57.14385735 &amp; -41.32767055\end{matrix}\right]\,\mathrm{m}\mathrm{V}\]</div>
+\[\left[\begin{matrix}-61.31708858 &amp; -56.8847154  &amp; -47.05863582 &amp; \dots &amp; -59.57763038 &amp; -50.73817422 &amp; -69.2703162 \end{matrix}\right]\,\mathrm{m}\mathrm{V}\]</div>
 </div>
 </div>
 <div class="cell docutils container">
