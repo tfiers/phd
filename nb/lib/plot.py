@@ -53,8 +53,10 @@ def reset_and_apply():
 
 reset_and_apply()
 
-
 from brian2 import *
+
+def savefig_(name):
+    savefig(f"../thesis/figs/{name}.pdf")
 
 def plotsig(y, label="", hylab=True, t_unit=ms, y_unit='auto', ax=None, **kw):
     t = timesig(y)

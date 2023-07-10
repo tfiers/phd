@@ -1,7 +1,7 @@
 
 \section{The AdEx neuron model}
 
-We choose to simulate the `AdEx' neuron model, or the `adaptive exponential integrate-and-fire' neuron.\cite{Gerstner2009AdaptiveExponentialIntegrateandfire}
+We choose to simulate the `AdEx' neuron model, or the `adaptive exponential integrate-and-fire' neuron.\cite{Brette2005AdaptiveExponentialIntegrateandFirea}
 This is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
 First, the full upstroke of each spike is simulated, as an exponential runoff.
 Second, an extra dynamic variable is added: the adaptation current.
@@ -36,32 +36,37 @@ For conciceness, we will call this function $F(V)$. I.e. $F(V) = \d{V} =$ the ri
 
 \begin{table}[h]
     \begin{sidecaption}
-        {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. By defining the location of $\d{V}$'s minmum, $V_T$ also determines the location of the firing threshold.}
+        {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also determines the location of the firing threshold.}
         [tab:AdEx-params]
-        \begin{tabular}{c l l}
-            Name  & Description & Units \\
+        \begin{tabular}{c l r}
+            Name  & Description & Value \\
             \hline
-            $V$  & Membrane voltage & V \\
-            $C$ & Membrane capacitance & F \\
-            $g_L$ & Input / leak conductance & S (V/A) \\
-            $E_L$  & Resting / leak potential & V \\
-            $Δ_T$  & Steepness of $\d{V}$ around the firing threshold & V \\
-            $V_T$  & Location of minimum of $\d{V}$ & V \\
-            $w$   & Adaptation current & A \\
-            $τ_w$   & Time constant of adaptation current & s \\
-            $a$ & Sensitivity of adaptation current to $V$ & S \\
+            $V$  & Membrane voltage & (in mV) \\
+            $w$   & Adaptation current & (in pA) \\
+            $C$ & Membrane capacitance & $104$ pF \\
+            $g_L$ & Input / leak conductance & $4.3$ nS \\
+            $E_L$  & Resting / leak potential & $-65$ mV \\
+            $Δ_T$  & Threshold slope factor & $0.8$ mV \\
+            $V_T$  & Location of minimum of $\d{V}$ & $-52$ mV \\
+            $τ_w$   & Time constant of adaptation current & $88$ ms \\
+            $a$ & Sensitivity of adaptation current to $V$ & $-0.8$ nS \\
+            $θ$ & Spike definition threshold & $40$ mV \\
+            $V_r$  & Reset voltage after spike & $-53$ mV \\
+            $b$ & Adaptation current bump after spike & $65$ pA
         \end{tabular}
     \end{sidecaption}
 \end{table}
 
-We solve these equations using first-order (Euler) integration.
+We solve these equations using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms.
 
 In addition to the two differential equations, the AdEx model also consists of an instantaneous reset condition. When the membrane voltage $V$ reaches a certain threshold $θ$, a spike is recorded, $V$ is reset, and $w$ is increased:
 \begin{align}
     \text{if}\ V > θ\ \text{then:}\ \label{eq:AdEx-reset}
     & V ← V_r \\
-    & w ← w + Δw \notag
+    & w ← w + b \notag
 \end{align}
+
+We choose to simulate a cortical regular spiking (RS) neuron, i.e. a `standard' excitatory neuron that does not display e.g. bursting or fast-spiking behaviour. We take our parameter values from \cite{Naud2008FiringPatternsAdaptive}\footnote{Section 6, and Table 1, row 3}, where they fitted an AdEx model to recordings from real cortical RS neurons injected with different step currents.
 
 % Slowly injecting current $I$ shifts Izhikevich's parabola upwards, raising the resting potential and lowering the spiking threshold. At a certain point, the two fixed points merge and disappear ("annihilate"), in a "saddle--node"\fnm or "fold" bifurcation. The voltage can only go up -- and with the reset of \cref{eq:Izh_V_reset}, the neuron keeps spiking.
 
@@ -86,6 +91,7 @@ The second fixed point has no straightforward expression. The exact solutions fo
 \end{equation}
 ..where $k = 0$ gives the resting potential, and $k = -1$ the instantaneous firing threshold.\footnote{
     Here too we see that the true resting potential is almost identical to $E_L$: $W_0$ passes through zero, and its argument is $≈ 0$, because the exponential's argument is negative. For $W_{-1}$ however, \cref{fig:LambertW} shows that the second term is not negligible around $0$.}
+For our cortical RS neuron, this gives us an instantaneous threshold of $E_T = -49.6$ mV.
 
 % source:
 % - https://www.wolframalpha.com/input?i=real+roots+of+f%28V%29+%3D+-g*%28V-L%29%2Bg*D*exp%28%28V-T%29%2FD%29
@@ -97,7 +103,7 @@ Also of interest -- especially when comparing with the Izhikevich neuron later -
          + g_L Δ_T \exp\left(\frac{V - V_T}{Δ_T}\right) \right) \notag \\
     &= -g_L + g_L Δ_T \frac{1}{Δ_T} \exp\left(\frac{V - V_T}{Δ_T}\right) \label{eq:dFdV}
 \end{align}
-This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in \cite{Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
+This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in the AdEx literature\cite{Brette2005AdaptiveExponentialIntegrateandFirea,Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
 
 From \cref{eq:dFdV}, we also calculate the slope of $F$ at its two roots. At $V = E_L$, the slope (also known as the leak or input conductance here) is $-g_L$, plus a negligibly small exponential term. The negative sign shows that this is a stable fixed point: in a linearization of $F$ around this point, at voltages below the resting potential, $F$ (i.e. $\d{V}$) is positive and thus $V$ will increase. At voltages above $E_L$, $F$ is negative and $V$ will decrease. Small deviations on either side of the resting potential will thus decay back to this resting potential.
 
@@ -129,15 +135,17 @@ On the other hand, when the neuron would continuously teeter just below its firi
 Another well-known alternative neuron model is the class of Hodgin-Huxley (HH)-like neurons. These models simulate the full trajectory of a spike: both its upstroke and its downstroke. Unfortunately they also have many free parameters. They also take a bit longer to simulate, being higher dimensional (having more differential equations), and containing many more exponential terms, which take the brunt of the time when numerically evaluating a differential expression.
 
 
-\begin{figure}[h]
+
+\clearpage
+\section{The Izhikevich neuron}
+
+\begin{figure}
     \begin{sidecaption}
         {Neuron models as dynamical systems: a comparison of the $F(V)$ curves of the Izhikevich and AdEx neurons. `Experimental' is an AdEx neuron fit to a cortical pyramidal neuron (using data from \cite{Badel2008ExtractingNonlinearIntegrateandfire}). The Izhikevich neuron's parameters were chosen to match the fixed points and the leak conductance. Arrows indicate whether the voltage will increase or decrease (1D flow field). →~\textbullet{}~← is a stable fixed point (resting potential), ←~o~→ is an unstable fixed point (spike threshold). $\dot{V} ≡ \d{V}$.}
         [fig:dynsys]
         \includegraphics[w=0.9]{dynsys.png}
     \end{sidecaption}
 \end{figure}
-
-\section{The Izhikevich neuron}
 
 Another alternative neuron model is the Izhikevich neuron, which is exceedingly similar to the AdEx neuron.
 These are the Izhikevich equations, using the same symbols as used before (in \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}):
@@ -169,7 +177,7 @@ In Izhikevich's book\footnote{\cite{Izhikevich2007DynamicalSystemsNeuroscience},
 
 \begin{table}[h]
     \begin{sidecaption}
-        {Different symbols used for the same quantities in \cite{Naud2008FiringPatternsAdaptive} (`AdEx') and \cite{Izhikevich2007DynamicalSystemsNeuroscience} (`Izh').
+        {Different symbols used for the same quantities in \cite{Brette2005AdaptiveExponentialIntegrateandFirea} (`AdEx') and \cite{Izhikevich2007DynamicalSystemsNeuroscience} (`Izh').
         Membrane capacitance $C$ (in farad) is the same in both notations.}
         [tab:AdEx-Izh-compar]
         \begin{tabular}{c c l c}
@@ -211,14 +219,14 @@ Here, the AdEx model is more expressive than Izhikevich's: the slope of $\d{V}$ 
 The Izhikevich and AdEx models are very similar. Their phase spaces are topologically identical:
 the adaptive current equation is identical (up to a renaming of the variables); and the $F(V)$-graph has the same shape, with two fixed points: a stable fixed point at the resting potential, and an unstable one at the firing threshold (\cref{fig:dynsys}).
 
-They differ in the exact shape: Izhikevich's $F(V)$ is a parabola, while AdEx is the more realistic 'linear subthreshold, and then transitioning to an exponential' (see \cref{fig:exIF-fit,fig:dynsys}).
+They differ in the exact shape: Izhikevich's $F(V)$ is a parabola, while AdEx is the more realistic `linear subthreshold, and then transitioning to an exponential' (see \cref{fig:exIF-fit,fig:dynsys}).
 As a result, Izhikevich neurons have an unrealistically slow spike upstroke, examples of which can be seen in \cref{fig:Vm_Izh_vs_AdEx}.
 
-\begin{figure}[h]
+\begin{figure}
     \hspace*{10em}
     \includegraphics*[w=1.4]{Vm_Izh_vs_AdEx.pdf}
     \captionn{Two neuron models behave differently for (near) identical parameters and input}{
-    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given slightly stronger inputs ($Δg_\exc = 14$ pS) than the Izhikevich neuron ($Δg_\exc = 10$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). See \url{https://tfiers.github.io/phd/nb/2023-06-23__Vm_traces_AdEx_Izh__Brian.html} for more details.}}
+    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given stronger inputs ($Δg_\exc = 14$ pS) than the Izhikevich neuron ($Δg_\exc = 5$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). See \url{https://tfiers.github.io/phd/nb/2023-06-23__Vm_traces_AdEx_Izh__Brian.html} for more details.}}
     \label{fig:Vm_Izh_vs_AdEx}
 \end{figure}
 
@@ -315,6 +323,8 @@ and we only need to simulate two differential equations, instead of one for ever
 \end{align*}
 where on arrival of a spike at synapse $i$ either $g_\exc$ or $g_\inh$ is instantaneously increased by a value $Δg_i$, depending on whether that synapse is excitatory or inhibitory.
 
+We choose an excitatory reversal potential of $E_\exc = 0$ mV, an inhibitory one of $E_\inh = -80$ mV, and a time constant for the synaptic conductance decay of $τ = 7$ ms. These values are rather arbitrary, but in line with other simulation studies (e.g. \cite{Brette2007SimulationNetworksSpiking}).
+
 
 \FloatBarrier
 \section{Input spikes}
@@ -329,25 +339,42 @@ Its input is provided by an array of $N$ Poisson neurons, i.e. they each generat
     % \hspace*{-8mm}
     \hspace*{10em}
     \includegraphics[w=1.6]{log-normal.pdf}
-    \captionn{Input spike trains are given log-normally distributed firing rates}{The distribution used in our simulations is shown in bold. It has mean $μ_L = 4$ Hz and variance of the underlying Gaussian $\sigma^2 = 0.6$. The two light distributions are from the literature. Note that the \Citeauthor{Roxin2011DistributionFiringRates} distribution is slightly more heavy tailed than this study's: it has both more low firing and more high firing neurons.}
+    \captionn{Input spike trains are given log-normally distributed firing rates}{The distribution used in our simulations is shown in bold. It has mean $μ_x = 4$ Hz and variance of the underlying Gaussian $\sigma^2 = 0.6$. The two light distributions are from the literature. Note that the \Citeauthor{Roxin2011DistributionFiringRates} distribution is slightly more heavy tailed than this study's: it has both more low firing and more high firing neurons.}
     \label{fig:log-normal}
 \end{figure}
 
 The firing rates of real neurons often follow a long-tailed distribution: most neurons do not fire much at all, while a few fire a lot. We recapitulate this in the firing rates of our Poisson input neurons, by drawing their firing rates from a log-normal distribution. We look to the literature for realistic parameters for this distribution, namely to the modelling paper of \Authorref{Roxin2011DistributionFiringRates}, and the experimental sources it cites \cite{Hromadka2008SparseRepresentationSounds,OConnor2010NeuralActivityBarrel}.
 
-Log-normal distributions are usually parametrized with $μ$ and $σ$: the location and scale of the underlying normal distribution, i.e. after log-transforming the input domain. In the above sources however, the mean $μ_L$ of the data distribution itself is given. We can find $μ$, if $σ$ is known, as $μ = \ln(μ_L) - σ^2 / 2$.
+Log-normal distributions are usually parametrized with $μ$ and $σ$: the location and scale of the underlying normal distribution, i.e. after log-transforming the input domain. In the above sources however, the mean $μ_x$ of the data distribution itself is given. We can find $μ$, if $σ$ is known, as $μ = \ln(μ_x) - σ^2 / 2$.
 
-\Citeauthor{Roxin2011DistributionFiringRates} use a mean rate $μ_L$ of $5$ Hz and a variance of the logarithm of the rate $σ^2 = 1.04$ in their figure 2. \Authorref{Hromadka2008SparseRepresentationSounds} recorded neurons in the auditory cortex of awake rats during acoustic stimulation. They find a mean firing rate $μ_L$ of $6.2$ Hz and a median of $2.4$ Hz; no numeric variances are given. \Authorref{OConnor2010NeuralActivityBarrel} recorded neurons in the barrel (whisker) cortex of behaving mice. Ensembled over all layers of the cortex they recorded from, they report $μ_L = 7.4$ Hz, $σ_L = 12.6$ Hz, a median of $1.5$ Hz, and an interquartile range of $9.5$ Hz. This corresponds to a Gaussian variance of $σ^2 = \ln(1 + σ_L^2 / μ_L^2) = 0.30$. The Roxin and O'Connor distributions are also shown in \cref{fig:log-normal}.
+\Citeauthor{Roxin2011DistributionFiringRates} use a mean rate $μ_x$ of $5$ Hz and a variance of the logarithm of the rate $σ^2 = 1.04$ in their figure 2. \Authorref{Hromadka2008SparseRepresentationSounds} recorded neurons in the auditory cortex of awake rats during acoustic stimulation. They find a mean firing rate $μ_x$ of $6.2$ Hz and a median of $2.4$ Hz; no numeric variances are given. \Authorref{OConnor2010NeuralActivityBarrel} recorded neurons in the barrel (whisker) cortex of behaving mice. Ensembled over all layers of the cortex they recorded from, they report $μ_x = 7.4$ Hz, $σ_x = 12.6$ Hz, a median of $1.5$ Hz, and an interquartile range of $9.5$ Hz. This corresponds to a Gaussian variance of $σ^2 = \ln(1 + σ_x^2 / μ_x^2) = 0.30$. The Roxin and O'Connor distributions are also shown in \cref{fig:log-normal}.
 
-Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as our idea rests on the number of spikes that can be used to calculate spike-triggered averages, we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
+Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as as our idea for connection inference rests on the number of spikes that can be used to calculate spike-triggered averages, we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
 
 Our log-normal distribution has a median of $2.96$ Hz, very close to Roxin's $2.97$ Hz. O'Connor's has $6.4$ Hz, which is markedly different from the median of $1.5$ Hz they reported (hinting that their data distribution might not be log-normal).
 
 
 \section{Voltage imaging}
 
-The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage signals of which they are a reflection.
+The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage traces of which they are a reflection.
 
-We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage. As in the voltage imaging literature, we quantify the amount of this  noise by a `spike-SNR' measure (spike signal-to-noise ratio). This is defined as the height of an average spike relative to the standard deviation of the noise.
+We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage. As in the voltage imaging literature, we quantify the amount of this  noise by a `spike-SNR' measure (spike signal-to-noise ratio). This is defined as the height of an average spike relative to the standard deviation of the noise:
+\begin{equation}
+    \text{spike-SNR} = \frac{\text{spike height}}{σ_\text{noise}}
+\end{equation}
 
-A more realistic model of the voltage-imaging transformation would also incorporate the exponential decay over time of the SNR, and the short-term 'smearing in time' of voltage indicators. The latter could be done by passing the voltage signal through a linear filter with some non-instantaneous impulse response.
+\marginpar{
+    \includegraphics[w=1]{VI_noise.pdf}
+    \captionof{figure}{Simulated voltage trace (same as in \cref{fig:Vm_Izh_vs_AdEx}, right), without and with `voltage imaging' (VI) noise added ($σ_\text{noise} = 10.5$ mV).}
+    \label{fig:VI_noise}
+}
+
+In other words, if we call our output signal $y$, and with $V_i$ the voltage samples resulting from the numeric integration of \cref{eq:AdEx-V}, we have:
+\begin{gather}
+    y_i = V_i + ε_i \\[1em]
+    ε_i \sim \mathcal{N}(0, σ_\text{noise}) \notag
+\end{gather}
+
+A typical but conservative level of noise in voltage imaging recordings has a spike-SNR of $10$. If we take as spike height the spike detection threshold minus the leak potential ($θ - E_L$, see \cref{tab:AdEx-params}), we obtain a $σ_\text{noise}$ of $10.5$ mV.
+
+A more realistic model of the voltage imaging-transformation would also incorporate the exponential decay over time of the SNR (with a time constant of about 10 minutes), and the short-term 'smearing in time' of voltage indicators. The latter could be done by passing the voltage signal through a linear filter with some non-instantaneous impulse response.
