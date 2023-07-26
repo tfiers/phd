@@ -1,7 +1,9 @@
 # Conductance-based AdEx neuron.
 # Parameters for a cortical regular spiking (RS) neuron, from Naud 2008.
 
+print("importing numpy, brian", end=" … ")
 from brian2 import *
+print("✔")
 
 C   = 104  * pF
 gL  = 4.3  * nS
@@ -18,7 +20,6 @@ Ee  =   0  * mV
 Ei  = -80  * mV
 tau_g = 7  * ms
 
-pS = psiemens
 
 eqs = """
 dV/dt = ( -gL*(V - EL) + gL * DT * exp((V-VT)/DT) -I -w) / C : volt
@@ -47,3 +48,8 @@ def ceil_spikes_(V, t, spiketimes, V_ceil=Vs):
     i = np.searchsorted(t, spiketimes)
     V[i] = V_ceil
     return V
+
+
+# Some utility renaming:
+pS = psiemens
+set_seed = seed
