@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-07-26__AdEx_Nto1_we_I_syn
     - file: nb/2023-07-10__AdEx_Nto1_we
     - file: nb/2023-06-23__Vm_traces_AdEx_Izh__Brian
     - file: nb/2023-05-27__synaptic_cond_example

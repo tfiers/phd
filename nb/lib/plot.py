@@ -55,23 +55,44 @@ reset_and_apply()
 
 from brian2 import *
 
-def savefig_(name):
+def savefig_thesis(name):
     savefig(f"../thesis/figs/{name}.pdf")
 
-def plotsig(y, label="", hylab=True, t_unit=ms, y_unit='auto', ax=None, **kw):
+def plotsig(
+        y,
+        ylabel = "",
+        hylab = True,
+        t_unit = ms,
+        y_unit = 'auto',
+        ax = None,
+        tlim = None,
+        **kw
+    ):
     t = timesig(y)
     if y_unit == 'auto':
         y_unit = y.get_best_unit()
     if ax is None:
         _, ax = plt.subplots()
-    ax.plot(t / t_unit, y / y_unit)
-    ylabel = f"{label} ({y_unit})"
-    hylabel(ax, ylabel) if hylab else ax.set_ylabel(ylabel)
+    if tlim is None:
+        t0, t1 = t[0], t[1]
+    else:
+        t0, t1 = tlim
+    shown = (t >= t0) & (t <= t1)
+    plotkw = {k: v for (k, v) in kw.items()
+              if hasattr(mpl.lines.Line2D, f"set_{k}")}
+    otherkw = {k: v for (k, v) in kw.items() if not k in plotkw}
+    ax.plot(t[shown] / t_unit, y[shown] / y_unit, **plotkw)
+    if ylabel is not None:
+        ylab = f"{ylabel} ({y_unit})"
+        if hylab:
+            hylabel(ax, ylab)
+        else:
+            ax.set_ylabel(ylab)
     ax.set_xlabel(f"Time ({t_unit})")
-    ax.set(**kw)
+    ax.set(**otherkw)
     return ax
 
-def timesig(y, dt=defaultclock.dt, t0=0):
+def timesig(y, dt=defaultclock.dt, t0=0 * second):
     N = y.size
     T = N * dt
     return linspace(t0, t0+T, N)
@@ -86,3 +107,6 @@ def hylabel(ax, s, loc='left', dx=0, dy=4):
     x = 0 if (loc == 'left') else 0.5 if (loc == 'center') else 1
     t = ax.text(x, 1, s, transform=tf, ha=loc, va="bottom", fontsize=fs)
     ax.hylabel = t
+
+def add_hline(ax, y=0, c="black", lw=1):
+    ax.axhline(y, 0, 1, c=c, lw=lw)
