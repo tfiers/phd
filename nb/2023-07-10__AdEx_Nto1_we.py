@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# # 2023-07-10__AdEx_STA_Nto1
+# # 2023-07-10__AdEx_Nto1_we
 
 # %run lib/neuron.py
 
@@ -58,7 +58,7 @@ net.run(T, report='text')
 # +
 T = 10 * second
 
-@cache("2023-07-10__AdEx_STA_Nto1")
+@cache("2023-07-10__AdEx_Nto1_we")
 def sim(we, seed):
     net.restore()
     set_seed(seed)
@@ -123,7 +123,7 @@ def units_to_header(df):
 df = units_to_header(df)
 
 # !mkdir data
-df.to_csv("data/2023-07-10__AdEx_STA_Nto1_sim.csv")
+df.to_csv("data/2023-07-10__AdEx_Nto1_we_sim.csv")
 
 # groupby no work w/ brian units
 df.groupby("we_pS").mean()
