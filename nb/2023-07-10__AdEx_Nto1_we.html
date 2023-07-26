@@ -48,7 +48,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-07-10__AdEx_STA_Nto1.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-07-10__AdEx_Nto1_we.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
@@ -593,7 +593,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2023-07-10__AdEx_STA_Nto1.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -605,8 +605,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-07-10__AdEx_STA_Nto1.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-07-10__AdEx_STA_Nto1.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-07-10__AdEx_Nto1_we.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -620,7 +620,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-07-10__AdEx_STA_Nto1.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -657,6 +657,11 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/neuron.py
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing numpy, brian &#8230; &#10004;
 </pre></div>
 </div>
 </div>
@@ -714,53 +719,84 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
 <span class="n">we</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span>
 <span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">second</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">second</span>
 <span class="n">net</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">report</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 10. s
-2.963 s (29%) simulated in 10s, estimated 24s remaining.
-6.449 s (64%) simulated in 20s, estimated 11s remaining.
-9.5836 s (95%) simulated in 30s, estimated 1s remaining.
-10. s (100%) simulated in 31s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 100. ms
+100. ms (100%) simulated in &lt; 1s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="p">[</span><span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span><span class="p">,</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">pS</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/diskcache.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">second</span>
 
-<span class="n">T</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="n">second</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="n">ws</span><span class="p">:</span>
-    <span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
-        <span class="n">seed</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-        <span class="n">net</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
-        <span class="n">net</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">report</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">ceil_spikes</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">we</span>   <span class="o">=</span> <span class="n">we</span><span class="p">,</span>
-            <span class="n">seed</span> <span class="o">=</span> <span class="n">s</span><span class="p">,</span>
-            <span class="n">median_Vm</span>   <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">v</span><span class="p">),</span>
-            <span class="n">output_rate</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">num_spikes</span> <span class="o">/</span> <span class="n">T</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="nd">@cache</span><span class="p">(</span><span class="s2">"2023-07-10__AdEx_STA_Nto1"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sim</span><span class="p">(</span><span class="n">we</span><span class="p">,</span> <span class="n">seed</span><span class="p">):</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
+    <span class="n">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">ceil_spikes</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">we</span>   <span class="o">=</span> <span class="n">we</span><span class="p">,</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">seed</span><span class="p">,</span>
+        <span class="n">median_Vm</span>   <span class="o">=</span> <span class="n">median</span><span class="p">(</span><span class="n">v</span><span class="p">),</span>
+        <span class="n">output_rate</span> <span class="o">=</span> <span class="n">S</span><span class="o">.</span><span class="n">num_spikes</span> <span class="o">/</span> <span class="n">T</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">minute</span> <span class="o">=</span> <span class="mi">60</span><span class="o">*</span><span class="n">second</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">7.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">12.5</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">17.5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mf">22.5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mf">27.5</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span> <span class="o">*</span> <span class="n">pS</span>
+<span class="c1"># ws = [0, 5, 10, 15, 30] * pS</span>
+<span class="n">seeds</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># seeds = [2]</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">seeds</span><span class="p">)</span> <span class="o">*</span> <span class="mi">14</span><span class="o">*</span><span class="n">second</span> <span class="o">/</span> <span class="n">minute</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 3s
-Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 3s
-Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 3s
-Starting simulation at t=0. s for a duration of 1. s
-1. s (100%) simulated in 2s
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>21.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># from tqdm import tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">we</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ws</span><span class="p">):</span>
+    <span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="p">(</span><span class="n">seeds</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">sim</span><span class="p">(</span><span class="n">we</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -775,6 +811,7 @@ Starting simulation at t=0. s for a duration of 1. s
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -806,35 +843,402 @@ Starting simulation at t=0. s for a duration of 1. s
   <tbody>
     <tr>
       <th>0</th>
-      <td>14. pS</td>
+      <td>0. S</td>
       <td>0</td>
-      <td>-53.67539721 mV</td>
-      <td>4. Hz</td>
+      <td>-64.99999991 mV</td>
+      <td>0. Hz</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>14. pS</td>
+      <td>0. S</td>
       <td>1</td>
-      <td>-54.14036033 mV</td>
-      <td>4. Hz</td>
+      <td>-64.99999991 mV</td>
+      <td>0. Hz</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>20. pS</td>
-      <td>0</td>
-      <td>-53.75508981 mV</td>
-      <td>8. Hz</td>
+      <td>0. S</td>
+      <td>2</td>
+      <td>-64.99999991 mV</td>
+      <td>0. Hz</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>20. pS</td>
-      <td>1</td>
-      <td>-53.91442911 mV</td>
-      <td>8. Hz</td>
+      <td>0. S</td>
+      <td>3</td>
+      <td>-64.99999991 mV</td>
+      <td>0. Hz</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0. S</td>
+      <td>4</td>
+      <td>-64.99999991 mV</td>
+      <td>0. Hz</td>
     </tr>
   </tbody>
 </table>
 </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">def</span> <span class="nf">units_to_header</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">Quantity</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">el</span><span class="o">.</span><span class="n">get_best_unit</span><span class="p">()</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">most_common</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="o">/</span> <span class="n">unit</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]]</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">col</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">units_to_header</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>we_pS</th>
+      <th>seed</th>
+      <th>median_Vm_mV</th>
+      <th>output_rate_Hz</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0</td>
+      <td>-65.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.0</td>
+      <td>1</td>
+      <td>-65.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.0</td>
+      <td>2</td>
+      <td>-65.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.0</td>
+      <td>3</td>
+      <td>-65.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.0</td>
+      <td>4</td>
+      <td>-65.000000</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>30.0</td>
+      <td>0</td>
+      <td>-53.244961</td>
+      <td>13.1</td>
+    </tr>
+    <tr>
+      <th>86</th>
+      <td>30.0</td>
+      <td>1</td>
+      <td>-53.229719</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>87</th>
+      <td>30.0</td>
+      <td>2</td>
+      <td>-53.184055</td>
+      <td>13.0</td>
+    </tr>
+    <tr>
+      <th>88</th>
+      <td>30.0</td>
+      <td>3</td>
+      <td>-53.166093</td>
+      <td>13.2</td>
+    </tr>
+    <tr>
+      <th>89</th>
+      <td>30.0</td>
+      <td>4</td>
+      <td>-53.187247</td>
+      <td>13.1</td>
+    </tr>
+  </tbody>
+</table>
+<p>90 rows &#215; 4 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir data
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/2023-07-10__AdEx_STA_Nto1_sim.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># groupby no work w/ brian units</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"we_pS"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seed</th>
+      <th>median_Vm_mV</th>
+      <th>output_rate_Hz</th>
+    </tr>
+    <tr>
+      <th>we_pS</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0.0</th>
+      <td>2.0</td>
+      <td>-65.000000</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>2.5</th>
+      <td>2.0</td>
+      <td>-60.664055</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>5.0</th>
+      <td>2.0</td>
+      <td>-57.590947</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>7.5</th>
+      <td>2.0</td>
+      <td>-55.287565</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>10.0</th>
+      <td>2.0</td>
+      <td>-53.424034</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>11.0</th>
+      <td>2.0</td>
+      <td>-53.123190</td>
+      <td>0.98</td>
+    </tr>
+    <tr>
+      <th>12.0</th>
+      <td>2.0</td>
+      <td>-53.468735</td>
+      <td>2.22</td>
+    </tr>
+    <tr>
+      <th>12.5</th>
+      <td>2.0</td>
+      <td>-53.631235</td>
+      <td>2.74</td>
+    </tr>
+    <tr>
+      <th>13.0</th>
+      <td>2.0</td>
+      <td>-53.834430</td>
+      <td>3.18</td>
+    </tr>
+    <tr>
+      <th>14.0</th>
+      <td>2.0</td>
+      <td>-53.934585</td>
+      <td>3.88</td>
+    </tr>
+    <tr>
+      <th>15.0</th>
+      <td>2.0</td>
+      <td>-54.093255</td>
+      <td>4.58</td>
+    </tr>
+    <tr>
+      <th>16.0</th>
+      <td>2.0</td>
+      <td>-54.045808</td>
+      <td>5.20</td>
+    </tr>
+    <tr>
+      <th>17.5</th>
+      <td>2.0</td>
+      <td>-53.984493</td>
+      <td>6.08</td>
+    </tr>
+    <tr>
+      <th>20.0</th>
+      <td>2.0</td>
+      <td>-53.884906</td>
+      <td>7.58</td>
+    </tr>
+    <tr>
+      <th>22.5</th>
+      <td>2.0</td>
+      <td>-53.656108</td>
+      <td>8.88</td>
+    </tr>
+    <tr>
+      <th>25.0</th>
+      <td>2.0</td>
+      <td>-53.586677</td>
+      <td>10.40</td>
+    </tr>
+    <tr>
+      <th>27.5</th>
+      <td>2.0</td>
+      <td>-53.377625</td>
+      <td>11.74</td>
+    </tr>
+    <tr>
+      <th>30.0</th>
+      <td>2.0</td>
+      <td>-53.202415</td>
+      <td>13.08</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/plot.py
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_dots_and_means</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">xu</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ym</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="n">xi</span><span class="p">])</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">xu</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xu</span><span class="p">,</span> <span class="n">ym</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"k."</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+    
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"Median $V_m$ (mV)"</span><span class="p">)</span>
+<span class="n">xl</span> <span class="o">=</span> <span class="s2">"$&#916;g_</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{exc}</span><span class="s2">$ (pS)"</span>
+<span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_19_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_19_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"Output firing rate (Hz)"</span><span class="p">)</span>
+<span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_20_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_20_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">hylabel</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"Median $V_m$ (mV)"</span><span class="p">)</span>
+<span class="n">hylabel</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"Output firing rate (Hz)"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">)</span>
+<span class="n">savefig_</span><span class="p">(</span><span class="s2">"input_drive_we"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_21_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_21_0.png">
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
