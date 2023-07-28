@@ -17,7 +17,7 @@
 
 # %run lib/Nto1.py
 
-set_seed(1234)
+set_seed(1)
 *objs, net = Nto1(N=6500, vars_to_record=["V", "I", "ge", "gi", "w"])
 net.store()
 
@@ -31,7 +31,7 @@ net.run(T, report='text')
 
 n, P, Se, Si, M, S, SP = objs;
 
-kw = dict(tlim = [150, 350]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
+kw = dict(tlim = [300, 500]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
 fig, axs = plt.subplots(figsize=(4, 5.5), nrows=5, sharex=True, height_ratios=[1,1,1,1,1])
 add_hline(axs[1])
 add_hline(axs[-1])
