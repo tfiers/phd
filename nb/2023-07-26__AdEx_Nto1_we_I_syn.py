@@ -27,9 +27,9 @@ wi = we * 4
 T = 1 * second
 net.run(T, report='text')
 
-# %run lib/plot.py
-
 n, P, Se, Si, M, S, SP = objs;
+
+# %run lib/plot.py
 
 kw = dict(tlim = [300, 500]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
 fig, axs = plt.subplots(figsize=(4, 5.5), nrows=5, sharex=True, height_ratios=[1,1,1,1,1])
@@ -38,11 +38,10 @@ add_hline(axs[-1])
 plotsig(M.ge[0], "$g_e$ & $g_i$", **kw, ylim=[0, 2.8], ax=axs[0], color="C2", label="$g_e$")
 plotsig(M.gi[0], None, **kw, ylim=[0, 2.8], ax=axs[0], color="C1", label="$g_i$")
 axs[0].legend(loc="lower left", ncols=2, fontsize="x-small")
-plotsig(M.ge[0] - M.gi[0], "$g_e - g_i$", **kw, ylim=[-1,1], ax=axs[1], y_unit=nS)
+plotsig(M.ge[0] - M.gi[0], "$g_e - g_i$", **kw, ylim=[-.75,.75], ax=axs[1], y_unit=nS)
 plotsig(-M.I[0], "$-I_\mathrm{syn}$", ylim=[25, 85], **kw, ax=axs[2])
 plotsig(M.V[0], "$V$", **kw, ylim=[-60, -45], ax=axs[3])
-plotsig(M.w[0], "$w$", **kw, ylim=[-20, 60], ax=axs[4])
-axs[0].set_xlim(kw["tlim"] / ms)
+plotsig(M.w[0], "$w$", **kw, ylim=[-20, 60], ax=axs[4], xlim=kw["tlim"]/ms)
 axs[-1].set_xlabel(None)
 for ax in axs[0:-1]:
     ax.set_xlabel(None)
@@ -50,30 +49,39 @@ for ax in axs[0:-1]:
     ax.tick_params(bottom=False, which='both')
 plt.subplots_adjust(hspace=0.7)
 
-savefig_thesis("all_sigs", fig);
+savefig_thesis("all_sigs_6500", fig);
 
 # ## Impulse response
 
 # A single spike :)
 
-# %run lib/Nto1.py
+from lib.neuron import *
 
 set_seed(2)
-*objs_net2, net2 = Nto1(Ne=1, Ni=0, vars_to_record=["V", "I", "ge", "gi", "w"], μ=0.3)
+
+# +
+n = COBA_AdEx_neuron()
+
+G = SpikeGeneratorGroup(1, [0], [50*ms])
+S = Synapses(G, n, on_pre="ge += we")
+# -
+
+S.connect()
+
+vars_to_record=["V", "I", "ge", "w"]
+M = StateMonitor(n, vars_to_record, record=[0])
+net2 = Network([n, G, S, M])
 net2.store()
 
 net2.restore()
 we = 14 * pS
 wi = we * 4
-T = 2 * second
+T = 300 * ms
 net2.run(T, report='text')
-
-n, P, Se, Si, M, S, SP = objs_net2;
-P
 
 # %run lib/plot.py
 
-kw = dict(tlim = [850, 1050]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
+kw = dict(nbins_y=3, yaxloc="right", clip_on=False)
 fig, axs = plt.subplots(figsize=(2.6, 4.2), nrows=4, sharex=True)
 add_hline(axs[1])
 plotsig(M.ge[0], "$g_e$", **kw, ax=axs[0], color="C2")

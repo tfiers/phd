@@ -5,13 +5,10 @@ from neuron import *
 σ = sqrt(0.6)
 μ = log(μₓ / Hz) - σ**2 / 2
 
-def Nto1(N=6500, Ne=None, Ni=None, vars_to_record=["V"], μ=μ):
+def Nto1(N=6500, vars_to_record=["V"]):
 
-    if Ne is None:
-        Ne = N * 4//5
-        print(f"{Ne=}")
-    else:
-        N = Ne + Ni
+    Ne = N * 4//5
+    print(f"{Ne=}")
 
     n = COBA_AdEx_neuron()
 

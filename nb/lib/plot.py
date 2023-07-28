@@ -11,8 +11,8 @@ style = {
     "axes.grid"            : True,
     "axes.axisbelow"       : True,  # Grid _below_ patches (such as histogram bars), not on top.
     "axes.grid.which"      : "both",
-    "grid.linewidth"       : 0.5,        # These are for major grid. Minor grid styling
-    "grid.color"           : "#E7E7E7",  # is set in `set!`.
+    "grid.linewidth"       : 0.5,        # These are for major grid;
+    "grid.color"           : "#E7E7E7",  # minor grid styling is set in `sett`.
 
     "xtick.direction"      : "in",
     "ytick.direction"      : "in",
@@ -139,6 +139,12 @@ def set_ticks(ax, nbins, ticklabels, units):
         axis.set_minor_locator(mpl.ticker.AutoMinorLocator())
 
         ticklocs = axis.get_ticklocs()
+        # When setting custom lims, the auto locator will have ticklocs outside these
+        # lims. If we would not trim the ticklocs, we'd not respect the custom lims.
+        a, b = axis.get_view_interval()
+        in_lims = (a <= ticklocs) & (ticklocs <= b)
+        ticklocs = ticklocs[in_lims]
+
         if ticklabels is None:
             ticklabels = [f"{t:.4g}" for t in ticklocs]
         if unit is not None:
