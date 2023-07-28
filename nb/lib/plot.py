@@ -55,8 +55,105 @@ reset_and_apply()
 
 from brian2 import *
 
-def savefig_thesis(name):
-    savefig(f"../thesis/figs/{name}.pdf")
+def savefig_thesis(name, fig=None):
+    if fig is None:
+        if len(plt.get_fignums()) == 0:
+            print("No figure in gcf. Supply one as 2nd arg")
+            return
+        fig = plt.gcf()
+    fig.savefig(f"../thesis/figs/{name}.pdf")
+
+def plot(*args, ax = None, **kw):
+    if ax is None:
+        _, ax = plt.subplots()
+        # Alternative: `ax = plt.gca()`
+    plotkw = {k: v for (k, v) in kw.items()
+              if hasattr(mpl.lines.Line2D, f"set_{k}")}
+    otherkw = {k: v for (k, v) in kw.items() if not k in plotkw}
+    ax.plot(*args, **plotkw)
+    sett(ax, **otherkw)
+    return ax
+
+def sett(
+        ax,
+        nbins_x = 7,
+        nbins_y = 7,
+        xticklabels = None,
+        yticklabels = None,
+        xunit = None,
+        yunit = None,
+        xaxloc = "bottom",
+        yaxloc = "left",
+        **kw
+    ):
+    "Set axes properties and apply a pretty default style"
+
+    if yaxloc == "right":
+        ax.yaxis.tick_right()
+        ax.spines["left"].set_visible(False)
+        ax.spines["right"].set_visible(True)
+        ax.tick_params(left=False, right=True)
+
+    if xaxloc == "top":
+        ax.xaxis.tick_top()
+        ax.spines["bottom"].set_visible(False)
+        ax.spines["top"].set_visible(True)
+        ax.tick_params(bottom=False, top=True)
+
+    for k, v in kw.items():
+        f = getattr(ax, f"set_{k}", None)
+        if f is not None:
+            f(v)
+
+    # -- Various defaults that can't be set through rcParams --
+
+    ax.grid(axis = "both", which = "minor", color = "#F4F4F4", linewidth = 0.44)
+
+    for pos in ("left", "right", "bottom", "top"):
+        spine = ax.spines[pos]
+        if spine.get_visible():
+            spine.set_position(("outward", 10))
+            # - `Spine.set_position` resets ticks, and in doing so removes text
+            #   properties. Hence these must be called before `set_ticks` below.
+            # - This takes quite some time in profiling (still less than `plt.subplots`,
+            #   though).
+
+    set_ticks(
+        ax,
+        [nbins_x, nbins_y],
+        [xticklabels, yticklabels],
+        [xunit, yunit],
+    )
+
+def set_ticks(ax, nbins, ticklabels, units):
+    "Opiniated tick defaults"
+    xypairs = zip([ax.xaxis, ax.yaxis], nbins, ticklabels, units)
+    for axis, nbins, ticklabels, unit in xypairs:
+        loc = mpl.ticker.MaxNLocator(nbins = nbins, steps = [1, 2, 5, 10])
+        #   `nbins` should probably depend on figure size, i.e. how large texts are wrt
+        #   other graphical elements.
+        #   For `steps` we omit 2.5.
+        axis.set_major_locator(loc)
+        axis.set_minor_locator(mpl.ticker.AutoMinorLocator())
+
+        ticklocs = axis.get_ticklocs()
+        if ticklabels is None:
+            ticklabels = [f"{t:.4g}" for t in ticklocs]
+        if unit is not None:
+            suffix = f" {unit}"
+            if axis == ax.xaxis:
+                prefix_width = int(round(len(suffix) * 1.6))
+                prefix = " " * prefix_width
+                # Imprecise hack to shift label to the right, to get number back under
+                # tick.
+            else:
+                prefix = ""
+            ticklabels[-1] = prefix + ticklabels[-1] + suffix
+        axis.set_ticks(ticklocs, ticklabels)
+        # Note that this changes the tick locator to a FixedLocator. As a result,
+        # changing the lims (e.g. zooming in) after this, you won't get useful ticks.
+        # (Cannot replace by just `axis.set_ticklabels` either: then labels get out of
+        # sync with ticks) Solution is to call `set` again, to get good ticks again.
 
 def plotsig(
         y,
@@ -64,32 +161,29 @@ def plotsig(
         hylab = True,
         t_unit = ms,
         y_unit = 'auto',
-        ax = None,
         tlim = None,
         **kw
     ):
-    t = timesig(y)
     if y_unit == 'auto':
         y_unit = y.get_best_unit()
-    if ax is None:
-        _, ax = plt.subplots()
+    t = timesig(y)
     if tlim is None:
-        t0, t1 = t[0], t[1]
+        t0, t1 = t[0], t[-1]
     else:
         t0, t1 = tlim
     shown = (t >= t0) & (t <= t1)
-    plotkw = {k: v for (k, v) in kw.items()
-              if hasattr(mpl.lines.Line2D, f"set_{k}")}
-    otherkw = {k: v for (k, v) in kw.items() if not k in plotkw}
-    ax.plot(t[shown] / t_unit, y[shown] / y_unit, **plotkw)
+    x_ = t[shown] / t_unit
+    y_ = y[shown] / y_unit
+    ax = plot(x_, y_, xunit=t_unit, yunit=y_unit, **kw)
     if ylabel is not None:
-        ylab = f"{ylabel} ({y_unit})"
+        # label = f"{ylabel} ({y_unit})"
+        label = ylabel
         if hylab:
-            hylabel(ax, ylab)
+            hylabel(ax, label)
         else:
-            ax.set_ylabel(ylab)
-    ax.set_xlabel(f"Time ({t_unit})")
-    ax.set(**otherkw)
+            ax.set_ylabel(label)
+    # ax.set_xlabel(f"Time ({t_unit})")
+    ax.set_xlabel(f"Time")
     return ax
 
 def timesig(y, dt=defaultclock.dt, t0=0 * second):
