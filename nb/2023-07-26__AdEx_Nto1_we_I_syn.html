@@ -691,15 +691,10 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">net</span> <span class="o">=</span> <span class="n">Nto1</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="mi">6500</span><span class="p">,</span> <span class="n">vars_to_record</span><span class="o">=</span><span class="p">[</span><span class="s2">"V"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"ge"</span><span class="p">,</span> <span class="s2">"gi"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">])</span>
 <span class="n">net</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
 </pre></div>
@@ -744,7 +739,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">150</span><span class="p">,</span> <span class="mi">350</span><span class="p">]</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">t_unit</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">nbins_y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">yaxloc</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kw</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">500</span><span class="p">]</span><span class="o">*</span><span class="n">ms</span><span class="p">,</span> <span class="n">t_unit</span><span class="o">=</span><span class="n">ms</span><span class="p">,</span> <span class="n">nbins_y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">yaxloc</span><span class="o">=</span><span class="s2">"right"</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">add_hline</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">add_hline</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -772,6 +767,11 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">savefig_thesis</span><span class="p">(</span><span class="s2">"all_sigs"</span><span class="p">,</span> <span class="n">fig</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/all_sigs.pdf`
 </pre></div>
 </div>
 </div>
