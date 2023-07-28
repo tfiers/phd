@@ -61,7 +61,9 @@ def savefig_thesis(name, fig=None):
             print("No figure in gcf. Supply one as 2nd arg")
             return
         fig = plt.gcf()
-    fig.savefig(f"../thesis/figs/{name}.pdf")
+    path = f"../thesis/figs/{name}.pdf"
+    fig.savefig(path)
+    print(f"Saved at `{path}`")
 
 def plot(*args, ax = None, **kw):
     if ax is None:
@@ -165,7 +167,7 @@ def plotsig(
         **kw
     ):
     if y_unit == 'auto':
-        y_unit = y.get_best_unit()
+        y_unit = max(abs(y)).get_best_unit()
     t = timesig(y)
     if tlim is None:
         t0, t1 = t[0], t[-1]

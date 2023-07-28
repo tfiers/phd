@@ -33,7 +33,7 @@ dgi/dt = -gi / tau_g : siemens
 
 def COBA_AdEx_neuron(N = 1):
     n = NeuronGroup(N, eqs, threshold="V > Vs", reset="V = Vr; w += b", method='euler')
-    n.V = Vr
+    n.V = EL
     # Rest of vars are auto set to 0
     return n
 

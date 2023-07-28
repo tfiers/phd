@@ -5,13 +5,17 @@ from neuron import *
 σ = sqrt(0.6)
 μ = log(μₓ / Hz) - σ**2 / 2
 
-def Nto1(N = 6500, vars_to_record=["V"]):
+def Nto1(N=6500, Ne=None, Ni=None, vars_to_record=["V"], μ=μ):
 
-    Ne = N * 4//5
+    if Ne is None:
+        Ne = N * 4//5
+        print(f"{Ne=}")
+    else:
+        N = Ne + Ni
 
     n = COBA_AdEx_neuron()
 
-    rates = lognormal(μ, σ, N) * Hz;
+    rates = lognormal(μ, σ, N) * Hz
     P = PoissonGroup(N, rates)
 
     Se = Synapses(P, n, on_pre="ge += we")
