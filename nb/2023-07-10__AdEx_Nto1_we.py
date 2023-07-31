@@ -17,6 +17,19 @@
 
 # %run lib/neuron.py
 
+# We're gonna try a brian trick to try and speed up the simulation:
+# instead of 6500 separate Poisson spike trains, simulate most of them (except a few that we want to use for conntesting) as **one** process. (One for exc and one for inh, to be precise).
+
+PoissonInput
+
+
+
+
+
+
+
+
+
 μₓ = 4 * Hz
 σ = sqrt(0.6)
 μ = log(μₓ / Hz) - σ**2 / 2

@@ -21,8 +21,8 @@ style = {
     "legend.fontsize"      : "small", # Default is "medium"
     "axes.titlesize"       : "medium",
     "axes.labelsize"       : 9,
-    "xaxis.labellocation"  : "right",
-    "axes.titlelocation"   : "right",
+    "xaxis.labellocation"  : "center",
+    "axes.titlelocation"   : "center",
 
     "legend.borderpad"     : 0.6,
     "legend.borderaxespad" : 0.2,
@@ -163,6 +163,16 @@ def set_ticks(ax, nbins, ticklabels, units):
         # (Cannot replace by just `axis.set_ticklabels` either: then labels get out of
         # sync with ticks) Solution is to call `set` again, to get good ticks again.
 
+def rm_ticks_and_spine(ax, where="bottom"):
+    # You could also go `ax.xaxis.set_visible(False)`;
+    # but that removes gridlines too. This keeps 'em.
+    ax.spines[where].set_visible(False)
+    ax.tick_params(which="both", **{where: False})
+    if where in ("bottom", "top"):
+        ax.set_xlabel(None)
+    else:
+        ax.set_ylabel(None)
+
 def plotsig(
         y,
         ylabel = "",
@@ -170,6 +180,7 @@ def plotsig(
         t_unit = ms,
         y_unit = 'auto',
         tlim = None,
+        xlabel = 'Time',
         **kw
     ):
     if y_unit == 'auto':
@@ -184,14 +195,12 @@ def plotsig(
     y_ = y[shown] / y_unit
     ax = plot(x_, y_, xunit=t_unit, yunit=y_unit, **kw)
     if ylabel is not None:
-        # label = f"{ylabel} ({y_unit})"
-        label = ylabel
         if hylab:
-            hylabel(ax, label)
+            hylabel(ax, ylabel)
         else:
-            ax.set_ylabel(label)
-    # ax.set_xlabel(f"Time ({t_unit})")
-    ax.set_xlabel(f"Time")
+            ax.set_ylabel(ylabel)
+    ax.set_xlim([t0, t1] / t_unit)
+    ax.set_xlabel(xlabel)
     return ax
 
 def timesig(y, dt=defaultclock.dt, t0=0 * second):
