@@ -63,8 +63,6 @@ In this chapter, we will analyse $\d{V}$ as a function of $V$, i.e. analyse it a
 For conciseness, we call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
 \Cref{fig:exIF-fit} shows the $F(V)$ curve for an AdEx neuron fit to a real neuron. \Cref{fig:Vm_Izh_vs_AdEx} compares the $F(V)$ curve of an AdEx neuron  with that of another two-dimensional neuron model, the Izhikevich neuron.
 
-We solve the differential AdEx equations using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms. See \cref{sec:software} below for more details on the numeric implementation.
-
 In addition to the two differential equations, the AdEx model also consists of an instantaneous reset condition. When the membrane voltage $V$ reaches a certain threshold $θ$, a spike is recorded, $V$ is reset, and $w$ is increased:
 \begin{align}
     \text{if}\ V > θ\ \text{then:}\ \label{eq:AdEx-reset}
@@ -259,7 +257,7 @@ This nonlinearity is not visible for small voltage deviations, which is what the
 \section{Synapse model}
 \label{sec:synapse_model}
 
-One unexplained term in our neuron model, \cref{eq:AdEx-V}, is the synaptic current $I_\syn$.
+One as of yet unexplained term in our neuron model, \cref{eq:AdEx-V}, is the synaptic current $I_\syn$.
 This is the following sum over all input synapses $i$ of the neuron:
 \begin{equation}
     I_\syn = \sum_i g_i (V - E_i)
@@ -352,7 +350,7 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
 \end{align*}
 \marginpar{
     % \vspace*{-1em}
-    \includegraphics[w=1]{impulse_response}
+    \includegraphics[w=1.07]{impulse_response}
     \captionof{figure}{\small{Response of the conductance-based AdEx neuron to a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}}
     \label{fig:impulse_response}
 }
@@ -363,7 +361,9 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
     & \text{On spike at an inh. synapse:}  \quad && \ g_\inh ← g_\inh + Δg_\inh
 \end{alignat*}
 
-\Cref{fig:impulse_response} shows the impulse response of this model, for a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of other such PSP bumps and voltage imaging noise.
+We solve these equations numerically using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms. This timestep is sufficiently small with respect to the different time constants in the model\footnote{$τ_g = $~7~ms,\\$τ_w = $~88~ms,\\$C / g_L = $~24.2~ms.}. See \cref{sec:software} below for more details on the numeric implementation.
+
+\Cref{fig:impulse_response} shows the impulse response of this model, using a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
 
 \FloatBarrier
 \section{Input spikes}

@@ -97,4 +97,6 @@ plt.subplots_adjust(hspace=1.2)
 
 savefig_thesis("impulse_response", fig)
 
+C / gL
+
 
