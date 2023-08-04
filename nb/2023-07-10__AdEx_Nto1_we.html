@@ -36,8 +36,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -919,11 +919,16 @@ That&#8217;s a..</p>
 <p>(2nd run, more like a 3x speedup).</p>
 <p>How &#8216;bout Julia?</p>
 <p>See notebook <code class="docutils literal notranslate"><span class="pre">2023-08-02__Julia_speedtest_AdEx_Nto1</span></code>.<br>
-Simulating all 6500 inputs, we have a sim time of 9 seconds.<br>
-I.e. twice as fast as Brian2.</p>
+Simulating all 6500 inputs for 10 seconds, we have a sim time of 0.7 seconds.<br>
+(10 minutes takes 9 seconds).<br>
+I.e. 25x as fast as Brian2 w/ Cython (18 sec).</p>
 <p>What about Brian&#8217;s standalone mode? i.e. no python for main loop; generate a C++ proj.</p>
 <p>(does that work with changing params in a loop? (i.e. seed, we))</p>
-<p>See <code class="docutils literal notranslate"><span class="pre">2023-08-02__speedtest_brian_standalone_AdEx_Nto1</span></code>. Promising.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">2023-08-02__speedtest_brian_standalone_AdEx_Nto1</span></code>.  <br>
+Also &lt; 1 sec.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code>: ~0.5 seconds.</p>
+<p>Note that that is the one w/ merged inputs.</p>
+<p>Without: 8 seconds. Interesting.</p>
 <hr class="docutils">
 <p>(Prev state of nb below)</p>
 <div class="cell docutils container">
@@ -1420,7 +1425,7 @@ I.e. twice as fast as Brian2.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_42_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_42_0.png">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_44_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_44_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1435,7 +1440,7 @@ I.e. twice as fast as Brian2.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_43_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_43_0.png">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_45_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_45_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1457,7 +1462,7 @@ I.e. twice as fast as Brian2.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_44_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_44_0.png">
+<img alt="../_images/2023-07-10__AdEx_Nto1_we_46_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_46_0.png">
 </div>
 </div>
 <div class="cell docutils container">
