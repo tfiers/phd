@@ -236,7 +236,7 @@ As a result, Izhikevich neurons have an unrealistically slow spike upstroke, exa
     \hspace*{10em}
     \includegraphics*[w=1.4]{Vm_Izh_vs_AdEx.pdf}
     \captionn{Two neuron models behave differently for (near) identical parameters and input}{
-    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given stronger inputs ($Δg_\exc = 12.2$ pS) than the Izhikevich neuron ($Δg_\exc = 4$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). For more details, see \nburl{https://tfiers.github.io/phd/nb/2023-06-23__Vm_traces_AdEx_Izh__Brian.html}}}
+    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given stronger inputs ($Δg_\exc = 12.2$ pS) than the Izhikevich neuron ($Δg_\exc = 4$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). For more details, see \nburl{2023-06-23__Vm_traces_AdEx_Izh__Brian}}}
     \label{fig:Vm_Izh_vs_AdEx}
 \end{figure}
 
@@ -245,7 +245,7 @@ As a result, Izhikevich neurons have an unrealistically slow spike upstroke, exa
     \includegraphics[w=1.5]{testbench-I-Izh-EIF.png}
     \captionn{The nonlinear response of Izhikevich neurons to subthreshold input currents}{`EIF' stands for exponential integrate-and-fire; it has the same $\d{V}$ as an AdEx neuron. Adaptation currents are negligibly small for both models in this test scenario.
     % Izhikevich parameters from \cite{Izhikevich2007DynamicalSystemsNeuroscience,Humphries2006UnderstandingUsingIzhikevich}, for a Cortical Regular Spiking neuron.
-    % EIF parameters chosen to match: $C = 100$ pF, $E_L = -60$ mV, $R = 80\, \si{\mega\ohm}$.
+    % EIF parameters chosen to match: $C = 100$ pF, $E_L = -60$~mV, $R = 80\, \si{\mega\ohm}$.
     }
     \label{fig:testbench-I-Izh-EIF}
 \end{figure}
@@ -269,9 +269,9 @@ where $V$ is the global membrane voltage of the neuron, $E_i$ is the reversal po
 
 For an excitatory synapse, $V < E_i$, making $g_i (V - E_i)$ negative, increasing the membrane voltage according to the sign convention for $I_\syn$ in \cref{eq:AdEx-V}.
 
-We simulate the synaptic conductances $g_i$ as exponentially decaying signals (with time constant $\tau$), and bump them up instantaneously on arrival of a presynaptic spike:
+We simulate the synaptic conductances $g_i$ as exponentially decaying signals (with time constant $τ_g$), and bump them up instantaneously on arrival of a presynaptic spike:
 \begin{gather}
-    \d{g_i} = -g_i / \tau
+    \d{g_i} = -g_i / τ_g
     \label{eq:g_i}
     \\[1em]
     \text{On incoming presynaptic spike:}\notag\\
@@ -280,13 +280,13 @@ We simulate the synaptic conductances $g_i$ as exponentially decaying signals (w
 
 \marginpar{
     \includegraphics{g1.pdf}
-    \captionof{figure}{Example synaptic conductance trace $g_1(t)$, with a single incoming spike at $t = 20$ ms.}
+    \captionof{figure}{Example synaptic conductance trace $g_1(t)$, with a single incoming spike at $t = 20$~ms.}
     \label{fig:g1}
 }
 \marginpar{
     \vspace*{3em}
     \includegraphics{g2.pdf}
-    \captionof{figure}{Another example trace $g_2(t)$, with spikes at $t = 10$ ms and $30$ ms, and a smaller $Δg$.}
+    \captionof{figure}{Another example trace $g_2(t)$, with spikes at $t = 10$~ms and $30$~ms, and a smaller $Δg$.}
     \label{fig:g2}
 }
 
@@ -301,18 +301,18 @@ For efficiency, we give all our excitatory synapses the same reversal potential,
 
 The sums of conductance signals $g_i(t)$ can also be simplified. Say that the values of $g_i$ at $t = 0$ are $G_i$. The solution to \cref{eq:g_i} (at least in the time until a new presynaptic spike arrives) is then
 \begin{equation}
-    g_i(t) = G_i\ e^{-t/\tau}
+    g_i(t) = G_i\ e^{-t/τ_g}
 \end{equation}
 
-With this, and when all synapses have the same time constant $\tau$, the two sums in \cref{eq:I_syn_factor} can be factored as follows:\footnotemark
+With this, and when all synapses have the same time constant $τ_g$, the two sums in \cref{eq:I_syn_factor} can be factored as follows:\footnotemark
 \footnotetext{
     This is only valid in the time before any new spikes arrive.
     But the `summability' still holds after a new spike.
-    To see this, the given reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/\tau}$, and one increased by a bump $Δg_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
+    To see this, the given reasoning can be repeated, but simply with different values for the $G_i$ (all decayed by an amount $e^{-t_\text{spike}/τ_g}$, and one increased by a bump $Δg_i$), and then redefining $t_\text{spike}$ to be $t = 0$.
 }
 \begin{equation}
-    \sum_i g_i(t) = \sum_i \left( G_i\ e^{-t/\tau} \right)
-                            = \left( \sum_i G_i  \right) e^{-t/\tau}
+    \sum_i g_i(t) = \sum_i \left( G_i\ e^{-t/τ_g} \right)
+                            = \left( \sum_i G_i  \right) e^{-t/τ_g}
 \end{equation}
 This means that we need to only keep track of two conductance signals: $g_\exc$ and $g_\inh$, each the sum of all excitatory or all inhibitory synaptic conductances.
 
@@ -324,17 +324,46 @@ This means that we need to only keep track of two conductance signals: $g_\exc$ 
 
 Our synaptic current sum then becomes simply:
 \begin{equation}
-    I_\syn = (V - E_\exc)\ g_\exc \  + \  (V - E_\inh)\ g_\inh,
+    I_\syn = (V - E_\exc)\ g_\exc \  + \  (V - E_\inh)\ g_\inh,  \label{eq:I_syn_simple}
 \end{equation}
 and we only need to simulate two differential equations, instead of one for every synapse:
-\begin{align*}
-    \d{g_\exc} &= -g_\exc / \tau \\
-    \d{g_\inh} &= -g_\inh / \tau,
-\end{align*}
+\begin{align}
+    \d{g_\exc} &= -g_\exc / τ_g  \label{eq:dge-dgi} \\
+    \d{g_\inh} &= -g_\inh / τ_g, \notag
+\end{align}
 where on arrival of a spike at synapse $i$ either $g_\exc$ or $g_\inh$ is instantaneously increased by a value $Δg_i$, depending on whether that synapse is excitatory or inhibitory.
 
-We choose an excitatory reversal potential of $E_\exc = 0$ mV, an inhibitory one of $E_\inh = -80$ mV, and a time constant for the synaptic conductance decay of $τ = 7$ ms. These values are rather arbitrary, but in line with other simulation studies (e.g. \cite{Brette2007SimulationNetworksSpiking}).
+We choose an excitatory reversal potential of $E_\exc = 0$~mV, an inhibitory one of $E_\inh = -80$~mV, and a time constant for the synaptic conductance decay of $τ_g = 7$~ms. These values are rather arbitrary, but in line with other simulation studies (e.g. \cite{Brette2007SimulationNetworksSpiking}).
 
+
+\section{Model summary}
+
+Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq:dge-dgi}, our complete conductance-based, AdEx point neuron model is:
+
+\begin{align*}
+    & C \d{V} =  -g_L (V - E_L)
+                            + g_L Δ_T \exp \left(\frac{V-V_T}{Δ_T}  \right) \\
+                            & \hspace*{4em}
+                            \underbrace{- g_\exc (V - E_\exc)  - g_\inh (V - E_\inh)}_{-I_\syn}
+                            \ - \ w \\[1em]
+    & τ_w \d{w} = a (V - E_L) - w \\[1em]
+    & τ_g \d{g_\exc} = -g_\exc  \\[1em]
+    & τ_g \d{g_\inh} = -g_\inh
+\end{align*}
+\marginpar{
+    % \vspace*{-1em}
+    \includegraphics[w=1]{impulse_response}
+    \captionof{figure}{\small{Response of the conductance-based AdEx neuron to a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}}
+    \label{fig:impulse_response}
+}
+\begin{alignat*}{2}
+    & \text{When}\ V > θ \text{:}  &&   V ← V_r \\
+    & && w ← w + b \\[1em]
+    & \text{On spike at an exc. synapse:} \quad && \ g_\exc ← g_\exc + Δg_\exc \\
+    & \text{On spike at an inh. synapse:}  \quad && \ g_\inh ← g_\inh + Δg_\inh
+\end{alignat*}
+
+\Cref{fig:impulse_response} shows the impulse response of this model, for a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of other such PSP bumps and voltage imaging noise.
 
 \FloatBarrier
 \section{Input spikes}
@@ -375,7 +404,7 @@ We model this lossy transformation by simply adding Gaussian noise to our simula
 
 \marginpar{
     \includegraphics[w=1]{VI_noise.pdf}
-    \captionof{figure}{Simulated voltage trace (same as in \cref{fig:Vm_Izh_vs_AdEx}, right), without and with `voltage imaging' (VI) noise added ($σ_\text{noise} = 10.5$ mV).}
+    \captionof{figure}{Simulated voltage trace (same as in \cref{fig:Vm_Izh_vs_AdEx}, right), without and with `voltage imaging' (VI) noise added ($σ_\text{noise} = 10.5$~mV).}
     \label{fig:VI_noise}
 }
 
@@ -385,7 +414,7 @@ In other words, if we call our output signal $y$, and with $V_i$ the voltage sam
     ε_i \sim \mathcal{N}(0, σ_\text{noise}) \notag
 \end{gather}
 
-A typical but conservative level of noise in voltage imaging recordings has a spike-SNR of $10$. If we take as spike height the spike detection threshold minus the leak potential ($θ - E_L$, see \cref{tab:AdEx-params}), we obtain a $σ_\text{noise}$ of $10.5$ mV.
+A typical but conservative level of noise in voltage imaging recordings has a spike-SNR of $10$. If we take as spike height the spike detection threshold minus the leak potential ($θ - E_L$, see \cref{tab:AdEx-params}), we obtain a $σ_\text{noise}$ of $10.5$~mV.
 
 A more realistic model of the voltage imaging-transformation would also incorporate the exponential decay over time of the SNR (with a time constant of about 10 minutes), and the short-term 'smearing in time' of voltage indicators. The latter could be done by passing the voltage signal through a linear filter with some non-instantaneous impulse response.
 

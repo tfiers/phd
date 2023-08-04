@@ -62,8 +62,8 @@ set_seed(2)
 # +
 n = COBA_AdEx_neuron()
 
-G = SpikeGeneratorGroup(1, [0], [50*ms])
-S = Synapses(G, n, on_pre="ge += we")
+G = SpikeGeneratorGroup(1, [0], [10*ms])
+S = Synapses(G, n, on_pre="ge += we");
 # -
 
 S.connect()
@@ -76,15 +76,15 @@ net2.store()
 net2.restore()
 we = 14 * pS
 wi = we * 4
-T = 300 * ms
+T = 150 * ms
 net2.run(T, report='text')
 
 # %run lib/plot.py
 
-kw = dict(nbins_y=3, yaxloc="right", clip_on=False)
-fig, axs = plt.subplots(figsize=(2.6, 4.2), nrows=4, sharex=True)
+kw = dict(nbins_y=3, nbins_x=3, yaxloc="right", clip_on=False)
+fig, axs = plt.subplots(figsize=(1.4, 3.8), nrows=4, sharex=True)
 add_hline(axs[1])
-plotsig(M.ge[0], "$g_e$", **kw, ax=axs[0], color="C2")
+plotsig(M.ge[0], "$g_\mathrm{exc}$", **kw, ax=axs[0], color="C2")
 plotsig(-M.I[0], "$-I_\mathrm{syn}$", **kw, ax=axs[1])
 plotsig(M.V[0], "$V$", **kw, ax=axs[2])
 plotsig(M.w[0], "$w$", **kw, ax=axs[3])
@@ -93,7 +93,7 @@ for ax in axs[0:-1]:
     ax.set_xlabel(None)
     ax.spines["bottom"].set_visible(False)
     ax.tick_params(bottom=False, which='both')
-plt.subplots_adjust(hspace=0.7)
+plt.subplots_adjust(hspace=1.2)
 
 savefig_thesis("impulse_response", fig)
 

@@ -5,6 +5,13 @@ matplotlib_inline.backend_inline.set_matplotlib_formats('retina')
 from copy import copy
 import matplotlib as mpl
 
+# Based on the memoir-class latex pdf in ../thesis/
+# In inches
+paperwidth = 8.3
+marginwidth = 0.28 * paperwidth  # From totex/Settings.tex → \marginwidth
+maintextwidth = 324 / 72         # From latexmk output → Text width
+
+
 style = {
     "axes.spines.top"      : False,
     "axes.spines.right"    : False,
