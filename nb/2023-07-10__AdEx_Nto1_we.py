@@ -124,14 +124,22 @@ net_m.run(T, report='text')
 # How 'bout Julia?
 
 # See notebook `2023-08-02__Julia_speedtest_AdEx_Nto1`.\
-# Simulating all 6500 inputs, we have a sim time of 9 seconds.  
-# I.e. twice as fast as Brian2.
+# Simulating all 6500 inputs for 10 seconds, we have a sim time of 0.7 seconds.  
+# (10 minutes takes 9 seconds).  
+# I.e. 25x as fast as Brian2 w/ Cython (18 sec).
 
 # What about Brian's standalone mode? i.e. no python for main loop; generate a C++ proj.
 
 # (does that work with changing params in a loop? (i.e. seed, we))
 
-# See `2023-08-02__speedtest_brian_standalone_AdEx_Nto1`. Promising.
+# See `2023-08-02__speedtest_brian_standalone_AdEx_Nto1`.  \
+# Also < 1 sec.
+
+# With `time ./main.exe`: ~0.5 seconds.
+
+# Note that that is the one w/ merged inputs.
+#
+# Without: 8 seconds. Interesting.
 
 
 

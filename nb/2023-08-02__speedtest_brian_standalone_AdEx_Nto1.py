@@ -17,7 +17,9 @@
 
 from brian2 import *
 
-set_device('cpp_standalone')
+# !mkdir cpp
+
+set_device('cpp_standalone', directory='cpp/1')
 
 # %run lib/neuron.py
 
@@ -30,7 +32,7 @@ wi = 4 * we
 T = 10*second;
 
 
-def Nto1_merged(N = 6500, Ne_simmed = 100):
+def Nto1_merged(N = 6500, Ne_simmed = 100, print_N=True):
     
     Ni_simmed = Ne_simmed
 
@@ -39,7 +41,8 @@ def Nto1_merged(N = 6500, Ne_simmed = 100):
     Ne_merged = Ne - Ne_simmed
     Ni_merged = Ni - Ni_simmed
     N_simmed = Ne_simmed + Ni_simmed
-    print(f"{Ne=}, {Ni=}, {N_simmed=}, {Ne_merged=}, {Ni_merged=}")
+    if print_N:
+        print(f"{Ne=}, {Ni=}, {N_simmed=}, {Ne_merged=}, {Ni_merged=}")
     
     n = COBA_AdEx_neuron()
 
@@ -84,5 +87,71 @@ net_m.run(T, report='text')
 # Ah, we can actually change params w/o rebuilding everything:\
 # https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html
 # > you don’t need to recompile the entire project at each simulation. In the generated code, two consecutive simulations will only differ slightly (in this case only the tau parameter). The compiler will therefore only recompile the file that has changed and not the entire project
+
+# ## w/o PoissonInput merging
+
+set_device('cpp_standalone', directory='cpp/2')
+
+
+def Nto1_all_simmed(N = 6500):
+    
+    Ne = N * 4//5
+    
+    n = COBA_AdEx_neuron()
+    
+    rates = lognormal(μ, σ, N) * Hz
+    P = PoissonGroup(N, rates)
+    
+    Se = Synapses(P, n, on_pre="ge += we")
+    Si = Synapses(P, n, on_pre="gi += wi")
+    Se.connect("i < Ne")
+    Si.connect("i >= Ne")
+    
+    M = StateMonitor(n, ["V"], record=[0])
+    S = SpikeMonitor(n)
+    SP = SpikeMonitor(P)
+    
+    objs = [n, P, Se, Si, M, S, SP]
+    return *objs, Network(objs)
+
+
+# %%time
+*objs, net = Nto1_all_simmed()
+
+# %%time
+net.run(T, report='text')
+
+# ## Multiple runs
+
+set_device('cpp_standalone', directory='cpp/3')
+
+from time import time
+
+for j, we in enumerate([8, 14, 20] * pS):
+    print(f"Run {j+1} … ", end="")
+    t0 = time()
+    device.reinit()
+    device.activate()
+    *objs, net = Nto1_merged(print_N=False)
+    net.run(T, report='text')
+    print(f"{time() - t0:.1f} s")
+
+# So, no caching speedup.
+#
+# (Same conclusion when running https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html: all all `run_sim` call take 12 à 15 seconds).
+
+# - ok, finally, to reconfirm, https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html
+# with one proc.
+#     - (cause that text literally says: "The compiler will
+# therefore only recompile the file that has changed and not the entire project")
+#     - ye ok, there's lil speedup:
+#     
+# ```
+# 8.6 s
+# 5.6
+# 5.2
+# ..
+# 5.2
+# ```
 
 
