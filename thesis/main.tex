@@ -3,8 +3,9 @@
 \input{totex/Commands.tex}
 
 % No '(2.8)' for equations, rather just '(10)'
-\counterwithout{figure}{chapter}
 \counterwithout{equation}{chapter}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
 
 \renewcommand{\d}[2][t]{\ensuremath{\frac{\mathrm{d}#2}{\mathrm{d}#1}}}
 \newcommand*{\dd}[1]{\ensuremath{\frac{\mathrm{d}}{\mathrm{d}#1}}}
