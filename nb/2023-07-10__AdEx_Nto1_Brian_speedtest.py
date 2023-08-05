@@ -71,6 +71,13 @@ net.run(T, report='text')
 # ..that compil gets cached though. Second time: no init time at all.
 # (Neither at `run` time or at the objs creation time).
 
+# 2nd try, other day: 51 s for whole sim.  
+# (total of block: 53.5 s).
+
+# 3rd try, this same day: 58 s for whole sim.
+
+# (weird, nothin shoulda changed, why 2+ x slower)
+
 # ## `PoissonGroup` + `PoissonInput`s (merged)
 
 def Nto1_merged(N = 6500, Ne_simmed = 100):
@@ -100,7 +107,7 @@ def Nto1_merged(N = 6500, Ne_simmed = 100):
     S = SpikeMonitor(n)
     SP = SpikeMonitor(P)
     
-    objs = [n, P, Se, Si, M, S, SP]
+    objs = [n, P, Se, Si, PIe, PIi, M, S, SP]
     return *objs, Network(objs)
 
 
@@ -112,14 +119,24 @@ net_m.store()
 net_m.restore()
 net_m.run(T, report='text')
 
-# Aha, 7 seconds instead of 18 s.
-# That's a..
+# 29 s for 10".
+#
+# whole block: 64 sec.
 
-18/7
+# And again, this same other day: 27 s.
+#
+# So, speedup of that PInput:
 
-# ..x speedup. Good.
+(51+58)/2
 
-# (2nd run, more like a 3x speedup).
+(51+58) / (27 + 29)
+
+# 2x. worth the extra complexity? eh, sure.
+
+# Otoh, what do when less than 6500 inputs.
+# Say, 100 inh, 400 exc.
+# Or, 10 inh, 40 exc.
+# (ok, sol is simple, you take max)
 
 # ## 
 

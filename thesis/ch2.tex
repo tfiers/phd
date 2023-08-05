@@ -109,7 +109,7 @@ Also of interest -- especially when comparing with the Izhikevich neuron later -
 \begin{align}
     \d[V]{F} &= \dd{V} \left( -g_L (V - E_L)
          + g_L Δ_T \exp\left(\frac{V - V_T}{Δ_T}\right) \right) \notag \\
-    &= -g_L + g_L Δ_T \frac{1}{Δ_T} \exp\left(\frac{V - V_T}{Δ_T}\right) \label{eq:dFdV}
+    &= -g_L + g_L \exp\left(\frac{V - V_T}{Δ_T}\right) \label{eq:dFdV}
 \end{align}
 This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in the AdEx literature\cite{Brette2005AdaptiveExponentialIntegrateandFirea,Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
 
@@ -366,7 +366,7 @@ We solve these equations numerically using first-order (Euler) integration, with
 \Cref{fig:impulse_response} shows the impulse response of this model, using a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
 
 \FloatBarrier
-\section{Input spikes}
+\section{Input spikes in the N-to-1 setup}
 
 In our simplest experimental setup, we simulate just one AdEx neuron.
 Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process. We call this the `N-to-1' setup.
@@ -422,3 +422,43 @@ A more realistic model of the voltage imaging-transformation would also incorpor
 
 \section{Software implementation}
 \label{sec:software}
+
+Different software implementations have been used throughout the work on this PhD to numerically simulate the model described in this chapter.
+
+\begin{table}
+    \begin{tabular}{l l l S[table-format=3.2]}  % last col is an siunitx thing to align on decimal point.
+        Software & Language & Model  &  {Simulation time} \\
+        \hline
+        Brian2 &  Cython + Python   & full  &  55 { s}  \\
+        &   & merged  &  28 { s}  \\
+        &  C++   & full  &  29 { s}  \\
+        &   & merged  &  1.9 { s}  \\
+        own &  Julia   & full  & 0.74 { s}  \\
+    \end{tabular}
+\end{table}
+
+
+% \begin{table}[h]
+%     \vspace*{2em} % making space for footnote above
+%     \begin{sidecaption}
+%         {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also co-determines the location of the firing threshold.}
+%         [tab:AdEx-params]
+%         \begin{tabular}{c l r}
+%             Name  & Description & Value \\
+%             \hline
+%             $V$  & Membrane voltage & (in mV) \\
+%             $w$   & Adaptation current & (in pA) \\
+%             $C$ & Membrane capacitance & $104$ pF \\
+%             $g_L$ & Input / leak conductance & $4.3$ nS \\
+%             $E_L$  & Resting / leak potential & $-65$ mV \\
+%             $Δ_T$  & Threshold slope factor & $0.8$ mV \\
+%             $V_T$  & Location of minimum of $\d{V}$ & $-52$ mV \\
+%             $τ_w$   & Time constant of adaptation current & $88$ ms \\
+%             $a$ & Sensitivity of adaptation current to $V$ & $-0.8$ nS \\
+%             $θ$ & Spike definition threshold & $40$ mV \\
+%             $V_r$  & Reset voltage after spike & $-53$ mV \\
+%             $b$ & Adaptation current bump after spike & $65$ pA
+%         \end{tabular}
+%     \end{sidecaption}
+%     \vspace*{1em}
+% \end{table}

@@ -60,7 +60,7 @@ def Nto1_merged(N = 6500, Ne_simmed = 100, print_N=True):
     S = SpikeMonitor(n)
     SP = SpikeMonitor(P)
     
-    objs = [n, P, Se, Si, M, S, SP]
+    objs = [n, P, Se, Si, PIe, PIi, M, S, SP]
     return *objs, Network(objs)
 
 
@@ -81,6 +81,11 @@ net_m.run(T, report='text')
 # (If run here, we get some IO errors).  
 # But if run in sep terminal, we get no errors.  
 # And.. "10 seconds simulated in < 1s". Impressive!
+
+# ---
+# Now with PIe and i included in `net`:  \
+# total runtime 52.2 s.  
+# main.exe: 1.9 seconds.
 
 # ---
 #
@@ -120,6 +125,10 @@ def Nto1_all_simmed(N = 6500):
 
 # %%time
 net.run(T, report='text')
+
+# New run: 42.2 s total.
+#
+# main.exe: 28.9 s (!)
 
 # ## Multiple runs
 
