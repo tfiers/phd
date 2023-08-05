@@ -10,7 +10,22 @@
 \renewcommand{\d}[2][t]{\ensuremath{\frac{\mathrm{d}#2}{\mathrm{d}#1}}}
 \newcommand*{\dd}[1]{\ensuremath{\frac{\mathrm{d}}{\mathrm{d}#1}}}
 
-\newcommand*{\nburl}[1]{\footnotesize{\url{https://tfiers.github.io/phd/nb/#1.html}}}
+\newcommand*{\nburl}[1]{{\footnotesize\texttt{\href{https://tfiers.github.io/phd/#1.html}{\replunderscores{#1}}}}}
+
+% Thx https://stackoverflow.com/a/57028315/2611913
+% (with addition of \allowbreak)
+\makeatletter
+\newcommand{\replunderscores}[1]{\expandafter\@repl@underscores#1_\relax}
+\def\@repl@underscores#1_#2\relax{%
+    \ifx \relax #2\relax
+        #1%
+    \else
+        #1%
+        \textunderscore\allowbreak
+        \@repl@underscores#2\relax
+    \fi
+}
+\makeatother
 
 \newcommand*{\exc}{\text{exc}}
 \newcommand*{\inh}{\text{inh}}
@@ -49,6 +64,13 @@
 \graphicspath{{figs/}}
 
 \begin{document}
+
+\chapter*{Preamble}
+
+Figures and tables in this document are often accompanied by a link to the Jupyter Notebook that generated them. These notebooks contain more information than can be conveyed in just the caption. These links look like, e.g:
+\nburl{2021-12-06__local_HH_dV_shape}.
+To visit these links, in the digital version of this document, just click them. In the paper version, convert them to an URL as follows: {\small \url{https://tfiers.github.io/phd/nb/2021-12-06__local_HH_dV_shape.html}}.
+
 
 \chapter{Introduction}
 

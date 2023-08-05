@@ -234,7 +234,7 @@ As a result, Izhikevich neurons have an unrealistically slow spike upstroke, exa
     \hspace*{10em}
     \includegraphics*[w=1.4]{Vm_Izh_vs_AdEx.pdf}
     \captionn{Two neuron models behave differently for (near) identical parameters and input}{
-    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given stronger inputs ($Δg_\exc = 12.2$ pS) than the Izhikevich neuron ($Δg_\exc = 4$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). For more details, see \nburl{2023-06-23__Vm_traces_AdEx_Izh__Brian}}}
+    \small{The AdEx neuron's parameters are from \cite{Naud2008FiringPatternsAdaptive}, for a cortical regular spiking neuron. The Izhikevich neuron's parameters are copied from the AdEx neuron wherever they correspond directly. The other parameters are chosen so both models have the same resting and threshold potentials, and the same leak conductance, using the correspondences found earlier in this section. Both models receive EI-balanced synaptic input from 6500 Poisson spike trains with lognormal firing rates. The AdEx neuron was given stronger inputs ($Δg_\exc = 12.2$ pS) than the Izhikevich neuron ($Δg_\exc = 4$ pS), so as to obtain the same number of output spikes. (In both cases, $Δg_\inh = 4\ Δg_\exc$). For more details, see \nburl{2023-06-23__Vm_traces_AdEx_Izh__Brian}.}}
     \label{fig:Vm_Izh_vs_AdEx}
 \end{figure}
 
@@ -423,42 +423,22 @@ A more realistic model of the voltage imaging-transformation would also incorpor
 \section{Software implementation}
 \label{sec:software}
 
-Different software implementations have been used throughout the work on this PhD to numerically simulate the model described in this chapter.
+To numerically simulate the model described in this chapter, different software implementations have been used throughout my PhD.
 
-\begin{table}
-    \begin{tabular}{l l l S[table-format=3.2]}  % last col is an siunitx thing to align on decimal point.
-        Software & Language & Model  &  {Simulation time} \\
-        \hline
-        Brian2 &  Cython + Python   & full  &  55 { s}  \\
-        &   & merged  &  28 { s}  \\
-        &  C++   & full  &  29 { s}  \\
-        &   & merged  &  1.9 { s}  \\
-        own &  Julia   & full  & 0.74 { s}  \\
-    \end{tabular}
+\begin{table}[h]
+    \begin{sidecaption}
+        {\textbf{Time taken to simulate 10 seconds of the N-to-1 experiment}
+        {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and on inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}'). For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023-08-02__Julia_speedtest_AdEx_Nto1} (Julia).}
+        }
+        [tab:software-timings]
+            \begin{tabular}{l l l S[table-format=3.2]}  % last col is an siunitx thing to align on decimal point.
+            Software & Language & Model  &  {Simulation time} \\
+            \hline
+            Brian2 &  Cython + Python   & full  &  55 { s}  \\
+            &   & merged  &  28 { s}  \\
+            &  C++   & full  &  29 { s}  \\
+            &   & merged  &  1.9 { s}  \\
+            own &  Julia   & full  & 0.74 { s}  \\
+        \end{tabular}
+    \end{sidecaption}
 \end{table}
-
-
-% \begin{table}[h]
-%     \vspace*{2em} % making space for footnote above
-%     \begin{sidecaption}
-%         {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also co-determines the location of the firing threshold.}
-%         [tab:AdEx-params]
-%         \begin{tabular}{c l r}
-%             Name  & Description & Value \\
-%             \hline
-%             $V$  & Membrane voltage & (in mV) \\
-%             $w$   & Adaptation current & (in pA) \\
-%             $C$ & Membrane capacitance & $104$ pF \\
-%             $g_L$ & Input / leak conductance & $4.3$ nS \\
-%             $E_L$  & Resting / leak potential & $-65$ mV \\
-%             $Δ_T$  & Threshold slope factor & $0.8$ mV \\
-%             $V_T$  & Location of minimum of $\d{V}$ & $-52$ mV \\
-%             $τ_w$   & Time constant of adaptation current & $88$ ms \\
-%             $a$ & Sensitivity of adaptation current to $V$ & $-0.8$ nS \\
-%             $θ$ & Spike definition threshold & $40$ mV \\
-%             $V_r$  & Reset voltage after spike & $-53$ mV \\
-%             $b$ & Adaptation current bump after spike & $65$ pA
-%         \end{tabular}
-%     \end{sidecaption}
-%     \vspace*{1em}
-% \end{table}
