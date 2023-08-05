@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2023-07-10__AdEx_Nto1_we &#8212; Voltage-to-Wiring Sim</title>
+    <title>2023-08-05__AdEx_Nto1_we_sweep &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-07-10__AdEx_Nto1_we.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-08-05__AdEx_Nto1_we_sweep.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2023-06-23__Vm_traces_AdEx_Izh__Brian" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html">
-    <link rel="prev" title="2023-07-26__AdEx_Nto1_we_I_syn" href="2023-07-26__AdEx_Nto1_we_I_syn.html">
+    <link rel="next" title="2023-08-02__speedtest_brian_standalone_AdEx_Nto1" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,14 +106,29 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2023-08-05__AdEx_Nto1_we_sweep
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html">
+   2023-08-02__speedtest_brian_standalone_AdEx_Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__Julia_speedtest_AdEx_Nto1.html">
+   2023-08-02__Julia_speedtest_AdEx_Nto1
+  </a>
+ </li>
  <li class="toctree-l1">
   <a class="reference internal" href="2023-07-26__AdEx_Nto1_we_I_syn.html">
    2023-07-26__AdEx_Nto1_we_I_syn
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   2023-07-10__AdEx_Nto1_we
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-07-10__AdEx_Nto1_Brian_speedtest.html">
+   2023-07-10__AdEx_Nto1_Brian_speedtest
   </a>
  </li>
  <li class="toctree-l1">
@@ -598,7 +613,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023-08-05__AdEx_Nto1_we_sweep.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -610,8 +625,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-07-10__AdEx_Nto1_we.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-08-05__AdEx_Nto1_we_sweep.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-08-05__AdEx_Nto1_we_sweep.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -625,7 +640,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-07-10__AdEx_Nto1_we.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-08-05__AdEx_Nto1_we_sweep.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -644,16 +659,6 @@ const thebe_selector_output = ".output, .cell_output"
             </div>
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poissongroup-only">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonGroup
-    </span>
-   </code>
-   only
-  </a>
- </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#poissongroup-poissoninputs-merged">
    <code class="docutils literal notranslate">
@@ -680,7 +685,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2023-07-10__AdEx_Nto1_we</h1>
+                <h1>2023-08-05__AdEx_Nto1_we_sweep</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -690,16 +695,6 @@ const thebe_selector_output = ".output, .cell_output"
                         </div>
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poissongroup-only">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonGroup
-    </span>
-   </code>
-   only
-  </a>
- </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#poissongroup-poissoninputs-merged">
    <code class="docutils literal notranslate">
@@ -725,16 +720,11 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="adex-nto1-we">
-<h1>2023-07-10__AdEx_Nto1_we<a class="headerlink" href="#adex-nto1-we" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="adex-nto1-we-sweep">
+<h1>2023-08-05__AdEx_Nto1_we_sweep<a class="headerlink" href="#adex-nto1-we-sweep" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/neuron.py
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing numpy, brian &#8230; &#10004;
 </pre></div>
 </div>
 </div>
@@ -755,49 +745,6 @@ instead of 6500 separate Poisson spike trains, simulate most of them (except a f
 </div>
 </div>
 </div>
-<div class="section" id="poissongroup-only">
-<h2><code class="docutils literal notranslate"><span class="pre">PoissonGroup</span></code> only<a class="headerlink" href="#poissongroup-only" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Nto1_all_simmed</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span><span class="p">):</span>
-    
-    <span class="n">Ne</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="mi">4</span><span class="o">//</span><span class="mi">5</span>
-    
-    <span class="n">n</span> <span class="o">=</span> <span class="n">COBA_AdEx_neuron</span><span class="p">()</span>
-    
-    <span class="n">rates</span> <span class="o">=</span> <span class="n">lognormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">Hz</span>
-    <span class="n">P</span> <span class="o">=</span> <span class="n">PoissonGroup</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">rates</span><span class="p">)</span>
-    
-    <span class="n">Se</span> <span class="o">=</span> <span class="n">Synapses</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="s2">"ge += we"</span><span class="p">)</span>
-    <span class="n">Si</span> <span class="o">=</span> <span class="n">Synapses</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="s2">"gi += wi"</span><span class="p">)</span>
-    <span class="n">Se</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"i &lt; Ne"</span><span class="p">)</span>
-    <span class="n">Si</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"i &gt;= Ne"</span><span class="p">)</span>
-    
-    <span class="n">M</span> <span class="o">=</span> <span class="n">StateMonitor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="s2">"V"</span><span class="p">],</span> <span class="n">record</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">SpikeMonitor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">SP</span> <span class="o">=</span> <span class="n">SpikeMonitor</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
-    
-    <span class="n">objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Se</span><span class="p">,</span> <span class="n">Si</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">SP</span><span class="p">]</span>
-    <span class="k">return</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">Network</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">net</span> <span class="o">=</span> <span class="n">Nto1_all_simmed</span><span class="p">();</span>
-<span class="n">net</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 78.1 ms
-Wall time: 184 ms
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">we</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span>
@@ -807,29 +754,6 @@ Wall time: 184 ms
 </pre></div>
 </div>
 </div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">net</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
-<span class="n">net</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">report</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 10. s
-5.5717 s (55%) simulated in 10s, estimated 8s remaining.
-10. s (100%) simulated in 18s
-CPU times: total: 17 s
-Wall time: 51.2 s
-</pre></div>
-</div>
-</div>
-</div>
-<p>So, 19 s for the sim itself,<br>
-29 s for the whole thing, i.e. setup took 10 seconds (initial compilation, ig).</p>
-<p>..that compil gets cached though. Second time: no init time at all.
-(Neither at <code class="docutils literal notranslate"><span class="pre">run</span></code> time or at the objs creation time).</p>
 </div>
 <div class="section" id="poissongroup-poissoninputs-merged">
 <h2><code class="docutils literal notranslate"><span class="pre">PoissonGroup</span></code> + <code class="docutils literal notranslate"><span class="pre">PoissonInput</span></code>s (merged)<a class="headerlink" href="#poissongroup-poissoninputs-merged" title="Permalink to this headline">&#182;</a></h2>
@@ -901,34 +825,6 @@ Wall time: 7.33 s
 </div>
 </div>
 </div>
-<p>Aha, 7 seconds instead of 18 s.
-That&#8217;s a..</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">18</span><span class="o">/</span><span class="mi">7</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.5714285714285716
-</pre></div>
-</div>
-</div>
-</div>
-<p>..x speedup. Good.</p>
-<p>(2nd run, more like a 3x speedup).</p>
-<p>How &#8216;bout Julia?</p>
-<p>See notebook <code class="docutils literal notranslate"><span class="pre">2023-08-02__Julia_speedtest_AdEx_Nto1</span></code>.<br>
-Simulating all 6500 inputs for 10 seconds, we have a sim time of 0.7 seconds.<br>
-(10 minutes takes 9 seconds).<br>
-I.e. 25x as fast as Brian2 w/ Cython (18 sec).</p>
-<p>What about Brian&#8217;s standalone mode? i.e. no python for main loop; generate a C++ proj.</p>
-<p>(does that work with changing params in a loop? (i.e. seed, we))</p>
-<p>See <code class="docutils literal notranslate"><span class="pre">2023-08-02__speedtest_brian_standalone_AdEx_Nto1</span></code>.  <br>
-Also &lt; 1 sec.</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code>: ~0.5 seconds.</p>
-<p>Note that that is the one w/ merged inputs.</p>
-<p>Without: 8 seconds. Interesting.</p>
 <hr class="docutils">
 <p>(Prev state of nb below)</p>
 <div class="cell docutils container">
@@ -1425,7 +1321,7 @@ Also &lt; 1 sec.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_44_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_44_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1440,7 +1336,7 @@ Also &lt; 1 sec.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_45_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_45_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1462,7 +1358,7 @@ Also &lt; 1 sec.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-07-10__AdEx_Nto1_we_46_0.png" src="../_images/2023-07-10__AdEx_Nto1_we_46_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_29_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_29_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1512,17 +1408,17 @@ Also &lt; 1 sec.</p>
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2023-07-26__AdEx_Nto1_we_I_syn.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2023-07-26__AdEx_Nto1_we_I_syn</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html" title="next page">
+    <a class="right-next" id="next-link" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2023-06-23__Vm_traces_AdEx_Izh__Brian</p>
+        <p class="prev-next-title">2023-08-02__speedtest_brian_standalone_AdEx_Nto1</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
