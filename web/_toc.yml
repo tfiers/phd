@@ -2,8 +2,11 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-08-05__AdEx_Nto1_we_sweep
+    - file: nb/2023-08-02__speedtest_brian_standalone_AdEx_Nto1
+    - file: nb/2023-08-02__Julia_speedtest_AdEx_Nto1
     - file: nb/2023-07-26__AdEx_Nto1_we_I_syn
-    - file: nb/2023-07-10__AdEx_Nto1_we
+    - file: nb/2023-07-10__AdEx_Nto1_Brian_speedtest
     - file: nb/2023-06-23__Vm_traces_AdEx_Izh__Brian
     - file: nb/2023-05-27__synaptic_cond_example
     - file: nb/2023-04-11__Nto1_AdEx_conntest_methods_comparison
