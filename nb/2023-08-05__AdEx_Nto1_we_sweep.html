@@ -729,22 +729,6 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<p>We&#8217;re gonna try a brian trick to try and speed up the simulation:
-instead of 6500 separate Poisson spike trains, simulate most of them (except a few that we want to use for conntesting) as <strong>one</strong> process. (One for exc and one for inh, to be precise).</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">&#956;&#8339;</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Hz</span>
-<span class="n">&#963;</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
-<span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">)</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0862943611198905
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">we</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span>
@@ -1321,7 +1305,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1336,7 +1320,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_26_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_26_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1358,7 +1342,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_29_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_29_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png">
 </div>
 </div>
 <div class="cell docutils container">
