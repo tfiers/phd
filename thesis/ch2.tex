@@ -428,7 +428,9 @@ To numerically simulate the model described in this chapter, different software 
 \begin{table}[h]
     \begin{sidecaption}
         {\textbf{Time taken to simulate 10 seconds of the N-to-1 experiment}
-        {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and on inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}'). For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023-08-02__Julia_speedtest_AdEx_Nto1} (Julia).}
+        {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and one inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}').
+        Times do not include compilation time.\\
+        For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023-08-02__Julia_speedtest_AdEx_Nto1} (Julia).}
         }
         [tab:software-timings]
             \begin{tabular}{l l l S[table-format=3.2]}  % last col is an siunitx thing to align on decimal point.
@@ -442,3 +444,5 @@ To numerically simulate the model described in this chapter, different software 
         \end{tabular}
     \end{sidecaption}
 \end{table}
+
+Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
