@@ -355,10 +355,13 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
     \label{fig:impulse_response}
 }
 \begin{alignat*}{2}
-    & \text{When}\ V > θ \text{:}  &&   V ← V_r \\
-    & && w ← w + b \\[1em]
-    & \text{On spike at an exc. synapse:} \quad && \ g_\exc ← g_\exc + Δg_\exc \\
-    & \text{On spike at an inh. synapse:}  \quad && \ g_\inh ← g_\inh + Δg_\inh
+    & \text{When}\ V > θ \text{:}  &&   V \ ← \ V_r \\
+    & && w \ ← \ w + b \\[1em]
+    & \text{On input spike at..} \\
+    & \qquad \text{exc. synapse } i \text{:} \hspace*{3em}
+        && \ g_\exc \ ← \ g_\exc + Δg_i \\
+    & \qquad \text{inh. synapse } j \text{:}  \hspace*{3em}
+        && \ g_\inh \ ← \ g_\inh + Δg_j
 \end{alignat*}
 
 We solve these equations numerically using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms. This timestep is sufficiently small with respect to the different time constants in the model\footnote{$τ_g = $~7~ms,\\$τ_w = $~88~ms,\\$C / g_L = $~24.2~ms.}. See \cref{sec:software} below for more details on the numeric implementation.
