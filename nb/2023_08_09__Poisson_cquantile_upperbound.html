@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2022-09-29 &#8226; Summary of two-pass conntest &#8212; Voltage-to-Wiring Sim</title>
+    <title>2023_08_09__Poisson_cquantile_upperbound &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2022-09-29__Two-pass_summary.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023_08_09__Poisson_cquantile_upperbound.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
-    <link rel="prev" title="2022-09-30 &#8226; Use parametric STA model for connection testing" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+    <link rel="next" title="2023-08-05__AdEx_Nto1_we_sweep" href="2023-08-05__AdEx_Nto1_we_sweep.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,8 +106,8 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2023_08_09__Poisson_cquantile_upperbound.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2023_08_09__Poisson_cquantile_upperbound
   </a>
  </li>
@@ -216,8 +216,8 @@ const thebe_selector_output = ".output, .cell_output"
    2022-09-30 &#8226; Use parametric STA model for connection testing
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-29__Two-pass_summary.html">
    2022-09-29 &#8226; Summary of two-pass conntest
   </a>
  </li>
@@ -618,7 +618,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2022-09-29__Two-pass_summary.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023_08_09__Poisson_cquantile_upperbound.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -630,8 +630,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2022-09-29__Two-pass_summary.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2022-09-29__Two-pass_summary.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023_08_09__Poisson_cquantile_upperbound.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023_08_09__Poisson_cquantile_upperbound.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -645,7 +645,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2022-09-29__Two-pass_summary.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023_08_09__Poisson_cquantile_upperbound.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -659,34 +659,6 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#imports">
-   Imports
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#params">
-   Params
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-sta-s">
-   Load STA&#8217;s
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test">
-   Test
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -694,255 +666,167 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2022-09-29 &#8226; Summary of two-pass conntest</h1>
+                <h1>2023_08_09__Poisson_cquantile_upperbound</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#imports">
-   Imports
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#params">
-   Params
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#load-sta-s">
-   Load STA&#8217;s
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#test">
-   Test
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="section" id="summary-of-two-pass-conntest">
-<h1>2022-09-29 &#8226; Summary of two-pass conntest<a class="headerlink" href="#summary-of-two-pass-conntest" title="Permalink to this headline">&#182;</a></h1>
-<p>This notebook is a summary of the previous one,
-where all its new code has consolidated in the codebase (see github, <code class="docutils literal notranslate"><span class="pre">pkg/VoltoMapSim/src/</span></code>).</p>
-<div class="section" id="imports">
-<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+  <div class="section" id="poisson-cquantile-upperbound">
+<h1>2023_08_09__Poisson_cquantile_upperbound<a class="headerlink" href="#poisson-cquantile-upperbound" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MyToolbox</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">VoltoMapSim</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling VoltoMapSim [f713100b-c48c-421a-b480-5fcb4c589a9e]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="params">
-<h2>Params<a class="headerlink" href="#params" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
-    <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span>
-    <span class="n">p_conn</span> <span class="o">=</span> <span class="mf">0.04</span><span class="p">,</span>
-    <span class="n">g_EE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">g_EI</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="n">g_IE</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">g_II</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="n">ext_current</span> <span class="o">=</span> <span class="n">Normal</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/&#8730;</span><span class="n">seconds</span><span class="p">),</span>
-    <span class="n">E_inh</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span><span class="p">,</span>
-    <span class="n">record_v</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">40</span><span class="p">;</span> <span class="mi">801</span><span class="o">:</span><span class="mi">810</span><span class="p">],</span>
-<span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">WithFeedback</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="load-sta-s">
-<h2>Load STA&#8217;s<a class="headerlink" href="#load-sta-s" title="Permalink to this headline">&#182;</a></h2>
-<p>(They&#8217;re precalculated).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">cached_STAs</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Revise</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading cached output from `C:\Users\tfiers\.phdcache\calc_all_STAs\b9353bdd11d8b8cb.jld2` &#8230; done (10.9 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.8 s)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">conns</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Base</span><span class="o">.</span><span class="n">summarysize</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="o">/</span> <span class="n">GB</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">GlobalMacros</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Units</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.18
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using GlobalMacros &#8230; &#10004;
+using Units &#8230; &#10004;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Print info on output of `get_connection_to_test()`</span>
-<span class="k">function</span> <span class="n">summarize_conns_to_test</span><span class="p">(</span><span class="n">ctt</span><span class="p">)</span>
-    <span class="n">n_post</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">unique</span><span class="p">(</span><span class="n">ctt</span><span class="o">.</span><span class="n">post</span><span class="p">))</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">"We test "</span><span class="p">,</span> <span class="n">nrow</span><span class="p">(</span><span class="n">ctt</span><span class="p">),</span> <span class="s">" putative input connections to "</span><span class="p">,</span> <span class="n">n_post</span><span class="p">,</span> <span class="s">" neurons."</span><span class="p">)</span>
-    <span class="n">n</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span> <span class="o">=</span> <span class="n">count</span><span class="p">(</span><span class="n">ctt</span><span class="o">.</span><span class="n">conntype</span> <span class="o">.==</span> <span class="n">typ</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">(</span><span class="n">n</span><span class="p">(</span><span class="ss">:exc</span><span class="p">),</span> <span class="s">" of those connections are excitatory, "</span><span class="p">,</span> <span class="n">n</span><span class="p">(</span><span class="ss">:inh</span><span class="p">),</span> <span class="s">" are inhibitory, "</span><span class="p">,</span>
-            <span class="s">"and the remaining "</span><span class="p">,</span> <span class="n">n</span><span class="p">(</span><span class="ss">:unconn</span><span class="p">),</span> <span class="s">" are non-connections."</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">summarize_conns_to_test</span><span class="p">(</span><span class="n">conns</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">PyPlot</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Sciplotlib</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">PhDPlots</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>We test 3906 putative input connections to 50 neurons.
-1515 of those connections are excitatory, 391 are inhibitory, and the remaining 2000 are non-connections.
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="test">
-<h2>Test<a class="headerlink" href="#test" title="Permalink to this headline">&#182;</a></h2>
-<p>First peak-to-peak, strict alpha of 0.01 (<code class="docutils literal notranslate"><span class="pre">tc_ptp</span></code>).</p>
-<p>Then correlate with found average exc STA, alpha 0.05 (<code class="docutils literal notranslate"><span class="pre">tc_corr</span></code>).</p>
-<hr class="docutils">
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">testall</span><span class="p">(</span><span class="n">f</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">conns</span><span class="p">,</span> <span class="n">STAs</span><span class="p">,</span> <span class="n">shuffled_STAs</span><span class="p">;</span> <span class="n">&#945;</span><span class="p">);</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using PyPlot &#8230; &#10004; (5.6 s)
+using Sciplotlib &#8230; &#10004; (5.4 s)
+using PhDPlots &#8230; &#10004;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tc_ptp</span> <span class="o">=</span> <span class="n">testall</span><span class="p">(</span><span class="n">test_conn__ptp</span><span class="p">,</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Distributions</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Distributions &#8230; &#10004; (1.5 s)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="n">typ</span><span class="p">)</span>
-    <span class="n">pm</span> <span class="o">=</span> <span class="n">perfmeasures</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">num_pred</span><span class="p">[</span><span class="n">typ</span><span class="p">],</span> <span class="s">" </span><span class="si">$typ</span><span class="s"> connections found. "</span><span class="p">,</span> <span class="n">fmt_pct</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">precision</span><span class="p">[</span><span class="n">typ</span><span class="p">]),</span> <span class="s">" of those are correct."</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">(</span><span class="s">"The correct </span><span class="si">$typ</span><span class="s"> detections make up "</span><span class="p">,</span> <span class="n">fmt_pct</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">sensitivity</span><span class="p">[</span><span class="n">typ</span><span class="p">]),</span> <span class="s">" of all true </span><span class="si">$typ</span><span class="s"> connections."</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc_ptp</span><span class="p">,</span> <span class="ss">:exc</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">cquantile</span><span class="p">(</span><span class="n">Poisson</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">1E-14</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>845 exc connections found. 93% of those are correct.
-The correct exc detections make up 52% of all true exc connections.
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>f (generic function with 1 method)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">avg_ptp_exc_STA</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">STAs</span><span class="p">[</span><span class="n">conn</span><span class="o">.</span><span class="n">pre</span> <span class="o">=&gt;</span> <span class="n">conn</span><span class="o">.</span><span class="n">post</span><span class="p">]</span> <span class="k">for</span> <span class="n">conn</span> <span class="k">in</span> <span class="n">eachrow</span><span class="p">(</span><span class="n">tc_ptp</span><span class="p">)</span> <span class="k">if</span> <span class="n">conn</span><span class="o">.</span><span class="n">predtype</span> <span class="o">==</span> <span class="ss">:exc</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tc_corr</span> <span class="o">=</span> <span class="n">testall</span><span class="p">(</span><span class="n">test_conn__corr</span> <span class="o">$</span> <span class="p">(;</span> <span class="n">template</span> <span class="o">=</span> <span class="n">avg_ptp_exc_STA</span><span class="p">),</span> <span class="n">&#945;</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">600</span><span class="p">)</span>
+<span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="mi">300</span><span class="o">+</span><span class="mf">1.05</span><span class="o">*</span><span class="n">x</span>
+<span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Testing connections: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:07</span>
+<img alt="../_images/2023_08_09__Poisson_cquantile_upperbound_8_0.png" src="../_images/2023_08_09__Poisson_cquantile_upperbound_8_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">60000</span><span class="p">)</span>
+<span class="n">all</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">g</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>true
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc</span><span class="p">)</span>
-    <span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="ss">:exc</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">()</span>
-    <span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="ss">:inh</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">()</span>
-    <span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc</span><span class="p">,</span> <span class="ss">:unconn</span><span class="p">)</span>
-<span class="k">end</span>
-
-<span class="n">summarize_test_results</span><span class="p">(</span><span class="n">tc_corr</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1374 exc connections found. 90% of those are correct.
-The correct exc detections make up 82% of all true exc connections.
-
-529 inh connections found. 69% of those are correct.
-The correct inh detections make up 94% of all true inh connections.
-
-2003 unconn connections found. 85% of those are correct.
-The correct unconn detections make up 85% of all true unconn connections.
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Nto1AdEx</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perftable</span><span class="p">(</span><span class="n">tc_corr</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">PhDPlots</span><span class="o">.</span><span class="n">plotsig</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span> <span class="n">ms</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><table><tr><th align="right">Tested connections: 3906</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160;</th><th align="right">&#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;</th></tr><tr><td align="right"></td><td align="right"></td><td align="right"><strong>&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</strong></td><td align="right"><strong>Real type</strong></td><td align="right"><strong>&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</strong></td><td align="right"></td><td align="right"><strong>Precision</strong></td></tr><tr><td align="right"></td><td align="right"></td><td align="right"><code>unconn</code></td><td align="right"><code>exc</code></td><td align="right"><code>inh</code></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>&#9484;</strong></td><td align="right"><code>unconn</code></td><td align="right">1704</td><td align="right">274</td><td align="right">25</td><td align="right"></td><td align="right">85%</td></tr><tr><td align="right"><strong>Predicted type</strong></td><td align="right"><code>exc</code></td><td align="right">139</td><td align="right">1235</td><td align="right">0</td><td align="right"></td><td align="right">90%</td></tr><tr><td align="right"><strong>&#9492;</strong></td><td align="right"><code>inh</code></td><td align="right">157</td><td align="right">6</td><td align="right">366</td><td align="right"></td><td align="right">69%</td></tr><tr><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td><td align="right"></td></tr><tr><td align="right"><strong>Sensitivity</strong></td><td align="right"></td><td align="right">85%</td><td align="right">82%</td><td align="right">94%</td><td align="right"></td><td align="right"></td></tr></table>
-</div></div>
+<img alt="../_images/2023_08_09__Poisson_cquantile_upperbound_12_0.png" src="../_images/2023_08_09__Poisson_cquantile_upperbound_12_0.png">
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.067683 seconds (13.03 k allocations: 31.572 MiB, 21.20% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>&#129327;</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -954,33 +838,33 @@ The correct unconn detections make up 85% of all true unconn connections.
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8-mysys"
+            mode: "julia-1.9"
         },
         kernelOptions: {
-            kernelName: "julia-1.8-mysys",
+            kernelName: "julia-1.9",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8-mysys'</script>
+    <script>kernelName = 'julia-1.9'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2022-09-30__Conntest_with_parametric_STA_model.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2022-09-30 &#8226; Use parametric STA model for connection testing</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html" title="next page">
+    <a class="right-next" id="next-link" href="2023-08-05__AdEx_Nto1_we_sweep.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg</p>
+        <p class="prev-next-title">2023-08-05__AdEx_Nto1_we_sweep</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

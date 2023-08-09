@@ -48,12 +48,14 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-08-05__AdEx_Nto1_we_sweep.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
     <link rel="next" title="2023-08-02__speedtest_brian_standalone_AdEx_Nto1" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html">
-    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <link rel="prev" title="2023_08_09__Poisson_cquantile_upperbound" href="2023_08_09__Poisson_cquantile_upperbound.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,6 +108,11 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023_08_09__Poisson_cquantile_upperbound.html">
+   2023_08_09__Poisson_cquantile_upperbound
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2023-08-05__AdEx_Nto1_we_sweep
@@ -654,30 +661,6 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poissongroup-poissoninputs-merged">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonGroup
-    </span>
-   </code>
-   +
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonInput
-    </span>
-   </code>
-   s (merged)
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -690,30 +673,6 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poissongroup-poissoninputs-merged">
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonGroup
-    </span>
-   </code>
-   +
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     PoissonInput
-    </span>
-   </code>
-   s (merged)
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -722,11 +681,116 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="section" id="adex-nto1-we-sweep">
 <h1>2023-08-05__AdEx_Nto1_we_sweep<a class="headerlink" href="#adex-nto1-we-sweep" title="Permalink to this headline">&#182;</a></h1>
+<p>(We&#8217;ve made Nto1AdEx.jl now).</p>
+<p>Let&#8217;s do an unholy python julia brian hybrid.</p>
+<p>(plotting (and nb restarting) in julia still too slow startup).<br>
+But sim is almost 1000x faster than brian.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="o">%</span><span class="n">run</span> <span class="n">lib</span><span class="o">/</span><span class="n">plot</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing numpy, mpl, brian &#8230; &#10004;
+CPU times: total: 4.58 s
+Wall time: 11.9 s
+</pre></div>
+</div>
+</div>
+</div>
+<p><a class="reference external" href="https://github.com/JuliaPy/pyjulia">https://github.com/JuliaPy/pyjulia</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">julia</span> <span class="kn">import</span> <span class="n">Pkg</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 10 s
+Wall time: 17.9 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="s2">".."</span><span class="p">)</span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
+<span class="c1"># output is in nb terminal</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">julia</span> <span class="kn">import</span> <span class="n">Nto1AdEx</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#8337;</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">/</span> <span class="mf">1e9</span>
+<span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#7522;</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#8337;</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 15.6 ms
+Wall time: 68.6 ms
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="n">volt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\left[\begin{matrix}-65.         &amp; -64.99986538 &amp; -64.99623327 &amp; \dots &amp; -54.53301958 &amp; -54.51563329 &amp; -54.49719995\end{matrix}\right]\,\mathrm{m}\mathrm{V}\]</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/neuron.py
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing numpy, brian &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">ceil_spikes_</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">timesig</span><span class="p">(</span><span class="n">V</span><span class="p">),</span> <span class="n">out</span><span class="o">.</span><span class="n">spiketimes</span> <span class="o">*</span> <span class="n">second</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\left[\begin{matrix}-65.         &amp; -64.99986538 &amp; -64.99623327 &amp; \dots &amp; -54.53301958 &amp; -54.51563329 &amp; -54.49719995\end{matrix}\right]\,\mathrm{m}\mathrm{V}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">tlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1000</span><span class="p">]</span><span class="o">*</span><span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_11_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_11_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -735,76 +799,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
 
 <span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">second</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="section" id="poissongroup-poissoninputs-merged">
-<h2><code class="docutils literal notranslate"><span class="pre">PoissonGroup</span></code> + <code class="docutils literal notranslate"><span class="pre">PoissonInput</span></code>s (merged)<a class="headerlink" href="#poissongroup-poissoninputs-merged" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">Nto1_merged</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span><span class="p">,</span> <span class="n">Ne_simmed</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
-    
-    <span class="n">Ni_simmed</span> <span class="o">=</span> <span class="n">Ne_simmed</span>
-
-    <span class="n">Ne</span> <span class="o">=</span> <span class="n">N</span> <span class="o">*</span> <span class="mi">4</span><span class="o">//</span><span class="mi">5</span>
-    <span class="n">Ni</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="n">Ne</span>
-    <span class="n">Ne_merged</span> <span class="o">=</span> <span class="n">Ne</span> <span class="o">-</span> <span class="n">Ne_simmed</span>
-    <span class="n">Ni_merged</span> <span class="o">=</span> <span class="n">Ni</span> <span class="o">-</span> <span class="n">Ni_simmed</span>
-    <span class="n">N_simmed</span> <span class="o">=</span> <span class="n">Ne_simmed</span> <span class="o">+</span> <span class="n">Ni_simmed</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">Ne</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">Ni</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">N_simmed</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">Ne_merged</span><span class="si">=}</span><span class="s2">, </span><span class="si">{</span><span class="n">Ni_merged</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
-    
-    <span class="n">n</span> <span class="o">=</span> <span class="n">COBA_AdEx_neuron</span><span class="p">()</span>
-
-    <span class="n">rates</span> <span class="o">=</span> <span class="n">lognormal</span><span class="p">(</span><span class="n">&#956;</span><span class="p">,</span> <span class="n">&#963;</span><span class="p">,</span> <span class="n">N_simmed</span><span class="p">)</span> <span class="o">*</span> <span class="n">Hz</span>
-    <span class="n">P</span> <span class="o">=</span> <span class="n">PoissonGroup</span><span class="p">(</span><span class="n">N_simmed</span><span class="p">,</span> <span class="n">rates</span><span class="p">)</span>
-    <span class="n">Se</span> <span class="o">=</span> <span class="n">Synapses</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="s2">"ge += we"</span><span class="p">)</span>
-    <span class="n">Si</span> <span class="o">=</span> <span class="n">Synapses</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">on_pre</span><span class="o">=</span><span class="s2">"gi += wi"</span><span class="p">)</span>
-    <span class="n">Se</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"i &lt; Ne_simmed"</span><span class="p">)</span>
-    <span class="n">Si</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"i &gt;= Ne_simmed"</span><span class="p">)</span>
-
-    <span class="n">PIe</span> <span class="o">=</span> <span class="n">PoissonInput</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">'ge'</span><span class="p">,</span> <span class="n">Ne_merged</span><span class="p">,</span> <span class="n">&#956;&#8339;</span><span class="p">,</span> <span class="n">we</span><span class="p">)</span>
-    <span class="n">PIi</span> <span class="o">=</span> <span class="n">PoissonInput</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">'gi'</span><span class="p">,</span> <span class="n">Ni_merged</span><span class="p">,</span> <span class="n">&#956;&#8339;</span><span class="p">,</span> <span class="n">wi</span><span class="p">);</span>
-
-    <span class="n">M</span> <span class="o">=</span> <span class="n">StateMonitor</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">[</span><span class="s2">"V"</span><span class="p">],</span> <span class="n">record</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">S</span> <span class="o">=</span> <span class="n">SpikeMonitor</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">SP</span> <span class="o">=</span> <span class="n">SpikeMonitor</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
-    
-    <span class="n">objs</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">Se</span><span class="p">,</span> <span class="n">Si</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">SP</span><span class="p">]</span>
-    <span class="k">return</span> <span class="o">*</span><span class="n">objs</span><span class="p">,</span> <span class="n">Network</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="o">*</span><span class="n">objs_m</span><span class="p">,</span> <span class="n">net_m</span> <span class="o">=</span> <span class="n">Nto1_merged</span><span class="p">()</span>
-<span class="n">net_m</span><span class="o">.</span><span class="n">store</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ne=5200, Ni=1300, N_simmed=200, Ne_merged=5100, Ni_merged=1200
-CPU times: total: 31.2 ms
-Wall time: 155 ms
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">net_m</span><span class="o">.</span><span class="n">restore</span><span class="p">()</span>
-<span class="n">net_m</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">report</span><span class="o">=</span><span class="s1">'text'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 10. s
-10. s (100%) simulated in 6s
-CPU times: total: 4.86 s
-Wall time: 7.33 s
 </pre></div>
 </div>
 </div>
@@ -1305,7 +1299,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_32_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_32_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1320,7 +1314,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_26_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_26_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_33_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_33_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1342,7 +1336,7 @@ Wall time: 7.33 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_34_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_34_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1361,7 +1355,6 @@ Wall time: 7.33 s
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.9893582466233818
 </pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -1392,11 +1385,11 @@ Wall time: 7.33 s
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="2023_08_09__Poisson_cquantile_upperbound.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+            <p class="prev-next-title">2023_08_09__Poisson_cquantile_upperbound</p>
         </div>
     </a>
     <a class="right-next" id="next-link" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html" title="next page">
