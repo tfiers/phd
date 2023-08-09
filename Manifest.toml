@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "44656be0237184e93904c09781ea7366716f401a"
+project_hash = "194d92f68b9d0fffd9ea12e9434ee2eaa42fdb16"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -774,6 +774,12 @@ version = "1.0.1"
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
 version = "1.2.0"
+
+[[deps.Nto1AdEx]]
+deps = ["GlobalMacros", "Random", "Units"]
+path = "pkg/Nto1AdEx"
+uuid = "368485ca-63bc-4029-854f-349d2205662c"
+version = "0.1.0"
 
 [[deps.Observables]]
 git-tree-sha1 = "6862738f9796b3edc1c09d0890afce4eca9e7e93"

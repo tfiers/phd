@@ -1,0 +1,27 @@
+# This file is machine-generated - editing it directly is not advised
+
+julia_version = "1.9.0-beta3"
+manifest_format = "2.0"
+project_hash = "b4d78cfd27528ffd43a2805726551a2ea48749e8"
+
+[[deps.GlobalMacros]]
+path = "../GlobalMacros"
+uuid = "4356e881-4961-4a42-bf31-d836fc29b3e6"
+version = "0.1.0"
+
+[[deps.Random]]
+deps = ["SHA", "Serialization"]
+uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
+[[deps.SHA]]
+uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
+
+[[deps.Serialization]]
+uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
+
+[[deps.Units]]
+deps = ["GlobalMacros"]
+path = "../Units"
+uuid = "5f9f03f5-0b03-427c-97a9-9b017c0d1095"
+version = "0.1.0"
