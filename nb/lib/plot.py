@@ -1,4 +1,8 @@
 
+print("Importing numpy, mpl, brian", end=" … ")
+from brian2 import *
+print("✔")
+
 import matplotlib_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina')
 
@@ -59,8 +63,6 @@ def reset_and_apply():
     mpl.rcParams.update(style)
 
 reset_and_apply()
-
-from brian2 import *
 
 def savefig_thesis(name, fig=None):
     if fig is None:

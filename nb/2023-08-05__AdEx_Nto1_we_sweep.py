@@ -15,59 +15,52 @@
 
 # # 2023-08-05__AdEx_Nto1_we_sweep
 
+# (We've made Nto1AdEx.jl now).
+#
+# Let's do an unholy python julia brian hybrid.
+#
+# (plotting (and nb restarting) in julia still too slow startup).  
+# But sim is almost 1000x faster than brian.
+
+# %%time
+# %run lib/plot.py
+
+# https://github.com/JuliaPy/pyjulia
+
+# %%time
+from julia import Pkg
+
+# %%time
+Pkg.activate("..")
+Pkg.status()
+# output is in nb terminal
+
+# %%time
+from julia import Nto1AdEx
+
+# %%time
+Nto1AdEx.wₑ = 15 / 1e9
+Nto1AdEx.wᵢ = 4 * Nto1AdEx.wₑ
+out = Nto1AdEx.sim(6500, 10);
+
+V = (out.V * volt)
+
 # %run lib/neuron.py
+
+V = ceil_spikes_(V, timesig(V), out.spiketimes * second)
+
+plotsig(V, tlim=[0,1000]*ms);
+
+
+
+
 
 # +
 we = 14 * pS
 wi = 4 * we
 
 T = 10*second;
-
-
 # -
-
-# ## `PoissonGroup` + `PoissonInput`s (merged)
-
-def Nto1_merged(N = 6500, Ne_simmed = 100):
-    
-    Ni_simmed = Ne_simmed
-
-    Ne = N * 4//5
-    Ni = N - Ne
-    Ne_merged = Ne - Ne_simmed
-    Ni_merged = Ni - Ni_simmed
-    N_simmed = Ne_simmed + Ni_simmed
-    print(f"{Ne=}, {Ni=}, {N_simmed=}, {Ne_merged=}, {Ni_merged=}")
-    
-    n = COBA_AdEx_neuron()
-
-    rates = lognormal(μ, σ, N_simmed) * Hz
-    P = PoissonGroup(N_simmed, rates)
-    Se = Synapses(P, n, on_pre="ge += we")
-    Si = Synapses(P, n, on_pre="gi += wi")
-    Se.connect("i < Ne_simmed")
-    Si.connect("i >= Ne_simmed")
-
-    PIe = PoissonInput(n, 'ge', Ne_merged, μₓ, we)
-    PIi = PoissonInput(n, 'gi', Ni_merged, μₓ, wi);
-
-    M = StateMonitor(n, ["V"], record=[0])
-    S = SpikeMonitor(n)
-    SP = SpikeMonitor(P)
-    
-    objs = [n, P, Se, Si, M, S, SP]
-    return *objs, Network(objs)
-
-
-# %%time
-*objs_m, net_m = Nto1_merged()
-net_m.store()
-
-# %%time
-net_m.restore()
-net_m.run(T, report='text')
-
-
 
 # ---
 #
