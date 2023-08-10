@@ -20,11 +20,12 @@ function poisson_spikes(r, T)
     # ↪ That linear formula is an approximate upper bound on `cquantile(Poisson(r*T), 1E-14)`
     spikes = Vector{Float64}(undef, max_N)
     N = 0
-    t = randexp() / r
+    rand_ISI() = randexp() / r
+    t = rand_ISI()
     while t ≤ T
         N += 1
         spikes[N] = t
-        t += randexp() / r
+        t += rand_ISI()
     end
     resize!(spikes, N)
 end
