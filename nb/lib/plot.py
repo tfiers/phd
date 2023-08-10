@@ -1,7 +1,9 @@
 
-print("Importing numpy, mpl, brian", end=" … ")
-from brian2 import *
-print("✔")
+# print("Importing numpy, mpl, brian", end=" … ")
+# from brian2 import *
+# print("✔")
+from brian2.units import *
+import matplotlib.pyplot as plt
 
 import matplotlib_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina')
@@ -212,7 +214,7 @@ def plotsig(
     ax.set_xlabel(xlabel)
     return ax
 
-def timesig(y, dt=defaultclock.dt, t0=0 * second):
+def timesig(y, dt=0.1*ms, t0=0 * second):
     N = y.size
     T = N * dt
     return linspace(t0, t0+T, N)
