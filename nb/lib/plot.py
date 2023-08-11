@@ -15,8 +15,8 @@ import matplotlib as mpl
 # Based on the memoir-class latex pdf in ../thesis/
 # In inches
 paperwidth = 8.3
-marginwidth = 0.28 * paperwidth  # From totex/Settings.tex → \marginwidth
-maintextwidth = 324 / 72         # From latexmk output → Text width
+marginwidth = mw = 0.28 * paperwidth  # From totex/Settings.tex → \marginwidth
+maintextwidth = mtw = 324 / 72        # From latexmk output → Text width
 
 
 style = {
@@ -182,8 +182,10 @@ def rm_ticks_and_spine(ax, where="bottom"):
     ax.tick_params(which="both", **{where: False})
     if where in ("bottom", "top"):
         ax.set_xlabel(None)
+        ax.set_xticklabels([])
     else:
         ax.set_ylabel(None)
+        ax.set_yticklabels([])
 
 def plotsig(
         y,

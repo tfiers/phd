@@ -110,40 +110,36 @@ df.groupby("we_pS").mean()
 # %run lib/util.py
 
 # +
-def plot_dots_and_means(x, y, ax = None):
-    if ax is None:
-        fig, ax = plt.subplots()
+def plot_dots_and_means(x, y, ax = None, **kw):
     xu = unique(x)
     ym = [mean(y[x == xi]) for xi in xu]
-    ax.plot(xu, ym, "-", lw=2)
-    ax.plot(x, y, "k.", ms=4, mfc='k', mec='none')
+    plot(xu, ym, "-", lw=2, ax=ax, **kw, clip_on=False)
+    plot(x, y, "k.", ms=4, mfc='k', mec='none', ax=ax, **kw, clip_on=False)
     
-fig, ax = plt.subplots()
-plot_dots_and_means(df.we_pS, df.median_Vm_mV, ax)
+fig, ax = plt.subplots(figsize=(0.9*mw, 0.6*mw))
+xlim = [0, 30]
+plot_dots_and_means(df.we_pS, df.median_Vm_mV, ax, xlim=xlim, ylim=[-65.2, -50])
 hylabel(ax, "Median $V_m$ (mV)")
 xl = "$Δg_\\mathrm{exc}$ (pS)"
-plt.xlim(-1, 31)
 plt.xlabel(xl);
 # -
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(0.9*mw, 0.6*mw))
 plt.axhline(0, 0, 1, c="black", lw=1)
-plot_dots_and_means(df.we_pS, df.output_rate_Hz, ax)
+plot_dots_and_means(df.we_pS, df.output_rate_Hz, ax, ylim=[-0.2, 15], xlim=xlim)
 hylabel(ax, "Output firing rate (Hz)")
-plt.ylim(-1, 16)
 plt.xlabel(xl);
 
-fig, axs = plt.subplots(figsize=(2.4, 3.4), nrows=2)
+# %run lib/plot.py
+
+fig, axs = plt.subplots(figsize=(0.9*mw, 1.3*mw), nrows=2)
 axs[1].axhline(0, 0, 1, c="black", lw=1)
-plot_dots_and_means(df.we_pS, df.median_Vm_mV, axs[0])
-plot_dots_and_means(df.we_pS, df.output_rate_Hz, axs[1])
-axs[1].set_ylim(-1, 15)
-axs[1].set_xlim(-1, 31)
-axs[0].set_xlim(-1, 31)
-axs[0].set_ylim(-66, -50)
+plot_dots_and_means(df.we_pS, df.median_Vm_mV, axs[0], xlim=xlim, ylim=[-65, -50], nbins_x=4)
+plot_dots_and_means(df.we_pS, df.output_rate_Hz, axs[1], xlim=xlim, ylim=[-0, 15], nbins_x=4)
 hylabel(axs[0], "Median $V_m$ (mV)")
 hylabel(axs[1], "Output firing rate (Hz)")
-plt.tight_layout(h_pad=2)
+rm_ticks_and_spine(axs[0])
+plt.tight_layout(h_pad=1.4)
 axs[1].set_xlabel(xl);
 savefig_thesis("input_drive_we")
 
