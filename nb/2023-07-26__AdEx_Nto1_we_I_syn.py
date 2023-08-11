@@ -22,26 +22,24 @@ set_seed(1)
 net.store()
 
 net.restore()
-we = 14 * pS
+we = 15 * pS
 wi = we * 4
 T = 1 * second
 net.run(T, report='text')
 
 n, P, Se, Si, M, S, SP = objs;
 
-# %run lib/plot.py
-
-kw = dict(tlim = [300, 500]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
+kw = dict(tlim = [550, 750]*ms, t_unit=ms, nbins_y=3, yaxloc="right")
 fig, axs = plt.subplots(figsize=(4, 5.5), nrows=5, sharex=True, height_ratios=[1,1,1,1,1])
 add_hline(axs[1])
 add_hline(axs[-1])
-plotsig(M.ge[0], "$g_e$ & $g_i$", **kw, ylim=[0, 2.8], ax=axs[0], color="C2", label="$g_e$")
-plotsig(M.gi[0], None, **kw, ylim=[0, 2.8], ax=axs[0], color="C1", label="$g_i$")
+plotsig(M.ge[0], "$g_e$ & $g_i$", **kw, ylim=[0, 3], ax=axs[0], color="C2", label="$g_e$")
+plotsig(M.gi[0], None, **kw, ax=axs[0], color="C1", label="$g_i$")
 axs[0].legend(loc="lower left", ncols=2, fontsize="x-small")
-plotsig(M.ge[0] - M.gi[0], "$g_e - g_i$", **kw, ylim=[-.75,.75], ax=axs[1], y_unit=nS)
-plotsig(-M.I[0], "$-I_\mathrm{syn}$", ylim=[25, 85], **kw, ax=axs[2])
+plotsig(M.ge[0] - M.gi[0], "$g_e - g_i$", **kw, ylim=[-.85,.85], ax=axs[1], y_unit=nS)
+plotsig(-M.I[0], "$-I_\mathrm{syn}$", ylim=[30, 90], **kw, ax=axs[2])
 plotsig(M.V[0], "$V$", **kw, ylim=[-60, -45], ax=axs[3])
-plotsig(M.w[0], "$w$", **kw, ylim=[-20, 60], ax=axs[4], xlim=kw["tlim"]/ms)
+plotsig(M.w[0], "$w$", **kw, ylim=[-10.02, 70], ax=axs[4], xlim=kw["tlim"]/ms)
 axs[-1].set_xlabel(None)
 for ax in axs[0:-1]:
     ax.set_xlabel(None)

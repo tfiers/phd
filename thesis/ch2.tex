@@ -1,5 +1,5 @@
 
-\section{The AdEx neuron model}
+\section{The AdEx neuron}
 
 We choose to simulate the `AdEx' point neuron model, or the `adaptive exponential integrate-and-fire' neuron\cite{Brette2005AdaptiveExponentialIntegrateandFirea}, with conductance-based synaptic currents.
 The AdEx neuron is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
@@ -75,6 +75,8 @@ For a full description of the different firing patterns that the AdEx neuron can
 For an even fuller description, including a derivation of two-dimensional neuron models from higher-dimensional, Hodgkin-Huxley-like models, see Eugene Izhikevich's book, \citetitle*{Izhikevich2007DynamicalSystemsNeuroscience} \cite{Izhikevich2007DynamicalSystemsNeuroscience}.
 
 In terms of parameter choice, we choose to simulate a cortical regular spiking (RS) neuron, i.e. a `standard' excitatory neuron that does not display e.g. bursting or fast-spiking behaviour. We take our parameter values from \cite{Naud2008FiringPatternsAdaptive}\footnote{Section 6, and Table 1, row 3}, where they fitted an AdEx model to recordings from real cortical RS neurons injected with different step currents. Parameter values are listed in \cref{tab:AdEx-params}.
+
+Examples of the signals $V$ and $w$ that this model generates are given later, in \cref{fig:impulse_response} and \cref{fig:all_sigs_6500}.
 
 % Slowly injecting current $I$ shifts Izhikevich's parabola upwards, raising the resting potential and lowering the spiking threshold. At a certain point, the two fixed points merge and disappear ("annihilate"), in a "saddle--node"\fnm or "fold" bifurcation. The voltage can only go up -- and with the reset of \cref{eq:Izh_V_reset}, the neuron keeps spiking.
 
@@ -335,8 +337,9 @@ We choose an excitatory reversal potential of $E_\exc = 0$~mV, an inhibitory one
 
 
 \section{Model summary}
+\label{sec:model-summary}
 
-Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq:dge-dgi}, our complete conductance-based, AdEx point neuron model is:
+Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq:dge-dgi}, our complete AdEx point neuron with conductance-based synaptic current is:
 
 \begin{align*}
     & C \d{V} =  -g_L (V - E_L)
@@ -351,7 +354,9 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
 \marginpar{
     % \vspace*{-1em}
     \includegraphics[w=1.07]{impulse_response}
-    \captionof{figure}{\small{Response of the conductance-based AdEx neuron to a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}}
+    \captionof{figure}{
+        \textbf{Impulse response of the conductance-based AdEx neuron},
+        \small{using a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}}
     \label{fig:impulse_response}
 }
 \begin{alignat*}{2}
@@ -369,7 +374,7 @@ We solve these equations numerically using first-order (Euler) integration, with
 \Cref{fig:impulse_response} shows the impulse response of this model, using a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
 
 \FloatBarrier
-\section{Input spikes in the N-to-1 setup}
+\section{Input in the N-to-1 setup}
 
 In our simplest experimental setup, we simulate just one AdEx neuron.
 Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process. We call this the `N-to-1' setup.
@@ -391,9 +396,55 @@ Log-normal distributions are usually parametrized with $μ$ and $σ$: the locati
 
 \Citeauthor{Roxin2011DistributionFiringRates} use a mean rate $μ_x$ of $5$ Hz and a variance of the logarithm of the rate $σ^2 = 1.04$ in their figure 2. \Authorref{Hromadka2008SparseRepresentationSounds} recorded neurons in the auditory cortex of awake rats during acoustic stimulation. They find a mean firing rate $μ_x$ of $6.2$ Hz and a median of $2.4$ Hz; no numeric variances are given. \Authorref{OConnor2010NeuralActivityBarrel} recorded neurons in the barrel (whisker) cortex of behaving mice. Ensembled over all layers of the cortex they recorded from, they report $μ_x = 7.4$ Hz, $σ_x = 12.6$ Hz, a median of $1.5$ Hz, and an interquartile range of $9.5$ Hz. This corresponds to a Gaussian variance of $σ^2 = \ln(1 + σ_x^2 / μ_x^2) = 0.30$. The Roxin and O'Connor distributions are also shown in \cref{fig:log-normal}.
 
-Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as our idea for connection inference rests on the number of spikes that can be used to calculate spike-triggered averages, we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
+Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as our idea for connection inference rests on the number of spikes that can be used to calculate spike-triggered averages (see \cref{ch:STA}), we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
 
 Our log-normal distribution has a median of $2.96$ Hz, very close to Roxin's $2.97$ Hz. O'Connor's has $6.4$ Hz, which is markedly different from the median of $1.5$ Hz they reported (hinting that their data distribution might not be log-normal).
+
+\subsection{Synaptic weights}
+
+We choose to simulate EI-balanced input, where we simulate four times as many excitatory as inhibitory input spiketrains; but with the inhibitory inputs four times as strong as the excitatory inputs.
+
+I.e. if our total number of input spiketrains is $N = 6500$, we have $N_\exc = 5200$ excitatory inputs, and $N_\inh = 1300$ inhibitory inputs. In the N-to-1-setup, we give every input of the same type the same weight. I.e. in the model summary (\cref{sec:model-summary}), $∀ i : Δg_i = Δg_\exc$ and $∀ j : Δg_j = Δg_\inh$.
+If we would thus choose $Δg_\exc = 10$~pS, then, for EI-balanced input, $Δg_\inh$ would be $40$~pS.
+
+\marginpar{
+    \includegraphics[w=1.04]{input_drive_we}
+    \captionof{figure}{
+        \textbf{Activity level of the output neuron in the N-to-1 setup, for increasing  input strength $Δg_\exc$}.\\
+        \small{With $N = 6500$ EI-balanced inputs, and $Δg_\inh = 4 · Δg_\exc$.\\
+        The blue line is the average over 10 different simulations (black dots), each with a different random seed for the input spike train generation.\\
+        Increasing input first heightens the voltage level without increasing the firing rate, and later heightens the firing rate without increasing the voltage level further.\\
+        $V_m ≡ V =$~membrane voltage.\\
+        Source: \nburl{2023-08-05__AdEx_Nto1_we_sweep}}.
+    }
+    \label{fig:input_drive_we}
+}
+
+To choose a value $Δg_\exc$ for the excitatory input strength, we look at the desired output firing rate of our one simulated neuron. We want it to spike at a realistic, average rate. Thus, we try for it to have the same output firing rate as the mean input firing rate: $μ_x = 4$~Hz. This rate is achieved by testing a range of different input drives $Δg_\exc$: see \cref{fig:input_drive_we}.
+For $N = 6500$ inputs, we find an average output firing rate of $4.0$~Hz at $Δg_\exc = 15$~pS (and thus $Δg_\inh = 60$~pS).
+
+Two asides on \cref{fig:input_drive_we}. First, from the bottom panel, we see that the AdEx model, with parameters for a cortical RS (regular spiking) neuron, is a so called `Type I' neuron:\footnote{\url{https://neuronaldynamics.epfl.ch/online/Ch4.S4.html}} the firing rate can be made arbitrarily low, and there is no discontinuous jump from 0 Hz to some minimum firing rate.
+
+Second, why does the output activity level increase for increasing excitatory input, if the inhibitory input becomes stronger by the same amount? The answer lies in the synaptic reversal potentials, which are $E_\exc = -80$~mV and $E_\inh = 0$~mV. The median membrane voltage (top panel in \cref{fig:input_drive_we}), at about $-60$~mV, lies closer to the inhibitory reversal potential than the excitatory potential, making the inhibitory term of the synaptic current $I_\syn$ weaker than the excitatory term  (\cref{eq:I_syn_simple}).
+
+% \FloatBarrier
+\begin{figure}
+    \begin{sidecaption}
+        {\textbf{The different signals in the conductance-based AdEx model}.\\
+        \small{Example signal traces, in the N-to-1 setup, with $N = 6500$ EI-balanced input spiketrains, and $Δg_\exc = 15$~pS. Neuron parameters for a cortical regular spiking neuron.\\
+        Note that the synaptic current signal $-I_\syn$ is very similar to the difference of the excitatory and inhibitory synaptic conductances, as long as the membrane voltage $V$ does not vary too much; on a spike (here at $t ≈ 680$~ms), $I_\syn$ spikes as well.\\
+        Also note that the neuron spikes at a time when the inhibitory input randomly falls below the excitatory input, for a certain time. Spikes are 'fluctuation driven' in this input regime.\\
+        $g_e ≡ g_\exc$ and $g_i ≡ g_\inh$.\\
+        The $V$ and $-I_\syn$ signals are cut-off by the plot boundaries at the spike time. \\
+        Source: \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}
+        }
+        [fig:all_sigs_6500]
+        \includegraphics[w=1.04]{all_sigs_6500}
+    \end{sidecaption}
+\end{figure}
+
+The fact that this EI-balanced input leads to a net-excitatory effect can also be seen in \cref{fig:all_sigs_6500}: the signal $g_\exc - g_\inh$ hovers around zero, but the signal $I_\syn$ -- even though it has largely the same shape -- is nowhere near zero.
+
 
 
 \section{Voltage imaging}
@@ -449,3 +500,5 @@ To numerically simulate the model described in this chapter, different software 
 \end{table}
 
 Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
+
+\emph{\{to expand a bit\}}

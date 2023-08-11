@@ -1,8 +1,8 @@
 
-from brian2.numpy_ import *
 from plot import *
+from brian2.numpy_ import *
 
-print("Importing pandas", end=" … ")
+print("importing pandas", end=" … ")
 import pandas as pd
 print("✔")
 

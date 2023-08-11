@@ -1,11 +1,10 @@
 # Conductance-based AdEx neuron.
 # Parameters for a cortical regular spiking (RS) neuron, from Naud 2008.
 
-print("importing numpy, brian", end=" … ")
-from brian2 import *
-print("✔")
-
 from util import *
+from brian2 import *
+
+set_seed = seed
 
 C   = 104  * pF
 gL  = 4.3  * nS

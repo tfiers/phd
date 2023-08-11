@@ -1,6 +1,8 @@
 
-print("Importing mpl, brian", end=" … ")
+print("importing mpl", end=" … ")
 import matplotlib.pyplot as plt
+print("✔")
+print("importing brian", end=" … ")
 from brian2.units import *
 print("✔")
 
