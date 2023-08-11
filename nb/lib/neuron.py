@@ -5,6 +5,8 @@ print("importing numpy, brian", end=" … ")
 from brian2 import *
 print("✔")
 
+from util import *
+
 C   = 104  * pF
 gL  = 4.3  * nS
 EL  = -65  * mV
@@ -38,18 +40,8 @@ def COBA_AdEx_neuron(N = 1):
     return n
 
 
-def ceil_spikes(M: StateMonitor, S: SpikeMonitor, var='V', n=0, V_ceil=Vs):
+def ceil_spikes_brian(M: StateMonitor, S: SpikeMonitor, var='V', n=0, V_ceil=Vs):
     "For nice plots, set the voltage trace to some constant at spike times"
     V = getattr(M, var)[n]
     spikes = S.t[S.i == n]
-    return ceil_spikes_(V, M.t, spikes, V_ceil)
-
-def ceil_spikes_(V, t, spiketimes, V_ceil=Vs):
-    i = np.searchsorted(t, spiketimes)
-    V[i] = V_ceil
-    return V
-
-
-# Some utility renaming:
-pS = psiemens
-set_seed = seed
+    return ceil_spikes(V, M.t, spikes, V_ceil)

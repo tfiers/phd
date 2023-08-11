@@ -1,9 +1,8 @@
 
-# print("Importing numpy, mpl, brian", end=" … ")
-# from brian2 import *
-# print("✔")
-from brian2.units import *
+print("Importing mpl, brian", end=" … ")
 import matplotlib.pyplot as plt
+from brian2.units import *
+print("✔")
 
 import matplotlib_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina')

@@ -2,7 +2,9 @@
 
 - part: Notebooks
   chapters:
-    - file: nb/2023_08_09__Poisson_cquantile_upperbound
+    - file: nb/2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia
+    - file: nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only
+    - file: nb/2023-08-09__Poisson_cquantile_upperbound
     - file: nb/2023-08-05__AdEx_Nto1_we_sweep
     - file: nb/2023-08-02__speedtest_brian_standalone_AdEx_Nto1
     - file: nb/2023-08-02__Julia_speedtest_AdEx_Nto1

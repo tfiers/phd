@@ -20,8 +20,6 @@ using Random
     Eₑ =   0 * mV
     Eᵢ = -80 * mV
     τg =   7 * ms
-    wₑ =  14 * pS
-    wᵢ =   4 * wₑ
     # Simulation timestep
     Δt = 0.1 * ms
     # Input firing rate distribution
@@ -84,7 +82,7 @@ multiplex(spiketrains) = begin
     sort!(spikes)
 end
 
-sim(N, duration, seed=1) = begin
+sim(N, duration, seed=1, wₑ=14*pS, wᵢ=4*wₑ) = begin
     Random.seed!(seed)
     num_steps = round(Int, duration / Δt)
     t = 0 * second
@@ -120,7 +118,7 @@ sim(N, duration, seed=1) = begin
         t += Δt
     end
     spikerate = length(spiketimes) / duration
-    return (; V, spiketimes, rates, trains, Nₑ, spikerate)
+    return (; V, spiketimes, rates, trains, Nₑ, spikerate, wₑ)
 end
 
 end
