@@ -671,6 +671,19 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-for-diff-n">
+   Now, for diff N
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -683,6 +696,19 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#now-for-diff-n">
+   Now, for diff N
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -1091,6 +1117,13 @@ Importing pandas &#8230; &#10004;
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/2023-08-05__AdEx_Nto1_we_sweep.csv"</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># groupby no work w/ brian units</span>
 <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"we_pS"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
@@ -1241,43 +1274,31 @@ Importing pandas &#8230; &#10004;
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/plot.py
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing mpl, brian &#8230; &#10004;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/util.py
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Importing pandas &#8230; &#10004;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_dots_and_means</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_dots_and_means</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
     <span class="n">xu</span> <span class="o">=</span> <span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">ym</span> <span class="o">=</span> <span class="p">[</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">x</span> <span class="o">==</span> <span class="n">xi</span><span class="p">])</span> <span class="k">for</span> <span class="n">xi</span> <span class="ow">in</span> <span class="n">xu</span><span class="p">]</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xu</span><span class="p">,</span> <span class="n">ym</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"k."</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">xu</span><span class="p">,</span> <span class="n">ym</span><span class="p">,</span> <span class="s2">"-"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">"k."</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">mfc</span><span class="o">=</span><span class="s1">'k'</span><span class="p">,</span> <span class="n">mec</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">,</span> <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="o">*</span><span class="n">mw</span><span class="p">,</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">mw</span><span class="p">))</span>
+<span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">65.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">])</span>
 <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"Median $V_m$ (mV)"</span><span class="p">)</span>
 <span class="n">xl</span> <span class="o">=</span> <span class="s2">"$&#916;g_</span><span class="se">\\</span><span class="s2">mathrm</span><span class="si">{exc}</span><span class="s2">$ (pS)"</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_25_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="o">*</span><span class="n">mw</span><span class="p">,</span> <span class="mf">0.6</span><span class="o">*</span><span class="n">mw</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">)</span>
+<span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"Output firing rate (Hz)"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1288,32 +1309,14 @@ Importing pandas &#8230; &#10004;
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">ax</span><span class="p">)</span>
-<span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s2">"Output firing rate (Hz)"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.4</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="n">mw</span><span class="p">,</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">mw</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">66</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">median_Vm_mV</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">65</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">],</span> <span class="n">nbins_x</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">we_pS</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">output_rate_Hz</span><span class="p">,</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">nbins_x</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">hylabel</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">"Median $V_m$ (mV)"</span><span class="p">)</span>
 <span class="n">hylabel</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"Output firing rate (Hz)"</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">1.4</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xl</span><span class="p">);</span>
 <span class="n">savefig_thesis</span><span class="p">(</span><span class="s2">"input_drive_we"</span><span class="p">)</span>
 </pre></div>
@@ -1323,7 +1326,325 @@ Importing pandas &#8230; &#10004;
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/input_drive_we.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_1.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_28_1.png">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_1.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_27_1.png">
+</div>
+</div>
+<div class="section" id="now-for-diff-n">
+<h2>Now, for diff N<a class="headerlink" href="#now-for-diff-n" title="Permalink to this headline">&#182;</a></h2>
+<p>First, which N finally chosen.<br>
+Something &#177; looking evenly spaced on log scale.<br>
+(but maybe also nice integers).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ns</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="mi">3200</span><span class="p">,</span> <span class="mi">6500</span><span class="p">]</span>
+<span class="n">N&#8337;s</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">Ns</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span><span class="o">/</span><span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([   8.,   16.,   36.,   80.,  160.,  320.,  640., 1280., 2560.,
+       5200.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">run</span> lib/plot.py
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing mpl &#8230; &#10004;
+importing brian &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">Ns</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">Ns</span><span class="p">),</span> <span class="s2">"."</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">ytype</span><span class="o">=</span><span class="s2">"off"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_32_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_32_0.png">
+</div>
+</div>
+<p>Or if you want less sims to run, a subset:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Ns2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="mi">6500</span><span class="p">];</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">Ns2</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">Ns2</span><span class="p">),</span> <span class="s2">"."</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">ytype</span><span class="o">=</span><span class="s2">"off"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_34_0.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_34_0.png">
+</div>
+</div>
+<p>Seeds for search:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w0</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">N</span><span class="p">:</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">pS</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6500</span> <span class="o">/</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="n">w0s</span> <span class="o">=</span> <span class="p">[</span><span class="n">w0</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">Ns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[9.75 * nsiemens,
+ 4.875 * nsiemens,
+ 2.16666667 * nsiemens,
+ 0.975 * nsiemens,
+ 0.4875 * nsiemens,
+ 243.75 * psiemens,
+ 121.875 * psiemens,
+ 60.9375 * psiemens,
+ 30.46875 * psiemens,
+ 15. * psiemens]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">root_scalar</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">avg_spikerate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">nseeds</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">second</span><span class="p">):</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nseeds</span><span class="p">):</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">T</span><span class="o">/</span><span class="n">second</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">+=</span> <span class="n">sim</span><span class="o">.</span><span class="n">spikerate</span>
+        
+    <span class="k">return</span> <span class="n">R</span> <span class="o">/</span> <span class="n">nseeds</span> <span class="o">*</span> <span class="n">Hz</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">target_fr</span> <span class="o">=</span> <span class="mf">4.0</span><span class="o">*</span><span class="n">Hz</span><span class="p">):</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="n">avg_spikerate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">fr</span> <span class="o">-</span> <span class="n">target_fr</span><span class="p">)</span> <span class="o">/</span> <span class="n">Hz</span>
+
+<span class="n">w&#8337;s</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Ns</span><span class="p">,</span> <span class="n">w0s</span><span class="p">):</span>
+    <span class="c1"># Scipy no work w/ brian units:</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">w0</span><span class="o">/</span><span class="n">siemens</span>  <span class="c1"># `/=` no work..</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">N</span><span class="si">=}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Init: </span><span class="si">{</span><span class="n">w0</span><span class="o">*</span><span class="n">siemens</span><span class="si">}</span><span class="s2"> &#8594; </span><span class="si">{</span><span class="n">avg_spikerate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w0</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Finding root"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" &#8230; "</span><span class="p">)</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">root_scalar</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bracket</span><span class="o">=</span><span class="p">[</span><span class="n">w0</span><span class="o">/</span><span class="mi">4</span><span class="p">,</span> <span class="n">w0</span><span class="o">*</span><span class="mi">4</span><span class="p">],</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">N</span><span class="p">,),</span> <span class="n">xtol</span><span class="o">=</span><span class="n">w0</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"&#10004; (</span><span class="si">{</span><span class="n">sol</span><span class="o">.</span><span class="n">iterations</span><span class="si">=}</span><span class="s2">)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Found: </span><span class="si">{</span><span class="n">sol</span><span class="o">.</span><span class="n">root</span><span class="o">*</span><span class="n">siemens</span><span class="si">}</span><span class="s2"> &#8594; </span><span class="si">{</span><span class="n">avg_spikerate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">root</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">w&#8337;s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">root</span><span class="o">*</span><span class="n">siemens</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N=10
+Init: 9.75 nS &#8594; 24.48 Hz
+Finding root &#8230; &#10004; (sol.iterations=6)
+Found: 2.83884334 nS &#8594; 3.99 Hz
+
+N=20
+Init: 4.875 nS &#8594; 18.11 Hz
+Finding root &#8230; &#10004; (sol.iterations=5)
+Found: 1.85624115 nS &#8594; 4. Hz
+
+N=45
+Init: 2.16666667 nS &#8594; 13.27 Hz
+Finding root &#8230; &#10004; (sol.iterations=7)
+Found: 1.052897 nS &#8594; 4.01 Hz
+
+N=100
+Init: 0.975 nS &#8594; 9.97 Hz
+Finding root &#8230; &#10004; (sol.iterations=6)
+Found: 0.58695123 nS &#8594; 4. Hz
+
+N=200
+Init: 0.4875 nS &#8594; 7.84 Hz
+Finding root &#8230; &#10004; (sol.iterations=5)
+Found: 0.33519511 nS &#8594; 4.01 Hz
+
+N=400
+Init: 243.75 pS &#8594; 6.85 Hz
+Finding root &#8230; &#10004; (sol.iterations=8)
+Found: 183.88420978 pS &#8594; 4. Hz
+
+N=800
+Init: 121.875 pS &#8594; 5.83 Hz
+Finding root &#8230; &#10004; (sol.iterations=6)
+Found: 100.2994751 pS &#8594; 4. Hz
+
+N=1600
+Init: 60.9375 pS &#8594; 4.73 Hz
+Finding root &#8230; &#10004; (sol.iterations=9)
+Found: 55.84664628 pS &#8594; 4.01 Hz
+
+N=3200
+Init: 30.46875 pS &#8594; 4.46 Hz
+Finding root &#8230; &#10004; (sol.iterations=9)
+Found: 29.04560215 pS &#8594; 4. Hz
+
+N=6500
+Init: 15. pS &#8594; 4. Hz
+Finding root &#8230; &#10004; (sol.iterations=11)
+Found: 15.03590947 pS &#8594; 4. Hz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frs</span> <span class="o">=</span> <span class="p">[</span><span class="n">avg_spikerate</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">w</span><span class="o">/</span><span class="n">siemens</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">Ns</span><span class="p">,</span> <span class="n">w&#8337;s</span><span class="p">)];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="n">w0s</span><span class="p">)</span> <span class="o">/</span> <span class="n">array</span><span class="p">(</span><span class="n">w&#8337;s</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">units_to_header</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="n">Ns</span><span class="p">,</span> <span class="n">we</span><span class="o">=</span><span class="n">w&#8337;s</span><span class="p">,</span> <span class="n">fr</span><span class="o">=</span><span class="n">frs</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>N</th>
+      <th>we_nS</th>
+      <th>fr_Hz</th>
+      <th>factor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>10</td>
+      <td>2.838843</td>
+      <td>3.99</td>
+      <td>3.434497</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>20</td>
+      <td>1.856241</td>
+      <td>4.00</td>
+      <td>2.626275</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>45</td>
+      <td>1.052897</td>
+      <td>4.01</td>
+      <td>2.057814</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>100</td>
+      <td>0.586951</td>
+      <td>4.00</td>
+      <td>1.661126</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>200</td>
+      <td>0.335195</td>
+      <td>4.01</td>
+      <td>1.454377</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>400</td>
+      <td>0.183884</td>
+      <td>4.00</td>
+      <td>1.325562</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>800</td>
+      <td>0.100299</td>
+      <td>4.00</td>
+      <td>1.215111</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>1600</td>
+      <td>0.055847</td>
+      <td>4.01</td>
+      <td>1.091158</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>3200</td>
+      <td>0.029046</td>
+      <td>4.00</td>
+      <td>1.048997</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>6500</td>
+      <td>0.015036</td>
+      <td>4.00</td>
+      <td>0.997612</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/2023-08-05__AdEx_Nto1__w&#8337;s_for_4Hz_for_all_N.csv"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">&#916;w</span> <span class="o">=</span> <span class="s2">"$\Delta g_\mathrm</span><span class="si">{exc}</span><span class="s2">$"</span>
+<span class="n">sett</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7000</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s2">"Num inputs $N$"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Synaptic strength </span><span class="si">{</span><span class="n">&#916;w</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">Ns</span><span class="p">,</span> <span class="n">w0s</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">,</span> <span class="n">xscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">yscale</span><span class="o">=</span><span class="s2">"log"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Initial guess"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">Ns</span><span class="p">,</span> <span class="n">w&#8337;s</span><span class="p">,</span> <span class="s2">".-"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Actual </span><span class="si">{</span><span class="n">&#916;w</span><span class="si">}</span><span class="s2"> needed"</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Input needed to reach output firing rate of 4.0 Hz"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.05</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">savefig_thesis</span><span class="p">(</span><span class="s2">"we-for-4Hz-for-all-N"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/we-for-4Hz-for-all-N.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2023-08-05__AdEx_Nto1_we_sweep_43_1.png" src="../_images/2023-08-05__AdEx_Nto1_we_sweep_43_1.png">
+</div>
 </div>
 </div>
 </div>
