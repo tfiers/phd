@@ -2,6 +2,8 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 
+import brian2
+
 from rcparams import *
 
 def plot(*args, ax = None, fs = (4, 2.4), **kw):
@@ -12,12 +14,35 @@ def plot(*args, ax = None, fs = (4, 2.4), **kw):
     if "clip_on" not in kw:
         kw["clip_on"] = False
 
+    # Kort door de bocht hier. See Sciplotlib.jl for more capable *args handling.
+    args = list(args)
+    x, y = args[0], args[1]
+
+    xunit = best_unit(x)
+    if xunit is not None and "xunit" not in kw:
+        args[0] = [xi / xunit for xi in x]
+        kw["xunit"] = xunit
+
+    yunit = best_unit(y)
+    if yunit is not None and "yunit" not in kw:
+        args[1] = [yi / yunit for yi in y]
+        kw["yunit"] = yunit
+
     plotkw = {k: v for (k, v) in kw.items()
               if hasattr(mpl.lines.Line2D, f"set_{k}")}
     otherkw = {k: v for (k, v) in kw.items() if not k in plotkw}
     ax.plot(*args, **plotkw)
     sett(ax, **otherkw)
     return ax
+
+
+def best_unit(x):
+    xmax = max([abs(xi) for xi in x])
+    if type(xmax) == brian2.Quantity:
+        return xmax.get_best_unit()
+    else:
+        return None
+
 
 def sett(
         ax,

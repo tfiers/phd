@@ -5,6 +5,7 @@ print("✔")
 
 print("importing brian", end=" … ")
 from brian2.units import *
+from brian2.numpy_ import *
 print("✔")
 
 import matplotlib_inline
