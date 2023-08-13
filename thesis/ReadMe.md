@@ -14,6 +14,8 @@ wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 Then installed these extra packages in addition to the included ones: \
 `$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo`
 
+(In git bash for Windows: `tlmgr.bat`, instead).
+
 <!-- Then: `xelatex main.tex` (note, `xelatex`, not `xetex`) -->
 
 <!-- For continous compilation: `latexmk -pvc -pdfxe main.tex`. -->

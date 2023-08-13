@@ -379,6 +379,8 @@ We solve these equations numerically using first-order (Euler) integration, with
 In our simplest experimental setup, we simulate just one AdEx neuron.
 Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process. We call this the `N-to-1' setup.
 
+\subsection{Log-normal Poisson spiketrains}
+
 % The inter-event intervals of a Poisson process follow an exponential distribution.
 % We use that fact to generate spike trains: we draw samples from $\mathrm{Exp}(\lambda)$ (with $\lambda$ the desired firing rate), and cumulatively sum up these intervals  to obtain spike times. This is done until we have reached the desired input train duration.
 
@@ -445,7 +447,27 @@ Second, why does the output activity level increase for increasing excitatory in
 The fact that this EI-balanced input leads to a net-excitatory effect can also be seen in \cref{fig:all_sigs_6500}: the signal $g_\exc - g_\inh$ hovers around zero, but the signal $I_\syn$ ---~even though it has largely the same shape~--- is nowhere near zero.
 
 
+Later, we will compare the performance of different connection-detection algorithms across different numbers of inputs $N$. We choose the approximately evenly log-spaced sequence
+\begin{equation*}
+    N ∈ [10,\ 20,\ 45,\ 100,\ 200,\ 400,\ 800,\ 1600,\ 3200,\ 6500].
+\end{equation*}
+For each of these $N$, we want the output firing rate to be the same, namely 4~Hz. To find the synaptic strengths $Δg_\exc$ that accomplish this, we perform an iterative search.\footnote{We use SciPy's \texttt{root\_scalar} function, which uses `Brent's method', which is like bisection but has faster convergence. We seed the algorithm with the bracket $[w_0/4, w_0·4]$, where $w_0$ is the initial linear guess for $Δg_\exc$. In about 8 iterations, we come within $0.01$~Hz of the desired $4$~Hz.}
+As an initial guess, it would make sense for the required input strength to scale inversely proportional to the number of inputs. We find however that there is a slight deviation from this linear expectation (\cref{fig:we-for-4Hz-for-all-N}): the less inputs, the less strong each input should be to reach the same output firing rate, compared to a linear extrapolation from our finding of $Δg_\exc = 15$~pS for $N = 6500$.
+E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \text{ pS} · 6500 / 10$), but we find we need only $Δg_\exc = 2.83$~nS to reach an output firing rate of $4$~Hz.
 
+\begin{figure}
+    \begin{sidecaption}
+        {\textbf{Finding the right input strength in the N-to-1 setup, for different numbers of inputs $N$}.\\
+        \small{For each $N$, the right input strength $Δg_\exc$ was found using an iterative search procedure. For every $Δg_\exc$ value evaluated, 10 different 10-second simulations were run (each with a different random seed for the input spiketrain generation). The average output firing rate of these 10 simulations was taken, and compared with the goal firing rate of $4$~Hz. $Δg_\exc$ was then adjusted until the simulated firing rate was sufficiently close.\\
+        Source: \nburl{2023-08-05__AdEx_Nto1_we_sweep}.}
+        }
+        [fig:we-for-4Hz-for-all-N]
+        \includegraphics[w=0.85]{we-for-4Hz-for-all-N}
+    \end{sidecaption}
+\end{figure}
+
+
+\FloatBarrier
 \section{Voltage imaging}
 
 The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage traces of which they are a reflection.
