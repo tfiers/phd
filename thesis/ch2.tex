@@ -69,7 +69,7 @@ In addition to the two differential equations, the AdEx model also consists of a
     & V ← V_r \\
     & w ← w + b \notag
 \end{align}
-This bump of the adaptation current is what provides the spike rate adaptation: the more spikes the neuron has recently fired, the higher the adaptation current $w$ and the more it drives down the voltage, away from the firing threshold.
+This bump of the adaptation current is what provides the spike rate adaptation: the more spikes the neuron has recently fired, the higher the adaptation current $w$ and the more it drives down the voltage (\cref{eq:AdEx-V}), away from the firing threshold.
 
 For a full description of the different firing patterns that the AdEx neuron can exhibit, for different parameter values (i.e, a characterisation of its bifurcations), see \cite{Naud2008FiringPatternsAdaptive}, \citetitle*{Naud2008FiringPatternsAdaptive}.
 For an even fuller description, including a derivation of two-dimensional neuron models from higher-dimensional, Hodgkin-Huxley-like models, see Eugene Izhikevich's book, \citetitle*{Izhikevich2007DynamicalSystemsNeuroscience} \cite{Izhikevich2007DynamicalSystemsNeuroscience}.
@@ -406,8 +406,8 @@ Our log-normal distribution has a median of $2.96$ Hz, very close to Roxin's $2.
 
 We choose to simulate EI-balanced input, where we simulate four times as many excitatory as inhibitory input spiketrains; but with the inhibitory inputs four times as strong as the excitatory inputs.
 
-I.e. if our total number of input spiketrains is $N = 6500$, we have $N_\exc = 5200$ excitatory inputs, and $N_\inh = 1300$ inhibitory inputs. In the N-to-1-setup, we give every input of the same type the same weight. I.e. in the model summary (\cref{sec:model-summary}), $∀ i : Δg_i = Δg_\exc$ and $∀ j : Δg_j = Δg_\inh$.
-If we would thus choose $Δg_\exc = 10$~pS, then, for EI-balanced input, $Δg_\inh$ would be $40$~pS.
+I.e. if our total number of input spiketrains is $N = 6500$, we have $N_\exc = 5200$ excitatory inputs, and $N_\inh = 1300$ inhibitory inputs. In the N-to-1-setup, we give every input of the same type the same synaptic weight. I.e. in the model summary (\cref{sec:model-summary}), $∀ i : Δg_i = Δg_\exc$ and $∀ j : Δg_j = Δg_\inh$.
+If we would thus choose $Δg_\exc = 10$~pS, then, for 4:1 EI-balanced input, $Δg_\inh$ would be $40$~pS.
 
 \marginpar{
     \includegraphics[w=1.04]{input_drive_we}
@@ -447,7 +447,7 @@ Second, why does the output activity level increase for increasing excitatory in
 The fact that this EI-balanced input leads to a net-excitatory effect can also be seen in \cref{fig:all_sigs_6500}: the signal $g_\exc - g_\inh$ hovers around zero, but the signal $I_\syn$ ---~even though it has largely the same shape~--- is nowhere near zero.
 
 
-Later, we will compare the performance of different connection-detection algorithms across different numbers of inputs $N$. We choose the approximately evenly log-spaced sequence
+Later, we will compare the performance of a connection-detection algorithm across different numbers of inputs $N$. We choose the approximately evenly log-spaced sequence
 \begin{equation*}
     N ∈ [10,\ 20,\ 45,\ 100,\ 200,\ 400,\ 800,\ 1600,\ 3200,\ 6500].
 \end{equation*}
@@ -458,7 +458,7 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
 \begin{figure}
     \begin{sidecaption}
         {\textbf{Finding the right input strength in the N-to-1 setup, for different numbers of inputs $N$}.\\
-        \small{For each $N$, the right input strength $Δg_\exc$ was found using an iterative search procedure. For every $Δg_\exc$ value evaluated, 10 different 10-second simulations were run (each with a different random seed for the input spiketrain generation). The average output firing rate of these 10 simulations was taken, and compared with the goal firing rate of $4$~Hz. $Δg_\exc$ was then adjusted until the simulated firing rate was sufficiently close.\\
+        \small{For each $N$, the right input strength $Δg_\exc$ (namely the one for which the output neuron fires at $4$~Hz) was found using an iterative search procedure. For every $Δg_\exc$ value evaluated, ten different 10-second simulations were run (each with a different random seed for the input spiketrain generation). The average output firing rate of these ten simulations was taken, and compared with the goal firing rate of $4$~Hz. $Δg_\exc$ was then adjusted until the simulated firing rate was sufficiently close.\\
         Source: \nburl{2023-08-05__AdEx_Nto1_we_sweep}.}
         }
         [fig:we-for-4Hz-for-all-N]
@@ -503,23 +503,23 @@ To numerically simulate the model described in this chapter, different software 
 \begin{table}[h]
     \begin{sidecaption}
         {\textbf{Time taken to simulate 10 seconds of the N-to-1 experiment}
-        {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and one inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}').
-        Times do not include compilation time.\\
+        {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and one inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}').\\
         For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023_08_09__Poisson_cquantile_upperbound} (Julia).}
         }
         [tab:software-timings]
-            \begin{tabular}{l l l S[table-format=2.3]}  % last col is an siunitx thing to align on decimal point.
-            Software & Language & Model  &  {Simulation time} \\
-            \hline
-            Brian2 &  Cython + Python   & full  &  55 { s}  \\
-            &   & merged  &  28 { s}  \\
-            &  C++   & full  &  29 { s}  \\
-            &   & merged  &  1.9 { s}  \\
-            own &  Julia   & full  & 0.068 { s}  \\
+            \begin{tabular}{l l l S[table-format=3.1] S[table-format=2.3]}  % last two col is an siunitx thing to align on decimal point.
+            Software & Language & Model  &  \multicolumn{2}{c}{Time (seconds)} \\
+                     &   &   &  {Compilation} & {Simulation}\\[0.2em]
+            \midrule
+            Brian2 &  Cython + Python   & full  & 61  &   11  \\
+                        &                              & merged  & 86  &  11  \\
+                         &  C++                    & full           & 15  &  6.5  \\
+                        &                                & merged  & 18  &  0.35  \\
+            own &  Julia                       & full       &  0.7  &  0.036  \\
         \end{tabular}
     \end{sidecaption}
 \end{table}
 
-Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
+% Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
 
 \emph{\{to expand a bit\}}

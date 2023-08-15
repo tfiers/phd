@@ -15,6 +15,7 @@
 
 # # 2023-08-02__speedtest_brian_standalone_AdEx_Nto1
 
+# %%time
 from brian2 import *
 
 # !mkdir cpp
@@ -89,11 +90,32 @@ net_m.run(T, report='text')
 
 # ---
 #
+# 2023-08-14 (after deleting cpp/):
+# - 1.6 wall time for `Nto1_merged()`
+# - 61 s wall time for `run`
+# - 0.898 s for `time ./main.exe`
+
+61+1.6-0.898
+
+# ---
+#
+# 2023-08-15 (after deleting cpp/, and w/ CPU in best performance mode (not battery saver)):
+# - 0.376 wall time for `Nto1_merged()`
+# - 18.4 s wall time for `run`
+# - 0.353 s for `time ./main.exe`
+
+0.376+18.4-0.353
+
+# ---
+# ---
+#
 # Ah, we can actually change params w/o rebuilding everything:\
 # https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html
 # > you don’t need to recompile the entire project at each simulation. In the generated code, two consecutive simulations will only differ slightly (in this case only the tau parameter). The compiler will therefore only recompile the file that has changed and not the entire project
 
 # ## w/o PoissonInput merging
+
+# (Restarting nb and re-importing brian)
 
 set_device('cpp_standalone', directory='cpp/2')
 
@@ -129,6 +151,24 @@ net.run(T, report='text')
 # New run: 42.2 s total.
 #
 # main.exe: 28.9 s (!)
+
+# ---
+#
+# 2023-08-14 (after deleting cpp/):
+# - 0.67 wall time for `Nto1_all_simmed()`
+# - 70 s wall time for `run`
+# - 21.43 s for `time ./main.exe`
+
+70+0.67-21.43
+
+# ---
+#
+# 2023-08-15 (after deleting cpp/, and w/ CPU in best performance mode (not battery saver)):
+# - 0.123 wall time for `Nto1_all_simmed()`
+# - 21.7 s wall time for `run`
+# - 6.50 s for `time ./main.exe`
+
+0.123+21.7-6.5
 
 # ## Multiple runs
 

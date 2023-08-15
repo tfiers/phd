@@ -17,6 +17,22 @@
 
 # %run lib/neuron.py
 
+clear_cache('cython')
+
+# ## Cython cache warmup
+
+# %%time
+# From tut nb 1
+start_scope()
+tau = 10*ms
+eqs = '''
+dv/dt = (1-v)/tau : 1
+'''
+G = NeuronGroup(1, eqs)
+run(100*ms)
+
+# ---
+
 # We're gonna try a brian trick to try and speed up the simulation:
 # instead of 6500 separate Poisson spike trains, simulate most of them (except a few that we want to use for conntesting) as **one** process. (One for exc and one for inh, to be precise).
 
@@ -24,6 +40,14 @@
 σ = sqrt(0.6)
 μ = log(μₓ / Hz) - σ**2 / 2
 
+# +
+we = 14 * pS
+wi = 4 * we
+
+T = 10*second;
+
+
+# -
 
 # ## `PoissonGroup` only
 
@@ -53,17 +77,13 @@ def Nto1_all_simmed(N = 6500):
 *objs, net = Nto1_all_simmed();
 net.store()
 
-# +
-we = 14 * pS
-wi = 4 * we
-
-T = 10*second;
-# -
-
 # %%time
 net.restore()
 net.run(T, report='text')
 
+# (Most recent measurements later on, below)
+#
+# ---
 
 # So, 19 s for the sim itself,  
 # 29 s for the whole thing, i.e. setup took 10 seconds (initial compilation, ig).
@@ -77,6 +97,66 @@ net.run(T, report='text')
 # 3rd try, this same day: 58 s for whole sim.
 
 # (weird, nothin shoulda changed, why 2+ x slower)
+
+# ---
+#
+# 2023-08-14:
+# - 1.32 s wall time for `Nto1_all_simmed()`
+# - 41.3 s wall time for `restore` & `run`
+# - 39 s reported sim time
+
+41.3 + 1.32 - 39
+
+# Ah, but that's with compilation cached.
+
+# +
+# clear_cache('cython')
+# We get
+# PermissionError: [WinError 5] Access is denied: 'C:\\Users\\tfiers\\.cython\\brian_extensions\\_cython_magic_0a4e0f53cb16102c85c1c560171fcda1.cp311-win_amd64.pyd'
+# -
+
+# So, deleting manually then.
+#
+# Ok the dir is in use by a python.exe process. Guess it's this one? Yep.
+
+# ---
+#
+# 2023-08-14, after clearing cython cache dir:
+# - 49.3 s s wall time for `Nto1_all_simmed()` (and `store`)
+# - 3min 25 s (205 s) wall time for `restore` & `run`
+# - 41 s reported sim time
+
+205 + 49.3 - 41
+
+# +
+# clear_cache('cython')
+# (Same permissionerror). Maybe after restarting nb? Yep, that works.
+# (It just rms entire ~/.cython/brian_extensions)
+# -
+
+# ---
+# 2023-08-14, with clearing cython cache, but after the small cache warmup above (which took 21.9 wall time):
+# - 38.4 s s wall time for `Nto1_all_simmed()` (and `store`)
+# - 3min 25 s (205 s) wall time for `restore` & `run`  (yes, same)
+# - 38 s reported sim time
+
+205 + 38.4 - 38
+
+# Ok, so warmup didn't do lots!
+
+# What about, if we now run the below, with the current cache?
+
+# ---
+# 2023-08-15 (w/ CPU in best performance mode (not battery saver). Cython cache cleared, no warmup net):
+# - 13.4 s s wall time for `Nto1_all_simmed()` (and `store`)
+# - 58.9 s wall time for `restore` & `run`
+# - 11 s reported sim time
+
+13.4+58.9-11
+
+
+# ---
+# ---
 
 # ## `PoissonGroup` + `PoissonInput`s (merged)
 
@@ -119,6 +199,10 @@ net_m.store()
 net_m.restore()
 net_m.run(T, report='text')
 
+# ---
+#
+# [old measurments]:
+
 # 29 s for 10".
 #
 # whole block: 64 sec.
@@ -138,7 +222,40 @@ net_m.run(T, report='text')
 # Or, 10 inh, 40 exc.
 # (ok, sol is simple, you take max)
 
+# ---
+#
+# 2023-08-14, after clearing cython cache:
+# - 47.2 s wall time for `Nto1_merged()` (and `store`)
+# - 3 min 35 s (215 s) wall time for `restore` & `run`
+# - 20 s reported sim time
+
+215+47.2-20
+
+# Maybe we should compile a small other network, to warm up that cython cache.
+
+# (Did that for first network, see above)
+
+# ---
+# 2023-08-14, with above two nets (the warmup, and the all_simmed) in cache:
+# - 38.1 s s wall time for `Nto1_merged()` (and `store`)
+# - 3min 25 s (205 s) wall time for `restore` & `run` (yes, same, again)
+# - 19 s reported sim time
+
+38.1+205-19
+
+# So again, having the other (all_simmed) net in cache, didn't help very much here.
+
+# ---
+# 2023-08-15 (w/ CPU in best performance mode (not battery saver). Cython cache cleared, no warmup net):
+# - 12.9 s s wall time for `Nto1_merged()` (and `store`)
+# - 84 s wall time for `restore` & `run`
+# - 11 s reported sim time (yes same as all_simmed, now)
+
+12.9+84-11
+
 # ## 
+
+# ---
 
 # How 'bout Julia?
 
