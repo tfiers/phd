@@ -727,7 +727,14 @@ const thebe_selector_output = ".output, .cell_output"
 <h1>2023-08-02__speedtest_brian_standalone_AdEx_Nto1<a class="headerlink" href="#speedtest-brian-standalone-adex-nto1" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">brian2</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="kn">from</span> <span class="nn">brian2</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 875 ms
+Wall time: 2.03 s
 </pre></div>
 </div>
 </div>
@@ -758,7 +765,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing numpy, brian &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing mpl &#8230; &#10004;
+importing brian &#8230; &#10004;
+importing pandas &#8230; &#10004;
 </pre></div>
 </div>
 </div>
@@ -831,8 +840,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ne=5200, Ni=1300, N_simmed=200, Ne_merged=5100, Ni_merged=1200
-CPU times: total: 391 ms
-Wall time: 799 ms
+CPU times: total: 46.9 ms
+Wall time: 376 ms
 </pre></div>
 </div>
 </div>
@@ -845,8 +854,8 @@ Wall time: 799 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 703 ms
-Wall time: 52.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 93.8 ms
+Wall time: 18.4 s
 </pre></div>
 </div>
 </div>
@@ -868,6 +877,45 @@ And.. &#8220;10 seconds simulated in &lt; 1s&#8221;. Impressive!</p>
 total runtime 52.2 s.<br>
 main.exe: 1.9 seconds.</p>
 <hr class="docutils">
+<p>2023-08-14 (after deleting cpp/):</p>
+<ul class="simple">
+<li><p>1.6 wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_merged()</span></code></p></li>
+<li><p>61 s wall time for <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>0.898 s for <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">61</span><span class="o">+</span><span class="mf">1.6</span><span class="o">-</span><span class="mf">0.898</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>61.702
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<p>2023-08-15 (after deleting cpp/, and w/ CPU in best performance mode (not battery saver)):</p>
+<ul class="simple">
+<li><p>0.376 wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_merged()</span></code></p></li>
+<li><p>18.4 s wall time for <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>0.353 s for <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">0.376</span><span class="o">+</span><span class="mf">18.4</span><span class="o">-</span><span class="mf">0.353</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18.423
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<hr class="docutils">
 <p>Ah, we can actually change params w/o rebuilding everything:<br>
 <a class="reference external" href="https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html">https://brian2.readthedocs.io/en/stable/examples/multiprocessing.02_using_standalone.html</a></p>
 <blockquote>
@@ -875,6 +923,7 @@ main.exe: 1.9 seconds.</p>
 </div></blockquote>
 <div class="section" id="w-o-poissoninput-merging">
 <h2>w/o PoissonInput merging<a class="headerlink" href="#w-o-poissoninput-merging" title="Permalink to this headline">&#182;</a></h2>
+<p>(Restarting nb and re-importing brian)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">set_device</span><span class="p">(</span><span class="s1">'cpp_standalone'</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="s1">'cpp/2'</span><span class="p">)</span>
@@ -916,8 +965,8 @@ main.exe: 1.9 seconds.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 250 ms
-Wall time: 576 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 93.8 ms
+Wall time: 123 ms
 </pre></div>
 </div>
 </div>
@@ -930,14 +979,52 @@ Wall time: 576 ms
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 578 ms
-Wall time: 42.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 125 ms
+Wall time: 21.7 s
 </pre></div>
 </div>
 </div>
 </div>
 <p>New run: 42.2 s total.</p>
 <p>main.exe: 28.9 s (!)</p>
+<hr class="docutils">
+<p>2023-08-14 (after deleting cpp/):</p>
+<ul class="simple">
+<li><p>0.67 wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code></p></li>
+<li><p>70 s wall time for <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>21.43 s for <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">70</span><span class="o">+</span><span class="mf">0.67</span><span class="o">-</span><span class="mf">21.43</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>49.24
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<p>2023-08-15 (after deleting cpp/, and w/ CPU in best performance mode (not battery saver)):</p>
+<ul class="simple">
+<li><p>0.123 wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code></p></li>
+<li><p>21.7 s wall time for <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>6.50 s for <code class="docutils literal notranslate"><span class="pre">time</span> <span class="pre">./main.exe</span></code></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">0.123</span><span class="o">+</span><span class="mf">21.7</span><span class="o">-</span><span class="mf">6.5</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15.323
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="multiple-runs">
 <h2>Multiple runs<a class="headerlink" href="#multiple-runs" title="Permalink to this headline">&#182;</a></h2>

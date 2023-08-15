@@ -675,6 +675,11 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cython-cache-warmup">
+   Cython cache warmup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#poissongroup-only">
    <code class="docutils literal notranslate">
     <span class="pre">
@@ -725,6 +730,11 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cython-cache-warmup">
+   Cython cache warmup
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#poissongroup-only">
    <code class="docutils literal notranslate">
     <span class="pre">
@@ -772,11 +782,47 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing numpy, brian &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>importing mpl &#8230; &#10004;
+importing brian &#8230; &#10004;
+importing pandas &#8230; &#10004;
 </pre></div>
 </div>
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">clear_cache</span><span class="p">(</span><span class="s1">'cython'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cython-cache-warmup">
+<h2>Cython cache warmup<a class="headerlink" href="#cython-cache-warmup" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="c1"># From tut nb 1</span>
+<span class="n">start_scope</span><span class="p">()</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">ms</span>
+<span class="n">eqs</span> <span class="o">=</span> <span class="s1">'''</span>
+<span class="s1">dv/dt = (1-v)/tau : 1</span>
+<span class="s1">'''</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">NeuronGroup</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">eqs</span><span class="p">)</span>
+<span class="n">run</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">ms</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INFO       No numerical integration method specified for group 'neurongroup', using method 'exact' (took 1.29s). [brian2.stateupdaters.base.method_choice]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 2.62 s
+Wall time: 21.9 s
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
 <p>We&#8217;re gonna try a brian trick to try and speed up the simulation:
 instead of 6500 separate Poisson spike trains, simulate most of them (except a few that we want to use for conntesting) as <strong>one</strong> process. (One for exc and one for inh, to be precise).</p>
 <div class="cell docutils container">
@@ -790,6 +836,17 @@ instead of 6500 separate Poisson spike trains, simulate most of them (except a f
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.0862943611198905
 </pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">we</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span>
+<span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">second</span><span class="p">;</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -830,18 +887,8 @@ instead of 6500 separate Poisson spike trains, simulate most of them (except a f
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 438 ms
-Wall time: 776 ms
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">we</span> <span class="o">=</span> <span class="mi">14</span> <span class="o">*</span> <span class="n">pS</span>
-<span class="n">wi</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">we</span>
-
-<span class="n">T</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">second</span><span class="p">;</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: total: 3.16 s
+Wall time: 13.4 s
 </pre></div>
 </div>
 </div>
@@ -856,18 +903,16 @@ Wall time: 776 ms
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 10. s
-1.7002 s (17%) simulated in 10s, estimated 49s remaining.
-3.3176 s (33%) simulated in 20s, estimated 40s remaining.
-5.1558 s (51%) simulated in 30s, estimated 28s remaining.
-6.8499 s (68%) simulated in 40s, estimated 18s remaining.
-8.5327 s (85%) simulated in 50s, estimated 9s remaining.
-10. s (100%) simulated in 58s
-CPU times: total: 27.9 s
-Wall time: 59.2 s
+8.7345 s (87%) simulated in 10s, estimated 1s remaining.
+10. s (100%) simulated in 11s
+CPU times: total: 16.6 s
+Wall time: 58.9 s
 </pre></div>
 </div>
 </div>
 </div>
+<p>(Most recent measurements later on, below)</p>
+<hr class="docutils">
 <p>So, 19 s for the sim itself,<br>
 29 s for the whole thing, i.e. setup took 10 seconds (initial compilation, ig).</p>
 <p>..that compil gets cached though. Second time: no init time at all.
@@ -876,7 +921,108 @@ Wall time: 59.2 s
 (total of block: 53.5 s).</p>
 <p>3rd try, this same day: 58 s for whole sim.</p>
 <p>(weird, nothin shoulda changed, why 2+ x slower)</p>
+<hr class="docutils">
+<p>2023-08-14:</p>
+<ul class="simple">
+<li><p>1.32 s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code></p></li>
+<li><p>41.3 s wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>39 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">41.3</span> <span class="o">+</span> <span class="mf">1.32</span> <span class="o">-</span> <span class="mi">39</span>
+</pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.6199999999999974
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ah, but that&#8217;s with compilation cached.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># clear_cache('cython')</span>
+<span class="c1"># We get</span>
+<span class="c1"># PermissionError: [WinError 5] Access is denied: 'C:\\Users\\tfiers\\.cython\\brian_extensions\\_cython_magic_0a4e0f53cb16102c85c1c560171fcda1.cp311-win_amd64.pyd'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So, deleting manually then.</p>
+<p>Ok the dir is in use by a python.exe process. Guess it&#8217;s this one? Yep.</p>
+<hr class="docutils">
+<p>2023-08-14, after clearing cython cache dir:</p>
+<ul class="simple">
+<li><p>49.3 s s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>3min 25 s (205 s) wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>41 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">205</span> <span class="o">+</span> <span class="mf">49.3</span> <span class="o">-</span> <span class="mi">41</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>213.3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># clear_cache('cython')</span>
+<span class="c1"># (Same permissionerror). Maybe after restarting nb? Yep, that works.</span>
+<span class="c1"># (It just rms entire ~/.cython/brian_extensions)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<p>2023-08-14, with clearing cython cache, but after the small cache warmup above (which took 21.9 wall time):</p>
+<ul class="simple">
+<li><p>38.4 s s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>3min 25 s (205 s) wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code>  (yes, same)</p></li>
+<li><p>38 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">205</span> <span class="o">+</span> <span class="mf">38.4</span> <span class="o">-</span> <span class="mi">38</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>205.4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok, so warmup didn&#8217;t do lots!</p>
+<p>What about, if we now run the below, with the current cache?</p>
+<hr class="docutils">
+<p>2023-08-15 (w/ CPU in best performance mode (not battery saver). Cython cache cleared, no warmup net):</p>
+<ul class="simple">
+<li><p>13.4 s s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_all_simmed()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>58.9 s wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>11 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">13.4</span><span class="o">+</span><span class="mf">58.9</span><span class="o">-</span><span class="mi">11</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>61.3
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+</div>
+<hr class="docutils">
 <div class="section" id="poissongroup-poissoninputs-merged">
 <h2><code class="docutils literal notranslate"><span class="pre">PoissonGroup</span></code> + <code class="docutils literal notranslate"><span class="pre">PoissonInput</span></code>s (merged)<a class="headerlink" href="#poissongroup-poissoninputs-merged" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
@@ -924,8 +1070,8 @@ Wall time: 59.2 s
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ne=5200, Ni=1300, N_simmed=200, Ne_merged=5100, Ni_merged=1200
-CPU times: total: 219 ms
-Wall time: 312 ms
+CPU times: total: 2.69 s
+Wall time: 12.9 s
 </pre></div>
 </div>
 </div>
@@ -940,15 +1086,16 @@ Wall time: 312 ms
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Starting simulation at t=0. s for a duration of 10. s
-3.3382 s (33%) simulated in 10s, estimated 20s remaining.
-7.3675 s (73%) simulated in 20s, estimated 7s remaining.
-10. s (100%) simulated in 27s
-CPU times: total: 13.8 s
-Wall time: 27.7 s
+7.0019 s (70%) simulated in 10s, estimated 4s remaining.
+10. s (100%) simulated in 11s
+CPU times: total: 20.3 s
+Wall time: 1min 24s
 </pre></div>
 </div>
 </div>
 </div>
+<hr class="docutils">
+<p>[old measurments]:</p>
 <p>29 s for 10&#8221;.</p>
 <p>whole block: 64 sec.</p>
 <p>And again, this same other day: 27 s.</p>
@@ -982,9 +1129,70 @@ Wall time: 27.7 s
 Say, 100 inh, 400 exc.
 Or, 10 inh, 40 exc.
 (ok, sol is simple, you take max)</p>
+<hr class="docutils">
+<p>2023-08-14, after clearing cython cache:</p>
+<ul class="simple">
+<li><p>47.2 s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_merged()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>3 min 35 s (215 s) wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>20 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">215</span><span class="o">+</span><span class="mf">47.2</span><span class="o">-</span><span class="mi">20</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>242.2
+</pre></div>
+</div>
+</div>
+</div>
+<p>Maybe we should compile a small other network, to warm up that cython cache.</p>
+<p>(Did that for first network, see above)</p>
+<hr class="docutils">
+<p>2023-08-14, with above two nets (the warmup, and the all_simmed) in cache:</p>
+<ul class="simple">
+<li><p>38.1 s s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_merged()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>3min 25 s (205 s) wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code> (yes, same, again)</p></li>
+<li><p>19 s reported sim time</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">38.1</span><span class="o">+</span><span class="mi">205</span><span class="o">-</span><span class="mi">19</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>224.1
+</pre></div>
+</div>
+</div>
+</div>
+<p>So again, having the other (all_simmed) net in cache, didn&#8217;t help very much here.</p>
+<hr class="docutils">
+<p>2023-08-15 (w/ CPU in best performance mode (not battery saver). Cython cache cleared, no warmup net):</p>
+<ul class="simple">
+<li><p>12.9 s s wall time for <code class="docutils literal notranslate"><span class="pre">Nto1_merged()</span></code> (and <code class="docutils literal notranslate"><span class="pre">store</span></code>)</p></li>
+<li><p>84 s wall time for <code class="docutils literal notranslate"><span class="pre">restore</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">run</span></code></p></li>
+<li><p>11 s reported sim time (yes same as all_simmed, now)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mf">12.9</span><span class="o">+</span><span class="mi">84</span><span class="o">-</span><span class="mi">11</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>85.9
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="id1">
 <h2><a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
+<hr class="docutils">
 <p>How &#8216;bout Julia?</p>
 <p>See notebook <code class="docutils literal notranslate"><span class="pre">2023-08-02__Julia_speedtest_AdEx_Nto1</span></code>.<br>
 Simulating all 6500 inputs for 10 seconds, we have a sim time of 0.7 seconds.<br>

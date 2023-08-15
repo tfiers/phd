@@ -669,6 +669,26 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-compilation-time">
+   Measuring compilation time
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#new-module">
+     New module
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -681,6 +701,26 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#measuring-compilation-time">
+   Measuring compilation time
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#new-module">
+     New module
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -715,7 +755,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.8 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (1.9 s)
 </pre></div>
 </div>
 </div>
@@ -743,8 +783,8 @@ using Units &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using PyPlot &#8230; &#10004; (5.6 s)
-using Sciplotlib &#8230; &#10004; (5.4 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using PyPlot &#8230; &#10004; (16.4 s)
+using Sciplotlib &#8230; &#10004; (11.1 s)
 using PhDPlots &#8230; &#10004;
 </pre></div>
 </div>
@@ -837,6 +877,373 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <p>&#129327;</p>
+<div class="section" id="measuring-compilation-time">
+<h2>Measuring compilation time<a class="headerlink" href="#measuring-compilation-time" title="Permalink to this headline">&#182;</a></h2>
+<ul class="simple">
+<li><p>re-pre-compiling the module</p></li>
+<li><p>first time running the func</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Nto1AdEx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Nto1AdEx [368485ca-63bc-4029-854f-349d2205662c]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.727026 seconds (195.55 k allocations: 13.672 MiB, 2.12% gc time, 26.00% compilation time: 19% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Units</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000880 seconds (377 allocations: 25.625 KiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.041351 seconds (13.03 k allocations: 31.572 MiB, 27.28% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.039387 seconds (13.03 k allocations: 31.572 MiB, 31.90% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>:OOOOOO holy damn!<br>
+Changing laptop battery mode from &#8216;better battery&#8217; to &#8216;best performance,<br>
+changes sim time from ~0.15 sec to 0.026 sec.</p>
+<p>Gotta re-do Brian timings on &#8216;best performance&#8217;.</p>
+<p>(Can change setting not only by clicking battery (which doesn&#8217;t always work &#128580;), but also
+start &gt; settings &gt; power &amp; bat &gt; power mode.\
+(<a class="reference external" href="https://support.microsoft.com/en-us/windows/change-the-power-mode-for-your-windows-pc-c2aff038-22c9-f46d-5ca0-78696fdf2de8#Category=Windows_11">https://support.microsoft.com/en-us/windows/change-the-power-mode-for-your-windows-pc-c2aff038-22c9-f46d-5ca0-78696fdf2de8#Category=Windows_11</a>)</p>
+<p>Hm, how can I trigger pkg recomp again?
+Maybe not using Revise (it&#8217;s too fast now, lol (when I add method or change a param).</p>
+<p>Ok, that did it. (I restarted nb, didn&#8217;t load Revise).
+Then:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="n">Info</span><span class="p">:</span> <span class="n">Precompiling</span> <span class="n">Nto1AdEx</span> <span class="p">[</span><span class="mi">368485</span><span class="n">ca</span><span class="o">-</span><span class="mi">63</span><span class="n">bc</span><span class="o">-</span><span class="mi">4029</span><span class="o">-</span><span class="mi">854</span><span class="n">f</span><span class="o">-</span><span class="mi">349</span><span class="n">d2205662c</span><span class="p">]</span>
+
+  <span class="mf">0.727026</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">195.55</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">13.672</span> <span class="n">MiB</span><span class="p">,</span> <span class="mf">2.12</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">,</span> <span class="mf">26.00</span><span class="o">%</span> <span class="n">compilation</span> <span class="n">time</span><span class="p">:</span> <span class="mi">19</span><span class="o">%</span> <span class="n">of</span> <span class="n">which</span> <span class="n">was</span> <span class="n">recompilation</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First run time of sim:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="mf">0.041351</span> <span class="n">seconds</span> <span class="p">(</span><span class="mf">13.03</span> <span class="n">k</span> <span class="n">allocations</span><span class="p">:</span> <span class="mf">31.572</span> <span class="n">MiB</span><span class="p">,</span> <span class="mf">27.28</span><span class="o">%</span> <span class="n">gc</span> <span class="n">time</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>hm, is this cached?</p>
+<p>After clearing <code class="docutils literal notranslate"><span class="pre">C:\Users\tfiers\.julia\compiled\v1.9\Nto1AdEx</span></code>
+(had to stop this jl kernel)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Nto1AdEx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Nto1AdEx [368485ca-63bc-4029-854f-349d2205662c]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.679249 seconds (193.93 k allocations: 13.567 MiB, 1.45% gc time, 24.78% compilation time: 10% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Units</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000860 seconds (377 allocations: 25.625 KiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.037517 seconds (13.03 k allocations: 31.572 MiB, 30.89% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.035507 seconds (13.03 k allocations: 31.572 MiB, 28.18% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok. incredible.</p>
+<p>Also, there&#8217;s just no compilation cost on first function call?</p>
+<p>One last try: emptying module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Nto1AdEx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Nto1AdEx [368485ca-63bc-4029-854f-349d2205662c]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.657741 seconds (193.18 k allocations: 13.418 MiB, 2.26% gc time, 27.71% compilation time: 9% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<p>(This was precompiling an empty module (just commented out lines))</p>
+<p>Restarting and nb and re-filling in:<br>
+(but adding a comment line to not hit cache, maybe)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Nto1AdEx</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Nto1AdEx [368485ca-63bc-4029-854f-349d2205662c]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.693661 seconds (194.14 k allocations: 13.590 MiB, 1.51% gc time, 26.59% compilation time: 11% of which was recompilation)
+</pre></div>
+</div>
+</div>
+</div>
+<p>What the hell? Mad? Is this real?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.038055 seconds (13.03 k allocations: 31.572 MiB, 30.97% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ok, one last test. A new module. Maybe here?</p>
+<div class="section" id="new-module">
+<h3>New module<a class="headerlink" href="#new-module" title="Permalink to this headline">&#182;</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">module</span> <span class="n">Nto1AdEx2</span>
+
+<span class="k">using</span> <span class="n">GlobalMacros</span>
+<span class="k">using</span> <span class="n">Units</span>
+<span class="k">using</span> <span class="n">Random</span>
+
+<span class="nd">@typed</span> <span class="k">begin</span>
+    <span class="c"># AdEx LIF neuron params (cortical RS)</span>
+    <span class="n">C</span>  <span class="o">=</span> <span class="mi">104</span>  <span class="o">*</span> <span class="n">pF</span>
+    <span class="n">g&#8343;</span> <span class="o">=</span> <span class="mf">4.3</span>  <span class="o">*</span> <span class="n">nS</span>
+    <span class="n">E&#8343;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span>  <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">V&#8348;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">52</span>  <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">&#916;&#8348;</span> <span class="o">=</span> <span class="mf">0.8</span>  <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">V&#8347;</span> <span class="o">=</span>  <span class="mi">40</span>  <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">V&#7523;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">53</span>  <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">a</span>  <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span> <span class="o">*</span> <span class="n">nS</span>
+    <span class="n">b</span>  <span class="o">=</span>  <span class="mi">65</span>  <span class="o">*</span> <span class="n">pA</span>
+    <span class="n">&#964;w</span> <span class="o">=</span>  <span class="mi">88</span>  <span class="o">*</span> <span class="n">ms</span>
+    <span class="c"># Conductance-based synapses</span>
+    <span class="n">E&#8337;</span> <span class="o">=</span>   <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">E&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span> <span class="o">*</span> <span class="n">mV</span>
+    <span class="n">&#964;g</span> <span class="o">=</span>   <span class="mi">7</span> <span class="o">*</span> <span class="n">ms</span>
+    <span class="c"># Simulation timestep</span>
+    <span class="n">&#916;t</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">ms</span>
+    <span class="c"># Input firing rate distribution</span>
+    <span class="n">&#956;&#8339;</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Hz</span>
+    <span class="n">&#963;</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">&#956;</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">&#956;&#8339;</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">)</span> <span class="o">-</span> <span class="n">&#963;</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="k">end</span>
+
+<span class="k">const</span> <span class="n">T</span> <span class="o">=</span> <span class="kt">Float64</span>
+
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">Neuron</span>
+    <span class="n">V</span>    <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="n">E&#8343;</span>
+    <span class="n">w</span>    <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span>
+    <span class="n">g&#8337;</span>   <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span>
+    <span class="n">g&#7522;</span>   <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span>
+    <span class="n">D&#8348;V</span>  <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">mV</span><span class="o">/</span><span class="n">second</span>
+    <span class="n">D&#8348;w</span>  <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">pA</span><span class="o">/</span><span class="n">second</span>
+    <span class="n">D&#8348;g&#8337;</span> <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="o">/</span><span class="n">second</span>
+    <span class="n">D&#8348;g&#7522;</span> <span class="o">::</span><span class="kt">T</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">nS</span><span class="o">/</span><span class="n">second</span>
+<span class="k">end</span>
+
+<span class="c"># Calculate &amp; store derivatives</span>
+<span class="n">f!</span><span class="p">(</span><span class="n">n</span><span class="o">::</span><span class="kt">Neuron</span><span class="p">)</span> <span class="o">=</span> <span class="k">let</span> <span class="p">(;</span> <span class="n">V</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">g&#8337;</span><span class="p">,</span> <span class="n">g&#7522;</span><span class="p">)</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="c"># Synaptic current</span>
+    <span class="n">I&#8347;</span> <span class="o">=</span> <span class="n">g&#8337;</span><span class="o">*</span><span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E&#8337;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#7522;</span><span class="o">*</span><span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E&#7522;</span><span class="p">)</span>
+    <span class="c"># Diffeqs</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;V</span>  <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">g&#8343;</span><span class="o">*</span><span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E&#8343;</span><span class="p">)</span> <span class="o">+</span> <span class="n">g&#8343;</span><span class="o">*</span><span class="n">&#916;&#8348;</span><span class="o">*</span><span class="n">exp</span><span class="p">((</span><span class="n">V</span><span class="o">-</span><span class="n">V&#8348;</span><span class="p">)</span><span class="o">/</span><span class="n">&#916;&#8348;</span><span class="p">)</span> <span class="o">-</span> <span class="n">I&#8347;</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">C</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;w</span>  <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">V</span> <span class="o">-</span> <span class="n">E&#8343;</span><span class="p">)</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="n">&#964;w</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;g&#8337;</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#8337;</span> <span class="o">/</span> <span class="n">&#964;g</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;g&#7522;</span> <span class="o">=</span> <span class="o">-</span><span class="n">g&#7522;</span> <span class="o">/</span> <span class="n">&#964;g</span>
+<span class="k">end</span>
+
+<span class="n">eulerstep!</span><span class="p">(</span><span class="n">n</span><span class="o">::</span><span class="kt">Neuron</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">V</span>  <span class="o">+=</span> <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;V</span>  <span class="o">*</span> <span class="n">&#916;t</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">w</span>  <span class="o">+=</span> <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;w</span>  <span class="o">*</span> <span class="n">&#916;t</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">g&#8337;</span> <span class="o">+=</span> <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;g&#8337;</span> <span class="o">*</span> <span class="n">&#916;t</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">g&#7522;</span> <span class="o">+=</span> <span class="n">n</span><span class="o">.</span><span class="n">D&#8348;g&#7522;</span> <span class="o">*</span> <span class="n">&#916;t</span>
+<span class="k">end</span>
+
+<span class="n">has_spiked</span><span class="p">(</span><span class="n">n</span><span class="o">::</span><span class="kt">Neuron</span><span class="p">)</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">V</span> <span class="o">&gt;</span> <span class="n">V&#8347;</span>
+<span class="n">on_self_spike!</span><span class="p">(</span><span class="n">n</span><span class="o">::</span><span class="kt">Neuron</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">V&#7523;</span>
+    <span class="n">n</span><span class="o">.</span><span class="n">w</span> <span class="o">+=</span> <span class="n">b</span>
+<span class="k">end</span>
+
+<span class="n">include</span><span class="p">(</span><span class="s">"../pkg/Nto1AdEx/src/poisson.jl"</span><span class="p">)</span>
+
+<span class="k">struct</span> <span class="kt">Spike</span>
+    <span class="n">time</span>   <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">source</span> <span class="o">::</span><span class="kt">Int</span>
+<span class="k">end</span>
+<span class="n">Base</span><span class="o">.</span><span class="n">isless</span><span class="p">(</span><span class="n">x</span><span class="o">::</span><span class="kt">Spike</span><span class="p">,</span> <span class="n">y</span><span class="o">::</span><span class="kt">Spike</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">y</span><span class="o">.</span><span class="n">time</span>
+
+<span class="n">spikevec</span><span class="p">(</span><span class="n">src_id</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span> <span class="o">=</span> <span class="p">[</span><span class="n">Spike</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">src_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">times</span><span class="p">]</span>
+
+<span class="n">multiplex</span><span class="p">(</span><span class="n">spiketrains</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="c"># Join spiketimes of different trains into one sorted stream of Spikes</span>
+    <span class="n">spikevecs</span> <span class="o">=</span> <span class="p">[</span><span class="n">spikevec</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">spiketrains</span><span class="p">)]</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="n">vcat</span><span class="p">,</span> <span class="n">spikevecs</span><span class="p">)</span>
+    <span class="n">sort!</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">w&#8337;</span><span class="o">=</span><span class="mi">14</span><span class="o">*</span><span class="n">pS</span><span class="p">,</span> <span class="n">w&#7522;</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="n">w&#8337;</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">num_steps</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">&#916;t</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">*</span> <span class="n">second</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">Neuron</span><span class="p">()</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">T</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">)</span>
+    <span class="n">spiketimes</span> <span class="o">=</span> <span class="n">T</span><span class="p">[]</span>
+    <span class="n">N&#8337;</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">N</span> <span class="o">*</span> <span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">rates</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">.*</span> <span class="n">&#963;</span> <span class="o">.+</span> <span class="n">&#956;</span><span class="p">)</span> <span class="o">.*</span> <span class="n">Hz</span>
+    <span class="n">trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">poisson_spikes</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">rates</span><span class="p">]</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">multiplex</span><span class="p">(</span><span class="n">trains</span><span class="p">)</span>
+    <span class="c"># Index to keep track of input spikes processed</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_steps</span>
+        <span class="c"># Process incoming spikes</span>
+        <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">length</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">spikes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">time</span> <span class="o">&lt;</span> <span class="n">t</span>
+            <span class="c"># New spike arrival</span>
+            <span class="n">spike</span> <span class="o">=</span> <span class="n">spikes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">spike</span><span class="o">.</span><span class="n">source</span> <span class="o">&#8804;</span> <span class="n">N&#8337;</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">g&#8337;</span> <span class="o">+=</span> <span class="n">w&#8337;</span>
+            <span class="k">else</span>
+                <span class="n">n</span><span class="o">.</span><span class="n">g&#7522;</span> <span class="o">+=</span> <span class="n">w&#7522;</span>
+            <span class="k">end</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">end</span>
+        <span class="c"># Update neuron state variables (calc &amp; apply diffeqs)</span>
+        <span class="n">f!</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">eulerstep!</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_spiked</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">on_self_spike!</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">spiketimes</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="n">V</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">V</span>
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">&#916;t</span>
+    <span class="k">end</span>
+    <span class="n">spikerate</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">spiketimes</span><span class="p">)</span> <span class="o">/</span> <span class="n">duration</span>
+    <span class="k">return</span> <span class="p">(;</span> <span class="n">V</span><span class="p">,</span> <span class="n">spiketimes</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">trains</span><span class="p">,</span> <span class="n">N&#8337;</span><span class="p">,</span> <span class="n">spikerate</span><span class="p">,</span> <span class="n">w&#8337;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: replacing module Nto1AdEx2.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Main.Nto1AdEx2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="o">.</span><span class="n">Nto1AdEx2</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.000009 seconds (9 allocations: 416 bytes)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Units</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx2</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.042777 seconds (13.03 k allocations: 31.572 MiB, 23.99% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">Nto1AdEx2</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">seconds</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.026069 seconds (13.03 k allocations: 31.572 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Absolute madness. Didn&#8217;t know Julia was this good here.</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
