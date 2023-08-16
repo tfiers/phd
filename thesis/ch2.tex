@@ -507,15 +507,20 @@ To numerically simulate the model described in this chapter, different software 
         For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023_08_09__Poisson_cquantile_upperbound} (Julia).}
         }
         [tab:software-timings]
-            \begin{tabular}{l l l S[table-format=3.1] S[table-format=2.3]}  % last two col is an siunitx thing to align on decimal point.
-            Software & Language & Model  &  \multicolumn{2}{c}{Time (seconds)} \\
-                     &   &   &  {Compilation} & {Simulation}\\[0.2em]
+            \begin{tabular}{l l l S[table-format=2.2] S[table-format=2.3]}
+            % last two cols are an siunitx thing to align on decimal point.
+            \toprule
+            Software & Language & Model  &  \multicolumn{2}{l}{Time (seconds)} \\
+                     &   &   &  {Compilation} & {Simulation}\\
+            \addlinespace[0.3em]
             \midrule
+            \addlinespace[0.7em]
             Brian2 &  Cython + Python   & full  & 61  &   11  \\
-                        &                              & merged  & 86  &  11  \\
+                        &                              & merged  & 86  &  11  \\[0.7em]
                          &  C++                    & full           & 15  &  6.5  \\
-                        &                                & merged  & 18  &  0.35  \\
-            own &  Julia                       & full       &  0.7  &  0.036  \\
+                        &                             & merged  & 18  &  0.35  \\[0.7em]
+            own &  Julia                     & full       &  0.68  &  0.036  \\
+            \bottomrule
         \end{tabular}
     \end{sidecaption}
 \end{table}
