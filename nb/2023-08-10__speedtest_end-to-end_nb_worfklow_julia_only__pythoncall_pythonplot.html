@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2020-11-16 Searching for an analytical form for the PSP &#8212; Voltage-to-Wiring Sim</title>
+    <title>2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,14 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2020-11-16__analytical_PSP.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2020-07-28 &#8226; Storing values in base units" href="2020-07-28__Storing_in_base_units.html">
-    <link rel="prev" title="2020-11-27 &#8226; Factoring out windowing &amp; averaging code" href="2020-11-27__factor_out_STA.html">
+    <link rel="next" title="2023-08-16__STA_conntest_pyjulia" href="2023-08-16__STA_conntest_pyjulia.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -107,9 +105,9 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot
   </a>
  </li>
@@ -499,7 +497,7 @@ const thebe_selector_output = ".output, .cell_output"
   Unpolished Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../unpolished_intro.html">
    Intro
@@ -585,8 +583,8 @@ const thebe_selector_output = ".output, .cell_output"
    2020-11-27 &#8226; Factoring out windowing &amp; averaging code
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
    2020-11-16 Searching for an analytical form for the PSP
   </a>
  </li>
@@ -640,7 +638,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -652,8 +650,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2020-11-16__analytical_PSP.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -667,7 +665,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2020-11-16__analytical_PSP.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -681,39 +679,6 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#imports">
-   Imports
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solve">
-   Solve
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#examine-solution">
-   Examine &#8216;solution&#8217;
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility-info">
-   Reproducibility info
-  </a>
- </li>
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -721,327 +686,139 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2020-11-16 Searching for an analytical form for the PSP</h1>
+                <h1>2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#imports">
-   Imports
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#problem-statement">
-   Problem statement
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#solve">
-   Solve
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#examine-solution">
-   Examine &#8216;solution&#8217;
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#reproducibility-info">
-   Reproducibility info
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="section" id="searching-for-an-analytical-form-for-the-psp">
-<h1>2020-11-16 Searching for an analytical form for the PSP<a class="headerlink" href="#searching-for-an-analytical-form-for-the-psp" title="Permalink to this headline">&#182;</a></h1>
-<div class="section" id="imports">
-<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">&#182;</a></h2>
+  <div class="section" id="speedtest-end-to-end-nb-worfklow-julia-only-pythoncall-pythonplot">
+<h1>2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot<a class="headerlink" href="#speedtest-end-to-end-nb-worfklow-julia-only-pythoncall-pythonplot" title="Permalink to this headline">&#182;</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">voltage_to_wiring_sim.support.notebook_init</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading:
- - numpy &#8230; (0.10 s)
- - matplotlib.pyplot &#8230; (0.20 s)
- - numba &#8230; (0.27 s)
- - unitlib &#8230; (0.01 s)
-
-Importing from submodules (compiling numba functions) &#8230; &#10004;
-
-Imported `np`, `mpl`, `plt`
-Imported codebase (`voltage_to_wiring_sim`) as `v`
-Imported `*` from `v.support.units`
-Setup autoreload
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use `v` for v(t) below.</span>
-<span class="n">vtws</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># ]st</span>
+<span class="c"># (right env (.. aka phd) already active)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section" id="problem-statement">
-<h2>Problem statement<a class="headerlink" href="#problem-statement" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">v_r</span><span class="p">,</span> <span class="n">tau</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"a, b, v_r, tau"</span><span class="p">)</span>
-<span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"v, u, g"</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">nonnegative</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">WithFeedback</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_g</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">/</span><span class="n">tau</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Revise</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle g{\left(t \right)} = e^{- \frac{t}{\tau}}\]</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.4 s)
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_v</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">Derivative</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">),</span>
-          <span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">g</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">eq_g</span><span class="o">.</span><span class="n">lhs</span><span class="p">,</span> <span class="n">eq_g</span><span class="o">.</span><span class="n">rhs</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Nto1AdEx</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{d}{d t} v{\left(t \right)} = - u{\left(t \right)} + v^{2}{\left(t \right)} + v{\left(t \right)} e^{- \frac{t}{\tau}}\]</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Nto1AdEx &#8230; &#10004;
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq_u</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">Derivative</span><span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">),</span>
-          <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">v</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">u</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Units</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">begin</span>
+    <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#8337;</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">*</span> <span class="n">pS</span>
+    <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#7522;</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">w&#8337;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \frac{d}{d t} u{\left(t \right)} = a \left(b v{\left(t \right)} - u{\left(t \right)}\right)\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_conditions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">v_r</span><span class="p">,</span>
-    <span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-<span class="p">};</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.050939 seconds (13.06 k allocations: 31.574 MiB, 22.32% gc time, 15.91% compilation time)
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="solve">
-<h2>Solve<a class="headerlink" href="#solve" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">sol</span> <span class="o">=</span> <span class="n">dsolve</span><span class="p">((</span><span class="n">eq_v</span><span class="p">,</span> <span class="n">eq_u</span><span class="p">),</span> <span class="n">ics</span><span class="o">=</span><span class="n">initial_conditions</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">import</span> <span class="n">PythonCall</span>
+<span class="nd">@withfb</span> <span class="k">import</span> <span class="n">PythonPlot</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Sciplotlib2</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">PhDPlots2</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Wall time: 16.1 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (3.3 s)
+import PythonPlot &#8230; &#10004; (3.1 s)
+using Sciplotlib2 &#8230; &#10004; (1.2 s)
+using PhDPlots2 &#8230; &#10004;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">plotsig</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span> <span class="n">ms</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle v{\left(t \right)} = - v_{r} \operatorname{x_{0}}{\left(t \right)} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int \left(- \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\right)\, dt + \left(- v_{r} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int\limits^{0} \frac{e^{- a t} e^{- \tau e^{- \frac{t}{\tau}}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt + \frac{v_{r}}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{x_{0}}{\left(t \right)}\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sol</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6.721087 seconds (7.66 M allocations: 504.167 MiB, 4.03% gc time)
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle u{\left(t \right)} = - v_{r} \left(\operatorname{y_{0}}{\left(t \right)} \int \left(- \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\right)\, dt + \frac{\left(e^{\int \left(- a\right)\, dt}\right) e^{\int e^{- \frac{t}{\tau}}\, dt}}{\operatorname{x_{0}}{\left(t \right)}}\right) \operatorname{y_{0}}{\left(0 \right)} e^{\tau} + \left(- v_{r} \operatorname{y_{0}}{\left(0 \right)} e^{\tau} \int\limits^{0} \frac{e^{- a t} e^{- \tau e^{- \frac{t}{\tau}}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt + \frac{v_{r}}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{y_{0}}{\left(t \right)}\]</div>
+<img alt="../_images/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot_9_1.png" src="../_images/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot_9_1.png">
 </div>
 </div>
-</div>
-<div class="section" id="examine-solution">
-<h2>Examine &#8216;solution&#8217;<a class="headerlink" href="#examine-solution" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_sol</span> <span class="o">=</span> <span class="n">sol</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rhs</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Concrete values for constants:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v_sol_1</span> <span class="o">=</span> <span class="n">v_sol</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">v_r</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">tau</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">doit</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle \left(e \operatorname{y_{0}}{\left(0 \right)} \int\limits^{0} \frac{e^{- t} e^{- e^{- t}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt - \frac{1}{\operatorname{x_{0}}{\left(0 \right)}}\right) \operatorname{x_{0}}{\left(t \right)} - e \operatorname{x_{0}}{\left(t \right)} \operatorname{y_{0}}{\left(0 \right)} \int \frac{e^{- t} e^{- e^{- t}}}{\operatorname{x_{0}}^{2}{\left(t \right)}}\, dt\]</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">(</span><span class="s2">"x0, y0"</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">Function</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p><span class="math notranslate nohighlight">\(x_0(t)\)</span> is a new unknown function.</p>
-<p>We only have <span class="math notranslate nohighlight">\(y_0(0)\)</span> (and not <span class="math notranslate nohighlight">\(y_0(t)\)</span>) in the solution for <span class="math notranslate nohighlight">\(v\)</span>, so <span class="math notranslate nohighlight">\(y_0(0)\)</span> is simply a new free constant.</p>
-<p>Set both to a constant:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">v_sol_1_x0_ct</span> <span class="o">=</span> <span class="n">v_sol_1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">x0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">x0</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">y0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle -2 + e e^{- e^{- t}}\]</div>
-</div>
-</div>
-<p>Evaluate and plot for a range of <span class="math notranslate nohighlight">\(t\)</span>&#8217;s:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">lambdify</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">v_sol_1_x0_ct</span><span class="p">)</span>
-<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">ts</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"t"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s2">"v(t)"</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2020-11-16__analytical_PSP_24_0.png" src="../_images/2020-11-16__analytical_PSP_24_0.png">
-</div>
-</div>
-<p>Not our PSP shape yet, so <span class="math notranslate nohighlight">\(x_0(t)\)</span> is not a constant 1 :)</p>
-<p>Choosing a function of <span class="math notranslate nohighlight">\(t\)</span> for <span class="math notranslate nohighlight">\(x_0\)</span> results in an expression that needs to be integrated numerically to be plotted:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
-<span class="n">v_sol_1_x0_exp</span> <span class="o">=</span> <span class="n">v_sol_1</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span>
-    <span class="p">{(</span><span class="n">x0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span>
-     <span class="p">(</span><span class="n">x0</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)),</span>
-     <span class="p">(</span><span class="n">y0</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">})</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_latex math notranslate nohighlight">
-\[\displaystyle - \left(- e \int e^{t} e^{- e^{- t}}\, dt + e \int\limits^{0} e^{t} e^{- e^{- t}}\, dt + 1\right) e^{- t}\]</div>
-</div>
-</div>
-<p><a class="reference external" href="https://www.wolframalpha.com/input/?i=e%5E%28-t%29+*+%28%28int+e%5E%28t-e%5E%28-t%29%29%29+-+1%29">WolframAlpha evaluation &amp; plot</a>
-(assuming that integral with 0 at the top is 0):</p>
-<p><img alt="" src="../_images/wolfram_alpha_PSP.png"></p>
-<p>This is also not our PSP shape.</p>
-<p>(the exponential integral:)
-<img alt="" src="../_images/exponential_integral.png"></p>
-</div>
-<div class="section" id="reproducibility-info">
-<h2>Reproducibility info<a class="headerlink" href="#reproducibility-info" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">vtws</span><span class="o">.</span><span class="n">print_reproducibility_info</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<p>This cell was last run on <strong>Mon 16 Nov</strong> 2020, at 13:42 (UTC+0100),<br>by <code class="docutils literal notranslate"><span class="pre">tfiers</span></code> on <code class="docutils literal notranslate"><span class="pre">yoga</span></code>.</p>
-<p><a class="reference external" href="https://github.com/tfiers/voltage-to-wiring-sim/tree/85b90e8f70a70d1c38a583b536ebc665af845e14">Last git commit</a> (Fri 13 Nov 2020, 13:31).</p>
-<p>Uncommited changes to:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>AM notebooks/2020-11-11__unitlib.ipynb
-?? notebooks/2020-11-16__no_analytical_PSP.ipynb
-</pre></div>
-</div>
-<p>Platform:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPython 3.8.3
-Windows-10
-Intel(R) Core(TM) i7-10510U CPU @ 1.80GHz
-</pre></div>
-</div>
-<p>Dependencies of <code class="docutils literal notranslate"><span class="pre">voltage_to_wiring_sim</span></code> and their installed versions:</p>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>numpy                1.19.2
-matplotlib           3.3.2
-numba                0.51.2
-unitlib              0.3.post22+dirty
-joblib               0.17.0
-preload              2.1
-py-cpuinfo           7.0.0
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sympy</span>
-<span class="n">sympy</span><span class="o">.</span><span class="n">__version__</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>'1.6.2'
-</pre></div>
-</div>
-</div>
-</div>
-</div>
+<p>&#8216;Restart and run all&#8217;:</p>
+<p><strong>~28 seconds total</strong></p>
+<p>First cell after ~9&#8221;</p>
+<p>(after a few warm up restarts-and-run-alls).</p>
+<p>Breakdown of the total:</p>
+<ul class="simple">
+<li><p>9 sec julia/ijulia startup</p></li>
+<li><p>6.5 sec pythoncall &amp; plot</p></li>
+<li><p>1.2 s spl</p></li>
+<li><p>6.7 sec plotcall (before anything on screen)</p></li>
+<li><p>0.5 sec (estimate) img display</p></li>
+</ul>
+<hr class="docutils">
+<p>~~Another issue: recompilation of plotting pkgs after making a change to code.~~</p>
+<p>no issue with Revise.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -1053,33 +830,33 @@ py-cpuinfo           7.0.0
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "julia-1.9"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "julia-1.9",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'julia-1.9'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2020-11-27__factor_out_STA.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2020-11-27 &#8226; Factoring out windowing &amp; averaging code</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2020-07-28__Storing_in_base_units.html" title="next page">
+    <a class="right-next" id="next-link" href="2023-08-16__STA_conntest_pyjulia.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2020-07-28 &#8226; Storing values in base units</p>
+        <p class="prev-next-title">2023-08-16__STA_conntest_pyjulia</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
