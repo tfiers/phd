@@ -1,0 +1,10 @@
+name = "PhDPlots2"
+uuid = "8882fb83-7a18-4ae0-b3ef-a58e1f4042a1"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+Sciplotlib2 = "88be95e5-9550-4d5f-a203-92a5acbc3118"
+Units = "5f9f03f5-0b03-427c-97a9-9b017c0d1095"

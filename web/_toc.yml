@@ -2,6 +2,8 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot
+    - file: nb/2023-08-16__STA_conntest_pyjulia
     - file: nb/2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia
     - file: nb/2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only
     - file: nb/2023-08-09__Poisson_cquantile_upperbound

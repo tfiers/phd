@@ -1,2 +1,5 @@
 # Old, manually saved versions of Jupyter notebooks
 .ipynb_checkpoints
+
+# From PythonCall.jl / PythonPlot.jl
+.CondaPkg
