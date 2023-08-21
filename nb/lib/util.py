@@ -8,6 +8,8 @@ print("✔")
 
 pS = psiemens
 minute = 60 * second
+minutes = minute
+seconds = second
 
 Vs = 40 * mV  # Copied (🤷) from Nto1AdEx.Vₛ
 

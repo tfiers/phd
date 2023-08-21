@@ -22,6 +22,8 @@ The larger `c`'s absolute value, the more likely there is a direct
 synaptic connection from the neuron with the given `spiketimes` to the
 neuron with the given `voltage` signal. Positive `c` indicates an
 excitatory connection, negative `c` an inhibitory one.
+
+Note that `method` must be an *instantiated* struct, not the type itself.
 """
 function test_conn end
 
