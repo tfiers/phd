@@ -48,19 +48,51 @@ end
 
 function display_figs()
     for manager in Gcf.get_all_fig_managers()
-        fig = manager.canvas.figure
-        if !isempty(fig.get_axes())
-            display(fig)
-        end
-        plt.close(fig)
+        f = manager.canvas.figure
+        fig = Figure(f)
+        isempty(fig) || display(fig)
+        # This is faster than calling `display` directly on the python object `f`.
+        plt.close(f)
     end
 end
 
 function close_figs()
     for manager in Gcf.get_all_fig_managers()
-        fig = manager.canvas.figure
-        plt.close(fig)
+        f = manager.canvas.figure
+        plt.close(f)
     end
 end
+
+
+
+# Fig wrapper, taken from PythonPlot.jl
+
+mutable struct Figure
+    o::Py
+end
+
+PythonCall.Py(f::Figure) = getfield(f, :o)
+PythonCall.pyconvert(::Type{Figure}, o::Py) = Figure(o)
+Base.:(==)(f::Figure, g::Figure) = pyconvert(Bool, Py(f) == Py(g))
+Base.isequal(f::Figure, g::Figure) = isequal(Py(f), Py(g))
+Base.hash(f::Figure, h::UInt) = hash(Py(f), h)
+Base.Docs.doc(f::Figure) = Base.Docs.Text(pyconvert(String, Py(f).__doc__))
+
+# Note: using `Union{Symbol,String}` produces ambiguity.
+Base.getproperty(f::Figure, s::Symbol) = getproperty(Py(f), s)
+Base.getproperty(f::Figure, s::AbstractString) = getproperty(f, Symbol(s))
+Base.setproperty!(f::Figure, s::Symbol, x) = setproperty!(Py(f), s, x)
+Base.setproperty!(f::Figure, s::AbstractString, x) = setproperty!(f, Symbol(s), x)
+Base.hasproperty(f::Figure, s::Symbol) = pyhasattr(Py(f), s)
+Base.propertynames(f::Figure) = propertynames(Py(f))
+
+Base.isempty(f::Figure) = isempty(f.get_axes())
+
+Base.show(io::IO, m::MIME"image/png", f::Figure) =
+    f.canvas.print_figure(io, format="png", bbox_inches="tight")
+    # We omit the `_showable(m, f)` check.
+
+Base.showable(m::MIME"image/png", f::Figure) = !isempty(f)
+# We omit the `&& haskey(PyDict{Any,Any}(f.canvas.get_supported_filetypes()), "png")` check.
 
 end
