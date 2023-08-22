@@ -96,3 +96,13 @@ _Last time these instructions were tested on a fresh system:_ [a few weeks befor
 Check out the following version of this repository and this ReadMe  
 for instructions on how to reproduce the older, Python notebooks:  
 > 👉 [Repository @ commit `56bc7f6` (Jan 8, 2022)](https://github.com/tfiers/phd/tree/56bc7f6)
+
+
+
+### Using the Python package `pkg/pyplotlib` in Julia
+
+- Activate your conda environment. Install matplotlib in it.
+- `pip install -e pkg/pyplotlib`
+- Add an environment variable `JULIA_PYTHONCALL_EXE`, pointing to the
+  python executable of your active conda env (which can be found using
+  `which python`). Example value: `C:\Users\tfiers\mambaforge\python`.

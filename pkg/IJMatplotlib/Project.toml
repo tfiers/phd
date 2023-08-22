@@ -1,0 +1,9 @@
+name = "IJMatplotlib"
+uuid = "6381b839-9d35-46ac-b693-50cadad771c6"
+authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
+WithFeedback = "5e413c25-1502-46af-a5a5-d847cf9e0e8b"

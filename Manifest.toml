@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "84b9fe8a0aaf2dc608ce0412332d39fd4d4c6526"
+project_hash = "95f9119a89ef0ac046cc20a5e36338cf099f97f4"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -452,6 +452,12 @@ git-tree-sha1 = "709d864e3ed6e3545230601f94e11ebc65994641"
 uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
 version = "0.3.11"
 
+[[deps.IJMatplotlib]]
+deps = ["IJulia", "PythonCall", "WithFeedback"]
+path = "pkg/IJMatplotlib"
+uuid = "6381b839-9d35-46ac-b693-50cadad771c6"
+version = "0.1.0"
+
 [[deps.IJulia]]
 deps = ["Base64", "Conda", "Dates", "InteractiveUtils", "JSON", "Libdl", "Logging", "Markdown", "MbedTLS", "Pkg", "Printf", "REPL", "Random", "SoftGlobalScope", "Test", "UUIDs", "ZMQ"]
 git-tree-sha1 = "59e19713542dd9dd02f31d59edbada69530d6a14"
@@ -840,12 +846,6 @@ git-tree-sha1 = "b3901ea034cfd8aae57a2fa0dde0b0ea18bad1cb"
 uuid = "570af359-4316-4cb7-8c74-252c00c2016b"
 version = "1.1.1"
 
-[[deps.PhDPlots2]]
-deps = ["IJulia", "PythonCall", "Sciplotlib2", "Units"]
-path = "pkg/PhDPlots2"
-uuid = "8882fb83-7a18-4ae0-b3ef-a58e1f4042a1"
-version = "0.1.0"
-
 [[deps.Pidfile]]
 deps = ["FileWatching", "Test"]
 git-tree-sha1 = "2d8aaf8ee10df53d0dfb9b8ee44ae7c04ced2b03"
@@ -919,12 +919,6 @@ git-tree-sha1 = "70af6bdbde63d7d0a4ea99f3e890ebdb55e9d464"
 uuid = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 version = "0.9.14"
 
-[[deps.PythonPlot]]
-deps = ["Colors", "CondaPkg", "LaTeXStrings", "PythonCall", "Sockets", "Test", "VersionParsing"]
-git-tree-sha1 = "88b305afa25e1bc4379f182152273dfc55a814b4"
-uuid = "274fc56d-3b97-40fa-a1cd-1b4a50311bf9"
-version = "1.0.3"
-
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
 git-tree-sha1 = "97aa253e65b784fd13e83774cadc95b38011d734"
@@ -976,12 +970,6 @@ version = "1.1.0"
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
-
-[[deps.Sciplotlib2]]
-deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PythonCall", "PythonPlot", "Reexport", "Requires"]
-path = "pkg/Sciplotlib2"
-uuid = "88be95e5-9550-4d5f-a203-92a5acbc3118"
-version = "0.1.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]
