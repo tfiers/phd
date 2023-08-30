@@ -11,3 +11,8 @@ Not supported:
 - Matplotlib GUI's (like interactive Qt windows)
 - Interact.jl
 - ..all other PythonPlot.jl features
+
+
+---
+
+[In the end, this wasn't much faster than the full PythonPlot.jl]

@@ -7,8 +7,7 @@ using Pkg
 Pkg.activate(".")
 
 local_pkgs = [
-    "Sciplotlib",  # Depends on MyToolbox
-    "MyToolbox",
+    "Sciplotlib",
     "SpikeWorks",
     "ConnectionTests",  # Depends on ConnTestEval, WithFeedback
     "ConnTestEval",
