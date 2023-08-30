@@ -82,7 +82,27 @@ multiplex(spiketrains) = begin
     sort!(spikes)
 end
 
-sim(N, duration, seed=1, wₑ=14*pS, wᵢ=4*wₑ) = begin
+const input_for_4Hz_output = Dict([
+    (N = 10,  	we = 2.838843 * nS),
+    (N = 20,  	we = 1.856241 * nS),
+    (N = 45,  	we = 1.052897 * nS),
+    (N = 100,  	we = 0.586951 * nS),
+    (N = 200,  	we = 0.335195 * nS),
+    (N = 400,  	we = 0.183884 * nS),
+    (N = 800,  	we = 0.100299 * nS),
+    (N = 1600,  we = 0.055847 * nS),
+    (N = 3200,  we = 0.029046 * nS),
+    (N = 6500,  we = 0.015036 * nS),  # = 15.036 pS, i.e. enough signif digits
+])
+# Source: https://tfiers.github.io/phd/nb/2023-08-05__AdEx_Nto1_we_sweep.html
+
+sim(
+    N,
+    duration,
+    seed = 1,
+    wₑ = get(input_for_4Hz_output, N, 0.2*nS),
+    wᵢ = 4*wₑ,
+) = begin
     Random.seed!(seed)
     num_steps = round(Int, duration / Δt)
     t = 0 * second
@@ -120,5 +140,8 @@ sim(N, duration, seed=1, wₑ=14*pS, wᵢ=4*wₑ) = begin
     spikerate = length(spiketimes) / duration
     return (; V, spiketimes, rates, trains, Nₑ, spikerate, wₑ)
 end
+
+
+include("tools.jl")
 
 end

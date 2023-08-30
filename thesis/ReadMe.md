@@ -11,7 +11,7 @@ wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 [1]: https://yihui.org/tinytex/#installation
 [2]: https://github.com/rstudio/tinytex-releases
 
-Then installed these extra packages in addition to the included ones: \
+Then install these extra packages in addition to the included ones: \
 `$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo`
 
 (In git bash for Windows: `tlmgr.bat`, instead).
@@ -20,6 +20,6 @@ Then installed these extra packages in addition to the included ones: \
 
 <!-- For continous compilation: `latexmk -pvc -pdfxe main.tex`. -->
 
-For continuous comiplation: latexmk -pvc -pdf main.tex
+Then run, for continuous compilation: `latexmk -pvc -pdf main.tex`.
 
 On font-related errors, running `updmap` might help.
