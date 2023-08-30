@@ -35,3 +35,12 @@ To use the generated system image:
 
 - For me, the generated Jupyter kernel definition file is located at:  
   `C:\Users\tfiers\AppData\Roaming\jupyter\kernels\julia-mysis-1.8\kernel.json`
+
+- The packages included in `Project.toml` are those imported by `VoltoMapSim.jl` with the slowest load times (determined with `@time_imports`).
+ - Plus: OhMyREPL, ProfileView.
+ - Minus: Unitful. Including that errors the build.
+
+- `repl_trace.jl` was generated like [here](https://julialang.github.io/PackageCompiler.jl/dev/examples/ohmyrepl.html), i.e. with `julia --trace-compile=repl_trace.jl`.
+  In [my julia startup script](https://github.com/tfiers/dotfiles/blob/main/.julia/config/startup.jl), OhMyREPL was imported and configured.
+
+- We used to have an `ijulia_trace` as well (generated with the `--trace-compile` option in a new jupy kernel). But a sysimg generated with that cannot be used as kernel, alas (it doesn't startup).
