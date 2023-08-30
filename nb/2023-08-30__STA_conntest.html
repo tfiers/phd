@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2023-05-27__synaptic_cond_example &#8212; Voltage-to-Wiring Sim</title>
+    <title>2023-08-30__STA_conntest &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-05-27__synaptic_cond_example.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-08-30__STA_conntest.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2023-04-11 &#8226; Nto1 AdEx sims: conntest method comparison" href="2023-04-11__Nto1_AdEx_conntest_methods_comparison.html">
-    <link rel="prev" title="2023-06-23__Vm_traces_AdEx_Izh__Brian" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html">
+    <link rel="next" title="2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib" href="2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,8 +106,8 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2023-08-30__STA_conntest.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2023-08-30__STA_conntest
   </a>
  </li>
@@ -176,8 +176,8 @@ const thebe_selector_output = ".output, .cell_output"
    2023-06-23__Vm_traces_AdEx_Izh__Brian
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-05-27__synaptic_cond_example.html">
    2023-05-27__synaptic_cond_example
   </a>
  </li>
@@ -653,7 +653,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2023-05-27__synaptic_cond_example.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023-08-30__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -665,8 +665,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-05-27__synaptic_cond_example.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-05-27__synaptic_cond_example.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-08-30__STA_conntest.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-08-30__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -680,7 +680,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-05-27__synaptic_cond_example.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-08-30__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -701,7 +701,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2023-05-27__synaptic_cond_example</h1>
+                <h1>2023-08-30__STA_conntest</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -712,180 +712,138 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="synaptic-cond-example">
-<h1>2023-05-27__synaptic_cond_example<a class="headerlink" href="#synaptic-cond-example" title="Permalink to this headline">&#182;</a></h1>
+  <div class="section" id="sta-conntest">
+<h1>2023-08-30__STA_conntest<a class="headerlink" href="#sta-conntest" title="Permalink to this headline">&#182;</a></h1>
+<p>(Result of workflow speed (&amp; ergonomy) tests: full Julia (no Python hybrid))</p>
+<p>So, for all 10 Ns;<br>
+For 10 diff seeds;
+for both exc, inh, and unconn;<br>
+we conntest (maximum) 100 input spike trains.<br>
+(Each test is comprised of calculating 101 STAs: one real and the rest with shuffled ISIs).</p>
+<p>From the prev nb (<a class="reference external" href="https://tfiers.github.io/phd/nb/2023-08-16__STA_conntest_pyjulia.html">https://tfiers.github.io/phd/nb/2023-08-16__STA_conntest_pyjulia.html</a>),
+we found we&#8217;d take a shorter window, so that &#8216;area over start&#8217; measure (to determine if exc or inh) is correct.</p>
+<p>But ok, it&#8217;s good to show that in thesis.<br>
+So, we repeat an example STA plot here.</p>
+<p>for full N ofc.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Units</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#916;t</span> <span class="o">=</span> <span class="mf">0.01</span><span class="n">ms</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mi">60</span><span class="n">ms</span>
-<span class="n">N</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">T</span><span class="o">/</span><span class="n">&#916;t</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">Revise</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.495874 seconds (595.48 k allocations: 36.092 MiB, 1.16% compilation time)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="o">=</span> <span class="n">&#916;t</span> <span class="o">.*</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Nto1AdEx</span>
+<span class="k">using</span> <span class="n">Units</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">sim</span><span class="p">(</span><span class="n">syns</span> <span class="o">=</span> <span class="p">[(</span><span class="n">&#916;g</span> <span class="o">=</span> <span class="mi">1</span><span class="n">nS</span><span class="p">,</span> <span class="n">spikes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="n">ms</span><span class="p">,</span> <span class="mi">20</span><span class="n">ms</span><span class="p">]),</span> <span class="p">])</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">g</span> <span class="o">=</span> <span class="mi">0</span><span class="n">nS</span>
-    <span class="n">&#964;</span> <span class="o">=</span> <span class="mi">7</span><span class="n">ms</span>
-    <span class="n">gs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">syns</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">syns</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
-        <span class="n">t</span> <span class="o">+=</span> <span class="n">&#916;t</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">&#916;g</span><span class="p">,</span> <span class="n">spikes</span><span class="p">)</span> <span class="k">in</span> <span class="n">syns</span>
-            <span class="k">if</span> <span class="o">!</span><span class="n">isempty</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">t</span> <span class="o">&#8805;</span> <span class="n">first</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
-                <span class="n">popfirst!</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
-                <span class="n">g</span> <span class="o">+=</span> <span class="n">&#916;g</span>
-            <span class="k">end</span>
-        <span class="k">end</span>
-        <span class="n">dg</span> <span class="o">=</span>  <span class="o">-</span><span class="n">g</span> <span class="o">/</span> <span class="n">&#964;</span>
-        <span class="n">g</span> <span class="o">+=</span> <span class="n">dg</span> <span class="o">*</span> <span class="n">&#916;t</span>
-        <span class="n">push!</span><span class="p">(</span><span class="n">gs</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">gs</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Revise</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Sciplotlib</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PhDPlots</span>
-<span class="n">PhDPlots</span><span class="o">.</span><span class="n">set_&#916;t</span><span class="p">(</span><span class="n">&#916;t</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">))</span>
-    <span class="n">plotsig</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="nb">nothing</span><span class="p">,</span> <span class="n">ms</span><span class="p">;</span> <span class="n">ax</span><span class="p">);</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="mi">1</span><span class="n">nS</span>
-    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:range</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:range</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">G</span><span class="o">/</span><span class="n">nS</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">xunit</span><span class="o">=</span><span class="s">"ms"</span><span class="p">,</span> <span class="n">yunit</span><span class="o">=</span><span class="s">"nS"</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.4</span><span class="n">nS</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="n">ms</span><span class="p">,</span> <span class="mi">30</span><span class="n">ms</span><span class="p">])</span>
-<span class="n">g1</span> <span class="o">=</span> <span class="n">sim</span><span class="p">([</span><span class="n">s1</span><span class="p">])</span>
-<span class="n">pl</span><span class="p">(</span><span class="n">g1</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">"../thesis/figs/g2.pdf"</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_10_0.png" src="../_images/2023-05-27__synaptic_cond_example_10_0.png">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>600.0
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">s2</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="n">nS</span><span class="p">,</span> <span class="p">[</span><span class="mi">20</span><span class="n">ms</span><span class="p">])</span>
-<span class="n">g2</span> <span class="o">=</span> <span class="n">sim</span><span class="p">([</span><span class="n">s2</span><span class="p">])</span>
-<span class="n">pl</span><span class="p">(</span><span class="n">g2</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">"../thesis/figs/g1.pdf"</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_11_0.png" src="../_images/2023-05-27__synaptic_cond_example_11_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.892976 seconds (21.48 k allocations: 912.225 MiB, 6.35% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>(1st run: 2.5 secs, 27% compilation time).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="k">using</span> <span class="n">ConnectionTests</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.079693 seconds (100.47 k allocations: 7.435 MiB)
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="p">(</span><span class="n">g1</span> <span class="o">.+</span> <span class="n">g2</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span><span class="o">.</span><span class="n">w&#8337;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_12_0.png" src="../_images/2023-05-27__synaptic_cond_example_12_0.png">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.5036000000000002e-11
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">g3</span> <span class="o">=</span> <span class="n">sim</span><span class="p">([</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">])</span>
-<span class="n">pl</span><span class="p">(</span><span class="n">g3</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s">"../thesis/figs/g3.pdf"</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_13_0.png" src="../_images/2023-05-27__synaptic_cond_example_13_0.png">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6500-element Vector{Vector{Float64}}:
+ [0.1180408751333184, 0.16712301606358226, 0.6395490948742043, 0.658703895594019, 0.7311321438696582, 0.9419240285324539, 1.2078626826540413, 1.6397763453002923, 2.2364043678915158, 2.3427599402036177  &#8230;  595.8031613112238, 596.2325166108881, 596.7712334595013, 597.2311285837878, 598.3014464492021, 598.7945797318018, 599.2335597357237, 599.2708114041611, 599.5652199852454, 599.7994513265622]
+ [0.23343949260427532, 0.3424010631222131, 1.039898725097704, 1.0825406432794895, 1.1164477363311327, 1.165396271306259, 2.056843958514344, 3.017854424600391, 3.5595333265583253, 4.19519582569788  &#8230;  597.0810040614765, 597.5476378988769, 597.6625269178182, 597.7566207086492, 598.7652118407497, 599.1807959189589, 599.3305923874399, 599.3509696518094, 599.4463405667514, 599.7431143322461]
+ [0.672327338151685, 1.020992680356497, 1.5717637170036336, 2.5710211970695256, 2.693322677616261, 4.140730438928746, 4.227007586541332, 4.376849414351515, 4.409349562726697, 4.635104100495538  &#8230;  594.3711312207744, 594.9921359335515, 595.2440923650747, 596.6957648946897, 597.4904244404489, 598.2338617029491, 598.5237790047754, 599.0503436520567, 599.443050022553, 599.9914114953914]
+ [0.313645771710596, 0.3468008730342329, 0.5255155884172549, 0.8027045889862721, 0.8079136648815163, 1.1168829520472563, 1.5664631204254724, 1.6415456653197542, 1.924953682815976, 2.127160103154067  &#8230;  595.7285034723602, 596.1052762889365, 596.610619077229, 597.2542097763578, 597.7569318501485, 598.7534406080468, 598.9553994141903, 599.4169273137433, 599.4742952281113, 599.6263981032321]
+ [0.5109303204371605, 0.5442765021362808, 0.6525875901096587, 0.9515025303061333, 0.9524241446870342, 1.4545451707673083, 1.4817004823002151, 1.6007328301539856, 1.6541400929093542, 2.032484320764654  &#8230;  599.1888810027847, 599.2519798975142, 599.3317222867146, 599.3443757575351, 599.4369240939166, 599.4463133085279, 599.6889802042223, 599.8144474722535, 599.8145864215802, 599.9100809239744]
+ [0.45976119228462, 0.9372468788202035, 4.505387766755967, 4.832222395639618, 8.12885681128531, 10.5102545860573, 11.742662389884163, 14.414128666872594, 15.071762893990872, 15.776119066253179  &#8230;  590.6141360237947, 591.9423992970145, 592.9246237979048, 594.1194414774837, 594.5020184857453, 596.3842450202045, 596.5337489738632, 596.598827311562, 597.1481537231718, 598.3628423856577]
+ [0.03566997856676809, 1.7988291499929756, 2.3068719926287593, 2.5781822442877433, 2.668605645336207, 2.6757206379138143, 2.7149458843887824, 3.502724412902637, 3.8038724337487553, 3.8050799016067147  &#8230;  597.031769108427, 597.3200924787207, 597.4722420127258, 598.340197739558, 598.3576548538421, 598.7184753916304, 599.1318536167248, 599.8972868749822, 599.918531206301, 599.9890122965368]
+ [0.03379231580046044, 0.09079438969040005, 0.21640122059054862, 0.7569524729346329, 0.9364670754411545, 1.31145715832351, 1.6741064722646255, 1.7473199285392957, 1.7626923152462053, 1.7716698613722905  &#8230;  598.811452006018, 598.8664350692459, 599.2768534023741, 599.3811468104243, 599.4201763228191, 599.4357885067235, 599.5010497966099, 599.7059435091675, 599.7894855787156, 599.8569338335752]
+ [0.8032169529972595, 1.4421068699835322, 2.1396951797331023, 3.369157733017162, 3.806574386594112, 4.395581889718553, 4.614990431300609, 6.69619320328255, 7.691429235587258, 8.983530677265056  &#8230;  572.0391448583447, 572.7276659907596, 573.7717465315334, 574.0005863006556, 576.452953019853, 581.8053825330107, 586.5999235242142, 589.8303138185189, 593.7165098881514, 595.93697242845]
+ [1.161319959204951, 4.47855476138037, 4.518247502123393, 4.977116596659243, 10.302043360531291, 10.468188292703983, 11.843793937379438, 11.99835642039076, 12.401622010908953, 14.06631574892308  &#8230;  589.4877116413375, 589.6060337575744, 590.5004868297635, 591.6836603395503, 595.8843112385772, 596.4000772318963, 596.4351790728143, 597.1616102028156, 598.3073845998301, 599.0111939322985]
+ [0.009597140326749798, 0.250582296736012, 0.6664338098843934, 0.9878558528454644, 1.345661898866292, 1.6580034429303783, 2.261360934216169, 2.5194602925211007, 2.6127730387229446, 3.462005467496956  &#8230;  598.9507008933783, 599.0274742698513, 599.1294371359131, 599.2440319238698, 599.2962480235474, 599.4827743190355, 599.4865130247865, 599.6275224668211, 599.9773563363664, 599.9957713348103]
+ [0.3183179378142186, 0.466598456654867, 0.5602817907115996, 1.0695541384925704, 1.4554483364431063, 1.4618012655874295, 2.7478183984328184, 2.9631986573111373, 3.8298483300684296, 4.611539071566364  &#8230;  596.8311555253737, 597.389514207114, 597.4033337516158, 597.5418549432342, 597.9460207105974, 598.0786752290646, 598.1149729162736, 598.7521824800705, 599.6247622552032, 599.9279005566824]
+ [0.26063139568732285, 0.41580706499609066, 0.6549763025782251, 0.6628363071951313, 0.8891233782799234, 1.3090310264961782, 1.323665117462693, 1.4626604747449794, 1.5320369891590218, 1.789993022249567  &#8230;  596.8479105580082, 596.9560926121443, 597.1380368284255, 598.3709954553086, 598.5007664467767, 599.1726297624855, 599.2327541449391, 599.2825854354223, 599.5822510340748, 599.9820437631543]
+ &#8942;
+ [0.30585209194915836, 1.0835263444585936, 1.452073589612615, 2.0224000211479867, 2.1471794256024785, 2.265442063494163, 2.5878455747426248, 2.7377357757631895, 2.875767412166814, 3.6740111906579997  &#8230;  597.1169916224034, 597.3314593839356, 597.5587720437288, 597.7903871172905, 598.1567347462874, 598.1785834572171, 598.3244316390574, 599.0571047335955, 599.1913082424634, 599.7370609189102]
+ [0.11529994093597946, 0.3373812200488925, 0.37126315262051124, 1.4331826526611353, 2.318230027557693, 2.3335234612517564, 2.4902600424656036, 2.893451422709614, 3.0118041248100984, 3.043656317116256  &#8230;  597.4924729047744, 597.6627757507922, 598.5514651219337, 598.623556359321, 598.6474265408889, 598.9058087335729, 598.9134792884689, 598.9949442767141, 599.4151912261614, 599.4494219266869]
+ [0.08495748410913369, 0.2360366384240874, 0.3095104685976868, 0.5293507606720923, 1.4707589029865153, 1.6450235695052093, 2.5762841700502705, 2.85019072376245, 3.673393077435737, 3.821397749104714  &#8230;  597.9634544420215, 598.1929950133385, 598.4592713735801, 598.5406752444497, 598.678917151203, 598.9684855532696, 598.9798579692924, 599.3637369761226, 599.837666051106, 599.8867804971406]
+ [0.0636913043068456, 0.23229738266224387, 0.3175436903518709, 0.4046567043996193, 0.41153193682112577, 0.6235583401100416, 0.7328854562663375, 0.8034919488056282, 0.8675630392938596, 1.052611257568612  &#8230;  598.8604142443342, 599.0020093540439, 599.0393691537661, 599.5802776759102, 599.6867301526376, 599.6869149510437, 599.6906742519324, 599.7389380913062, 599.8622114103291, 599.9441826556287]
+ [1.2509020982513468, 1.3798480449389328, 1.393139607197016, 1.4586797524807893, 1.850485550592599, 3.4412372566973026, 3.8194671099080497, 4.4196835545985085, 4.609724826834787, 4.70544188603199  &#8230;  590.6222747118651, 591.1759255281862, 591.7556256607048, 592.6386961775426, 593.3759941868713, 594.9874902686024, 597.6649836920666, 598.0339799693646, 598.7439325935378, 599.3047085365781]
+ [0.14427280965185646, 1.2650048268657177, 1.4368316212785714, 1.5271968372641063, 1.617065935428306, 2.443279032123775, 2.8982899971278635, 3.1738635499833956, 3.494744888489007, 3.9256279160461456  &#8230;  594.616644134178, 594.8723690144298, 595.0896140014084, 595.121887629395, 596.1728735891845, 596.4302859722684, 596.4490197650395, 596.607463687114, 597.8578821253105, 598.3799170405645]
+ [0.06588060335553496, 0.12580152842288203, 0.32938744221000527, 0.7267539215864649, 0.8065851312465622, 1.0144191015886799, 1.0623018938682192, 1.1347524511279141, 1.687616501083524, 2.1133488544663455  &#8230;  597.6035454725993, 598.3617745559565, 598.6460798079623, 598.7442184353318, 598.8491202921288, 598.9791680858808, 599.0190083664326, 599.0972435193393, 599.1504117926893, 599.2607400697569]
+ [2.2590125998864026, 2.7361118695788638, 3.2543316989562703, 4.728874995692838, 4.957108046636358, 5.008548031910796, 5.080411700388082, 5.149133134837837, 5.476136447157918, 5.984590137970946  &#8230;  590.1317562949521, 591.2217751503091, 591.961944006467, 594.7529404819587, 596.4030850844922, 596.7621454946435, 597.0708358196408, 598.0847723977495, 599.0423695141303, 599.9226524946155]
+ [0.5183729327667863, 0.7515584535005191, 1.1226979666918742, 1.1268661951512817, 1.153850237166336, 1.2844462168343558, 1.4024333161472002, 1.4044982079999746, 1.5581769853043943, 1.5678272125404713  &#8230;  598.9273788167084, 598.9329581274054, 598.9686312639712, 599.2475473267265, 599.4273845861902, 599.4451967647346, 599.6239094321221, 599.6334429082216, 599.6539596042929, 599.9527912010883]
+ [0.06321093591463511, 0.09994688279377242, 0.1803660044105605, 0.20645126167184957, 0.32901878024200715, 0.3469401967975696, 0.4216490088314425, 0.5028298770490566, 0.5781601478230056, 0.6246196836427956  &#8230;  598.670982989548, 598.9722182248474, 599.0195064676232, 599.0545991564012, 599.3050865553814, 599.430166002853, 599.5619130022516, 599.6210322695774, 599.8589505788722, 599.9055286201176]
+ [0.15031970528915709, 0.6051754005149551, 0.6806560747808611, 1.2309426562964227, 3.0614576630160424, 4.164245707451443, 4.541116410951905, 5.082055007858009, 5.372131384395841, 5.373282344416776  &#8230;  595.0684864801507, 595.1072230760757, 595.7794472481355, 595.9574821357772, 597.337819920978, 597.6403612282683, 598.4451218528159, 598.4942069325235, 599.0588684159029, 599.4653449786214]
+ [0.06172893987844467, 0.25762729685273983, 0.6930176946500672, 1.4109820429710012, 1.4178089790765407, 1.4216146676841284, 1.882045012414868, 1.8969081511160062, 2.2154511824971648, 2.3167929583604088  &#8230;  596.4181297891093, 596.6761405386295, 597.4822496887193, 597.809736112255, 597.8103663562285, 597.8955695706343, 598.1616650575803, 598.8729406048587, 599.2451777377412, 599.4744094275844]
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="p">(</span><span class="n">g3</span> <span class="o">.-</span> <span class="p">(</span><span class="n">g1</span> <span class="o">.+</span> <span class="n">g2</span><span class="p">));</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">calc_STA</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_14_0.png" src="../_images/2023-05-27__synaptic_cond_example_14_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">g3</span> <span class="o">.-</span> <span class="p">(</span><span class="n">g1</span> <span class="o">.+</span> <span class="n">g2</span><span class="p">))</span> <span class="o">/</span> <span class="n">nS</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_15_0.png" src="../_images/2023-05-27__synaptic_cond_example_15_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">g3</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="nb">nothing</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">plotsig</span><span class="p">((</span><span class="n">g1</span> <span class="o">.+</span> <span class="n">g2</span><span class="p">)</span> <span class="o">/</span> <span class="n">nS</span><span class="p">,</span> <span class="nb">nothing</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2023-05-27__synaptic_cond_example_16_0.png" src="../_images/2023-05-27__synaptic_cond_example_16_0.png">
 </div>
 </div>
 </div>
@@ -915,17 +873,17 @@ const thebe_selector_output = ".output, .cell_output"
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2023-06-23__Vm_traces_AdEx_Izh__Brian</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2023-04-11__Nto1_AdEx_conntest_methods_comparison.html" title="next page">
+    <a class="right-next" id="next-link" href="2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2023-04-11 &#8226; Nto1 AdEx sims: conntest method comparison</p>
+        <p class="prev-next-title">2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
