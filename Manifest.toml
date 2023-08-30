@@ -2,7 +2,7 @@
 
 julia_version = "1.9.0-beta3"
 manifest_format = "2.0"
-project_hash = "11c5411aa514590fe8cdba73fb3fe0168b57ab02"
+project_hash = "6081690bc60890cd5585b26295ffca0ac9fd40f1"
 
 [[deps.ATK_jll]]
 deps = ["Artifacts", "Glib_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -840,6 +840,12 @@ git-tree-sha1 = "b3901ea034cfd8aae57a2fa0dde0b0ea18bad1cb"
 uuid = "570af359-4316-4cb7-8c74-252c00c2016b"
 version = "1.1.1"
 
+[[deps.PhDPlots]]
+deps = ["IJulia", "PythonCall", "Sciplotlib", "Units"]
+path = "pkg/PhDPlots"
+uuid = "8882fb83-7a18-4ae0-b3ef-a58e1f4042a1"
+version = "0.1.0"
+
 [[deps.Pidfile]]
 deps = ["FileWatching", "Test"]
 git-tree-sha1 = "2d8aaf8ee10df53d0dfb9b8ee44ae7c04ced2b03"
@@ -913,6 +919,12 @@ git-tree-sha1 = "70af6bdbde63d7d0a4ea99f3e890ebdb55e9d464"
 uuid = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 version = "0.9.14"
 
+[[deps.PythonPlot]]
+deps = ["Colors", "CondaPkg", "LaTeXStrings", "PythonCall", "Sockets", "Test", "VersionParsing"]
+git-tree-sha1 = "88b305afa25e1bc4379f182152273dfc55a814b4"
+uuid = "274fc56d-3b97-40fa-a1cd-1b4a50311bf9"
+version = "1.0.3"
+
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
 git-tree-sha1 = "97aa253e65b784fd13e83774cadc95b38011d734"
@@ -964,6 +976,12 @@ version = "1.1.0"
 [[deps.SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
+
+[[deps.Sciplotlib]]
+deps = ["ColorVectorSpace", "Colors", "PartialFunctions", "Printf", "PythonCall", "PythonPlot", "Reexport", "Requires"]
+path = "pkg/Sciplotlib"
+uuid = "88be95e5-9550-4d5f-a203-92a5acbc3118"
+version = "0.1.0"
 
 [[deps.Scratch]]
 deps = ["Dates"]

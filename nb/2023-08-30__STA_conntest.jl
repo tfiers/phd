@@ -70,6 +70,21 @@ tabulate(inh_inputs)
 
 # ( :) )
 
+STA = calc_STA(sim.V, exc_inputs[1].times);
+
+using WithFeedback
+
+@withfb import PythonCall
+@withfb import PythonPlot
+@withfb using Sciplotlib
+@withfb using PhDPlots
+
+plot = Sciplotlib.plot;
+
+plotsig(STA / mV, ms);
+
+(maximum(STA) - first(STA)) / mV
+
+plotsig(STA/mV, [0,20], ms);
 
 
-calc_STA(sim.V, sim.)

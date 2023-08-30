@@ -7,9 +7,11 @@ set_Δt(x) = (global Δt = x)
 """
 ## Example:
 
+    plotsig(x, ms)
     plotsig(x, [200, 400], ms)
 """
-plotsig(sig, tlim = nothing, tscale = minutes; kw...) = begin
+plotsig(sig, tscale = minutes; kw...) = plotsig(sig, nothing, tscale; kw...)
+plotsig(sig, tlim, tscale; kw...) = begin
     t = timevec(sig) / tscale
     isnothing(tlim) && (tlim = [t[1], t[end]])
     t0, t1 = tlim

@@ -155,7 +155,7 @@ end
 
 Base.show(io::IO, s::SpikeTrain) =
     print(io, SpikeTrain, "(", num_spikes(s), " spikes, ",
-              spikerate(s), " Hz, ", s.times, ")")
+              spikerate(s) / Hz, " Hz, ", s.times, ")")
 
 num_spikes(s::SpikeTrain) = length(s.times)
 spikerate(s::SpikeTrain) = num_spikes(s) / s.T
