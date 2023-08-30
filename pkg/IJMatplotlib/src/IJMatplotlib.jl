@@ -22,13 +22,12 @@ function __init__()
 
     key = "JULIA_PYTHONCALL_EXE"
     if key ∈ keys(ENV)
-        print("Using `$(ENV[key])`. ")
-        # No newline; added below in @withfb (to keep it all on one line).
+        println("Using `$(ENV[key])`.")
     else
         error("""Please create an environment variable `$key`
                  pointing to the Python executable to use.
-                 (You might have to restart your terminal
-                 and jupyter afterwards).""")
+                 (You might have to restart your jupyter
+                 terminal afterwards).""")
     end
 
     @withfb "Loading matplotlib" pyimport("matplotlib.pyplot")

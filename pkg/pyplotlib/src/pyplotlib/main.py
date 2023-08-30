@@ -8,7 +8,9 @@
 
 second = 1.0
 ms = 1e-3 * second
-from numpy import linspace
+
+from numpy import *
+
 
 import matplotlib_inline
 matplotlib_inline.backend_inline.set_matplotlib_formats('retina')
@@ -44,8 +46,10 @@ def plotsig(
         xlabel = 'Time',
         **kw
     ):
+    y = array(y)
     if y_unit == 'auto':
-        y_unit = max(abs(y)).get_best_unit()
+        y_unit = 1
+        # y_unit = max(abs(y)).get_best_unit()
     t = timesig(y)
     if tlim is None:
         t0, t1 = t[0], t[-1]
