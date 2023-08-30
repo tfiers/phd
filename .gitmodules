@@ -2,7 +2,7 @@
 	path = pkg/Sciplotlib
 	url = git@github.com:tfiers/Sciplotlib.jl.git
 [submodule "pkg/MyToolbox"]
-	path = pkg/MyToolbox
+	path = pkg/[archive]/MyToolbox
 	url = git@github.com:tfiers/MyToolbox.jl.git
 [submodule "pkg/SpikeWorks"]
 	path = pkg/SpikeWorks
