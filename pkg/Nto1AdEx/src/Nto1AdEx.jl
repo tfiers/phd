@@ -138,10 +138,35 @@ sim(
         t += Δt
     end
     spikerate = length(spiketimes) / duration
-    return (; V, spiketimes, rates, trains, Nₑ, spikerate, wₑ)
+
+    # This NamedTuple is our implicitly defined 'simdata' data
+    # structure, on which the functions below operate. It is what we
+    # mean with `SimData` below.
+    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate)
 end
 
+# Readability alias
+const SimData = NamedTuple
 
-include("tools.jl")
+struct SpikeTrain
+    times  ::Vector{Float64}
+    T      ::Float64            # = sim duration
+end
+
+Base.show(io::IO, s::SpikeTrain) =
+    print(io, SpikeTrain, "(", num_spikes(s), " spikes, ",
+              spikerate(s), " Hz, ", s.times, ")")
+
+num_spikes(s::SpikeTrain) = length(s.times)
+spikerate(s::SpikeTrain) = num_spikes(s) / s.T
+
+excitatory_inputs(s::SimData) = SpikeTrain.(s.trains[1:s.Nₑ], s.duration)
+inhibitory_inputs(s::SimData) = SpikeTrain.(s.trains[s.Nₑ+1:end], s.duration)
+
+highest_firing(trains::AbstractVector{SpikeTrain}) =
+    sort(trains, by = spikerate, rev = true)
+
+
+export excitatory_inputs, inhibitory_inputs, highest_firing, spikerate, num_spikes
 
 end
