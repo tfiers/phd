@@ -834,9 +834,73 @@ And split exc/inh, too.</p>
 <p>( :) )</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">calc_STA</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">STA</span> <span class="o">=</span> <span class="n">calc_STA</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">WithFeedback</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@withfb</span> <span class="k">import</span> <span class="n">PythonCall</span>
+<span class="nd">@withfb</span> <span class="k">import</span> <span class="n">PythonPlot</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">Sciplotlib</span>
+<span class="nd">@withfb</span> <span class="k">using</span> <span class="n">PhDPlots</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004;
+import PythonPlot &#8230; &#10004;
+using Sciplotlib &#8230; &#10004;
+using PhDPlots &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span> <span class="o">=</span> <span class="n">Sciplotlib</span><span class="o">.</span><span class="n">plot</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">STA</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-30__STA_conntest_22_0.png" src="../_images/2023-08-30__STA_conntest_22_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">maximum</span><span class="p">(</span><span class="n">STA</span><span class="p">)</span> <span class="o">-</span> <span class="n">first</span><span class="p">(</span><span class="n">STA</span><span class="p">))</span> <span class="o">/</span> <span class="n">mV</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.027582126445102606
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">STA</span><span class="o">/</span><span class="n">mV</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> <span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-30__STA_conntest_24_0.png" src="../_images/2023-08-30__STA_conntest_24_0.png">
 </div>
 </div>
 </div>
