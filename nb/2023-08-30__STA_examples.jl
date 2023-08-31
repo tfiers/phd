@@ -14,7 +14,7 @@
 #     name: julia-1.9
 # ---
 
-# # 2023-08-30__STA_conntest
+# # 2023-08-30__STA_examples
 
 # (Result of workflow speed (& ergonomy) tests: full Julia (no Python hybrid))
 
