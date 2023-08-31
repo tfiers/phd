@@ -31,3 +31,15 @@ To use this idea for an actual connection test, we look specifically at the heig
         By calculating different such shuffles, we obtain a null-distribution for the STA height test statistic. And by comparing the real STA height to this distribution, we can calculate a $p$-value. Here, the real STA is larger than all shuffle controls, of which there are 100. So $p < 0.01$, and at α = 0.05, we conclude there is indeed a connection $M$→$N$.}
     \label{fig:STA-height-suffle}
 \end{figure}
+
+\begin{figure}
+    \hspace*{12em}
+    \includegraphics{example_STAs}
+    \captionn
+        {Some example STAs in the 10-minute simulation with 6500 inputs}
+        {
+        Note that every panel has a different y-axis (voltage) scale. The STA of the most active input is plotted in every panel (\mpl{blue}), to allow visual scale comparison.\\
+        The legends indicate with how many presynaptic spikes the STA was calculated, and whether the input was an excitatory or inhibitory one.\\
+        The top right panel shows STAs of the 1\ts{st} and 100\ts{th} fastest spiking inputs, both within the excitatory inputs (\mpl{blue} and \mpl{orange}), and within the inhibitory inputs (\mpl{green} and \mpl{red}).\\
+        Source: \nburl{2023-08-30__STA_examples}.}
+\end{figure}

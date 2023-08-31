@@ -27,6 +27,43 @@
 }
 \makeatother
 
+% \newcommand{\mpl}[1]{#1}
+% \newcommand{\mpl}[1]{\IfStrEqCase{b}{{b}{BB}{a}{AA}}}
+%         {blue}{blueyyy}%
+% %         {blue}{\textcolor[HTML]{1F77B4}{blue}}%
+% %         {orange}{\textcolor[HTML]{FF7F0E}{orange}}%
+% %         {green}{\textcolor[HTML]{2CA02C}{green}}%
+% %         {red}{\textcolor[HTML]{D62728}{red}}%
+%     }[#1]%
+% }
+
+% `\IfStrEqCase' from xstring didn't work (it did in an MWE; but some bad interaction)
+%  ("Illegal parameter number in definition of \@tempa")
+% (https://tex.stackexchange.com/a/61602/153868).
+%
+% New style, using xparse and latex3 cmds,
+% from e.g. https://tex.stackexchange.com/a/61603/153868, does work
+\ExplSyntaxOn
+\NewDocumentCommand{\mpl}{m}
+  {
+   \str_case:nnF { #1 }
+     {
+      {blue} {\textcolor[rgb]{0.106, 0.408, 0.616}{blue}}
+      {orange} {\textcolor[rgb]{0.871, 0.431, 0.047}{orange}}
+      {green} {\textcolor[rgb]{0.149, 0.545, 0.149}{green}}
+      {red} {\textcolor[rgb]{0.729, 0.133, 0.137}{red}}
+      {purple} {\textcolor[rgb]{0.506, 0.353, 0.643}{purple}}
+      {brown} {\textcolor[rgb]{0.478, 0.294, 0.255}{brown}}
+     }
+     {#1}
+  }
+\ExplSyntaxOff
+% mpl colours, but darkened a bit (to make thin text visually match thick lines).
+% Calculated at 2023-08-30__STA_examples.
+
+% For "1st" etc. (May not use `^{}')
+\newcommand{\ts}{\textsuperscript}
+
 \newcommand*{\exc}{\text{exc}}
 \newcommand*{\inh}{\text{inh}}
 \newcommand*{\syn}{\text{syn}}

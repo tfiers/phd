@@ -144,4 +144,8 @@ plt.tight_layout(h_pad=2);
 savefig_phd("example_STAs")
 # -
 
+cs = darken.(Sciplotlib.mplcolors, 0.87)
+
+toRGBAtuple.(cs)[1:6]
+
 
