@@ -122,18 +122,18 @@ addlegend(ax; kw...) = legend(ax, fontsize=6, borderaxespad=0.7; kw...)
 plotSTA_2(exc_inputs[1], ax=axs[0,0], hylabel="… Using the fastest spiking input, …", xlabel=nothing);
 addlegend(axs[0,0])
 
-plotSTA_2(exc_inputs[1], ax=axs[0,1], hylabel="… and other fast spikers", xlabel=nothing);
+plotSTA_2(exc_inputs[1], ax=axs[0,1], hylabel="… and other fast spikers.", xlabel=nothing);
 plotSTA_2(exc_inputs[100], ax=axs[0,1], xlabel=nothing)
 plotSTA_2(inh_inputs[1], ax=axs[0,1], xlabel=nothing)
 plotSTA_2(inh_inputs[100], ax=axs[0,1], xlabel=nothing)
 addlegend(axs[0,1], loc="lower right")
 
 
-plotSTA_2(exc_inputs[1], ax=axs[1,1], hylabel="… and slowest spiking input");
+plotSTA_2(exc_inputs[1], ax=axs[1,1], hylabel="… and slowest spiking input.");
 plotSTA_2(exc_inputs[end], ax=axs[1,1]);
 addlegend(axs[1,1])
 
-plotSTA_2(exc_inputs[1], ax=axs[1,0], hylabel="… and input with median spikerate");
+plotSTA_2(exc_inputs[1], ax=axs[1,0], hylabel="… and input with median spikerate.");
 plotSTA_2(exc_inputs[mid], ax=axs[1,0]);
 addlegend(axs[1,0], loc="upper right")
 
