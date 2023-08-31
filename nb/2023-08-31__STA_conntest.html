@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2021-03-10 &#8226; Conditional pdf &#8212; Voltage-to-Wiring Sim</title>
+    <title>2023-08-31__STA_conntest &#8212; Voltage-to-Wiring Sim</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -48,12 +48,12 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
-    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2021-03-10__cond_prob.html">
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2023-08-31__STA_conntest.html">
     <link rel="shortcut icon" href="../_static/favicon.ico">
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
-    <link rel="next" title="2021-01-13 &#8226; Connection test plot functions" href="2021-01-13__conntest_in_codebase.html">
-    <link rel="prev" title="2021-11-04 &#8226; Control for output spike rate" href="2021-11-04__control_for_output_rate.html">
+    <link rel="next" title="2023-08-30__STA_examples" href="2023-08-30__STA_examples.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -105,9 +105,9 @@ const thebe_selector_output = ".output, .cell_output"
   Notebooks
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="2023-08-31__STA_conntest.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    2023-08-31__STA_conntest
   </a>
  </li>
@@ -517,7 +517,7 @@ const thebe_selector_output = ".output, .cell_output"
   Unpolished Notebooks
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="../unpolished_intro.html">
    Intro
@@ -563,8 +563,8 @@ const thebe_selector_output = ".output, .cell_output"
    2021-11-04 &#8226; Control for output spike rate
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
    2021-03-10 &#8226; Conditional pdf
   </a>
  </li>
@@ -658,7 +658,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/nb/2021-03-10__cond_prob.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <a class="dropdown-buttons" href="../_sources/nb/2023-08-31__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
@@ -670,8 +670,8 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
     <div class="dropdown-buttons sourcebuttons">
         <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2021-03-10__cond_prob.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2021-03-10__cond_prob.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2023-08-31__STA_conntest.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2023-08-31__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
     </div>
 </div>
 
@@ -685,7 +685,7 @@ const thebe_selector_output = ".output, .cell_output"
     <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2021-03-10__cond_prob.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2023-08-31__STA_conntest.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
         
         
         
@@ -706,7 +706,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>2021-03-10 &#8226; Conditional pdf</h1>
+                <h1>2023-08-31__STA_conntest</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -717,109 +717,8 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="section" id="conditional-pdf">
-<h1>2021-03-10 &#8226; Conditional pdf<a class="headerlink" href="#conditional-pdf" title="Permalink to this headline">&#182;</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tfiers.nb</span> <span class="kn">import</span> <span class="o">*</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Preloading: numpy, matplotlib.pyplot, pandas, seaborn.
-Imported `np`, `mpl`, `plt`, `sns`, `pd`
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">502</span><span class="p">)</span>  <span class="c1"># broadcasting error catching</span>
-<span class="n">xg</span><span class="p">,</span> <span class="n">yg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">'ij'</span><span class="p">)</span>
-<span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">xg</span><span class="p">,</span> <span class="n">yg</span><span class="p">])</span>
-
-<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-    <span class="sd">''' plot a function on xy grid '''</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">nrows</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">ncols</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">ax_2d</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">ax_2d</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xg</span><span class="p">,</span> <span class="n">yg</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-    <span class="n">ax_2d</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
-    <span class="n">ax_3d</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">'3d'</span><span class="p">)</span>
-    <span class="n">ax_3d</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">xg</span><span class="p">,</span> <span class="n">yg</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">ax_3d</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"$</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">$"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">analyse</span><span class="p">(</span><span class="n">p_xy</span><span class="p">):</span>
-    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">p_x</span> <span class="o">=</span> <span class="n">p_xy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span>
-    <span class="n">p_y</span> <span class="o">=</span> <span class="n">p_xy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">dy</span>
-    <span class="c1">#  integrate joint to get marginals</span>
-    <span class="c1">#  (we assume evenly spaced grid, hence differential outside sum).</span>
-    
-    <span class="c1"># conditionals</span>
-    <span class="n">p_x_given_y</span> <span class="o">=</span> <span class="n">p_xy</span> <span class="o">/</span> <span class="n">p_y</span>
-    <span class="n">p_y_given_x</span> <span class="o">=</span> <span class="n">p_xy</span> <span class="o">/</span> <span class="n">p_x</span><span class="p">[:,</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-    
-    <span class="n">plot</span><span class="p">(</span><span class="n">p_xy</span><span class="p">,</span> <span class="s2">"p(x,y)"</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">p_x_given_y</span><span class="p">,</span> <span class="s2">"p(x|y)"</span><span class="p">)</span>
-    <span class="n">plot</span><span class="p">(</span><span class="n">p_y_given_x</span><span class="p">,</span> <span class="s2">"p(y|x)"</span><span class="p">)</span>
-    
-    <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">figsize</span><span class="p">(</span><span class="n">aspect</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p_x</span><span class="p">)</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$p(x)$"</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p_y</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"$p(y)$"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">&#931;</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span>  <span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
-     <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">2</span>  <span class="p">]]</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">cov</span><span class="o">=</span><span class="n">&#931;</span><span class="p">)</span>
-<span class="n">analyse</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2021-03-10__cond_prob_5_0.png" src="../_images/2021-03-10__cond_prob_5_0.png">
-<img alt="../_images/2021-03-10__cond_prob_5_1.png" src="../_images/2021-03-10__cond_prob_5_1.png">
-<img alt="../_images/2021-03-10__cond_prob_5_2.png" src="../_images/2021-03-10__cond_prob_5_2.png">
-<img alt="../_images/2021-03-10__cond_prob_5_3.png" src="../_images/2021-03-10__cond_prob_5_3.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mog</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.4</span> <span class="o">*</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="n">&#931;</span><span class="p">)</span>
-       <span class="o">+</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">multivariate_normal</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xy</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span> <span class="c1"># default &#931; = I</span>
-
-<span class="n">analyse</span><span class="p">(</span><span class="n">mog</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2021-03-10__cond_prob_6_0.png" src="../_images/2021-03-10__cond_prob_6_0.png">
-<img alt="../_images/2021-03-10__cond_prob_6_1.png" src="../_images/2021-03-10__cond_prob_6_1.png">
-<img alt="../_images/2021-03-10__cond_prob_6_2.png" src="../_images/2021-03-10__cond_prob_6_2.png">
-<img alt="../_images/2021-03-10__cond_prob_6_3.png" src="../_images/2021-03-10__cond_prob_6_3.png">
-</div>
-</div>
+  <div class="section" id="sta-conntest">
+<h1>2023-08-31__STA_conntest<a class="headerlink" href="#sta-conntest" title="Permalink to this headline">&#182;</a></h1>
 </div>
 
     <script type="text/x-thebe-config">
@@ -831,33 +730,33 @@ Imported `np`, `mpl`, `plt`, `sns`, `pd`
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "python"
+            mode: "julia-1.9"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "julia-1.9",
             path: "./nb"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'julia-1.9'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="2021-11-04__control_for_output_rate.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">2021-11-04 &#8226; Control for output spike rate</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
         </div>
     </a>
-    <a class="right-next" id="next-link" href="2021-01-13__conntest_in_codebase.html" title="next page">
+    <a class="right-next" id="next-link" href="2023-08-30__STA_examples.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">2021-01-13 &#8226; Connection test plot functions</p>
+        <p class="prev-next-title">2023-08-30__STA_examples</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
