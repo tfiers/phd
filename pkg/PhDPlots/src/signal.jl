@@ -23,12 +23,12 @@ plotsig(sig, tlim, tscale; kw...) = begin
     plot(t[shown], sig[shown]; xlabel, kw...)
 end
 
-plotSTA(STA; kw...) = plotsig(
-    STA / mV, nothing, ms;
+plotSTA(
+    STA;
     xlabel = "Time after presynaptic spike (ms)",
     hylabel = "Spike-triggered average membrane voltage (mV)",
     kw...
-)
+) = plotsig(STA / mV, nothing, ms; xlabel, hylabel, kw...)
 
 timevec(sig) = begin
     T = duration(sig)

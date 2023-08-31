@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -79,12 +80,68 @@ using WithFeedback
 @withfb using Sciplotlib
 @withfb using PhDPlots
 
-plot = Sciplotlib.plot;
+plotSTA(STA);
 
-plotsig(STA / mV, ms);
+# To compare with predicted PSP height (0.04 mV):
 
 (maximum(STA) - first(STA)) / mV
 
 plotsig(STA/mV, [0,20], ms);
+
+# +
+plotSTA_(train; kw...) = begin
+    nspikes = num_spikes(train)
+    EI = train ∈ exc_inputs ? "exc" : "inh"
+    label = "$nspikes spikes, $EI"
+    plotSTA(calc_STA(sim.V, train.times); label, kw...)
+end
+    
+plotSTA_(exc_inputs[1]);
+plotSTA_(exc_inputs[2]);
+plotSTA_(inh_inputs[1]);
+plotSTA_(inh_inputs[2]);
+# -
+
+plotSTA_(exc_inputs[1]);
+plotSTA_(exc_inputs[end]);
+plt.legend();
+
+# +
+mid = length(exc_inputs) ÷ 2
+
+plotSTA_(exc_inputs[1]);
+plotSTA_(exc_inputs[mid]);
+plt.legend();
+
+# +
+fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(pw*0.8, mtw))
+plotSTA_2(args...; hylabel=nothing, kw...) = plotSTA_(args...; hylabel, kw...)
+
+addlegend(ax; kw...) = legend(ax, fontsize=6, borderaxespad=0.7; kw...)
+
+plotSTA_2(exc_inputs[1], ax=axs[0,0], hylabel="… Using the fastest spiking input, …", xlabel=nothing);
+addlegend(axs[0,0])
+
+plotSTA_2(exc_inputs[1], ax=axs[0,1], hylabel="… and other fast spikers", xlabel=nothing);
+plotSTA_2(exc_inputs[100], ax=axs[0,1], xlabel=nothing)
+plotSTA_2(inh_inputs[1], ax=axs[0,1], xlabel=nothing)
+plotSTA_2(inh_inputs[100], ax=axs[0,1], xlabel=nothing)
+addlegend(axs[0,1], loc="lower right")
+
+
+plotSTA_2(exc_inputs[1], ax=axs[1,1], hylabel="… and slowest spiking input");
+plotSTA_2(exc_inputs[end], ax=axs[1,1]);
+addlegend(axs[1,1])
+
+plotSTA_2(exc_inputs[1], ax=axs[1,0], hylabel="… and input with median spikerate");
+plotSTA_2(exc_inputs[mid], ax=axs[1,0]);
+addlegend(axs[1,0], loc="upper right")
+
+plt.suptitle(L"Spike-triggered averages (STAs) of membrane voltage $V$ (mV)")
+
+plt.tight_layout(h_pad=2);
+
+savefig_phd("example_STAs")
+# -
 
 
