@@ -63,7 +63,7 @@ trapz(x, y) = begin
 end
 
 
-export sweep_threshold, PredictionTable, at_FPR, calc_AUROCs
+export sweep_threshold, PredictionTable, at_FPR, calc_AUROCs, detection_rates
 export print_confusion_matrix
 
 end

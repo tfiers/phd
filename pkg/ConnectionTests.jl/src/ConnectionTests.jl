@@ -16,12 +16,12 @@ abstract type ConnTestMethod end
         spiketimes
     )
 
-Calculate a 'connected-ness' measure, `c`.
+Calculate a 'connected-ness' measure, `t`.
 
-The larger `c`'s absolute value, the more likely there is a direct
+The larger `t`'s absolute value, the more likely there is a direct
 synaptic connection from the neuron with the given `spiketimes` to the
-neuron with the given `voltage` signal. Positive `c` indicates an
-excitatory connection, negative `c` an inhibitory one.
+neuron with the given `voltage` signal. Positive `t` indicates an
+excitatory connection, negative `t` an inhibitory one.
 
 Note that `method` must be an *instantiated* struct, not the type itself.
 """

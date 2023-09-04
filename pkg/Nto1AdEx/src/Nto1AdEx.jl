@@ -169,7 +169,6 @@ function ceil_spikes!(V, spiketimes, V_ceil = Vₛ)
     V[i] .= V_ceil
     return V
 end
-export ceil_spikes!
 
 
 struct SpikeTrain
@@ -184,6 +183,9 @@ Base.show(io::IO, s::SpikeTrain) =
 num_spikes(s::SpikeTrain) = length(s.times)
 spikerate(s::SpikeTrain) = num_spikes(s) / s.T
 
+@doc (@doc poisson_spikes)
+poisson_SpikeTrain(r, T) = SpikeTrain(poisson_spikes(r, T), T)
+
 excitatory_inputs(s::SimData) = SpikeTrain.(s.trains[1:s.Nₑ], s.duration)
 inhibitory_inputs(s::SimData) = SpikeTrain.(s.trains[s.Nₑ+1:end], s.duration)
 
@@ -191,7 +193,9 @@ highest_firing(trains::AbstractVector{SpikeTrain}) =
     sort(trains, by = spikerate, rev = true)
 
 
-export excitatory_inputs, inhibitory_inputs, highest_firing, spikerate, num_spikes
+export SpikeTrain, num_spikes, spikerate, poisson_SpikeTrain
+export excitatory_inputs, inhibitory_inputs, highest_firing
 export Neuron
+export ceil_spikes!
 
 end
