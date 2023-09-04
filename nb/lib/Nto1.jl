@@ -1,4 +1,7 @@
 
+println("[IJulia init done]")
+flush(stdout)
+
 using WithFeedback
 
 @withfb using Revise
@@ -9,3 +12,5 @@ using WithFeedback
 
 include("util.jl")
 prettify_logging_in_IJulia()
+
+nothing;

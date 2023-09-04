@@ -27,11 +27,25 @@
 include("lib/Nto1.jl")
 
 # +
-duration = 10 * minutes
+duration = 10minutes
 N = 6500
 
 @time sim = Nto1AdEx.sim(N, duration);
 # -
+
+# (So even with native code caching in Julia 1.9, we still have 30% of time compilation here).
+
+# We decided we'd pick the 100 highest firing (exc and inh).\
+# And then generate some unconnecteds too..\
+# What's their firing rate? Maybe sample from the real ones :) hehe, sure.
+
+exc = highest_firing(excitatory_inputs(sim))[1:100]
+inh = highest_firing(inhibitory_inputs(sim))[1:100]
+both = [exc..., inh...]
+fr = spikerate.(both)
+showsome(fr / Hz)
+
+
 
 
 
