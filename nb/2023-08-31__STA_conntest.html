@@ -699,6 +699,29 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gen-unconnected-trains">
+   Gen unconnected trains
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conntest">
+   Conntest
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#eval">
+   Eval
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -711,6 +734,29 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gen-unconnected-trains">
+   Gen unconnected trains
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conntest">
+   Conntest
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#eval">
+   Eval
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -763,11 +809,20 @@ using StatsBase &#8230; &#10004;
 <p>We decided we&#8217;d pick the 100 highest firing (exc and inh).<br>
 And then generate some unconnecteds too..<br>
 What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</p>
+<div class="section" id="gen-unconnected-trains">
+<h2>Gen unconnected trains<a class="headerlink" href="#gen-unconnected-trains" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">))[</span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
-<span class="n">inh</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">inhibitory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">))[</span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
-<span class="n">both</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc</span><span class="o">...</span><span class="p">,</span> <span class="n">inh</span><span class="o">...</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">set_print_precision</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_inputs</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">))[</span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">inh_inputs</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">inhibitory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">))[</span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
+<span class="n">both</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc_inputs</span><span class="o">...</span><span class="p">,</span> <span class="n">inh_inputs</span><span class="o">...</span><span class="p">]</span>
 <span class="n">fr</span> <span class="o">=</span> <span class="n">spikerate</span><span class="o">.</span><span class="p">(</span><span class="n">both</span><span class="p">)</span>
 <span class="n">showsome</span><span class="p">(</span><span class="n">fr</span> <span class="o">/</span> <span class="n">Hz</span><span class="p">)</span>
 </pre></div>
@@ -778,9 +833,9 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
    1: 97.5
    2: 58.9
    &#8942;
-  75: 16.8
+  25: 22.6
    &#8942;
- 146: 12.5
+ 143: 12.6
    &#8942;
  199: 8.87
  200: 8.86
@@ -790,16 +845,296 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">unconn_frs</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">showsome</span><span class="p">(</span><span class="n">unconn_frs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100-element Vector{Float64}:
+   1: 25.9
+   2: 17.1
+   &#8942;
+  19: 17.7
+   &#8942;
+  72: 11
+   &#8942;
+  99: 10.4
+ 100: 8.92
+</pre></div>
+</div>
+</div>
+</div>
+<p>Seed may not be same as seed in sim: otherwise our &#8216;unconnected&#8217; trains generated might be same as real ones used in (generated in) sim.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">unconn_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">poisson_SpikeTrain</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">unconn_frs</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="conntest">
+<h2>Conntest<a class="headerlink" href="#conntest" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionTests</span><span class="o">.</span><span class="n">set_STA_length</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn</span><span class="p">(</span><span class="n">STAHeight</span><span class="p">(),</span> <span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+
+<span class="nd">@time</span> <span class="n">test</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.527623 seconds (2.07 k allocations: 134.689 MiB)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.99
+</pre></div>
+</div>
+</div>
+</div>
+<p>(That value is the &#8216;connectedness measure&#8217; I defined. Here simply 1 &#8211; p-value)</p>
+<p>Plottin some unconnected STAs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib</span><span class="se">\\</span><span class="s">plot.jl"</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.8 s)
-import PythonPlot &#8230; &#10004; (5.5 s)
-using Sciplotlib &#8230; &#10004; (0.8 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.3 s)
+import PythonPlot &#8230; &#10004; (4 s)
+using Sciplotlib &#8230; &#10004; (0.6 s)
 using PhDPlots &#8230; &#10004;
 </pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">_plotSTA</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">winlength</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="n">plotSTA</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">&#916;t</span><span class="p">,</span> <span class="n">winlength</span><span class="p">);</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">pw</span><span class="p">,</span> <span class="mf">0.3</span><span class="n">pw</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">_plotSTA</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">_plotSTA</span><span class="p">(</span><span class="n">unconn_trains</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+<span class="n">_plotSTA</span><span class="p">(</span><span class="n">unconn_trains</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+<span class="n">_plotSTA</span><span class="p">(</span><span class="n">unconn_trains</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s">"black"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-31__STA_conntest_18_0.png" src="../_images/2023-08-31__STA_conntest_18_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">test</span><span class="o">.</span><span class="p">(</span><span class="n">unconn_trains</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.629688 seconds (37.91 k allocations: 80.817 MiB, 6.84% gc time)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
+ -0.57
+ -0.1
+ -0.8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/df.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">ProgressMeter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="o">?</span><span class="nd">@showprogress</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@showprogress</span> <span class="n">dt</span> <span class="s2">"Computing..."</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="mi">50</span>
+    <span class="c1"># computation goes here</span>
+<span class="n">end</span>
+
+<span class="nd">@showprogress</span> <span class="n">dt</span> <span class="s2">"Computing..."</span> <span class="n">pmap</span><span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>displays progress in performing a computation. <code class="docutils literal notranslate"><span class="pre">dt</span></code> is the minimum interval between updates to the user. You may optionally supply a custom message to be printed that specifies the computation being performed.</p>
+<p><code class="docutils literal notranslate"><span class="pre">@showprogress</span></code> works for loops, comprehensions, map, reduce, and pmap.</p>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="nd">@time</span> <span class="k">for</span> <span class="p">(</span><span class="n">conntype</span><span class="p">,</span> <span class="n">trains</span><span class="p">)</span> <span class="k">in</span> <span class="p">[</span>
+        <span class="p">(</span><span class="ss">:exc</span><span class="p">,</span> <span class="n">exc_inputs</span><span class="p">),</span>
+        <span class="p">(</span><span class="ss">:inh</span><span class="p">,</span> <span class="n">inh_inputs</span><span class="p">),</span>
+        <span class="p">(</span><span class="ss">:unc</span><span class="p">,</span> <span class="n">unconn_trains</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="n">descr</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">conntype</span><span class="p">)</span>
+    <span class="nd">@showprogress</span> <span class="n">descr</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">trains</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="n">fr</span> <span class="o">=</span> <span class="n">spikerate</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">conntype</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">exc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:25</span>
+<span class=" -Color -Color-Green">inh 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
+<span class=" -Color -Color-Green">unc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:21</span>
+ 66.128109 seconds (262.17 k allocations: 7.042 GiB, 0.99% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">showsome</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>300-element Vector{Any}:
+   1: (conntype = :exc, fr = 97.5, t = 0.99)
+   2: (conntype = :exc, fr = 58.9, t = 0.91)
+   &#8942;
+ 164: (conntype = :inh, fr = 10.8, t = -0.81)
+   &#8942;
+ 184: (conntype = :inh, fr = 9.75, t = -0.9)
+   &#8942;
+ 299: (conntype = :unc, fr = 10.3, t = 0.7)
+ 300: (conntype = :unc, fr = 8.81, t = 0.75)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">rename!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:fr</span> <span class="o">=&gt;</span> <span class="s">"Spikerate (Hz)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>300&#215;3 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">290 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">conntype</th><th style="text-align: left;">Spikerate (Hz)</th><th style="text-align: left;">t</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Symbol" style="text-align: left;">Symbol</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">exc</td><td style="text-align: right;">97.5</td><td style="text-align: right;">0.99</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">exc</td><td style="text-align: right;">58.9</td><td style="text-align: right;">0.91</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">exc</td><td style="text-align: right;">40.7</td><td style="text-align: right;">0.98</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">exc</td><td style="text-align: right;">34.4</td><td style="text-align: right;">0.86</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">exc</td><td style="text-align: right;">31.5</td><td style="text-align: right;">0.99</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">296</td><td style="text-align: left;">unc</td><td style="text-align: right;">9.21</td><td style="text-align: right;">-0.95</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">297</td><td style="text-align: left;">unc</td><td style="text-align: right;">16.4</td><td style="text-align: right;">0.26</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">298</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.98</td><td style="text-align: right;">-0.33</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">299</td><td style="text-align: left;">unc</td><td style="text-align: right;">10.3</td><td style="text-align: right;">0.7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">300</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.81</td><td style="text-align: right;">0.75</td></tr></tbody></table></div></div></div>
+</div>
+</div>
+<div class="section" id="eval">
+<h2>Eval<a class="headerlink" href="#eval" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sweep</span> <span class="o">=</span> <span class="n">ConnTestEval</span><span class="o">.</span><span class="n">sweep_threshold</span><span class="p">(</span><span class="n">df</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">showsome</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86-element Vector{Float64}:
+  1: 0.99
+  2: 0.98
+  &#8942;
+ 30: 0.7
+  &#8942;
+ 32: 0.68
+  &#8942;
+ 85: 0.03
+ 86: 0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mi">23</span><span class="o">/</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.23
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">predtable</span> <span class="o">=</span> <span class="n">at_FPR</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="mi">5</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">print_confusion_matrix</span><span class="p">(</span><span class="n">predtable</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              Predicted
+           exc   inh   unc
+      exc   23     3    74
+Real  inh    0    40    60
+      unc    4     2    94
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(AUC = 0.769, AUC&#8337; = 0.68, AUC&#7522; = 0.858)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"False inputs detected (FPR)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"Real inputs detected (TPR)"</span><span class="p">,</span>
+    <span class="n">xtype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="p">(</span><span class="s">"STA connection test performance"</span><span class="p">,</span> <span class="ss">:pad</span><span class="o">=&gt;</span><span class="mi">12</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;</span><span class="s">"right"</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"gray"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#8337;</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory inputs"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#7522;</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory inputs"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Both"</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-08-31__STA_conntest_32_0.png" src="../_images/2023-08-31__STA_conntest_32_0.png">
 </div>
 </div>
 </div>
