@@ -719,6 +719,59 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="section" id="sta-conntest">
 <h1>2023-08-31__STA_conntest<a class="headerlink" href="#sta-conntest" title="Permalink to this headline">&#182;</a></h1>
+<p>So, hi.
+copying from prev nb:</p>
+<p>So, for all 10 Ns;<br>
+For 10 diff seeds;
+for both exc, inh, and unconn;<br>
+we conntest (maximum) 100 input spike trains.<br>
+(Each test is comprised of calculating 101 STAs: one real and the rest with shuffled ISIs).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/Nto1.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004;
+using Units &#8230; &#10004;
+using Nto1AdEx &#8230; &#10004;
+using ConnectionTests &#8230; &#10004; (0.1 s)
+using ConnTestEval &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">minutes</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span>
+
+<span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.744869 seconds (21.49 k allocations: 912.225 MiB, 5.99% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib</span><span class="se">\\</span><span class="s">plot.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.8 s)
+import PythonPlot &#8230; &#10004; (5.5 s)
+using Sciplotlib &#8230; &#10004; (0.8 s)
+using PhDPlots &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
