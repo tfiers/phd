@@ -41,6 +41,8 @@ const T = Float64
     Dₜgᵢ ::T = 0 * nS/second
 end
 
+Base.copy(n::Neuron) = Neuron((getfield(n, f) for f in fieldnames(Neuron))...)
+
 # Calculate & store derivatives
 f!(n::Neuron) = let (; V, w, gₑ, gᵢ) = n
     # Synaptic current
@@ -103,12 +105,18 @@ sim(
     wₑ = get(input_for_4Hz_output, N, 0.2*nS),
     wᵢ = 4*wₑ;
     ceil_spikes = false,
+    record_all = false,
 ) = begin
     Random.seed!(seed)
     num_steps = round(Int, duration / Δt)
     t = 0 * second
     n = Neuron()
     V = Vector{T}(undef, num_steps)
+    if record_all
+        recording = Vector{Neuron}(undef, num_steps)
+    else
+        recording = nothing
+    end
     spiketimes = T[]
     Nₑ = round(Int, N * 4/5)
     rates = exp.(randn(N) .* σ .+ μ) .* Hz
@@ -136,6 +144,9 @@ sim(
             push!(spiketimes, t)
         end
         V[i] = n.V
+        if record_all
+            recording[i] = copy(n)
+        end
         t += Δt
     end
     if ceil_spikes
@@ -146,7 +157,7 @@ sim(
     # This NamedTuple is our implicitly defined 'simdata' data
     # structure, on which the functions below operate. It is what we
     # mean with `SimData` below.
-    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate)
+    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate, recording)
 end
 
 # Readability alias
@@ -181,5 +192,6 @@ highest_firing(trains::AbstractVector{SpikeTrain}) =
 
 
 export excitatory_inputs, inhibitory_inputs, highest_firing, spikerate, num_spikes
+export Neuron
 
 end

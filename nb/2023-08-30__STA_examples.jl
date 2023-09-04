@@ -50,7 +50,7 @@ duration = 10minutes
 # We want our input spiketrains sorted: the highest spikers first.\
 # And split exc/inh, too.
 
-using DataFrames
+@time using DataFrames
 
 ENV["DATAFRAMES_ROWS"] = 10;
 
@@ -144,7 +144,7 @@ plt.suptitle(L"Spike-triggered averages (STAs) of membrane voltage $V$ (mV)")
 
 plt.tight_layout(h_pad=2);
 
-savefig_phd("example_STAs")
+# savefig_phd("example_STAs")
 # -
 
 # (For colour in figure caption text):
@@ -207,11 +207,46 @@ end
 
 fig, axs = plt.subplots(ncols=2, figsize=(mtw, 0.4*mtw), sharey=true)
 ceilplot(tlim = [0, 1000], ax=axs[0], hylabel="Membrane voltage (mV)");
-ceilplot(tlim = [50, 52], marker=".", ax=axs[1], hylabel="[zoomed in on spike]");
+ceilplot(tlim = [50.6, 51.6], marker=".", ax=axs[1], hylabel="[zoomed in on spike]");
 l = axs[0].get_lines()
-rm_ticks_and_spine(axs[1], "left")
-plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="upper left")
+# rm_ticks_and_spine(axs[1], "left")
+plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="lower center", bbox_to_anchor=(0.5, 1))
 plt.tight_layout();
 # -
+
+# ## 'What would V would be w/o thresholding'
+
+@time sim_r = Nto1AdEx.sim(N, duration, record_all=true);
+
+# We need to calc V.
+# Which is Vprev + Δt * ΔV
+
+t = sim_r.spiketimes[1]
+t / ms
+
+# +
+(; Δt, Eₑ, Eᵢ, Δₜ, Vₜ, gₗ, Eₗ, C) = Nto1AdEx
+
+i = round(Int, t/Δt)  # The spiketime `t` is one sample after where we want, but this i is correct
+# -
+
+n = sim_r.recording[i];
+
+(; V, gₑ, gᵢ, w) = n
+V / mV
+
+n.DₜV
+
+DₜV
+
+# +
+Iₛ = gₑ*(V - Eₑ) + gᵢ*(V - Eᵢ)
+DₜV  = (-gₗ*(V - Eₗ) + gₗ*Δₜ*exp((V-Vₜ)/Δₜ) - Iₛ - w) / C
+
+V_new = V + Δt * DₜV
+V_new / mV
+# -
+
+# Heh.
 
 
