@@ -101,7 +101,8 @@ sim(
     duration,
     seed = 1,
     wₑ = get(input_for_4Hz_output, N, 0.2*nS),
-    wᵢ = 4*wₑ,
+    wᵢ = 4*wₑ;
+    ceil_spikes = false,
 ) = begin
     Random.seed!(seed)
     num_steps = round(Int, duration / Δt)
@@ -137,6 +138,9 @@ sim(
         V[i] = n.V
         t += Δt
     end
+    if ceil_spikes
+        ceil_spikes!(V, spiketimes)
+    end
     spikerate = length(spiketimes) / duration
 
     # This NamedTuple is our implicitly defined 'simdata' data
@@ -147,6 +151,15 @@ end
 
 # Readability alias
 const SimData = NamedTuple
+
+
+function ceil_spikes!(V, spiketimes, V_ceil = Vₛ)
+    i = round.(Int, spiketimes / Δt)
+    V[i] .= V_ceil
+    return V
+end
+export ceil_spikes!
+
 
 struct SpikeTrain
     times  ::Vector{Float64}

@@ -89,7 +89,7 @@ plotSTA(STA);
 plotsig(STA/mV, [0,20], ms);
 
 # +
-plotSTA_(train; kw...) = begin
+plotSTA_(train, sim=sim; kw...) = begin
     nspikes = num_spikes(train)
     EI = train ∈ exc_inputs ? "exc" : "inh"
     label = "$nspikes spikes, $EI"
@@ -112,6 +112,9 @@ mid = length(exc_inputs) ÷ 2
 plotSTA_(exc_inputs[1]);
 plotSTA_(exc_inputs[mid]);
 plt.legend();
+# -
+
+# ## Four-panel plot
 
 # +
 fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(pw*0.8, mtw))
@@ -144,8 +147,71 @@ plt.tight_layout(h_pad=2);
 savefig_phd("example_STAs")
 # -
 
+# (For colour in figure caption text):
+
 cs = darken.(Sciplotlib.mplcolors, 0.87)
 
 toRGBAtuple.(cs)[1:6]
+
+# ## Ceil spikes
+
+sim_ceil = deepcopy(sim)
+ceil_spikes!(sim_ceil.V, sim_ceil.spiketimes);
+
+plotSTA_2(exc_inputs[1]);
+
+plotSTA_2(exc_inputs[1], sim_ceil);
+
+# Wow much worse, with ceiled spikes.
+
+# So, obviously, let's try and trim the spikes.\
+# Also, what's voltage histogram ey.
+
+hist(sim_ceil.V / mV);
+
+V = sim_ceil.V
+hist(V[V .≥ -50mV] / mV);
+
+# Can we do automatic selection? percentiles let's see. Or outlier detection, or sth.
+
+using Statistics
+
+ps = [0, 0.01, 0.5, 0.9, 0.99, 0.999, 1]  # i.e. 0, 1, 50, 90, 99, 99.1, 100-percentiles.
+qs = quantile(V, ps) / mV
+DataFrame("Proportion"=>ps, "Value (mV)"=>round.(qs, digits=1))
+
+V_clip = copy(sim_ceil.V)
+V_clip[V_clip .≥ -50mV] .= -50mV;
+
+plotSTA(calc_STA(V_clip, exc_inputs[1].times));
+
+# Holy damn :OOOO  
+# This is so clean :OOOO.
+
+plotSTA(calc_STA(V_clip, exc_inputs[100].times));
+
+plotSTA(calc_STA(V_clip, exc_inputs[mid].times));
+
+plotSTA(calc_STA(V_clip, exc_inputs[end].times));
+
+# Ok no real help for the lower spikers heh.
+
+# ### Sig itself
+
+# +
+function ceilplot(; tlim, marker=nothing, ax, kw...)
+    plotsig(sim_ceil.V / mV, tlim, ms, label=".. with ceiled spikes"; ax, marker, kw...);
+    plotsig(sim.V / mV, tlim, ms, label="Original simulation"; ax, marker, kw...);
+    # legend(ax, reorder=[1=>2]);
+end
+
+fig, axs = plt.subplots(ncols=2, figsize=(mtw, 0.4*mtw), sharey=true)
+ceilplot(tlim = [0, 1000], ax=axs[0], hylabel="Membrane voltage (mV)");
+ceilplot(tlim = [50, 52], marker=".", ax=axs[1], hylabel="[zoomed in on spike]");
+l = axs[0].get_lines()
+rm_ticks_and_spine(axs[1], "left")
+plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="upper left")
+plt.tight_layout();
+# -
 
 
