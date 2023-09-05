@@ -125,12 +125,12 @@ AUCs = calc_AUROCs(sweep)
 AUCs = (; (k=>round(AUCs[k], digits=2) for k in keys(AUCs))...)
 
 fig, ax = plt.subplots()
-set(ax, aspect="equal", xlabel="False inputs detected (FPR)", ylabel="Real inputs detected (TPR)",
-    xtype=:fraction, ytype=:fraction, title=("STA connection test performance", :pad=>12, :loc=>"right"))
 # ax.axvline(0.05, color="gray", lw=1)
 plot(sweep.FPR, sweep.TPRₑ; ax, label="Excitatory   $(AUCs.AUCₑ)")
 plot(sweep.FPR, sweep.TPRᵢ; ax, label="Inhibitory   $(AUCs.AUCᵢ)")
 plot(sweep.FPR, sweep.TPR; ax,  label="Both         $(AUCs.AUC)")
+set(ax, aspect="equal", xlabel="Non-inputs wrongly detected (FPR)", ylabel="Real inputs detected (TPR)",
+    xtype=:fraction, ytype=:fraction, title=("STA connection test performance", :pad=>12, :loc=>"right"))
 font = Dict("family"=>"monospace", "size"=>6)
 legend(ax, borderaxespad=1,     title="Input type   AUC ", loc="lower right",
         alignment="right", markerfirst=true, prop=font);
