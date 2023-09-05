@@ -88,8 +88,6 @@ include("lib/df.jl")
 
 using ProgressMeter
 
-?@showprogress
-
 # +
 rows = []
 
@@ -123,15 +121,41 @@ showsome(sweep.threshold)
 predtable = at_FPR(sweep, 5/100)
 print_confusion_matrix(predtable)
 
-calc_AUROCs(sweep)
+AUCs = calc_AUROCs(sweep)
+AUCs = (; (k=>round(AUCs[k], digits=2) for k in keys(AUCs))...)
 
 fig, ax = plt.subplots()
 set(ax, aspect="equal", xlabel="False inputs detected (FPR)", ylabel="Real inputs detected (TPR)",
     xtype=:fraction, ytype=:fraction, title=("STA connection test performance", :pad=>12, :loc=>"right"))
-ax.axvline(0.05, color="gray", lw=1)
-plot(sweep.FPR, sweep.TPRₑ; ax, label="Excitatory inputs")
-plot(sweep.FPR, sweep.TPRᵢ; ax, label="Inhibitory inputs")
-plot(sweep.FPR, sweep.TPR; ax, label="Both")
-legend(ax);
+# ax.axvline(0.05, color="gray", lw=1)
+plot(sweep.FPR, sweep.TPRₑ; ax, label="Excitatory   $(AUCs.AUCₑ)")
+plot(sweep.FPR, sweep.TPRᵢ; ax, label="Inhibitory   $(AUCs.AUCᵢ)")
+plot(sweep.FPR, sweep.TPR; ax,  label="Both         $(AUCs.AUC)")
+font = Dict("family"=>"monospace", "size"=>6)
+legend(ax, borderaxespad=1,     title="Input type   AUC ", loc="lower right",
+        alignment="right", markerfirst=true, prop=font);
+# Using the same `font` dict for `title_fontproperties` does not apply the size (bug ig)
+# (bug in this PR? https://github.com/matplotlib/matplotlib/pull/19304)
+# Hm, it works in straight Python[*]. Interesting.
+ax.legend_.get_title().set(family="monospace", size=6, weight="bold");
+
+# [*]: http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb
+
+# `[*]`: http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb
+
+neighbours_of_5pct_line = sweep[5:6]
+neighbours_of_5pct_line.threshold
+
+neighbours_of_5pct_line.FPR
+
+# Sudden jump in TPRs right around 5%.\
+# Coincidence I think, cause there is no threshold programmed in STAHeight ConnectionTest.
+#
+# Actually no, jump is after 5% / at 6%:
+
+x = sweep[5:11]
+DataFrame(; x.threshold, x.FPR, x.TPR)
+
+# So we increase the threshold from 0.94 to 0.90, and find more TPs, without incurring any additional FPs.
 
 

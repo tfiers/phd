@@ -106,13 +106,13 @@ rows(p::PredictionTable) = [
 Base.show(io::IO, ::MIME"text/plain", p::PredictionTable) = begin
     println(io, PredictionTable, "\n")
     println(io, "Threshold: ", p.threshold, "\n")
-    print_table(io, rows(p))
-    println(io)
-    println(io, confusion_matrix_string(p.confusion_matrix))
+    println(io, confusion_matrix_string(p.confusion_matrix), "\n")
     for name in [:TPRₑ, :TPRᵢ, :TPR, :FPR]
         val = getproperty(p, name)
         println(io, rpad(name, 4), ": ", round(val, digits=2))
     end
+    println(io)
+    print_table(io, rows(p))
 end
 
 print_table(io, rows) =
