@@ -12,6 +12,7 @@ using GlobalMacros
     micro = 1e-6
     nano  = 1e-9
     pico  = 1e-12
+    femto = 1e-15
 
     second = 1.0
     Hz = 1 / second
@@ -37,6 +38,7 @@ using GlobalMacros
     μA = micro * ampere
     nA = nano * ampere
     pA = pico * ampere
+    fA = femto * ampere
 
     volt = 1.0
     mV = milli * volt

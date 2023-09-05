@@ -3,6 +3,8 @@ module Nto1AdEx
 using GlobalMacros
 using Units
 using Random
+using StructArrays  # No loadtime impact (0.8 _milli_sec)
+
 
 @typed begin
     # AdEx LIF neuron params (cortical RS)
@@ -100,10 +102,12 @@ const input_for_4Hz_output = Dict([
 
 sim(
     N,
-    duration,
+    duration;
     seed = 1,
+    EI_ratio = 4//1,
     wₑ = get(input_for_4Hz_output, N, 0.2*nS),
-    wᵢ = 4*wₑ;
+    wᵢ = EI_ratio * wₑ,
+    input = :poisson,
     ceil_spikes = false,
     record_all = false,
 ) = begin
@@ -112,21 +116,24 @@ sim(
     t = 0 * second
     n = Neuron()
     V = Vector{T}(undef, num_steps)
-    if record_all
-        recording = Vector{Neuron}(undef, num_steps)
-    else
-        recording = nothing
-    end
+    rec = record_all ? Vector{Neuron}(undef, num_steps) : nothing
     spiketimes = T[]
-    Nₑ = round(Int, N * 4/5)
-    rates = exp.(randn(N) .* σ .+ μ) .* Hz
-    trains = [poisson_spikes(r, duration) for r in rates]
+    pₑ = 1 - 1/(1+EI_ratio)
+    Nₑ = round(Int, pₑ * N)
+    if input == :poisson
+        rates = exp.(randn(N) .* σ .+ μ) .* Hz
+        trains = [poisson_spikes(r, duration) for r in rates]
+    else
+        @assert length(input) == N
+        rates = nothing
+        trains = input
+    end
     spikes = multiplex(trains)
-    # Index to keep track of input spikes processed
-    j = 1
+    j = 1  # Index to keep track of input spikes processed
+    # Main sim loop
     for i in 1:num_steps
         # Process incoming spikes
-        while j < length(spikes) && spikes[j].time < t
+        while j ≤ length(spikes) && spikes[j].time ≤ t
             # New spike arrival
             spike = spikes[j]
             if spike.source ≤ Nₑ
@@ -143,21 +150,19 @@ sim(
             on_self_spike!(n)
             push!(spiketimes, t)
         end
+        # Record neuron state
         V[i] = n.V
-        if record_all
-            recording[i] = copy(n)
-        end
+        record_all && (rec[i] = copy(n))
         t += Δt
     end
-    if ceil_spikes
-        ceil_spikes!(V, spiketimes)
-    end
+    ceil_spikes && ceil_spikes!(V, spiketimes)
     spikerate = length(spiketimes) / duration
+    record_all && (rec = StructVector(rec))
 
     # This NamedTuple is our implicitly defined 'simdata' data
     # structure, on which the functions below operate. It is what we
     # mean with `SimData` below.
-    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate, recording)
+    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate, rec)
 end
 
 # Readability alias
@@ -193,9 +198,9 @@ highest_firing(trains::AbstractVector{SpikeTrain}) =
     sort(trains, by = spikerate, rev = true)
 
 
-export SpikeTrain, num_spikes, spikerate, poisson_SpikeTrain
+export Neuron, Spike, SpikeTrain
+export num_spikes, spikerate, poisson_SpikeTrain
 export excitatory_inputs, inhibitory_inputs, highest_firing
-export Neuron
 export ceil_spikes!
 
 end

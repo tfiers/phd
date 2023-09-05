@@ -6,4 +6,5 @@ version = "0.1.0"
 [deps]
 GlobalMacros = "4356e881-4961-4a42-bf31-d836fc29b3e6"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
 Units = "5f9f03f5-0b03-427c-97a9-9b017c0d1095"

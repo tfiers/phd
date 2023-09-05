@@ -19,7 +19,9 @@ plotsig(sig, tlim, tscale; kw...) = begin
     xlabel = (tscale == ms) ? "Time (ms)" :
              (tscale == second) ? "Time (s)" :
              (tscale == minute) ? "Time (minutes)" : ""
-
+    if :yunit in keys(kw)
+        sig = sig / eval(kw[:yunit])
+    end
     plot(t[shown], sig[shown]; xlabel, kw...)
 end
 
