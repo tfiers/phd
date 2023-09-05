@@ -1,0 +1,2 @@
+# Auto-create .jl files from .ipynb notebooks on saving them
+formats = "ipynb,jl:light"

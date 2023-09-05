@@ -136,3 +136,33 @@ end
 # To be consistent with e.g. `zip`'s interface. Also, `chain` is a more common name for this
 # operation.
 chain(iters...) = Iterators.flatten(iters)
+
+
+# -----------------------------------------------------------------------------------------
+
+# Underscores good for URLs of nbs; but they don't linebreak on mobile
+nb_title(nb_name) = "# " * replace(nb_name, "__"=>" · ", "_"=>" ")
+
+add_to_toc(nb_name) = begin
+    toc_path = "../web/_toc.yml"
+    toc = read(toc_path, String)
+    line = "    - file: nb/$nb_name\n"
+    if occursin(line, toc)
+        @info "Notebook already present in TOC"
+    else
+        marker = "  chapters:\n"
+        marker_range = findfirst(marker, toc)
+        i = last(marker_range)
+        new_toc = toc[1:i] * line * toc[(i+1):end]
+        write(toc_path, new_toc)
+        @info "Added notebook to `$toc_path`"
+    end
+end
+
+new_nb(nb_name) = begin
+    add_to_toc(nb_name)
+    println("Title:\n")
+    println(nb_title(nb_name))
+    # (We don't auto-copy to `clipboard`: needs InteractiveUtils, and
+    #  that takes 0.8 sec to load)
+end
