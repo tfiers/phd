@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html">
     <link rel="search" title="Search" href="../search.html">
     <link rel="next" title="2023-08-30__STA_examples" href="2023-08-30__STA_examples.html">
-    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <link rel="prev" title="2023-09-05 &#183; Ceil spikes" href="2023-09-05__ceil_spikes.html">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="docsearch:language" content="None">
     
@@ -106,6 +106,11 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-05__ceil_spikes.html">
+   2023-09-05&#160;&#183; Ceil spikes
+  </a>
+ </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    2023-08-31__STA_conntest
@@ -1106,12 +1111,12 @@ Real  inh    0    40    60
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"False inputs detected (FPR)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"Real inputs detected (TPR)"</span><span class="p">,</span>
-    <span class="n">xtype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="p">(</span><span class="s">"STA connection test performance"</span><span class="p">,</span> <span class="ss">:pad</span><span class="o">=&gt;</span><span class="mi">12</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;</span><span class="s">"right"</span><span class="p">))</span>
 <span class="c"># ax.axvline(0.05, color="gray", lw=1)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#8337;</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory   </span><span class="si">$</span><span class="p">(</span><span class="n">AUCs</span><span class="o">.</span><span class="n">AUC&#8337;</span><span class="p">)</span><span class="s">"</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#7522;</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory   </span><span class="si">$</span><span class="p">(</span><span class="n">AUCs</span><span class="o">.</span><span class="n">AUC&#7522;</span><span class="p">)</span><span class="s">"</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span>  <span class="n">label</span><span class="o">=</span><span class="s">"Both         </span><span class="si">$</span><span class="p">(</span><span class="n">AUCs</span><span class="o">.</span><span class="n">AUC</span><span class="p">)</span><span class="s">"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Non-inputs wrongly detected (FPR)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"Real inputs detected (TPR)"</span><span class="p">,</span>
+    <span class="n">xtype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="p">(</span><span class="s">"STA connection test performance"</span><span class="p">,</span> <span class="ss">:pad</span><span class="o">=&gt;</span><span class="mi">12</span><span class="p">,</span> <span class="ss">:loc</span><span class="o">=&gt;</span><span class="s">"right"</span><span class="p">))</span>
 <span class="n">font</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">(</span><span class="s">"family"</span><span class="o">=&gt;</span><span class="s">"monospace"</span><span class="p">,</span> <span class="s">"size"</span><span class="o">=&gt;</span><span class="mi">6</span><span class="p">)</span>
 <span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>     <span class="n">title</span><span class="o">=</span><span class="s">"Input type   AUC "</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"lower right"</span><span class="p">,</span>
         <span class="n">alignment</span><span class="o">=</span><span class="s">"right"</span><span class="p">,</span> <span class="n">markerfirst</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="n">font</span><span class="p">);</span>
@@ -1198,11 +1203,11 @@ Coincidence I think, cause there is no threshold programmed in STAHeight Connect
             
                 <!-- Previous / next buttons -->
 <div class="prev-next-area"> 
-    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+    <a class="left-prev" id="prev-link" href="2023-09-05__ceil_spikes.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+            <p class="prev-next-title">2023-09-05&#160;&#183; Ceil spikes</p>
         </div>
     </a>
     <a class="right-next" id="next-link" href="2023-08-30__STA_examples.html" title="next page">
