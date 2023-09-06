@@ -1,0 +1,2 @@
+live-build:
+	latexmk -pvc -pdf main.tex
