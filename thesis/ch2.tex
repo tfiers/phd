@@ -371,7 +371,21 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
 
 We solve these equations numerically using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms. This timestep is sufficiently small with respect to the different time constants in the model\footnote{$τ_g = $~7~ms,\\$τ_w = $~88~ms,\\$C / g_L = $~24.2~ms.}. See \cref{sec:software} below for more details on the numeric implementation.
 
+\marginpar{
+    \vspace*{1em}
+    \includegraphics[w=1]{impulse_response_inh}
+    \captionof{figure}{
+        \textbf{Inhibitory impulse response of the conductance-based AdEx neuron},
+        % \small{using a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}
+        }
+    \label{fig:impulse_response_inh}
+}
+
 \Cref{fig:impulse_response} shows the impulse response of this model, using a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
+
+\Cref{fig:impulse_response_inh} does the same thing, but for an inhibitory spike, and with a synaptic weight ($Δg_\inh$) four times as large. Note that, even though the change in the synaptic conductance is so much larger, the size of the synaptic current $I_\syn$, and the PSP bump (in the voltage $V$), are not larger. (In fact, they are a smidge smaller). This is due to the fact that \emph{(put explanation at end of 'sec:synaptic_weights' here, and there, ref to here)}.
+
+
 
 \FloatBarrier
 \section{Input in the N-to-1 setup}
@@ -403,6 +417,7 @@ Given these data, we choose our parameters $μ$ and $σ$ so that the distributio
 Our log-normal distribution has a median of $2.96$ Hz, very close to Roxin's $2.97$ Hz. O'Connor's has $6.4$ Hz, which is markedly different from the median of $1.5$ Hz they reported (hinting that their data distribution might not be log-normal).
 
 \subsection{Synaptic weights}
+\label{sec:synaptic_weights}
 
 We choose to simulate EI-balanced input, where we simulate four times as many excitatory as inhibitory input spiketrains; but with the inhibitory inputs four times as strong as the excitatory inputs.
 
@@ -466,6 +481,11 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
         \includegraphics[w=0.85]{we-for-4Hz-for-all-N}
     \end{sidecaption}
 \end{figure}
+
+
+\section{Spike ceiling}
+
+
 
 
 \FloatBarrier

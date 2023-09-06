@@ -40,15 +40,15 @@ include("lib/plot.jl")
 Iₛ = @. gₑ*(V - Eₑ) + gᵢ*(V - Eᵢ);
 # -
 
-kw = (nbins_y=3, nbins_x=3, yaxloc=:right, clip_on=false, xunit=:ms)
+kw = (nbins_y=3, nbins_x=3, yaxloc=:right, clip_on=false, xunit=:ms, xlim=[0,duration]/ms)
 figsize = (mw, 2.7*mw)
 figsize = (1.4, 3.8)
 fig, axs = plt.subplots(; figsize, nrows=4, sharex=true, dpi=400)
 axs[1].axhline(c="black", lw=1)
-plotsig(gᵢ, ms; hylabel=L"$g_\mathrm{inh}$", kw..., ax=axs[0], color="C2", yunit=:pS)
+plotsig(gᵢ, ms; hylabel=L"$g_\mathrm{inh}$", kw..., ax=axs[0], color=color_inh, yunit=:pS, ylim=[0, 60])
 plotsig(-Iₛ, ms; hylabel=L"$-I_\mathrm{syn}$", kw..., ax=axs[1], yunit=:pA)
-plotsig(V, ms; hylabel=L"$V$", kw..., ax=axs[2], yunit=:mV)
-plotsig(w, ms; hylabel=L"$w$", kw..., ax=axs[3], yunit=:fA)
+plotsig(V, ms; hylabel=L"$V$", kw..., ax=axs[2], yunit=:mV, ylim=[-65.04, -65])
+plotsig(w, ms; hylabel=L"$w$", kw..., ax=axs[3], yunit=:fA, ylim=[0, 10])
 axs[-1].set_xlabel(nothing)
 for ax in axs[0:2]
     ax.set_xlabel(nothing)
@@ -56,6 +56,8 @@ for ax in axs[0:2]
     ax.tick_params(bottom=false, which="both")
 end
 plt.subplots_adjust(hspace=1.2);
+
+savefig_phd("impulse_response_inh", fig)
 
 # Just to check our code Nto1AdEx.jl haven't impacted original sim:
 
