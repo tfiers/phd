@@ -65,61 +65,34 @@ macro withfb(enabled::Bool, descr, ex)
     _withfb(ex; descr, enabled)
 end
 
-_withfb(ex; descr = nothing, enabled = true) =
-    enabled ? _withfb(ex, descr) : esc(ex)
-
-
-const descriptions::Vector{String} = String[]
-
-_withfb(ex, descr) = begin
-    isnothing(descr) && (descr = _stringify(ex))
-    if _nested
-        quote
-            push!(WithFeedback.descriptions, $(esc(descr)))
-            join(stdout, WithFeedback.descriptions, " > ")
-            println(" … ")
-            t0 = time()
-            value = $(esc(ex))
-            dt = time() - t0
-            join(stdout, WithFeedback.descriptions, " > ")
-            print(" … ✔")
-            if dt ≥ 0.1
-                print(" (", round(dt, digits=1), " s)")
-            end
-            println()
-            pop!(WithFeedback.descriptions)
-            value
+_withfb(ex; descr = stringify(ex), enabled = true) = begin
+    if !enabled
+        return esc(ex)
+    end
+    # else:
+    return quote
+        print($(esc(descr)), " … ")
+        flush(stdout)
+        t₀ = time()
+        # Actually run the expression:
+        value = $(esc(ex))
+        Δt = time() - t₀
+        print("✔")
+        if Δt ≥ 0.1
+            print(" (", round(Δt, digits=1), " s)")
         end
-    else
-        quote
-            print($(esc(descr)), " … ")
-            $always_newline && println()
-            t0 = time()
-            value = $(esc(ex))
-            dt = time() - t0
-            $always_newline && print($(esc(descr)), " … ")
-            print("✔")
-            if dt ≥ 0.1
-                print(" (", round(dt, digits=1), " s)")
-            end
-            println()
-            value
-        end
+        println()
+        flush(stdout)
+        value
     end
 end
 
-_stringify(ex) = begin
+stringify(ex) = begin
     if ex.head == :block
         ex = deepcopy(ex)
         Base.remove_linenums!(ex)
     end
-    return string(ex)
+    string(ex)
 end
-
-always_newline::Bool = false
-always_print_newline(val = true) = (global always_newline = val)
-
-_nested::Bool = false
-nested(val = true) = (global _nested = val)
 
 end

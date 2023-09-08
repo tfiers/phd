@@ -1,15 +1,35 @@
-
 using WithFeedback
+using Test
 
-WithFeedback.nested()
-# WithFeedback.always_print_newline()  # subsumed by nested
+get_output(expr) = begin
+    cmd = `julia --project=@. --startup-file=no -E "using WithFeedback; $expr"`
+    buf = IOBuffer()
+    run(pipeline(cmd, buf))
+    output = String(take!(buf))
+end
 
-@withfb "Reticulating splines" begin
-    sleep(1)
-    N = 3
-    for i in 1:N
-        @withfb "Spline $i / $N" begin
-            sleep(0.3)
-        end
-    end
+@testset begin
+
+    @test get_output("@withfb 1+1") == """
+        1 + 1 … ✔
+        2
+        """
+
+    @test get_output("@withfb \"Resting\" sleep(0.3)") == """
+        Resting … ✔ (0.3 s)
+        nothing
+        """
+
+    @test get_output("@withfb true \"Calculating\" 1+1") == """
+        Calculating … ✔
+        2
+        """
+
+    @test get_output("@withfb false \"Calculating\" 1+1") == """
+        2
+        """
+
+    @test get_output("@withfb false 1+1") == """
+        2
+        """
 end
