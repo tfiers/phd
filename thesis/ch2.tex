@@ -336,6 +336,7 @@ where on arrival of a spike at synapse $i$ either $g_\exc$ or $g_\inh$ is instan
 We choose an excitatory reversal potential of $E_\exc = 0$~mV, an inhibitory one of $E_\inh = -80$~mV, and a time constant for the synaptic conductance decay of $τ_g = 7$~ms. These values are rather arbitrary, but in line with other simulation studies (e.g. \cite{Brette2007SimulationNetworksSpiking}).
 
 
+\clearpage
 \section{Model summary}
 \label{sec:model-summary}
 
@@ -353,11 +354,14 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
 \end{align*}
 \marginpar{
     % \vspace*{-1em}
-    \includegraphics[w=1.07]{impulse_response}
+    \includegraphics[w=1.16]{impulse_response}
     \captionof{figure}{
-        \textbf{Impulse response of the conductance-based AdEx neuron},
-        \small{using a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}}
+        \textbf{Impulse response of the conductance-based AdEx neuron,}
+        \small{using two single spikes arriving at $t = 10$~ms, with synaptic weight of either $Δg_\exc = 14$~pS, or $Δg_\inh = 56$~pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV, $E_\inh = -80$~mV and $τ_g = 7$~ms. For the inhibitory impulse response, $g_\exc ≡ 0$, and for the excitatory impulse response, $g_\inh ≡ 0$ (not shown).
+        More details at \nburl{2023-09-05__Inhibitory_impulse_response_PSP}.}
+        }
     \label{fig:impulse_response}
+    \vspace*{1.4em}
 }
 \begin{alignat*}{2}
     & \text{When}\ V > θ \text{:}  &&   V \ ← \ V_r \\
@@ -371,19 +375,9 @@ Combining \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset} with \cref{eq:I_syn_simple,eq
 
 We solve these equations numerically using first-order (Euler) integration, with a timestep $Δt$ of $0.1$ ms. This timestep is sufficiently small with respect to the different time constants in the model\footnote{$τ_g = $~7~ms,\\$τ_w = $~88~ms,\\$C / g_L = $~24.2~ms.}. See \cref{sec:software} below for more details on the numeric implementation.
 
-\marginpar{
-    \vspace*{1em}
-    \includegraphics[w=1]{impulse_response_inh}
-    \captionof{figure}{
-        \textbf{Inhibitory impulse response of the conductance-based AdEx neuron},
-        % \small{using a single excitatory input spike arriving at $t = 10$~ms, with a synaptic weight $Δg_\exc$ of 14 pS. Parameters as in \cref{tab:AdEx-params}, with $E_\exc = 0$~mV and $τ_g = 7$~ms. More details at \nburl{2023-07-26__AdEx_Nto1_we_I_syn}.}
-        }
-    \label{fig:impulse_response_inh}
-}
+\Cref{fig:impulse_response} shows the impulse response of this model, using a single spike, coming from either an excitatory or an inhibitory input neuron. The PSP bump is visible in the second panel from the bottom (`membrane voltage, $V$'). Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
 
-\Cref{fig:impulse_response} shows the impulse response of this model, using a single incoming excitatory spike. The PSP bump is visible in the third panel. Note its tiny size, of about 0.04~mV. Our task will be to detect this tiny signal, in a sea of voltage imaging noise and PSP bumps of other input neurons.
-
-\Cref{fig:impulse_response_inh} does the same thing, but for an inhibitory spike, and with a synaptic weight ($Δg_\inh$) four times as large. Note that, even though the change in the synaptic conductance is so much larger, the size of the synaptic current $I_\syn$, and the PSP bump (in the voltage $V$), are not larger. (In fact, they are a smidge smaller). This is due to the fact that \emph{(put explanation at end of 'sec:synaptic_weights' here, and there, ref to here)}.
+Note also that, even though the inhibitory input is four times as strong as the excitatory one, its synaptic current and PSP bumps are not larger. (In fact, they are a smidge smaller). This is due to the fact that the neuron's resting potential (at $-65$~mV) lies closer to the in inhibitory reversal potential ($E_\inh = -80$~mV) than the excitatory one ($E_\exc = 0$~mV), making the the inhibitory term of the synaptic current $I_\syn$ weaker than the excitatory term  (\cref{eq:I_syn_simple}).
 
 
 
@@ -442,7 +436,7 @@ For $N = 6500$ inputs, we find an average output firing rate of $4.0$~Hz at $Δg
 
 Two asides on \cref{fig:input_drive_we}. First, from the bottom panel, we see that the AdEx model, with parameters for a cortical RS (regular spiking) neuron, is a so called `Type I' neuron:\footnote{\url{https://neuronaldynamics.epfl.ch/online/Ch4.S4.html}} the firing rate can be made arbitrarily low, and there is no discontinuous jump from 0 Hz to some minimum firing rate.
 
-Second, why does the output activity level increase for increasing excitatory input, if the inhibitory input becomes stronger by the same amount? The answer lies in the synaptic reversal potentials, which are $E_\exc = -80$~mV and $E_\inh = 0$~mV. The median membrane voltage (top panel in \cref{fig:input_drive_we}), at about $-60$~mV, lies closer to the inhibitory reversal potential than the excitatory potential, making the inhibitory term of the synaptic current $I_\syn$ weaker than the excitatory term  (\cref{eq:I_syn_simple}).
+Second, why does the output activity level increase for increasing excitatory input, if the inhibitory input becomes stronger by the same amount? The answer lies in the synaptic reversal potentials, which are $E_\exc = 0$~mV and $E_\inh = -80$~mV. The median membrane voltage (top panel in \cref{fig:input_drive_we}), at about $-60$~mV, lies closer to the inhibitory reversal potential than the excitatory potential, making the inhibitory term of the synaptic current $I_\syn$ weaker than the excitatory term  (\cref{eq:I_syn_simple}).
 
 \begin{figure}
     \begin{sidecaption}
