@@ -468,7 +468,7 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
     \begin{sidecaption}
         {\textbf{Finding the right input strength in the N-to-1 setup, for different numbers of inputs $N$}.\\
         \footnotesize{$Δg_\exc$ is the synaptic conductance increase per incoming spike from an excitatory input.
-        For each $N$, the right $Δg_\exc$ value --- namely the one for which the output neuron fires at $4$~Hz -- was found using an iterative search procedure. For every $Δg_\exc$ value evaluated, ten different 10-second simulations were run (each with a different random seed for the input spiketrain generation). The average output firing rate of these ten simulations was taken, and compared with the goal firing rate of $4$~Hz. $Δg_\exc$ was then adjusted until the simulated firing rate was sufficiently close.\\
+        For each $N$, the right $Δg_\exc$ value --- namely the one for which the output neuron fires at $4$~Hz -- was found using an iterative search procedure. For every $Δg_\exc$ value evaluated, ten different 10-second simulations were run (each with a different random seed for the input spiketrain generation). The average output firing rate of these ten simulations was taken, and compared with the goal firing rate of $4$~Hz. $Δg_\exc$ was then adjusted until the simulated firing rate was sufficiently close. In every case, $Δg_\inh$ was four times $Δg_\exc$.
         Source: \nburl{2023-08-05__AdEx_Nto1_we_sweep}.}
         }
         [fig:we-for-4Hz-for-all-N]
