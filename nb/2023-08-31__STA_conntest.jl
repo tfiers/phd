@@ -9,7 +9,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.14.4
 #   kernelspec:
-#     display_name: Julia 1.9.0-beta3
+#     display_name: Julia 1.9.3
 #     language: julia
 #     name: julia-1.9
 # ---
@@ -42,8 +42,6 @@ N = 6500
 
 # ## Gen unconnected trains
 
-set_print_precision(3)
-
 exc_inputs = highest_firing(excitatory_inputs(sim))[1:100]
 inh_inputs = highest_firing(inhibitory_inputs(sim))[1:100]
 both = [exc_inputs..., inh_inputs...]
@@ -54,14 +52,14 @@ Random.seed!(1)
 unconn_frs = sample(fr, 100)
 showsome(unconn_frs)
 
-# Seed may not be same as seed in sim: otherwise our 'unconnected' trains generated might be same as real ones used in (generated in) sim.
+# **Seed may not be same as seed in sim**: otherwise our 'unconnected' trains generated might be same as real ones used in (generated in) sim.
 
 Random.seed!(9)
 unconn_trains = [poisson_SpikeTrain(r, duration) for r in unconn_frs];
 
 # ## Conntest
 
-ConnectionTests.set_STA_length(200);
+ConnectionTests.set_STA_length(200);  # = 20 ms
 
 # +
 test(train) = test_conn(STAHeight(), sim.V, train.times)
@@ -124,6 +122,18 @@ print_confusion_matrix(predtable)
 AUCs = calc_AUROCs(sweep)
 AUCs = (; (k=>round(AUCs[k], digits=2) for k in keys(AUCs))...)
 
+# Damn! This was when not ceiling spikes:
+# ```
+#               Predicted
+#            exc   inh   unc
+#       exc   23     3    74
+# Real  inh    0    40    60
+#       unc    4     2    94
+#
+# ```
+#
+# `(AUC = 0.77, AUCₑ = 0.68, AUCᵢ = 0.86)`
+
 fig, ax = plt.subplots()
 # ax.axvline(0.05, color="gray", lw=1)
 plot(sweep.FPR, sweep.TPRₑ; ax, label="Excitatory   $(AUCs.AUCₑ)")
@@ -142,6 +152,9 @@ ax.legend_.get_title().set(family="monospace", size=6, weight="bold");
 # [*]: http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb
 
 # `[*]`: http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb
+
+# ---
+# (below not updated after adding `ceil_spikes=true`)
 
 neighbours_of_5pct_line = sweep[5:6]
 neighbours_of_5pct_line.threshold

@@ -108,7 +108,7 @@ sim(
     wₑ = get(input_for_4Hz_output, N, 0.2*nS),
     wᵢ = EI_ratio * wₑ,
     input = :poisson,
-    ceil_spikes = false,
+    ceil_spikes = true,
     record_all = false,
 ) = begin
     Random.seed!(seed)

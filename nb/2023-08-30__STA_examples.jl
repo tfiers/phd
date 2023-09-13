@@ -9,7 +9,7 @@
 #       format_version: '1.5'
 #       jupytext_version: 1.14.4
 #   kernelspec:
-#     display_name: Julia 1.9.0-beta3
+#     display_name: Julia 1.9.3
 #     language: julia
 #     name: julia-1.9
 # ---
@@ -218,9 +218,6 @@ plt.tight_layout();
 
 @time sim_r = Nto1AdEx.sim(N, duration, record_all=true);
 
-# (Damn, after leaving this nb open for days (working on STA_conntest nb), this suddenly takes 18.7 seconds. Memory leak or sth?\
-# Let's try restarting kernel. (Yep, just 3.2 secs now).
-
 # We need to calc V.
 # Which is Vprev + Δt * ΔV
 
@@ -238,6 +235,10 @@ n = sim_r.recording[i];
 (; V, gₑ, gᵢ, w) = n
 V / mV
 
+n.DₜV
+
+DₜV
+
 # +
 Iₛ = gₑ*(V - Eₑ) + gᵢ*(V - Eᵢ)
 DₜV  = (-gₗ*(V - Eₗ) + gₗ*Δₜ*exp((V-Vₜ)/Δₜ) - Iₛ - w) / C
@@ -246,12 +247,6 @@ V_new = V + Δt * DₜV
 V_new / mV
 # -
 
-n.DₜV
-
-DₜV
-
 # Heh.
 
-# (Ok, making new nb for this, as getting too long).\
-# Name? 'Ceiling spikes' or sth, yes.\
-# (and clipping already too? mayb) 
+

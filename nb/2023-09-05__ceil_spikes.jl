@@ -22,7 +22,7 @@ include("lib/Nto1.jl")
 N = 6500
 duration = 10minutes
 
-@time sim = Nto1AdEx.sim(N, duration, record_all=true);
+@time sim = Nto1AdEx.sim(N, duration, record_all=true, ceil_spikes=false);
 # -
 
 @time sim_ceil = Nto1AdEx.sim(N, duration, ceil_spikes=true);
@@ -47,6 +47,9 @@ l = axs[0].get_lines()
 plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="lower center", bbox_to_anchor=(0.5, 1))
 plt.tight_layout();
 # -
+
+# - [ ] Put legend in right axes? (move spike left, eg)
+# - [ ] Call it 'Unmodified sim'?
 
 t = sim.spiketimes[1]
 t / ms

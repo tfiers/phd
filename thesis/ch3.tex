@@ -1,5 +1,5 @@
 
-As shown in \cref{fig:diagram_Connectivity-Activity}, our idea for connection inference rests on the causal `presynaptic spike' → `postsynaptic voltage bump' link. I.e. we want to know for which neuron pairs a spike in one is reliably followed by such a bump in the other. The problem is that these bumps (the postsynaptic potentials or PSPs) are minute, and are easily drowned out by other PSPs, spikes, and voltage imaging noise.
+As shown in \cref{fig:diagram_Connectivity-Activity}, our idea for connection inference rests on the causal `presynaptic spike' → `postsynaptic voltage bump' link. I.e. we want to know for which neuron pairs a spike in one is reliably followed by such a bump in the other. The problem is that these bumps (the postsynaptic potentials or PSPs) are minute, and are easily drowned out by (1) other PSPs, (2) postsynaptic spikes, and (3) voltage imaging noise.
 
 So, as is often done in neuroscience, we take the \emph{average} over many instantiations, so as to hopefully find a signal in the noise. Specifically, we take spike-triggered averages, or \textbf{STA}s, of neurons' voltage traces. If there is a connection from neuron `1' to neuron `2', then an STA of neuron 2's voltage imaging signal, based on neuron 1's spikes, would hopefully show the PSP.
 
