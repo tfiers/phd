@@ -11,26 +11,27 @@ set_Δt(x) = (global Δt = x)
     plotsig(x, [200, 400], ms)
 """
 plotsig(sig, tscale = minutes; kw...) = plotsig(sig, nothing, tscale; kw...)
-plotsig(sig, tlim, tscale; kw...) = begin
+plotsig(sig, tlim, tscale; xlabel = nothing, kw...) = begin
     t = timevec(sig) / tscale
     isnothing(tlim) && (tlim = [t[1], t[end]])
     t0, t1 = tlim
     shown = t0 .≤ t .≤ t1
-    xlabel = (tscale == ms) ? "Time (ms)" :
-             (tscale == second) ? "Time (s)" :
-             (tscale == minute) ? "Time (minutes)" : ""
+    xunit = (tscale == ms)     ? "ms"      :
+            (tscale == second) ? "seconds" :
+            (tscale == minute) ? "minutes" : ""
     if :yunit in keys(kw)
         sig = sig / eval(kw[:yunit])
     end
-    plot(t[shown], sig[shown]; xlabel, kw...)
+    plot(t[shown], sig[shown]; xlabel, xunit, kw...)
 end
 
 plotSTA(
     STA;
-    xlabel = "Time after presynaptic spike (ms)",
-    hylabel = "Spike-triggered average membrane voltage (mV)",
+    xlabel = "Time after presynaptic spike",
+    hylabel = "Spike-triggered average membrane voltage",
+    yunit = :mV,
     kw...
-) = plotsig(STA / mV, nothing, ms; xlabel, hylabel, kw...)
+) = plotsig(STA, nothing, ms; xlabel, hylabel, yunit, kw...)
 
 timevec(sig) = begin
     T = duration(sig)

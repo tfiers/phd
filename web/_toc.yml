@@ -2,6 +2,7 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2023-09-13__Clippin_and_Ceilin
     - file: nb/2023-09-05__Inhibitory_impulse_response_PSP
     - file: nb/2023-09-05__ceil_spikes
     - file: nb/2023-08-31__STA_conntest
