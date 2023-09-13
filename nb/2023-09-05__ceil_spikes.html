@@ -736,12 +736,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[IJulia init done]
-using Revise &#8230; &#10004; (0.2 s)
-using Units &#8230; &#10004;
-using Nto1AdEx &#8230; &#10004;
-using ConnectionTests &#8230; &#10004;
-using ConnTestEval &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.3 s)
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval &#8230; &#10004; (0.2 s)
 using StatsBase &#8230; &#10004; (0.2 s)
 </pre></div>
 </div>
@@ -752,12 +748,12 @@ using StatsBase &#8230; &#10004; (0.2 s)
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span>
 <span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
 
-<span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">record_all</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+<span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">record_all</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">ceil_spikes</span><span class="o">=</span><span class="nb">false</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.356347 seconds (6.02 M allocations: 1.383 GiB, 19.15% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4.186872 seconds (8.15 M allocations: 1.876 GiB, 20.46% gc time, 31.47% compilation time)
 </pre></div>
 </div>
 </div>
@@ -814,6 +810,10 @@ using PhDPlots &#8230; &#10004;
 <img alt="../_images/2023-09-05__ceil_spikes_5_0.png" src="../_images/2023-09-05__ceil_spikes_5_0.png">
 </div>
 </div>
+<ul class="simple">
+<li><p>[ ] Put legend in right axes? (move spike left, eg)</p></li>
+<li><p>[ ] Call it &#8216;Unmodified sim&#8217;?</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>

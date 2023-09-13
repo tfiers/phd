@@ -789,12 +789,8 @@ we conntest (maximum) 100 input spike trains.<br>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[IJulia init done]
-using Revise &#8230; &#10004;
-using Units &#8230; &#10004;
-using Nto1AdEx &#8230; &#10004;
-using ConnectionTests &#8230; &#10004;
-using ConnTestEval &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004;
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval &#8230; &#10004;
 using StatsBase &#8230; &#10004;
 </pre></div>
 </div>
@@ -810,7 +806,7 @@ using StatsBase &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.462874 seconds (1.14 M allocations: 987.502 MiB, 1.91% gc time, 30.60% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3.184070 seconds (2.14 M allocations: 1.027 GiB, 2.32% gc time, 42.19% compilation time)
 </pre></div>
 </div>
 </div>
@@ -821,13 +817,6 @@ And then generate some unconnecteds too..<br>
 What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</p>
 <div class="section" id="gen-unconnected-trains">
 <h2>Gen unconnected trains<a class="headerlink" href="#gen-unconnected-trains" title="Permalink to this headline">&#182;</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">set_print_precision</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc_inputs</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">))[</span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="p">]</span>
@@ -843,9 +832,9 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
    1: 97.5
    2: 58.9
    &#8942;
-  25: 22.6
+  31: 21.5
    &#8942;
- 143: 12.6
+ 146: 12.5
    &#8942;
  199: 8.87
  200: 8.86
@@ -876,7 +865,7 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
 </div>
 </div>
 </div>
-<p>Seed may not be same as seed in sim: otherwise our &#8216;unconnected&#8217; trains generated might be same as real ones used in (generated in) sim.</p>
+<p><strong>Seed may not be same as seed in sim</strong>: otherwise our &#8216;unconnected&#8217; trains generated might be same as real ones used in (generated in) sim.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
@@ -890,7 +879,7 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
 <h2>Conntest<a class="headerlink" href="#conntest" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionTests</span><span class="o">.</span><span class="n">set_STA_length</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionTests</span><span class="o">.</span><span class="n">set_STA_length</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>  <span class="c"># = 20 ms</span>
 </pre></div>
 </div>
 </div>
@@ -904,10 +893,10 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.527623 seconds (2.07 k allocations: 134.689 MiB)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.280038 seconds (1.58 M allocations: 240.340 MiB, 4.21% gc time, 58.25% compilation time)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.99
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.94
 </pre></div>
 </div>
 </div>
@@ -922,7 +911,7 @@ What&#8217;s their firing rate? Maybe sample from the real ones :) hehe, sure.</
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.3 s)
-import PythonPlot &#8230; &#10004; (4 s)
+import PythonPlot &#8230; &#10004; (6 s)
 using Sciplotlib &#8230; &#10004; (0.6 s)
 using PhDPlots &#8230; &#10004;
 </pre></div>
@@ -941,7 +930,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-08-31__STA_conntest_18_0.png" src="../_images/2023-08-31__STA_conntest_18_0.png">
+<img alt="../_images/2023-08-31__STA_conntest_17_0.png" src="../_images/2023-08-31__STA_conntest_17_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -951,13 +940,13 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.629688 seconds (37.91 k allocations: 80.817 MiB, 6.84% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.653168 seconds (87.31 k allocations: 84.142 MiB, 10.37% compilation time)
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3-element Vector{Float64}:
- -0.57
- -0.1
- -0.8
+ -0.01
+ -0.02
+ -0.94
 </pre></div>
 </div>
 </div>
@@ -969,7 +958,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004; (0.9 s)
 </pre></div>
 </div>
 </div>
@@ -1001,10 +990,10 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">exc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:25</span>
-<span class=" -Color -Color-Green">inh 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:18</span>
-<span class=" -Color -Color-Green">unc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:21</span>
- 66.128109 seconds (262.17 k allocations: 7.042 GiB, 0.99% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">exc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:23</span>mm39mm
+<span class=" -Color -Color-Green">inh 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:16</span>
+<span class=" -Color -Color-Green">unc 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:20</span>
+ 60.244557 seconds (1.78 M allocations: 7.140 GiB, 1.40% gc time, 2.27% compilation time)
 </pre></div>
 </div>
 </div>
@@ -1017,15 +1006,15 @@ using PhDPlots &#8230; &#10004;
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>300-element Vector{Any}:
-   1: (conntype = :exc, fr = 97.5, t = 0.99)
-   2: (conntype = :exc, fr = 58.9, t = 0.91)
+   1: (conntype = :exc, fr = 97.5, t = 0.94)
+   2: (conntype = :exc, fr = 58.9, t = 0.95)
    &#8942;
- 164: (conntype = :inh, fr = 10.8, t = -0.81)
+  34: (conntype = :exc, fr = 21.1, t = 0.86)
    &#8942;
- 184: (conntype = :inh, fr = 9.75, t = -0.9)
+ 167: (conntype = :inh, fr = 10.4, t = 0.93)
    &#8942;
- 299: (conntype = :unc, fr = 10.3, t = 0.7)
- 300: (conntype = :unc, fr = 8.81, t = 0.75)
+ 299: (conntype = :unc, fr = 10.3, t = 0.6)
+ 300: (conntype = :unc, fr = 8.81, t = 0.39)
 </pre></div>
 </div>
 </div>
@@ -1038,7 +1027,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div><div style="float: left;"><span>300&#215;3 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">290 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">conntype</th><th style="text-align: left;">Spikerate (Hz)</th><th style="text-align: left;">t</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Symbol" style="text-align: left;">Symbol</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">exc</td><td style="text-align: right;">97.5</td><td style="text-align: right;">0.99</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">exc</td><td style="text-align: right;">58.9</td><td style="text-align: right;">0.91</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">exc</td><td style="text-align: right;">40.7</td><td style="text-align: right;">0.98</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">exc</td><td style="text-align: right;">34.4</td><td style="text-align: right;">0.86</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">exc</td><td style="text-align: right;">31.5</td><td style="text-align: right;">0.99</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">296</td><td style="text-align: left;">unc</td><td style="text-align: right;">9.21</td><td style="text-align: right;">-0.95</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">297</td><td style="text-align: left;">unc</td><td style="text-align: right;">16.4</td><td style="text-align: right;">0.26</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">298</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.98</td><td style="text-align: right;">-0.33</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">299</td><td style="text-align: left;">unc</td><td style="text-align: right;">10.3</td><td style="text-align: right;">0.7</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">300</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.81</td><td style="text-align: right;">0.75</td></tr></tbody></table></div></div></div>
+<div class="output text_html"><div><div style="float: left;"><span>300&#215;3 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">290 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">conntype</th><th style="text-align: left;">Spikerate (Hz)</th><th style="text-align: left;">t</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Symbol" style="text-align: left;">Symbol</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">exc</td><td style="text-align: right;">97.5</td><td style="text-align: right;">0.94</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">exc</td><td style="text-align: right;">58.9</td><td style="text-align: right;">0.95</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">exc</td><td style="text-align: right;">40.7</td><td style="text-align: right;">0.99</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">exc</td><td style="text-align: right;">34.4</td><td style="text-align: right;">0.54</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">exc</td><td style="text-align: right;">31.5</td><td style="text-align: right;">0.87</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">296</td><td style="text-align: left;">unc</td><td style="text-align: right;">9.21</td><td style="text-align: right;">0.94</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">297</td><td style="text-align: left;">unc</td><td style="text-align: right;">16.4</td><td style="text-align: right;">0.29</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">298</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.98</td><td style="text-align: right;">-0.96</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">299</td><td style="text-align: left;">unc</td><td style="text-align: right;">10.3</td><td style="text-align: right;">0.6</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">300</td><td style="text-align: left;">unc</td><td style="text-align: right;">8.81</td><td style="text-align: right;">0.39</td></tr></tbody></table></div></div></div>
 </div>
 </div>
 <div class="section" id="eval">
@@ -1057,16 +1046,16 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86-element Vector{Float64}:
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>96-element Vector{Float64}:
   1: 0.99
   2: 0.98
   &#8942;
- 30: 0.7
+ 39: 0.6
   &#8942;
- 32: 0.68
+ 79: 0.19
   &#8942;
- 85: 0.03
- 86: 0
+ 95: 0.01
+ 96: 0
 </pre></div>
 </div>
 </div>
@@ -1093,8 +1082,8 @@ using PhDPlots &#8230; &#10004;
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>              Predicted
            exc   inh   unc
-      exc   23     3    74
-Real  inh    0    40    60
+      exc    6     2    92
+Real  inh    0     6    94
       unc    4     2    94
 </pre></div>
 </div>
@@ -1108,11 +1097,21 @@ Real  inh    0    40    60
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(AUC = 0.77, AUC&#8337; = 0.68, AUC&#7522; = 0.86)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(AUC = 0.57, AUC&#8337; = 0.49, AUC&#7522; = 0.64)
 </pre></div>
 </div>
 </div>
 </div>
+<p>Damn! This was when not ceiling spikes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>              <span class="n">Predicted</span>
+           <span class="n">exc</span>   <span class="n">inh</span>   <span class="n">unc</span>
+      <span class="n">exc</span>   <span class="mi">23</span>     <span class="mi">3</span>    <span class="mi">74</span>
+<span class="n">Real</span>  <span class="n">inh</span>    <span class="mi">0</span>    <span class="mi">40</span>    <span class="mi">60</span>
+      <span class="n">unc</span>    <span class="mi">4</span>     <span class="mi">2</span>    <span class="mi">94</span>
+
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">(AUC</span> <span class="pre">=</span> <span class="pre">0.77,</span> <span class="pre">AUC&#8337;</span> <span class="pre">=</span> <span class="pre">0.68,</span> <span class="pre">AUC&#7522;</span> <span class="pre">=</span> <span class="pre">0.86)</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -1137,6 +1136,8 @@ Real  inh    0    40    60
 </div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">[*]</span></code>: <a class="reference external" href="http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb">http://localhost:8888/notebooks/2023-09-05__mpl_legend_title_props_bugreport.ipynb</a></p>
+<hr class="docutils">
+<p>(below not updated after adding <code class="docutils literal notranslate"><span class="pre">ceil_spikes=true</span></code>)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">neighbours_of_5pct_line</span> <span class="o">=</span> <span class="n">sweep</span><span class="p">[</span><span class="mi">5</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
