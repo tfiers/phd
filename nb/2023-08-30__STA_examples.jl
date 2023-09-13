@@ -32,12 +32,9 @@
 #
 # for full N ofc.
 
+include("lib/Nto1.jl")
+
 N = 6500;
-
-@time using Revise
-
-using Nto1AdEx
-using Units
 
 duration = 10minutes
 
@@ -45,14 +42,10 @@ duration = 10minutes
 
 # (1st run: 2.5 secs, 27% compilation time).
 
-@time using ConnectionTests
-
 # We want our input spiketrains sorted: the highest spikers first.\
 # And split exc/inh, too.
 
-@time using DataFrames
-
-ENV["DATAFRAMES_ROWS"] = 10;
+include("lib/df.jl")
 
 # +
 exc_inputs = highest_firing(excitatory_inputs(sim))
@@ -73,18 +66,15 @@ tabulate(inh_inputs)
 
 STA = calc_STA(sim.V, exc_inputs[1].times);
 
-using WithFeedback
-
-@withfb import PythonCall
-@withfb import PythonPlot
-@withfb using Sciplotlib
-@withfb using PhDPlots
+include("lib/plot.jl")
 
 plotSTA(STA);
 
 # To compare with predicted PSP height (0.04 mV):
 
 (maximum(STA) - first(STA)) / mV
+
+# (Woah, that's close)
 
 plotsig(STA/mV, [0,20], ms);
 
@@ -115,6 +105,36 @@ plt.legend();
 # -
 
 # ## Four-panel plot
+
+# +
+fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(pw*0.8, mtw))
+plotSTA_2(args...; hylabel=nothing, kw...) = plotSTA_(args...; hylabel, kw...)
+
+addlegend(ax; kw...) = legend(ax, fontsize=6, borderaxespad=0.7; kw...)
+
+plotSTA_2(exc_inputs[1], ax=axs[0,0], hylabel="… Using the fastest spiking input, …", xlabel=nothing);
+addlegend(axs[0,0])
+
+plotSTA_2(exc_inputs[1], ax=axs[0,1], hylabel="… and other fast spikers.", xlabel=nothing);
+plotSTA_2(exc_inputs[100], ax=axs[0,1], xlabel=nothing)
+plotSTA_2(inh_inputs[1], ax=axs[0,1], xlabel=nothing)
+plotSTA_2(inh_inputs[100], ax=axs[0,1], xlabel=nothing)
+addlegend(axs[0,1], loc="lower right")
+
+
+plotSTA_2(exc_inputs[1], ax=axs[1,1], hylabel="… and slowest spiking input.");
+plotSTA_2(exc_inputs[end], ax=axs[1,1]);
+addlegend(axs[1,1])
+
+plotSTA_2(exc_inputs[1], ax=axs[1,0], hylabel="… and input with median spikerate.");
+plotSTA_2(exc_inputs[mid], ax=axs[1,0]);
+addlegend(axs[1,0], loc="upper right")
+
+plt.suptitle(L"Spike-triggered averages (STAs) of membrane voltage $V$ (mV)")
+
+plt.tight_layout(h_pad=2);
+
+# savefig_phd("example_STAs")
 
 # +
 fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(pw*0.8, mtw))
