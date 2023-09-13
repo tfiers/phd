@@ -23,3 +23,7 @@ Then install these extra packages in addition to the included ones: \
 Then run, for continuous compilation: `latexmk -pvc -pdf main.tex`.
 
 On font-related errors, running `updmap` might help.
+
+To fix internal links to sidecaptions not working (and instead sending you to top of document), see https://gitlab.com/axelsommerfeldt/caption/-/issues/175#note_1549762142
+I.e. I manually replaced `C:\TinyTeX\texmf-dist\tex\latex\caption\caption-memoir.sto`
+with https://gitlab.com/axelsommerfeldt/caption/-/blob/eb364ba/tex/caption-memoir.sto
