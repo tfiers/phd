@@ -159,4 +159,74 @@ export filelist, empty_diskcache, rm_from_disk
 export open_dir
 export jldopen  # = a reexport
 
+
+
+
+# -------------------------------------------------------------
+# Simpler `@cached` interface, for ad-hoc saving of expressions
+# -------------------------------------------------------------
+
+
+dir::Union{String, Nothing} = nothing
+
+set_dir(namespace::String) = (global dir; dir = joinpath(rootdir, namespace))
+
+const memcache = ThreadSafeDict()
+
+macro cached(ex)
+    key = string(ex)
+    quote
+        @cached $key $(esc(ex)) $key
+        # Have to pass the description explicitly, otherwise it becomes
+        # `Expr(:escape, …)`
+    end
+end
+
+macro cached(key, ex, descr=string(ex))
+    quote
+        f() = $(esc(ex))
+        _cached(f, $key, $descr)
+    end
+end
+
+function _cached(f, key, descr)
+    if key in keys(memcache)
+        @info "Loading `$key` from memory"
+        output = memcache[key]
+    else
+        path = filepath(key)
+        if ispath(path)
+            @withfb "Loading [$path]" begin
+                output = load(path, "output")
+            end
+        else
+            @withfb_long "Running `$descr`" begin
+                output = f()
+            end
+            mkdir_if_needed(dirname(path))
+            @withfb "Saving output at [$path]" begin
+                jldsave(path; output)
+            end
+        end
+        memcache[key] = output
+    end
+    return output
+end
+
+filepath(key) = joinpath(dir, key) * ".jld2"
+
+empty_memcache!() = empty!(memcache)
+rm_from_memcache!(key) = delete!(memcache, key)
+rm_from_disk(key) = rm(filepath(key), force=true)
+filelist() = begin
+    paths = readdir(dir, join=true)
+    filter!(endswith(".jld2"), paths)
+end
+empty_diskcache() = _rmdir(dir)
+open_dir() = DefaultApplication.open(dir)
+
+
+export @cached
+
+
 end
