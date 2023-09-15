@@ -73,7 +73,7 @@ const rootdir = joinpath(homedir(), ".julia", "MemDiskCache.jl")
                 output = load(fp, "output")
             end
         else
-            @withfb "Running `$(c.f)` for $fkw" begin
+            @withfb_long "Running `$(c.f)` for $fkw" begin
                 output = c.f(; fkw...)
             end
             if c.disk

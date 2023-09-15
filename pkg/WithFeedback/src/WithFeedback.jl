@@ -1,10 +1,10 @@
 """
 Give the user feedback on what is happening during slow operations.
-See [`@withfb`](@ref).
+See [`@withfb`](@ref) and [`@withfb_long`](@ref).
 """
 module WithFeedback
 
-export @withfb
+export @withfb, @withfb_long
 
 """
     @withfb [options] ex
@@ -49,34 +49,52 @@ A boolean flag may be used to dynamically turn off the feedback printing
 
 (These print nothing).
 """
-macro withfb(ex)
-    _withfb(ex)
-end
+macro withfb(ex)                       _withfb(ex) end
+macro withfb(descr, ex)                _withfb(ex; descr) end
+macro withfb(enabled::Bool, ex)        _withfb(ex; enabled) end
+macro withfb(enabled::Bool, descr, ex) _withfb(ex; descr, enabled) end
 
-macro withfb(descr, ex)
-    _withfb(ex; descr)
-end
+"""
+    @withfb_long [options] ex
 
-macro withfb(enabled::Bool, ex)
-    _withfb(ex; enabled)
-end
+Same as [`@withfb`](@ref), but allows output to be printed to stdout
+during execution of the expression. See the following example:
 
-macro withfb(enabled::Bool, descr, ex)
-    _withfb(ex; descr, enabled)
-end
+    julia> @withfb_long "Reticulating" begin
+               sleep(1)
+               println("Halfway there")
+               sleep(1)
+           end
+    Reticulating …
+    Halfway there
+    Reticulating ✔ (2.0 s)
+"""
+macro withfb_long(ex)                       _withfb(ex; long=true) end
+macro withfb_long(descr, ex)                _withfb(ex; long=true, descr) end
+macro withfb_long(enabled::Bool, ex)        _withfb(ex; long=true, enabled) end
+macro withfb_long(enabled::Bool, descr, ex) _withfb(ex; long=true, descr, enabled) end
 
-_withfb(ex; descr = stringify(ex), enabled = true) = begin
+function _withfb(ex; descr=stringify(ex), enabled=true, long=false)
     if !enabled
         return esc(ex)
     end
     # else:
     return quote
         print($(esc(descr)), " … ")
+        if $long
+            # Leave space for output printed during execution of the
+            # expression
+            println()
+        end
         flush(stdout)
         t₀ = time()
         # Actually run the expression:
         value = $(esc(ex))
         Δt = time() - t₀
+        if $long
+            # Repeat description line
+            print($(esc(descr)), " ")
+        end
         print("✔")
         if Δt ≥ 0.1
             print(" (", round(Δt, digits=1), " s)")
