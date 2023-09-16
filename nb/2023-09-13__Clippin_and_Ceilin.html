@@ -36,8 +36,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/resize_retina_figures.js"></script>
     <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
@@ -739,6 +739,11 @@ const thebe_selector_output = ".output, .cell_output"
    ROCs
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#threshold-plot">
+   Threshold-plot
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -779,6 +784,11 @@ const thebe_selector_output = ".output, .cell_output"
    ROCs
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#threshold-plot">
+   Threshold-plot
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -798,7 +808,15 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.3 s)
-using Units, Nto1AdEx, ConnectionTests, ConnTestEval &#8230; &#10004; (0.1 s)
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling ConnectionTests [4ec9db02-d517-45d2-bd92-62a00b158019]
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling MemDiskCache [40c6d27e-4dd7-460c-8c4c-2ed37df2112f]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004; (3.5 s)
+using ProgressMeter &#8230; &#10004;
 using StatsBase &#8230; &#10004; (0.2 s)
 </pre></div>
 </div>
@@ -814,7 +832,7 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.896686 seconds (28.10 k allocations: 912.671 MiB, 6.85% gc time, 0.42% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.669641 seconds (21.49 k allocations: 912.225 MiB, 5.49% gc time)
 </pre></div>
 </div>
 </div>
@@ -855,22 +873,11 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (1.9 s)
-import PythonPlot &#8230; &#10004; (3.8 s)
-using Sciplotlib &#8230; &#10004; (0.5 s)
-using PhDPlots &#8230; &#10004;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">default_figsize</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4, 2.4)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004;
+import PythonPlot &#8230; &#10004;
+using Sciplotlib &#8230; &#10004;
+using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling PhDPlots [8882fb83-7a18-4ae0-b3ef-a58e1f4042a1]
+&#10004; (2.3 s)
 </pre></div>
 </div>
 </div>
@@ -885,7 +892,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_9_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_9_0.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_8_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_8_0.png">
 </div>
 </div>
 </div>
@@ -899,7 +906,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004; (0.8 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004; (0.9 s)
 </pre></div>
 </div>
 </div>
@@ -907,29 +914,63 @@ using PhDPlots &#8230; &#10004;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">set_print_precision</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="nb">ENV</span><span class="p">[</span><span class="s">"DATAFRAMES_ROWS"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span><span class="p">;</span>
+<span class="nb">ENV</span><span class="p">[</span><span class="s">"DATAFRAMES_ROWS"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mf">99.9</span><span class="p">,</span> <span class="mf">99.99</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
-<span class="n">qs</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="n">V_ceil</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span> <span class="o">/</span> <span class="n">mV</span>
-<span class="n">DataFrame</span><span class="p">(;</span> <span class="n">ps</span><span class="p">,</span> <span class="n">qs</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="mi">99</span><span class="p">,</span> <span class="mf">99.9</span><span class="p">,</span> <span class="mf">99.95</span><span class="p">,</span> <span class="mf">99.99</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="n">V_ceil</span><span class="p">,</span> <span class="n">ps</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="s">"p"</span> <span class="o">=&gt;</span> <span class="n">ps</span><span class="p">,</span> <span class="s">"V (mV)"</span> <span class="o">=&gt;</span> <span class="n">qs</span><span class="o">/</span><span class="n">mV</span><span class="p">)</span>
+<span class="n">showsimple</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div><div style="float: left;"><span>12&#215;2 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">ps</th><th style="text-align: left;">qs</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">0</td><td style="text-align: right;">-65</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">0.1</td><td style="text-align: right;">-58.75</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">1</td><td style="text-align: right;">-58.07</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">5</td><td style="text-align: right;">-57.37</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">10</td><td style="text-align: right;">-56.91</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: right;">50</td><td style="text-align: right;">-53.98</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: right;">90</td><td style="text-align: right;">-51.6</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: right;">99</td><td style="text-align: right;">-49.79</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">9</td><td style="text-align: right;">95</td><td style="text-align: right;">-51.06</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">10</td><td style="text-align: right;">99.9</td><td style="text-align: right;">-46.77</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">11</td><td style="text-align: right;">99.99</td><td style="text-align: right;">40</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">12</td><td style="text-align: right;">100</td><td style="text-align: right;">40</td></tr></tbody></table></div></div></div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> p       V (mV) </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+   0     -65
+   0.1   -58.75
+   1     -58.07
+   5     -57.37
+  10     -56.91
+  50     -53.98
+  90     -51.6
+  95     -51.06
+  99     -49.79
+  99.9   -46.77
+  99.95  -44.24
+  99.99   40
+ 100      40
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df_</span> <span class="o">=</span> <span class="n">permutedims</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s">"p"</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">showsimple</span><span class="p">(</span><span class="n">df_</span><span class="p">,</span> <span class="n">allcols</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> p       0.0  0.1     1.0     5.0     10.0    50.0    90.0   95.0    99.0    99.9    99.95   99.99  100.0 </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+ V (mV)  -65  -58.75  -58.07  -57.37  -56.91  -53.98  -51.6  -51.06  -49.79  -46.77  -44.24  40     40
+</pre></div>
+</div>
+</div>
 </div>
 <p>Okay, lesgo for 99.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">clip!</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">threshold_percentile</span> <span class="o">=</span> <span class="mi">99</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
-    <span class="n">V_thr</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">threshold_percentile</span><span class="p">)</span>
-    <span class="n">V</span><span class="p">[</span><span class="n">V</span> <span class="o">.&#8805;</span> <span class="n">V_thr</span><span class="p">]</span> <span class="o">.=</span> <span class="n">V_thr</span>
-    <span class="k">return</span> <span class="n">V</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">clip!</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="mi">99</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">V_thr</span> <span class="o">=</span> <span class="n">percentile</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="n">to_clip</span> <span class="o">=</span> <span class="n">V</span> <span class="o">.&#8805;</span> <span class="n">V_thr</span>
+    <span class="n">V</span><span class="p">[</span><span class="n">to_clip</span><span class="p">]</span> <span class="o">.=</span> <span class="n">V_thr</span>
+    <span class="n">V</span>
 <span class="k">end</span>
 
 <span class="n">V_ceil_n_clip</span> <span class="o">=</span> <span class="n">clip!</span><span class="p">(</span><span class="n">copy</span><span class="p">(</span><span class="n">V_ceil</span><span class="p">));</span>
@@ -999,6 +1040,164 @@ using PhDPlots &#8230; &#10004;
 </div>
 <div class="section" id="rocs">
 <h2>ROCs<a class="headerlink" href="#rocs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">trains_to_test</span> <span class="o">=</span> <span class="n">get_trains_to_test</span><span class="p">(</span><span class="n">sim</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionTests</span><span class="o">.</span><span class="n">set_STA_length</span><span class="p">(</span><span class="mi">20</span><span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">test</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">=</span> <span class="n">test_conn</span><span class="p">(</span><span class="n">STAHeight</span><span class="p">(),</span> <span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">conntype</span><span class="p">,</span> <span class="n">trains</span><span class="p">)</span> <span class="k">in</span> <span class="n">trains_to_test</span>
+        <span class="n">descr</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">conntype</span><span class="p">)</span>
+        <span class="nd">@showprogress</span> <span class="n">descr</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">trains</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+            <span class="n">fr</span> <span class="o">=</span> <span class="n">spikerate</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">conntype</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">MemDiskCache</span><span class="o">.</span><span class="n">set_dir</span><span class="p">(</span><span class="s">"2023-09-13__Clippin_and_Ceilin"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>"C:\\Users\\tfiers\\.julia\\MemDiskCache.jl\\2023-09-13__Clippin_and_Ceilin"
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df_no_ceil</span>     <span class="o">=</span> <span class="nd">@cached</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">V_no_ceil</span><span class="p">);</span>      <span class="c"># 55.6 seconds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-13__Clippin_and_Ceilin\test_conns(V_no_ceil).jld2] &#8230; &#10004; (2.6 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df_ceil</span>        <span class="o">=</span> <span class="nd">@cached</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">V_ceil</span><span class="p">);</span>         <span class="c"># 51.3 seconds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-13__Clippin_and_Ceilin\test_conns(V_ceil).jld2] &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df_ceil_n_clip</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">test_conns</span><span class="p">(</span><span class="n">V_ceil_n_clip</span><span class="p">);</span>  <span class="c"># 51.8 seconds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-13__Clippin_and_Ceilin\test_conns(V_ceil_n_clip).jld2] &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_no_ceil</span><span class="p">,</span> <span class="n">df_ceil</span><span class="p">,</span> <span class="n">df_ceil_n_clip</span><span class="p">];</span>
+<span class="n">sweeps</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="o">.</span><span class="p">(</span><span class="n">dfs</span><span class="p">)</span>
+<span class="n">AUCs</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="o">.</span><span class="p">(</span><span class="n">sweeps</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span> <span class="o">=</span> <span class="n">extract</span><span class="p">(</span><span class="ss">:label</span><span class="p">,</span> <span class="n">Vs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">AUCs</span><span class="p">)</span>
+<span class="n">insertcols!</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:V_type</span><span class="o">=&gt;</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">showsimple</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> V_type            AUC     AUC&#8337;    AUC&#7522;   </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+ No ceiling        0.7485  0.6617  0.8354
+ Ceiled spikes     0.5632  0.4909  0.6354
+ Ceiled &amp; Clipped  0.7874  0.6912  0.8836
+</pre></div>
+</div>
+</div>
+</div>
+<p>Distilling from <a class="reference external" href="https://matplotlib.org/stable/gallery/lines_bars_and_markers/barchart.html">mpl docs&#8217; Examples: Grouped bar chart with labels</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">grouped_barplot</span><span class="p">(</span><span class="n">df</span><span class="p">;</span> <span class="n">cols</span><span class="p">,</span> <span class="n">group_labels</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">bar_label_fmt</span><span class="o">=</span><span class="s">"</span><span class="si">%.2g</span><span class="s">"</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">N_groups</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">group_labels</span><span class="p">)</span>
+    <span class="n">N_bars_per_group</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">isnothing</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="k">end</span>
+    <span class="k">if</span> <span class="n">isnothing</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">mplcolors</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N_bars_per_group</span><span class="p">]</span>
+    <span class="k">end</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="p">(</span><span class="n">N_groups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">N_bars_per_group</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">colname</span><span class="p">,</span> <span class="n">color</span><span class="p">))</span> <span class="k">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">colors</span><span class="p">))</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">!</span><span class="p">,</span> <span class="n">colname</span><span class="p">]</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+        <span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span> <span class="o">.+</span> <span class="n">offset</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">colname</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">toRGBAtuple</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">bars</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="n">bar_label_fmt</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s">"x-small"</span><span class="p">)</span>
+    <span class="k">end</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">x</span> <span class="o">.+</span> <span class="n">width</span><span class="p">,</span> <span class="n">group_labels</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span>
+<span class="k">end</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">Sciplotlib</span><span class="o">.</span><span class="n">Gray</span><span class="p">(</span><span class="mf">0.6</span><span class="p">),</span> <span class="n">color_exc</span><span class="p">,</span> <span class="n">color_inh</span><span class="p">]</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">grouped_barplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s">"AUC"</span><span class="p">,</span> <span class="s">"AUC&#8337;"</span><span class="p">,</span> <span class="s">"AUC&#7522;"</span><span class="p">],</span> <span class="n">group_labels</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">V_type</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">colors</span><span class="p">);</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"upper left"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:keep</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"""</span>
+<span class="s">    STA connection test performance, for different voltage signal types"""</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_36_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_36_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="threshold-plot">
+<h2>Threshold-plot<a class="headerlink" href="#threshold-plot" title="Permalink to this headline">&#182;</a></h2>
+<p>Visualize what ROC is.</p>
 </div>
 </div>
 
