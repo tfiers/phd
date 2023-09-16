@@ -45,12 +45,17 @@ detection_rates(cm) = begin
     TP  = TPₑ + TPᵢ
     FP  = N - TN
     PP  = TP + FP  # Predicted positive
+    if PP > 0
+        PPV = TP / PP
+    else
+        PPV = missing
+    end
     return (;
         TPRₑ = TPₑ / Pₑ,
         TPRᵢ = TPᵢ / Pᵢ,
         TPR  = TP  / P,
         FPR  = FP  / N,
-        PPV  = TP  / PP,
+        PPV,
     )
 end
 

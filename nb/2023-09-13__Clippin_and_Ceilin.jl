@@ -180,10 +180,10 @@ set(ax, ylim=[0.45, 1], xtype=:keep, title="""
 sweep = sweep_threshold(df_ceil_n_clip)
 
 fig, ax = plt.subplots()
-plot(sweep.threshold, sweep.TPRₑ, color=color_exc, label="Excitatory inputs")
-plot(sweep.threshold, sweep.TPRᵢ, color=color_inh, label="Inhibitory inputs")
-plot(sweep.threshold, sweep.TPR, color=color_both, label="(Both exc and inh)")
-plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs")
+plot(sweep.threshold, sweep.TPRₑ, color=color_exc, label="Excitatory inputs (TPRₑ)")
+plot(sweep.threshold, sweep.TPRᵢ, color=color_inh, label="Inhibitory inputs (TPRᵢ)")
+plot(sweep.threshold, sweep.TPR, color=color_both, label="Both exc and inh (TPR)")
+plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs (FPR)")
 # plot(sweep.threshold, F1.(sweep), color=C2, label="F1")
 # plot(sweep.threshold, PPV.(sweep), color=C3, label="Precision")
 set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
@@ -191,4 +191,29 @@ ax.invert_xaxis()
 legend(ax);
 # -
 
+plotROC(sweep);
 
+# +
+PPVs = PPV.(sweep);
+F1s = F1.(sweep);
+
+missing_to_nan(x) = coalesce.(x, NaN);
+
+# +
+fig, ax = plt.subplots()
+
+plot(sweep.threshold, sweep.TPR, color=color_both, label="Recall (TPR)")
+plot(sweep.threshold, missing_to_nan(PPVs), color=C3, label="Precision")
+plot(sweep.threshold, missing_to_nan(F1s), color=C2, label="F1")
+set(ax, ytype=:fraction, xlabel="Detection threshold")
+ax.invert_xaxis()
+legend(ax);
+# -
+
+# Where is F1 maximal?
+
+i = argmax(skipmissing(F1s))
+
+sweep[i].threshold
+
+F1s[i]
