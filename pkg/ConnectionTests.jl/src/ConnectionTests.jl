@@ -47,7 +47,8 @@ end
 set_Δt(x) = (global Δt = x)
 
 STA_length::Int = 1000  # = 100 ms at 0.1 ms Δt
-set_STA_length(x) = (global STA_length = x)
+set_STA_length(x::Integer) = (global STA_length = x)
+set_STA_length(duration::Float64) = set_STA_length(round(Int, duration / Δt))
 
 
 

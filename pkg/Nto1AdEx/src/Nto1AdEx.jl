@@ -162,7 +162,7 @@ sim(
     # This NamedTuple is our implicitly defined 'simdata' data
     # structure, on which the functions below operate. It is what we
     # mean with `SimData` below.
-    return (; V, spiketimes, rates, trains, duration, N, Nₑ, wₑ, wᵢ, spikerate, rec)
+    return (; V, spiketimes, rates, trains, seed, duration, N, Nₑ, wₑ, wᵢ, spikerate, rec)
 end
 
 # Readability alias

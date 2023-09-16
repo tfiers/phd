@@ -166,3 +166,28 @@ new_nb(nb_name) = begin
     # (We don't auto-copy to `clipboard`: needs InteractiveUtils, and
     #  that takes 0.8 sec to load)
 end
+
+
+# -----------------------------------------------------------------------------------------
+
+
+"""
+    extract(name::Symbol, array)
+
+Create an array of the same shape as the one given, but with just the
+values stored under `name` in each element of the given array.
+
+## Example
+
+    julia> arr = [
+               (x=3, y=2),
+               (x=4, y=1),
+           ];
+
+    julia> extract(:x, arr)
+    [3, 4]
+.
+"""
+extract(name::Symbol, array) = [getproperty(el, name) for el in array]
+    # Unlike in Python, the above comprehension syntax returns an array
+    # of the same shape as `array` (e.g. a matrix).

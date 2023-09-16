@@ -8,7 +8,7 @@ export @L_str
 
 const color_exc = C0
 const color_inh = C1
-const color_unconn = Gray(0.3)
+const color_unconn = Colors.Gray(0.3)
 
 export color_exc, color_inh, color_unconn
 
