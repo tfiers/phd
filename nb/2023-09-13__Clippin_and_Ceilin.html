@@ -1182,10 +1182,11 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">)</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">Sciplotlib</span><span class="o">.</span><span class="n">Gray</span><span class="p">(</span><span class="mf">0.6</span><span class="p">),</span> <span class="n">color_exc</span><span class="p">,</span> <span class="n">color_inh</span><span class="p">]</span>
+<span class="n">color_both</span> <span class="o">=</span> <span class="n">Sciplotlib</span><span class="o">.</span><span class="n">Gray</span><span class="p">(</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">color_both</span><span class="p">,</span> <span class="n">color_exc</span><span class="p">,</span> <span class="n">color_inh</span><span class="p">]</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">grouped_barplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s">"AUC"</span><span class="p">,</span> <span class="s">"AUC&#8337;"</span><span class="p">,</span> <span class="s">"AUC&#7522;"</span><span class="p">],</span> <span class="n">group_labels</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">V_type</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">colors</span><span class="p">);</span>
 <span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"upper left"</span><span class="p">)</span>
-<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:keep</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"""</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.45</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:keep</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"""</span>
 <span class="s">    STA connection test performance, for different voltage signal types"""</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1198,6 +1199,25 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="section" id="threshold-plot">
 <h2>Threshold-plot<a class="headerlink" href="#threshold-plot" title="Permalink to this headline">&#182;</a></h2>
 <p>Visualize what ROC is.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">df_ceil_n_clip</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#8337;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_exc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Excitatory inputs"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#7522;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory inputs"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_both</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"(Both exc and inh)"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Non-inputs"</span><span class="p">)</span>
+<span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"Spiketrains detected as input"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Detection threshold"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">invert_xaxis</span><span class="p">()</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_39_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_39_0.png">
+</div>
+</div>
 </div>
 </div>
 
