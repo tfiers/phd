@@ -44,11 +44,13 @@ detection_rates(cm) = begin
     P   = Pₑ + Pᵢ
     TP  = TPₑ + TPᵢ
     FP  = N - TN
+    PP  = TP + FP  # Predicted positive
     return (;
         TPRₑ = TPₑ / Pₑ,
         TPRᵢ = TPᵢ / Pᵢ,
         TPR  = TP  / P,
         FPR  = FP  / N,
+        PPV  = TP  / PP,
     )
 end
 
@@ -68,6 +70,20 @@ index(conntype) =
       conntype == :unc ?  3  :
       error("Unknown connection type `$conntype`") )
 
+
+# See VoltoMapSim/src/infer/confusionmatrix.jl for more measures, and
+# relations between them.
+
+TPR(p::PredictionTable) = p.TPR  # True positive rate / recall / sensitivity / power
+PPV(p::PredictionTable) =        # Positive predictive value / precision
+    detection_rates(p.confusion_matrix).PPV
+
+F1(p::PredictionTable) = harmonic_mean(TPR(p), PPV(p))
+
+harmonic_mean(x...) = 1 / mean(1 ./ x)
+mean(x) = sum(x) / length(x)
+
+export PPV, F1
 
 
 
