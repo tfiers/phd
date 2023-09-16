@@ -165,15 +165,29 @@ end
 
 fig, ax = plt.subplots(figsize=(5, 3))
 ax.axhline(0.5, color="black")
-colors = [Sciplotlib.Gray(0.6), color_exc, color_inh]
+color_both = Sciplotlib.Gray(0.6)
+colors = [color_both, color_exc, color_inh]
 ax = grouped_barplot(df, cols=["AUC", "AUCₑ", "AUCᵢ"], group_labels=df.V_type; ax, colors);
 legend(ax, ncols=3, loc="upper left")
-set(ax, ylim=[0.45, 1], xtype=:keep, hylabel="""
+set(ax, ylim=[0.45, 1], xtype=:keep, title="""
     STA connection test performance, for different voltage signal types""");
 # -
 
 # ## Threshold-plot
 
 # Visualize what ROC is.
+
+# +
+sweep = sweep_threshold(df_ceil_n_clip)
+
+fig, ax = plt.subplots()
+plot(sweep.threshold, sweep.TPRₑ, color=color_exc, label="Excitatory inputs")
+plot(sweep.threshold, sweep.TPRᵢ, color=color_inh, label="Inhibitory inputs")
+plot(sweep.threshold, sweep.TPR, color=color_both, label="(Both exc and inh)")
+plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs")
+set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
+ax.invert_xaxis()
+legend(ax);
+# -
 
 

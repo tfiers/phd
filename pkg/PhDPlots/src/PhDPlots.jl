@@ -8,9 +8,10 @@ export @L_str
 
 const color_exc = C0
 const color_inh = C1
+const color_both = Colors.Gray(0.6)
 const color_unconn = Colors.Gray(0.3)
 
-export color_exc, color_inh, color_unconn
+export color_exc, color_inh, color_both, color_unconn
 
 
 # Based on the memoir-class latex pdf in ../thesis/.
