@@ -3,16 +3,21 @@ Performance evaluation of a connection test applied to a bunch of
 possibly-connected neuron pairs.
 
 Input is
-    - A list of 't-values'; which are the connection test's guess of
-      how strongly connected each neuron-pair is;
-    - And a corresponding list of the real type of each connection;
-      which should be one of `(:exc, :inh, :unc)`.
+- A list of 't-values'; which are the connection test's guess of
+  how strongly connected each neuron-pair is;
+- And a corresponding list of the real type of each connection;
+  which should be one of `(:exc, :inh, :unc)`.
 
 For a certain t-value-threshold `θ`, each connection is classified as
 follows: unconnected (`:unc`) if `|t| ≤ θ`; and excitatory or inhibitory
 otherwise, depending on t's sign (`:exc` for t > 0, and `:inh` for t ≤ 0).
+
+Main functions: [`sweep_threshold`](@ref), [`at_FPR`](@ref), and
+[`calc_AUROCs`](@ref).
 """
 module ConnTestEval
+
+export sweep_threshold, calc_AUROCs, at_FPR
 
 
 using StructArrays
@@ -21,6 +26,22 @@ using StructArrays
 include("predictiontable.jl")
 
 
+"""
+    sweep_threshold(df)
+    sweep_threshold(tvals, conntypes)
+
+Given a list of 't-values' and a corresponding list of true connection
+types, apply all possible thresholds to these t-values, and return the
+resulting list of [`PredictionTable`](@ref)s, as a `StructArray`.
+
+We return a `StructArray` so that you can call e.g. `sweep.FPR` on the
+returned object, to get a list of `FPR` values for the different applied
+thresholds (see [`thresholds`](@ref))
+
+The two input lists can be given separately, or as part of a DataFrame
+`df`, in which case `df` should have a column named `t` and a column
+named `conntype`.
+"""
 sweep_threshold(df) = sweep_threshold(df.t, df.conntype)
 
 sweep_threshold(tvals, conntypes) = StructArray(
@@ -40,11 +61,21 @@ thresholds(tvals) = sort!(unique!([abs.(tvals); 0]), rev=true)
 """
     at_FPR(tables, FPR = 0.05)
 
-Given the `tables` resulting from a threshold sweep, get the table that
-has an FPR closest to the given value.
+Given the `StructArray` of `PredictionTable`s returned by
+[`sweep_threshold`](@ref), get the table that has an FPR closest to the
+given value.
 """
 at_FPR(tables, FPR = 0.05) = tables[argmin(abs.(tables.FPR .- FPR))]
 
+"""
+    calc_AUROCs(tables)
+
+Given the `StructArray` of `PredictionTable`s returned by
+[`sweep_threshold`](@ref), calculate the areas under the receiving
+operating characterics curves. Three AUC values are returned: one for
+only excitatory inputs, one for only inhibitory, and one for both input
+types together.
+"""
 calc_AUROCs(tables) = (;
     AUC  = trapz(tables.FPR, tables.TPR),
     AUCₑ = trapz(tables.FPR, tables.TPRₑ),
@@ -61,9 +92,5 @@ trapz(x, y) = begin
     end
     return auc
 end
-
-
-export sweep_threshold, PredictionTable, at_FPR, calc_AUROCs, detection_rates
-export print_confusion_matrix
 
 end

@@ -1,4 +1,7 @@
 
+export PredictionTable, print_confusion_matrix, Fβ, F2, missing_to_nan
+
+
 struct PredictionTable
     threshold        ::Float64
     tvals            ::Vector{Float64}
@@ -9,12 +12,13 @@ struct PredictionTable
     TPRᵢ             ::Float64
     TPR              ::Float64
     FPR              ::Float64
+    PPV              ::Union{Float64,Missing}
+    F1               ::Union{Float64,Missing}
 
     PredictionTable(θ, tvals, conntypes) = begin
         preds = predicted_types(tvals, θ)
         cm = confusion_matrix(conntypes, preds)
-        (; TPRₑ, TPRᵢ, TPR, FPR) = detection_rates(cm)
-        new(θ, tvals, conntypes, preds, cm, TPRₑ, TPRᵢ, TPR, FPR)
+        new(θ, tvals, conntypes, preds, cm, perfmeasures(cm)...)
     end
 end
 
@@ -33,7 +37,7 @@ confusion_matrix(real_types, predicted_types) = begin
     return cm
 end
 
-detection_rates(cm) = begin
+perfmeasures(cm) = begin
     # Count positives (P), true positives (TP), etc.
     Pₑ  = count(cm, real=:exc)
     TPₑ = count(cm, real=:exc, pred=:exc)
@@ -44,27 +48,23 @@ detection_rates(cm) = begin
     P   = Pₑ + Pᵢ
     TP  = TPₑ + TPᵢ
     FP  = N - TN
-    PP  = TP + FP  # Predicted positive
+    PP  = TP + FP      # Predicted positive
+
+    TPRₑ = TPₑ / Pₑ
+    TPRᵢ = TPᵢ / Pᵢ
+    TPR  = TP  / P     # True positive rate / recall / sensitivity / power
+    FPR  = FP  / N
     if PP > 0
-        PPV = TP / PP
+        PPV = TP / PP  # Positive predictive value / precision
     else
         PPV = missing
     end
-    return (;
-        TPRₑ = TPₑ / Pₑ,
-        TPRᵢ = TPᵢ / Pᵢ,
-        TPR  = TP  / P,
-        FPR  = FP  / N,
-        PPV,
-    )
-end
+    F1 = harmonic_mean(TPR, PPV)
+    # See VoltoMapSim/src/infer/confusionmatrix.jl for more measures,
+    # and relations between them.
 
-detection_rates(p::PredictionTable) = (;
-    p.TPRₑ,
-    p.TPRᵢ,
-    p.TPR,
-    p.FPR,
-)
+    return (; TPRₑ, TPRᵢ, TPR, FPR, PPV, F1)
+end
 
 count(cm; real=:, pred=:) = sum(cm[index(real), index(pred)])
 
@@ -75,20 +75,32 @@ index(conntype) =
       conntype == :unc ?  3  :
       error("Unknown connection type `$conntype`") )
 
-
-# See VoltoMapSim/src/infer/confusionmatrix.jl for more measures, and
-# relations between them.
-
-TPR(p::PredictionTable) = p.TPR  # True positive rate / recall / sensitivity / power
-PPV(p::PredictionTable) =        # Positive predictive value / precision
-    detection_rates(p.confusion_matrix).PPV
-
-F1(p::PredictionTable) = harmonic_mean(TPR(p), PPV(p))
-
 harmonic_mean(x...) = 1 / mean(1 ./ x)
 mean(x) = sum(x) / length(x)
 
-export PPV, F1
+precision(p::PredictionTable) = p.PPV
+recall(p::PredictionTable) = p.TPR
+
+"""
+    Fβ(p::PredictionTable, β)
+
+"F_β measures the effectiveness of retrieval for a user who attaches β
+times as much importance to recall as to precision"
+"""
+Fβ(p::PredictionTable, β) = begin
+    precision = p.PPV
+    recall = p.TPR
+    return (1 + β^2) * (precision * recall) / ((β^2 * precision) + recall)
+end
+F2(p::PredictionTable) = Fβ(p, 2)
+
+
+# When plotting a precision or F1 series, the value for threshold = 0
+# will be 'missing'. (There are zero detections, so there is no
+# 'precision' of the detections to speak off). We can't plot 'missing'
+# values, but we _can_ plot NaN. You can thus plot, e.g:
+# `missing_to_nan.(sweep.PPV)`.
+missing_to_nan(x) = coalesce(x, NaN)
 
 
 

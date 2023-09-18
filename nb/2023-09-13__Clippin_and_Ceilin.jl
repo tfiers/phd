@@ -43,7 +43,7 @@ legend(ax, reverse=false);
 
 # ## Clip
 
-# And now for the clipping, we do it data driven (i.e. no spike detection), just a percentile.
+# And now for the clipping, we do it data driven (i.e. no explicit spike detection), just a percentile.
 
 include("lib/df.jl")
 
@@ -184,8 +184,6 @@ plot(sweep.threshold, sweep.TPRₑ, color=color_exc, label="Excitatory inputs (T
 plot(sweep.threshold, sweep.TPRᵢ, color=color_inh, label="Inhibitory inputs (TPRᵢ)")
 plot(sweep.threshold, sweep.TPR, color=color_both, label="Both exc and inh (TPR)")
 plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs (FPR)")
-# plot(sweep.threshold, F1.(sweep), color=C2, label="F1")
-# plot(sweep.threshold, PPV.(sweep), color=C3, label="Precision")
 set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
@@ -193,18 +191,16 @@ legend(ax);
 
 plotROC(sweep);
 
-# +
-PPVs = PPV.(sweep);
-F1s = F1.(sweep);
-
-missing_to_nan(x) = coalesce.(x, NaN);
+# ## Precision & F-scores
 
 # +
 fig, ax = plt.subplots()
 
 plot(sweep.threshold, sweep.TPR, color=color_both, label="Recall (TPR)")
-plot(sweep.threshold, missing_to_nan(PPVs), color=C3, label="Precision")
-plot(sweep.threshold, missing_to_nan(F1s), color=C2, label="F1")
+plot(sweep.threshold, missing_to_nan.(sweep.PPV), color=C3, label="Precision")
+plot(sweep.threshold, missing_to_nan.(sweep.F1), color=C2, label="F1")
+plot(sweep.threshold, missing_to_nan.(F2.(sweep)), color=C0, label="F2")
+# plot(sweep.threshold, missing_to_nan.(Fβ.(sweep, 0.5)), color=C1, label=L"F_{0.5}")
 set(ax, ytype=:fraction, xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
@@ -212,8 +208,30 @@ legend(ax);
 
 # Where is F1 maximal?
 
-i = argmax(skipmissing(F1s))
+i = argmax(skipmissing(sweep.F1))
+(sweep[i].threshold, sweep[i].F1)
 
-sweep[i].threshold
+# And the other two (F2 weighing recall more, F0.5 precision):
 
-F1s[i]
+F2s = F2.(sweep)
+i = argmax(skipmissing(F2s))
+(sweep[i].threshold, F2s[i])
+
+F0_5s = Fβ.(sweep, 0.5)
+i = argmax(skipmissing(F0_5s))
+(sweep[i].threshold, F0_5s[i])
+
+# PR curve (analogous to ROC):
+#
+# (note, in ROC, recall (TPR) is on y; here it's on x)
+
+plot(sweep.TPR, missing_to_nan.(sweep.PPV), aspect="equal", xtype=:fraction, ytype=:fraction,
+     xlabel="Recall (TPR)", ylabel="Precision (PPV)");
+
+# We could calc a precision separately for exc and inh, I do suppose.
+
+# "Out of all that's predicted [inh], how many actually are".
+
+
+
+
