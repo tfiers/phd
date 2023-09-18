@@ -744,6 +744,11 @@ const thebe_selector_output = ".output, .cell_output"
    Threshold-plot
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#precision-f-scores">
+   Precision &amp; F-scores
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -789,6 +794,11 @@ const thebe_selector_output = ".output, .cell_output"
    Threshold-plot
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#precision-f-scores">
+   Precision &amp; F-scores
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -812,10 +822,9 @@ using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230;
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling ConnectionTests [4ec9db02-d517-45d2-bd92-62a00b158019]
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling MemDiskCache [40c6d27e-4dd7-460c-8c4c-2ed37df2112f]
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004; (3.5 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004; (2.2 s)
 using ProgressMeter &#8230; &#10004;
 using StatsBase &#8230; &#10004; (0.2 s)
 </pre></div>
@@ -832,7 +841,7 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.669641 seconds (21.49 k allocations: 912.225 MiB, 5.49% gc time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3.079794 seconds (2.14 M allocations: 1.026 GiB, 2.58% gc time, 43.58% compilation time)
 </pre></div>
 </div>
 </div>
@@ -873,11 +882,10 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004;
-import PythonPlot &#8230; &#10004;
-using Sciplotlib &#8230; &#10004;
-using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling PhDPlots [8882fb83-7a18-4ae0-b3ef-a58e1f4042a1]
-&#10004; (2.3 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (1.8 s)
+import PythonPlot &#8230; &#10004; (3.5 s)
+using Sciplotlib &#8230; &#10004; (0.5 s)
+using PhDPlots &#8230; &#10004;
 </pre></div>
 </div>
 </div>
@@ -898,7 +906,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 </div>
 <div class="section" id="clip">
 <h2>Clip<a class="headerlink" href="#clip" title="Permalink to this headline">&#182;</a></h2>
-<p>And now for the clipping, we do it data driven (i.e. no spike detection), just a percentile.</p>
+<p>And now for the clipping, we do it data driven (i.e. no explicit spike detection), just a percentile.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/df.jl"</span><span class="p">)</span>
@@ -1207,8 +1215,6 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR&#7522;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_inh</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Inhibitory inputs (TPR&#7522;)"</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_both</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Both exc and inh (TPR)"</span><span class="p">)</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">FPR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_unconn</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Non-inputs (FPR)"</span><span class="p">)</span>
-<span class="c"># plot(sweep.threshold, F1.(sweep), color=C2, label="F1")</span>
-<span class="c"># plot(sweep.threshold, PPV.(sweep), color=C3, label="Precision")</span>
 <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"Spiketrains detected as input"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Detection threshold"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">invert_xaxis</span><span class="p">()</span>
 <span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
@@ -1229,23 +1235,18 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <img alt="../_images/2023-09-13__Clippin_and_Ceilin_40_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_40_0.png">
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">PPVs</span> <span class="o">=</span> <span class="n">PPV</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="p">);</span>
-<span class="n">F1s</span> <span class="o">=</span> <span class="n">F1</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="p">);</span>
-
-<span class="n">missing_to_nan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">coalesce</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">NaN</span><span class="p">);</span>
-</pre></div>
 </div>
-</div>
-</div>
+<div class="section" id="precision-f-scores">
+<h2>Precision &amp; F-scores<a class="headerlink" href="#precision-f-scores" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 
 <span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color_both</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Recall (TPR)"</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="p">(</span><span class="n">PPVs</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">C3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Precision"</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="p">(</span><span class="n">F1s</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">C2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"F1"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">PPV</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">C3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Precision"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">C2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"F1"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="o">.</span><span class="p">(</span><span class="n">F2</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"F2"</span><span class="p">)</span>
+<span class="c"># plot(sweep.threshold, missing_to_nan.(F&#946;.(sweep, 0.5)), color=C1, label=L"F_{0.5}")</span>
 <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Detection threshold"</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">invert_xaxis</span><span class="p">()</span>
 <span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
@@ -1259,40 +1260,61 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <p>Where is F1 maximal?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">F1s</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">))</span>
+<span class="p">(</span><span class="n">sweep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">sweep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">F1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>35
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.63, 0.8476)
+</pre></div>
+</div>
+</div>
+</div>
+<p>And the other two (F2 weighing recall more, F0.5 precision):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">F2s</span> <span class="o">=</span> <span class="n">F2</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">F2s</span><span class="p">))</span>
+<span class="p">(</span><span class="n">sweep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">F2s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.36, 0.8854)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sweep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">threshold</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">F0_5s</span> <span class="o">=</span> <span class="n">F&#946;</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">argmax</span><span class="p">(</span><span class="n">skipmissing</span><span class="p">(</span><span class="n">F0_5s</span><span class="p">))</span>
+<span class="p">(</span><span class="n">sweep</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">threshold</span><span class="p">,</span> <span class="n">F0_5s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.63
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.78, 0.8494)
 </pre></div>
 </div>
 </div>
 </div>
+<p>PR curve (analogous to ROC):</p>
+<p>(note, in ROC, recall (TPR) is on y; here it&#8217;s on x)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">F1s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">TPR</span><span class="p">,</span> <span class="n">missing_to_nan</span><span class="o">.</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">PPV</span><span class="p">),</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">,</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span>
+     <span class="n">xlabel</span><span class="o">=</span><span class="s">"Recall (TPR)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">"Precision (PPV)"</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.8476
-</pre></div>
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_49_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_49_0.png">
 </div>
 </div>
-</div>
+<p>We could calc a precision separately for exc and inh, I do suppose.</p>
+<p>&#8220;Out of all that&#8217;s predicted [inh], how many actually are&#8221;.</p>
 </div>
 </div>
 
