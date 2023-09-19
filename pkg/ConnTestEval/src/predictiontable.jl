@@ -78,18 +78,18 @@ perfmeasures(cm) = @NT begin
     PP  = PPₑ + PPᵢ
     PN  = count(cm, pred=:unc)
 
-    # The below precision values are `NaN` for the lowest threshold.
+    # The positive precision values are `NaN` for the highest threshold.
     # (There are no detections, i.e. zero 'predicted positive'). More
     # proper might be to detect `PP == 0`, and then assigning `missing`.
     # But NaNs allow directly passing precision vectors to maptlotlib :)
     PPV  = TP  / PP     # Positive predictive value / precision
     PPVₑ = TPₑ / PPₑ    # "Out of all that's predicted 'exc', how many actually are"
     PPVᵢ = TPᵢ / PPᵢ
-    NPV  = TN  / PN     # Negative predictive value
+    NPV  = TN  / PN     # Negative predictive value. NaN for threshold = 0.
 
     # (Weighted) harmonic means of recall and precision.
-    # I.e. detection ability from the ground truth's POV (recall) and
-    # from the experimenter's POV (precision).
+    # I.e. detection ability from the POV of the ground truth (recall)
+    # and from the POV of the experimenter (precision).
     F1  = Fβ(PPV,  TPR,  β=1)
     F1ₑ = Fβ(PPVₑ, TPRₑ, β=1)
     F1ᵢ = Fβ(PPVᵢ, TPRᵢ, β=1)
@@ -189,21 +189,35 @@ rows(p::PredictionTable) = [
     )
 ]
 
+# For when shown as part of a StructVector (by default, this is
+# extremely noisy, with the NamedTuple type param) (typical Julia).
+# Here, we make it short and sweet. (Full type info is still given when
+# printing the StructVector; namely after "eltype: "). The "with" here
+# is to not give the impression that you can construct a new
+# PredictionTable from the info between brackets :).
+Base.show(io::IO, p::PredictionTable) =
+    print(io, PredictionTable, " with ", (; p.threshold, p.PPₑ, p.PPᵢ, p.FP))
+
 Base.show(io::IO, ::MIME"text/plain", p::PredictionTable) = begin
     println(io, PredictionTable, "\n")
-    println(io, "Threshold: ", p.threshold, "\n")
-    println(io, confusion_matrix_string(p.confusion_matrix), "\n")
-    for name in [:TPRₑ, :TPRᵢ, :TPR, :FPR]
-        val = getproperty(p, name)
-        println(io, rpad(name, 4), ": ", round(val, digits=2))
-    end
-    println(io)
+    println(io, "t-values and connection types (actual and predicted):\n")
     print_table(io, rows(p))
+    println(io, "\n", "Threshold: ", p.threshold, "\n")
+    println(io, confusion_matrix_string(p.confusion_matrix), "\n")
+    for name in keys(p.perfmeasures)
+        val = p.perfmeasures[name]
+        if val isa AbstractFloat
+            val = round(val, digits=2)
+        end
+        println(io, rpad(name, 4), ": ", val)
+    end
 end
 
 print_table(io, rows) =
-    for r in rows
-        println(io, r)
+    if isdefined(Main, :PrettyTables) && isdefined(Main, :pretty_table)
+        @eval Main pretty_table($io, $rows, show_subheader=false, tf=tf_compact)
+    else
+        for r in rows
+            println(io, r)
+        end
     end
-    # If user did `using PrettyTables`, could do instead:
-    # pretty_table(io, rows, show_subheader=false, tf=tf_compact)
