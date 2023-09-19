@@ -82,11 +82,14 @@ for (V, label, zorder) in Vs
     plotsig(V, [0, 2000], ms; label, zorder, yunit=:mV)
 end
 hylabel(ax, L"Membrane voltage $V$")
-legend(ax);
+legend(ax)
+savefig_phd("ceil_n_clip_sigs")
 
 # ## STAs
 
 exc_input_1 = highest_firing(excitatory_inputs(sim))[1]
+
+ConnectionTests.set_STA_length(100ms);
 
 fig, ax = plt.subplots()
 # set(ax, ylim=[-54.1601, -54.02])  # grr
@@ -95,6 +98,7 @@ for (V, label, zorder) in Vs
     plotSTA(STA; label, nbins_y=4)
 end
 plt.legend();
+savefig_phd("ceil_n_clip_STAs")
 
 # Interesting! They have diff base heights (very convenient for plotting on same ax, here).
 
@@ -170,6 +174,7 @@ ax = grouped_barplot(df, cols=["AUC", "AUCₑ", "AUCᵢ"], group_labels=df.V_typ
 legend(ax, ncols=3, loc="upper left")
 set(ax, ylim=[0.45, 1], xtype=:keep, title="""
     STA connection test performance, for different voltage signal types""");
+savefig_phd("ceil_n_clip_AUCs")
 # -
 
 # ## Threshold-plot
@@ -187,9 +192,11 @@ plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs (FPR)")
 set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
+savefig_phd("perfmeasures_TPRs")
 # -
 
 plotROC(sweep);
+savefig_phd("perfmeasures_ROC")
 
 # ## Precision & F-scores
 
@@ -212,6 +219,7 @@ set(ax, ytype=:fraction, xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
 # label_lines(ax, [2=>-0.02]);
+savefig_phd("perfmeasures_Fscores")
 # -
 
 using PythonCall: pyconvert
@@ -245,6 +253,7 @@ set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
 # Recall: (% of real detected)
 # Precision: (% of detected real)
 legend(ax, fontsize="x-small");
+savefig_phd("perfmeasures_PR_curves")
 
 # "Out of all that's predicted [inh], how many actually are".
 
@@ -260,5 +269,6 @@ plot(sweep.threshold, sweep.PPVᵢ; color=color_inh,  ax, label="Precision for i
 set(ax, ytype=:fraction, xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
+savefig_phd("perfmeasures_PPVs")
 
 
