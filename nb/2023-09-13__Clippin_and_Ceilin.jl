@@ -196,42 +196,69 @@ plotROC(sweep);
 # +
 fig, ax = plt.subplots()
 
-plot(sweep.threshold, sweep.TPR, color=color_both, label="Recall (TPR)")
-plot(sweep.threshold, missing_to_nan.(sweep.PPV), color=C3, label="Precision")
-plot(sweep.threshold, missing_to_nan.(sweep.F1), color=C2, label="F1")
-plot(sweep.threshold, missing_to_nan.(F2.(sweep)), color=C0, label="F2")
-# plot(sweep.threshold, missing_to_nan.(Fβ.(sweep, 0.5)), color=C1, label=L"F_{0.5}")
+plot(sweep.threshold, sweep.TPR, color=color_both,  label="Recall (TPR)")
+plot(sweep.threshold, sweep.PPV, color=C3,          label="Precision (PPV)")
+
+for (series, color, label) in [
+        (sweep.F2,  darken(C2),  L"F_2"),
+        (sweep.F1,  C2,          L"F_1"),
+        (sweep.F05, lighten(C2), L"F_{0.5}"),
+    ]
+    plot(sweep.threshold, series; color, label)
+    i = argmax(skipnan(series))
+    plot(sweep.threshold[i], series[i], "."; color, mec="black")
+end
 set(ax, ytype=:fraction, xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
+# label_lines(ax, [2=>-0.02]);
 # -
 
+using PythonCall: pyconvert
+function label_lines(ax, offsets=[])
+    offsets = Dict(offsets)
+    for (i, line) in enumerate(ax.lines)
+        x,y = pyconvert(NTuple{2,Vector{Float64}}, line.get_data())
+        s = pyconvert(String, line.get_label())
+        dy = get(offsets, i, 0)
+        ax.text(x[end], y[end]+dy, " $s", color=line.get_color(), va="center", fontsize="small")
+    end
+end;
+# Very cool.
+# Not using now though :)  Just the normal legend.
+# 
+# To possibly add: allow specifying offset in axes coords;
+# so need to add to diff transforms (I did this before for sth else).
+
 # Where is F1 maximal?
-
-i = argmax(skipmissing(sweep.F1))
-(sweep[i].threshold, sweep[i].F1)
-
-# And the other two (F2 weighing recall more, F0.5 precision):
-
-F2s = F2.(sweep)
-i = argmax(skipmissing(F2s))
-(sweep[i].threshold, F2s[i])
-
-F0_5s = Fβ.(sweep, 0.5)
-i = argmax(skipmissing(F0_5s))
-(sweep[i].threshold, F0_5s[i])
 
 # PR curve (analogous to ROC):
 #
 # (note, in ROC, recall (TPR) is on y; here it's on x)
 
-plot(sweep.TPR, missing_to_nan.(sweep.PPV), aspect="equal", xtype=:fraction, ytype=:fraction,
-     xlabel="Recall (TPR)", ylabel="Precision (PPV)");
-
-# We could calc a precision separately for exc and inh, I do suppose.
+fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
+plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
+plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
+plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
+set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
+     xlabel="Recall (TPR)", ylabel="Precision (PPV)")
+# Recall: (% of real detected)
+# Precision: (% of detected real)
+legend(ax, fontsize="x-small");
 
 # "Out of all that's predicted [inh], how many actually are".
 
+# "Do we need two thresholds?" i.e. one for exc and one for inh. (pfrt)
 
+fig, ax = plt.subplots()
+# plot(sweep.threshold, sweep.TPR; color=color_both,  ax)
+# plot(sweep.threshold, sweep.PPV; color=color_both,  ax, ls="--")
+plot(sweep.threshold, sweep.TPRₑ; color=color_exc,  ax, label="Recall for exc inputs (TPRₑ)")
+plot(sweep.threshold, sweep.TPRᵢ; color=color_inh,  ax, label="Recall for inh inputs (TPRᵢ)")
+plot(sweep.threshold, sweep.PPVₑ; color=color_exc,  ax, label="Precision for exc inputs (PPVₑ)", ls="--")
+plot(sweep.threshold, sweep.PPVᵢ; color=color_inh,  ax, label="Precision for inh inputs (PPVᵢ)", ls="--")
+set(ax, ytype=:fraction, xlabel="Detection threshold")
+ax.invert_xaxis()
+legend(ax);
 
 

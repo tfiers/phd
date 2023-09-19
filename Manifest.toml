@@ -162,7 +162,7 @@ uuid = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 version = "0.2.18"
 
 [[deps.ConnTestEval]]
-deps = ["StructArrays"]
+deps = ["CreateNamedTupleMacro", "StructArrays"]
 path = "pkg/ConnTestEval"
 uuid = "03fa6f02-708e-42e1-9f65-1513c92445f8"
 version = "0.1.0"
@@ -188,6 +188,11 @@ version = "0.6.2"
 git-tree-sha1 = "249fe38abf76d48563e2f4556bebd215aa317e15"
 uuid = "a8cc5b0e-0ffa-5ad4-8c14-923d3ee1735f"
 version = "4.1.1"
+
+[[deps.CreateNamedTupleMacro]]
+path = "pkg/CreateNamedTupleMacro"
+uuid = "62d8d2ca-95fb-4a45-8f82-8b7aa5577d13"
+version = "0.1.0"
 
 [[deps.Cthulhu]]
 deps = ["CodeTracking", "FoldingTrees", "InteractiveUtils", "Preferences", "REPL", "UUIDs", "Unicode"]

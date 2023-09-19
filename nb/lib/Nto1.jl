@@ -3,8 +3,8 @@ using WithFeedback
 
 @withfb using Revise
 @withfb using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache
-@withfb using ProgressMeter
 
+using ProgressMeter
 using Random
 
 include("util.jl")
