@@ -4,4 +4,5 @@ authors = ["Tomas Fiers <tomas.fiers@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+CreateNamedTupleMacro = "62d8d2ca-95fb-4a45-8f82-8b7aa5577d13"
 StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"

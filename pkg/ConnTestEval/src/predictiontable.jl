@@ -1,25 +1,31 @@
 
-export PredictionTable, print_confusion_matrix, Fβ, F2, missing_to_nan
+using StructArrays
+using CreateNamedTupleMacro
 
 
-struct PredictionTable
+export PredictionTable, print_confusion_matrix, Fβ
+
+
+struct PredictionTable{NT<:NamedTuple}
     threshold        ::Float64
     tvals            ::Vector{Float64}
     real_types       ::Vector{Symbol}
+    # ↑ inputs
+    # ↓ calculated
     predicted_types  ::Vector{Symbol}
-    confusion_matrix ::Matrix{Int}    # Indexed as [real type, predicted type]
-    TPRₑ             ::Float64
-    TPRᵢ             ::Float64
-    TPR              ::Float64
-    FPR              ::Float64
-    PPV              ::Union{Float64,Missing}
-    F1               ::Union{Float64,Missing}
+    confusion_matrix ::Matrix{Int}     # Indexed as [real type, predicted type]
+    perfmeasures     ::NT
+        # We use a NamedTuple (instead of having all the performance
+        # measures as separate fields here), so we can add measures
+        # without redefining the struct, and thus having to reload the
+        # Julia session.
+end
 
-    PredictionTable(θ, tvals, conntypes) = begin
-        preds = predicted_types(tvals, θ)
-        cm = confusion_matrix(conntypes, preds)
-        new(θ, tvals, conntypes, preds, cm, perfmeasures(cm)...)
-    end
+PredictionTable(θ, tvals, conntypes) = begin
+    preds = predicted_types(tvals, θ)
+    cm = confusion_matrix(conntypes, preds)
+    pm = perfmeasures(cm)
+    PredictionTable(θ, tvals, conntypes, preds, cm, pm)
 end
 
 predicted_types(tvals, θ) = [classify(t, θ) for t in tvals]
@@ -30,40 +36,11 @@ classify(t, θ) =
                     :inh  )
 
 confusion_matrix(real_types, predicted_types) = begin
-    cm = zeros(Int, 3, 3)
+    cm = zeros(Int, 3, 3)  # (Could be a StaticArray)
     for (real, pred) in zip(real_types, predicted_types)
         cm[index(real), index(pred)] += 1
     end
     return cm
-end
-
-perfmeasures(cm) = begin
-    # Count positives (P), true positives (TP), etc.
-    Pₑ  = count(cm, real=:exc)
-    TPₑ = count(cm, real=:exc, pred=:exc)
-    Pᵢ  = count(cm, real=:inh)
-    TPᵢ = count(cm, real=:inh, pred=:inh)
-    N   = count(cm, real=:unc)
-    TN  = count(cm, real=:unc, pred=:unc)
-    P   = Pₑ + Pᵢ
-    TP  = TPₑ + TPᵢ
-    FP  = N - TN
-    PP  = TP + FP      # Predicted positive
-
-    TPRₑ = TPₑ / Pₑ
-    TPRᵢ = TPᵢ / Pᵢ
-    TPR  = TP  / P     # True positive rate / recall / sensitivity / power
-    FPR  = FP  / N
-    if PP > 0
-        PPV = TP / PP  # Positive predictive value / precision
-    else
-        PPV = missing
-    end
-    F1 = harmonic_mean(TPR, PPV)
-    # See VoltoMapSim/src/infer/confusionmatrix.jl for more measures,
-    # and relations between them.
-
-    return (; TPRₑ, TPRᵢ, TPR, FPR, PPV, F1)
 end
 
 count(cm; real=:, pred=:) = sum(cm[index(real), index(pred)])
@@ -75,32 +52,108 @@ index(conntype) =
       conntype == :unc ?  3  :
       error("Unknown connection type `$conntype`") )
 
-harmonic_mean(x...) = 1 / mean(1 ./ x)
-mean(x) = sum(x) / length(x)
 
-precision(p::PredictionTable) = p.PPV
-recall(p::PredictionTable) = p.TPR
+perfmeasures(cm) = @NT begin
 
-"""
-    Fβ(p::PredictionTable, β)
+    # Count positives (P), true positives (TP), etc.
+    Pₑ  = count(cm, real=:exc)
+    TPₑ = count(cm, real=:exc, pred=:exc)
+    Pᵢ  = count(cm, real=:inh)
+    TPᵢ = count(cm, real=:inh, pred=:inh)
+    N   = count(cm, real=:unc)
+    TN  = count(cm, real=:unc, pred=:unc)
+    P   = Pₑ + Pᵢ
+    TP  = TPₑ + TPᵢ
+    FP  = N - TN
 
-"F_β measures the effectiveness of retrieval for a user who attaches β
-times as much importance to recall as to precision"
-"""
-Fβ(p::PredictionTable, β) = begin
-    precision = p.PPV
-    recall = p.TPR
-    return (1 + β^2) * (precision * recall) / ((β^2 * precision) + recall)
+    # Detection rates
+    TPRₑ = TPₑ / Pₑ
+    TPRᵢ = TPᵢ / Pᵢ
+    TPR  = TP  / P     # True positive rate / recall / sensitivity / power
+    FPR  = FP  / N     # False positive rate / α
+
+    # PP: Predicted Positive
+    PPₑ = count(cm, pred=:exc)
+    PPᵢ = count(cm, pred=:inh)
+    PP  = PPₑ + PPᵢ
+    PN  = count(cm, pred=:unc)
+
+    # The below precision values are `NaN` for the lowest threshold.
+    # (There are no detections, i.e. zero 'predicted positive'). More
+    # proper might be to detect `PP == 0`, and then assigning `missing`.
+    # But NaNs allow directly passing precision vectors to maptlotlib :)
+    PPV  = TP  / PP     # Positive predictive value / precision
+    PPVₑ = TPₑ / PPₑ    # "Out of all that's predicted 'exc', how many actually are"
+    PPVᵢ = TPᵢ / PPᵢ
+    NPV  = TN  / PN     # Negative predictive value
+
+    # (Weighted) harmonic means of recall and precision.
+    # I.e. detection ability from the ground truth's POV (recall) and
+    # from the experimenter's POV (precision).
+    F1  = Fβ(PPV,  TPR,  β=1)
+    F1ₑ = Fβ(PPVₑ, TPRₑ, β=1)
+    F1ᵢ = Fβ(PPVᵢ, TPRᵢ, β=1)
+    # Recall weighted more heavily:
+    F2  = Fβ(PPV,  TPR,  β=2)
+    F2ₑ = Fβ(PPVₑ, TPRₑ, β=2)
+    F2ᵢ = Fβ(PPVᵢ, TPRᵢ, β=2)
+    # Precision weighted more heavily:
+    F05  = Fβ(PPV,  TPR,  β=0.5)
+    F05ₑ = Fβ(PPVₑ, TPRₑ, β=0.5)
+    F05ᵢ = Fβ(PPVᵢ, TPRᵢ, β=0.5)
+
+    # See VoltoMapSim/src/infer/confusionmatrix.jl for more measures,
+    # and relations between them.
 end
-F2(p::PredictionTable) = Fβ(p, 2)
 
 
-# When plotting a precision or F1 series, the value for threshold = 0
-# will be 'missing'. (There are zero detections, so there is no
-# 'precision' of the detections to speak off). We can't plot 'missing'
-# values, but we _can_ plot NaN. You can thus plot, e.g:
-# `missing_to_nan.(sweep.PPV)`.
-missing_to_nan(x) = coalesce(x, NaN)
+"""
+    Fβ(precision, recall; β=1)
+
+"``F_β`` measures the effectiveness of retrieval for a user who attaches
+``β`` times as much importance to recall as to precision".
+"""
+Fβ(precision, recall; β=1) = (
+    (1 + β^2) * precision * recall
+                    /
+     ((β^2 * precision) + recall)
+)
+
+
+
+
+# ---------------------------------------------------------------------
+#
+# Pretend like PredictionTable has as its own fields all the properties
+# in the `perfmeasures` field, both as a single object, and when part of
+# a StructVector (see `sweep_threshold`).
+#
+Base.propertynames(p::PredictionTable) = [
+    fieldnames(PredictionTable)...,
+    keys(p.perfmeasures)...,
+]
+#
+Base.getproperty(p::PredictionTable, name::Symbol) =
+    if name in fieldnames(PredictionTable)
+        getfield(p, name)
+    else
+        p.perfmeasures[name]
+    end
+#
+#
+# https://juliaarrays.github.io/StructArrays.jl/stable/advanced/#Structures-with-non-standard-data-layout
+# (Lotsa work here below to make it typestable. Could spare it by just not having `NT` typeparam in struct).
+#
+StructArrays.staticschema(::Type{PredictionTable{NamedTuple{names,types}}}) where {names,types} =
+    NamedTuple{(fieldnames(PredictionTable)..., names...),
+               Tuple{fieldtypes(PredictionTable)..., types.parameters...}}
+#
+StructArrays.component(p::PredictionTable, name::Symbol) = getproperty(p, name)
+#
+StructArrays.createinstance(::Type{PredictionTable{NamedTuple{names}}}, args...) where {names} = begin
+    N = fieldcount(PredictionTable)
+    PredictionTable(args[1:(N-1)]..., NamedTuple{names}(args[N:end]))
+end
 
 
 
