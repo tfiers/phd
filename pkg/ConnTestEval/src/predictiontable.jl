@@ -3,7 +3,7 @@ using StructArrays
 using CreateNamedTupleMacro
 
 
-export PredictionTable, print_confusion_matrix, Fβ
+export PredictionTable, skipnan, Fβ, print_confusion_matrix
 
 
 struct PredictionTable{NT<:NamedTuple}
@@ -82,6 +82,8 @@ perfmeasures(cm) = @NT begin
     # (There are no detections, i.e. zero 'predicted positive'). More
     # proper might be to detect `PP == 0`, and then assigning `missing`.
     # But NaNs allow directly passing precision vectors to maptlotlib :)
+    # For other uses of these vectors (e.g. using `argmax`), see
+    # `skipnan` below.
     PPV  = TP  / PP     # Positive predictive value / precision
     PPVₑ = TPₑ / PPₑ    # "Out of all that's predicted 'exc', how many actually are"
     PPVᵢ = TPᵢ / PPᵢ
@@ -105,6 +107,15 @@ perfmeasures(cm) = @NT begin
     # See VoltoMapSim/src/infer/confusionmatrix.jl for more measures,
     # and relations between them.
 end
+
+"""
+    skipnan(itr)
+
+Replaces `NaN` values by `missing`, and then applies `skipmissing`.
+Allows working with vectors containing some NaNs, while ignoring these
+NaNs (e.g. in `argmax`).
+"""
+skipnan(itr) = skipmissing([isnan(x) ? missing : x for x in itr])
 
 
 """
