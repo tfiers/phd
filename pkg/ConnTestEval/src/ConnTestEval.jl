@@ -14,9 +14,14 @@ follows:
 - and excitatory or inhibitory otherwise, depending on t's sign (`:exc`
   for `t > 0`, and `:inh` for `t ≤ 0`).
 
-I.e. we perform ternary (not binary) classification.
+I.e. we perform don't perform binary classification, but a particular
+type of ternary classification. Particular, because the three classes
+are not equal (unconn, vs exc & inh). It could also be viewed as nested
+binary classification: first: "connected or not?"; and then, if
+connected: "excitatory or inhibitory?".
 
-Main end-user function: [`sweep_threshold`](@ref).\\
+Main end-user function: [`sweep_threshold`](@ref).
+
 The resulting `sweep` can be queried for different series (e.g.
 `sweep.F1` or `sweep.threshold`), and you can pass it to
 [`at_FPR`](@ref) and [`calc_AUROCs`](@ref).
