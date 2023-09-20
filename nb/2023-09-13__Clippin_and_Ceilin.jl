@@ -374,7 +374,7 @@ plotSTA_(train; hylabel=nothing, xlim=[0,100], kw...) = begin
     end
     r = "$(lpad(r,2)) Hz"
     exc_or_inh = (train ∈ exc_inputs) ? "exc" : "inh"
-    label = "$(rpad(r, 6)) · $(lpad(n,3)) spikes · $exc_or_inh"
+    label = "$(rpad(r, 6)) | $(lpad(n,3)) spikes | $exc_or_inh"
     plotSTA(calc_STA(V, train.times); label, hylabel, xlim, nbins_y=3, kw...)
 end;
 
@@ -414,3 +414,6 @@ plt.suptitle(L"Some spike-triggered averages (STAs) of membrane voltage $V$", si
 plt.tight_layout(h_pad=2);
 
 savefig_phd("example_STAs")
+# -
+
+
