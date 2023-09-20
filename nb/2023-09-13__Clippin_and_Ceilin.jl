@@ -92,12 +92,13 @@ exc_input_1 = highest_firing(excitatory_inputs(sim))[1]
 ConnectionTests.set_STA_length(100ms);
 
 fig, ax = plt.subplots()
-# set(ax, ylim=[-54.1601, -54.02])  # grr
+# set(ax, ylim=[-54.1601, -54.02])  # grr (no work)
 for (V, label, zorder) in Vs
     STA = calc_STA(V, exc_input_1.times)
-    plotSTA(STA; label, nbins_y=4)
+    plotSTA(STA; label, nbins_y=4, hylabel=nothing)
 end
-plt.legend();
+hylabel(ax, L"Spike-triggered average (STA) of membrane voltage $V$", loc="center")
+legend(ax)
 savefig_phd("ceil_n_clip_STAs")
 
 # Interesting! They have diff base heights (very convenient for plotting on same ax, here).
@@ -257,18 +258,159 @@ savefig_phd("perfmeasures_PR_curves")
 
 # "Out of all that's predicted [inh], how many actually are".
 
+# ## Iso-Fβ curves
+
+# Iso-Fβ curves :)  (msc throwback).
+#
+# So, a formula to isolate precision from F formula.
+
+# $$
+# \begin{align}
+# %
+# F &= (1+β^2) \frac{P R}{β^2  P + R}  \\[3em]
+# %
+# (β^2  P + R) F &= (1+β^2 ) P R  \\[0.8em]
+# %
+# β^2  P F + R F &= PR + β^2 PR  \\[0.8em]
+# %
+# β^2 PF - PR - β^2 PR &= -RF  \\[0.8em]
+# %
+# P &= \frac{-RF}{β^2 F - R - β^2 R}  \\[3em]
+# %
+# P &= \frac{R F}{(1 + β^2) R - β^2 F}
+# %
+# \end{align}
+# $$
+
+precision(recall, β, F) = begin
+    P = (
+            (recall * F)
+                /
+        ( (1+β^2)*recall - β^2*F )
+    )
+    return (0 ≤ P ≤ 1)  ?  P  :  NaN
+end;
+
+mpl.use("agg")
+
+# +
+fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
+
+plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
+plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
+plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
+
+R = 0:(1/1000):1
+for (β, series, color) in [
+        (β=0.5, series=sweep.F05, color= lighten(C2)),
+        (β=1,   series=sweep.F1,  color=identity(C2)),
+        (β=2,   series=sweep.F2,  color=  darken(C2)),
+    ]
+    F, i = findmax(skipnan(series))
+    label=L"Iso-$F_{%$β}\ $  at $F_{%$β} = %$(round(F,digits=2))$"
+    plot(R, precision.(R, β, F); color, lw=1, ls="--", label, clip_on=true, zorder=1)
+    plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=6)
+end
+
+
+set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
+    xlabel="Recall (TPR)", ylabel="Precision (PPV)",
+    title=("""
+        Performance of STA test for
+        different input detection thresholds""", :fontsize=>"small"))
+legend(ax, fontsize="x-small");
+savefig_phd("perfmeasures_PR_curves")
+# -
+
+# ## Two thresholds?
+
 # "Do we need two thresholds?" i.e. one for exc and one for inh. (pfrt)
 
+# +
 fig, ax = plt.subplots()
-# plot(sweep.threshold, sweep.TPR; color=color_both,  ax)
-# plot(sweep.threshold, sweep.PPV; color=color_both,  ax, ls="--")
-plot(sweep.threshold, sweep.TPRₑ; color=color_exc,  ax, label="Recall for exc inputs (TPRₑ)")
-plot(sweep.threshold, sweep.TPRᵢ; color=color_inh,  ax, label="Recall for inh inputs (TPRᵢ)")
-plot(sweep.threshold, sweep.PPVₑ; color=color_exc,  ax, label="Precision for exc inputs (PPVₑ)", ls="--")
-plot(sweep.threshold, sweep.PPVᵢ; color=color_inh,  ax, label="Precision for inh inputs (PPVᵢ)", ls="--")
+plot(sweep.threshold, sweep.TPRₑ; color=lighten(color_exc,.2), lw=1, ax, label="Recall for exc inputs (TPRₑ)")
+plot(sweep.threshold, sweep.TPRᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Recall for inh inputs (TPRᵢ)")
+plot(sweep.threshold, sweep.PPVₑ; color=lighten(color_exc,.2), lw=1, ax, label="Precision for exc inputs (PPVₑ)", ls="--")
+plot(sweep.threshold, sweep.PPVᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Precision for inh inputs (PPVᵢ)", ls="--")
+plot(sweep.threshold, sweep.F1ₑ; color=color_exc, ax, label=L"$F_1$ for exc inputs ($F_{1,\mathrm{e}}$)")
+plot(sweep.threshold, sweep.F1ᵢ; color=color_inh, ax, label=L"$F_1$ for inh inputs ($F_{1,\mathrm{i}}$)")
+
+iₑ = argmax(filter(!isnan, sweep.F1ₑ))
+plot(sweep.threshold[iₑ], sweep.F1ₑ[iₑ], "."; color=color_exc, mec="black")
+
+iᵢ = argmax(skipnan(sweep.F1ᵢ))
+plot(sweep.threshold[iᵢ], sweep.F1ᵢ[iᵢ], "."; color=color_inh, mec="black")
+
 set(ax, ytype=:fraction, xlabel="Detection threshold")
 ax.invert_xaxis()
 legend(ax);
+deemph_.(legend_label_texts(ax)[1:4])
 savefig_phd("perfmeasures_PPVs")
+# -
 
+deemph_(t, color="gray") = t.set_color("gray")
+legend_label_texts(ax) = pyconvert(Vector, ax.legend_.get_texts());
 
+# ## STA examples plot
+#
+# (repeat of `2023-08-30__STA_examples`, but now with clipped spikes, i.e. cleaner; and what we -- in the end -- actually use for the conntests :)).
+
+# +
+V = V_ceil_n_clip
+
+exc_inputs = highest_firing(excitatory_inputs(sim))
+inh_inputs = highest_firing(inhibitory_inputs(sim))
+
+mid = length(exc_inputs) ÷ 2
+
+plotSTA_(train; hylabel=nothing, xlim=[0,100], kw...) = begin
+    n = num_spikes(train)
+    if n ≥ 1000
+        n = string(round(Int, n / 1000)) * "k"
+    end
+    r = round(spikerate(train), sigdigits=2)
+    if isinteger(r)
+        r = Int(r)
+    end
+    r = "$(lpad(r,2)) Hz"
+    exc_or_inh = (train ∈ exc_inputs) ? "exc" : "inh"
+    label = "$(rpad(r, 6)) · $(lpad(n,3)) spikes · $exc_or_inh"
+    plotSTA(calc_STA(V, train.times); label, hylabel, xlim, nbins_y=3, kw...)
+end;
+
+# +
+fig, axs = plt.subplots(nrows=2, ncols=2, figsize=(pw*0.8, mtw))
+
+addlegend(ax; kw...) = legend(
+    ax, borderaxespad=0.7, prop=Dict("family"=>"monospace", "size"=>6); kw...)
+
+ax = axs[0,0]
+plotSTA_(exc_inputs[1]; ax, hylabel="… Using the fastest spiking input, …", xlabel=nothing, ylim=[-54.17, -54.09]);
+addlegend(ax)
+
+ax = axs[0,1]
+plotSTA_(exc_inputs[1];   ax, color=lighten(color_exc, 1.0), xlabel=nothing, hylabel="… and other fast spikers.")
+plotSTA_(exc_inputs[100]; ax, color=lighten(color_exc, 0.5), xlabel=nothing)
+plotSTA_(inh_inputs[1];   ax, color=lighten(color_inh, 1.0), xlabel=nothing)
+plotSTA_(inh_inputs[100]; ax, color=lighten(color_inh, 0.5), xlabel=nothing, ylim=[-54.22, -54.09])
+rm_ticks_and_spine(ax, "bottom")
+addlegend(ax, bbox_to_anchor=(1, 0.3), loc="upper right")
+deemph_(first(legend_label_texts(ax)))
+
+ax = axs[1,1]
+plotSTA_(exc_inputs[1]; ax, hylabel="… and slowest spiking input.")
+plotSTA_(exc_inputs[end]; ax, color=lighten(color_exc, 0.5))
+addlegend(ax)
+deemph_(first(legend_label_texts(ax)))
+
+ax = axs[1,0]
+plotSTA_(exc_inputs[1]; ax, hylabel="… and input with median spikerate.")
+plotSTA_(exc_inputs[mid]; ax, ylim=[-54.19, -54.06], color=lighten(color_exc, 0.5))
+addlegend(ax, loc="upper right")
+deemph_(first(legend_label_texts(ax)))
+
+plt.suptitle(L"Some spike-triggered averages (STAs) of membrane voltage $V$", size="medium")
+
+plt.tight_layout(h_pad=2);
+
+savefig_phd("example_STAs")

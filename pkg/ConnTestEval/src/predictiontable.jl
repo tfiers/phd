@@ -78,7 +78,7 @@ perfmeasures(cm) = @NT begin
     PP  = PPₑ + PPᵢ
     PN  = count(cm, pred=:unc)
 
-    # The positive precision values are `NaN` for the highest threshold.
+    # The positive precision values below are `NaN` for the highest threshold.
     # (There are no detections, i.e. zero 'predicted positive'). More
     # proper might be to detect `PP == 0`, and then assigning `missing`.
     # But NaNs allow directly passing precision vectors to maptlotlib :)
@@ -103,6 +103,10 @@ perfmeasures(cm) = @NT begin
     F05  = Fβ(PPV,  TPR,  β=0.5)
     F05ₑ = Fβ(PPVₑ, TPRₑ, β=0.5)
     F05ᵢ = Fβ(PPVᵢ, TPRᵢ, β=0.5)
+
+    # Aliases
+    recall = TPR
+    precision = PPV
 
     # See VoltoMapSim/src/infer/confusionmatrix.jl for more measures,
     # and relations between them.

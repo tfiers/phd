@@ -4,8 +4,9 @@ using WithFeedback
 @withfb using Revise
 @withfb using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache
 
-using ProgressMeter
 using Random
+using ProgressMeter
+using DefaultApplication
 
 include("util.jl")
 prettify_logging_in_IJulia()

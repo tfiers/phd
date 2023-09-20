@@ -39,7 +39,7 @@ export savefig_phd
 
 
 include("signal.jl")
-export plotsig, plotSTA
+export plotsig, plotSTA, linspace
 
 
 using IJulia
