@@ -31,7 +31,7 @@ sim.spikerate / Hz
 # ## Ceil
 
 V_no_ceil = sim.V;
-V_ceil = ceil_spikes!(copy(V_no_ceil), sim.spiketimes);  # V_ceil = Vₛ = 
+V_ceil = ceil_spikes!(copy(V_no_ceil), sim.spiketimes);  # V_ceil = Vₛ =
 Nto1AdEx.Vₛ / mV
 
 include("lib/plot.jl")
@@ -235,7 +235,7 @@ function label_lines(ax, offsets=[])
 end;
 # Very cool.
 # Not using now though :)  Just the normal legend.
-# 
+#
 # To possibly add: allow specifying offset in axes coords;
 # so need to add to diff transforms (I did this before for sth else).
 
@@ -254,7 +254,7 @@ set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
 # Recall: (% of real detected)
 # Precision: (% of detected real)
 legend(ax, fontsize="x-small");
-savefig_phd("perfmeasures_PR_curves")
+# savefig_phd("perfmeasures_PR_curves_EI")
 
 # "Out of all that's predicted [inh], how many actually are".
 
@@ -282,44 +282,108 @@ savefig_phd("perfmeasures_PR_curves")
 # \end{align}
 # $$
 
-precision(recall, β, F) = begin
+⪅(x,y) = (x < y) || x ≈ y;
+
+precision(recall, F; β) = begin
     P = (
             (recall * F)
                 /
         ( (1+β^2)*recall - β^2*F )
     )
-    return (0 ≤ P ≤ 1)  ?  P  :  NaN
+    return (0 ⪅ P ⪅ 1) ? P : NaN
 end;
-
-mpl.use("agg")
 
 # +
 fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
 
-plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
-plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
-plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
+plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="PR-curve (both exc. and inh.)", clip_on=true)
 
-R = 0:(1/1000):1
+x0 = 0.5
+R = x0:(1/1000):1
+
+Fs = [0.6, 0.7, 0.8, 0.9]
+Fs_str = join(100*Fs, ", ") * "%"
+for (i,F) in enumerate(Fs)
+    label = (i > 1) ? nothing : L"Iso-$F_1$-curves (%$Fs_str)"
+    plot(R, precision.(R, F; β=1); color=lighten(C2,0.2), lw=0.8, ls="--", clip_on=true, zorder=1, label)
+end
+
 for (β, series, color) in [
         (β=0.5, series=sweep.F05, color= lighten(C2)),
         (β=1,   series=sweep.F1,  color=identity(C2)),
         (β=2,   series=sweep.F2,  color=  darken(C2)),
     ]
     F, i = findmax(skipnan(series))
-    label=L"Iso-$F_{%$β}\ $  at $F_{%$β} = %$(round(F,digits=2))$"
-    plot(R, precision.(R, β, F); color, lw=1, ls="--", label, clip_on=true, zorder=1)
-    plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=6)
+    label=L"Iso-$F_{%$β}$-curve (%$(round(100*F))%)"
+    plot(R, precision.(R, F; β);      color, lw=1, ls="--", label, clip_on=true, zorder=1)
+    plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=2)
 end
-
 
 set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
     xlabel="Recall (TPR)", ylabel="Precision (PPV)",
+    xlim=[x0, 1], ylim=[x0, 1],
     title=("""
         Performance of STA test for
         different input detection thresholds""", :fontsize=>"small"))
-legend(ax, fontsize="x-small");
-savefig_phd("perfmeasures_PR_curves")
+legend(ax, fontsize=6.6, loc="lower left");
+savefig_phd("perfmeasures_PR_curves_iso-Fβ")
+# -
+
+# We don't want too many `R` points (for smaller fig filesize).\
+# We wanna know where `precision(R)` == 1.\
+# (To selectively add these points to our x (R) linspace :). For nice near-asympote plotting).\
+# I.e. solve: R = ...
+
+# Picking up from above and continuing (on a diff branch):
+# $$
+# \begin{align}
+# %
+# β^2 P F  &=  PR + β^2 PR - R F \\[0.8em]
+# %
+# R &= \frac{β^2 P F}{P + β^2 P - F}\\[0.8em]
+# %
+# R &= \frac{β^2 P F}{(1 + β^2)P - F}\\[0.8em]
+# %
+# \end{align}
+# $$
+
+recall(precision, F; β) = begin
+    R = (
+            (β^2 * precision * F)
+                /
+        ( (1+β^2)*precision - F )
+    )
+    return (0 ⪅ R ⪅ 1) ? R : NaN
+end;
+
+# +
+fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
+plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
+plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
+plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
+
+iₑ = argmax(skipnan(sweep.F1ₑ))
+plot(sweep.TPRₑ[iₑ], sweep.PPVₑ[iₑ], "."; color=color_exc, mec="black")
+
+iᵢ = argmax(skipnan(sweep.F1ᵢ))
+plot(sweep.TPRᵢ[iᵢ], sweep.PPVᵢ[iᵢ], "."; color=color_inh, mec="black")
+
+β = 1
+Fs = 0:0.1:1
+R = 0:(1/100):1
+extra_Rs = recall.(1, Fs; β)
+R = sort!([R..., extra_Rs...])
+for (i,F) in enumerate(Fs)
+    label = (i > 1) ? nothing : L"Iso-$F_1$-curves"
+    P = precision.(R, F; β)
+    plot(R, P; color=lighten(C2, 0.3), lw=0.66, ls="--", clip_on=true, zorder=1, label)
+end
+
+set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
+     xlabel="Recall (TPR)", ylabel="Precision (PPV)")
+
+legend(ax, fontsize="x-small", loc="lower left");
+savefig_phd("perfmeasures_PR_curves_EI")
 # -
 
 # ## Two thresholds?
@@ -415,5 +479,3 @@ plt.tight_layout(h_pad=2);
 
 savefig_phd("example_STAs")
 # -
-
-
