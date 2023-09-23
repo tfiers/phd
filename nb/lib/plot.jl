@@ -7,13 +7,16 @@ using WithFeedback
 @withfb using PhDPlots
 
 using ConnTestEval
+using DefaultApplication
 
 
 # Just as a reference
 const default_figsize = Sciplotlib.sciplotlib_style["figure.figsize"]
 
+openfig(path = PhDPlots.last_figpath) = DefaultApplication.open(path)
 
-function plotROC(sweep; ax = new(), title="")
+
+function plotROC(sweep; ax = newax(), title="")
     AUCs = calc_AUROCs(sweep)
     AUCs = (; (k => round(AUCs[k], digits=2) for k in keys(AUCs))...)
     plot(sweep.FPR, sweep.TPRₑ; ax, label="Excitatory   $(AUCs.AUCₑ)", color=color_exc)
@@ -29,7 +32,7 @@ function plotROC(sweep; ax = new(), title="")
     return ax
 end
 
-new() = ((fig, ax) = plt.subplots(); ax)
+newax() = ((fig, ax) = plt.subplots(); ax)
 
 
 

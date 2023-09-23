@@ -22,6 +22,7 @@ const maintextwidth = const mtw = 324 / 72        # From latexmk output → Text
 
 export paperwidth, pw, marginwidth, mw, maintextwidth, mtw
 
+last_figpath = nothing
 
 function savefig_phd(name, fig = nothing)
     if isnothing(fig)
@@ -33,6 +34,7 @@ function savefig_phd(name, fig = nothing)
     end
     path = "../thesis/figs/$name.pdf"
     fig.savefig(path)
+    global last_figpath = path
     print("Saved at `$path`")
 end
 export savefig_phd

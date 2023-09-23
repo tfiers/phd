@@ -31,7 +31,7 @@ sim.spikerate / Hz
 # ## Ceil
 
 V_no_ceil = sim.V;
-V_ceil = ceil_spikes!(copy(V_no_ceil), sim.spiketimes);  # V_ceil = Vₛ =
+V_ceil = ceil_spikes!(copy(V_no_ceil), sim.spiketimes);  # V_ceil = Vₛ = 
 Nto1AdEx.Vₛ / mV
 
 include("lib/plot.jl")
@@ -182,60 +182,77 @@ savefig_phd("ceil_n_clip_AUCs")
 
 # Visualize what ROC is.
 
-# +
-sweep = sweep_threshold(df_ceil_n_clip)
+sweep = sweep_threshold(df_ceil_n_clip);
 
-fig, ax = plt.subplots()
-plot(sweep.threshold, sweep.TPRₑ, color=color_exc, label="Excitatory inputs (TPRₑ)")
-plot(sweep.threshold, sweep.TPRᵢ, color=color_inh, label="Inhibitory inputs (TPRᵢ)")
-plot(sweep.threshold, sweep.TPR, color=color_both, label="Both exc and inh (TPR)")
-plot(sweep.threshold, sweep.FPR, color=color_unconn, label="Non-inputs (FPR)")
-set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
-ax.invert_xaxis()
-legend(ax);
-savefig_phd("perfmeasures_TPRs")
-# -
+function plot_perfmeasures_threshold_TPRs(ax=newax())
+    plot(sweep.threshold, sweep.TPRₑ; color=color_exc, label="Excitatory inputs (TPRₑ)", ax)
+    plot(sweep.threshold, sweep.TPRᵢ; color=color_inh, label="Inhibitory inputs (TPRᵢ)", ax)
+    plot(sweep.threshold, sweep.TPR; color=color_both, label="Both exc and inh (TPR)", ax)
+    plot(sweep.threshold, sweep.FPR; color=color_unconn, label="Non-inputs (FPR)", ax)
+    set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
+    ax.invert_xaxis()
+    legend(ax)
+end
+plot_perfmeasures_threshold_TPRs();
 
-plotROC(sweep);
-savefig_phd("perfmeasures_ROC")
+mtw
+
+fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.3*pw))
+fig.set_facecolor("aliceblue")
+plot_perfmeasures_threshold_TPRs(axs[0])
+plotROC(sweep; ax=axs[1]);
+savefig_phd("perfmeasures_θ_TPR_ROC")
+
+fig, ax = plt.subplots(ncols=1, figsize=(mtw, 0.7mtw))
+fig.set_facecolor("aliceblue")
+plot_perfmeasures_threshold_TPRs(ax)
+savefig_phd("temp__")
+
+(mtw, 0.2mtw)
+
+(mw, mw)
+
+fig, ax = plt.subplots(figsize=(mw,mw))
+fig.set_facecolor("aliceblue")
+plotROC(sweep; ax)
+savefig_phd("temp__ROC")
 
 # ## Precision & F-scores
 
-# +
-fig, ax = plt.subplots()
+function plot_perfmeasures_Fscores(ax=newax())
+    
+    plot(sweep.threshold, sweep.TPR, color=color_both,  label="Recall (TPR)")
+    plot(sweep.threshold, sweep.PPV, color=C3,          label="Precision (PPV)")
 
-plot(sweep.threshold, sweep.TPR, color=color_both,  label="Recall (TPR)")
-plot(sweep.threshold, sweep.PPV, color=C3,          label="Precision (PPV)")
-
-for (series, color, label) in [
-        (sweep.F2,  darken(C2),  L"F_2"),
-        (sweep.F1,  C2,          L"F_1"),
-        (sweep.F05, lighten(C2), L"F_{0.5}"),
-    ]
-    plot(sweep.threshold, series; color, label)
-    i = argmax(skipnan(series))
-    plot(sweep.threshold[i], series[i], "."; color, mec="black")
+    for (series, color, label) in [
+            (sweep.F2,  darken(C2),  L"F_2"),
+            (sweep.F1,  C2,          L"F_1"),
+            (sweep.F05, lighten(C2), L"F_{0.5}"),
+        ]
+        plot(sweep.threshold, series; color, label)
+        i = argmax(skipnan(series))
+        plot(sweep.threshold[i], series[i], "."; color, mec="black")
+    end
+    set(ax, ytype=:fraction, xlabel="Detection threshold")
+    ax.invert_xaxis()
+    legend(ax)
+    # label_lines(ax, yoffset=[2=>-0.02])
 end
-set(ax, ytype=:fraction, xlabel="Detection threshold")
-ax.invert_xaxis()
-legend(ax);
-# label_lines(ax, [2=>-0.02]);
-savefig_phd("perfmeasures_Fscores")
-# -
+plot_perfmeasures_Fscores();
 
 using PythonCall: pyconvert
-function label_lines(ax, offsets=[])
+function label_lines(ax; yoffset=[])
     offsets = Dict(offsets)
     for (i, line) in enumerate(ax.lines)
         x,y = pyconvert(NTuple{2,Vector{Float64}}, line.get_data())
         s = pyconvert(String, line.get_label())
-        dy = get(offsets, i, 0)
+        dy = get(offset, i, 0)
         ax.text(x[end], y[end]+dy, " $s", color=line.get_color(), va="center", fontsize="small")
     end
 end;
 # Very cool.
 # Not using now though :)  Just the normal legend.
-#
+# 
 # To possibly add: allow specifying offset in axes coords;
 # so need to add to diff transforms (I did this before for sth else).
 
@@ -244,17 +261,6 @@ end;
 # PR curve (analogous to ROC):
 #
 # (note, in ROC, recall (TPR) is on y; here it's on x)
-
-fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
-plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
-plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
-plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
-set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
-     xlabel="Recall (TPR)", ylabel="Precision (PPV)")
-# Recall: (% of real detected)
-# Precision: (% of detected real)
-legend(ax, fontsize="x-small");
-# savefig_phd("perfmeasures_PR_curves_EI")
 
 # "Out of all that's predicted [inh], how many actually are".
 
@@ -294,39 +300,42 @@ precision(recall, F; β) = begin
 end;
 
 # +
+function plot_perfmeasures_PR_curves_iso_Fβ(ax)
+    
+    plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="PR-curve (both exc. and inh.)", clip_on=true)
+
+    x0 = 0.5
+    R = x0:(1/1000):1
+
+    Fs = [0.6, 0.7, 0.8, 0.9]
+    Fs_str = join(100*Fs, ", ") * "%"
+    for (i,F) in enumerate(Fs)
+        label = (i > 1) ? nothing : L"Iso-$F_1$-curves (%$Fs_str)"
+        plot(R, precision.(R, F; β=1); color=lighten(C2,0.2), lw=0.8, ls="--", clip_on=true, zorder=1, label)
+    end
+
+    for (β, series, color) in [
+            (β=0.5, series=sweep.F05, color= lighten(C2)),
+            (β=1,   series=sweep.F1,  color=identity(C2)),
+            (β=2,   series=sweep.F2,  color=  darken(C2)),
+        ]
+        F, i = findmax(skipnan(series))
+        label=L"Iso-$F_{%$β}$-curve (%$(round(100*F))%)"
+        plot(R, precision.(R, F; β);      color, lw=1, ls="--", label, clip_on=true, zorder=1)
+        plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=2)
+    end
+
+    set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
+        xlabel="Recall (TPR)", ylabel="Precision (PPV)",
+        xlim=[x0, 1], ylim=[x0, 1],
+        title=("""
+            Performance of STA test for
+            different input detection thresholds""", :fontsize=>"small"))
+    legend(ax, fontsize=6.6, loc="lower left")
+end
+
 fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
-
-plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="PR-curve (both exc. and inh.)", clip_on=true)
-
-x0 = 0.5
-R = x0:(1/1000):1
-
-Fs = [0.6, 0.7, 0.8, 0.9]
-Fs_str = join(100*Fs, ", ") * "%"
-for (i,F) in enumerate(Fs)
-    label = (i > 1) ? nothing : L"Iso-$F_1$-curves (%$Fs_str)"
-    plot(R, precision.(R, F; β=1); color=lighten(C2,0.2), lw=0.8, ls="--", clip_on=true, zorder=1, label)
-end
-
-for (β, series, color) in [
-        (β=0.5, series=sweep.F05, color= lighten(C2)),
-        (β=1,   series=sweep.F1,  color=identity(C2)),
-        (β=2,   series=sweep.F2,  color=  darken(C2)),
-    ]
-    F, i = findmax(skipnan(series))
-    label=L"Iso-$F_{%$β}$-curve (%$(round(100*F))%)"
-    plot(R, precision.(R, F; β);      color, lw=1, ls="--", label, clip_on=true, zorder=1)
-    plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=2)
-end
-
-set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
-    xlabel="Recall (TPR)", ylabel="Precision (PPV)",
-    xlim=[x0, 1], ylim=[x0, 1],
-    title=("""
-        Performance of STA test for
-        different input detection thresholds""", :fontsize=>"small"))
-legend(ax, fontsize=6.6, loc="lower left");
-savefig_phd("perfmeasures_PR_curves_iso-Fβ")
+plot_perfmeasures_PR_curves_iso_Fβ(ax);
 # -
 
 # We don't want too many `R` points (for smaller fig filesize).\
@@ -357,63 +366,70 @@ recall(precision, F; β) = begin
 end;
 
 # +
-fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
-plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
-plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
-plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
+function plot_perfmeasures_PR_curves_EI(ax)
 
-iₑ = argmax(skipnan(sweep.F1ₑ))
-plot(sweep.TPRₑ[iₑ], sweep.PPVₑ[iₑ], "."; color=color_exc, mec="black")
+    plot(sweep.TPRₑ, sweep.PPVₑ; color=color_exc,  ax, label="Excitatory inputs (TPRₑ & PPVₑ)")
+    plot(sweep.TPRᵢ, sweep.PPVᵢ; color=color_inh,  ax, label="Inhibitory inputs (TPRᵢ & PPVᵢ)")
+    plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="Both exc and inh (TPR & PPV)")
 
-iᵢ = argmax(skipnan(sweep.F1ᵢ))
-plot(sweep.TPRᵢ[iᵢ], sweep.PPVᵢ[iᵢ], "."; color=color_inh, mec="black")
+    iₑ = argmax(skipnan(sweep.F1ₑ))
+    plot(sweep.TPRₑ[iₑ], sweep.PPVₑ[iₑ], "."; color=color_exc, mec="black")
 
-β = 1
-Fs = 0:0.1:1
-R = 0:(1/100):1
-extra_Rs = recall.(1, Fs; β)
-R = sort!([R..., extra_Rs...])
-for (i,F) in enumerate(Fs)
-    label = (i > 1) ? nothing : L"Iso-$F_1$-curves"
-    P = precision.(R, F; β)
-    plot(R, P; color=lighten(C2, 0.3), lw=0.66, ls="--", clip_on=true, zorder=1, label)
+    iᵢ = argmax(skipnan(sweep.F1ᵢ))
+    plot(sweep.TPRᵢ[iᵢ], sweep.PPVᵢ[iᵢ], "."; color=color_inh, mec="black")
+
+    β = 1
+    Fs = 0:0.1:1
+    R = 0:(1/100):1
+    extra_Rs = recall.(1, Fs; β)
+    R = sort!([R..., extra_Rs...])
+    for (i,F) in enumerate(Fs)
+        label = (i > 1) ? nothing : L"Iso-$F_1$-curves"
+        P = precision.(R, F; β)
+        plot(R, P; color=lighten(C2, 0.3), lw=0.66, ls="--", clip_on=true, zorder=1, label)
+    end
+
+    set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
+         xlabel="Recall (TPR)", ylabel="Precision (PPV)")
+
+    legend(ax, fontsize="x-small", loc="lower left")
 end
-
-set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
-     xlabel="Recall (TPR)", ylabel="Precision (PPV)")
-
-legend(ax, fontsize="x-small", loc="lower left");
-savefig_phd("perfmeasures_PR_curves_EI")
+    
+fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
+plot_perfmeasures_PR_curves_EI(ax);
 # -
 
 # ## Two thresholds?
 
 # "Do we need two thresholds?" i.e. one for exc and one for inh. (pfrt)
 
-# +
-fig, ax = plt.subplots()
-plot(sweep.threshold, sweep.TPRₑ; color=lighten(color_exc,.2), lw=1, ax, label="Recall for exc inputs (TPRₑ)")
-plot(sweep.threshold, sweep.TPRᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Recall for inh inputs (TPRᵢ)")
-plot(sweep.threshold, sweep.PPVₑ; color=lighten(color_exc,.2), lw=1, ax, label="Precision for exc inputs (PPVₑ)", ls="--")
-plot(sweep.threshold, sweep.PPVᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Precision for inh inputs (PPVᵢ)", ls="--")
-plot(sweep.threshold, sweep.F1ₑ; color=color_exc, ax, label=L"$F_1$ for exc inputs ($F_{1,\mathrm{e}}$)")
-plot(sweep.threshold, sweep.F1ᵢ; color=color_inh, ax, label=L"$F_1$ for inh inputs ($F_{1,\mathrm{i}}$)")
-
-iₑ = argmax(filter(!isnan, sweep.F1ₑ))
-plot(sweep.threshold[iₑ], sweep.F1ₑ[iₑ], "."; color=color_exc, mec="black")
-
-iᵢ = argmax(skipnan(sweep.F1ᵢ))
-plot(sweep.threshold[iᵢ], sweep.F1ᵢ[iᵢ], "."; color=color_inh, mec="black")
-
-set(ax, ytype=:fraction, xlabel="Detection threshold")
-ax.invert_xaxis()
-legend(ax);
-deemph_.(legend_label_texts(ax)[1:4])
-savefig_phd("perfmeasures_PPVs")
-# -
-
 deemph_(t, color="gray") = t.set_color("gray")
 legend_label_texts(ax) = pyconvert(Vector, ax.legend_.get_texts());
+
+# +
+function plot_perfmeasures_threshold_PPVs_EI(ax=newax())
+    θ = sweep.threshold
+    plot(θ, sweep.TPRₑ; color=lighten(color_exc,.2), lw=1, ax, label="Recall for exc inputs (TPRₑ)")
+    plot(θ, sweep.TPRᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Recall for inh inputs (TPRᵢ)")
+    plot(θ, sweep.PPVₑ; color=lighten(color_exc,.2), lw=1, ax, label="Precision for exc inputs (PPVₑ)", ls="--")
+    plot(θ, sweep.PPVᵢ; color=lighten(color_inh,.2), lw=1, ax, label="Precision for inh inputs (PPVᵢ)", ls="--")
+    plot(θ, sweep.F1ₑ; color=color_exc, ax, label=L"$F_1$ for exc inputs ($F_{1,\mathrm{e}}$)")
+    plot(θ, sweep.F1ᵢ; color=color_inh, ax, label=L"$F_1$ for inh inputs ($F_{1,\mathrm{i}}$)")
+
+    iₑ = argmax(filter(!isnan, sweep.F1ₑ))
+    plot(θ[iₑ], sweep.F1ₑ[iₑ], "."; color=color_exc, mec="black")
+
+    iᵢ = argmax(skipnan(sweep.F1ᵢ))
+    plot(θ[iᵢ], sweep.F1ᵢ[iᵢ], "."; color=color_inh, mec="black")
+
+    set(ax, ytype=:fraction, xlabel="Detection threshold")
+    ax.invert_xaxis()
+    legend(ax);
+    deemph_.(legend_label_texts(ax)[1:4])
+end
+
+plot_perfmeasures_threshold_PPVs_EI();
+# -
 
 # ## STA examples plot
 #
@@ -479,3 +495,5 @@ plt.tight_layout(h_pad=2);
 
 savefig_phd("example_STAs")
 # -
+
+
