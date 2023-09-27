@@ -83,7 +83,7 @@ for (V, label, zorder) in Vs
 end
 hylabel(ax, L"Membrane voltage $V$")
 legend(ax)
-savefig_phd("ceil_n_clip_sigs")
+# savefig_phd("ceil_n_clip_sigs")
 
 # ## STAs
 
@@ -98,8 +98,8 @@ for (V, label, zorder) in Vs
     plotSTA(STA; label, nbins_y=4, hylabel=nothing)
 end
 hylabel(ax, L"Spike-triggered average (STA) of membrane voltage $V$", loc="center")
-legend(ax)
-savefig_phd("ceil_n_clip_STAs")
+legend(ax);
+# savefig_phd("ceil_n_clip_STAs")
 
 # Interesting! They have diff base heights (very convenient for plotting on same ax, here).
 
@@ -175,7 +175,7 @@ ax = grouped_barplot(df, cols=["AUC", "AUCₑ", "AUCᵢ"], group_labels=df.V_typ
 legend(ax, ncols=3, loc="upper left")
 set(ax, ylim=[0.45, 1], xtype=:keep, title="""
     STA connection test performance, for different voltage signal types""");
-savefig_phd("ceil_n_clip_AUCs")
+# savefig_phd("ceil_n_clip_AUCs")
 # -
 
 # ## Threshold-plot
@@ -189,33 +189,89 @@ function plot_perfmeasures_threshold_TPRs(ax=newax())
     plot(sweep.threshold, sweep.TPRᵢ; color=color_inh, label="Inhibitory inputs (TPRᵢ)", ax)
     plot(sweep.threshold, sweep.TPR; color=color_both, label="Both exc and inh (TPR)", ax)
     plot(sweep.threshold, sweep.FPR; color=color_unconn, label="Non-inputs (FPR)", ax)
-    set(ax, ytype=:fraction, hylabel="Spiketrains detected as input", xlabel="Detection threshold")
+    set(ax, ytype=:fraction, ylabel="Fraction detected as input", xlabel="Detection threshold")
     ax.invert_xaxis()
     legend(ax)
 end
 plot_perfmeasures_threshold_TPRs();
 
-mtw
+# +
+function deemph_middle_ticks(x, black = 0.24)
+    if isinstance(x, plt.Figure)
+        for ax in x.axes
+            deemph_middle_ticks(ax, black)
+        end
+    elseif isinstance(x, plt.Axes)
+        deemph_middle_ticks(x.xaxis, black)
+        deemph_middle_ticks(x.yaxis, black)
+    else
+        _deemph_middle_ticks(x, black)
+    end
+    x
+end
 
-fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.3*pw))
-fig.set_facecolor("aliceblue")
+isinstance(x, T) = pyconvert(Bool, pybuiltins.isinstance(x, T))
+
+function _deemph_middle_ticks(axis, black)
+    color = as_mpl_type(Gray(1 - black))
+    ticklabels = pyconvert(Vector, axis.get_ticklabels())
+    N = length(ticklabels)
+    N_to_deemph = length(ticklabels) - 2
+    N_to_deemph > 0 || return
+    for t in ticklabels[2:end-1]
+        t.set_color(color)
+    end
+    ticks = get_ticks(axis)
+    N = length(axis.get_ticklocs())
+    major_ticks = ticks[1:N]
+    minor_ticks = ticks[(N+1):end]
+    for t in major_ticks[2:end-1]
+        t._apply_params(; color)  # Thx https://stackoverflow.com/a/33698352/2611913
+    end
+    for t in minor_ticks
+        t._apply_params(; color)
+    end
+end
+
+get_ticks(axis) = filter!(x -> isinstance(x, mpl.axis.Tick), pyconvert(Vector, axis.get_children()))
+
+nothing
+
+# +
+set_bbox("tight")
+
+fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.3pw))
+# fig.set_facecolor("aliceblue")
 plot_perfmeasures_threshold_TPRs(axs[0])
-plotROC(sweep; ax=axs[1]);
+plotROC(sweep; ax=axs[1])
+deemph_middle_ticks(fig);
 savefig_phd("perfmeasures_θ_TPR_ROC")
+# -
 
-fig, ax = plt.subplots(ncols=1, figsize=(mtw, 0.7mtw))
-fig.set_facecolor("aliceblue")
-plot_perfmeasures_threshold_TPRs(ax)
-savefig_phd("temp__")
+print_size_info(fig)
 
-(mtw, 0.2mtw)
+# +
+set_bbox("tight")
 
-(mw, mw)
+fig, ax = plt.subplots(figsize=(mw,mw))
+# fig.set_facecolor("aliceblue")
+plotROC(sweep; ax);
+deemph_middle_ticks(fig);
+savefig_phd("temp__ROC")
+# -
+
+print_size_info(fig)
+
+# +
+set_bbox("standard")
 
 fig, ax = plt.subplots(figsize=(mw,mw))
 fig.set_facecolor("aliceblue")
-plotROC(sweep; ax)
-savefig_phd("temp__ROC")
+plotROC(sweep; ax);
+# savefig_phd("temp__ROC")
+# -
+
+print_size_info(fig)
 
 # ## Precision & F-scores
 
