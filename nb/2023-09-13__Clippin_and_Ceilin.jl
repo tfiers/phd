@@ -83,7 +83,7 @@ for (V, label, zorder) in Vs
 end
 hylabel(ax, L"Membrane voltage $V$")
 legend(ax)
-# savefig_phd("ceil_n_clip_sigs")
+savefig_phd("ceil_n_clip_sigs")
 
 # ## STAs
 
@@ -195,83 +195,11 @@ function plot_perfmeasures_threshold_TPRs(ax=newax())
 end
 plot_perfmeasures_threshold_TPRs();
 
-# +
-function deemph_middle_ticks(x, black = 0.24)
-    if isinstance(x, plt.Figure)
-        for ax in x.axes
-            deemph_middle_ticks(ax, black)
-        end
-    elseif isinstance(x, plt.Axes)
-        deemph_middle_ticks(x.xaxis, black)
-        deemph_middle_ticks(x.yaxis, black)
-    else
-        _deemph_middle_ticks(x, black)
-    end
-    x
-end
-
-isinstance(x, T) = pyconvert(Bool, pybuiltins.isinstance(x, T))
-
-function _deemph_middle_ticks(axis, black)
-    color = as_mpl_type(Gray(1 - black))
-    ticklabels = pyconvert(Vector, axis.get_ticklabels())
-    N = length(ticklabels)
-    N_to_deemph = length(ticklabels) - 2
-    N_to_deemph > 0 || return
-    for t in ticklabels[2:end-1]
-        t.set_color(color)
-    end
-    ticks = get_ticks(axis)
-    N = length(axis.get_ticklocs())
-    major_ticks = ticks[1:N]
-    minor_ticks = ticks[(N+1):end]
-    for t in major_ticks[2:end-1]
-        t._apply_params(; color)  # Thx https://stackoverflow.com/a/33698352/2611913
-    end
-    for t in minor_ticks
-        t._apply_params(; color)
-    end
-end
-
-get_ticks(axis) = filter!(x -> isinstance(x, mpl.axis.Tick), pyconvert(Vector, axis.get_children()))
-
-nothing
-
-# +
-set_bbox("tight")
-
 fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.3pw))
-# fig.set_facecolor("aliceblue")
 plot_perfmeasures_threshold_TPRs(axs[0])
 plotROC(sweep; ax=axs[1])
 deemph_middle_ticks(fig);
 savefig_phd("perfmeasures_θ_TPR_ROC")
-# -
-
-print_size_info(fig)
-
-# +
-set_bbox("tight")
-
-fig, ax = plt.subplots(figsize=(mw,mw))
-# fig.set_facecolor("aliceblue")
-plotROC(sweep; ax);
-deemph_middle_ticks(fig);
-savefig_phd("temp__ROC")
-# -
-
-print_size_info(fig)
-
-# +
-set_bbox("standard")
-
-fig, ax = plt.subplots(figsize=(mw,mw))
-fig.set_facecolor("aliceblue")
-plotROC(sweep; ax);
-# savefig_phd("temp__ROC")
-# -
-
-print_size_info(fig)
 
 # ## Precision & F-scores
 
