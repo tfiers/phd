@@ -77,33 +77,52 @@ Vs = [
     (V = V_ceil_n_clip, label = "Ceiled & Clipped", zorder = 3),
 ];
 
-fig, ax = plt.subplots(figsize=(4, 1.4))
-for (V, label, zorder) in Vs
-    plotsig(V, [0, 2000], ms; label, zorder, yunit=:mV)
+# +
+function plot_ceil_n_clip_sigs(ax=newax(); kw...)
+    for (V, label, zorder) in Vs
+        plotsig(V, [0, 2000], ms; label, zorder, yunit=:mV, yunits_in=nothing, ax, kw...)
+    end
+    hylabel(ax, L"Membrane voltage $V$  (mV)")
+    deemph_middle_ticks(ax)
+    legend(ax)
 end
-hylabel(ax, L"Membrane voltage $V$")
-legend(ax)
-savefig_phd("ceil_n_clip_sigs")
+    
+fig, ax = plt.subplots(figsize=(4, 1.4))
+plot_ceil_n_clip_sigs(ax);
+# -
 
 # ## STAs
 
 exc_input_1 = highest_firing(excitatory_inputs(sim))[1]
 
+# +
 ConnectionTests.set_STA_length(100ms);
 
-fig, ax = plt.subplots()
-# set(ax, ylim=[-54.1601, -54.02])  # grr (no work)
-for (V, label, zorder) in Vs
-    STA = calc_STA(V, exc_input_1.times)
-    plotSTA(STA; label, nbins_y=4, hylabel=nothing)
+function plot_ceil_n_clip_STAs(ax=newax(); legend_=true)
+    # set(ax, ylim=[-54.1601, -54.02])  # grr (no work)
+    for (V, label, zorder) in Vs
+        STA = calc_STA(V, exc_input_1.times)
+        plotSTA(STA; label, nbins_y=4, hylabel=nothing, yunits_in=nothing, ax)
+    end
+    hylabel(ax, L"Spike-triggered average (STA) of $V$  (mV)")
+    deemph_middle_ticks(ax)
+    legend_ && legend(ax)
 end
-hylabel(ax, L"Spike-triggered average (STA) of membrane voltage $V$", loc="center")
-legend(ax);
-# savefig_phd("ceil_n_clip_STAs")
+plot_ceil_n_clip_STAs();
+# -
 
 # Interesting! They have diff base heights (very convenient for plotting on same ax, here).
 
 # Ok, it makes sense. They're averages: each sample dragged down or up.
+
+# ---
+# Together now.
+
+fig, axs = plt.subplots(ncols=2, figsize=(cw, 0.32cw))
+plot_ceil_n_clip_sigs(axs[0], xlabel="Simulation time")
+plot_ceil_n_clip_STAs(axs[1], legend_=false)
+plt.tight_layout();
+savefig_phd("ceil_n_clip__sigs_and_STAs")
 
 # ## ROCs
 

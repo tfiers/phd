@@ -10,8 +10,7 @@ set_Δt(x) = (global Δt = x)
     plotsig(x, ms)
     plotsig(x, [200, 400], ms)
 """
-plotsig(sig, tscale = minutes; kw...) = plotsig(sig, nothing, tscale; kw...)
-plotsig(sig, tlim, tscale; xlabel = nothing, kw...) = begin
+plotsig(sig, tlim, tscale; xlabel = "Simulation time", kw...) = begin
     t = timevec(sig) / tscale
     isnothing(tlim) && (tlim = [t[1], t[end]])
     t0, t1 = tlim
@@ -24,6 +23,10 @@ plotsig(sig, tlim, tscale; xlabel = nothing, kw...) = begin
     end
     plot(t[shown], sig[shown]; xlabel, xunit, kw...)
 end
+#
+# With no `tlim` given:
+plotsig(sig, tscale = minutes; kw...) = plotsig(sig, nothing, tscale; kw...)
+
 
 plotSTA(
     STA;
@@ -33,12 +36,14 @@ plotSTA(
     kw...
 ) = plotsig(STA, nothing, ms; xlabel, hylabel, yunit, kw...)
 
+
 timevec(sig) = begin
     T = duration(sig)
     return t = linspace(zero(T), T, length(sig))
 end
 
 duration(sig) = length(sig) * Δt
+
 
 
 """

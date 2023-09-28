@@ -19,8 +19,11 @@ export color_exc, color_inh, color_both, color_unconn
 const paperwidth = const pw = 8.3
 const marginwidth = const mw = 0.28 * paperwidth  # From totex/Settings.tex → \marginwidth
 const maintextwidth = const mtw = 324 / 72        # From latexmk output → Text width
+const margin = 47.8 / 72
+const contentwidth = const cw = paperwidth - 2margin
 
-export paperwidth, pw, marginwidth, mw, maintextwidth, mtw
+export paperwidth, pw, marginwidth, mw, maintextwidth, mtw, contentwidth, cw
+
 
 last_figpath = nothing
 
