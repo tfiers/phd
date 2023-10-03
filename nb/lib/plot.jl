@@ -16,6 +16,10 @@ const default_figsize = Sciplotlib.sciplotlib_style["figure.figsize"]
 openfig(path = PhDPlots.last_figpath) = DefaultApplication.open(path)
 
 
+# For the `figsize` argument to plt.subplots() and friends.
+fs(width, aspect) = (width, width / aspect)
+
+
 function plotROC(sweep; ax = newax(), title="", legend_font_size = 7.6)
     # On `legend_font_size`: If using default / rcParams legend size,
     # legend will be bigger than other legends (cause monospace font).

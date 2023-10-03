@@ -118,7 +118,26 @@ plot_ceil_n_clip_STAs();
 # ---
 # Together now.
 
+fig, ax = plt.subplots()
+ax.plot([1,2])
+ax.set_xlabel("blah");
+
+ax.get_xlabel()
+
+
+
+nt=(a=3,)
+Dict(pairs(nt))
+
+
+
 fig, axs = plt.subplots(ncols=2, figsize=(cw, 0.32cw))
+plot_ceil_n_clip_sigs(axs[0], xlabel="Simulation time")
+plot_ceil_n_clip_STAs(axs[1], legend_=false)
+plt.tight_layout();
+savefig_phd("ceil_n_clip__sigs_and_STAs")
+
+fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.32pw))
 plot_ceil_n_clip_sigs(axs[0], xlabel="Simulation time")
 plot_ceil_n_clip_STAs(axs[1], legend_=false)
 plt.tight_layout();
@@ -194,7 +213,7 @@ ax = grouped_barplot(df, cols=["AUC", "AUCₑ", "AUCᵢ"], group_labels=df.V_typ
 legend(ax, ncols=3, loc="upper left")
 set(ax, ylim=[0.45, 1], xtype=:keep, title="""
     STA connection test performance, for different voltage signal types""");
-# savefig_phd("ceil_n_clip_AUCs")
+savefig_phd("ceil_n_clip_AUCs")
 # -
 
 # ## Threshold-plot
@@ -208,40 +227,45 @@ function plot_perfmeasures_threshold_TPRs(ax=newax())
     plot(sweep.threshold, sweep.TPRᵢ; color=color_inh, label="Inhibitory inputs (TPRᵢ)", ax)
     plot(sweep.threshold, sweep.TPR; color=color_both, label="Both exc and inh (TPR)", ax)
     plot(sweep.threshold, sweep.FPR; color=color_unconn, label="Non-inputs (FPR)", ax)
-    set(ax, ytype=:fraction, ylabel="Fraction detected as input", xlabel="Detection threshold")
+    set(ax, ytype=:fraction, hylabel="Fraction detected as input", xlabel="Detection threshold")
     ax.invert_xaxis()
     legend(ax)
 end
 plot_perfmeasures_threshold_TPRs();
 
-fig, axs = plt.subplots(ncols=2, figsize=(pw, 0.3pw))
+fig, axs = plt.subplots(ncols=2, figsize=(0.92pw, 0.34pw))
 plot_perfmeasures_threshold_TPRs(axs[0])
 plotROC(sweep; ax=axs[1])
 deemph_middle_ticks(fig);
+axs[1].set_title("ROC curve")
+plt.tight_layout(w_pad=4)
 savefig_phd("perfmeasures_θ_TPR_ROC")
 
 # ## Precision & F-scores
 
 function plot_perfmeasures_Fscores(ax=newax())
     
-    plot(sweep.threshold, sweep.TPR, color=color_both,  label="Recall (TPR)")
-    plot(sweep.threshold, sweep.PPV, color=C3,          label="Precision (PPV)")
+    plot(sweep.threshold, sweep.TPR; color=black,  label="..of real inputs detected. (Recall / TPR)", ax, zorder=2)
+    plot(sweep.threshold, sweep.PPV; color=C3,     label="..of detections correct. (Precision / PPV)", ax, zorder=2)
 
     for (series, color, label) in [
-            (sweep.F2,  darken(C2),  L"F_2"),
-            (sweep.F1,  C2,          L"F_1"),
             (sweep.F05, lighten(C2), L"F_{0.5}"),
+            (sweep.F1,  C2,          L"F_1"),
+            (sweep.F2,  darken(C2),  L"F_2"),
         ]
-        plot(sweep.threshold, series; color, label)
+        plot(sweep.threshold, series; color, label, ax, zorder=1)
         i = argmax(skipnan(series))
-        plot(sweep.threshold[i], series[i], "."; color, mec="black")
+        plot(sweep.threshold[i], series[i], "."; color, mec="black", ax, zorder=3)
     end
-    set(ax, ytype=:fraction, xlabel="Detection threshold")
+    set(ax, ytype=:fraction, xlabel="Detection threshold", hylabel="Fraction..")
     ax.invert_xaxis()
+    deemph_middle_ticks(ax)
     legend(ax)
     # label_lines(ax, yoffset=[2=>-0.02])
 end
-plot_perfmeasures_Fscores();
+fig, ax = plt.subplots(figsize=(mtw, 0.6*mtw))
+plot_perfmeasures_Fscores(ax)
+savefig_phd("perfmeasures_Fscores");
 
 using PythonCall: pyconvert
 function label_lines(ax; yoffset=[])
@@ -303,9 +327,9 @@ precision(recall, F; β) = begin
 end;
 
 # +
-function plot_perfmeasures_PR_curves_iso_Fβ(ax)
+function plot_perfmeasures_PR_curves_iso_Fβ(ax=newax())
     
-    plot(sweep.TPR,  sweep.PPV ; color=color_both, ax, label="PR-curve (both exc. and inh.)", clip_on=true)
+    plot(sweep.TPR, sweep.PPV; color=color_both, ax, label="PR-curve (both exc. and inh.)", clip_on=true)
 
     x0 = 0.5
     R = x0:(1/1000):1
@@ -314,7 +338,7 @@ function plot_perfmeasures_PR_curves_iso_Fβ(ax)
     Fs_str = join(100*Fs, ", ") * "%"
     for (i,F) in enumerate(Fs)
         label = (i > 1) ? nothing : L"Iso-$F_1$-curves (%$Fs_str)"
-        plot(R, precision.(R, F; β=1); color=lighten(C2,0.2), lw=0.8, ls="--", clip_on=true, zorder=1, label)
+        plot(R, precision.(R, F; β=1); color=lighten(C2,0.2), lw=0.8, ls="--", clip_on=true, zorder=1, label, ax)
     end
 
     for (β, series, color) in [
@@ -324,22 +348,37 @@ function plot_perfmeasures_PR_curves_iso_Fβ(ax)
         ]
         F, i = findmax(skipnan(series))
         label=L"Iso-$F_{%$β}$-curve (%$(round(100*F))%)"
-        plot(R, precision.(R, F; β);      color, lw=1, ls="--", label, clip_on=true, zorder=1)
-        plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=2)
+        plot(R, precision.(R, F; β); ax, color, lw=1, ls="--", label, clip_on=true, zorder=1)
+        plot(sweep.recall[i], sweep.precision[i], "."; mec="black", mfc=color, zorder=2, ax)
     end
 
+    # set(ax, title=("""
+    #         Performance of STA test for
+    #         different input detection thresholds""", :fontsize=>"small"))
     set(ax, aspect="equal", xtype=:fraction, ytype=:fraction,
         xlabel="Recall (TPR)", ylabel="Precision (PPV)",
-        xlim=[x0, 1], ylim=[x0, 1],
-        title=("""
-            Performance of STA test for
-            different input detection thresholds""", :fontsize=>"small"))
-    legend(ax, fontsize=6.6, loc="lower left")
+        xlim=[x0, 1], ylim=[x0, 1])
+    deemph_middle_ticks(ax)
+    legend(ax, fontsize=7, loc="lower left")
 end
 
-fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
-plot_perfmeasures_PR_curves_iso_Fβ(ax);
+fig, ax = plt.subplots(figsize=fs(0.73mtw, 1))
+plot_perfmeasures_PR_curves_iso_Fβ(ax)
+savefig_phd("PR_curves_iso_Fβ");
 # -
+
+# Both together now.
+
+fig, axs = plt.subplot_mosaic([
+    [".", "B"],
+    ["A", "B"],
+    [".", "B"],
+], figsize=(0.9pw, 0.5cw), width_ratios=[1.5, 1], height_ratios=[1,99999,1])
+plot_perfmeasures_Fscores(axs["A"])
+plot_perfmeasures_PR_curves_iso_Fβ(axs["B"])
+fig.tight_layout(w_pad=5);
+
+# Eh, too much to digest at once. Better separate.
 
 # We don't want too many `R` points (for smaller fig filesize).\
 # We wanna know where `precision(R)` == 1.\
@@ -398,8 +437,11 @@ function plot_perfmeasures_PR_curves_EI(ax)
     legend(ax, fontsize="x-small", loc="lower left")
 end
     
-fig, ax = plt.subplots(figsize=(2.9,2.9), dpi=300)
-plot_perfmeasures_PR_curves_EI(ax);
+fig, ax = plt.subplots(figsize=fs(0.66mtw, 1), dpi=300)
+plot_perfmeasures_PR_curves_EI(ax)
+deemph_middle_ticks(fig)
+ax.set_title("PR-curves")
+savefig_phd("perfmeasures_PR_curves_EI");
 # -
 
 # ## Two thresholds?
@@ -431,7 +473,10 @@ function plot_perfmeasures_threshold_PPVs_EI(ax=newax())
     deemph_.(legend_label_texts(ax)[1:4])
 end
 
-plot_perfmeasures_threshold_PPVs_EI();
+fig, ax = plt.subplots(figsize=fs(mtw, 1.6))
+plot_perfmeasures_threshold_PPVs_EI(ax)
+deemph_middle_ticks(fig)
+savefig_phd("perfmeasures_threshold_PPVs_EI");
 # -
 
 # ## STA examples plot
