@@ -12,6 +12,22 @@ and then `f["name"]`. Finally, `close(f)`
 """
 
 
+"""
+    CachedFunction(f, prefixdir = nothing, kw_order = Symbol[])
+
+Example usage:
+
+    f(; N, α) = ... # hard work
+    cachedir = "2023-10-03__Cool_analysis"
+    f_ = CachedFunction(f, cachedir; α = 3)
+    f_(N = 1000)
+
+Other keyword arguments (and their defaults):
+
+    - `disk = True`
+    - `mem = True`
+    - `dir = nothing`. If given, `prefixdir` is ignored.
+"""
 struct CachedFunction
     f
     memcache     ::ThreadSafeDict
@@ -173,6 +189,16 @@ set_dir(namespace::String) = (global dir; dir = joinpath(rootdir, namespace))
 
 const memcache = ThreadSafeDict()
 
+"""
+    @cached [key] ex
+
+Example:
+
+    MemDiskCache.set_dir("2023-10-03__Cool_analysis")
+    for b in 1:3
+        x = @cached "sum_\$b" 1+b
+    end
+"""
 macro cached(ex)
     key = string(ex)
     quote
@@ -182,10 +208,15 @@ macro cached(ex)
     end
 end
 
-macro cached(key, ex, descr=string(ex))
+macro cached(key, ex, descr = nothing)
     quote
         f() = $(esc(ex))
-        _cached(f, $key, $descr)
+        if isnothing($descr)
+            descr = "`" * $(string(ex)) * "` with key `" * string($(esc(key))) * "`"
+        else
+            descr = $descr
+        end
+        _cached(f, $(esc(key)), descr)
     end
 end
 
@@ -200,7 +231,7 @@ function _cached(f, key, descr)
                 output = load(path, "output")
             end
         else
-            @withfb_long "Running `$descr`" begin
+            @withfb_long "Running $descr" begin
                 output = f()
             end
             mkdir_if_needed(dirname(path))

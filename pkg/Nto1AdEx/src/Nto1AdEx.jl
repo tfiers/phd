@@ -100,6 +100,7 @@ const input_for_4Hz_output = Dict([
 ])
 # Source: https://tfiers.github.io/phd/nb/2023-08-05__AdEx_Nto1_we_sweep.html
 
+sim(; N, duration, kw...) = sim(N, duration; kw...)
 sim(
     N,
     duration;
