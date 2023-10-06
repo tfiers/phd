@@ -81,6 +81,20 @@ sigc = clip!(copy(sig), clip_pctile);
 plotsig(sig , tlim, ms, yunit=:mV)
 plotsig(sigc, tlim, ms, yunit=:mV, yunits_in=nothing);
 
+# Guess we could also set an absolute value, like clip at 0 or -20 mV or sth.\
+# But in VI recordings there is no scale.
+#
+# Maybe there's some other way. Aren't those spikes bunched/clustered? yeah! i suppose they are..\
+# So we do.. uhm.. clustering on V distribution? I kinda like it..\
+# "Oja's algorithm"? ooooh yeah.\
+# no wait, that's sth else.\
+# But there is a similar sounding algorithm, used in quantization/discretization.\
+# Splitting sth (a distribution) in two..
+#
+# **Otsu's method**!
+#
+# https://github.com/mdhumphries/HierarchicalConsensusClustering/blob/master/Helper_Functions/otsu1D.m
+
 # ## Test conns
 
 cachedir = "2023-09-20__STA_conntest_for_diff_recording_quality_n_durations";
@@ -89,30 +103,34 @@ sim_ = CachedFunction(Nto1AdEx.sim, cachedir; disk=false, duration=10minutes, N)
 
 MemDiskCache.set_dir(cachedir);
 
-# +
-# MemDiskCache.open_dir()
-# -
+MemDiskCache.open_dir()
 
-function sim_and_test(; duration=10minutes, VI_SNR=Inf)
-    sim = sim_(; duration)
+function sim_and_test(; duration=10minutes, VI_SNR=Inf, seed=1)
+    sim = sim_(; duration, seed)
     sig = VI_sig(sim, spike_SNR=VI_SNR)
     sigc = clip!(sig, clip_pctile)
-    key = "sim_and_test" * string((; duration, VI_SNR)) * "__rows"
+    key = "sim_and_test" * string((; duration, VI_SNR, seed)) * "__rows"
     rows = @cached key test_high_firing_inputs(sim, sigc)
     # ↪ every row is a putative connection. (real type, t-val, presyn fr)
     df = DataFrame(rows)
     sweep = sweep_threshold(df)
     return (; sim, sigc, df, sweep)
-end
+end;
+
+maxF1(sweep) = maximum(skipnan(sweep.F1));
+
+# ↓ expected runtime: 8 SNRs x 5 seeds x 56 seconds = 37 minutes
 
 rows = []
-for VI_SNR in [Inf, 100, 20, 10, 4, 2, 1]
-    (; sweep) = sim_and_test(; VI_SNR)
-    F1max = maximum(skipnan(sweep.F1))
-    (; AUC) = calc_AUROCs(sweep)
-    row = (; VI_SNR, F1max, AUC)
-    push!(rows, row)
-    # println("\n", row, "\n"^2)
+@time for VI_SNR in [Inf, 100, 40, 20, 10, 4, 2, 1]
+    for seed in 1:5
+        (; sweep) = sim_and_test(; VI_SNR, seed)
+        F1max = maxF1(sweep)
+        (; AUC) = calc_AUROCs(sweep)
+        row = (; VI_SNR, seed, F1max, AUC)
+        push!(rows, row)
+        # println("\n", row, "\n"^2)
+    end
 end;
 
 df = DataFrame(rows)
@@ -128,7 +146,7 @@ showsimple(df)
 # ```
 # Note that, except at Inf snr, not much diff !
 
-set_mpl_style!(sciplotlib_style);
+# ## Plot
 
 # +
 fmt(x) = isinf(x) ? "∞" : round(Int, x);
@@ -154,6 +172,15 @@ ax.annotate("Connection detection performance of STA test", fontweight="bold",
             xy=(0, 1.3), xycoords=t, va="bottom");
 # -
 
+plotsig(VI_sig(sim; spike_SNR=40), tlim, ms, yunit=:mV);
 
+# Sure, I can see that happening.
+
+out = sim_and_test(duration=60minutes, VI_SNR=40);
+
+(; sweep) = out
+maximum(skipnan(sweep.F1))
+
+calc_AUROCs(sweep)
 
 
