@@ -232,11 +232,13 @@ function _cached(f, key, descr)
             end
         else
             @withfb_long "Running $descr" begin
+                t₀ = time()
                 output = f()
+                runtime = time() - t₀
             end
             mkdir_if_needed(dirname(path))
             @withfb "Saving output at [$path]" begin
-                jldsave(path; output)
+                jldsave(path; output, runtime)
             end
         end
         memcache[key] = output
@@ -256,8 +258,15 @@ end
 empty_diskcache() = _rmdir(dir)
 open_dir() = DefaultApplication.open(dir)
 
+"""
+    get_runtime(key)
 
-export @cached
+Return how long the cached function or block originally took to run, in
+seconds.
+"""
+get_runtime(key) = load(filepath(key), "runtime")
+
+export @cached, get_runtime
 
 
 end
