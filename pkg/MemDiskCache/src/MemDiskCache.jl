@@ -200,7 +200,7 @@ Example:
     end
 """
 macro cached(ex)
-    key = string(ex)
+    key = stringify(ex)
     quote
         @cached $key $(esc(ex)) $key
         # Have to pass the description explicitly, otherwise it becomes
@@ -212,7 +212,7 @@ macro cached(key, ex, descr = nothing)
     quote
         f() = $(esc(ex))
         if isnothing($descr)
-            descr = "`" * $(string(ex)) * "` with key `" * string($(esc(key))) * "`"
+            descr = "`" * $(stringify(ex)) * "` with key `" * string($(esc(key))) * "`"
         else
             descr = $descr
         end
@@ -265,6 +265,16 @@ Return how long the cached function or block originally took to run, in
 seconds.
 """
 get_runtime(key) = load(filepath(key), "runtime")
+
+
+stringify(ex) = begin
+    if ex.head == :block
+        ex = deepcopy(ex)
+        Base.remove_linenums!(ex)
+    end
+    string(ex)
+end
+
 
 export @cached, get_runtime
 

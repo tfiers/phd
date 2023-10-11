@@ -12,6 +12,10 @@ include("util.jl")
 prettify_logging_in_IJulia()
 set_print_precision(3)
 
+# module LibNto1  # module, to prevent inadvertant usage of globals (nb vars) in funcs here
+# using Units, Nto1AdEx, ConnectionTests, ProgressMeter
+# export get_trains_to_test, test_high_firing_inputs
+
 function get_trains_to_test(
     sim::Nto1AdEx.SimData;
     Nₜ = 100,  # Number of trains of each type, (exc, inh, unc)
@@ -25,13 +29,14 @@ function get_trains_to_test(
     # trains generated might be same as the real ones generated in sim.
     Random.seed!(sim.seed + seed)
     unconn_frs = sample(fr, Nₜ)
-    unconn_trains = [poisson_SpikeTrain(r, duration) for r in unconn_frs]
+    unconn_trains = [poisson_SpikeTrain(r, sim.duration) for r in unconn_frs]
     return [
         (:exc, exc_inputs),
         (:inh, inh_inputs),
         (:unc, unconn_trains),
     ]
 end
+
 
 function test_high_firing_inputs(sim::Nto1AdEx.SimData, sig; Nₜ = 100, seed = 1)
     ConnectionTests.set_STA_length(20ms)
@@ -48,5 +53,9 @@ function test_high_firing_inputs(sim::Nto1AdEx.SimData, sig; Nₜ = 100, seed = 
     end
     return rows
 end
+
+# end # module
+# using .LibNto1
+
 
 nothing  # Don't print anything when `include`d.

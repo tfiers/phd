@@ -114,3 +114,41 @@ To use this idea for an actual connection test, we look specifically at the heig
         {}
     \label{fig:perfmeasures_threshold_PPVs_EI}
 \end{figure}
+
+
+\begin{figure}
+    \begin{sidecaption}
+        {}
+        [fig:AUC_chance_level]
+        \includegraphics{AUC_chance_level}
+    \end{sidecaption}
+\end{figure}
+
+
+
+\FloatBarrier
+\section{Recording duration \& noise}
+
+\begin{figure}
+    \begin{sidecaption}
+        {\textbf{Performance drops to chance level for noisier signals}.\\
+        All simulations were 10 minutes long.
+        Signal-to-noise (SNR) values on the x-axis are approximately (but not exactly) log-spaced. An SNR of `$\infty$' corresponds to no noise (i.e. the voltage signal straight out of the simulation, without any noise added).
+        For every SNR value, five different simulations were run (gray dots), each with a different RNG seed (and thus different input firing rates and spiketrains). The mean performances of these five simulations are plotted with larger dots and are line-connected.
+        Only the 100 highest-firing excitatory and inhibitory inputs were tested. An additional 100 unconnected spiketrains were generated and tested, with similar firing rates as those 200 high-firing real inputs.\\
+        Chance level determined as in \cref{fig:AUC_chance_level}.}
+        [fig:STA_perf_diff_snr]
+        \includegraphics{STA_perf_diff_snr}
+    \end{sidecaption}
+\end{figure}
+
+\begin{figure}
+    \begin{sidecaption}
+        {\textbf{Longer recordings allow more accurate connection inference}.\\
+        All simulations had a voltage imaging noise level (spike-SNR) of 40.\\
+        The simulation (`recording') durations on the x-axis are log-spaced. The first two data points are at 10 and 30 seconds; the last one is at 1 hour. \\
+        For more, see \cref{fig:STA_perf_diff_snr}'s caption.}
+        [fig:STA_perf_diff_rec_duration]
+        \includegraphics{STA_perf_diff_rec_duration}
+    \end{sidecaption}
+\end{figure}

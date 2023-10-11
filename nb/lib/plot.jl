@@ -14,13 +14,20 @@ using DefaultApplication
 const default_figsize = Sciplotlib.sciplotlib_style["figure.figsize"]
 
 openfig(path = PhDPlots.last_figpath) = DefaultApplication.open(path)
+open_figdir() = DefaultApplication.open(abspath("../thesis/figs"))
 
 
 # For the `figsize` argument to plt.subplots() and friends.
 fs(width, aspect) = (width, width / aspect)
 
 
-function plotROC(sweep; ax = newax(), title="", legend_font_size = 7.6)
+function plotROC(
+    sweep;
+    ax = newax(),
+    title="",
+    legend_font_size = 7.6,
+    legend_loc = "lower center"
+)
     # On `legend_font_size`: If using default / rcParams legend size,
     # legend will be bigger than other legends (cause monospace font).
     # The value here is chosen to match rcParams ["font.size" = 9] and
@@ -33,15 +40,66 @@ function plotROC(sweep; ax = newax(), title="", legend_font_size = 7.6)
     set(ax, aspect="equal", xlabel="Non-inputs wrongly detected (FPR)", ylabel="Real inputs detected (TPR)",
         xtype=:fraction, ytype=:fraction, title=(title, :pad=>12, :loc=>"right"))
     font = Dict("family"=>"monospace", "size"=>legend_font_size)
-    legend(ax, borderaxespad=1,     title="Input type   AUC ", loc="lower center",
+    legend(ax, borderaxespad=1,     title="Input type   AUC ", loc=legend_loc,
             alignment="right", markerfirst=true, prop=font);
     # Using the same `font` dict for `title_fontproperties` does not apply the size (bug in Julia-Python, somehow)
     ax.legend_.get_title().set(family="monospace", size=legend_font_size, weight="bold");
     return ax
 end
 
-newax() = ((fig, ax) = plt.subplots(); ax)
+newax(; kw...) = ((fig, ax) = plt.subplots(; kw...); ax)
 
+function distplot(
+    x;
+    ax = newax(figsize=(4, 0.4)),
+    y = 0.0,
+    jitter = 0.2,
+    ylim = [-1,1],
+    ms = 3,
+    jitterseed = 1,
+    lines = true,
+    mean = lines,
+    median = lines,
+    kw...
+)
+    N = length(x)
+    y = fill(y, N)
+    Random.seed!(jitterseed)
+    @. y += (2*rand()-1)*jitter
+    plot(x, y, "."; ax, ytype=:off, ylim, ms, kw...)
+    mean && ax.axvline(StatsBase.mean(x), lw=1, color="black")
+    median && ax.axvline(StatsBase.median(x), lw=1, color="black", linestyle="--")
+    return ax
+end
 
+function plot_dots_and_means(
+    df, xcol, ycol;
+    ax = newax(),
+    xtype = :default,  # If :categorical, specify `xticklabels` too.
+    ms_dots = 3,
+    ms_means = 8,
+    color_dots = lightgrey,
+    color_means = black,
+    xlabel = string(xcol),
+    ylabel = string(ycol),
+    kw...
+)
+    gd = groupby(df, xcol)
+    dfm = combine(gd, ycol => mean => ycol)
+    if xtype ∈ [:cat, :categorical]
+        x = reduce(vcat, [fill(i, nrow(sdf)) for (i,sdf) in enumerate(gd)])
+        xm = 1:nrow(dfm)
+        if :xticklabels ∉ keys(kw)
+            kw = Dict{Symbol,Any}(kw)
+            kw[:xticklabels] = string.(dfm[!, xcol])
+        end
+    else
+        x = df[!, xcol]
+        xm = dfm[!, xcol]
+    end
+    plot(x, df[!, ycol], "."; ax, c=color_dots, ms=ms_dots, xtype, xlabel, ylabel, kw...)
+    plot(xm, dfm[!, ycol], ".-"; ax, c=color_means, ms=ms_means, xtype, xlabel, ylabel, kw...)
+    return ax
+end
 
 nothing;
