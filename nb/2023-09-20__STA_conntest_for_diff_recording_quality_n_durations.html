@@ -739,6 +739,36 @@ const thebe_selector_output = ".output, .cell_output"
    Test conns
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-auc-and-f1max-directly">
+   Comparing AUC and F1max directly.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#longer-recording">
+   Longer recording
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chance-level">
+   Chance level
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-recording-duration">
+   Vary recording duration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computation-time">
+   Computation time
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -774,6 +804,36 @@ const thebe_selector_output = ".output, .cell_output"
    Test conns
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot">
+   Plot
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparing-auc-and-f1max-directly">
+   Comparing AUC and F1max directly.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#longer-recording">
+   Longer recording
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chance-level">
+   Chance level
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vary-recording-duration">
+   Vary recording duration
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computation-time">
+   Computation time
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -792,15 +852,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.3 s)
-using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; 
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling MemDiskCache [40c6d27e-4dd7-460c-8c4c-2ed37df2112f]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004; (1.9 s)
-using StatsBase &#8230; &#10004; (0.2 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004;
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004;
+using StatsBase &#8230; &#10004;
+WARNING: replacing module LibNto1.
 </pre></div>
 </div>
 </div>
@@ -814,7 +869,7 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.959043 seconds (2.10 M allocations: 1.024 GiB, 2.97% gc time, 45.13% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.912114 seconds (2.10 M allocations: 1.024 GiB, 2.10% gc time, 44.41% compilation time)
 </pre></div>
 </div>
 </div>
@@ -845,10 +900,12 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2 s)
-import PythonPlot &#8230; &#10004; (3.9 s)
-using Sciplotlib &#8230; &#10004; (0.6 s)
-using PhDPlots &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.2 s)
+import PythonPlot &#8230; &#10004; (6.1 s)
+using Sciplotlib &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [88be95e5-9550-4d5f-a203-92a5acbc3118]
+&#10004; (3.5 s)
+using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling PhDPlots [8882fb83-7a18-4ae0-b3ef-a58e1f4042a1]
+&#10004; (2.4 s)
 </pre></div>
 </div>
 </div>
@@ -887,7 +944,7 @@ using PhDPlots &#8230; &#10004;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004; (0.9 s)
 </pre></div>
 </div>
 </div>
@@ -957,6 +1014,16 @@ So let&#8217;s choose sth stricter:  (note that this is all for VI SNR 10, no sy
 <img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_20_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_20_0.png">
 </div>
 </div>
+<p>Guess we could also set an absolute value, like clip at 0 or -20 mV or sth.<br>
+But in VI recordings there is no scale.</p>
+<p>Maybe there&#8217;s some other way. Aren&#8217;t those spikes bunched/clustered? yeah! i suppose they are..<br>
+So we do.. uhm.. clustering on V distribution? I kinda like it..<br>
+&#8220;Oja&#8217;s algorithm&#8221;? ooooh yeah.<br>
+no wait, that&#8217;s sth else.<br>
+But there is a similar sounding algorithm, used in quantization/discretization.<br>
+Splitting sth (a distribution) in two..</p>
+<p><strong>Otsu&#8217;s method</strong>!</p>
+<p><a class="reference external" href="https://github.com/mdhumphries/HierarchicalConsensusClustering/blob/master/Helper_Functions/otsu1D.m">https://github.com/mdhumphries/HierarchicalConsensusClustering/blob/master/Helper_Functions/otsu1D.m</a></p>
 </div>
 <div class="section" id="test-conns">
 <h2>Test conns<a class="headerlink" href="#test-conns" title="Permalink to this headline">&#182;</a></h2>
@@ -988,29 +1055,44 @@ So let&#8217;s choose sth stricter:  (note that this is all for VI SNR 10, no sy
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># MemDiskCache.open_dir()</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">MemDiskCache</span><span class="o">.</span><span class="n">open_dir</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Process(`'C:\WINDOWS\system32\cmd.exe' /c start 'C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-20__STA_conntest_for_diff_recording_quality_n_durations'`, ProcessRunning)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">sim_and_test</span><span class="p">(;</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="n">minutes</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="o">=</span><span class="nb">Inf</span><span class="p">)</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">sim_</span><span class="p">(;</span> <span class="n">duration</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">sim_and_test</span><span class="p">(;</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="n">minutes</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="o">=</span><span class="nb">Inf</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">sim_</span><span class="p">(;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
     <span class="n">sig</span> <span class="o">=</span> <span class="n">VI_sig</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">spike_SNR</span><span class="o">=</span><span class="n">VI_SNR</span><span class="p">)</span>
     <span class="n">sigc</span> <span class="o">=</span> <span class="n">clip!</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">clip_pctile</span><span class="p">)</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="s">"sim_and_test"</span> <span class="o">*</span> <span class="n">string</span><span class="p">((;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="p">))</span> <span class="o">*</span> <span class="s">"__rows"</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="s">"sim_and_test"</span> <span class="o">*</span> <span class="n">string</span><span class="p">((;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">seed</span><span class="p">))</span> <span class="o">*</span> <span class="s">"__rows"</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">key</span> <span class="n">test_high_firing_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">sigc</span><span class="p">)</span>
     <span class="c"># &#8618; every row is a putative connection. (real type, t-val, presyn fr)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
     <span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(;</span> <span class="n">sim</span><span class="p">,</span> <span class="n">sigc</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">sweep</span><span class="p">)</span>
-<span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sim_and_test (generic function with 1 method)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">maxF1</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">skipnan</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>&#8595; expected runtime: 8 SNRs x 5 seeds x 56 seconds = 37 minutes</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">SNRs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">Inf</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">];</span>
 </pre></div>
 </div>
 </div>
@@ -1018,46 +1100,104 @@ So let&#8217;s choose sth stricter:  (note that this is all for VI SNR 10, no sy
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">VI_SNR</span> <span class="k">in</span> <span class="p">[</span><span class="nb">Inf</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="p">(;</span> <span class="n">sweep</span><span class="p">)</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(;</span> <span class="n">VI_SNR</span><span class="p">)</span>
-    <span class="n">F1max</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">skipnan</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">))</span>
-    <span class="p">(;</span> <span class="n">AUC</span><span class="p">)</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">F1max</span><span class="p">,</span> <span class="n">AUC</span><span class="p">)</span>
-    <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
-    <span class="c"># println("\n", row, "\n"^2)</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">VI_SNR</span> <span class="k">in</span> <span class="n">SNRs</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">5</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s">"sim_and_test</span><span class="si">$</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span><span class="s">__sweep"</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">key</span> <span class="k">begin</span>
+            <span class="p">(;</span> <span class="n">sweep</span><span class="p">)</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(;</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+            <span class="n">F1max</span> <span class="o">=</span> <span class="n">maxF1</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+            <span class="p">(;</span> <span class="n">AUC</span><span class="p">)</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">F1max</span><span class="p">,</span> <span class="n">AUC</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+        <span class="c">#println("\n", row, "\n"^2)</span>
+    <span class="k">end</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2)__rows` from memory
-<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1)__rows` from memory
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = Inf, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 100, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 40, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 40, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 40, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 40, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 40, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 20, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 10, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 4, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 2, seed = 5)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1, seed = 1)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1, seed = 2)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1, seed = 3)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1, seed = 4)__sweep` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(duration = 600, VI_SNR = 1, seed = 5)__sweep` from memory
+  0.038367 seconds (30.32 k allocations: 2.026 MiB)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_snr</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 <span class="n">showsimple</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> VI_SNR  F1max  AUC   </span>
-&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
- Inf     0.829  0.796
- 100     0.72   0.679
-  20     0.524  0.344
-  10     0.458  0.277
-   4     0.406  0.239
-   2     0.398  0.233
-   1     0.386  0.225
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold"> VI_SNR  seed  F1max  AUC   </span>
+&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;
+ Inf     1     0.829  0.796
+ Inf     2     0.895  0.913
+ Inf     3     0.851  0.834
+ Inf     4     0.893  0.896
+ Inf     5     0.838  0.859
+ 100     1     0.72   0.679
+ 100     2     0.794  0.78
+ 100     3     0.792  0.746
+ 100     4     0.812  0.789
+ 100     5     0.761  0.696
+  40     1     0.604  0.455
+  40     2     0.598  0.49
+   &#8942;      &#8942;      &#8942;      &#8942;
+   4     5     0.459  0.315
+   2     1     0.398  0.233
+   2     2     0.39   0.237
+   2     3     0.451  0.292
+   2     4     0.442  0.279
+   2     5     0.447  0.306
+   1     1     0.386  0.225
+   1     2     0.375  0.227
+   1     3     0.438  0.282
+   1     4     0.424  0.264
+   1     5     0.449  0.305
+<span class=" -Color -Color-Cyan">             17 rows omitted</span>
 </pre></div>
 </div>
 </div>
@@ -1071,50 +1211,532 @@ So let&#8217;s choose sth stricter:  (note that this is all for VI SNR 10, no sy
 </pre></div>
 </div>
 <p>Note that, except at Inf snr, not much diff !</p>
+</div>
+<div class="section" id="plot">
+<h2>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">&#182;</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">set_mpl_style!</span><span class="p">(</span><span class="n">sciplotlib_style</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">?</span> <span class="s">"&#8734;"</span> <span class="o">:</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">?</span> <span class="s">"&#8734;"</span> <span class="o">:</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">df</span><span class="o">.</span><span class="n">F1max</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">fmt</span><span class="o">.</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">VI_SNR</span><span class="p">),</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">,</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">,</span>
-     <span class="n">xlabel</span><span class="o">=</span><span class="s">"Voltage imaging noise (spike-SNR)"</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="sa">L</span><span class="s">"Average of recall &amp; precision at $\max\ F_1$"</span><span class="p">);</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">"bold"</span><span class="p">,</span>
-            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_F1</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">xcol</span><span class="p">;</span> <span class="n">ax</span><span class="o">=</span><span class="n">newax</span><span class="p">(),</span> <span class="n">title</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">xcol</span><span class="p">,</span> <span class="ss">:F1max</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:frac</span><span class="p">,</span> <span class="n">color_means</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">deemph_middle_ticks</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="sa">L</span><span class="s">"Maximum </span><span class="si">$F_1</span><span class="s">$-score (mean of Recall &amp; Precision)"</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">&amp;&amp;</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">"bold"</span><span class="p">,</span>
+                         <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ax</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Voltage imaging noise (spike-SNR)"</span>
+<span class="n">xticklabels</span><span class="o">=</span><span class="n">fmt</span><span class="o">.</span><span class="p">(</span><span class="n">SNRs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_F1</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"STA_perf_diff_snr_F1"</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_31_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_31_0.png">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/STA_perf_diff_snr_F1.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_38_1.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_38_1.png">
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">?</span> <span class="s">"&#8734;"</span> <span class="o">:</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">x</span><span class="p">);</span>
-
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">color</span> <span class="o">=</span> <span class="s">"gray"</span>
-<span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">0.5</span><span class="p">;</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">"--"</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Chance"</span><span class="p">;</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s">"right"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nrow</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">df</span><span class="o">.</span><span class="n">AUC</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">fmt</span><span class="o">.</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">VI_SNR</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">,</span>
-     <span class="n">xlabel</span><span class="o">=</span><span class="s">"Voltage imaging noise (spike-SNR)"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"black"</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"Area under ROC curve (AUC)"</span><span class="p">);</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">"bold"</span><span class="p">,</span>
-            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">);</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_F1</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">);</span>
+<span class="c"># savefig_phd("STA_perf_diff_snr_F1");</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_32_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_32_0.png">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_39_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_39_0.png">
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_AUC</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">xcol</span><span class="p">;</span> <span class="n">ax</span><span class="o">=</span><span class="n">newax</span><span class="p">(),</span> <span class="n">chance_level_loc</span><span class="o">=</span><span class="ss">:left</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="s">"gray"</span>
+    <span class="n">chance_level</span> <span class="o">=</span> <span class="mf">0.252</span>  <span class="c"># See section below :)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">chance_level</span><span class="p">;</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">"--"</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">chance_level_loc</span> <span class="o">==</span> <span class="ss">:left</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ha</span> <span class="o">=</span> <span class="s">"left"</span>
+    <span class="k">else</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">ha</span> <span class="o">=</span> <span class="s">"right"</span>
+    <span class="k">end</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Chance level"</span><span class="p">;</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">l</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">ha</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+    
+    <span class="n">plot_dots_and_means</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">xcol</span><span class="p">,</span> <span class="ss">:AUC</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">ylabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">deemph_middle_ticks</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">hylabel</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"Area under ROC curve (AUC)"</span><span class="p">);</span>
+    <span class="n">title</span> <span class="o">&amp;&amp;</span> <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s">"bold"</span><span class="p">,</span>
+                         <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">"bottom"</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ax</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_AUC</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">);</span>
+<span class="c"># savefig_phd("STA_perf_diff_snr_auc");</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_41_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_41_0.png">
+</div>
+</div>
+<p>One fig. Tighter ylims.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">ax_btm</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">mtw</span><span class="p">,</span><span class="mf">1.1</span><span class="n">mtw</span><span class="p">),</span> <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">])</span>
+<span class="n">xlabel</span> <span class="o">=</span> <span class="p">(</span><span class="s">"Voltage imaging noise (spike-SNR)"</span><span class="p">,</span> <span class="ss">:fontweight</span><span class="o">=&gt;</span><span class="s">"bold"</span><span class="p">)</span>
+<span class="n">xticklabels</span><span class="o">=</span><span class="n">fmt</span><span class="o">.</span><span class="p">(</span><span class="n">SNRs</span><span class="p">)</span>
+<span class="n">plot_F1</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="s">"bottom"</span><span class="p">)</span>
+<span class="n">plot_AUC</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">;</span> <span class="n">xtype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_btm</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">);</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.5155</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">1.7</span><span class="p">);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"STA_perf_diff_snr"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/STA_perf_diff_snr.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_43_1.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_43_1.png">
+</div>
+</div>
+</div>
+<div class="section" id="comparing-auc-and-f1max-directly">
+<h2>Comparing AUC and F1max directly.<a class="headerlink" href="#comparing-auc-and-f1max-directly" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gd</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span><span class="n">df_snr</span><span class="p">,</span> <span class="ss">:VI_SNR</span><span class="p">)</span>
+<span class="n">dfm</span> <span class="o">=</span> <span class="n">combine</span><span class="p">(</span><span class="n">gd</span><span class="p">,</span> <span class="p">[</span><span class="ss">:F1max</span><span class="p">,</span> <span class="ss">:AUC</span><span class="p">]</span> <span class="o">.=&gt;</span> <span class="n">mean</span><span class="p">,</span> <span class="n">renamecols</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>8&#215;3 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">VI_SNR</th><th style="text-align: left;">F1max</th><th style="text-align: left;">AUC</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">Inf</td><td style="text-align: right;">0.861</td><td style="text-align: right;">0.86</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">100</td><td style="text-align: right;">0.776</td><td style="text-align: right;">0.738</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">40</td><td style="text-align: right;">0.636</td><td style="text-align: right;">0.498</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">20</td><td style="text-align: right;">0.543</td><td style="text-align: right;">0.372</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">10</td><td style="text-align: right;">0.479</td><td style="text-align: right;">0.312</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: right;">4</td><td style="text-align: right;">0.439</td><td style="text-align: right;">0.279</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: right;">2</td><td style="text-align: right;">0.426</td><td style="text-align: right;">0.269</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: right;">1</td><td style="text-align: right;">0.414</td><td style="text-align: right;">0.261</td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">=</span><span class="n">newax</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">));</span>
+<span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="s">"--"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">"lightgrey"</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">dfm</span><span class="o">.</span><span class="n">AUC</span><span class="p">,</span> <span class="n">dfm</span><span class="o">.</span><span class="n">F1max</span><span class="p">,</span> <span class="s">".-"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s">"equal"</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+     <span class="n">xlabel</span><span class="o">=</span><span class="s">"AUC"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">L</span><span class="s">"\max\ F_1"</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:fraction</span><span class="p">);</span>
+<span class="n">deemph_middle_ticks</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_46_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_46_0.png">
+</div>
+</div>
+</div>
+<div class="section" id="longer-recording">
+<h2>Longer recording<a class="headerlink" href="#longer-recording" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotsig</span><span class="p">(</span><span class="n">VI_sig</span><span class="p">(</span><span class="n">sim</span><span class="p">;</span> <span class="n">spike_SNR</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">yunit</span><span class="o">=</span><span class="ss">:mV</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_48_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_48_0.png">
+</div>
+</div>
+<p>Sure, I can see that happening.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">out</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="s">"longer_rec"</span> <span class="n">sim_and_test</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">60</span><span class="n">minutes</span><span class="p">,</span> <span class="n">VI_SNR</span><span class="o">=</span><span class="mi">40</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `longer_rec` from memory
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(;</span> <span class="n">sweep</span><span class="p">)</span> <span class="o">=</span> <span class="n">out</span>
+<span class="n">maxF1</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.879
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(AUC = 0.893, AUC&#8337; = 0.821, AUC&#7522; = 0.966)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="chance-level">
+<h2>Chance level<a class="headerlink" href="#chance-level" title="Permalink to this headline">&#182;</a></h2>
+<p>What is AUROC chance level for our weird ternary classification.</p>
+<p>Assign classes randomly. Or rather give random connectedness-scores (t-vals).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">random_test_result</span><span class="p">(</span><span class="n">N&#8348;</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">conntype</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">([</span><span class="ss">:exc</span><span class="p">,</span> <span class="ss">:inh</span><span class="p">,</span> <span class="ss">:unc</span><span class="p">],</span> <span class="n">inner</span><span class="o">=</span><span class="n">N&#8348;</span><span class="p">)</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">conntype</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span>  <span class="c"># Uniform in [-1, 1]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(;</span> <span class="n">conntype</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">5</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">random_test_result</span><span class="p">()</span>
+    <span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">))</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(AUC = 0.247, AUC&#8337; = 0.302, AUC&#7522; = 0.192)
+(AUC = 0.305, AUC&#8337; = 0.328, AUC&#7522; = 0.282)
+(AUC = 0.251, AUC&#8337; = 0.234, AUC&#7522; = 0.268)
+(AUC = 0.208, AUC&#8337; = 0.192, AUC&#7522; = 0.224)
+(AUC = 0.224, AUC&#8337; = 0.225, AUC&#7522; = 0.224)
+</pre></div>
+</div>
+</div>
+</div>
+<p>So chance level is even less than 0.333</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">plotROC</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s">"upper center"</span><span class="p">)</span>
+<span class="n">deemph_middle_ticks</span><span class="p">(</span><span class="n">ax</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_57_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_57_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">random_test_AUC</span><span class="p">()</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep_threshold</span><span class="p">(</span><span class="n">random_test_result</span><span class="p">()))</span><span class="o">.</span><span class="n">AUC</span>
+<span class="nd">@time</span> <span class="n">random_test_AUC</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.029802 seconds (72.67 k allocations: 11.245 MiB)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.266
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rm_from_memcache!</span><span class="p">(</span><span class="s">"random_test_AUCs"</span><span class="p">)</span>
+<span class="n">rm_from_disk</span><span class="p">(</span><span class="s">"random_test_AUCs"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="n">random_test_AUCs</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="s">"random_test_AUCs"</span> <span class="p">[</span><span class="n">random_test_AUC</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">300</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running `[random_test_AUC() for _ = 1:300]` with key `random_test_AUCs` &#8230; 
+Running `[random_test_AUC() for _ = 1:300]` with key `random_test_AUCs` &#10004; (9.1 s)
+Saving output at [C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-20__STA_conntest_for_diff_recording_quality_n_durations\random_test_AUCs.jld2] &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<p>(4 seconds)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">(;</span> <span class="n">ConnectionPatch</span><span class="p">)</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">patches</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">connect</span><span class="p">(</span><span class="n">axA</span><span class="p">,</span> <span class="n">axB</span><span class="p">,</span> <span class="n">xyA</span><span class="p">,</span> <span class="n">xyB</span><span class="o">=</span><span class="n">xyA</span><span class="p">;</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">"--"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">Gray</span><span class="p">(</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">axA</span><span class="o">.</span><span class="n">figure</span>
+    <span class="n">con</span> <span class="o">=</span> <span class="n">ConnectionPatch</span><span class="p">(</span><span class="n">xyA</span><span class="p">,</span> <span class="n">xyB</span><span class="p">,</span> <span class="n">axA</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span> <span class="n">axB</span><span class="o">.</span><span class="n">transData</span><span class="p">;</span> <span class="n">lw</span><span class="p">,</span> <span class="n">ls</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">toRGBAtuple</span><span class="p">(</span><span class="n">color</span><span class="p">),</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">ax_btm</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">))</span>
+<span class="n">distplot</span><span class="p">(</span><span class="n">random_test_AUCs</span><span class="p">;</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">lines</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">distplot</span><span class="p">(</span><span class="n">random_test_AUCs</span><span class="p">;</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_btm</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Area under ROC curve (AUC)"</span><span class="p">)</span>
+<span class="n">deemph_middle_ticks</span><span class="p">(</span><span class="n">ax_top</span><span class="p">)</span>
+<span class="n">xl</span><span class="p">,</span> <span class="n">xr</span> <span class="o">=</span> <span class="n">ax_btm</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+<span class="n">yb</span><span class="p">,</span> <span class="n">yt</span> <span class="o">=</span> <span class="n">ax_top</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+<span class="n">connect</span><span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">ax_btm</span><span class="p">,</span> <span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">yb</span><span class="p">),</span> <span class="p">(</span><span class="n">xl</span><span class="p">,</span> <span class="n">yt</span><span class="p">))</span>
+<span class="n">connect</span><span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">ax_btm</span><span class="p">,</span> <span class="p">(</span><span class="n">xr</span><span class="p">,</span> <span class="n">yb</span><span class="p">),</span> <span class="p">(</span><span class="n">xr</span><span class="p">,</span> <span class="n">yt</span><span class="p">))</span>
+<span class="n">ax_top</span><span class="o">.</span><span class="n">vlines</span><span class="p">([</span><span class="n">xl</span><span class="p">,</span> <span class="n">xr</span><span class="p">],</span> <span class="n">yb</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">toRGBAtuple</span><span class="p">(</span><span class="n">Gray</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">"Performance of random connection classifier"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">2.6</span><span class="p">);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"AUC_chance_level"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/AUC_chance_level.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_63_1.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_63_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">random_test_maxF1</span><span class="p">()</span> <span class="o">=</span> <span class="n">maxF1</span><span class="p">(</span><span class="n">sweep_threshold</span><span class="p">(</span><span class="n">random_test_result</span><span class="p">()))</span>
+<span class="n">random_test_maxF1</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.375
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+<span class="n">random_test_F1s</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="s">"random_test_F1s"</span> <span class="p">[</span><span class="n">random_test_maxF1</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">300</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running `[random_test_maxF1() for _ = 1:300]` with key `random_test_F1s` &#8230; 
+Running `[random_test_maxF1() for _ = 1:300]` with key `random_test_F1s` &#10004; (32.8 s)
+Saving output at [C:\Users\tfiers\.julia\MemDiskCache.jl\2023-09-20__STA_conntest_for_diff_recording_quality_n_durations\random_test_F1s.jld2] &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">mean</span><span class="p">(</span><span class="n">random_test_F1s</span><span class="p">),</span> <span class="n">median</span><span class="p">(</span><span class="n">random_test_F1s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.403, 0.404)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="vary-recording-duration">
+<h2>Vary recording duration<a class="headerlink" href="#vary-recording-duration" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">durations</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">30</span><span class="n">seconds</span><span class="p">,</span> <span class="mi">1</span><span class="n">minute</span><span class="p">,</span> <span class="mi">2</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">4</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">10</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">20</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">30</span><span class="n">minutes</span><span class="p">,</span> <span class="mi">1</span><span class="n">hour</span><span class="p">]</span>
+<span class="n">VI_SNR</span> <span class="o">=</span> <span class="mi">40</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">duration</span> <span class="k">in</span> <span class="n">durations</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">5</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">VI_SNR</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s">"sim_and_test</span><span class="si">$</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span><span class="s">__sweep_row"</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">key</span> <span class="k">begin</span>
+            <span class="p">(;</span> <span class="n">sweep</span><span class="p">)</span> <span class="o">=</span> <span class="n">sim_and_test</span><span class="p">(;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+            <span class="n">F1max</span> <span class="o">=</span> <span class="n">maxF1</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+            <span class="p">(;</span> <span class="n">AUC</span><span class="p">)</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="p">(;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">F1max</span><span class="p">,</span> <span class="n">AUC</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+        <span class="c"># println("\n", row, "\n"^2)</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 10, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 10, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 10, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 10, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 10, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 30, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 30, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 30, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 30, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 30, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 60, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 60, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 60, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 60, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 60, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 120, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 120, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 120, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 120, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 120, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 240, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 240, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 240, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 240, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 240, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 600, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 600, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 600, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 600, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 600, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1200, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1200, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1200, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1200, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1200, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1800, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1800, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1800, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1800, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 1800, seed = 5)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 3600, seed = 1)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 3600, seed = 2)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 3600, seed = 3)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 3600, seed = 4)__sweep_row` from memory
+<span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Loading `sim_and_test(VI_SNR = 40, duration = 3600, seed = 5)__sweep_row` from memory
+  0.410372 seconds (44.53 k allocations: 2.983 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Running all this took:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="mf">6687.8</span> <span class="o">/</span> <span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>111
+</pre></div>
+</div>
+</div>
+</div>
+<p>Holy damn, discovered a bug.<br>
+(For 10second duration: exc and inh test instant, but uncon suspiciously slow).<br>
+Reason: in <code class="docutils literal notranslate"><span class="pre">get_trains_to_test</span></code> (from <code class="docutils literal notranslate"><span class="pre">lib/Nto1.jl</span></code>), <code class="docutils literal notranslate"><span class="pre">duration</span></code> is a global var.<br>
+[This is one discovered disadvantage of a script vs a module!! Name leakage vs encapsulation].</p>
+<p>ok, turned out this didn&#8217;t have an effect on the results. good.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df_duration</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duration</span> <span class="o">/</span> <span class="n">minutes</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>45&#215;4 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">35 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">duration</th><th style="text-align: left;">seed</th><th style="text-align: left;">F1max</th><th style="text-align: left;">AUC</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Float64" style="text-align: left;">Float64</th><th title="Int64" style="text-align: left;">Int64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">0.167</td><td style="text-align: right;">1</td><td style="text-align: right;">0.46</td><td style="text-align: right;">0.303</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">0.167</td><td style="text-align: right;">2</td><td style="text-align: right;">0.45</td><td style="text-align: right;">0.276</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">0.167</td><td style="text-align: right;">3</td><td style="text-align: right;">0.454</td><td style="text-align: right;">0.291</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">0.167</td><td style="text-align: right;">4</td><td style="text-align: right;">0.447</td><td style="text-align: right;">0.296</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">0.167</td><td style="text-align: right;">5</td><td style="text-align: right;">0.417</td><td style="text-align: right;">0.267</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">41</td><td style="text-align: right;">60</td><td style="text-align: right;">1</td><td style="text-align: right;">0.879</td><td style="text-align: right;">0.893</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">42</td><td style="text-align: right;">60</td><td style="text-align: right;">2</td><td style="text-align: right;">0.886</td><td style="text-align: right;">0.891</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">43</td><td style="text-align: right;">60</td><td style="text-align: right;">3</td><td style="text-align: right;">0.867</td><td style="text-align: right;">0.862</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">44</td><td style="text-align: right;">60</td><td style="text-align: right;">4</td><td style="text-align: right;">0.825</td><td style="text-align: right;">0.843</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">45</td><td style="text-align: right;">60</td><td style="text-align: right;">5</td><td style="text-align: right;">0.856</td><td style="text-align: right;">0.87</td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">kw</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s">"Recording duration"</span><span class="p">,</span>
+    <span class="n">xscale</span> <span class="o">=</span> <span class="s">"log"</span><span class="p">,</span>
+    <span class="n">xticklabels</span> <span class="o">=</span> <span class="p">[</span><span class="s">"6 sec"</span><span class="p">,</span> <span class="s">"1 min"</span><span class="p">,</span> <span class="s">"10 min"</span><span class="p">,</span> <span class="s">"1 hr 40"</span><span class="p">],</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_F1</span><span class="p">(</span><span class="n">df_duration</span><span class="p">,</span> <span class="ss">:duration</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
+<span class="c"># savefig_phd("STA_perf_diff_dur_F1")</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_75_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_75_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_AUC</span><span class="p">(</span><span class="n">df_duration</span><span class="p">,</span> <span class="ss">:duration</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">,</span> <span class="n">chance_level_loc</span><span class="o">=</span><span class="ss">:right</span><span class="p">);</span>
+<span class="c"># savefig_phd("STA_perf_diff_dur_auc")</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_76_0.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_76_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">xlabel</span> <span class="o">=</span> <span class="p">(</span><span class="s">"Recording duration"</span><span class="p">,</span> <span class="ss">:fontweight</span><span class="o">=&gt;</span><span class="s">"bold"</span><span class="p">)</span>
+<span class="n">xscale</span> <span class="o">=</span> <span class="s">"log"</span>
+<span class="n">xticklabels</span> <span class="o">=</span> <span class="p">[</span><span class="s">"6 sec"</span><span class="p">,</span> <span class="s">"1 min"</span><span class="p">,</span> <span class="s">"10 min"</span><span class="p">,</span> <span class="s">"1 hr 40"</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">ax_btm</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">mtw</span><span class="p">,</span><span class="mf">1.1</span><span class="n">mtw</span><span class="p">),</span> <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mf">1.2</span><span class="p">])</span>
+<span class="n">plot_F1</span><span class="p">(</span><span class="n">df_duration</span><span class="p">,</span> <span class="ss">:duration</span><span class="p">;</span> <span class="n">xscale</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mf">0.4</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_top</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">ax_top</span><span class="p">,</span> <span class="s">"bottom"</span><span class="p">)</span>
+<span class="n">plot_AUC</span><span class="p">(</span><span class="n">df_duration</span><span class="p">,</span> <span class="ss">:duration</span><span class="p">;</span>
+         <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax_btm</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xscale</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">xticklabels</span><span class="p">,</span> <span class="n">chance_level_loc</span><span class="o">=</span><span class="ss">:right</span><span class="p">);</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s">"Connection detection performance of STA test"</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">0.5155</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">1.7</span><span class="p">);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"STA_perf_diff_rec_duration"</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/STA_perf_diff_rec_duration.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_77_1.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_77_1.png">
+</div>
+</div>
+</div>
+<div class="section" id="computation-time">
+<h2>Computation time<a class="headerlink" href="#computation-time" title="Permalink to this headline">&#182;</a></h2>
+<p>Read out from cache files on disk.</p>
 </div>
 </div>
 
