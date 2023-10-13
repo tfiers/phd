@@ -366,4 +366,32 @@ savefig_phd("STA_perf_diff_rec_duration");
 
 # Read out from cache files on disk.
 
+VI_SNR = 40;
+rows = []
+@time for duration in durations
+    for seed in 1:5
+        key = "sim_and_test" * string((; duration, VI_SNR, seed)) * "__rows"
+        runtime = get_runtime(key)
+        row = (; duration, seed, runtime)
+        push!(rows, row)
+        # println("\n", row, "\n"^2)
+    end
+end;
+
+df = df_runtimes = DataFrame(rows)
+df.duration .= df.duration / minutes
+df.runtime .= df.runtime / minutes
+df
+
+ax = newax()
+x1 = df.duration[1]
+x2 = df.duration[end]
+ax.plot([x1,x2], [x1,x2], "--", c="lightgray");
+plot_dots_and_means(
+    df_runtimes, :duration, :runtime; xscale="log", yscale="log", ax,
+    xticklabels,
+    xlabel = "Simulated duration (minutes)",
+    ylabel = "Runtime (minutes)",
+);
+
 
