@@ -102,4 +102,23 @@ function plot_dots_and_means(
     return ax
 end
 
+(; ScaledTranslation) = mpl.transforms
+
+inch(pt) = pt / 72
+
+function axtitle(
+    ax,
+    title,
+    subtitle = nothing;
+    dx_s=0, dy_s=4,   # Offset of subtitle from axes, in points
+    dx_t=0, dy_t=1.3, # Offset of title from subtitle, in fractions of subtitle's bbox
+    kw...
+)
+    offset = ScaledTranslation(inch(dx_s), inch(dy_s), ax.figure.dpi_scale_trans)
+    transform = ax.transAxes + offset
+    st = ax.text(; x=0, y=1, s=subtitle, transform, va="bottom", fontweight="normal")
+    tt = ax.annotate(title; xy=(dx_t, dy_t), xycoords=st, va="bottom", fontweight="bold")
+    return (tt, st)
+end
+
 nothing;
