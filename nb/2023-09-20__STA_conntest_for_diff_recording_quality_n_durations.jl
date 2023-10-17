@@ -409,11 +409,13 @@ plot_dots_and_means(
     ylabel = "Compute time (minutes)",
 )
 xy(i) = (dfm.sim_duration[i], dfm.runtime[i])
-ax.annotate(xy=xy(1), text=fmt(xy(1)), va="top", textcoords="offset points", xytext=(3, -3))
-ax.annotate(xy=xy(6), text=fmt(xy(6)), va="top", textcoords="offset points", xytext=(3, -3))
-ax.annotate(xy=xy(9), text=fmt(xy(9)), va="top", textcoords="offset points", xytext=(3, -3))
+ax.annotate(xy=xy(1), text=fmt(xy(1)), va="top", textcoords="offset points", xytext=(3, -3), color="gray")
+ax.annotate(xy=xy(6), text=fmt(xy(6)), va="top", textcoords="offset points", xytext=(3, -3), color="gray")
+ax.annotate(xy=xy(9), text=fmt(xy(9)), va="top", textcoords="offset points", xytext=(3, -3), color="gray")
 axtitle(ax,
     "Time taken to test 300 inputs using STAs",
     "with 100 shuffle-STAs per tested input",
 )
 savefig_phd("STA_compute_time")
+
+
