@@ -118,19 +118,6 @@ plot_ceil_n_clip_STAs();
 # ---
 # Together now.
 
-fig, ax = plt.subplots()
-ax.plot([1,2])
-ax.set_xlabel("blah");
-
-ax.get_xlabel()
-
-
-
-nt=(a=3,)
-Dict(pairs(nt))
-
-
-
 fig, axs = plt.subplots(ncols=2, figsize=(cw, 0.32cw))
 plot_ceil_n_clip_sigs(axs[0], xlabel="Simulation time")
 plot_ceil_n_clip_STAs(axs[1], legend_=false)
@@ -483,6 +470,8 @@ savefig_phd("perfmeasures_threshold_PPVs_EI");
 #
 # (repeat of `2023-08-30__STA_examples`, but now with clipped spikes, i.e. cleaner; and what we -- in the end -- actually use for the conntests :)).
 
+ConnectionTests.set_STA_length(100ms);
+
 # +
 V = V_ceil_n_clip
 
@@ -491,7 +480,7 @@ inh_inputs = highest_firing(inhibitory_inputs(sim))
 
 mid = length(exc_inputs) ÷ 2
 
-plotSTA_(train; hylabel=nothing, xlim=[0,100], kw...) = begin
+plotSTA_(train; hylabel=nothing, xlim=[0,100], yunit_in=:every_ticklabel, kw...) = begin
     n = num_spikes(train)
     if n ≥ 1000
         n = string(round(Int, n / 1000)) * "k"
@@ -503,7 +492,7 @@ plotSTA_(train; hylabel=nothing, xlim=[0,100], kw...) = begin
     r = "$(lpad(r,2)) Hz"
     exc_or_inh = (train ∈ exc_inputs) ? "exc" : "inh"
     label = "$(rpad(r, 6)) | $(lpad(n,3)) spikes | $exc_or_inh"
-    plotSTA(calc_STA(V, train.times); label, hylabel, xlim, nbins_y=3, kw...)
+    plotSTA(calc_STA(V, train.times); label, hylabel, xlim, nbins_y=3, yunit_in, kw...)
 end;
 
 # +
@@ -513,33 +502,35 @@ addlegend(ax; kw...) = legend(
     ax, borderaxespad=0.7, prop=Dict("family"=>"monospace", "size"=>6); kw...)
 
 ax = axs[0,0]
-plotSTA_(exc_inputs[1]; ax, hylabel="… Using the fastest spiking input, …", xlabel=nothing, ylim=[-54.17, -54.09]);
+xkw = (xlabel=nothing, xunit_in=nothing)
+plotSTA_(exc_inputs[1]; ax, hylabel="… Using the fastest spiking input, …", xkw..., ylim=[-54.17, -54.09]);
+rm_ticks_and_spine(ax, "bottom")
 addlegend(ax)
 
 ax = axs[0,1]
-plotSTA_(exc_inputs[1];   ax, color=lighten(color_exc, 1.0), xlabel=nothing, hylabel="… and other fast spikers.")
-plotSTA_(exc_inputs[100]; ax, color=lighten(color_exc, 0.5), xlabel=nothing)
-plotSTA_(inh_inputs[1];   ax, color=lighten(color_inh, 1.0), xlabel=nothing)
-plotSTA_(inh_inputs[100]; ax, color=lighten(color_inh, 0.5), xlabel=nothing, ylim=[-54.22, -54.09])
+plotSTA_(exc_inputs[1];   ax, color=lighten(color_exc, 0.5), xkw..., hylabel="… and other fast spikers.")
+plotSTA_(exc_inputs[100]; ax, color=lighten(color_exc, 1.0), xkw...)
+plotSTA_(inh_inputs[1];   ax, color=lighten(color_inh, 0.5), xkw...)
+plotSTA_(inh_inputs[100]; ax, color=lighten(color_inh, 1.0), xkw..., ylim=[-54.22, -54.09])
 rm_ticks_and_spine(ax, "bottom")
 addlegend(ax, bbox_to_anchor=(1, 0.3), loc="upper right")
 deemph_(first(legend_label_texts(ax)))
 
 ax = axs[1,1]
-plotSTA_(exc_inputs[1]; ax, hylabel="… and slowest spiking input.")
-plotSTA_(exc_inputs[end]; ax, color=lighten(color_exc, 0.5))
+plotSTA_(exc_inputs[1]; ax, hylabel="… and slowest spiking input.", color=lighten(color_exc, 0.5))
+plotSTA_(exc_inputs[end]; ax, color=lighten(color_exc, 1.0))
 addlegend(ax)
 deemph_(first(legend_label_texts(ax)))
 
 ax = axs[1,0]
-plotSTA_(exc_inputs[1]; ax, hylabel="… and input with median spikerate.")
-plotSTA_(exc_inputs[mid]; ax, ylim=[-54.19, -54.06], color=lighten(color_exc, 0.5))
+plotSTA_(exc_inputs[1]; ax, hylabel="… and input with median spikerate.", color=lighten(color_exc, 0.5))
+plotSTA_(exc_inputs[mid]; ax, ylim=[-54.19, -54.06], color=lighten(color_exc, 1.0))
 addlegend(ax, loc="upper right")
 deemph_(first(legend_label_texts(ax)))
 
 plt.suptitle(L"Some spike-triggered averages (STAs) of membrane voltage $V$", size="medium")
 
-plt.tight_layout(h_pad=2);
+plt.tight_layout(h_pad=2.5, w_pad=2);
 
 savefig_phd("example_STAs")
 # -

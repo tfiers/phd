@@ -338,11 +338,10 @@ df = df_duration = DataFrame(rows)
 df.duration = df.duration / minutes
 df
 
-kw = (
-    xlabel = "Recording duration",
-    xscale = "log",
-    xticklabels = ["6 sec", "1 min", "10 min", "1 hr 40"],
-);
+xscale = "log"
+xlabel = "Recording duration"
+xticklabels = ["6 sec", "1 min", "10 min", "1 hr 40"]
+kw = (; xscale, xlabel, xticklabels);
 
 plot_F1(df_duration, :duration; kw...);
 # savefig_phd("STA_perf_diff_dur_F1")
@@ -378,20 +377,43 @@ rows = []
     end
 end;
 
+# +
 df = df_runtimes = DataFrame(rows)
-df.duration .= df.duration / minutes
+rename!(df, :duration => :sim_duration)
+df.sim_duration .= df.sim_duration / minutes
 df.runtime .= df.runtime / minutes
-df
+
+dfm = combine(groupby(df, :sim_duration), :runtime => mean => :runtime)
+
+# +
+using Printf
+
+fmt((x,y)::NTuple{2, Float64}) = fmt(fmt(x), fmt(y))
+fmt(x::String, y::String) = "($x → $y)"
+fmt(minutes::Float64) = (
+    minutes < 1   ?  str(60*minutes) * " sec"  :
+    minutes ≥ 60  ?  str(minutes/60) * " hr"   :
+                     str(minutes)    * " min"
+)
+str(num) = @sprintf "%.2g" num;
+# -
 
 ax = newax()
-x1 = df.duration[1]
-x2 = df.duration[end]
+x1 = df.sim_duration[1]
+x2 = df.sim_duration[end]
 ax.plot([x1,x2], [x1,x2], "--", c="lightgray");
 plot_dots_and_means(
-    df_runtimes, :duration, :runtime; xscale="log", yscale="log", ax,
+    df_runtimes, :sim_duration, :runtime; xscale="log", yscale="log", ax,
     xticklabels,
-    xlabel = "Simulated duration (minutes)",
-    ylabel = "Runtime (minutes)",
-);
-
-
+    xlabel = (xlabel, :fontweight => "bold"),
+    ylabel = "Compute time (minutes)",
+)
+xy(i) = (dfm.sim_duration[i], dfm.runtime[i])
+ax.annotate(xy=xy(1), text=fmt(xy(1)), va="top", textcoords="offset points", xytext=(3, -3))
+ax.annotate(xy=xy(6), text=fmt(xy(6)), va="top", textcoords="offset points", xytext=(3, -3))
+ax.annotate(xy=xy(9), text=fmt(xy(9)), va="top", textcoords="offset points", xytext=(3, -3))
+axtitle(ax,
+    "Time taken to test 300 inputs using STAs",
+    "with 100 shuffle-STAs per tested input",
+)
+savefig_phd("STA_compute_time")
