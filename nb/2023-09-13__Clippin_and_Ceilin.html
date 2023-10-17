@@ -854,8 +854,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.4 s)
-using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004; (0.7 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.3 s)
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004; (0.6 s)
 using StatsBase &#8230; &#10004; (0.3 s)
 </pre></div>
 </div>
@@ -871,7 +871,7 @@ using StatsBase &#8230; &#10004; (0.3 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3.386534 seconds (2.14 M allocations: 1.026 GiB, 2.64% gc time, 45.90% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.988527 seconds (2.10 M allocations: 1.024 GiB, 2.50% gc time, 44.07% compilation time)
 </pre></div>
 </div>
 </div>
@@ -912,12 +912,12 @@ using StatsBase &#8230; &#10004; (0.3 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.6 s)
-import PythonPlot &#8230; &#10004; (6.7 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.2 s)
+import PythonPlot &#8230; &#10004; (5.9 s)
 using Sciplotlib &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Sciplotlib [88be95e5-9550-4d5f-a203-92a5acbc3118]
-&#10004; (5.2 s)
+&#10004; (3.9 s)
 using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling PhDPlots [8882fb83-7a18-4ae0-b3ef-a58e1f4042a1]
-&#10004; (2.8 s)
+&#10004; (2.4 s)
 </pre></div>
 </div>
 </div>
@@ -1092,44 +1092,6 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <p>Together now.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">"blah"</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_25_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_25_0.png">
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python: 'blah'
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">nt</span><span class="o">=</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,)</span>
-<span class="kt">Dict</span><span class="p">(</span><span class="n">pairs</span><span class="p">(</span><span class="n">nt</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dict{Symbol, Int64} with 1 entry:
-  :a =&gt; 3
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">cw</span><span class="p">,</span> <span class="mf">0.32</span><span class="n">cw</span><span class="p">))</span>
 <span class="n">plot_ceil_n_clip_sigs</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Simulation time"</span><span class="p">)</span>
 <span class="n">plot_ceil_n_clip_STAs</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">legend_</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
@@ -1142,7 +1104,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/ceil_n_clip__sigs_and_STAs.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_30_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_30_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_25_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_25_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1159,7 +1121,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/ceil_n_clip__sigs_and_STAs.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_31_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_31_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_26_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_26_1.png">
 </div>
 </div>
 </div>
@@ -1320,7 +1282,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/ceil_n_clip_AUCs.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_44_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_44_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_39_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_39_1.png">
 </div>
 </div>
 </div>
@@ -1350,7 +1312,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_48_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_48_0.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_43_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_43_0.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1369,7 +1331,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perfmeasures_&#952;_TPR_ROC.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_49_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_49_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_44_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_44_1.png">
 </div>
 </div>
 </div>
@@ -1407,7 +1369,7 @@ using PhDPlots &#8230; <span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perfmeasures_Fscores.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_51_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_51_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_46_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_46_1.png">
 </div>
 </div>
 <div class="cell docutils container">
@@ -1526,7 +1488,7 @@ P &amp;= \frac{R F}{(1 + &#946;^2) R - &#946;^2 F}
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/PR_curves_iso_F&#946;.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_61_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_61_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_56_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_56_1.png">
 </div>
 </div>
 <p>Both together now.</p>
@@ -1544,7 +1506,7 @@ P &amp;= \frac{R F}{(1 + &#946;^2) R - &#946;^2 F}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_63_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_63_0.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_58_0.png" src="../_images/2023-09-13__Clippin_and_Ceilin_58_0.png">
 </div>
 </div>
 <p>Eh, too much to digest at once. Better separate.</p>
@@ -1617,7 +1579,7 @@ $$</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perfmeasures_PR_curves_EI.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_68_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_68_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_63_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_63_1.png">
 </div>
 </div>
 </div>
@@ -1666,13 +1628,20 @@ $$</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perfmeasures_threshold_PPVs_EI.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_72_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_72_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_67_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_67_1.png">
 </div>
 </div>
 </div>
 <div class="section" id="sta-examples-plot">
 <h2>STA examples plot<a class="headerlink" href="#sta-examples-plot" title="Permalink to this headline">&#182;</a></h2>
 <p>(repeat of <code class="docutils literal notranslate"><span class="pre">2023-08-30__STA_examples</span></code>, but now with clipped spikes, i.e. cleaner; and what we &#8211; in the end &#8211; actually use for the conntests :)).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ConnectionTests</span><span class="o">.</span><span class="n">set_STA_length</span><span class="p">(</span><span class="mi">100</span><span class="n">ms</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">V_ceil_n_clip</span>
@@ -1682,7 +1651,7 @@ $$</p>
 
 <span class="n">mid</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">)</span> <span class="o">&#247;</span> <span class="mi">2</span>
 
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">train</span><span class="p">;</span> <span class="n">hylabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">train</span><span class="p">;</span> <span class="n">hylabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span> <span class="n">yunit_in</span><span class="o">=</span><span class="ss">:every_ticklabel</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">num_spikes</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&#8805;</span> <span class="mi">1000</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="o">*</span> <span class="s">"k"</span>
@@ -1694,7 +1663,7 @@ $$</p>
     <span class="n">r</span> <span class="o">=</span> <span class="s">"</span><span class="si">$</span><span class="p">(</span><span class="n">lpad</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="s"> Hz"</span>
     <span class="n">exc_or_inh</span> <span class="o">=</span> <span class="p">(</span><span class="n">train</span> <span class="o">&#8712;</span> <span class="n">exc_inputs</span><span class="p">)</span> <span class="o">?</span> <span class="s">"exc"</span> <span class="o">:</span> <span class="s">"inh"</span>
     <span class="n">label</span> <span class="o">=</span> <span class="s">"</span><span class="si">$</span><span class="p">(</span><span class="n">rpad</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span><span class="s"> | </span><span class="si">$</span><span class="p">(</span><span class="n">lpad</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="s"> spikes | </span><span class="si">$exc_or_inh</span><span class="s">"</span>
-    <span class="n">plotSTA</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">);</span> <span class="n">label</span><span class="p">,</span> <span class="n">hylabel</span><span class="p">,</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">nbins_y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">plotSTA</span><span class="p">(</span><span class="n">calc_STA</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">);</span> <span class="n">label</span><span class="p">,</span> <span class="n">hylabel</span><span class="p">,</span> <span class="n">xlim</span><span class="p">,</span> <span class="n">nbins_y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">yunit_in</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 </div>
@@ -1708,33 +1677,35 @@ $$</p>
     <span class="n">ax</span><span class="p">,</span> <span class="n">borderaxespad</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="kt">Dict</span><span class="p">(</span><span class="s">"family"</span><span class="o">=&gt;</span><span class="s">"monospace"</span><span class="p">,</span> <span class="s">"size"</span><span class="o">=&gt;</span><span class="mi">6</span><span class="p">);</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; Using the fastest spiking input, &#8230;"</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.17</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.09</span><span class="p">]);</span>
+<span class="n">xkw</span> <span class="o">=</span> <span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">xunit_in</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; Using the fastest spiking input, &#8230;"</span><span class="p">,</span> <span class="n">xkw</span><span class="o">...</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.17</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.09</span><span class="p">]);</span>
+<span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"bottom"</span><span class="p">)</span>
 <span class="n">addlegend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>   <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and other fast spikers."</span><span class="p">)</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">inh_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>   <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_inh</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">inh_inputs</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_inh</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.09</span><span class="p">])</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>   <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">xkw</span><span class="o">...</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and other fast spikers."</span><span class="p">)</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">xkw</span><span class="o">...</span><span class="p">)</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">inh_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>   <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_inh</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">xkw</span><span class="o">...</span><span class="p">)</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">inh_inputs</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_inh</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">xkw</span><span class="o">...</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.22</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.09</span><span class="p">])</span>
 <span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"bottom"</span><span class="p">)</span>
 <span class="n">addlegend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="s">"upper right"</span><span class="p">)</span>
 <span class="n">deemph_</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">legend_label_texts</span><span class="p">(</span><span class="n">ax</span><span class="p">)))</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and slowest spiking input."</span><span class="p">)</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="k">end</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and slowest spiking input."</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="k">end</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">addlegend</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">deemph_</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">legend_label_texts</span><span class="p">(</span><span class="n">ax</span><span class="p">)))</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and input with median spikerate."</span><span class="p">)</span>
-<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="n">mid</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.19</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.06</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"&#8230; and input with median spikerate."</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="n">plotSTA_</span><span class="p">(</span><span class="n">exc_inputs</span><span class="p">[</span><span class="n">mid</span><span class="p">];</span> <span class="n">ax</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">54.19</span><span class="p">,</span> <span class="o">-</span><span class="mf">54.06</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">lighten</span><span class="p">(</span><span class="n">color_exc</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="n">addlegend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"upper right"</span><span class="p">)</span>
 <span class="n">deemph_</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">legend_label_texts</span><span class="p">(</span><span class="n">ax</span><span class="p">)))</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">L</span><span class="s">"Some spike-triggered averages (STAs) of membrane voltage </span><span class="si">$V</span><span class="s">$"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s">"medium"</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">h_pad</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mi">2</span><span class="p">);</span>
 
 <span class="n">savefig_phd</span><span class="p">(</span><span class="s">"example_STAs"</span><span class="p">)</span>
 </pre></div>
@@ -1744,7 +1715,7 @@ $$</p>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/example_STAs.pdf`
 </pre></div>
 </div>
-<img alt="../_images/2023-09-13__Clippin_and_Ceilin_75_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_75_1.png">
+<img alt="../_images/2023-09-13__Clippin_and_Ceilin_71_1.png" src="../_images/2023-09-13__Clippin_and_Ceilin_71_1.png">
 </div>
 </div>
 </div>
