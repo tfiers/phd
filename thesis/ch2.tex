@@ -480,7 +480,14 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
 \FloatBarrier
 \section{Spike ceiling}
 
-% add Izh code listing snippet
+\lstinputlisting[
+    language=Matlab,
+    linebackgroundcolor={%
+        \ifnum\value{lstnumber}=5\color{yellow!30}\else
+        \ifnum\value{lstnumber}=6\color{yellow!30}\else
+        \color{codebg}\fi\fi
+    }
+]{includes/izh_code.m}
 
 \begin{figure}
     \begin{sidecaption}

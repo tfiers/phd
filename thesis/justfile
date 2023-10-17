@@ -1,2 +1,6 @@
 live-build:
 	latexmk -pvc -pdf main.tex
+
+clean:
+    latexmk -c
+    rm -f pdflatex*.fls

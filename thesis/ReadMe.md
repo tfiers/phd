@@ -12,7 +12,7 @@ wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 [2]: https://github.com/rstudio/tinytex-releases
 
 Then install these extra packages in addition to the included ones: \
-`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo`
+`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo listings lstaddons`
 
 (In git bash for Windows: `tlmgr.bat`, instead).
 
@@ -27,3 +27,7 @@ On font-related errors, running `updmap` might help.
 To fix internal links to sidecaptions not working (and instead sending you to top of document), see https://gitlab.com/axelsommerfeldt/caption/-/issues/175#note_1549762142
 I.e. I manually replaced `C:\TinyTeX\texmf-dist\tex\latex\caption\caption-memoir.sto`
 with https://gitlab.com/axelsommerfeldt/caption/-/blob/eb364ba/tex/caption-memoir.sto
+
+Another manual patch:
+- Replace three `&` by `:` in `C:\TinyTeX\texmf-dist\tex\latex\lstaddons\lstlinebgrd.sty`.
+  (Thanks [this comment](https://tex.stackexchange.com/questions/451532/recent-issues-with-lstlinebgrd-package-with-listings-after-the-latters-updates#comment1281207_451538))
