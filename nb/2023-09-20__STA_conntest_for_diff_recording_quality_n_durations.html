@@ -769,6 +769,11 @@ const thebe_selector_output = ".output, .cell_output"
    Computation time
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-time-detail">
+   Compute time detail
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -832,6 +837,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#computation-time">
    Computation time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-time-detail">
+   Compute time detail
   </a>
  </li>
 </ul>
@@ -1798,12 +1808,12 @@ Reason: in <code class="docutils literal notranslate"><span class="pre">get_trai
     <span class="n">ylabel</span> <span class="o">=</span> <span class="s">"Compute time (minutes)"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">xy</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">dfm</span><span class="o">.</span><span class="n">sim_duration</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dfm</span><span class="o">.</span><span class="n">runtime</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">6</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">9</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">6</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">(</span><span class="mi">9</span><span class="p">),</span> <span class="n">text</span><span class="o">=</span><span class="n">fmt</span><span class="p">(</span><span class="n">xy</span><span class="p">(</span><span class="mi">9</span><span class="p">)),</span> <span class="n">va</span><span class="o">=</span><span class="s">"top"</span><span class="p">,</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">"offset points"</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s">"gray"</span><span class="p">)</span>
 <span class="n">axtitle</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span>
-    <span class="s">"Time taken to test 300 inputs using STAs"</span><span class="p">,</span>
-    <span class="s">"with 100 shuffle-STAs per tested input"</span><span class="p">,</span>
+    <span class="s">"Time taken to test 300 connections using STAs"</span><span class="p">,</span>
+    <span class="s">"with 100 shuffle-STAs per tested connection"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">savefig_phd</span><span class="p">(</span><span class="s">"STA_compute_time"</span><span class="p">)</span>
 </pre></div>
@@ -1816,6 +1826,14 @@ Reason: in <code class="docutils literal notranslate"><span class="pre">get_trai
 <img alt="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_83_1.png" src="../_images/2023-09-20__STA_conntest_for_diff_recording_quality_n_durations_83_1.png">
 </div>
 </div>
+</div>
+<div class="section" id="compute-time-detail">
+<h2>Compute time detail<a class="headerlink" href="#compute-time-detail" title="Permalink to this headline">&#182;</a></h2>
+<ol class="simple">
+<li><p>How long does one tested conn take (101 STAs).</p></li>
+<li><p>How long does one calc_STA take.</p></li>
+</ol>
+<p>And where is this time spent (profiling).</p>
 </div>
 </div>
 
