@@ -171,7 +171,7 @@ const SimData = NamedTuple
 
 
 function ceil_spikes!(V, spiketimes, V_ceil = Vₛ)
-    i = round.(Int, spiketimes / Δt)
+    i = round.(Int, spiketimes / Δt) .+ 1  # t=0 is at i=1 (Julia indexing).
     V[i] .= V_ceil
     return V
 end

@@ -480,18 +480,30 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
 \FloatBarrier
 \section{Spike ceiling}
 
+Our neuron model  (\cref{sec:model-summary}) consists of (1) continuous differential equations, and (2) a discontinuous, instantaneous jump (namely whenever $V$ crosses the spike-definition threshold $θ$).
+Because we simulate our model using a discrete and finite timestep, this discontinuity introduces variability in the height of our spikes: the simulated voltage will never exactly equal the threshold $θ$ in a given timestep, but will be either somewhere below it (where it will become the simulated spike height), or above it (in which case a spike is defined and the voltage is reset).
+This variability, or jitter, in the height of spikes can be seen in \cref{fig:ceil_spikes} (orange trace).
+
+Real neurons generally do not show such variability: their spike heights are quite consistent (remarkably so).
+For realism
+
+% so, We ceil our spiketimes.
+
 \lstinputlisting[
     language=Matlab,
     linebackgroundcolor={%
+        \ifnum\value{lstnumber}=4\color{yellow!30}\else
         \ifnum\value{lstnumber}=5\color{yellow!30}\else
         \ifnum\value{lstnumber}=6\color{yellow!30}\else
-        \color{codebg}\fi\fi
+        \color{codebg}\fi\fi\fi
     }
 ]{includes/izh_code.m}
 
 \begin{figure}
     \begin{sidecaption}
-        {}
+        {
+            Source: \nburl{2023-09-05__ceil_spikes}.
+        }
         [fig:ceil_spikes]
         \includegraphics[w=1]{ceil_spikes}
     \end{sidecaption}

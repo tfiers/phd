@@ -31,21 +31,21 @@ include("lib/plot.jl")
 
 # +
 function ceilplot(; tlim, marker=nothing, ax, kw...)
-    plotsig(sim_ceil.V / mV, tlim, ms, label="With ceiled spikes"; ax, marker, xlim=tlim, kw...);
-    plotsig(sim.V / mV, tlim, ms, label="Unmodified sim"; ax, marker, xlim=tlim, kw...);
-    # legend(ax, reorder=[1=>2]);
+    xkw = (xlabel=nothing, xunit_in=:last_ticklabel, ylim=[-80, 60])
+    plotsig(sim_ceil.V / mV, tlim, ms, label="With ceiled spikes"; ax, marker, xlim=tlim, xkw..., kw...);
+    plotsig(sim.V / mV, tlim, ms, label="Unmodified sim"; ax, marker, xlim=tlim, xkw..., kw...);
 end
 
-fig, axs = plt.subplots(ncols=2, figsize=(1.2*mtw, 0.4*mtw), sharey=true)
+fig, axs = plt.subplots(ncols=2, figsize=(1.2*mtw, 0.45*mtw))
 ceilplot(tlim = [0, 1000], ax=axs[0], hylabel="Membrane voltage (mV)");
-ceilplot(tlim = [50.9, 52.2], marker=".", ax=axs[1], hylabel=L"[zoomed in on $1^{\mathrm{st}}$ spike]");
-axis = axs[1].xaxis
-t = mpl.ticker
-axis.set_minor_locator(t.MultipleLocator(0.1))
+ceilplot(tlim = [50.9, 52.5], marker=".", ax=axs[1], hylabel=L"[zoomed in on $1^{\mathrm{st}}$ spike]",
+         xticklocs=[51, 51.5, 52, 52.5]);
+# deemph_middle_ticks(axs[0])
+# t = mpl.ticker
+# axis = axs[1].xaxis
+# axis.set_minor_locator(t.MultipleLocator(0.1))
 legend(axs[1], reverse=true, fontsize=7.3, loc="center right")
-# rm_ticks_and_spine(axs[1], "left")
-# l = axs[0].get_lines()
-# plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="lower center", bbox_to_anchor=(0.5, 1))
+rm_ticks_and_spine(axs[1], "left")
 plt.tight_layout();
 # -
 
