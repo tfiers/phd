@@ -746,9 +746,15 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.3 s)
-using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004; (0.6 s)
-using StatsBase &#8230; &#10004; (0.2 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.4 s)
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; 
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Cyan">[ Info: </span>Precompiling Nto1AdEx [368485ca-63bc-4029-854f-349d2205662c]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#10004; (2.4 s)
+using StatsBase &#8230; &#10004; (0.3 s)
 </pre></div>
 </div>
 </div>
@@ -763,7 +769,7 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5.465210 seconds (8.14 M allocations: 1.876 GiB, 19.70% gc time, 32.16% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4.771514 seconds (8.03 M allocations: 1.869 GiB, 19.80% gc time, 31.47% compilation time)
 </pre></div>
 </div>
 </div>
@@ -775,7 +781,7 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.668182 seconds (29.55 k allocations: 912.810 MiB, 7.87% gc time, 0.68% compilation time)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.675778 seconds (317.49 k allocations: 932.533 MiB, 5.47% gc time, 7.76% compilation time: 91% of which was recompilation)
 </pre></div>
 </div>
 </div>
@@ -787,9 +793,9 @@ using StatsBase &#8230; &#10004; (0.2 s)
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.9 s)
-import PythonPlot &#8230; &#10004; (5.2 s)
-using Sciplotlib &#8230; &#10004; (0.8 s)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (2.8 s)
+import PythonPlot &#8230; &#10004; (7.1 s)
+using Sciplotlib &#8230; &#10004; (0.7 s)
 using PhDPlots &#8230; &#10004;
 </pre></div>
 </div>
@@ -798,21 +804,21 @@ using PhDPlots &#8230; &#10004;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">ceilplot</span><span class="p">(;</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">plotsig</span><span class="p">(</span><span class="n">sim_ceil</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"With ceiled spikes"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">tlim</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
-    <span class="n">plotsig</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Unmodified sim"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">tlim</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
-    <span class="c"># legend(ax, reorder=[1=&gt;2]);</span>
+    <span class="n">xkw</span> <span class="o">=</span> <span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="nb">nothing</span><span class="p">,</span> <span class="n">xunit_in</span><span class="o">=</span><span class="ss">:last_ticklabel</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">sim_ceil</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"With ceiled spikes"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">tlim</span><span class="p">,</span> <span class="n">xkw</span><span class="o">...</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
+    <span class="n">plotsig</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span> <span class="o">/</span> <span class="n">mV</span><span class="p">,</span> <span class="n">tlim</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Unmodified sim"</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="n">tlim</span><span class="p">,</span> <span class="n">xkw</span><span class="o">...</span><span class="p">,</span> <span class="n">kw</span><span class="o">...</span><span class="p">);</span>
 <span class="k">end</span>
 
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="o">*</span><span class="n">mtw</span><span class="p">,</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">mtw</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="o">*</span><span class="n">mtw</span><span class="p">,</span> <span class="mf">0.45</span><span class="o">*</span><span class="n">mtw</span><span class="p">))</span>
 <span class="n">ceilplot</span><span class="p">(</span><span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hylabel</span><span class="o">=</span><span class="s">"Membrane voltage (mV)"</span><span class="p">);</span>
-<span class="n">ceilplot</span><span class="p">(</span><span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50.9</span><span class="p">,</span> <span class="mf">52.2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">"."</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hylabel</span><span class="o">=</span><span class="sa">L</span><span class="s">"[zoomed in on $1^{\mathrm{st}}$ spike]"</span><span class="p">);</span>
-<span class="n">axis</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span>
-<span class="n">axis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">MultipleLocator</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">ceilplot</span><span class="p">(</span><span class="n">tlim</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50.9</span><span class="p">,</span> <span class="mf">52.5</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s">"."</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hylabel</span><span class="o">=</span><span class="sa">L</span><span class="s">"[zoomed in on $1^{\mathrm{st}}$ spike]"</span><span class="p">,</span>
+         <span class="n">xticklocs</span><span class="o">=</span><span class="p">[</span><span class="mi">51</span><span class="p">,</span> <span class="mf">51.5</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mf">52.5</span><span class="p">]);</span>
+<span class="c"># deemph_middle_ticks(axs[0])</span>
+<span class="c"># t = mpl.ticker</span>
+<span class="c"># axis = axs[1].xaxis</span>
+<span class="c"># axis.set_minor_locator(t.MultipleLocator(0.1))</span>
 <span class="n">legend</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="nb">true</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.3</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s">"center right"</span><span class="p">)</span>
-<span class="c"># rm_ticks_and_spine(axs[1], "left")</span>
-<span class="c"># l = axs[0].get_lines()</span>
-<span class="c"># plt.figlegend(handles=[l[1], l[0]], ncols=2, loc="lower center", bbox_to_anchor=(0.5, 1))</span>
+<span class="n">rm_ticks_and_spine</span><span class="p">(</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s">"left"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
 </pre></div>
 </div>
