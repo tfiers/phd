@@ -480,16 +480,33 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
 \FloatBarrier
 \section{Spike ceiling}
 
-Our neuron model  (\cref{sec:model-summary}) consists of (1) continuous differential equations, and (2) a discontinuous, instantaneous jump (namely whenever $V$ crosses the spike-definition threshold $θ$).
+Our neuron model  (\cref{sec:model-summary}) consists of 1) a set of continuous differential equations, and 2) a discontinuous, instantaneous jump (namely whenever the membrane voltage $V$ crosses the spike-definition threshold $θ$).
 Because we simulate our model using a discrete and finite timestep, this discontinuity introduces variability in the height of our spikes: the simulated voltage will never exactly equal the threshold $θ$ in a given timestep, but will be either somewhere below it (where it will become the simulated spike height), or above it (in which case a spike is defined and the voltage is reset).
 This variability, or jitter, in the height of spikes can be seen in \cref{fig:ceil_spikes} (orange trace).
 
-Real neurons generally do not show such variability: their spike heights are quite consistent (remarkably so).
-For realism
+\begin{figure}
+    \begin{sidecaption}
+        {
+            Example voltage trace, before (orange) and after (blue) spikes are ceiled.\\
+            Source: \nburl{2023-09-05__ceil_spikes}.
+        }
+        [fig:ceil_spikes]
+        \includegraphics[w=1]{ceil_spikes}
+    \end{sidecaption}
+\end{figure}
 
-% so, We ceil our spiketimes.
+Real neurons generally do not show such variability: their spike heights are quite consistent (remarkably so). To make our simulated voltage traces look more realistic, we set the voltage to a fixed height at spike events. We call this modification "spike ceiling". It is illustrated in \cref{fig:ceil_spikes} (blue trace).
 
+This spike ceiling is a common technique. In Izhikevich's book for example, the same technique is applied (there it is called "spike padding"): see \cref{lst:izh_code}. There is one difference however. Izhikevich's code pads the spikes during the simulation, and overwrites the spike height of the previous timestep, before the threshold crossing. We ceil our spikes after the simulation has fully run. We ceil the voltage one timestep later than Izhikevich: after the threshold crossing; i.e. the timestep where the voltage was previously reset to $V_r$.
+This difference in approach is merely a personal aesthetic preference, and was not found to yield any difference in network inference performance in an informal test.
+
+The act of spike ceiling in itself does have an effect on network inference performance. This is shown later, in \cref{sec:ceil-n-clip}.
+
+\begin{minipage}{\linewidth}
+% minipage, to avoid breaking the code listing over two pages.
 \lstinputlisting[
+    label = {lst:izh_code},
+    caption = {Matlab code simulating the Izhikevich neuron. Lines pertinent to spike ceiling/padding are highlighted. Source: Eugene Izhikevich's 2007 book, \emph{Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting}, section 8.4.1 ("Simple Model of Choice"), p. 274},
     language=Matlab,
     linebackgroundcolor={%
         \ifnum\value{lstnumber}=4\color{yellow!30}\else
@@ -498,16 +515,8 @@ For realism
         \color{codebg}\fi\fi\fi
     }
 ]{includes/izh_code.m}
+\end{minipage}
 
-\begin{figure}
-    \begin{sidecaption}
-        {
-            Source: \nburl{2023-09-05__ceil_spikes}.
-        }
-        [fig:ceil_spikes]
-        \includegraphics[w=1]{ceil_spikes}
-    \end{sidecaption}
-\end{figure}
 
 
 \FloatBarrier
