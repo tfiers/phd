@@ -479,6 +479,7 @@ E.g. the linear expectation for $N = 10$ would be $Δg_\exc = 9.75$~nS ($= 15 \t
 
 \FloatBarrier
 \section{Spike ceiling}
+\label{sec:spike_ceiling}
 
 Our neuron model  (\cref{sec:model-summary}) consists of 1) a set of continuous differential equations, and 2) a discontinuous, instantaneous jump (namely whenever the membrane voltage $V$ crosses the spike-definition threshold $θ$).
 Because we simulate our model using a discrete and finite timestep, this discontinuity introduces variability in the height of our spikes: the simulated voltage will never exactly equal the threshold $θ$ in a given timestep, but will be either somewhere below it (where it will become the simulated spike height), or above it (in which case a spike is defined and the voltage is reset).

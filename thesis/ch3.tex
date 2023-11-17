@@ -52,23 +52,34 @@ To use this idea for an actual connection test, we look specifically at the heig
 \section{Ceiling and clipping}
 \label{sec:ceil-n-clip}
 
-
-
 \begin{figure}
     \includegraphics{ceil_n_clip__sigs_and_STAs}
-    \captionn
-        {}
-        { }
+    \caption
+        {Example voltage traces and corresponding STAs, where the only difference is the height of spikes. In blue, the unmodified simulated voltage trace. In orange, the same, but with ceiled spikes (as in \cref{sec:spike_ceiling}). In green, the same as orange, but with the spikes clipped again after the ceiling (as explained in this section).\\
+        Source: \nburl{2023-09-13__Clippin_and_Ceilin}.}
     \label{fig:ceil_n_clip__sigs_and_STAs}
 \end{figure}
 
+As explained in \cref{sec:spike_ceiling}, we modify our simulated voltage trace so that spikes have a consistent height. This modification has an effect on STAs, as is illustrated in \cref{fig:ceil_n_clip__sigs_and_STAs}: the blue trace is the signal without spike ceiling, the orange one with spike ceiling. Their corresponding STAs are shown on the right. Note that the orange STA (made with ceiled spikes) is much noisier than the blue STA (from the unmodified voltage trace).
+
+This suggests a relatively easy intervention to drasticaly de-noise STAs, and presumably increase their effectiveness for network inference: namely to remove the spikes from the signal.
+
+We tried this 'spike clipping' and it indeed drastically denoised the STA; see the green signal and STA in \cref{fig:ceil_n_clip__sigs_and_STAs}.
+We show that this decreased noise in the STA does indeed lead to an increase in network inference performance, by running a connection detection test without and with this spike clipping. The results are shown in \cref{fig:ceil_n_clip_AUCs}: detection performance increases from an AUC of 0.56 for the non-clipped voltage trace, to an AUC of 0.79 for the voltage trace with clipped spikes.
+
 \begin{figure}
     \begin{sidecaption}
-        {}
+        {
+            Connection detection performance for the three types of handling spikes shown in \cref{fig:ceil_n_clip__sigs_and_STAs}: not modifying them; ceiling them; and clipping them.\\
+            Source: \nburl{2023-09-13__Clippin_and_Ceilin}.
+        }
         [fig:ceil_n_clip_AUCs]
-        \includegraphics{ceil_n_clip_AUCs}
+        \includegraphics[w=1.03]{ceil_n_clip_AUCs}
     \end{sidecaption}
 \end{figure}
+% TODO: this graph is all wrong:
+%   - The colours are confusing (should be organized the other way round: colours are sig type, grouping is exc/inh/both).
+%   - The random chance line is much lower, as shown below.
 
 
 \FloatBarrier
