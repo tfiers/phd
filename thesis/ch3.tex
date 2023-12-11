@@ -80,6 +80,9 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 % TODO: this graph is all wrong:
 %   - The colours are confusing (should be organized the other way round: colours are sig type, grouping is exc/inh/both).
 %   - The random chance line is much lower, as shown below.
+%
+% Where to edit this?
+% can redo in new nb :)
 
 
 \FloatBarrier
@@ -143,6 +146,10 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 \FloatBarrier
 \section{Recording duration \& noise}
 
+In this section we look at how longer or less noisy voltage imaging recordings improve connection inference. In \cref{fig:STA_perf_diff_snr}, the signal-to-noise ratio (SNR) is varied, and in \cref{fig:STA_perf_diff_rec_duration}, we vary the recording duration.
+
+As might be expected, noisier and/or shorter recordings decrease detection performance, down to chance level in the limit (for noise almost as high as the spikes, and for recordings shorter than a minute). As to recording duration, interestingly, we do not yet see any flattening off of the detection performance curve for longer recording duratoins, up to the durations that we simulated (up to 1 hour).
+
 \begin{figure}
     \begin{sidecaption}
         {\textbf{Performance drops to chance level for noisier signals}.\\
@@ -167,6 +174,14 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
         \includegraphics{STA_perf_diff_rec_duration}
     \end{sidecaption}
 \end{figure}
+
+For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 30-minute recording with an SNR of 40\footnote{These are realistic values for voltage imaging, albeit on the optimistic side.},
+the maximum F1-score -- for the 200-highest firing inputs, and an additionally tested 100 unconnected spiketrains -- is about 70\%.
+
+I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 140 of them as being connected (±70\% recall). And of the spiketrains that we detect as inputs, 70\% are correctly classified. I.e. 30\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are unconnected, random spiketrains classified as real inputs (±70\% precision).
+
+The area under the ROC-curve (AUC) for this recording duration and quality is about 0.65 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}.)
+
 
 
 \FloatBarrier
