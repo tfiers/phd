@@ -88,7 +88,27 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 \FloatBarrier
 \section{Performance quantification}
 
-% \rule[0.5ex]{4.5in}{0.55pt}
+It is not easy to express in a single number how good a network inference algorithm is. Depending on what you find important as a user, different measures make more sense than others. This section looks at some measures to quantify the performance of our algorithms, and discusses the merits and disadvantages of each.
+
+All the algorithms that we look at eventually output a single number per tested neuron pair (A, B): "How strongly do I believe there is a connection A→B?". (And: "Is that connection excitatory or inhibitory?" -- the sign of the number). We will call this connected-ness number "$t$".
+
+To get actual predictions out of the algorithm,
+% ("excitatory connection", "inhibitory connection", "unconnected")
+we must apply a threshold $θ$ to these measures. If $|t| > θ$, we classify the pair as connected, and as unconnected otherwise. For the detected pairs, we classify them as excitatory if $t$ is positive, and inhibitory if it is negative.
+
+Note that we use the same threshold for both excitatory and inhibitory connections. We could in fact use a different threshold -- and we briefly look at this in \cref{fig:perfmeasures_threshold_PPVs_EI}) -- for simplicity, we apply the same threshold for both types of connection.
+
+Each threshold chosen yields a different tradeoff between recall and precision. At low thresholds, we can detect more connections ("true positives"); but we will also detect more non-inputs as being connected (false positives). This also lowers our precision.\
+Some definitions:
+\begin{itemize}
+    \item True positive rate (TPR), aka recall, sensitivity, and power: out of all true connections tested, how many did we correctly classify?
+    \item False positive rate (FPR): out of all distractors we added to our test (randomly generated spiketrains), how many did we wrongly classify as an actual input?
+    \item Precision, aka positive predictive value (PPV): out of all the neuron pairs that we classified as connected, how many are actually correct?
+\end{itemize}
+
+There are more measures that quantify the performance of a binary classifier at a given threshold than those three (such as negative predictive value, false discovery rate, false omission rate, ...).\footnotemark{}
+But recall, FPR, and precision are the most commonly used ones.
+\footnotetext{We do not actually perform binary classification: there are three classes (excitatory, inhibitory, unconnected). But it is not pure ternary (multiclass) classification either: we first classify as connected or not, and then (for the connected ones only), as excitatory or inhibitory. We could thus call it some kind of nested binary classification.}
 
 \begin{figure}
     \includegraphics{perfmeasures_θ_TPR_ROC}
@@ -97,6 +117,16 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
     {Source: \nburl{2023-09-13__Clippin_and_Ceilin}.}
     \label{fig:perfmeasures_θ_TPR_ROC}
 \end{figure}
+
+Note that true positive rate (TPR) and precision are similar, in that they both count correct classifications. (They both have the number of true positives in their numerator). But recall looks at the number of true positives from the point of view of the ground truth (how many did we find), and precision looks at it from the point of the experimenter (out of what this algorithm gives us, how much is correct?).
+
+False positive rate and precision are also similar, in that they both measure the number of false positives.\
+One advantage of using FPR over precision though, is that FPR does not depend on the number of distractors (unconnected spiketrains) that we add to our tests.\footnote{Besides that, the more distractors we test, the more accurate our estimate of the FPR will be.}
+Whereas we can arbitrarily increase precision by including less unconnected trains in our test -- up to the limit of 100\% precision, when we do not add any distractors and all tested trains are actually connected.
+
+In our tests, we choose the number of unconnected trains rather arbitrarily. (For example, when we test 100 excitatory and 100 inhibitory inputs, we also generate and test 100 unconnected spiketrains). A better way to choose this number of distractors might be to estimate what a realistic fraction of unconnected neurons would be in a typical voltage imaging experiment. Given some patch of brain tissue and one of the neurons in it, how many of the other recorded neurons in that patch will be connected to it? This is an interesting research question -- and it is likely that answers can be found in the literature -- but we do not explore it here.
+
+% \rule[0.5ex]{4.5in}{0.55pt}
 
 \begin{figure}
     \includegraphics{perfmeasures_Fscores}
@@ -178,9 +208,9 @@ As might be expected, noisier and/or shorter recordings decrease detection perfo
 For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 30-minute recording with an SNR of 40\footnote{These are realistic values for voltage imaging, albeit on the optimistic side.},
 the maximum F1-score -- for the 200-highest firing inputs, and an additionally tested 100 unconnected spiketrains -- is about 70\%.
 
-I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 140 of them as being connected (±70\% recall). And of the spiketrains that we detect as inputs, 70\% are correctly classified. I.e. 30\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are unconnected, random spiketrains classified as real inputs (±70\% precision).
+I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 140 of them as being connected (±70\% recall). And of the spiketrains that we detect as inputs, about 70\% are correctly classified  (±70\% precision). I.e. 30\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are unconnected, random spiketrains classified as real inputs.
 
-The area under the ROC-curve (AUC) for this recording duration and quality is about 0.65 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}.)
+The area under the TPR/FPR-curve (AUC) for this recording duration and quality is about 0.65 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}).
 
 
 
