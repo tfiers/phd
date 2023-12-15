@@ -1,36 +1,9 @@
 
-As shown in \cref{fig:diagram_Connectivity-Activity}, our idea for connection inference rests on the causal `presynaptic spike' → `postsynaptic voltage bump' link. I.e. we want to know for which neuron pairs a spike in one is reliably followed by such a bump in the other. The problem is that these bumps (the postsynaptic potentials or PSPs) are minute, and are easily drowned out by (1) other PSPs, (2) postsynaptic spikes, and (3) voltage imaging noise.
+As shown in \cref{fig:diagram_Connectivity-Activity}, our idea for connection inference rests on the causal link `presynaptic spike' → `postsynaptic voltage bump'. I.e. we want to know for which neuron pairs a spike in one is reliably followed by such a bump in the other. The problem is that these bumps (the postsynaptic potentials or PSPs) are minute, and are easily drowned out by (1) other PSPs, (2) postsynaptic spikes, and (3) voltage imaging noise.
 
-So, as is often done in neuroscience, we take the \emph{average} over many instantiations, so as to hopefully find a signal in the noise. Specifically, we take spike-triggered averages, or \textbf{STA}s, of neurons' voltage traces. If there is a connection from neuron `M' to neuron `N', then an STA of neuron N's voltage imaging signal, based on neuron M's spikes, would hopefully show the PSP.
+So, as is often done in neuroscience, we take the \emph{average} over many instantiations, so as to hopefully find a signal in the noise. Specifically, we take spike-triggered averages, or \textbf{STA}s, of neurons' voltage traces. If there is a connection from a neuron `M' to a neuron `N', then an STA of neuron N's voltage imaging signal, based on neuron M's spikes, would hopefully show the PSP.
 
-To use this idea for an actual connection test, we look specifically at the height of an STA, and compare it to a distribution of STA heights that we'd expect were the two neurons not connected. This is illustrated in \cref{fig:STA-height-suffle}.
-
-
-\begin{figure}
-    \vspace*{2em}
-    \hspace*{-1em}
-    \includegraphics[w=1.2]{diagram_Nto1.png}
-    \vspace*{-1.4em}
-    \captionn
-        {The `N-to-1' problem}
-        {\Left: A neuron $N$ (orange circle), and the spike trains of other neurons in the network (blue). Some of these other neurons impinge directly on $N$ (black arrows), while others are not (directly) connected (dashed gray lines). Given only neuron $N$'s voltage signal and the other neurons' spiketrains, we want to detect the direct inputs, while rejecting the not-directly-connected spiketrains.\newline
-        \Right: The simulated membrane voltage of the impinged-upon neuron (orange), and the same signal with Gaussian noise added, to simulate a voltage imaging signal (blue). Underneath the plot, one of the possible input spiketrains, time-aligned to the voltage signal.
-        This alignment is used later to extract spike-triggered windows from the voltage signal.}
-    \label{fig:diagram_Nto1}
-\end{figure}
-
-\begin{figure}
-    \hspace{-5em}
-    \includegraphics[w=1.7]{diagram_STA_test.png}
-    \captionn
-        {A simple connection test: STA height with shuffle control}
-        {The spikes of a possible input neuron are aligned to the voltage trace of the neuron of interest $N$, as in \cref{fig:diagram_Nto1}. For every such spike, a 100-ms long window is cut out of the voltage of $N$. The average of all these windows is called the spike-triggered average (STA).\newline
-        \Left: Two example STAs of neuron $N$'s membrane voltage: one for an actually connected input neuron, $M$ (top, orange); and one for a non-input neuron (below, gray).
-        Given an STA signal $x$, we will use its height $h = \max(x) - \min(x)$ (also known as `peak-to-peak' or `ptp') to test whether two neurons are connected. \newline
-        \Right: An STA of $N$'s membrane voltage using a shuffled version of $M$'s spike times (which is made by randomly permuting the inter-spike-intervals of $M$). This `shuffled STA height' provides a control for the STA height connection test statistic: "what do we expect the STA height to be if there is \emph{no} connection $M$→$N$".
-        By calculating different such shuffles, we obtain a null-distribution for the STA height test statistic. And by comparing the real STA height to this distribution, we can calculate a $p$-value. Here, the real STA is larger than all shuffle controls, of which there are 100. So $p < 0.01$, and at α = 0.05, we conclude there is indeed a connection $M$→$N$.}
-    \label{fig:STA-height-suffle}
-\end{figure}
+And indeed, when we construct a few such STAs, we do see something resembling a PSP bump: \cref{fig:example_STAs}. We also find that the higher the firing rate of the presynaptic neuron, the cleaner the PSP-like shape is. This is of course because there are more presynaptic spikes and thus more windows to average over, which decreases the noise on the result. Finally, we see that inhibitory inputs result in downwards bumps in their STA, and excitatory inputs in upwards bumps.
 
 \begin{figure}
     \hspace*{-3em}
@@ -46,6 +19,37 @@ To use this idea for an actual connection test, we look specifically at the heig
         }
     \label{fig:example_STAs}
 \end{figure}
+
+Note that in this chapter -- and the next one -- we only look at the so called N-to-1 case (\cref{fig:diagram_Nto1}), where we simulate the voltage of one neuron, impinged on by N independent Poisson spiketrains. This is done for simplicity; it is only in the "Networks" chapter later on that we look at full networks, were inputs might be correlated with one another.
+
+\begin{figure}
+    \vspace*{2em}
+    \hspace*{-1em}
+    \includegraphics[w=1.2]{diagram_Nto1.png}
+    \vspace*{-1.4em}
+    \captionn
+        {The `N-to-1' problem}
+        {\Left: A neuron $N$ (orange circle), and the spike trains of other neurons in the network (blue). Some of these other neurons impinge directly on $N$ (black arrows), while others are not (directly) connected (dashed gray lines). Given only neuron $N$'s voltage signal and the other neurons' spiketrains, we want to detect the direct inputs, while rejecting the not-directly-connected spiketrains.\newline
+        \Right: The simulated membrane voltage of the impinged-upon neuron (orange), and the same signal with Gaussian noise added, to simulate a voltage imaging signal (blue). Underneath the plot, one of the possible input spiketrains, time-aligned to the voltage signal.
+        This alignment is used later to extract spike-triggered windows from the voltage signal.}
+    \label{fig:diagram_Nto1}
+\end{figure}
+
+To use spike-triggered-averages as an actual connection test, we look specifically at the height of an STA, and compare it to a distribution of STA heights that we'd expect were the two neurons not connected. This is illustrated and explained in more detail in \cref{fig:STA-height-suffle}. This so called 'shuffle' test yields the proportion $p$ of how many shuffled (random) spiketrains yield an STA with a larger height than the real STA. In a following section (\nameref{sec:perf_quant}), we'll use this number (as $t = 1 - p$) to make predictions and compare them to the ground truth.
+
+\begin{figure}
+    \hspace{-5em}
+    \includegraphics[w=1.7]{diagram_STA_test.png}
+    \captionn
+        {A simple connection test: STA height with shuffle control}
+        {The spikes of a possible input neuron are aligned to the voltage trace of the neuron of interest $N$, as in \cref{fig:diagram_Nto1}. For every such spike, a 100-ms long window is cut out of the voltage of $N$. The average of all these windows is called the spike-triggered average (STA).\newline
+        \Left: Two example STAs of neuron $N$'s membrane voltage: one for an actually connected input neuron, $M$ (top, orange); and one for a non-input neuron (below, gray).
+        Given an STA signal $x$, we will use its height $h = \max(x) - \min(x)$ (also known as `peak-to-peak' or `ptp') to test whether two neurons are connected. \newline
+        \Right: An STA of $N$'s membrane voltage using a shuffled version of $M$'s spike times (which is made by randomly permuting the inter-spike-intervals of $M$). This `shuffled STA height' provides a control for the STA height connection test statistic: "what do we expect the STA height to be if there is \emph{no} connection $M$→$N$".
+        By calculating different such shuffles, we obtain a null-distribution for the STA height test statistic. And by comparing the real STA height to this distribution, we can calculate a $p$-value. Here, the real STA is larger than all shuffle controls, of which there are 100. So $p < 0.01$, and at α = 0.05, we conclude there is indeed a connection $M$→$N$.}
+    \label{fig:STA-height-suffle}
+\end{figure}
+
 
 
 \FloatBarrier
@@ -70,7 +74,8 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 \begin{figure}
     \begin{sidecaption}
         {
-            Connection detection performance for the three types of handling spikes shown in \cref{fig:ceil_n_clip__sigs_and_STAs}: not modifying them; ceiling them; and clipping them.\\
+            Connection detection performance for the three ways of handling spikes shown in \cref{fig:ceil_n_clip__sigs_and_STAs}: not modifying them; ceiling them; and clipping them.
+            The area-under-the-curve or AUC measure is explained in the next section.\\
             Source: \nburl{2023-09-13__Clippin_and_Ceilin}.
         }
         [fig:ceil_n_clip_AUCs]
@@ -87,38 +92,39 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 
 \FloatBarrier
 \section{Performance quantification}
+\label{sec:perf_quant}
 
 It is not easy to express in a single number how good a network inference algorithm is. Depending on what you find important as a user, different measures make more sense than others. This section looks at some measures to quantify the performance of our algorithms, and discusses the merits and disadvantages of each.
 
-All the algorithms that we look at eventually output a single number per tested neuron pair (A, B): "How strongly do I believe there is a connection A→B?". (And: "Is that connection excitatory or inhibitory?" -- the sign of the number). We will call this connected-ness number "$t$".
+All the algorithms that we look at in this and the following chapter eventually output a single number per tested neuron pair (A, B): "How strongly do I believe there is a connection A→B?". (And: "Is that connection excitatory or inhibitory?": the sign of the number). We will call this connected-ness number "$t$".
 
 To get actual predictions out of the algorithm,
 % ("excitatory connection", "inhibitory connection", "unconnected")
 we must apply a threshold $θ$ to these measures. If $|t| > θ$, we classify the pair as connected, and as unconnected otherwise. For the detected pairs, we classify them as excitatory if $t$ is positive, and inhibitory if it is negative.
 
-Note that we use the same threshold for both excitatory and inhibitory connections. We could in fact use a different threshold -- and we briefly look at this in \cref{fig:perfmeasures_threshold_PPVs_EI}) -- for simplicity, we apply the same threshold for both types of connection.
+Note that we use the same threshold for both excitatory and inhibitory connections. We could in fact use a different threshold -- and we briefly look at this in \cref{fig:perfmeasures_threshold_PPVs_EI}) -- but for simplicity, we apply the same threshold for both types of connection.
 
-Each threshold chosen yields a different tradeoff between recall and precision. At low thresholds, we can detect more connections ("true positives"); but we will also detect more non-inputs as being connected (false positives). This also lowers our precision.\
+Each threshold chosen yields a different tradeoff between recall and precision (\cref{fig:perfmeasures_θ_TPR_ROC}). At low thresholds, we can detect more connections ("true positives"); but we will also detect more non-inputs as being connected (false positives). This also lowers our precision.\\
 Some definitions:
 \begin{itemize}
     \item True positive rate (TPR), aka recall, sensitivity, and power: out of all true connections tested, how many did we correctly classify?
     \item False positive rate (FPR): out of all distractors we added to our test (randomly generated spiketrains), how many did we wrongly classify as an actual input?
-    \item Precision, aka positive predictive value (PPV): out of all the neuron pairs that we classified as connected, how many are actually correct?
+    \item Precision, aka positive predictive value (PPV): out of all the neuron pairs that we classified as connected, how many are actually connected?
 \end{itemize}
 
 There are more measures that quantify the performance of a binary classifier at a given threshold than those three (such as negative predictive value, false discovery rate, false omission rate, ...).\footnotemark{}
-But recall, FPR, and precision are the most commonly used ones.
+But recall, FPR, and precision are commonly used ones.
 \footnotetext{We do not actually perform binary classification: there are three classes (excitatory, inhibitory, unconnected). But it is not pure ternary (multiclass) classification either: we first classify as connected or not, and then (for the connected ones only), as excitatory or inhibitory. We could thus call it some kind of nested binary classification.}
 
 \begin{figure}
     \includegraphics{perfmeasures_θ_TPR_ROC}
-    \captionn
-    { }
-    {Source: \nburl{2023-09-13__Clippin_and_Ceilin}.}
+    \caption
+    {Lower detection thresholds increase both true and false positives. On the right, true positive rates are plotted against the false positive rate, to obtain the so called receiver operating characteric or ROC curve. As the FPR increases more or less linearly with the decrasing detection threshold, both graphs look very similar.
+    Source: \nburl{2023-09-13__Clippin_and_Ceilin}.}
     \label{fig:perfmeasures_θ_TPR_ROC}
 \end{figure}
 
-Note that true positive rate (TPR) and precision are similar, in that they both count correct classifications. (They both have the number of true positives in their numerator). But recall looks at the number of true positives from the point of view of the ground truth (how many did we find), and precision looks at it from the point of the experimenter (out of what this algorithm gives us, how much is correct?).
+Note that true positive rate (TPR) and precision are similar, in that they both count correct classifications. (They both have the number of true positives in their numerator). But recall (TPR) looks at the number of true positives from the point of view of the ground truth (how many did we find), and precision looks at it from the point of the experimenter (out of what this algorithm gives us, how much is correct?).
 
 False positive rate and precision are also similar, in that they both measure the number of false positives.\
 One advantage of using FPR over precision though, is that FPR does not depend on the number of distractors (unconnected spiketrains) that we add to our tests.\footnote{Besides that, the more distractors we test, the more accurate our estimate of the FPR will be.}
@@ -126,29 +132,36 @@ Whereas we can arbitrarily increase precision by including less unconnected trai
 
 In our tests, we choose the number of unconnected trains rather arbitrarily. (For example, when we test 100 excitatory and 100 inhibitory inputs, we also generate and test 100 unconnected spiketrains). A better way to choose this number of distractors might be to estimate what a realistic fraction of unconnected neurons would be in a typical voltage imaging experiment. Given some patch of brain tissue and one of the neurons in it, how many of the other recorded neurons in that patch will be connected to it? This is an interesting research question -- and it is likely that answers can be found in the literature -- but we do not explore it here.
 
+In \cref{fig:perfmeasures_θ_TPR_ROC}, we have looked at TPR and FPR, both as a function of the detection threshold and as a function of each other. In \cref{fig:perfmeasures_Fscores,fig:PR_curves_iso_Fβ,fig:perfmeasures_PR_curves_EI}, we look at TPR (recall) and precision, again as a function of the detection threshold and as a function of each other.
+
+Because recall and precision both increase for 'better' detectors, we might combine them into one measure. This is what the $F$-scores do: they are the harmonic mean of recall and precision, with recall and precision weighted differently depending on a parameter $β$. The $F_β$ score attaches $β$ times as much weight to precision $P$ as to recall $R$:
+\begin{equation}
+    F_β = \frac{(1+β^2) · P · R}{β^2 · P + R}
+\end{equation}
+For $β = 1$, precision and recall are weighted equally. The $F_1$-score is also the most widely used of the $F$-scores.
+
 % \rule[0.5ex]{4.5in}{0.55pt}
 
 \begin{figure}
     \includegraphics{perfmeasures_Fscores}
     \captionn
-        {}
-        {}
+        {Lower detection thresholds trade-off higher recall for lower precision}
+        {The $F_β$ scores interpolate between the two measures. $F_{→∞}$ is recall, $F_{→0}$ is precision. The black circles on the $F$-curves indicate their maxima. Different trade-offs between precision and recall (different $β$-values) thus dictate different optimal detection thresholds.}
     \label{fig:perfmeasures_Fscores}
 \end{figure}
 
+When we plot recall against precision, we get the so called PR-curves, shown in \cref{fig:PR_curves_iso_Fβ} for both excitatory and inhibitory inputs together, and in \cref{fig:perfmeasures_PR_curves_EI} for both types separately.
+% Different $F_β$-scores (for the same $β$-value) correspond to the same rational function but with different offsetts. Different $β$-values on the other hand correspond to different scalings of the rational function.
+
 \begin{figure}
     \includegraphics{PR_curves_iso_Fβ}
-    \captionn
-        { }
-        {}
+    \caption{Precision plotted against recall for the STA-test in the N=6500 inputs, 10-minute-recording experiment. Black dots indicate where three different $F_β$-scores reach their respective maximum values.}
     \label{fig:PR_curves_iso_Fβ}
 \end{figure}
 
 \begin{figure}
     \includegraphics{perfmeasures_PR_curves_EI}
-    \captionn
-        {}
-        {}
+    \caption{Same as in \cref{fig:PR_curves_iso_Fβ}, but with excitatory and inhibitory inputs analysed separately. Note that we can detect more inhibitory inputs than excitatory inputs for the same precision value (or for the same false positive rate, as shown in \cref{fig:perfmeasures_θ_TPR_ROC}).}
     \label{fig:perfmeasures_PR_curves_EI}
 \end{figure}
 
@@ -160,6 +173,11 @@ In our tests, we choose the number of unconnected trains rather arbitrarily. (Fo
         \includegraphics{perfmeasures_threshold_PPVs_EI}
     \end{sidecaption}
 \end{figure}
+
+Different thresholds yield different $F_β$-scores; but there is one threshold where your chosen $F$-score is maximal. This \maxF-score is a good candidate for the single "how good is this detector" measure we were looking for. We specifically choose $F_1$ as it weighs precision and recall equally (and we have no a-priori reason to prefer any one over the other), and because it is the most frequently used.
+
+Another common single measure to quantify a classifier's performance is the area under its ROC-curve, or AUC, already shown in \cref{fig:perfmeasures_θ_TPR_ROC}. A disadvantage of the AUC is that it is less interpretable as a number than the \maxF score (which immediately gives a rough idea of how many true connections you'll detect, and how many of your detections are correct).
+An advantage of the AUC however is that it
 
 \begin{figure}
     \begin{sidecaption}
