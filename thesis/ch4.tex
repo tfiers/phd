@@ -24,12 +24,94 @@
 
 \section{Linear regression of the upstroke}
 
-\begin{itemize}
-    \item Non-STA method: concatenated individual windows as (X, y)
-    \item Examples of pooled windows, and fits
-    \item Mention the problem of unknown transmission delays
-    \item Perfomance for different N, \& comparison with previous methods
-\end{itemize}
+All previous methods are STA-based, i.e. different windows are cut from the postsynaptic voltage signal -- one window for every presynaptic spike -- and these are averaged into one signal, which is then used for further analysis. The method described in this section on the other hand does not use STA's. We still construct the spike-triggered windows, but we do not average them. Instead, we use them to construct a gigantic data matrix for use in a linear regression.
+Every single timepoint on the x-axis (relative time after the presynaptic spike) will correspond to \emph{multiple} voltage values on the y-axis; namely one for every window. Whereas for an STA, every timepoint on the x-axis corresponds to just a single y-value (the average voltage).
+
+
+% The design matrix $X$ and the regressed vector $\vec{y}$ that we will use for a linear regression are then constructed as follows.
+
+Let's number our spike-triggered windows $1, 2, .., i, .., N$ (for a presynaptic spiketrain with $N$ spikes), and let's number the voltage values in window $i$ as $[y_{i,1}, y_{i,2}, .., y_{i,M}]$ (for a window length of $M$ samples long). We will then perform the following linear regression:
+\begin{align}
+    \bm{y} \hspace{1.4em}
+    &=  \hspace{1.6em}
+    X  \hspace{2.2em}
+    \bm{β}  \hspace{0.7em}
+    + \hspace{1.4em}
+    \bm{ε}
+    \\[1em]
+    \begin{bmatrix}
+        y_{1,1} \\
+        y_{1,2} \\
+        y_{1,3} \\
+        \vdots \\
+        y_{1,M} \\
+        y_{2,1} \\
+        y_{2,2} \\
+        y_{2,3} \\
+        \vdots \\
+        y_{2,M} \\
+        \vdots \\
+        y_{N,1} \\
+        y_{N,2} \\
+        y_{N,3} \\
+        \vdots \\
+        y_{N,M}
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+        1 & 1 \\
+        1 & 2 \\
+        1 & 3 \\
+        \vdots & \vdots \\
+        1 & M \\
+        1 & 1 \\
+        1 & 2 \\
+        1 & 3 \\
+        \vdots & \vdots \\
+        1 & M \\
+        \vdots & \vdots \\
+        1 & 1 \\
+        1 & 2 \\
+        1 & 3 \\
+        \vdots & \vdots \\
+        1 & M
+    \end{bmatrix}
+    \begin{bmatrix}
+        β_0 \\
+        β_1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        ε_{1,1} \\
+        ε_{1,2} \\
+        ε_{1,3} \\
+        \vdots \\
+        ε_{1,M} \\
+        ε_{2,1} \\
+        ε_{2,2} \\
+        ε_{2,3} \\
+        \vdots \\
+        ε_{2,M} \\
+        \vdots \\
+        ε_{N,1} \\
+        ε_{N,2} \\
+        ε_{N,3} \\
+        \vdots \\
+        ε_{N,M}
+    \end{bmatrix}
+\end{align}
+I.e. we will regress the voltage against time. As we saw in the STA's in previous sections,
+% ..the shape is not a line. but the beginning is, kinda :).
+
+
+
+
+% \begin{itemize}
+%     \item Non-STA method: concatenated individual windows as (X, y)
+%     \item Examples of pooled windows, and fits
+%     \item Mention the problem of unknown transmission delays
+%     \item Perfomance for different N, \& comparison with previous methods
+% \end{itemize}
 
 
 % \section{Clustering, \& Hierarchical model fitting}
