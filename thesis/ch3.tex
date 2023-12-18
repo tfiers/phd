@@ -153,16 +153,21 @@ For $β = 1$, precision and recall are weighted equally. The $F_1$-score is also
 When we plot recall against precision, we get the so called PR-curves, shown in \cref{fig:PR_curves_iso_Fβ} for both excitatory and inhibitory inputs together, and in \cref{fig:perfmeasures_PR_curves_EI} for both types separately.
 % Different $F_β$-scores (for the same $β$-value) correspond to the same rational function but with different offsetts. Different $β$-values on the other hand correspond to different scalings of the rational function.
 
+
 \begin{figure}
-    \includegraphics{PR_curves_iso_Fβ}
-    \caption{Precision plotted against recall for the STA-test in the N=6500 inputs, 10-minute-recording experiment. Black dots indicate where three different $F_β$-scores reach their respective maximum values.}
-    \label{fig:PR_curves_iso_Fβ}
+    \begin{sidecaption}
+        {Precision plotted against recall for the STA-test in the N=6500 inputs, 10-minute-recording experiment. Black dots indicate where three different $F_β$-scores reach their respective maximum values.}
+        [fig:PR_curves_iso_Fβ]
+        \includegraphics[w=0.88]{PR_curves_iso_Fβ}
+    \end{sidecaption}
 \end{figure}
 
 \begin{figure}
-    \includegraphics{perfmeasures_PR_curves_EI}
-    \caption{Same as in \cref{fig:PR_curves_iso_Fβ}, but with excitatory and inhibitory inputs analysed separately. Note that we can detect more inhibitory inputs than excitatory inputs for the same precision value (or for the same false positive rate, as shown in \cref{fig:perfmeasures_θ_TPR_ROC}).}
-    \label{fig:perfmeasures_PR_curves_EI}
+    \begin{sidecaption}
+        {Same as in \cref{fig:PR_curves_iso_Fβ}, but with excitatory and inhibitory inputs analysed separately. Note that we can detect more inhibitory inputs than excitatory inputs for the same precision value (or for the same false positive rate, as shown in \cref{fig:perfmeasures_θ_TPR_ROC}).}
+        [fig:perfmeasures_PR_curves_EI]
+        \includegraphics[w=0.88]{perfmeasures_PR_curves_EI}
+    \end{sidecaption}
 \end{figure}
 
 \begin{figure}
@@ -225,29 +230,41 @@ As might be expected, noisier and/or shorter recordings decrease detection perfo
     \end{sidecaption}
 \end{figure}
 
-For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 20-minute recording with an SNR of 40\footnote{These are realistic values for voltage imaging, albeit on the optimistic side.},
-the maximum F1-score -- for the 200-highest firing inputs, and an additionally tested 100 unconnected spiketrains -- is about 70\%.
+For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 10-minute recording with an SNR of 40 (which are more or less realistic for voltage imaging), the maximum $F_1$-score -- for the 200-highest firing inputs, and an additionally tested 100 unconnected spiketrains -- is about 65\%.
 
-I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 140 of them as being connected (±70\% recall). And of the spiketrains that we detect as inputs, about 70\% are correctly classified  (±70\% precision). I.e. 30\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are unconnected, random spiketrains classified as real inputs.
+I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 130 of them as being connected (±65\% recall). And of the spiketrains that we detect as inputs, about 65\% are correctly classified  (±65\% precision). I.e. 35\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are random unconnected spiketrains classified as real inputs.
 
-The area under the TPR/FPR-curve (AUC) for this recording duration and quality is about 0.65 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}).
-
+The area under the TPR/FPR-curve (AUC) for this recording duration and quality is about 0.50 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}).
 
 
-\FloatBarrier
 \section{Computational cost of STA test}
 
-The brunt of the time in using the STA as a connection test is in actually calculating these STAs -- and the STAs of the shuffled versions of the tested spiketrains. The longer the recording, the more STAs there are to calculate. The computation time of the STA-based test thus scales linearly with the voltage imaging recording duration (\cref{fig:STA_compute_time}). We find that testing 300 possible spiketrain inputs to one neuron takes about one-fifth of the time of the recording (about 2 minutes of computation time for a 10-minute recording).
+The brunt of the time in using the STA as a connection test is in actually calculating these STAs -- and the STAs of the shuffled versions of the tested spiketrains.
+
+The chosen inputs to test (300 high firing trains) have a median firing rate of 16 Hz. I.e. at a simulation duration of 10 seconds, there are about 160 presynaptic spikes per tested connection. There are 101 times that many STAs to calculate per connection: once for the real spiketrain, and a 100 times for shuffles of it. For a 10 second simulation, there are thus about 16k STAs to calculate per connection.
+For 10 minutes: 967k STAs. For 1 hour: 5.8M STAs.
+
+The computation time of the STA-based test thus scales linearly with the voltage imaging recording duration. We find that testing 300 possible spiketrain inputs to one neuron takes about one-fifth of the time of the recording (\cref{fig:STA_compute_time}): about 2 minutes of computation time for a 10-minute recording.
 
 \begin{figure}
     \begin{sidecaption}
         {\textbf{Test time scales linearly with voltage signal duration}.\\
-        Simulation timestep ('sample time') of 0.1 ms. STA length of 20 ms; i.e. 200 samples.
-        The chosen inputs to test (300 high firing trains) have a median firing rate of 16 Hz. I.e. at a simulation duration of 10 seconds, there are about 160 presynaptic spikes per tested connection. There are 101 times that many STAs to calculate per connection: once for the real spiketrain, and a 100 times for shuffles of it. For a 10 second simulation, there are thus about 16k STAs to calculate per connection.
-        For 10 minutes: 967k STAs. For 1 hour: 5.8M STAs.\\
+        Simulation timestep ('sample time') of 0.1 ms. STA length of 20 ms; i.e. 200 samples.\\
         Black dots are the means over five simulations per duration. Compute times for individual simulations are plotted with gray dots; but the variation is so small that these gray dots are hidden behind the black means. Gray dashed line is the $y = x$ identity.  Source: \nburl{2023-09-20__STA_conntest_for_diff_recording_quality_n_durations}.}
         [fig:STA_compute_time]
         \includegraphics{STA_compute_time}
     \end{sidecaption}
-    % This cap too long. some info → broodtext
 \end{figure}
+
+
+\section{Conclusion}
+
+Using spike-triggered-averages of the postsynaptic voltage is an obvious way to look for post-synaptic potential bumps, and to thus detect neuron connections.
+
+In this chapter we have found that this STA method indeed does significantly better than chance at detecting conections, under realistic conditions (6500 EI-balanced inputs to one neuron, 10 minute recoding, voltage imagaing SNR of 40).
+Of the highest firing inputs (100 excitatory, 100 inhibitory), we detect about 65\%, at a precision level where 65\% of our detections are correct. The AUC is about $0.50$.
+
+This is significantly better than chance (AUC at chance level is $0.252$), but there is \emph{a lot} of room for improvement. Thus, we looked for new voltage-based connection detection methods. Our findings are described in the following chapter.
+
+% better: TPR at FPR of 0.05 (e.g.). But need to re-run nb.
+% (the sweeps are on disk :)).
