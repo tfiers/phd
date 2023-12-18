@@ -102,7 +102,7 @@ To get actual predictions out of the algorithm,
 % ("excitatory connection", "inhibitory connection", "unconnected")
 we must apply a threshold $θ$ to these measures. If $|t| > θ$, we classify the pair as connected, and as unconnected otherwise. For the detected pairs, we classify them as excitatory if $t$ is positive, and inhibitory if it is negative.
 
-Note that we use the same threshold for both excitatory and inhibitory connections. We could in fact use a different threshold -- and we briefly look at this in \cref{fig:perfmeasures_threshold_PPVs_EI}) -- but for simplicity, we apply the same threshold for both types of connection.
+Note that we use the same threshold for both excitatory and inhibitory connections. We could in fact use a different threshold -- and we briefly look at this in \cref{fig:perfmeasures_threshold_PPVs_EI} -- but for simplicity, we apply the same threshold for both types of connection.
 
 Each threshold chosen yields a different tradeoff between recall and precision (\cref{fig:perfmeasures_θ_TPR_ROC}). At low thresholds, we can detect more connections ("true positives"); but we will also detect more non-inputs as being connected (false positives). This also lowers our precision.\\
 Some definitions:
@@ -124,7 +124,7 @@ But recall, FPR, and precision are commonly used ones.
     \label{fig:perfmeasures_θ_TPR_ROC}
 \end{figure}
 
-Note that true positive rate (TPR) and precision are similar, in that they both count correct classifications. (They both have the number of true positives in their numerator). But recall (TPR) looks at the number of true positives from the point of view of the ground truth (how many did we find), and precision looks at it from the point of the experimenter (out of what this algorithm gives us, how much is correct?).
+Note that true positive rate (TPR) and precision are similar, in that they both count correct classifications. (They both have the number of true positives in their numerator). But recall (TPR) looks at the number of true positives from the point of view of the ground truth (how many did we find), and precision looks at it from the perspective of the experimenter (out of what this algorithm gives us, how much is correct?).
 
 False positive rate and precision are also similar, in that they both measure the number of false positives.\
 One advantage of using FPR over precision though, is that FPR does not depend on the number of distractors (unconnected spiketrains) that we add to our tests.\footnote{Besides that, the more distractors we test, the more accurate our estimate of the FPR will be.}
@@ -225,7 +225,7 @@ As might be expected, noisier and/or shorter recordings decrease detection perfo
     \end{sidecaption}
 \end{figure}
 
-For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 30-minute recording with an SNR of 40\footnote{These are realistic values for voltage imaging, albeit on the optimistic side.},
+For a concrete example of what a neuroscientist might expect from the STA-based connection test, we find that for a 20-minute recording with an SNR of 40\footnote{These are realistic values for voltage imaging, albeit on the optimistic side.},
 the maximum F1-score -- for the 200-highest firing inputs, and an additionally tested 100 unconnected spiketrains -- is about 70\%.
 
 I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those inputs, we detect approximately 140 of them as being connected (±70\% recall). And of the spiketrains that we detect as inputs, about 70\% are correctly classified  (±70\% precision). I.e. 30\% of them are either excitatory connections classified as inhibitory and vice-versa; or they are unconnected, random spiketrains classified as real inputs.
