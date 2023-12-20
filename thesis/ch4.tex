@@ -108,17 +108,38 @@ If the slope $β_1$ really were $0$, then we would expect the fitted slope $\hat
 \end{equation}
 where $σ^2$ is the variance of the sampling noise (\cref{eq:sampling_noise}), and $[Q]_{2,2}$ is the second diagonal element\footnote{
     The indices are off by one ($\hat{β}_1$ vs $[Q]_{2,2}$), because the intercept in linear regression is conventionally called $β_0$, and so we start numbering the elements of $\bm{β}$ from $0$; but we number the elements of other vectors/matrices from $1$.
-} of the 'cofactor matrix' $Q = (X^T X)^{-1}$.
-%  which is the inverse of the Gram matrix $X^T X$.
+} of the 'cofactor matrix' $Q$, which is the inverse of the Gram matrix $X^T X$:
+\begin{equation}
+    Q = (X^T X)^{-1}
+\end{equation}
 
-The maximum-likelihood estimate $\hat{σ}^2$ of the samping noise $σ^2$ is the MSE of the fit:\footnote{
-    Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); but it has a higher
-}
+We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it (namely the MSE of the fit):
 \begin{equation}
     \hat{σ}^2 = || \bm{y} - X \bm{\hat{β}} ||_2^2
 \end{equation}
-With this, we have all the ingredients to test whether the slope of our fitted line deviates from $0$ within chance levels, or not. We have a Gaussian null-hypothesis distribution for $\hat{β}_1$ (\cref{eq:slope_distrib}) for which we can estimate the parameters. We can
-We can now choose a probability (the $p$-value) with
+
+Our final test statistic $t$ to determine whether there is a connection from neuron A to neuron B is then the slope of the fit of B's voltage to time-after-A's-spikes, normalized by how noisy the fit is:
+\begin{equation}
+    t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}
+\end{equation}
+where $\hat{σ}_{\hat{β}_1}$ is the standard error of the slope,
+\begin{equation}
+    \hat{σ}_{\hat{β}_1} = \sqrt{\hat{σ}^2 [Q]_{2,2}} \ .
+\end{equation}
+
+Unlike in \cref{eq:slope_distrib}, $t$ is no longer strictly normally distributed.\footnote{
+    Instead, it follows a Student's $t$-distribution, with $n - p$ degrees of freedom, where $n = M · N$ is the number of datapoints, and $p = 2$ is the number of parameters of the regression ($β_0$ and $β_1$).
+}
+But because the number of datapoints is quite large, the $t$-distribution becomes practically normal.
+
+We can (and do) use this $t$-value as-is in our connection test, for the threshold sweep.\\
+If our assumptions are correct however\footnote{They are not.}
+(linear data-generating process, additive Gaussian noise), we can also assign an actual probability (a $p$-value) to observing slopes as extreme as observed, under the null-hypothesis. With $\phi(x)$ the cumulative probability function of the standard normal distribution, we have: $p = 2\ \phi(-|t|)$ (times two because the slope can be both too negative and too positive).
+
+% \footnote{
+%     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
+% }
+
 
 % \begin{itemize}
 %     \item Non-STA method: concatenated individual windows as (X, y)
