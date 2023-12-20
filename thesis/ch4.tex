@@ -24,13 +24,16 @@
 
 \section{Linear regression of the upstroke}
 
-All previous methods are STA-based, i.e. different windows are cut from the postsynaptic voltage signal -- one window for every presynaptic spike -- and these are averaged into one signal, which is then used for further analysis. The method described in this section on the other hand does not use STA's. We still construct the spike-triggered windows, but we do not average them. Instead, we use them to construct a gigantic data matrix for use in a linear regression.
-Every single timepoint on the x-axis (relative time after the presynaptic spike) will correspond to \emph{multiple} voltage values on the y-axis; namely one for every window. Whereas for an STA, every timepoint on the x-axis corresponds to just a single y-value (the average voltage).
+All previous methods are STA-based, i.e. different windows are cut from the postsynaptic voltage signal -- one window for every presynaptic spike -- and these are averaged into one signal, which is then used for further analysis. The method described in this section does not use STAs. We still construct the spike-triggered windows, but we do not average them. Instead, we use them to construct a gigantic data matrix for use in a linear regression.
 
+Every single timepoint on the x-axis (in relative time after the presynaptic spike) will correspond to multiple voltage values on the y-axis; namely one for every window. Whereas for an STA, every timepoint on the x-axis corresponds to just a single y-value (the average voltage).
 
-% The design matrix $X$ and the regressed vector $\vec{y}$ that we will use for a linear regression are then constructed as follows.
+Why a linear regression? As we saw with the STAs in previous sections, they do not look like a line. But their first part, the "upstroke", might be approximated by one.
 
-Let's number our spike-triggered windows $1, 2, .., i, .., N$ (for a presynaptic spiketrain with $N$ spikes), and let's number the voltage values in window $i$ as $[y_{i,1}, y_{i,2}, .., y_{i,M}]$ (for a window length of $M$ samples long). We will then perform the following linear regression:
+Let's number our spike-triggered windows $1, 2, .., N$ (for a presynaptic spiketrain with $N$ spikes), and let's number the voltage values in window $i$ as $[y_{i,1}, y_{i,2}, .., y_{i,M}]$ (for a window length of $M$ samples long).\footnote{
+    This window length $M$ is an important parameter. The window must be approximately as long as the upstroke of the STA/PSP: not longer (so that the shape is too complex to be fit by a line), nor shorter (so that there would not be enough data for a proper fit).
+}
+We will then perform the following linear regression:
 \begin{align}
     \bm{y} \hspace{1.4em}
     &=  \hspace{1.6em}
@@ -42,18 +45,11 @@ Let's number our spike-triggered windows $1, 2, .., i, .., N$ (for a presynaptic
     \begin{bmatrix}
         y_{1,1} \\
         y_{1,2} \\
-        y_{1,3} \\
         \vdots \\
         y_{1,M} \\
         y_{2,1} \\
         y_{2,2} \\
-        y_{2,3} \\
         \vdots \\
-        y_{2,M} \\
-        \vdots \\
-        y_{N,1} \\
-        y_{N,2} \\
-        y_{N,3} \\
         \vdots \\
         y_{N,M}
     \end{bmatrix}
@@ -61,18 +57,11 @@ Let's number our spike-triggered windows $1, 2, .., i, .., N$ (for a presynaptic
     \begin{bmatrix}
         1 & 1 \\
         1 & 2 \\
-        1 & 3 \\
         \vdots & \vdots \\
         1 & M \\
         1 & 1 \\
         1 & 2 \\
-        1 & 3 \\
         \vdots & \vdots \\
-        1 & M \\
-        \vdots & \vdots \\
-        1 & 1 \\
-        1 & 2 \\
-        1 & 3 \\
         \vdots & \vdots \\
         1 & M
     \end{bmatrix}
@@ -84,27 +73,52 @@ Let's number our spike-triggered windows $1, 2, .., i, .., N$ (for a presynaptic
     \begin{bmatrix}
         ε_{1,1} \\
         ε_{1,2} \\
-        ε_{1,3} \\
         \vdots \\
         ε_{1,M} \\
         ε_{2,1} \\
         ε_{2,2} \\
-        ε_{2,3} \\
         \vdots \\
-        ε_{2,M} \\
-        \vdots \\
-        ε_{N,1} \\
-        ε_{N,2} \\
-        ε_{N,3} \\
         \vdots \\
         ε_{N,M}
     \end{bmatrix}
 \end{align}
-I.e. we will regress the voltage against time. As we saw in the STA's in previous sections,
-% ..the shape is not a line. but the beginning is, kinda :).
+I.e. we will regress voltage against time-after-spike.
 
+If we assume additive Gaussian noise, i.e.
+\begin{equation} \label{eq:sampling_noise}
+    ε_{i,j} \sim \mathcal{N}(0, σ^2)
+\end{equation}
+then the maximum-likelihood estimate $\hat{\bm{β}}$ of the regression parameters $\bm{β}$ is obtained through minimizing the mean squared error (MSE)\footnote{
+    \url{https://statproofbook.github.io/P/slr-mle}
+}
+between our observed voltage values $\bm{y}$ and the fitted line $\hat{\bm{y}} = X \hat{\bm{β}}$:
+\begin{equation}
+    \hat{\bm{β}} = \argmin_{\bm{β}} || \bm{y} - X \bm{β} ||_2^2.
+\end{equation}
+Our linear regression problem has become standard ordinary least squares (OLS) regression, for which a closed-form solution exists, the so-called normal equations: $\hat{\bm{β}} = (X^T X)^{-1} X^T \bm{y}$.
+As is standard practice and for numerical stability ("don't explicitly invert a matrix"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit through an implicit solution using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
 
+From this linear fit we thus obtain a slope $\hat{β}_1$. To use our regression as a connection test, we will perform a hypothesis test on this slope. The null hypothesis is that this slope is zero ($H_0: \hat{β} = 0$): the voltage of the tested neuron does not react to spikes of the other tested neuron, and on average it stays flat.
 
+If the slope $β_1$ really were $0$, then we would expect the fitted slope $\hat{β}_1$ to be distributed normally around $0$, as follows:\footnote{
+    \url{https://gregorygundersen.com/blog/2021/09/09/ols-hypothesis-testing/}
+}
+\begin{equation} \label{eq:slope_distrib}
+    \hat{β}_1 \sim \mathcal{N}(0, σ^2 [Q]_{2,2})
+\end{equation}
+where $σ^2$ is the variance of the sampling noise (\cref{eq:sampling_noise}), and $[Q]_{2,2}$ is the second diagonal element\footnote{
+    The indices are off by one ($\hat{β}_1$ vs $[Q]_{2,2}$), because the intercept in linear regression is conventionally called $β_0$, and so we start numbering the elements of $\bm{β}$ from $0$; but we number the elements of other vectors/matrices from $1$.
+} of the 'cofactor matrix' $Q = (X^T X)^{-1}$.
+%  which is the inverse of the Gram matrix $X^T X$.
+
+The maximum-likelihood estimate $\hat{σ}^2$ of the samping noise $σ^2$ is the MSE of the fit:\footnote{
+    Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); but it has a higher
+}
+\begin{equation}
+    \hat{σ}^2 = || \bm{y} - X \bm{\hat{β}} ||_2^2
+\end{equation}
+With this, we have all the ingredients to test whether the slope of our fitted line deviates from $0$ within chance levels, or not. We have a Gaussian null-hypothesis distribution for $\hat{β}_1$ (\cref{eq:slope_distrib}) for which we can estimate the parameters. We can
+We can now choose a probability (the $p$-value) with
 
 % \begin{itemize}
 %     \item Non-STA method: concatenated individual windows as (X, y)
