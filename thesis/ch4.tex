@@ -82,7 +82,7 @@ We will then perform the following linear regression:
         ε_{N,M}
     \end{bmatrix}
 \end{align}
-I.e. we will regress voltage against time-after-spike.
+I.e. we will regress voltage-after-spike against time-after-spike.
 
 If we assume additive Gaussian noise, i.e.
 \begin{equation} \label{eq:sampling_noise}
@@ -95,8 +95,8 @@ between our observed voltage values $\bm{y}$ and the fitted line $\hat{\bm{y}} =
 \begin{equation}
     \hat{\bm{β}} = \argmin_{\bm{β}} || \bm{y} - X \bm{β} ||_2^2.
 \end{equation}
-Our linear regression problem has become standard ordinary least squares (OLS) regression, for which a closed-form solution exists, the so-called normal equations: $\hat{\bm{β}} = (X^T X)^{-1} X^T \bm{y}$.
-As is standard practice and for numerical stability ("don't explicitly invert a matrix"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit through an implicit solution using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
+Our linear regression problem has become standard ordinary least squares (OLS) regression, for which a closed-form solution exists (the so-called normal equations: $\hat{\bm{β}} = (X^T X)^{-1} X^T \bm{y}$).
+As is standard practice and for numerical stability ("don't explicitly invert a matrix if not needed"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit through an implicit solution using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
 
 From this linear fit we thus obtain a slope $\hat{β}_1$. To use our regression as a connection test, we will perform a hypothesis test on this slope. The null hypothesis is that this slope is zero ($H_0: \hat{β} = 0$): the voltage of the tested neuron does not react to spikes of the other tested neuron, and on average it stays flat.
 
@@ -106,35 +106,37 @@ If the slope $β_1$ really were $0$, then we would expect the fitted slope $\hat
 \begin{equation} \label{eq:slope_distrib}
     \hat{β}_1 \sim \mathcal{N}(0, σ^2 [Q]_{2,2})
 \end{equation}
-where $σ^2$ is the variance of the sampling noise (\cref{eq:sampling_noise}), and $[Q]_{2,2}$ is the second diagonal element\footnote{
+where $σ^2$ is the variance of the sampling noise (\cref{eq:sampling_noise}), and $[Q]_{2,2}$ is the second diagonal element of the 'cofactor matrix' $Q$,\footnote{
     The indices are off by one ($\hat{β}_1$ vs $[Q]_{2,2}$), because the intercept in linear regression is conventionally called $β_0$, and so we start numbering the elements of $\bm{β}$ from $0$; but we number the elements of other vectors/matrices from $1$.
-} of the 'cofactor matrix' $Q$, which is the inverse of the Gram matrix $X^T X$:
+}
+which is the inverse of the Gram matrix $X^T X$:
 \begin{equation}
     Q = (X^T X)^{-1}
 \end{equation}
 
-We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it (namely the MSE of the fit):
-\begin{equation}
+We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it,\footnote{\url{https://statproofbook.github.io/P/slr-mle}} namely the MSE of the fit:
+\begin{equation}\label{eq:σhat}
     \hat{σ}^2 = || \bm{y} - X \bm{\hat{β}} ||_2^2
 \end{equation}
 
-Our final test statistic $t$ to determine whether there is a connection from neuron A to neuron B is then the slope of the fit of B's voltage to time-after-A's-spikes, normalized by how noisy the fit is:
+Our final test statistic $t$ to determine whether there is a connection from neuron A
+to neuron B is then the slope of the fit (of B's voltage after neuron A's spikes), normalized by how noisy the parameter fit is:
 \begin{equation}
     t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}
 \end{equation}
-where $\hat{σ}_{\hat{β}_1}$ is the standard error of the slope,
+where $\hat{σ}_{\hat{β}_1}$ is the standard error of the slope (\cref{eq:slope_distrib} with \cref{eq:σhat}):
 \begin{equation}
-    \hat{σ}_{\hat{β}_1} = \sqrt{\hat{σ}^2 [Q]_{2,2}} \ .
+    \hat{σ}_{\hat{β}_1} = \sqrt{\hat{σ}^2 [Q]_{2,2}}
 \end{equation}
 
 Unlike in \cref{eq:slope_distrib}, $t$ is no longer strictly normally distributed.\footnote{
     Instead, it follows a Student's $t$-distribution, with $n - p$ degrees of freedom, where $n = M · N$ is the number of datapoints, and $p = 2$ is the number of parameters of the regression ($β_0$ and $β_1$).
 }
-But because the number of datapoints is quite large, the $t$-distribution becomes practically normal.
+But when the number of datapoints is quite large, as is the case here, the $t$-distribution becomes practically normal, and our test statistic $t$ will follow the standard normal distribution under the null hypothesis ("the slope is zero").
 
 We can (and do) use this $t$-value as-is in our connection test, for the threshold sweep.\\
-If our assumptions are correct however\footnote{They are not.}
-(linear data-generating process, additive Gaussian noise), we can also assign an actual probability (a $p$-value) to observing slopes as extreme as observed, under the null-hypothesis. With $\phi(x)$ the cumulative probability function of the standard normal distribution, we have: $p = 2\ \phi(-|t|)$ (times two because the slope can be both too negative and too positive).
+Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not.}
+we could also assign an actual probability (a $p$-value) to observing slopes as extreme as observed. Because $t$ follows the standard normal distribution under the null-hypothesis, and with $\phi(x)$ the cumulative probability function of this distribution, we have: $p = 2\ \phi(-|t|)$: the probability that a sample smaller than $-|t|$ or larger than $|t|$ is drawn.
 
 % \footnote{
 %     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
@@ -147,7 +149,7 @@ If our assumptions are correct however\footnote{They are not.}
 %     \item Perfomance for different N, \& comparison with previous methods
 % \end{itemize}
 
-\Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of this linear regression method, for different number of inputs $N$, and compared to the STA height method.
+\Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of the described linear regression method, for different number of inputs $N$, and compared to the STA height method.
 
 \begin{figure}
     \subfloat{
