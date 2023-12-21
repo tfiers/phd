@@ -140,13 +140,27 @@ If our assumptions are correct however\footnote{They are not.}
 %     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
 % }
 
-
 % \begin{itemize}
 %     \item Non-STA method: concatenated individual windows as (X, y)
 %     \item Examples of pooled windows, and fits
 %     \item Mention the problem of unknown transmission delays
 %     \item Perfomance for different N, \& comparison with previous methods
 % \end{itemize}
+
+\Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of this linear regression method, for different number of inputs $N$, and compared to the STA height method.
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.72]{N_sweep__AUC__STA_height}
+        \includegraphics[w=0.72]{N_sweep__AUC__upstroke}
+    }
+    \captionn
+        {Line fit outperforms STA height as connection test}
+        {AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested, instead of just the highest firing ones, in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). \\
+        Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.}
+    \label{fig:N_sweep__AUC__upstroke_vs_STA}
+\end{figure}
+
 
 
 % \section{Clustering, \& Hierarchical model fitting}
@@ -163,6 +177,7 @@ If our assumptions are correct however\footnote{They are not.}
 % \end{itemize}
 
 
+\FloatBarrier
 \section{Computational cost}
 
 \begin{itemize}
