@@ -241,6 +241,20 @@ The area under the TPR/FPR-curve (AUC) for this recording duration and quality i
 
 The brunt of the time in using the STA as a connection test is in actually calculating these STAs -- and the STAs of the shuffled versions of the tested spiketrains.
 
+\Cref{tab:conntest-time-factors} lists different parameters that determine how long a connection test takes to run.
+
+\begin{table}
+    \include{tables/conntest-time-factors}
+    \captionn{Factors in how long a connection test takes to run}
+    {The listed values are ones typically used in this thesis.}
+    \label{tab:conntest-time-factors}
+\end{table}
+
+% \begin{equation}
+%     T = \mathrm{} · (1 + N_\mathrm{shuffled trains}) · λ · R
+% \end{equation}
+% with $λ$ the firing rate (spikes per second) of the presynaptic train
+
 The chosen inputs to test (300 high firing trains) have a median firing rate of 16 Hz. I.e. at a simulation duration of 10 seconds, there are about 160 presynaptic spikes per tested connection. There are 101 times that many STAs to calculate per connection: once for the real spiketrain, and a 100 times for shuffles of it. For a 10 second simulation, there are thus about 16k STAs to calculate per connection.
 For 10 minutes: 967k STAs. For 1 hour: 5.8M STAs.
 

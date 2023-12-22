@@ -1,0 +1,23 @@
+\begin{tabular}{l l l r l}
+    Factor &               & Description                           & Value  & Unit            \\
+    \toprule
+    $ N_\mathrm{post} $&$ $& \makecell[l]{Number of analyzed voltage signals\\
+        (number of postsynaptic neurons)}                          &$   1  $& voltage signals \\[0.8em]
+
+    $ N_\mathrm{pre}  $&$ $& \makecell[l]{Number of tested spiketrains (possible\\
+        presynaptic neurons) per `post' neuron }                   &$ 300  $& spiketrains     \\[0.8em]
+
+    $ N_\mathrm{conn} $&$ = N_\mathrm{post} · N_\mathrm{pre} $&
+        Number of connections tested                               &$ 300  $& connections     \\
+
+    \midrule
+    $ T   $&$             $& Duration of simulation or recording   &$  10  $& minutes         \\
+    $ λ   $&$             $& Firing rate of presynaptic neuron     &$  16  $& spikes / second \\
+    $ N_w $&$ = T · λ     $& Number of windows per tested conn.    &$ 9600 $& windows         \\
+    \midrule
+    $ T_w $&$             $& Window length                         &$  20  $& ms              \\
+    $ Δt  $&$             $& Timestep of simulation or recording   &$  0.1 $& ms              \\
+    $ f_s $&$ = 1 / Δt    $& Sample rate                           &$  10  $& samples / ms    \\
+    $ W   $&$ = T_w · f_s $& Number of samples per window          &$  200 $& samples         \\
+    \bottomrule
+\end{tabular}
