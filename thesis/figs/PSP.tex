@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+    \begin{axis} [
+        width = 7cm,
+        height = 4cm,
+        axis line style = {draw = none},
+        grid = major,
+        tick style = {draw = none},
+        xtick = {0, 10},
+        ytick = {0, 1/e},
+        % ymajorticks = false,
+        xlabel = {$t$} ,
+        xlabel shift = {-14pt},
+        ticklabel style = {font=\small, color = LighterBlack},
+    ]
+        \addplot [ultra thick, domain = 0:10, samples=400]
+            {x * exp(-x)}  % max is 1/e, at t = 1.
+            [yshift=26pt] node [pos = 0.4] {$t \, e^{-t}$};
+    \end{axis}
+\end{tikzpicture}

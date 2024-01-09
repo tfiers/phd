@@ -2,6 +2,14 @@
 \input{totex/Settings.tex}
 \input{totex/Commands.tex}
 
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.3}
+
+\definecolor{LighterBlack}{gray}{0.4}
+
+
 % No '(2.8)' for equations, rather just '(10)'
 \counterwithout{equation}{chapter}
 \counterwithout{figure}{chapter}
@@ -61,6 +69,13 @@
 \ExplSyntaxOff
 % mpl colours, but darkened a bit (to make thin text visually match thick lines).
 % Calculated at 2023-08-30__STA_examples.
+
+% Command that does nothing.
+% To be able to have autocomplete of sidecaption labels for vscode LaTeX-Workshop
+% [https://github.com/James-Yu/LaTeX-Workshop/wiki/Intellisense#references]
+\newcommand*{\linelabel}[1]{}
+% (using a self-defined command ("\sclabel") didn't work. So using this one, that had
+% not yet a def here).
 
 % For "1st" etc. (May not use `^{}')
 \newcommand{\ts}{\textsuperscript}
