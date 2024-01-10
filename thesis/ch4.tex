@@ -76,6 +76,8 @@ We find that this correlation-based test statistic outperforms the simple peak-t
 
 
 
+
+
 \clearpage
 \FloatBarrier
 \section{Fitting a full STA model}
@@ -180,6 +182,16 @@ One advantage of this model-fitting method over the other methods though, is tha
 
 
 
+
+
+
+% \begin{itemize}
+%     \item Non-STA method: concatenated individual windows as (X, y)
+%     \item Examples of pooled windows, and fits
+%     \item Mention the problem of unknown transmission delays
+%     \item Perfomance for different N, \& comparison with previous methods
+% \end{itemize}
+
 \clearpage
 \section{Linear regression of the upstroke}
 
@@ -276,40 +288,35 @@ which is the inverse of the Gram matrix $X^T X$:
     Q = (X^T X)^{-1}
 \end{equation}
 
-We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it,\footnote{\url{https://statproofbook.github.io/P/slr-mle}} namely the MSE of the fit:
+We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it,\footnote{\url{https://statproofbook.github.io/P/slr-mle}} namely the mean squared error (MSE) of the fit:
 \begin{equation}\label{eq:σhat}
-    \hat{σ}^2 = || \bm{y} - X \bm{\hat{β}} ||_2^2
+    \hat{σ}^2 = \frac{1}{n} || \bm{y} - X \bm{\hat{β}} ||_2^2
 \end{equation}
+(where $n = M · N$ is the number of datapoints).
 
 Our final test statistic $t$ to determine whether there is a connection from neuron A
 to neuron B is then the slope of the fit (of B's voltage after neuron A's spikes), normalized by how noisy the parameter fit is:
-\begin{equation}
+\begin{equation} \label{eq:linreg-tstat}
     t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}
 \end{equation}
 where $\hat{σ}_{\hat{β}_1}$ is the standard error of the slope (\cref{eq:slope_distrib} with \cref{eq:σhat}):
-\begin{equation}
+\begin{equation} \label{eq:linreg-stderr-β}
     \hat{σ}_{\hat{β}_1} = \sqrt{\hat{σ}^2 [Q]_{2,2}}
 \end{equation}
 
 Unlike in \cref{eq:slope_distrib}, $t$ is no longer strictly normally distributed.\footnote{
     Instead, it follows a Student's $t$-distribution, with $n - p$ degrees of freedom, where $n = M · N$ is the number of datapoints, and $p = 2$ is the number of parameters of the regression ($β_0$ and $β_1$).
 }
-But when the number of datapoints is quite large, as is the case here, the $t$-distribution becomes practically normal, and our test statistic $t$ will follow the standard normal distribution under the null hypothesis ("the slope is zero").
+But when the number of datapoints is quite large, as is the case here, the $t$-distribution becomes practically normal, and our test statistic $t$ will very closely follow the standard normal distribution under the null hypothesis ("the slope is zero").
 
-We can (and do) use this $t$-value as-is in our connection test, for the threshold sweep.\\
-Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not.}
+We can (and do) use this $t$-value as-is in our connection test, i.e. as the test statistic over which the detection threshold is swept.
+
+Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards).}
 we could also assign an actual probability (a $p$-value) to observing slopes as extreme as observed. Because $t$ follows the standard normal distribution under the null-hypothesis, and with $\phi(x)$ the cumulative probability function of this distribution, we have: $p = 2\ \phi(-|t|)$: the probability that a sample smaller than $-|t|$ or larger than $|t|$ is drawn.
 
 % \footnote{
 %     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
 % }
-
-% \begin{itemize}
-%     \item Non-STA method: concatenated individual windows as (X, y)
-%     \item Examples of pooled windows, and fits
-%     \item Mention the problem of unknown transmission delays
-%     \item Perfomance for different N, \& comparison with previous methods
-% \end{itemize}
 
 \Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of the described linear regression method, for different number of inputs $N$, and compared to the STA height method. We find a perfect performance (AUC of $1$) for up to $400$ inputs. After that, the AUC starts to drop, but it stays much higher than the STA height method. At the realistic number of inputs $N = 6500$, the linear fit's AUC is still at $0.5$, while the STA height method performs at chance level ($≈ 0.25$)
 
@@ -326,10 +333,10 @@ we could also assign an actual probability (a $p$-value) to observing slopes as 
 \end{figure}
 
 
-\FloatBarrier
-\subsection{Equivalence with fitting the STA}
+\clearpage
+\subsection{Relationship to fitting the STA}
 
-For this last method, we emphasized that it does not operate on the STA, but instead uses the individual windows directly. But an analysis of the normal equations (\cref{eq:normal-eqs}) reveals that fitting a line to all the individual windows pooled together is actually the same as fitting a line to their average, the STA.
+For this last method, we emphasized that it does not operate on the STA, but instead uses the individual windows directly. But an analysis of the normal equations (\cref{eq:normal-eqs}) reveals that fitting a line to all the individual windows pooled together is actually very similar to fitting a line to their average, the STA.
 
 The linear regression on the STA has the following response vector $\overline{\bm{y}}$ and design matrix $\overline{X}$:
 \begin{align}
@@ -369,7 +376,7 @@ The linear regression on the STA has the following response vector $\overline{\b
 
 We see that the previous design matrix $X$ consists of $N$ stacked repetitions of the design matrix $\overline{X}$ here.
 
-We'll show that both regressions have the same solution for their normal equations, i.e. that
+We can show that both regressions have the same solution for their normal equations, i.e. that
 \begin{align} \label{eq:normal-eqs-equivalent}
 \begin{split}
     \hat{\bm{β}}
@@ -388,16 +395,45 @@ As an example, working out the second element of $X^T \bm{y}$, we find:
 \end{align}
 (where $·$ is the inner or dot product, and $\bm{y_i} = [y_{i,1}\ y_{i,2}\ …\ y_{i,M}]$).
 
-The same holds for the first element of $X^T \bm{y}$, so that
+The same scaling holds for the first element of $X^T \bm{y}$, so that
 \begin{equation} \label{eq:XTy-eq}
     X^T \bm{y} = N · \overline{X}^T \overline{\bm{y}}
 \end{equation}
-We find the same thing for each of the four elements of the Gram matrix, i.e. $X^T X = N · \overline{X}^T \overline{X}$.\\
+We also find the same scaling for each of the four elements of the Gram matrix, i.e. $X^T X = N · \overline{X}^T \overline{X}$.\\
 That makes the cofacor matrix:
 \begin{equation} \label{eq:Q-eq}
     (X^T X)^{-1} = \frac{1}{N} (\overline{X}^T \overline{X})^{-1}
 \end{equation}
-Taking together \cref{eq:XTy-eq,eq:Q-eq}, we indeed find the exact same solutions $\hat{\bm{β}}$ for the line fit, whether regressing all individual windows, or their average (\cref{eq:normal-eqs-equivalent}).
+Taking together \cref{eq:XTy-eq,eq:Q-eq}, we indeed find the exact same solutions $\hat{\bm{β}}$ for the line fit (\cref{eq:normal-eqs-equivalent}), whether regressing all individual windows, or their average.
+
+Even though the fitted slope $\hat{β}_1$ is the same, there is a difference in its standard error (\cref{eq:linreg-stderr-β}), and thus also in the test statistic $t$ we'd use (\cref{eq:linreg-tstat}).\\
+We can write the standard error on the slope in the first regression (on all the individual windows) as follows:\footnote{
+    where $c$ is shorthand for $\sqrt{\left[\overline{Q}\right]_{2,2} / M}$.
+}
+\begin{align}
+    \hat{σ}_{\hat{β}_1}
+    &= \frac{1}{N}\ c\ || \bm{y} - X \hat{β} ||_2  \\
+    &= \frac{1}{\sqrt{N}}\ c\ \sqrt{\sum_{j=1}^M \frac{1}{N}\sum_{i=1}^N
+    \left( y_{i,j} - (\hat{β}_0 + \hat{β}_1 · j)  \right)^2 }  \label{eq:stderr-wins}
+\end{align}
+
+For the regression of the STA, we have:
+\begin{align}
+    \hat{σ}_{\hat{\overline{β}}_1}
+    &= c\ || \overline{\bm{y}} - \overline{X} \hat{β} || _2 \\
+    &=  c\ \sqrt{\sum_{j=1}^M \left(
+        \left(\frac{1}{N}\sum_{i=1}^N y_{i,j}\right)
+        - (\hat{β}_0 + \hat{β}_1 · j)  \right)^2 }   \label{eq:stderr-STA}
+\end{align}
+
+In other words, the standard error of the STA regression uses the squared error between the fitted line and the average measured voltage, whereas for the regression on all windows, we use the average of the squared errors between the fitted line and all of the individual measured voltages in one timepoint.
+
+These last equations show the advantage of regression with individual windows, versus regressing the STA: the more windows are used (higher $N$) -- i.e. the more presynaptic spikes this possible connection has -- the lower the standard error on the fitted slope will be, and the higher the test statistic $t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}$. This is thanks to the scaling by $1 / \sqrt{N}$ in \cref{eq:stderr-wins}, which is absent in \cref{eq:stderr-STA}.
+
+This is a quantification of a heuristic that could go something like: ``the more `presynaptic' spikes there are, the more certain we can say there is or isn't a connection here''. And when using just the STA, the knowledge of how many windows were used to calculate it is lost.
+
+Two notes here: first, as the fitted parameters $\bm{β}$ are the same when regressing either all windows or the STA, we could just use the STA for fitting, and then manually add a correction factor $1 / \sqrt{N}$ to the test statistic $t$. This is interesting computationally, as you then don't have to construct the very long design matrix $X$ and response vector $\bm{y}$.\\
+Second, one could argue the standard error of the STA regression \emph{does} already account for the number of windows used: the more windows are averaged together, the less the STA will be noisy and the more it will look like a straight line (at its upstroke portion at least); and the lower the standard error will be.
 
 
 
