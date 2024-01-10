@@ -343,7 +343,7 @@ The linear regression on the STA has the following response vector $\overline{\b
     \overline{\bm{y}} \hspace{6em}
     &=  \hspace{1.6em}
     \overline{X}  \hspace{2.2em}
-    \bm{β}  \hspace{0.7em}
+    \overline{\bm{β}}  \hspace{0.7em}
     + \hspace{1.4em}
     \overline{\bm{ε}}
     \\[1em]
@@ -381,6 +381,7 @@ We can show that both regressions have the same solution for their normal equati
 \begin{split}
     \hat{\bm{β}}
     &= (X^T X)^{-1} X^T \bm{y} \\
+    = \hat{\overline{\bm{β}}}
     & = (\overline{X}^T \overline{X})^{-1} \overline{X}^T \overline{\bm{y}}
 \end{split}
 \end{align}
@@ -406,7 +407,7 @@ That makes the cofacor matrix:
 \end{equation}
 Taking together \cref{eq:XTy-eq,eq:Q-eq}, we indeed find the exact same solutions $\hat{\bm{β}}$ for the line fit (\cref{eq:normal-eqs-equivalent}), whether regressing all individual windows, or their average.
 
-Even though the fitted slope $\hat{β}_1$ is the same, there is a difference in its standard error (\cref{eq:linreg-stderr-β}), and thus also in the test statistic $t$ we'd use (\cref{eq:linreg-tstat}).\\
+Even though the fitted slope $\hat{β}_1$ is the same, there is a difference in its standard error (\cref{eq:linreg-stderr-β}), and thus also in the test statistic $t$ we'd use as a connection test (\cref{eq:linreg-tstat}).\\
 We can write the standard error on the slope in the first regression (on all the individual windows) as follows:\footnote{
     where $c$ is shorthand for $\sqrt{\left[\overline{Q}\right]_{2,2} / M}$.
 }
@@ -430,10 +431,13 @@ In other words, the standard error of the STA regression uses the squared error 
 
 These last equations show the advantage of regression with individual windows, versus regressing the STA: the more windows are used (higher $N$) -- i.e. the more presynaptic spikes this possible connection has -- the lower the standard error on the fitted slope will be, and the higher the test statistic $t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}$. This is thanks to the scaling by $1 / \sqrt{N}$ in \cref{eq:stderr-wins}, which is absent in \cref{eq:stderr-STA}.
 
-This is a quantification of a heuristic that could go something like: ``the more `presynaptic' spikes there are, the more certain we can say there is or isn't a connection here''. And when using just the STA, the knowledge of how many windows were used to calculate it is lost.
+This is a quantification of a heuristic that could go something like: ``the more `presynaptic' spikes there are, the more certain we can say there is or isn't a connection here''.\footnote{
+    E.g, if two possible connections would have the same fitted slope for their spike-triggered voltages, but one of them has more presynaptic spikes, then that connection would have a higher test statistic, and would be favoured when classifying the connections.
+} And when using just the STA, the knowledge of how many windows were used to calculate it is lost.
 
 Two notes here: first, as the fitted parameters $\bm{β}$ are the same when regressing either all windows or the STA, we could just use the STA for fitting, and then manually add a correction factor $1 / \sqrt{N}$ to the test statistic $t$. This is interesting computationally, as you then don't have to construct the very long design matrix $X$ and response vector $\bm{y}$.\\
-Second, one could argue the standard error of the STA regression \emph{does} already account for the number of windows used: the more windows are averaged together, the less the STA will be noisy and the more it will look like a straight line (at its upstroke portion at least); and the lower the standard error will be.
+Second, one could argue the standard error of the STA regression \emph{does} already account for the number of windows used: the more windows are averaged together, the less the STA will be noisy and the more it will look like a straight line (at its upstroke portion at least); and the lower the standard error will be. Under this view, an additional correction factor in the test statistic to explicitly account for the number of windows / presynaptic spikes, is not necessary.
+
 
 
 
@@ -444,6 +448,8 @@ Second, one could argue the standard error of the STA regression \emph{does} alr
 % \end{itemize}
 
 
+
+
 % \section{Zhou/Cai's `Spike-triggered regression'}
 
 % \begin{itemize}
@@ -451,16 +457,24 @@ Second, one could argue the standard error of the STA regression \emph{does} alr
 % \end{itemize}
 
 
-\FloatBarrier
-\section{Computational cost}
 
-\begin{itemize}
-    \item Timings of each method, extrapolation for larger number of tested connections
-\end{itemize}
 
+% \section{Computational cost}
+
+% \begin{itemize}
+%     \item Timings of each method, extrapolation for larger number of tested connections
+% \end{itemize}
+
+
+
+% \begin{itemize}
+%     \item Conclusions of the N-to-1 experiment
+%     \item Leadup to the network experiments: what we could not yet test (the problem of indirect connections, as e.g. identified in the connectomics challenge)
+% \end{itemize}
+
+\clearpage
 \section{Summary}
 
-\begin{itemize}
-    \item Conclusions of the N-to-1 experiment
-    \item Leadup to the network experiments: what we could not yet test (the problem of indirect connections, as e.g. identified in the connectomics challenge)
-\end{itemize}
+In this chapter we wondered whether we could improve upon the most obvious voltage-based connection detection method (namely measuring the height of the STA). We developed and tested three new methods. We found that two of them -- template correlation and linear regression of the upstroke -- indeed performed significantly better as a connection test. The third method we developed (fitting a parametric model to the STA shape) did not perform better as a connection test, but it does provide a method to estimate biophysical parameters of a connection.
+
+As in the previous chapter, all methods in this chapter were tested in the so called N-to-1 setup, where only one neuron's voltage is simulated, while it is stimulated by N independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.
