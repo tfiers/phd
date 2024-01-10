@@ -1,4 +1,16 @@
 
+% \begin{itemize}
+%     \item Principle, example STAs
+%     \item Influence on STA of E/I balance, output firing rate, reversal potentials
+%     \item Use as connection test: shuffled spike trains and height of STA, p-values, and the `area-over-start' heuristic for E vs I classification.
+%     \item Evaluation of a connection test: `ternary' classification, summary measures, AUROC
+%     \item Performance of the simple STA-height test, for different N
+%     \item Influence of window length
+%     \item What about Vm imaging affects detection the most?
+% \end{itemize}
+
+
+
 As shown in \cref{fig:diagram_Connectivity-Activity}, our idea for connection inference rests on the causal link `presynaptic spike' → `postsynaptic voltage bump'. I.e. we want to know for which neuron pairs a spike in one is reliably followed by such a bump in the other. The problem is that these bumps (the postsynaptic potentials or PSPs) are minute, and are easily drowned out by (1) other PSPs, (2) postsynaptic spikes, and (3) voltage imaging noise.
 
 So, as is often done in neuroscience, we take the \emph{average} over many instantiations, so as to hopefully find a signal in the noise. Specifically, we take spike-triggered averages, or \textbf{STA}s, of neurons' voltage traces. If there is a connection from a neuron `M' to a neuron `N', then an STA of neuron N's voltage imaging signal, based on neuron M's spikes, would hopefully show the PSP.
