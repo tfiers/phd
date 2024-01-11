@@ -4,3 +4,58 @@
 %     \item Performance of last chapter's methods
 %     \item If time: experiment with a network that is less densely connected than our current fully-random one. Why? To better examine the effect of indirect connections / colliders (For the current connectivity, there are too many of those. But in a more realistic, 'localized' network, there are less, and so it seems easier to isolate and examine their effect).
 % \end{itemize}
+
+\section{Introduction}
+
+In the previous experiments, only one neuron's voltage was simulated. The inputs were Poisson spike trains.
+In the next experiments, we simulate the voltages of a full network of neurons, which are recurrently connected to each other.
+The goal is to investigate the effect on network inference of potentially correlated inputs and indirect connections.
+
+
+
+\section{Connectivity structure}
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.75]{gephi-direct-inputs.png}
+        \includegraphics[w=0.75]{gephi-inputs-to-inputs.png}
+    }
+    \vspace*{2em}
+    \caption
+        {\textbf{A neuron is reachable in two hops from most other neurons}.    Selected neurons and connections in our random network. Left shows the direct inputs to one of the neurons (26 excitatory and 10 inhibitory, here). Right additionally shows the direct inputs to these inputs. This subnetwork already contains more than 700 of the 1000 total neurons in the network.\\
+        Excitatory neurons in green, inhibitory in red. The tangle in the middle consists of neurons that synapse onto \emph{multiple} of the direct inputs of our selected neuron.\\
+        Visualization using the `Gephi' software, with the `Yifan-Hu' layout algorithm, and default parameters otherwise.
+        Source: \nburl{2022-08-29__Visualizing_subnets}.}
+    \label{fig:gephi-network-viz}
+\end{figure}
+
+\marginpar{
+    \includegraphics[w=1, trim={0 0.4em 0 -0.5em}, clip]{shortest-path-1}
+    \captionof{figure}{
+        \textbf{A selected neuron is reachable in at most three hops}.
+        Shortest path lengths from every other neuron in the network.}
+    \label{fig:shortest-path-1}
+}
+
+\marginpar{
+    \includegraphics[w=1, trim={0 0.4em 0 -0.5em}, clip]{shortest-path-all}
+    \captionof{figure}{
+        \textbf{Every neuron is reachable in at most three hops.}
+        Shortest path lengths calculated using the Floyd-Warshall algorithm. Source: \nburl{2022-07-14__Unconnected-but-detected.html}.}
+    \label{fig:shortest-path-all}
+}
+
+We choose the simple and common `fully random' connectivity rule,\footnote{
+    Other common choices for connectivity structure are scale-free networks, and `local' networks.
+}
+where any neuron has a connection to another with a uniform random probability (we choose $p_\text{conn} = 0.04$). After generating an adjacency matrix this way (\verb|A = rand(N, N) .≤ 0.04|, where \verb|rand| draws from $\sim U[0,1]$), we remove autapses. We choose the number of neurons $N = 1000$.
+
+A property of fully random networks is that they are strongly interconnected. In our network, any neuron is reachable from any other in at most three steps (three synapses); most are reachable in just two. This is exemplified in \cref{fig:gephi-network-viz} and \cref{fig:shortest-path-1}: one selected neuron (neuron `1' here) is reachable in two hops (two synapses) from more than 700 of the 1000 total neurons in the network. And when we compute the shortest path between every possible neuron pair, we find a very similar distribution (\cref{fig:shortest-path-all}).
+
+
+
+
+\section{External input}
+
+As we no longer have Poisson spike trains providing input to our neurons, we need another way of bootstrapping activity in the network.\\
+Instead of external spikes, each neuron is provided with external input by adding Gaussian noise to its membrane voltage. Every time step ($Δt = 0.1$~ms), a sample drawn from a normal distribution with mean $–0.5$~pA and $σ = 5$~pA is added to the membrane current. (As membrane current is by convention negative, this corresponds to an on-average positive influence on membrane voltage).
