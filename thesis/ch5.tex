@@ -13,6 +13,7 @@ The goal is to investigate the effect on network inference of potentially correl
 
 
 
+
 \section{Connectivity structure}
 
 \begin{figure}
@@ -22,23 +23,22 @@ The goal is to investigate the effect on network inference of potentially correl
     }
     \vspace*{2em}
     \caption
-        {\textbf{A neuron is reachable in two hops from most other neurons}.    Selected neurons and connections in our random network. Left shows the direct inputs to one of the neurons (26 excitatory and 10 inhibitory, here). Right additionally shows the direct inputs to these inputs. This subnetwork already contains more than 700 of the 1000 total neurons in the network.\\
-        Excitatory neurons in green, inhibitory in red. The tangle in the middle consists of neurons that synapse onto \emph{multiple} of the direct inputs of our selected neuron.\\
+        {\textbf{A neuron is reachable in two hops from most other neurons}.    Selected neurons and connections in our random network. Left shows the direct inputs to one of the neurons. Right additionally shows the direct inputs to these inputs. This subnetwork already contains more than 700 of the 1000 total neurons in the network.\\
+        Excitatory neurons in green, inhibitory in red. The tangle in the middle consists of neurons that synapse onto multiple of the direct inputs of our selected neuron.\\
         Visualization using the `Gephi' software, with the `Yifan-Hu' layout algorithm, and default parameters otherwise.
         Source: \nburl{2022-08-29__Visualizing_subnets}.}
     \label{fig:gephi-network-viz}
 \end{figure}
 
 \marginpar{
-    \includegraphics[w=1, trim={0 0.4em 0 -0.5em}, clip]{shortest-path-1}
+    \includegraphics[w=1, trim={0 0.4em 0 -1em}, clip]{shortest-path-1}
     \captionof{figure}{
-        \textbf{A selected neuron is reachable in at most three hops}.
+        \textbf{A selected neuron is reachable in at most three hops.}
         Shortest path lengths from every other neuron in the network.}
     \label{fig:shortest-path-1}
 }
-
 \marginpar{
-    \includegraphics[w=1, trim={0 0.4em 0 -0.5em}, clip]{shortest-path-all}
+    \includegraphics[w=1, trim={0 0.4em 0 -1em}, clip]{shortest-path-all}
     \captionof{figure}{
         \textbf{Every neuron is reachable in at most three hops.}
         Shortest path lengths calculated using the Floyd-Warshall algorithm. Source: \nburl{2022-07-14__Unconnected-but-detected.html}.}
@@ -50,7 +50,7 @@ We choose the simple and common `fully random' connectivity rule,\footnote{
 }
 where any neuron has a connection to another with a uniform random probability (we choose $p_\text{conn} = 0.04$). After generating an adjacency matrix this way (\verb|A = rand(N, N) .≤ 0.04|, where \verb|rand| draws from $\sim U[0,1]$), we remove autapses. We choose the number of neurons $N = 1000$.
 
-A property of fully random networks is that they are strongly interconnected. In our network, any neuron is reachable from any other in at most three steps (three synapses); most are reachable in just two. This is exemplified in \cref{fig:gephi-network-viz} and \cref{fig:shortest-path-1}: one selected neuron (neuron `1' here) is reachable in two hops (two synapses) from more than 700 of the 1000 total neurons in the network. And when we compute the shortest path between every possible neuron pair, we find a very similar distribution (\cref{fig:shortest-path-all}).
+A property of fully random networks is that they are strongly interconnected. In our network, any neuron is reachable from any other in at most three steps (three synapses); most are reachable in just two. This is exemplified in \cref{fig:gephi-network-viz} and \cref{fig:shortest-path-1}: one selected neuron (neuron `1' here) is reachable in two hops from more than 700 of the 1000 total neurons in the network. And when we compute the shortest path between every possible neuron pair, we find a very similar distribution (\cref{fig:shortest-path-all}).
 
 
 
