@@ -30,6 +30,7 @@ The goal is to investigate the effect on network inference of potentially correl
     \label{fig:gephi-network-viz}
 \end{figure}
 
+% These two margin figs can go to Appendix
 \marginpar{
     \includegraphics[w=1, trim={0 0.4em 0 -1em}, clip]{shortest-path-1}
     \captionof{figure}{
@@ -59,3 +60,44 @@ A property of fully random networks is that they are strongly interconnected. In
 
 As we no longer have Poisson spike trains providing input to our neurons, we need another way of bootstrapping activity in the network.\\
 Instead of external spikes, each neuron is provided with external input by adding Gaussian noise to its membrane voltage. Every time step ($Δt = 0.1$~ms), a sample drawn from a normal distribution with mean $–0.5$~pA and $σ = 5$~pA is added to the membrane current. (As membrane current is by convention negative, this corresponds to an on-average positive influence on membrane voltage).
+
+
+
+\section{EI balance}
+
+Similar to the N-to-1 experiments, we make 1 out of 5 neurons inhibitory.
+As before, this is done by setting the synaptic reversal potential at the outputs of inhibitory neurons to $-80$ mV (instead of the $0$ mV for excitatory neurons).
+To make sure that each neuron receives a balanced mix of excitation and inhibition, and given that there are 4:1 excitatory to inhibitory neurons, we make excitatory neurons 4x weaker: their synaptic strength ($Δg$, the instantaneous increase in postsynaptic conductance $g$ on spike arrival) is 4x as small as that of inhibitory neurons.
+
+
+
+\section{Subsampling}
+
+We simulate all 1000 neurons' voltages, but, to save memory and disk space,  do not record all these traces.\footnote{
+    For a 10-minute simulation with a timestep of 0.1 ms, one voltage trace takes 48 MB (at 64 bit per sample). Our 1000 neurons thus take 48 GB -- and that is just for one simulation (one set of parameters).\newline
+    We \emph{do} record the spike trains of all neurons. Saving just spike times takes considerably less space: a neuron spiking at 10 Hz for 10 minutes emits 6000 spikes, which, at 64 bit per timestamp, takes just  48 kB.\newline
+    In other words,  at a 0.1 ms sample rate, a spike train occupies about 1000× less memory than the corresponding voltage trace.
+}
+In most experiments here, we recorded the voltage traces of 40 excitatory and 10 inhibitory neurons (5\% of all neurons).
+
+Additionally, when performing connection tests on the inputs of a recorded neuron, we do not test the spiketrains of all 999 other neurons. Instead, we test only a (biased) sample of the possible inputs, to save processing time.
+This sample is constructed as follows. We test all the a-priori known true direct inputs -- both excitatory and inhibitory -- and add a random sample of 40 not-directly-connected neurons.
+
+On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. This means that, from the 1000 × 1000 possible connections, we only test about 4000, or 0.4\%.\footnote{
+    Calculation behind these numbers:\\
+    - 1000 neurons × 80\% excitatory × 4\% probability of an input connection = 32 excitatory inputs on average.\\
+    - 50 `post' neurons (40 excitatory and 10 inhibitory voltage-recorded neurons) × 80 `pre' neurons (±40 connected + 40 unconnected) = 4000 tested connections.\\
+    - To be precise, instead of 1000 × 1000, there are rather  $1000^2 - 1000$ possible connections, as we would not test for autapses.
+}
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.74]{2022-09-01__1144_weights_23_0.png}
+        \includegraphics[w=0.74]{2022-09-01__1144_weights_24_0.png}
+    }
+    \captionn[. ]
+    {Performance of the STA `peak-to-peak' connection test in the random network}
+    {10 minute recording. Each dot is the true positive rate for one`post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.}
+    \label{fig:net-perf}
+    \vspace*{2em}
+\end{figure}
