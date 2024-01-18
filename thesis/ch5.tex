@@ -101,3 +101,15 @@ On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. 
     \label{fig:net-perf}
     \vspace*{2em}
 \end{figure}
+
+
+\section{Connection testing}
+
+We tested connections using the STA height (or `peak-to-peak') test. In the chronology of the PhD, the more advanced methods presented in the previous chapter were developed only after the systematic connection tests in the network here were done. Applying the newer methods to the full network (and not just the N-to-1 setup) is material for further work.
+% also: detrates at fixed threshold, instead of AUC.
+
+\Cref{fig:net-perf} shows the performance of using the STA height as connection test. The detection rates are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA had a larger height than 95 of the 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.
+
+Detection rates are broken down per type of both the presynaptic and postsynaptic neuron (excitatory or inhibitory). We find that inhibitory inputs are significantly easier to detect (independent of the type of the postsynaptic neuron). This is due to the synaptic weight of inhibitory inputs -- and thus their PSPs -- being $4×$ stronger than those of excitatory inputs.
+
+% next is: more inhibition.
