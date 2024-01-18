@@ -69,6 +69,59 @@ Similar to the N-to-1 experiments, we make 1 out of 5 neurons inhibitory.
 As before, this is done by setting the synaptic reversal potential at the outputs of inhibitory neurons to $-80$ mV (instead of the $0$ mV for excitatory neurons).
 To make sure that each neuron receives a balanced mix of excitation and inhibition, and given that there are 4:1 excitatory to inhibitory neurons, we make excitatory neurons 4x weaker: their synaptic strength ($Δg$, the instantaneous increase in postsynaptic conductance $g$ on spike arrival) is 4x as small as that of inhibitory neurons.
 
+% Option for appendix, these four figs
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.74]{1144_raster}
+        \includegraphics[w=0.74]{1144_hist}
+    }
+    \captionn
+        {Firing rates in the network with `1144' weights}
+        {Left: rasterplot showing all spikes in the first 10 seconds of the simulation.\\
+        Right: histogram of firing rates.\\
+        Source: \nburl{2022-07-01__g_EI}.}
+    \label{fig:1144-weights}
+\end{figure}
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.74]{roxin_raster}
+        \includegraphics[w=0.74]{roxin_hist}
+    }
+    \captionn
+        {Firing rates in the network with `Roxin2011' weights}
+        {See \cref{fig:1144-weights}.}
+    \label{fig:roxin-weights}
+\end{figure}
+
+% A synaptic weight rule where inhibitory synapses are 4× stronger to compensate for there being 4× as many synapses.
+% Given that we simulated four times as many excitatory as inhibitory neurons, the synaptic weight rule described above (with inhibitory synapses 4× as strong) seems logical, to keep excitation and inhibition in balance.
+\Cref{fig:1144-weights} shows results of the network simulation as spiketrains and firing rate distributions, using the described synaptic weights rule (inhibitory synapses 4× stronger than excitatory ones). We find that the resulting firing rate distribution is fairly symmetrical, and that excitatory and inhibitory neurons have very similar firing rates.
+
+In real neural networks however, inhibitory neurons often have higher firing rates than their excitatory neighbours. In addition, real firing rate distributions are often heavy-tailed and not symmetrical, as we saw back in \cref{sec:lognormal-poisson-input}.
+So, to coax more realistic firing rate distributions out of our network, we looked at the previously mentioned modelling paper of Roxin \emph{et al}, ``On the Distribution of Firing Rates in Networks of Cortical Neurons'', \cite{Roxin2011DistributionFiringRates}.\footnote{
+    This paper seeks to explain how heavy-tailed firing rate distributions emerge in randomly connected spiking neural networks. We wanted to emulate the simulations in this work, to obtain a heavy-tailed firing rate distribution.
+}
+% Their figures indeed seem to show a lognormal-like distribution of firing rates from their simulatd networks.
+In this paper different synaptic weights are used than the ones described above.
+Normalizing excitatory-to-excitatory (\verb|E→E|) connections to 1, Roxin et al's synaptic weights are:
+\begin{verbatim}
+    E→E: 1
+    E→I: 18 (instead of 1)
+    I→E: 36 (instead of 4)
+    I→I: 31 (instead of 4)
+\end{verbatim}
+We will call these weights `Roxin2011'. The naive, `balancing' weights used in \cref{fig:1144-weights}, we will call `1144'.
+
+Simulating a network with the `Roxin2011' weights indeed increases the firing rates of inhibitory neurons with respect to those of excitatory neurons (\cref{fig:roxin-weights}). The two firing rate distributions are however both as symmetrical as before.\footnote{
+    When collating the two firing rate distributions from both neuron types, the resulting single distribution \emph{is} heavy-tailed, and even vaguely looks log-normal (but it is not). In \cite{Roxin2011DistributionFiringRates}, similar-looking, collated firing rate distributions are shown, and are called lognormal (but this is never quantified in the paper).
+}
+
+This imbalance between \verb|E→E| and \verb|E→I| synapses is not that rare: another modelling paper that also investigated EI-balance, \cite{Sadeh2021ExcitatoryinhibitoryBalanceModulates}, has the following synaptic weights. If our original weights are $[1, 1, 4, 4]$, then Sadeh and Clopath's weights are $[1, k, k, k]$, with $k = 4$ (in their "strong E-I coupling regime").
+
+In the results that follow, we use both `1144' and the `Roxin2011' synaptic weights.
+
+Finally, we also looked at drawing synaptic weights from a distribution (specifically, a lognormal one) instead of setting all weights of one type to be equal. This did not change the symmetry of the resulting firing rate distributions, so we did not pursue this further.
 
 
 \section{Subsampling}
@@ -97,7 +150,8 @@ On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. 
     }
     \captionn[. ]
     {Performance of the STA `peak-to-peak' connection test in the random network}
-    {10 minute recording. Each dot is the true positive rate for one`post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.}
+    {10 minute recording, with `1144' weights. Each dot is the true positive rate for one`post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.\\
+    Source: \nburl{2022-09-01__1144_weights}.}
     \label{fig:net-perf}
     \vspace*{2em}
 \end{figure}
@@ -105,10 +159,10 @@ On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. 
 
 \section{Connection testing}
 
-We tested connections using the STA height (or `peak-to-peak') test. In the chronology of the PhD, the more advanced methods presented in the previous chapter were developed only after the systematic connection tests in the network here were done. Applying the newer methods to the full network (and not just the N-to-1 setup) is material for further work.
+We tested connections using the STA height (or `peak-to-peak') test. In the chronology of the PhD, the more advanced methods presented in the previous chapter were developed only after the network tests in this chapter were done. Applying the newer methods to the full network (and not just the N-to-1 setup) is a topic for further work.
 % also: detrates at fixed threshold, instead of AUC.
 
-\Cref{fig:net-perf} shows the performance of using the STA height as connection test. The detection rates are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA had a larger height than 95 of the 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.
+\Cref{fig:net-perf} shows the performance of using the STA height as connection test in the network. The detection rates are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA had a larger height than 95 of the 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.
 
 Detection rates are broken down per type of both the presynaptic and postsynaptic neuron (excitatory or inhibitory). We find that inhibitory inputs are significantly easier to detect (independent of the type of the postsynaptic neuron). This is due to the synaptic weight of inhibitory inputs -- and thus their PSPs -- being $4×$ stronger than those of excitatory inputs.
 
