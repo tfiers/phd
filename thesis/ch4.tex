@@ -397,11 +397,12 @@ As an example, working out the second element of $X^T \bm{y}$, we find:
 \end{align}
 (where $·$ is the inner or dot product, and $\bm{y_i} = [y_{i,1}\ y_{i,2}\ …\ y_{i,M}]$).
 
-The same scaling holds for the first element of $X^T \bm{y}$, so that
+The same is true for the first element of $X^T \bm{y}$ (just with $[1\ 1\ …\ 1]$ instead of $[1\ 2\ …\ M]$), so that
 \begin{equation} \label{eq:XTy-eq}
     X^T \bm{y} = N · \overline{X}^T \overline{\bm{y}}
 \end{equation}
-We also find the same scaling for each of the four elements of the Gram matrix, i.e. $X^T X = N · \overline{X}^T \overline{X}$.\\
+
+A similar argument can be made for each of the four elements of the Gram matrix, and we find that $X^T X = N · \overline{X}^T \overline{X}$.\\
 That makes the cofacor matrix:
 \begin{equation} \label{eq:Q-eq}
     (X^T X)^{-1} = \frac{1}{N} (\overline{X}^T \overline{X})^{-1}
