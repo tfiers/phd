@@ -150,11 +150,12 @@ On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. 
     }
     \captionn[. ]
     {Performance of the STA `peak-to-peak' connection test in the random network}
-    {10 minute recording, with `1144' weights. Each dot is the true positive rate for one`post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.\\
+    {10 minute recording, with `1144' weights. Each dot is the true positive rate for one `post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.\\
     Source: \nburl{2022-09-01__1144_weights}.}
     \label{fig:net-perf}
     \vspace*{2em}
 \end{figure}
+
 
 
 \section{Connection testing}
@@ -162,8 +163,54 @@ On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. 
 We tested connections using the STA height (or `peak-to-peak') test. In the chronology of the PhD, the more advanced methods presented in the previous chapter were developed only after the network tests in this chapter were done. Applying the newer methods to the full network (and not just the N-to-1 setup) is a topic for further work.
 % also: detrates at fixed threshold, instead of AUC.
 
-\Cref{fig:net-perf} shows the performance of using the STA height as connection test in the network. The detection rates are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA had a larger height than 95 of the 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.
+\Cref{fig:net-perf} shows the performance of using the STA height as connection test in the network. The detection rates (one for each tested `post' neuron and `pre' neuron type) are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA was larger than 95 of its 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.\footnote{
+    A spiketrain is shuffled by taking its inter-spike-intervals (ISIs), randomly shuffling those, and reconstructing a new spiketrain from the resulting shuffled ISIs.
+}
 
 Detection rates are broken down per type of both the presynaptic and postsynaptic neuron (excitatory or inhibitory). We find that inhibitory inputs are significantly easier to detect (independent of the type of the postsynaptic neuron). This is due to the synaptic weight of inhibitory inputs -- and thus their PSPs -- being $4×$ stronger than those of excitatory inputs.
 
-% next is: more inhibition.
+The most interesting category in \cref{fig:net-perf} are the `Unconnected' detection rates (i.e. the false positive rates, FPRs), which are almost all higher than the detection threshold $α$. In theory, the FPR should equal the detection threshold α; and indeed this is what we roughly found in the N-to-1 experiments with STA-height shuffle test.\footnote{
+    This is true almost by definition of the shuffle test: an unconnected spiketrain in the N-to-1 experiment has randomly generated spiketimes. Shuffling this random spiketrain creates more random spiketrains. Looking at the distribution of STA heights of these random spiketrains, the chance that the `real' STA (of the unconnected spiketrain) is in the top-α fraction of STA heights -- and that thus, it would be wrongly classified as a true input, i.e. a false positive -- is exactly α.
+}
+In the network, we thus detect unconnected inputs -- or to be more precise: not-directly-connected inputs -- at a rate higher than chance. This deserves more scrutiny, which we do in the next section.
+
+
+
+\section{False positive detections}
+
+As a summary of the above: when we test unconnected spiketrains as inputs to some neuron in the network, we falsely classify them as connected at a higher rate than would be expected if these spiketrains were fully random. So, they have a stronger-than-random STA. Or in other words, their spikes seem to have some influence on the target neuron's voltage, even though they are not direct inputs to it. In this section, we examine what is special about these false positive input neurons.
+
+First, we found that all false positives (i.e. all not-directly-connected inputs that were nonetheless classified as connected) had a shortest path to the target neuron that consisted of only one in-between neuron. However, as we saw in \cref{fig:shortest-path-all}, this is not that special in this highly-interconnected random network.
+
+But maybe there are \emph{more} such length-2 paths between the input neuron and the target neuron? We indeed found that this was the case when examining one target neuron and all its tested unconnected inputs. In \cref{fig:net-FP} (left), the blue distribution (number of length-2 paths to the target neuron, for false positive inputs) is higher than the orange distribution (same, but for true negatives).
+
+Next, we looked at the type of in-between neurons on the shortest path. We found that for the false positive inputs, the in-between neuron was more likely to be inhibory (\cref{fig:net-FP}, right). This makes sense, as inhibitory inputs are stronger (they are also detected at a higher rate, as seen in \cref{fig:net-perf}).
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.74]{net-FP-length-2-paths}
+        \includegraphics[w=0.74]{net-FP-inh}
+    }
+    \captionn
+        {Characterizing what is different about false positive inputs}
+        {All tested unconnected inputs to a selected target neuron in the network, with inputs correctly classfied as not-connected in orange, and the false positives in blue. Source: \nburl{2022-07-14__Unconnected-but-detected}.}
+    \label{fig:net-FP}
+    % \vspace*{2em} % to space from plot underneath.
+\end{figure}
+
+
+Finally, we looked at the firing rate of the in-between neurons (\cref{fig:net-FP-fr}). For false positives inputs, the in-between neurons were more active than for true negatives.
+
+
+\begin{figure}
+    \begin{sidecaption}
+        {\textbf{False positives synapse onto high-firing direct inputs}.\\
+        See \cref{fig:net-FP}.}
+        [fig:net-FP-fr]
+        \linelabel{fig:net-FP-fr}
+        \includegraphics[w=0.74]{net-FP-fr}
+    \end{sidecaption}
+\end{figure}
+
+
+In summary, we have some evidence (though it should be tested more thoroughly) that our higher-than-expected false postive rate is due to indirect inputs: neurons that synapse onto direct inputs. False positives synapse onto more such direct inputs, and those direct inputs have a stronger influence on the target neuron: a higher firing rate, and more likely to be inhibitory.
