@@ -1,0 +1,71 @@
+
+\section{Summary \& Conclusions}
+
+We have developed and tested three new methods for voltage-based connection inference.
+In the process, we set-up a simulation and performance evaluation pipeline, both in a simplified `N-to-1' setup, and a full network simulation.
+
+We find that two of our new methods (template-based correlation, and linear regression of the upstroke), outperform the simplest voltage-based test, namely measuring the height of the spike-triggered average.
+
+
+
+\section{Future work}
+
+% Straightforward extensions to the presented work are discussed at the end of each preceding chapter. This section discusses larger possible extensions.
+
+Possible extensions to this thesis fall in three categories: how the network inference methods are tested and evaluated; comparing them with existing methods, and improving on our methods.
+
+
+\subsection{Improving the test setup}
+
+Most importantly, our methods should be tested on real data, and not only simulated data. The problem is knowing the ground-truth connectivity: the connectomes of e.g. mice are unknown and vary from animal-to-animal (and over time).
+A starting point is to first test on simpler organisms, where the connectivity \emph{is} known and constant. An example is the stomatogastric ganglion in decapods, whose connectivity and activity patterns are well characterized. (Though the neural activity is very oscillatory, which might (1) not be representative of circuits in general, and (2) might confuse network inference algorithms).
+
+But before moving to real data, there is a lot more realism that could be added to our simulation, both on the neural side as the voltage imaging side.
+
+For voltage imaging, as mentioned before we could simulate photobleaching over time by exponentially decreasing the SNR, and we could simulate the varying time-resolutions of different voltage sensors by convolving the voltage signal with e.g. a subtle low pass filter.
+Another difficulty that fluorescence imaging poses is light scattering. Photons emitted by one neuron do not all go straight to the microscope sensor, but can bounce off other neurons and intermediate tissue, thus appearing to come from the wrong source. In the  Neural Connectomics Challenge (which we introduce in the next section), this was simulated by spatially embedding the simulated neurons, and mixing the signals emitted by each neuron by a fraction of the signals emitted by neighbouring neurons.
+
+On the neural side, many straightforward additions are possible. We have simulated only one neuron type, with fixed parameters (namely the cortical regular spiking neuron). Instead, we could (1) pick neuron parameters so the dynamical system bifurcates to another neuron type (bursting, accelerating, transient spiking, …)\cite{Naud2008FiringPatternsAdaptive}, and/or (2) draw neuron model parameters from distributions.
+
+As far as the evaluation of methods goes, a path we did not pursue is to predict and evaluate synaptic \emph{strengths}, and not just the existence (yes/no) and polarity (excitatory/inhibitory) of a synaptic connection. This is not often done in network inference studies, but is not unheard of.\cite{Zhang2017SpikeTriggeredRegressionSynaptic}.
+One way could be to quantify how similar the real and the predicted connectivity strenght matrices are.
+
+
+\subsection{Existing network inference methods}
+
+There is a vast literature on spike-to-spike (i.e. purely event-based) network inference methods. A lot of these methods are based on information-theoretic measures, such as mutual information and `transfer entropy' between two spiketrains. In practice, this boils down to counting bit-patterns: spiketrains are binned in time, as e.g. $[0, 0, 0, 1, 0, 1, 0, 0, …]$. Two such spiketrains are then overlaid (possibly shifted in time relative to one another), and the patterns that the bits of both form around each spike are gathered and tallied up. (For example: $([0,1,0],\ [0,0,1])$, for a window length of one bin before and one bin after the spike). If one of these patterns is more common than random (i.e. the distribution of patterns has low entropy), then one spiketrain might be connected to another.
+
+These methods generally don't work very well\cite{Das2020SystematicErrorsConnectivity}, and are very data-intensive (the number of possible bit-patterns increases exponentially the longer your windows are). In 2014, a competition was held on spike-based network inference: the Neural Connectomics Challenge or NCC\cite{Guyon2014DesignFirstNeuronal,Orlandi2017FirstConnectomicsChallenge}\footnote{
+    \url{https://connectomics.chalearn.org}.
+}.
+The contestants using information-theoretic measures like transfer entropy did not rank high.
+The winning team used `partial correlation' (PC) between binned spiketrains.\cite{Sutera2017SimpleConnectomeInference}
+PC quantified the association between two spiketrains after the influence of all other spiketrains was removed. The PCs could be efficiently calculated by inverting the correlation matrix between the spiketrains (to obtain the `precision' matrix).
+Trying this method on our data is a straightforward next step.
+
+What all the winning teams had in common was that they reduced the influence of network-wide activity bursts: in the given simulated data, the network would often explode with activity, where more or less all neurons fire simultaneously. These moments give little information on connectivity, and filtering them out improved their algorithms' performance.
+Our simulations did not contain global bursts, but their influence on our voltage-based methods should certainly be tested.
+
+Because our voltage-based methods have more information and operate on the principle of the directly-spike-triggered PSP\footnote{Post-synaptic potential}, we assumed we would be less plagued by the problem of indirect connections, from which spikes-only methods often suffer. But as we saw in the \nameref{ch6} chapter, we have an excess of false positives, likely  due to such indirect connections. A direct comparison with spike-based methods would thus be fruitful to gauge how much it helps to have access to voltage data.
+
+There is one published paper that we know off that also explicitly researches voltage-based network inference: \authoryear{Zhang2017SpikeTriggeredRegressionSynaptic}, \cite{Zhang2017SpikeTriggeredRegressionSynaptic}.
+Their method is called ``spike-triggered regression'', which at first sight sounds similar to the linear regression of the upstroke in spike-triggered windows that we do. But whereas we regress voltage against time-after-spike, they regress voltage against its own history (i.e. an autoregressive voltage model), and binned spiketrains of other neurons.
+The regresssion coefficients of these other spiketrains on the `post' neuron's voltage are used for the connection test.
+Implementing \author{Zhang2017SpikeTriggeredRegressionSynaptic}'s method and testing it on our data would be instructive.
+
+
+\subsection{New network inference methods}
+
+[TODO]: cluster, BIC.
+
+A deep-learning based network inference approach might be feasible, because we have sheer-infinite training data: we can generate and simulate as many different neuronal networks as needed. This would fall under the `simulation-based inference' (SBI) nomer.\cite{Cranmer2020FrontierSimulationbasedInference} While SBI techniques have been applied in neuroscience\cite{Goncalves2020TrainingDeepNeural}, they have to our knowledge not yet been used to find reconstruct connectivity.
+
+
+% \begin{itemize}
+%     \item Test on real data
+%     \item Direct comparison with spikes-only methods
+%     \item More complexity in the testing setup: different transmission delays and time constants per synapse / neuron, plus:
+%     \item Short term synaptic plasticity. Bursting. Oscillations.
+%     \item Simulate different brain areas (different cell types and connectivity patterns). Simulate the same area, but in different states (up vs down, e.g.)
+%     \item New connection test method to try: something deep learning-based (we have infinite training data, given our simulation)
+% \end{itemize}
