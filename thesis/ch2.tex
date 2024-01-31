@@ -16,14 +16,11 @@ We choose to simulate the `AdEx' point neuron model, or the `adaptive exponentia
 The AdEx neuron is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
 First, the full upstroke of each spike is simulated, as an exponential runoff.
 Second, an extra dynamic variable is added: the adaptation current.
-This current allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation and post-inhibitory rebound.
+This current allows the simulation of many non-linear effects of real neurons, like spike-rate adaptation, intermittent bursting, after-hyperpolarization, postinhibitory rebound, resonance, bistability, class 2 excitability\footnote{
+    Class 1 excitable neurons can fire repetitively at arbitrarily slow rates. Class 2 neurons cannot; they have a minimum firing rate ($r$). In other words, their graph of firing rate versus input current ("$f - I$" curve) discontinuously jumps up from $0$~Hz to $r$ at some threshold input.\\
+    As we will see later (in \cref{fig:input_drive_we}), the parameters we use for our AdEx model make it class 1 excitable.
+}, and more.
 % (Note however that we do not focus on adaptation effects in this thesis).
-
-\marginpar{
-    \includegraphics[w=1]{exIF-fit.png}
-    \captionof{figure}{A linear-plus-exponential model (red) fit to data from a cortical pyramidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
-    \label{fig:exIF-fit}
-}
 
 The AdEx model consists of two differential equations (\labelcref{eq:AdEx-V,eq:AdEx-w}), and a discontinuous update after a spike is generated (\labelcref{eq:AdEx-reset}). One equation simulates the membrane voltage $V$, and one the adaptation current $w$:
 \begin{align}
@@ -46,7 +43,7 @@ We use the sign convention of inter alia Dayan \& Abbott\footnote{\cite{Dayan200
 The adaptation current $w$ decays exponentially to zero on its own ($-w$ in \cref{eq:AdEx-w}), and is influenced by voltage deviations from equilibrium: for $a > 0$, $w$ acts on $V$ in the opposite direction of the deviation, and for $a < 0$, $w$ acts in the same direction. Izhikevich calls the former a resonant current, and the latter an amplifying one.\footnote{\cite{Izhikevich2007DynamicalSystemsNeuroscience}, section 5.2.4. Note the different notation used; see the translation in \cref{tab:AdEx-Izh-compar}.}
 
 \begin{table}[h]
-    \vspace*{2em} % making space for footnote above
+    \vspace*{1.8em} % making space for footnote above
     \begin{sidecaption}
         {\textbf{Quantities and parameters of the AdEx neuron}, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also co-determines the location of the firing threshold.}
         [tab:AdEx-params]
@@ -69,6 +66,13 @@ The adaptation current $w$ decays exponentially to zero on its own ($-w$ in \cre
     \end{sidecaption}
     \vspace*{1em}
 \end{table}
+
+\marginpar{
+    \vspace*{2em}
+    \includegraphics[w=1]{exIF-fit.png}
+    \captionof{figure}{A linear-plus-exponential model (red) fit to data from a cortical pyramidal neuron (black), from \cite{Badel2008ExtractingNonlinearIntegrateandfire}}
+    \label{fig:exIF-fit}
+}
 
 In this chapter, we will analyse $\d{V}$ as a function of $V$, i.e. analyse it as a dynamical system: will the voltage increase or decrease at the current voltage?
 For conciseness in later analysis, we call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
@@ -159,7 +163,6 @@ Another well-known alternative neuron model is the class of Hodgkin-Huxley (HH)-
 
 
 
-\clearpage
 \section{The Izhikevich neuron}
 
 \begin{figure}
@@ -401,7 +404,7 @@ Note also that, even though the inhibitory input is four times as strong as the 
 
 In our simplest experimental setup, we simulate just one AdEx neuron.
 Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process.\footnote{
-    This is both a simple and relatively accurate model of real cortical pyramidal firing statistics.\cite{Softky1993HighlyIrregularFiringa}
+    This is both a simple and relatively accurate model of real cortical pyramidal firing statistics: the time between two spikes is almost completely independent of preceding inter-spike intervals.\cite{Softky1993HighlyIrregularFiringa}
 }
 We call this the `N-to-1' setup.
 
@@ -601,7 +604,3 @@ After a comparison of compilation and runtimes of both implementations (\cref{ta
         \end{tabular}
     \end{sidecaption}
 \end{table}
-
-
-
-% Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
