@@ -130,8 +130,6 @@
 
 \begin{document}
 
-% https://tex.stackexchange.com/questions/284486/set-a-different-layout-for-a-single-page-in-memoir
-
 \begin{titlingpage}
     \let\prev=\parskip
     \setlength{\parskip}{1.6em}
@@ -164,24 +162,17 @@
 \end{titlingpage}
 
 
+\chapterstyle{bringhurst}
+
+\vspace*{-5em}
+\pdfbookmark{\contentsname}{Contents}
 \tableofcontents*
 
+\input{frontmatter.tex}
 
-\chapter*{Preamble}
-
-Figures and tables in this document are often accompanied by a link to the Jupyter Notebook that generated them. These notebooks contain more information than can be conveyed in just the caption. These links look like, e.g:
-\nburl{2021-12-06__local_HH_dV_shape}.
-To visit these links, in the digital version of this document, just click them. In the paper version, convert them to an URL as follows: {\small \url{https://tfiers.github.io/phd/nb/2021-12-06__local_HH_dV_shape.html}}.
+\chapterstyle{bianchi}
 
 
-% \chapter*{Acknowledgements}
-
-% I want to thank the following people for helping to make this thesis a reality.
-
-% For their expert guidance, and their patience and kindness, my supervisors Mark and Matias.
-
-% And for their moral support in many different ways:
-% Lucia, Sara, Steven, Pieter, Silke, my parents, my friends in Holsbeek (Emily, Lies, Tim, Arnoud, Katia) and in Nottingham (Frederica, Helen, Emily).
 
 
 \chapter{Introduction}

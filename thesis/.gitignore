@@ -9,5 +9,6 @@
 *.blg
 *.dvi
 *.out.ps
+*.toc
 
 mwe
