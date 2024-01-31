@@ -569,7 +569,12 @@ The latter could be done by passing the voltage signal through a linear filter w
 \section{Software implementation}
 \label{sec:software}
 
-To numerically simulate the model described in this chapter, different software implementations have been used throughout my PhD.
+To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language.\cite{Bezanson2017JuliaFreshApproach}.\footnoteatfoot{
+    Our code -- and its history -- is hosted at \url{https://github.com/tfiers/phd}. This repository is currently private, but the reader will be granted access after sending their GitHub email or username to \texttt{tomas.fiers@gmail.com}.
+}
+After a comparison of compilation and runtime speeds of both implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
+    The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator, and our software was written specifically for the N-to-1 AdEx problem.
+}
 
 \begin{table}[h]
     \begin{sidecaption}
@@ -597,6 +602,6 @@ To numerically simulate the model described in this chapter, different software 
     \end{sidecaption}
 \end{table}
 
-% Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
 
-\emph{\{to expand a bit\}}
+
+% Note that the timings in \cref{tab:software-timings} do not include compilation times, which can be considerable.
