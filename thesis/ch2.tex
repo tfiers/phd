@@ -148,7 +148,7 @@ A simpler model than AdEx would be the well-known LIF neuron:
     \text{if}\ V > θ,\ \text{then:}\ V ← V_r \\
 \end{align*}
 As is apparent from comparing this with \cref{eq:AdEx-V,eq:AdEx-reset}, the AdEx model is an extension of the LIF model. The LIF neuron lacks a simulation of the upstroke of spikes (the exponential term in \cref{eq:AdEx-V}), and the slower time-scale adaptation current (\cref{eq:AdEx-w}), which allows the simulation of many qualitatively different real neuron types.
-It is especially this first addition, the full upstroke simulation, that seems relevant in generating realistic voltage traces.
+% It is especially this first addition, the full upstroke simulation, that seems relevant in generating realistic voltage traces.
 
 Would this thesis have been very different had we used LIF neurons instead?
 Probably not, though it might depend on the mean voltage level of the simulated neuron: if it is well below the firing threshold, both LIF and AdEx are linear (the exponential term is negligible), and they behave quasi identically. When a spike is generated in the AdEx model, the exponential feedback makes the upstroke very fast, and thus not many timesteps in the simulation are spent on it, versus the linear regime.
@@ -264,7 +264,7 @@ As a result, Izhikevich neurons have an unrealistically slow spike upstroke, exa
     \label{fig:testbench-I-Izh-AdEx}
 \end{figure}
 
-A second issue is Izhikevich's subthreshold nonlinearity. The effects of this can be seen in \cref{fig:testbench-I-Izh-AdEx}. Positive input currents produce stronger responses than equally large negative input currents. This is explained by the quadratic $\d{V}$ shape: positive deviations are attenuated less, and negative deviations more, than a linear neuron would. Real and AdEx neurons do not suffer this assymetry.
+A second issue is Izhikevich's subthreshold nonlinearity. The effects of this can be seen in \cref{fig:testbench-I-Izh-AdEx}. Positive input currents produce stronger responses than equally large negative input currents. This is explained by the quadratic $\d{V}$ shape: positive deviations are attenuated less, and negative deviations more, than a linear neuron would. Real and AdEx neurons do not suffer this assymetry (\cref{fig:exIF-fit}).
 
 This nonlinearity is not visible for small voltage deviations, which is what the postsynaptic potentials we are interested in in this thesis tend to be. There is however an effect of the neuron's average voltage: if this voltage is constantly on the higher side, then inputs -- both negative and positive -- will cause larger responses than if the median voltage was lower.
 
@@ -400,13 +400,15 @@ Note also that, even though the inhibitory input is four times as strong as the 
 \label{sec:lognormal-poisson-input}
 
 In our simplest experimental setup, we simulate just one AdEx neuron.
-Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process. We call this the `N-to-1' setup.
-% TODO: justify Poisson.
+Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process.\footnote{
+    This is both a simple and relatively accurate model of real cortical pyramidal firing statistics.\cite{Softky1993HighlyIrregularFiringa}
+}
+We call this the `N-to-1' setup.
 
 \subsection{Log-normal Poisson spiketrains}
 
-% The inter-event intervals of a Poisson process follow an exponential distribution.
-% We use that fact to generate spike trains: we draw samples from $\mathrm{Exp}(\lambda)$ (with $\lambda$ the desired firing rate), and cumulatively sum up these intervals  to obtain spike times. This is done until we have reached the desired input train duration.
+The inter-event intervals of a Poisson process follow an exponential distribution.
+We use that fact to generate spike trains: we draw samples from $\mathrm{Exp}(\lambda)$ (with $\lambda$ the desired firing rate), and cumulatively sum up these intervals  to obtain spike times. This is done until we have reached the desired input train duration.
 
 \begin{figure}
     \hspace*{-4em}
@@ -415,7 +417,7 @@ Its input is provided by an array of $N$ Poisson neurons, i.e. they each generat
     \label{fig:log-normal}
 \end{figure}
 
-The firing rates of real neurons often follow a long-tailed distribution: most neurons do not fire much at all, while a few fire a lot. We recapitulate this in the firing rates of our Poisson input neurons, by drawing their firing rates from a log-normal distribution. We look to the literature for realistic parameters for this distribution, namely to the modelling paper of \Authorref{Roxin2011DistributionFiringRates}, and the experimental sources it cites \cite{Hromadka2008SparseRepresentationSounds,OConnor2010NeuralActivityBarrel}.
+The firing rates of real neurons often follow a long-tailed distribution: most neurons do not fire much at all, while a few fire a lot.\cite{Mizuseki2013PreconfiguredSkewedDistribution,Hromadka2008SparseRepresentationSounds,Shafi2007VariabilityNeuronalActivity} We recapitulate this in the firing rates $λ$ of our Poisson input neurons, by drawing them from a log-normal distribution. We look to the literature for realistic parameters for this distribution, namely to the modelling paper of \Authorref{Roxin2011DistributionFiringRates}, and the experimental sources it cites \cite{Hromadka2008SparseRepresentationSounds,OConnor2010NeuralActivityBarrel}.
 
 Log-normal distributions are usually parametrized with $μ$ and $σ$: the location and scale of the underlying normal distribution, i.e. after log-transforming the input domain. In the above sources however, the mean $μ_x$ of the data distribution itself is given. We can find $μ$, if $σ$ is known, as $μ = \ln(μ_x) - σ^2 / 2$.
 
