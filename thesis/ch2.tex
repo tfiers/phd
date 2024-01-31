@@ -48,7 +48,7 @@ The adaptation current $w$ decays exponentially to zero on its own ($-w$ in \cre
 \begin{table}[h]
     \vspace*{2em} % making space for footnote above
     \begin{sidecaption}
-        {Quantities and parameters of the AdEx neuron, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also co-determines the location of the firing threshold.}
+        {\textbf{Quantities and parameters of the AdEx neuron}, \cref{eq:AdEx-V,eq:AdEx-w,eq:AdEx-reset}. Values are from a model fit to a cortical regular spiking (RS) neuron, from \cite{Naud2008FiringPatternsAdaptive}. By defining the location of $\d{V}$'s minimum, $V_T$ also co-determines the location of the firing threshold.}
         [tab:AdEx-params]
         \begin{tabular}{c l r}
             Name  & Description & Value \\
@@ -155,7 +155,7 @@ Probably not, though it might depend on the mean voltage level of the simulated 
 
 On the other hand, when the neuron would continuously teeter just below its firing threshold, the LIF and AdEx models do not behave similarly. LIF's $F(V)$ curve is still fully linear, while AdEx's is not, and AdEx will behave more like a real neuron -- see \cref{fig:exIF-fit}.
 
-Another well-known alternative neuron model is the class of Hodgin-Huxley (HH)-like neurons. These models simulate the full trajectory of a spike: both its upstroke and its downstroke. Unfortunately they also have many free parameters. They also take a bit longer to simulate, being higher dimensional (having more differential equations), and containing many more exponential terms, which take the brunt of the time when numerically evaluating a differential expression.
+Another well-known alternative neuron model is the class of Hodgkin-Huxley (HH)-like neurons. These models simulate the full trajectory of a spike: both its upstroke and its downstroke. Unfortunately they also have many free parameters. They also take a bit longer to simulate, being higher dimensional (having more differential equations), and containing many more exponential terms, which take the brunt of the time when numerically evaluating a differential expression.
 
 
 
@@ -571,18 +571,16 @@ The latter could be done by passing the voltage signal through a linear filter w
 \section{Software implementation}
 \label{sec:software}
 
-To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language.\cite{Bezanson2017JuliaFreshApproach}.\footnoteatfoot{
-    Our code -- and its history -- is hosted at \url{https://github.com/tfiers/phd}. This repository is currently private, but the reader will be granted access after sending their GitHub email or username to \texttt{tomas.fiers@gmail.com}.
-}
-After a comparison of compilation and runtime speeds of both implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
-    The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator, and our software was written specifically for the N-to-1 AdEx problem.
+To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language.\cite{Bezanson2017JuliaFreshApproach}.
+After a comparison of compilation and runtimes of both implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
+    The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator with much more capabilities; and our software was written specifically for the N-to-1 AdEx problem.
 }
 
 \begin{table}[h]
     \begin{sidecaption}
         {\textbf{Time taken to simulate 10 seconds of the N-to-1 experiment}
         {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and one inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}').\\
-        For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023_08_09__Poisson_cquantile_upperbound} (Julia).}
+        For details, see \nburl{2023-07-10__AdEx_Nto1_Brian_speedtest} (Cython), \nburl{2023-08-02__speedtest_brian_standalone_AdEx_Nto1} (C++), and \nburl{2023-08-09__Poisson_cquantile_upperbound} (Julia).}
         }
         [tab:software-timings]
             \sisetup{table-number-alignment=left}
