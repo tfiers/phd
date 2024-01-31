@@ -164,6 +164,7 @@ Another well-known alternative neuron model is the class of Hodgkin-Huxley (HH)-
 
 
 \section{The Izhikevich neuron}
+\label{sec:izh}
 
 \begin{figure}
     \begin{sidecaption}
@@ -574,10 +575,11 @@ The latter could be done by passing the voltage signal through a linear filter w
 \section{Software implementation}
 \label{sec:software}
 
-To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language\cite{Bezanson2017JuliaFreshApproach}.\footnote{
+To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. Initially, a custom simulator was written in Python, with numerically expensive parts of the code accelerated using the Numba just-in-time compiler.\cite{Lam2015NumbaLLVMbasedPythona}. Later on, we switched to a custom simulator written in Julia \cite{Bezanson2017JuliaFreshApproach}.\footnote{
     A slideshow introducing Julia and how it compares to Python and Matplotlib can be found \href{https://tomasfiers.net/posts/julia-for-scientists/}{here}.
 }
-After a comparison of compilation and runtimes of both implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
+Finally, we also implemented our model in Brian\cite{Stimberg2019BrianIntuitiveEfficient}.
+After a comparison of compilation and runtimes of the Brian and Julia implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
     The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator with much more capabilities; and our software was written specifically for the N-to-1 AdEx problem.
 }
 
