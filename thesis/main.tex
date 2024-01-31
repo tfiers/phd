@@ -126,7 +126,46 @@
 
 \graphicspath{{figs/}}
 
+
+
 \begin{document}
+
+% https://tex.stackexchange.com/questions/284486/set-a-different-layout-for-a-single-page-in-memoir
+
+\begin{titlingpage}
+    \let\prev=\parskip
+    \setlength{\parskip}{1.6em}
+
+    \vspace*{20em} % star, so not ignored at start of page.
+    {\Large \emph{From Voltage to Wiring:}}\\
+    \makebox[1.2\textwidth][l]{\Large {Synaptic connectivity inference from neural voltage recordings}}
+
+    \vspace{2em}
+
+    Tomas Fiers
+
+    \emph{Doctoral thesis}
+
+    \vspace{1em}
+
+    \emph{Supervisors}: Mark Humphries \& Matias Ison\\
+    \emph{Assessors}: Rüdiger Thul \& Dan Goodman
+
+    \vspace{1em}
+    {\color{LighterBlack}  % \textcolor{}{} can't do paragraphs.
+
+    University of Nottingham\\
+    School of Psychology
+
+    January 2024}
+
+    \setlength{\parskip}{\prev}
+    \vspace*{9em}
+\end{titlingpage}
+
+
+\tableofcontents*
+
 
 \chapter*{Preamble}
 
