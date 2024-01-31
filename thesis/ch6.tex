@@ -50,12 +50,12 @@ Because our voltage-based methods have more information and operate on the princ
 There is one published paper that we know off that also explicitly researches voltage-based network inference: \authoryear{Zhang2017SpikeTriggeredRegressionSynaptic}, \cite{Zhang2017SpikeTriggeredRegressionSynaptic}.
 Their method is called ``spike-triggered regression'', which at first sight sounds similar to the linear regression of the upstroke in spike-triggered windows that we do. But whereas we regress voltage against time-after-spike, they regress voltage against its own history (i.e. an autoregressive voltage model), and binned spiketrains of other neurons.
 The regresssion coefficients of these other spiketrains on the `post' neuron's voltage are used for the connection test.
-Implementing \author{Zhang2017SpikeTriggeredRegressionSynaptic}'s method and testing it on our data would be instructive.
+Implementing Zhang et al.'s method and testing it on our data would be instructive.
 
 
 \subsection{New network inference methods}
 
-[TODO]: cluster, BIC.
+% [TODO]: cluster, BIC.
 
 A deep-learning based network inference approach might be feasible, because we have sheer-infinite training data: we can generate and simulate as many different neuronal networks as needed. This would fall under the `simulation-based inference' (SBI) nomer.\cite{Cranmer2020FrontierSimulationbasedInference} While SBI techniques have been applied in neuroscience\cite{Goncalves2020TrainingDeepNeural}, they have to our knowledge not yet been used to find reconstruct connectivity.
 
@@ -69,4 +69,15 @@ A deep-learning based network inference approach might be feasible, because we h
 % \end{itemize}
 
 
+
 \section{Conclusion}
+
+In this thesis, we set out to answer the question: "Is it feasible, in principle, to perform network inference from neural voltage signals?". We have tested this idea with simulated data, and developed three new voltage-based connection detection methods.
+We also extensively tested a simple existing algorithm -- namely measuring the height of the spike-triggered average (STA), which is a reflection of the postsynaptic potential -- under varying excitatory-inhibitory (EI) conditions, and both in a simplified `N-to-1' setup, and in a fully recurrent network.
+
+We find that voltage-based network inference seems feasible to a limited extent, under realistic voltage imaging conditions ($6400$ EI-balanced inputs to one neuron, 10-minute
+recording, voltage imaging SNR of $40$): the simple algorithm performs considerably better than chance -- though only for the 200 highest-firing inputs.
+
+Two of our newly developed inference methods perform better than the simple algorithm: they perform considerably better than chance when testing \emph{all} inputs (and not just the high firing ones). Our best-performing algorithm performs a linear regression on the upstroke of the STA. A detection algorithm based on this regression reaches an AUC value of $0.45$ for $6400$ inputs (chance level AUC: $0.25$). At a false positive rate of $5$\%, we correctly detect $12$\% of the neuron's inputs.
+
+We conclude that voltage-based network inference seems useful for (1) inferring simple networks (low number of inputs per neuron), and (2) finding the high-firing connections in more complex networks.
