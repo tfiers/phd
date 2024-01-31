@@ -574,12 +574,15 @@ The latter could be done by passing the voltage signal through a linear filter w
 \section{Software implementation}
 \label{sec:software}
 
-To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language.\cite{Bezanson2017JuliaFreshApproach}.
+To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. One of these was an written using the Brian simulator\cite{Stimberg2019BrianIntuitiveEfficient}. Another was a custom software in the Julia language\cite{Bezanson2017JuliaFreshApproach}.\footnote{
+    A slideshow introducing Julia and how it compares to Python and Matplotlib can be found \href{https://tomasfiers.net/posts/julia-for-scientists/}{here}.
+}
 After a comparison of compilation and runtimes of both implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
     The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator with much more capabilities; and our software was written specifically for the N-to-1 AdEx problem.
 }
 
 \begin{table}[h]
+    \vspace*{3em}
     \begin{sidecaption}
         {\textbf{Time taken to simulate 10 seconds of the N-to-1 experiment}
         {\small with N = 6500 Poisson inputs, and one conductance-based AdEx neuron. In the `merged' models, only 200 Poisson spiketrains are independently simulated (instead of all 6500, as in the `full' model). All other inputs are replaced by two single Poisson inputs (one excitatory and one inhibitory), with an equivalent effect. (That is, we use Brian's `\texttt{\href{https://brian2.readthedocs.io/en/stable/user/input.html\#efficient-poisson-inputs-via-poissoninput}{PoissonInput}}').\\
