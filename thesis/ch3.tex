@@ -249,11 +249,189 @@ I.e, in the N-to-1 setup with 6500 inputs, for the 200 highest-firing of those i
 The area under the TPR/FPR-curve (AUC) for this recording duration and quality is about 0.50 (compared to the chance level of 0.25 -- see \cref{fig:AUC_chance_level}).
 
 
+
 \section{EI balance}
 
+In the rest of this thesis, we choose to have a fixed EI-balance (4:1 excitatory to inhibitory neurons, with  inhibitory neurons 4× stronger) and fixed excitatory and inhibitory reversal potentials. In this section however, we investigate these parameters, and wonder whether changing them has any effect on network inference performance.
+
+\marginpar{
+    \hspace*{-1.2em}
+    \includegraphics[w=1.2]{Nto1-high-N}
+    \captionof{figure}{
+        \textbf{STA performance for different $N$.}\\
+        10-minute 4:1 EI-balanced simulations using the Izhikevich neuron. 16 simulations per condition, for different random number generator seeds.
+        Source: \nburl{2022-05-02__STA_mean_vs_peak-to-peak}.
+    }
+    \label{fig:Nto1-high-N}
+}
+
+\underline{Note:} The results in this section were obtained before we switched to using an AdEx neuron model. They still use the Izhikevich neuron model (but with comparable parameters -- which were calculated using the correspondences found in \cref{sec:izh}). Second, in the rest of this chapter, we use a high number $N$ of input spiketrains (6400 in total). In this section however, we use just 27 input spiketrains.\footnote{
+    Part of the reason for this initially lower number of spiketrains is that we still used our simulator written in Python and Numba here, which was slower than our later Julia simulator. We also still connection-tested \emph{all} inputs, and not just the highest firing (or a random subset). This made iterating with high $N$ prohibitively slow.
+}
+As might be expected, using a lower number of inputs makes connection inference much easier, as can be seen in \cref{fig:Nto1-high-N} (note that here, we test \emph{all} input spiketrains, and not just the highest firing ones as before. This gives a lower overall performance).
+
+In the first subsection below, inhibitory and excitatory connections are equally strong ($Δg_\exc = \ Δg_\inh$). In the second subsection, the strength of inhibitory connections is varied.
+
+\newcommand*{\sym}[1]{\ensuremath{#1}\xspace}  % used for definitions below
+
+\newcommand*{\dgsyn}{\sym{Δg_\text{syn}}}
+\newcommand*{\dgexc}{\sym{Δg_\exc}}
+\newcommand*{\dginh}{\sym{Δg_\inh}}
+\newcommand*{\pconn}{\sym{p_\text{connected}}}
+\newcommand*{\pinh}{\sym{p_\inh}}
+\newcommand*{\vinh}{\sym{E_\inh}}
+\newcommand*{\Nexc}{\sym{N_\exc}}
+\newcommand*{\Ninh}{\sym{N_\inh}}
+
+
+\subsection{Influence of inhibitory reversal potential}
+
+Connections are still detected by spike-triggered averaging (STA) and testing the STA height of a spike train against the STA height of shuffled versions of the train -- both for excitatory and inhibitory inputs. Performance of this algorithm is shown in \cref{fig:N_1_IE}, for varying proportions of inhibitory versus excitatory inputs, and for two different inhibitory synaptic reversal potentials.
+
+We find that we can reliably detect the inhibitory as well as the excitatory connections -- but only when the inhibitory reversal potential lies below the neuron's resting potential, or when there are no or very few excitatory inputs.
+
+\Cref{fig:N_1_signals} shows why this is: when the neuron is spiking, the reversal potential $\vinh = -50$ mV lies around the neuron's median voltage (which is $-50.5$ mV for $\pinh = 0.1$, and which we'll call $v_\text{rest}$ here).\footnote{
+    Note that this is not the "resting potential" parameter $v_r$ of the Izhikevich simulation, which is $-60$ mV.
+}
+Any inhibitory spike will thus not have any influence on the total synaptic current and hence the neuron's voltage. This is reflected in a flat STA, and hence, undetactable inhibitory connections.
+
+When the inhibitory reversal potential lies below this median voltage however, an inhibitory STA is visible even when the neuron spikes. Similarly, when the neuron does not spike, its median voltage is lower than \vinh, and an \emph{upwards} inhibitory STA is visible.
+
+We can thus conclude that, for connections to be detectable via the STA test, their synaptic reversal potential may not lie too close to the neuron's median voltage.
+
+In real neurons, the reversal potential of inhibitory inputs lies below the neuron's median membrane voltage. We thus set \vinh to $-65$ mV in the rest of this section. This is the approximate reversal potential of $\mathrm{Cl}^-$, the ion for which GABA\textsubscript{A} channels -- the main inhibitory receptor -- are permeable.\cite{Dayan2001TheoreticalNeuroscienceComputational,Kandel2013PrinciplesNeuralScience}
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=1.47]{N_to_1_IE/performance_dots.png}
+    }
+  \captionn
+  {STA detects inhibitory connections, but only when $\vinh < v_\text{rest}$ or when there are no excitatory inputs}
+  {
+    Connection detection performance of spike-triggered averaging at varying proportions of inhibitory inputs, and for two different inhibitory synaptic reversal potentials \vinh.
+    \Top: Performance at a fixed detection threshold of $p < 0.05$ (where $p$ is the proportion of shuffled spike trains with an STA larger than the real spike train). Plotted are the true positive rates (separately for excitatory and inhibitory connections) and the false positive rate.
+    \Bottom: Performance over all detection thresholds, as
+    area under the ROC curve. As TPR is calculated separately for excitatory and inhibitory connections, there are also two ROC curves.
+    For each condition, the simulation is run six times, each time with a different random number generator seed. The semi-transparent circles are individual simulations. The thick lines average over the seeds.\\
+    Source: \nburl{2021-09-16__vary_E_vs_I}.
+  }
+  \label{fig:N_1_IE}
+\end{figure}
+
+\begin{figure}
+    \hspace*{-2.5em}
+    \subfloat{
+        \includegraphics[w=1.58]{N_to_1_IE/inspect_signals.png}
+    }
+  \captionn
+  {The inhibitory STA is flat when the reversal potential is close to the neuron's median voltage}
+  {Excerpts from the Izhikevich simulation output (top row), and spike triggered averages of the voltage imaging signal (bottom two rows). The top voltage traces are shown without any VI noise for clarity. The actual STA's are in fact calculated on the noisy VI signal. Note that the y-axis extents of the STA's differ between columns (but are consistent within one).\\
+  Source: \nburl{2021-09-16__vary_E_vs_I}.}
+  \label{fig:N_1_signals}
+\end{figure}
+
+
+\subsection{Different synaptic conductances}
+
+The synaptic conductance bump \dgsyn is now split into two different values: \dgexc and \dginh, for excitatory and inhibitory connections respectively.
+\dgexc is fixed at $0.4$ nS. This value is chosen so that the output neuron has a realistic firing rate (less than one spike per second, but more than zero). \dginh is varied to be different multiples of this.
+
+The ratio of inputs of either type is fixed at the physiological value of 4:1 excitatory:inhibitory, i.e. $\pinh = 0.2$. The fraction of connected inputs \pconn is set to $0.7$. All other simulation parameters stay the same.
+
+We find that the STA method can detect connections when \dginh is at least as strong as \dgexc (\cref{fig:IE_ratio_perf}). This is straightforwardly explained by larger synaptic conductances causing larger PSP's, and thus larger STA's (\cref{fig:IE_ratio_signals}).
+
+\begin{figure}
+        \includegraphics[w=0.8]{N_to_1_IE/ratio/spikes}\\[1em]
+    \subfloat{
+        \includegraphics[w=0.8]{N_to_1_IE/ratio/rates}
+        \includegraphics[w=0.8]{N_to_1_IE/ratio/aucs}
+    }
+    \captionn
+        {STA detects inhibitory connections for most conductance ratios, and with or without output spikes}
+        {Legend as in \cref{fig:N_1_IE}, but now with twenty simulations per condition, instead of six.
+        Note that at a $p$-value threshold of $0.05$ (bottom left panel), we expect to see a false positive ratio of $0.05$, as can indeed be seen for most conductance ratios. With lower thresholds, we can decrease this FPR without decreasing recall, as evidenced by the AUC scores $\approx 1$.\\
+        Source: \nburl{2021-11-05__vary_syncond_ratio}.
+        }
+  \label{fig:IE_ratio_perf}
+\end{figure}
+
+\begin{figure}
+    \hspace*{-2.5em}
+    \subfloat{
+        \includegraphics[w=1.6]{N_to_1_IE/ratio/signals}
+    }
+  \captionn
+  {STA height increases with synaptic conductance}
+  {Orange lines indicate the neuron's median voltage over the entire recording duration.\\
+  Source: \nburl{2021-11-05__vary_syncond_ratio}.}
+  \label{fig:IE_ratio_signals}
+\end{figure}
+
+
+\subsection{More connections versus stronger connections}
+
+In the previous two subsections, we varied either the proportion of inhibitory inputs \pinh, or the inhibitory synaptic conductance \dginh.
+Here, we vary both simultaneously.
+
+We fix the number of excitatory inputs \Nexc to be $24$, and set the number of inhibitory inputs \Ninh to be a (sub)multiple of that. (Note that this changes the total number of inputs, which was fixed at $30$ up until now).
+The synaptic conductance bump per excitatory spike \dgexc is fixed at $0.4$ nS as in the previous subsection, and \dginh is set to a multiple of that.
+
+The multiples are chosen so that on the diagonal of \cref{fig:IE_tradeoff_grids}, the ratio of inputs is the inverse of the ratio of connection strengths: $\dginh / \dgexc = 4$ is matched with $\Ninh / \Nexc = 1 / 4$, etc.
+
+We find that the spike triggered averaging method can detect both excitatory and inhibitory connections, over the entire parameter grid -- except, as found in the previous subsection, for weak inhibitory connections. In cortex, inhibitory connections are generally stronger than excitatory connections, so we should not find ourselves in this regime. Note also that we can detect incoming connections even when the neuron does not spike at all. This is a major advantage of voltage based connection detection versus spike-to-spike connection detection.
+
+\begin{figure}
+    \hspace*{-2.5em}
+    \subfloat{
+        \includegraphics[w=1.6]{N_to_1_IE/tradeoff/grids.png}
+    }
+  \captionn
+  {STA detects connections for weak or strong, sparse or dense inhibition}
+  {Output firing rate (left) and connection detection performance (center and right) for different amounts and strengths of inhibitory inputs.
+    Every cell is the mean of $6$ simulations.\\
+    Source: \nburl{2021-11-11__vary_both_inh_strength_and_proportion}.}
+  \label{fig:IE_tradeoff_grids}
+\end{figure}
+
+Focusing on the diagonal of \cref{fig:IE_tradeoff_grids} (highlighted in \cref{fig:IE_tradeoff_diag}), we notice that, notwithstanding the balancing, the firing rate increases for stronger but fewer connections. The reason is shown in \cref{fig:IE_tradeoff_sigs}: in these balanced regimes, the neuron can only fire when the inhibition is temporarily low enough for the excitation to overcome it, and make the neuron spike. When there are fewer inhibitory inputs, there will be more and longer such inhibition gaps (even though when there is inhibition, it is stronger, making the mean inhibition equal, as shown \cref{fig:IE_tradeoff_sigs} right).
+This nonlinear phenomenon is typical in spiking simulations. In a mean-field model, where only firing \emph{rates} are simulated, this would not occur.
+
+Looking at individual columns or rows of \cref{fig:IE_tradeoff_grids}, we find that the firing rate gently decreases above the diagonal, but below the diagonal it falls sharply to zero. This is again a consequence of simulating spikes: increasing the net excitation changes nothing about a zero firing rate, until the firing threshold is reached, above which net excitation and firing rate do change in lockstep.
+
+Finally, we explain the high spread / multimodality in the firing rates of \cref{fig:IE_tradeoff_diag}. At the beginning of each simulation, when determining the number of input spike trains of each type (connected or not connected; excitatory or inhibitory), stochastic rounding is used. Say that there are $3$ inhibitory inputs (i.e. $1/8$th of the $24$ excitatory inputs, as on the far right of \cref{fig:IE_tradeoff_diag}). With our current connection probability \pconn of $0.7$, we should have $0.7 \times 3 = 2.1$ connected inhibitory inputs. With stochastic rounding, in $90\%$ of simulations there will be $2$ connected inhibitory inputs, and in $10\%$ of simulations there will be $3$. Those $10\%$ simulations with $3$ inhibitory connections are responsible for the cluster at the bottom right of the firing rate graph of \cref{fig:IE_tradeoff_diag}.
+
+\begin{figure}
+    \hspace*{-2.5em}
+    \subfloat{
+        \includegraphics[w=0.78]{N_to_1_IE/tradeoff/diag_fr.png}
+        \includegraphics[w=0.78]{N_to_1_IE/tradeoff/diag_auc.png}
+    }
+  \captionn
+  {Firing rate increases with stronger (but fewer) inhibitory inputs}
+  {Excerpt of \cref{fig:IE_tradeoff_grids} along the diagonal (but with $20$ simulations per condition rather than $6$). Dots are individual simulations , lines are their means.\\
+  Source: \nburl{2021-11-11__vary_both_inh_strength_and_proportion}.}
+  \label{fig:IE_tradeoff_diag}
+\end{figure}
+
+\begin{figure}
+    \hspace*{-2.5em}
+    \subfloat{
+        \includegraphics[w=0.78]{N_to_1_IE/tradeoff/sig_vm.png}
+        \includegraphics[w=0.78]{N_to_1_IE/tradeoff/sig_ginh.png}
+    }
+  \captionn
+  {The neuron spikes during gaps in inhibitory input}
+  {Excerpts from the membrane potential (left) and the total synaptic conductance of all inhibitory inputs (right) of two simulations. In the blue simulation, inhibitory inputs are $8$ times as strong as excitatory inputs, but there are $1/8$th times as many. In the orange simulation, the inhibitory inputs are as strong and as numerous as the excitatory inputs. Horizontal lines are means of the conductances over the entire simulation duration.
+    Note the blue conductance gap around $t = 10.4$ seconds, allowing a spike.\\
+    Source: \nburl{2021-11-11__vary_both_inh_strength_and_proportion}.}
+  \label{fig:IE_tradeoff_sigs}
+\end{figure}
 
 
 
+
+
+\FloatBarrier
 \section{Computational cost of STA test}
 
 The brunt of the time in using the STA as a connection test is in actually calculating these STAs -- and the STAs of the shuffled versions of the tested spiketrains.
@@ -288,6 +466,7 @@ The computation time of the STA-based test thus scales linearly with the voltage
 \end{figure}
 
 
+\FloatBarrier
 \section{Conclusion}
 
 Using spike-triggered-averages of the postsynaptic voltage is an obvious way to look for post-synaptic potential bumps, and to thus detect neuron connections.
@@ -295,10 +474,9 @@ Using spike-triggered-averages of the postsynaptic voltage is an obvious way to 
 In this chapter we have found that this STA method indeed does significantly better than chance at detecting conections, under realistic conditions (6500 EI-balanced inputs to one neuron, 10 minute recoding, voltage imagaing SNR of 40).
 Of the highest firing inputs (100 excitatory, 100 inhibitory), we detect about 65\%, at a precision level where 65\% of our detections are correct. The AUC is about $0.50$.
 
-This is significantly better than chance (AUC at chance level is $0.252$), but there is a lot of room for improvement. In a later chapter (\cref{ch5-new-methods}), we will look for improved connection detection methods. But first, we take another look at our test setup.
-
-In this chapter, only one neuron's voltage was simulated, while being stimulated by N independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.\cite{Orlandi2017FirstConnectomicsChallenge,Das2020SystematicErrorsConnectivity}
-
-
 % better: TPR at FPR of 0.05 (e.g.). But need to re-run nb.
 % (the sweeps are on disk :)).
+
+This is significantly better than chance (AUC at chance level is $0.252$), but there is a lot of room for improvement. In a later chapter (\cref{ch5-new-methods}), we will look for improved connection detection methods. But first, we take another look at our test setup.
+
+In this chapter, only one neuron's voltage was simulated, while being stimulated by $N$ independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections that are detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.\cite{Orlandi2017FirstConnectomicsChallenge,Das2020SystematicErrorsConnectivity}
