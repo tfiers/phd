@@ -54,9 +54,10 @@ In this thesis, we aim to develop algorithms that infer the connections between 
 Such an algorithm then allows for fast and cheap estimation of the neural wiring in behaving animals, throughout their lifetime and across experiments. This could allow systems neuroscientists – whether they study e.g. memory, addiction, or movement disorders – to find answers to their questions linking brain wiring and brain (dys)function in a manner more straightforward than before.
 
 
-\subsection{Recording neural activity}
+\section{Recording neural activity}
 
-There are currently two methods in popular use to record the activity of multiple individual neurons, in vivo: calcium imaging and extracellular electrode recordings. The strength of each method is the weakness of the other. Both are performed through a small, surgically created hole in the skull.
+There are currently two methods in popular use to record the activity of multiple individual neurons, in vivo: calcium imaging and extracellular electrode recordings.\cite{Carter2015GuideResearchTechniques,Scanziani2009ElectrophysiologyAgeLight}
+The strength of each method is the weakness of the other. Both are performed through a small, surgically created hole in the skull.
 
 In calcium imaging, neurons are filled with a calcium indicator or “dye” – a molecule that becomes fluorescent when calcium binds to it. When a neuron sends an action potential (a “spike”), its cell body is briefly flooded with calcium. A dyed neuron that has just sent a spike thus becomes fluorescent for a short while. To record activity, laser light is focused in a point and scanned across a volume of brain tissue. Neurons that recently spiked will send light back, which is captured to yield a three-dimensional movie of neural activity. This allows scientists to observe large numbers of neurons – namely all active neurons in the volume. An additional advantage is that calcium indicators can be genetically targeted so that they only occur in specific neuron types of interest, providing a focused view. A major disadvantage however is that multiple spikes fired from a neuron in rapid succession cannot be easily distinguished, as the calcium effects of each spike are slow and combine non-linearly.
 
@@ -66,7 +67,7 @@ Calcium imaging thus provides good spatial information but has a low temporal re
 
 
 \FloatBarrier
-\subsection{Voltage imaging}
+\section{Voltage imaging}
 
 \begin{figure}
     \includegraphics[w=1.5]{VI-sigs}
@@ -77,15 +78,19 @@ Calcium imaging thus provides good spatial information but has a low temporal re
     \label{fig:VI-sigs}
 \end{figure}
 
-Voltage imaging is very similar to calcium imaging: all or a genetically selected subset of neurons are made fluorescent, and these are scanned with a focused laser, to yield three-dimensional movies of neural activity. The difference is that the indicator molecules used in voltage imaging fluoresce in direct proportion to the membrane potential of the cell, instead of its calcium concentration. This then allows to directly observe the membrane potential of all neurons of interest in the field of view (\cref{fig:VI-sigs}).
+Voltage imaging is very similar to calcium imaging: all or a genetically selected subset of neurons are made fluorescent, and these are scanned with a focused laser, to yield three-dimensional movies of neural activity.\cite{Knopfel2019OpticalVoltageImaging}
+The difference is that the indicator molecules used in voltage imaging fluoresce in direct proportion to the membrane potential of the cell, instead of its calcium concentration. This then allows to directly observe the membrane potential of all neurons of interest in the field of view (\cref{fig:VI-sigs}).
 
-Although voltage imaging has existed for a long time, the recorded signal has long been too weak to distinguish it from background noise (unless animals with very large neurons are used, or the activity of many co-firing neurons is pooled together). In recent years however, multiple labs have been iteratively refining the voltage indicator molecules. Together with the improvements in fluorescence imaging technology, driven by calcium imaging, this has made voltage imaging now powerful enough to image multiple individual neurons in vivo in common model animals. The signal-to-noise ratio has improved to the point that not only individual spikes, but also subthreshold voltage fluctuations can be observed.\footnote{
+Although voltage imaging has existed for a long time, the recorded signal has long been too weak to distinguish it from background noise (unless animals with very large neurons are used, or the activity of many co-firing neurons is pooled together).\footnote{
+    One reason for the relative noisiness of voltage imaging is that the indicator molecules are embedded in the cell membrane, whereas in calcium imaging, the indicator molecules float around the entire cell \emph{volume}. The dendrites and axons of a neuron make up most of the cell's surface area, whereas the soma makes up most of its volume. Calcium indicators are thus much more localized than voltage indicators.
+}
+In recent years however, multiple labs have been iteratively refining the voltage indicator molecules. Together with the improvements in fluorescence imaging technology, driven by calcium imaging, this has made voltage imaging now powerful enough to image multiple individual neurons in vivo in common model animals. The signal-to-noise ratio has improved to the point that not only individual spikes, but also subthreshold voltage fluctuations can be observed.\footnote{
     \Cref{sec:voltage-imaging} further down expands further on the current capabilities of voltage imaging technology.
 }
 As explained next, it is precisely this level of detail that we believe enables in vivo connection mapping.
 
 
-\subsection{Inferring wiring from activity}
+\section{Inferring wiring from activity}
 
 \begin{figure}
     \vspace*{2em}  % space from vi fig above
@@ -102,16 +107,19 @@ As explained next, it is precisely this level of detail that we believe enables 
 
 The potential to infer the wiring from neural activity rests on the basic link between the two (\cref{fig:diagram_Connectivity-Activity}): an excitatory neuron that sends a spike will slightly increase the voltage of all its downstream neurons (this small increase is called the excitatory postsynaptic potential, or EPSP). When a neuron has received enough spikes, its voltage crosses a threshold, and it will send a spike itself. To estimate neural wiring, the idea is then to invert this reasoning: if neuron B often shows activity right after neuron A has fired, then neuron A is likely to be connected to neuron B.
 
-As both calcium imaging and extracellular electrode recordings yield (at best) spike timing data only, existing activity-to-wiring approaches have been based only on spike timing, and not on more detailed measurements of neural activity. The problem with this is that the correlation between two neurons being connected and them spiking together close in time is quite tenuous. For one, most neurons need to receive many spikes – each of which can come from any of its hundreds to tens of thousands of input neurons – before it fires a spike itself. Second, many neurons have long time constants, meaning that a spike can influence spiking in its receiving neurons up to hundreds of milliseconds later.
+As both calcium imaging and extracellular electrode recordings yield (at best) spike timing data only, existing activity-to-wiring approaches have been based only on spike timing\cite{MagransdeAbril2018ConnectivityInferenceNeural,Casadiego2018InferringNetworkConnectivity,Das2020SystematicErrorsConnectivity}, and not on more detailed measurements of neural activity. The problem with this is that the correlation between two neurons being connected and them spiking together close in time is quite tenuous. For one, most neurons need to receive many spikes – each of which can come from any of its hundreds to tens of thousands of input neurons – before it fires a spike itself. Second, many neurons have long time constants, meaning that a spike can influence spiking in its receiving neurons up to hundreds of milliseconds later.
 
-As a result, spike-based wiring inference methods require very long recording durations to obtain some confidence on the wiring between even small numbers of neurons. During these long recordings, the connectivity may have already changed. And long recordings are not possible for fluorescence imaging, as dyes require recovery after each recording session.
+As a result, spike-based wiring inference methods require long recording durations to obtain some confidence on the wiring between even small numbers of neurons.\footnote{
+    E.g. in \cite{Orlandi2017FirstConnectomicsChallenge}, one-hour long recordings were used. This was long enough for a lot of the spike-based methods to recover edges, but \emph{not} the directionality of connections.
+}
+During these long recordings, the connectivity may have already changed. And long recordings are not possible for fluorescence imaging, as dyes require recovery after each recording session.
 
 When we can observe the subthreshold increases in voltage occurring directly after each spike however, we might be able to accurately reconstruct connectivity from recordings on the timescale of individual in vivo experiments. The recent advances in voltage imaging provide exactly this kind of data.
 
 
 
 \clearpage
-\section{Voltage imaging}
+\section{Voltage imaging in more detail}
 \label{sec:voltage-imaging}
 
 What follows is a short literature review of the current capabilities of voltage imaging technology. The main goal is to be able to build simulations in this thesis relevant to reality.
@@ -139,8 +147,6 @@ What follows is a short literature review of the current capabilities of voltage
 
 \subsection{Working principle}
 
-\subsubsection{Overview}
-
 Voltage imaging is a type of fluorescence microscopy, itself a type of light microscopy. A light source such as a laser or an LED shines on the imaged object -- such as a slice of brain tissue, a young transparent zebrafish, or part of a mouse brain made accessible through a hole in the skull. Most light passes through the sample of interest (brain tissue is mostly transparent for the used wavelengths). However, some parts of the sample 'reflect' light back.
 
 These reflecting parts are so called voltage indicator molecules. Such molecules are introduced by the experimenter and gather spontaneously in cell membranes. The amount by which they reflect light back depends on the voltage placed over them. By capturing the reflected light from a sample, repeatedly over time, we thus get a movie showing 1) where cell membranes are, and 2) how the voltages over them change over time.
@@ -148,14 +154,15 @@ These reflecting parts are so called voltage indicator molecules. Such molecules
 \subsubsection{In more physical detail}
 The above is a simplified description of the mechanics. This section gives a slightly more detailed description of what happens.
 
-The actual mechanism of light 'reflection' is fluorescence, in which molecules absorb a photon, hold on to it for about one nanosecond, and then re-emit it again, at a longer wavelength. This process is about a million times slower than 'true' reflection (that is, photon scattering), but still a million times faster than the timescales we are interested in (milliseconds, corresponding to the duration of an action potential) and at which we image (with movie frame rates of 500 - 1500 Hz).
+The actual mechanism of light 'reflection' is fluorescence, in which molecules absorb a photon, hold on to it for about one nanosecond, and then re-emit it again, at a longer wavelength. This process is about a million times slower than 'true' reflection (that is, photon scattering), but still a million times faster than the timescales we are interested in (milliseconds, corresponding to the duration of an action potential) and at which we image (with movie frame rates of 500 - 1500 Hz).\cite{Valeur2012MolecularFluorescencePrinciples,Cox2019FundamentalsFluorescenceImaging}
 
 Furthermore, a change in voltage does not necessarily lessen the total fluorescence. Rather, the emission spectrum may shift. If you however only look at a fixed narrow band of the emitted light (as is done in fluorescence microscopy), the measured light will indeed seem to decrease or increase on voltage changes.
 'Instantaneous reflection modulated by voltage' is thus a sufficient mental model for our purpose.
 
 \subsubsection{Genetic targeting}
 
-Since the late 90's, cells have been coerced into creating (parts of) indicator molecules themselves, by delivering transgenes into the cell. This has multiple advantages. Most importantly, it allows the indicator molecules to be constrained to only certain cell types, by placing the transgene under the control of promotors that are only active in the cell type of interest. By doing so, scientists can avoid labelling glial cells. This decreases the background signal. Going further with the same principle, they can selectively label one type of neuron (for example, only interneurons in one hippocampal area).
+Since the late 90's, cells have been coerced into creating (parts of) indicator molecules themselves, by delivering transgenes into the cell.\cite{Siegel1997GeneticallyEncodedOptical}
+This has multiple advantages. Most importantly, it allows the indicator molecules to be constrained to only certain cell types, by placing the transgene under the control of promotors that are only active in the cell type of interest. By doing so, scientists can avoid labelling glial cells. This decreases the background signal. Going further with the same principle, they can selectively label one type of neuron (for example, only interneurons in one hippocampal area).\cite{Hochbaum2014AllopticalElectrophysiologyMammaliana}
 
 Another advantage, also decreasing the background signal, is that indicator molecules can be constrained to the membrane of only the cell body, and not the membranes of dendrites and axon branches. This is done by adding small cell-body-targeting signalling sequences to the transgene.
 
@@ -163,33 +170,34 @@ Another advantage, also decreasing the background signal, is that indicator mole
 
 \subsection{System performance}
 
-The history of voltage imaging has mostly been the history of finding better indicator molecules. Earlier versions (starting from their invention in the late 60's) changed their reflectance only weakly and slowly in response to a change in voltage. In addition, they were toxic, disrupting the normal functioning of cells, or altogether destroying them.
-Modern indicators are no longer toxic, and their voltage sensitivity and speed have improved substantially (by more than ten- and hundredfold, respectively).
+The history of voltage imaging has mostly been the history of finding better indicator molecules. Earlier versions (starting from their invention in the late 60's) changed their reflectance only weakly and slowly in response to a change in voltage. In addition, they were toxic, disrupting the normal functioning of cells, or altogether destroying them.\cite{Salzberg1973OpticalRecordingImpulses,Zochowski2000ImagingMembranePotential}
+Modern indicators are no longer toxic, and their voltage sensitivity and speed have improved substantially (by more than ten- and hundredfold, respectively).\cite{Miller2016SmallMoleculeFluorescent,Tomina2018DualsidedVoltagesensitiveDye}
 
 
 \subsubsection{Fidelity}
 
-Current voltage indicators can have sub-millisecond time constants, meaning they can replicate the shape of an action potential as well as an electrode recording. During an action potential in a brain slice, the measured fluorescence of current voltage indicators increases by 30\% (± about 20\%)\footnote{
-    Round brackets in this section indicate a rough indication of variation between experimental setups.
-    See [this table (todo)] for concrete data from some representative VI studies.
-    [data from \hyperlink{https://docs.google.com/spreadsheets/d/1W9Y3az4i1xdvahpdyqtsTG8F81LXK2T6wzRgsXHN3z0/edit}{this spreadsheet}].)
+Current voltage indicators can have sub-millisecond time constants, meaning they can replicate the shape of an action potential as well as an electrode recording. During an action potential in a brain slice, the measured fluorescence of current voltage indicators increases by 30\% (± about 20\%)\cite{Piatkevich2019PopulationImagingNeural,Adam2019VoltageImagingOptogenetics}\footnote{
+    Round brackets in this section indicate a rough indication of variation between experimental setups. See \href{https://docs.google.com/spreadsheets/d/1W9Y3az4i1xdvahpdyqtsTG8F81LXK2T6wzRgsXHN3z0/edit}{this spreadsheet} for concrete data from some representative VI studies.
 }
-relative to baseline. In live, head-fixed mice, this fluorescence increase is about 8\% (± 2\%).
+relative to baseline. In live, head-fixed mice, this fluorescence increase is about 8\% (± 2\%).\cite{Abdelfattah2019BrightPhotostableChemigenetic,Villette2019UltrafastTwoPhotonImaging}
 
-More important is the change in brightness with respect to noise. For voltage imaging, a signal-to-noise ratio (SNR) is often defined as the height of the fluorescence signal during an action potential, divided by the standard deviation of the baseline fluorescence signal.  The action-potential-SNR is around 30 (± 7) in brain slices, and around 10 (± 3) in live, head-fixed mice.
+More important is the change in brightness with respect to noise. For voltage imaging, a signal-to-noise ratio (SNR) is often defined as the height of the fluorescence signal during an action potential, divided by the standard deviation of the baseline fluorescence signal.\footnote{
+    Note that such a definition is not compatible with the standard definition of SNR, where the denominator is most often the squared standard deviation of noise, and the numerator is the averaged squared value of \emph{all} samples, of some denoised `signal' time series.
+}
+The action-potential-SNR is around 30 (± 7) in brain slices\cite{Adam2019VoltageImagingOptogenetics,Piatkevich2019PopulationImagingNeural}, and around 10 (± 3) in live, head-fixed mice.\cite{Abdelfattah2019BrightPhotostableChemigenetic,Villette2019UltrafastTwoPhotonImaging}
 
 There has been no quantification yet of how well voltage indicators track subthreshold voltages. Estimating visually from published figures however, the correspondence between simultaneous electrode and optical recordings is substantial, and seems good enough to calculate with, even in recordings from live animals.
 
 
 \subsubsection{Yield}
 
-The number of simultaneously voltage-imaged neurons in live mice varies between 4 and 46 in the latest studies (with frame rates of mostly 500 Hz).
+The number of simultaneously voltage-imaged neurons in live mice varies between 4 and 46 in the latest studies (with frame rates of mostly 500 Hz).\cite{Adam2019VoltageImagingOptogenetics,Villette2019UltrafastTwoPhotonImaging,Abdelfattah2019BrightPhotostableChemigenetic,Piatkevich2019PopulationImagingNeural}
 
-For comparison, calcium imaging yields between 200 and 1000 neurons at a frame rate of 30 Hz, and up to 10,000 at 2 Hz. These higher yields come of course at the cost of less information per neuron: voltage imaging tracks subthreshold voltages and detects nearly all spikes, while calcium imaging, especially at such frame rates, yields only spike detections, imprecise both in time and in number.
+For comparison, calcium imaging yields between 200 and 1000 neurons at a frame rate of 30 Hz, and up to 10,000 at 2 Hz.\cite{Pachitariu2017Suite2p10000} These higher yields come of course at the cost of less information per neuron: voltage imaging tracks subthreshold voltages and detects nearly all spikes, while calcium imaging, especially at such frame rates, yields only spike detections, imprecise both in time and in number.
 
 The number of simultaneously imaged neurons is in any case bound to increase for both modalities, as microscopic scanning systems get faster.
 
-Voltage imaging can only be performed in relatively short continuous bouts: the same mechanism that makes the molecules fluorescent -- namely, excitation on impact of a photon -- also makes the molecules more chemically reactive, making them spontaneously break down ('photobleach') in reaction with their environment. The total fraction of not-yet photobleached indicator molecules decays exponentially -- and so do the fluorescence and the spike SNR. The time constant of this decay (i.e. duration after which SNR has decreased by 63\%) is around 10 ± 5 minutes. Most voltage imaging sessions are therefore not longer than this.
+Voltage imaging can only be performed in relatively short continuous bouts: the same mechanism that makes the molecules fluorescent -- namely, excitation on impact of a photon -- also makes the molecules more chemically reactive, making them spontaneously break down ('photobleach') in reaction with their environment. The total fraction of not-yet photobleached indicator molecules decays exponentially -- and so do the fluorescence and the spike SNR. The time constant of this decay (i.e. duration after which SNR has decreased by 63\%) is around 10 ± 5 minutes.\cite{Piatkevich2019PopulationImagingNeural,Abdelfattah2019BrightPhotostableChemigenetic} Most voltage imaging sessions are therefore not longer than this.
 
 Cells replace broken indicator molecules relatively fast however, and experiments have shown that imaged photobleached cells show complete recovery after two days. Even shorter intervals between imaging sessions might be possible.
 
