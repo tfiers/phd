@@ -1,221 +1,482 @@
-% \begin{itemize}
-%     \item Network connectivity, E/I balance, raster plots
-%     \item Too many possible connections to test them all → Subsampling
-%     \item Performance of last chapter's methods
-%     \item If time: experiment with a network that is less densely connected than our current fully-random one. Why? To better examine the effect of indirect connections / colliders (For the current connectivity, there are too many of those. But in a more realistic, 'localized' network, there are less, and so it seems easier to isolate and examine their effect).
-% \end{itemize}
 
 \section{Introduction}
 
-In the previous experiments, only one neuron's voltage was simulated. The inputs were Poisson spike trains.
-In the next experiments, we simulate the voltages of a full network of neurons, which are recurrently connected to each other.
-The goal is to investigate the effect on network inference of potentially correlated inputs and indirect connections.
+This chapter introduces three new methods to detect synaptic connections from voltage signals.
+
+The first two methods are still based on the STA (spike-triggered average), as in the last chapter. And, also as before, they still use shuffled presynaptic spiketrains\footnote{
+    A note on terminology: when we write `presynaptic' or `postsynaptic' in this thesis, we often mean the neuron that we are testing as a \emph{possible} presynaptic / postsynaptic connection.
+}
+to provide a null-distribution for the test statistic
+
+The difference is in how the STA is used. In the previous chapter we used the height of the STA (`peak-to-peak', ptp) as a test statistic.\\
+The first new method here instead \emph{correlates} the STA with some template of what the STA of a true connection would look like, to calculate a test statistic.\\
+The second method fits an idealized function to the STA, and uses the goodness-of-fit as a test statistic.
+
+The third method steps away entirely from the STA, and instead uses the data of the different spike-triggered windows directly, without averaging them together in an STA.
+
+% Actually, linear regression on sep windows is same as linreg on the average, it seems after quickly writing out the normal equations (solution for βhat) for both.
 
 
 
 
-\section{Connectivity structure}
+\clearpage
+\section{STA Template correlation}
+
+% \begin{itemize}
+%     \item Idea for the two-pass test
+%     \item Template examples. Both ideal and template found with first-pass (STA height-only)
+%     \item Peformance for different N, \& comparison with previous method
+% \end{itemize}
+
+The idea behind this connection test is as follows: the more our actual STA looks like some idealized, `clean' STA, the more likely the connection exists. We quantify this `looking like' here by a simple Pearson correlation.
+
+The question then remains what to correlate our real STA with. An ideal template to correlate with would be the average STA of all true connections in the network.\footnote
+{Specifically, either all excitatory connections, or all inhibitory connections.
+When correlating some connection's STA with an 'excitatory'  (upwards) template, the sign of the correlation tells us whether the connection is excitatory ($+$) or inhibitory ($–$).}
+The knowledge of these connections is of course not available a-priori (it is what we are trying to infer). But it turns out we can obtain a signal that is very close to this ideal template with a two-step approach.
+
+In the first step, we use the previous test statistic (peak-to-peak height of the STA); but with a stricter $p$-value threshold (a higher $α$). This gives us a sample of true connections with few false positives (but with many missed connections). The STAs of these found connections are then averaged, to obtain an estimate for the STA template. We find that this template matches the ideal template closely (see \cref{fig:corr}, right).
+
+In the second step, we correlate this found template with the STAs of all possible connections (and with their shuffle-control counterparts). The correlation values values are then used as test statistic, with the original $α = 0.05$ threshold.
+
+% \marginpar{
+%     \hspace{-1.42em}
+%     \includegraphics[w=1.15]{corr-overlay}
+%     \captionof{figure}{An actual STA (orange), and the template it is correlated with (blue).}
+%     \label{fig:corr-overlay}
+% }
 
 \begin{figure}
     \subfloat{
-        \includegraphics[w=0.75]{gephi-direct-inputs.png}
-        \includegraphics[w=0.75]{gephi-inputs-to-inputs.png}
-    }
-    \vspace*{2em}
-    \caption
-        {\textbf{A neuron is reachable in two hops from most other neurons}.    Selected neurons and connections in our random network. Left shows the direct inputs to one of the neurons. Right additionally shows the direct inputs to these inputs. This subnetwork already contains more than 700 of the 1000 total neurons in the network.\\
-        Excitatory neurons in green, inhibitory in red. The tangle in the middle consists of neurons that synapse onto multiple of the direct inputs of our selected neuron.\\
-        Visualization using the `Gephi' software, with the `Yifan-Hu' layout algorithm, and default parameters otherwise.
-        Source: \nburl{2022-08-29__Visualizing_subnets}.}
-    \label{fig:gephi-network-viz}
-\end{figure}
-
-% These two margin figs can go to Appendix
-\marginpar{
-    \includegraphics[w=1, trim={0 0.4em 0 -1em}, clip]{shortest-path-1}
-    \captionof{figure}{
-        \textbf{A selected neuron is reachable in at most three hops.}
-        Shortest path lengths from every other neuron in the network.}
-    \label{fig:shortest-path-1}
-}
-\marginpar{
-    \includegraphics[w=1, trim={0 0.4em 0 -1em}, clip]{shortest-path-all}
-    \captionof{figure}{
-        \textbf{Every neuron is reachable in at most three hops.}
-        Shortest path lengths calculated using the Floyd-Warshall algorithm. Source: \nburl{2022-07-14__Unconnected-but-detected.html}.}
-    \label{fig:shortest-path-all}
-}
-
-We choose the simple and common `fully random' connectivity rule,\footnote{
-    Other common choices for connectivity structure are scale-free networks, and `local' networks.
-}
-where any neuron has a connection to another with a uniform random probability (we choose $p_\text{conn} = 0.04$). After generating an adjacency matrix this way (\verb|A = rand(N, N) .≤ 0.04|, where \verb|rand| draws from $\sim U[0,1]$), we remove autapses. We choose the number of neurons $N = 1000$.
-
-A property of fully random networks is that they are strongly interconnected. In our network, any neuron is reachable from any other in at most three steps (three synapses); most are reachable in just two. This is exemplified in \cref{fig:gephi-network-viz} and \cref{fig:shortest-path-1}: one selected neuron (neuron `1' here) is reachable in two hops from more than 700 of the 1000 total neurons in the network. And when we compute the shortest path between every possible neuron pair, we find a very similar distribution (\cref{fig:shortest-path-all}).
-
-
-
-
-\section{External input}
-
-As we no longer have Poisson spike trains providing input to our neurons, we need another way of bootstrapping activity in the network.\\
-Instead of external spikes, each neuron is provided with external input by adding Gaussian noise to its membrane voltage. Every time step ($Δt = 0.1$~ms), a sample drawn from a normal distribution with mean $–0.5$~pA and $σ = 5$~pA is added to the membrane current. (As membrane current is by convention negative, this corresponds to an on-average positive influence on membrane voltage).
-
-
-
-\section{EI balance}
-
-Similar to the N-to-1 experiments, we make 1 out of 5 neurons inhibitory.
-As before, this is done by setting the synaptic reversal potential at the outputs of inhibitory neurons to $-80$ mV (instead of the $0$ mV for excitatory neurons).
-To make sure that each neuron receives a balanced mix of excitation and inhibition, and given that there are 4:1 excitatory to inhibitory neurons, we make excitatory neurons 4x weaker: their synaptic strength ($Δg$, the instantaneous increase in postsynaptic conductance $g$ on spike arrival) is 4x as small as that of inhibitory neurons.
-
-% Option for appendix, these four figs
-\begin{figure}
-    \subfloat{
-        \includegraphics[w=0.74]{1144_raster}
-        \includegraphics[w=0.74]{1144_hist}
-    }
-    \captionn
-        {Firing rates in the network with `1144' weights}
-        {Left: rasterplot showing all spikes in the first 10 seconds of the simulation.\\
-        Right: histogram of firing rates.\\
-        Source: \nburl{2022-07-01__g_EI}.}
-    \label{fig:1144-weights}
-\end{figure}
-
-\begin{figure}
-    \subfloat{
-        \includegraphics[w=0.74]{roxin_raster}
-        \includegraphics[w=0.74]{roxin_hist}
-    }
-    \captionn
-        {Firing rates in the network with `Roxin2011' weights}
-        {See \cref{fig:1144-weights}.}
-    \label{fig:roxin-weights}
-\end{figure}
-
-% A synaptic weight rule where inhibitory synapses are 4× stronger to compensate for there being 4× as many synapses.
-% Given that we simulated four times as many excitatory as inhibitory neurons, the synaptic weight rule described above (with inhibitory synapses 4× as strong) seems logical, to keep excitation and inhibition in balance.
-\Cref{fig:1144-weights} shows results of the network simulation as spiketrains and firing rate distributions, using the described synaptic weights rule (inhibitory synapses 4× stronger than excitatory ones). We find that the resulting firing rate distribution is fairly symmetrical, and that excitatory and inhibitory neurons have very similar firing rates.
-
-In real neural networks however, inhibitory neurons often have higher firing rates than their excitatory neighbours. In addition, real firing rate distributions are often heavy-tailed and not symmetrical, as we saw back in \cref{sec:lognormal-poisson-input}.
-So, to coax more realistic firing rate distributions out of our network, we looked at the previously mentioned modelling paper of Roxin \emph{et al}, ``On the Distribution of Firing Rates in Networks of Cortical Neurons'', \cite{Roxin2011DistributionFiringRates}.\footnote{
-    This paper seeks to explain how heavy-tailed firing rate distributions emerge in randomly connected spiking neural networks. We wanted to emulate the simulations in this work, to obtain a heavy-tailed firing rate distribution.
-}
-% Their figures indeed seem to show a lognormal-like distribution of firing rates from their simulatd networks.
-In this paper different synaptic weights are used than the ones described above.
-Normalizing excitatory-to-excitatory (\verb|E→E|) connections to 1, Roxin et al's synaptic weights are:
-\begin{verbatim}
-    E→E: 1
-    E→I: 18 (instead of 1)
-    I→E: 36 (instead of 4)
-    I→I: 31 (instead of 4)
-\end{verbatim}
-We will call these weights `Roxin2011'. The naive, `balancing' weights used in \cref{fig:1144-weights}, we will call `1144'.
-
-Simulating a network with the `Roxin2011' weights indeed increases the firing rates of inhibitory neurons with respect to those of excitatory neurons (\cref{fig:roxin-weights}). The two firing rate distributions are however both as symmetrical as before.\footnote{
-    When collating the two firing rate distributions from both neuron types, the resulting single distribution \emph{is} heavy-tailed, and even vaguely looks log-normal (but it is not). In \cite{Roxin2011DistributionFiringRates}, similar-looking, collated firing rate distributions are shown, and are called lognormal (but this is never quantified in the paper).
-}
-
-This imbalance between \verb|E→E| and \verb|E→I| synapses is not that rare: another modelling paper that also investigated EI-balance, \cite{Sadeh2021ExcitatoryinhibitoryBalanceModulates}, has the following synaptic weights. If our original weights are $[1, 1, 4, 4]$, then Sadeh and Clopath's weights are $[1, k, k, k]$, with $k = 4$ (in their "strong E-I coupling regime").
-
-In the results that follow, we use both `1144' and the `Roxin2011' synaptic weights.
-
-Finally, we also looked at drawing synaptic weights from a distribution (specifically, a lognormal one) instead of setting all weights of one type to be equal. This did not change the symmetry of the resulting firing rate distributions, so we did not pursue this further.
-
-
-\section{Subsampling}
-
-We simulate all 1000 neurons' voltages, but, to save memory and disk space,  do not record all these traces.\footnote{
-    For a 10-minute simulation with a timestep of 0.1 ms, one voltage trace takes 48 MB (at 64 bit per sample). Our 1000 neurons thus take 48 GB -- and that is just for one simulation (one set of parameters).\newline
-    We \emph{do} record the spike trains of all neurons. Saving just spike times takes considerably less space: a neuron spiking at 10 Hz for 10 minutes emits 6000 spikes, which, at 64 bit per timestamp, takes just  48 kB.\newline
-    In other words,  at a 0.1 ms sample rate, a spike train occupies about 1000× less memory than the corresponding voltage trace.
-}
-In most experiments here, we recorded the voltage traces of 40 excitatory and 10 inhibitory neurons (5\% of all neurons).
-
-Additionally, when performing connection tests on the inputs of a recorded neuron, we do not test the spiketrains of all 999 other neurons. Instead, we test only a (biased) sample of the possible inputs, to save processing time.
-This sample is constructed as follows. We test all the a-priori known true direct inputs -- both excitatory and inhibitory -- and add a random sample of 40 not-directly-connected neurons.
-
-On average, each neuron has ± 32 excitatory inputs and ± 8 inhibitory inputs. This means that, from the 1000 × 1000 possible connections, we only test about 4000, or 0.4\%.\footnote{
-    Calculation behind these numbers:\\
-    - 1000 neurons × 80\% excitatory × 4\% probability of an input connection = 32 excitatory inputs on average.\\
-    - 50 `post' neurons (40 excitatory and 10 inhibitory voltage-recorded neurons) × 80 `pre' neurons (±40 connected + 40 unconnected) = 4000 tested connections.\\
-    - To be precise, instead of 1000 × 1000, there are rather  $1000^2 - 1000$ possible connections, as we would not test for autapses.
-}
-
-\begin{figure}
-    \subfloat{
-        \includegraphics[w=0.74]{2022-09-01__1144_weights_23_0.png}
-        \includegraphics[w=0.74]{2022-09-01__1144_weights_24_0.png}
+        \includegraphics[w=0.7]{corr-overlay.png}
+        \includegraphics[w=0.7]{corr2.png}
     }
     \captionn[. ]
-    {Performance of the STA `peak-to-peak' connection test in the random network}
-    {10 minute recording, with `1144' weights. Each dot is the true positive rate for one `post' neuron. The gray dotted line indicates the p-value threshold α of 0.05.\\
-    Source: \nburl{2022-09-01__1144_weights}.}
-    \label{fig:net-perf}
-    \vspace*{2em}
+    {Correlating the STA with a template}
+    {\Left: An example STA, and the template it will be correlated with to calculate the connection test statistic.\\
+    \Right: Two possible STA templates: in blue, the average of the STAs of many true excitatory connections (namely of 50 neurons -- part of a 1000-neuron recurrent network -- that all had their voltage recorded; and all their excitatory inputs).
+    In orange, the average STA of the excitatory connections detected with a strict `peak-to-peak' test.}
+    \label{fig:corr}
 \end{figure}
 
-
-
-\section{Connection testing}
-
-We tested connections using the STA height (or `peak-to-peak') test. In the chronology of the PhD, the more advanced methods presented in the previous chapter were developed only after the network tests in this chapter were done. Applying the newer methods to the full network (and not just the N-to-1 setup) is a topic for further work.
-% also: detrates at fixed threshold, instead of AUC.
-
-\Cref{fig:net-perf} shows the performance of using the STA height as connection test in the network. The detection rates (one for each tested `post' neuron and `pre' neuron type) are shown at a fixed detection threshold $α$ of $0.05$. That is, a connection was classified as real if its STA was larger than 95 of its 100 `control' STAs, which where made by randomly shuffling the presynaptic spiketrains.\footnote{
-    A spiketrain is shuffled by taking its inter-spike-intervals (ISIs), randomly shuffling those, and reconstructing a new spiketrain from the resulting shuffled ISIs.
-}
-
-Detection rates are broken down per type of both the presynaptic and postsynaptic neuron (excitatory or inhibitory). We find that inhibitory inputs are significantly easier to detect (independent of the type of the postsynaptic neuron). This is due to the synaptic weight of inhibitory inputs -- and thus their PSPs -- being $4×$ stronger than those of excitatory inputs.
-
-The most interesting category in \cref{fig:net-perf} are the `Unconnected' detection rates (i.e. the false positive rates, FPRs), which are almost all higher than the detection threshold $α$. In theory, the FPR should equal the detection threshold α; and indeed this is what we roughly found in the N-to-1 experiments with STA-height shuffle test.\footnote{
-    This is true almost by definition of the shuffle test: an unconnected spiketrain in the N-to-1 experiment has randomly generated spiketimes. Shuffling this random spiketrain creates more random spiketrains. Looking at the distribution of STA heights of these random spiketrains, the chance that the `real' STA (of the unconnected spiketrain) is in the top-α fraction of STA heights -- and that thus, it would be wrongly classified as a true input, i.e. a false positive -- is exactly α.
-}
-In the network, we thus detect unconnected inputs -- or to be more precise: not-directly-connected inputs -- at a rate higher than chance. This deserves more scrutiny, which we do in the next section.
-
-
-
-\section{False positive detections}
-
-As a summary of the above: when we test unconnected spiketrains as inputs to some neuron in the network, we falsely classify them as connected at a higher rate than would be expected if these spiketrains were fully random. So, they have a stronger-than-random STA. Or in other words, their spikes seem to have some influence on the target neuron's voltage, even though they are not direct inputs to it. In this section, we examine what is special about these false positive input neurons.
-
-First, we found that all false positives (i.e. all not-directly-connected inputs that were nonetheless classified as connected) had a shortest path to the target neuron that consisted of only one in-between neuron. However, as we saw in \cref{fig:shortest-path-all}, this is not that special in this highly-interconnected random network.
-
-But maybe there are \emph{more} such length-2 paths between the input neuron and the target neuron? We indeed found that this was the case when examining one target neuron and all its tested unconnected inputs. In \cref{fig:net-FP} (left), the blue distribution (number of length-2 paths to the target neuron, for false positive inputs) is higher than the orange distribution (same, but for true negatives).
-
-Next, we looked at the type of in-between neurons on the shortest path. We found that for the false positive inputs, the in-between neuron was more likely to be inhibory (\cref{fig:net-FP}, right). This makes sense, as inhibitory inputs are stronger (they are also detected at a higher rate, as seen in \cref{fig:net-perf}).
+We find that this correlation-based test statistic outperforms the simple peak-to-peak measure (\cref{fig:N_sweep__AUC__template-corr_vs_STA}).
 
 \begin{figure}
     \subfloat{
-        \includegraphics[w=0.74]{net-FP-length-2-paths}
-        \includegraphics[w=0.74]{net-FP-inh}
+        \includegraphics[w=0.72]{N_sweep__AUC__STA_height}
+        \includegraphics[w=0.72]{N_sweep__AUC__template-corr}
     }
     \captionn
-        {Characterizing what is different about false positive inputs}
-        {All tested unconnected inputs to a selected target neuron in the network, with inputs correctly classfied as not-connected in orange, and the false positives in blue. Source: \nburl{2022-07-14__Unconnected-but-detected}.}
-    \label{fig:net-FP}
-    % \vspace*{2em} % to space from plot underneath.
+    {Correlation outperforms STA height as connection test}
+    {Compare also with \cref{fig:N_sweep__AUC__upstroke_vs_STA}.\\
+    AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). Note that for the two highest numbers of inputs $N$, the AUC of the template correlation method falls below chance level. [This is suspicious and must be investigated]. \\
+    Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.}
+    \label{fig:N_sweep__AUC__template-corr_vs_STA}
 \end{figure}
 
 
-Finally, we looked at the firing rate of the in-between neurons (\cref{fig:net-FP-fr}). For false positives inputs, the in-between neurons were more active than for true negatives.
 
+
+
+\clearpage
+\FloatBarrier
+\section{Fitting a full STA model}
+
+% \begin{itemize}
+%     \item Model design
+%     \item Iterative model fitting
+%     \item Problem of overfitting, and parameter-constraints to solve it
+%     \item An advantage: fit parameters (like transmission delay and time constants) are biologically ~meaningful
+%     \item Perfomance for different N, \& comparison with previous methods
+% \end{itemize}
+
+Instead of a data-driven approach for the `ideal' STA shape, for this method we manually design a function (a 7-parameter function that we'll call $f$), which we will fit to the actual STAs.
+
+\marginpar{
+    \vspace*{-5em}
+    \hspace*{-1.6em}
+    \input{figs/PSP.tex}
+    \captionof{figure}{\small A simple PSP model.}
+    \label{fig:alpha-function}
+    \vspace*{2em}
+}
+
+One part of this STA model function is shaped like a postsynaptic potential bump (PSP, \cref{fig:alpha-function}). It is the impulse response of two linear integrators placed in series. Or, in other words, the convolution of two `step-and-decay' functions.\footnote{
+    `Step-and-exponential-decay': $u(t) · e^{–t/τ}$, with $u(t)$ the Heaviside step function $\bm{1}_{t ≥ 0}$.
+}%
+$^{,}$  % comma between footnotemarks
+\footnoteatfoot{
+        In computational neuroscience, this function is sometimes called the `alpha function' or `alpha synapse'. \emph{Synapse}, because the double integrator model can be used to model synaptic conductance ($g$), with then a fast rise τ₁ (modelling neurotransmitter release), and a slower decay τ₂ (modelling its dissipation). The synaptic conductance model in our simulation is simpler: the `rise' is instant, i.e. we only have exponential decay.
+}
+It is the postsynaptic potential in the simplest linear neuron model ($\d{v} · τₘ = -v + I$) where the synaptic current $I$ is also linear ($\d{I} · τₛ = -I + s$).\footnote{
+    $τₛ$ and $τₘ$ are the synaptic and membrane time constants, and
+    $s(t) = \sumᵢ δ(t - tᵢ)$ is the train of input spikes $i$.
+}
+
+Solving for $v$ and with a single input spike at $t = 0$, we have, for $t ≥ 0$:
+\begin{equation}
+    \text{PSP}(t) = \begin{cases}
+        t\, e^{-t/τₘ}   &\hspace{8pt} τₘ = τₛ \\
+        \frac{τₘτₛ}{τₘ–τₛ} \left( e^{–t/τₘ} – e^{–t/τₛ} \right)  &\hspace{8pt} τₘ ≠ τₛ
+    \end{cases}
+    \label{eq:PSP}
+\end{equation}
+
+We find that this function approximates the shape of the \emph{simulated} postsynaptic potential in our actual neuron model well  -- even though our neuron model is not so linear.\footnote
+    {Our model for the membrane potential has a component (the adaptation current $u$) whose differential equation recurrently depends on $v$. Additionally, the synaptic currents $Iⱼ$ are \emph{conductance-based}, meaning that they also recurrently depend on $v$: $Iⱼ = gⱼ \, (v – Eⱼ)$ (with $Eⱼ$ the reversal potential at synapse $j$, and the synaptic conductance $gⱼ$ a linear integrator of the input spike train $sⱼ(t)$:\newline
+    $\d{gⱼ} · τ_{s,j} = – gⱼ + sⱼ$).}
+
+But even though \cref{eq:PSP} models our simulated \emph{PSPs} well, it does not resemble our \emph{STAs}\footnote{
+    This falsifies our initial implicit hypothesis that STAs are merely noisy reflections of PSPs.
+};
+see for example the average STAs in \cref{fig:corr}.
+First, the bump in the STA does not occur immediately after the presynaptic neuron's spike. This is due to the simulated axonal transmission delay, and it is easily replicated in the model by shifting the PSP function in time. But more interestingly, the STA shows a sort of `dip', where it dives below baseline just after the PSP bump, and flares up again at the ends (a downwards slant in the initial delay period, and an upwards slant at the end of the STA).
 
 \begin{figure}
-    \begin{sidecaption}
-        {\textbf{False positives synapse onto high-firing direct inputs}.\\
-        See \cref{fig:net-FP}.}
-        [fig:net-FP-fr]
-        \linelabel{fig:net-FP-fr}
-        \includegraphics[w=0.74]{net-FP-fr}
-    \end{sidecaption}
+    \subfloat{
+        \includegraphics[w=0.66]{modelfit-overlay.png}
+        \includegraphics[w=0.66]{modelfit-components.png}
+    }
+    \captionn[. ]
+    {Fitting a parametric model to the STA}
+    {\Left: the model $f$ (orange) fit to the STA of an example inhibitory connection from a network simulation (blue). Both signals are z-scored.
+    The components of the orange model function are shown on the
+    \Right: the delayed simple PSP model (blue) and  the Gaussian `dip' (orange).}
+    \label{fig:modelfit}
+\end{figure}
+
+These phenomena thus differentiate an STA from a PSP. We find empirically that they can be parsimonously modelled by subtracting a broad Gaussian curve from the PSP: see \cref{fig:modelfit}, right.\footnote{
+    Note that in \cref{fig:modelfit}, we fit an \emph{inhibitory} STA, and the model componentes are thus inverted: the delayed PSP bump (blue) is downwards, and the Gaussian `dip' (orange) is upwards.
+}
+
+Our model $f$ is thus the difference of a delayed version of \cref{eq:PSP}, and a  Gaussian curve. The result is scaled by some factor α, to match the size of the specific STA that is being fit. α can be negative, to model inhibitory connections; $f$ is then flipped upside-down, as in \cref{fig:modelfit}.
+
+The model function thus has seven parameters: the PSP's delay, $τₘ$, and $τₛ$; the Gaussian's location, width, and relative height wrt.~the PSP; and the final scaling α.
+All parameters, except for the Gaussian's, have a ready biophysical interpration.\footnote
+    {Namely: α is proportional to the connection strength, and indicates excitation (+) or inhibition (–). The PSP's delay, $τₘ$, and $τₛ$ are estimates of the axonal transmission delay and the synaptic and membrane time constants.}
+
+We fit the model function to individual STAs using nonlinear least-squares optimization; more specifically using the Levenberg-Marquardt algorithm.\footnote{
+    This is the standard method for nonlinear least-squares optimization. For example, in \textsc{Matlab}'s \texttt{lsqcurvefit} function,  it is the default algorithm when the number of functions (in our case, 1) exceeds the number of datapoints (in our case, 1000:  100 ms of signal post-spike, at Δt = 0.1 ms).\newline
+    We used the Levenberg-Marquardt implementation of the Julia package \href{https://github.com/JuliaNLSolvers/LsqFit.jl}{LsqFit.jl}.
+}
+%
+% To make this fitting procedure work well, three things had to be done.
+To make the fitted functions well-behaved and looking like actual STAs, we had to limit the creative freedom of the optimization algorithm, by enforcing box constraints on the parameters.
+% - decouple params
+%  (https://tfiers.github.io/phd/nb/2022-09-13__Fit_simpler_function.html)
+% - 100× speedup
+
+The final test statistic is the mean squared error (MSE) between z-scored versions of the fitted function and the STA. The normalization by z-scoring is necessary to be able to compare goodness of fit between STAs with different ranges\footnote{
+    Most importantly between a real STA and its shuffled versions.
+    Because those shuffled STAs have a smaller range, they will have a lower MSE, even though the fit is visually clearly worse.
+}
+
+In comparison with the previous two methods (STA height and STA template correlation), this model-fitting approach did not perform significantly better than STA height, and it was clearly worse than template correlation.
+
+The model-fitting is also very computationally expensive: iteratively fitting a nonlinear function to an STA takes much longer than simply calculating a Pearson correlation between two STA signals.
+
+For these two reasons, we have not performed an extensive performance evaluation of this method, as we have done for the previous and following methods (\cref{fig:N_sweep__AUC__template-corr_vs_STA,fig:N_sweep__AUC__upstroke_vs_STA} respectively).
+
+One advantage of this model-fitting method over the other methods though, is that most of the fitted parameters have a ready biophysical explanation: connection strength, transmission delay, and synaptic and membrane time constants.
+
+
+
+
+
+
+
+% \begin{itemize}
+%     \item Non-STA method: concatenated individual windows as (X, y)
+%     \item Examples of pooled windows, and fits
+%     \item Mention the problem of unknown transmission delays
+%     \item Perfomance for different N, \& comparison with previous methods
+% \end{itemize}
+
+\clearpage
+\section{Linear regression of the upstroke}
+
+All previous methods are STA-based, i.e. different windows are cut from the postsynaptic voltage signal -- one window for every presynaptic spike -- and these are averaged into one signal, which is then used for further analysis. The method described in this section does not use STAs. We still construct the spike-triggered windows, but we do not average them. Instead, we use them to construct a gigantic data matrix for use in a linear regression.
+
+Every single timepoint on the x-axis (in relative time after the presynaptic spike) will correspond to multiple voltage values on the y-axis; namely one for every window. Whereas for an STA, every timepoint on the x-axis corresponds to just a single y-value (the average voltage).
+
+Why a linear regression? As we saw with the STAs in previous sections, they do not look like a line. But their first part, the "upstroke", might be approximated by one.
+
+Let's number our spike-triggered windows $1, 2, .., N$ (for a presynaptic spiketrain with $N$ spikes), and let's number the voltage values in window $i$ as $[y_{i,1}, y_{i,2}, .., y_{i,M}]$ (for a window length of $M$ samples long).\footnote{
+    This window length $M$ is an important parameter. The window must be approximately as long as the upstroke of the STA/PSP: not longer (so that the shape is too complex to be fit by a line), nor shorter (so that there would not be enough data for a proper fit).
+}
+We will then perform the following linear regression:
+\begin{align}
+    \bm{y} \hspace{1.4em}
+    &=  \hspace{1.6em}
+    X  \hspace{2.2em}
+    \bm{β}  \hspace{0.7em}
+    + \hspace{1.4em}
+    \bm{ε}
+    \\[1em]
+    \begin{bmatrix}
+        y_{1,1} \\
+        y_{1,2} \\
+        \vdots \\
+        y_{1,M} \\
+        y_{2,1} \\
+        y_{2,2} \\
+        \vdots \\
+        \vdots \\
+        y_{N,M}
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+        1 & 1 \\
+        1 & 2 \\
+        \vdots & \vdots \\
+        1 & M \\
+        1 & 1 \\
+        1 & 2 \\
+        \vdots & \vdots \\
+        \vdots & \vdots \\
+        1 & M
+    \end{bmatrix}
+    \begin{bmatrix}
+        β_0 \\
+        β_1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        ε_{1,1} \\
+        ε_{1,2} \\
+        \vdots \\
+        ε_{1,M} \\
+        ε_{2,1} \\
+        ε_{2,2} \\
+        \vdots \\
+        \vdots \\
+        ε_{N,M}
+    \end{bmatrix}
+\end{align}
+I.e. we will regress voltage-after-spike against time-after-spike.
+
+If we assume additive Gaussian noise, i.e.
+\begin{equation} \label{eq:sampling_noise}
+    ε_{i,j} \sim \mathcal{N}(0, σ^2)
+\end{equation}
+then the maximum-likelihood estimate $\hat{\bm{β}}$ of the regression parameters $\bm{β}$ is obtained through minimizing the mean squared error (MSE)\footnote{
+    \url{https://statproofbook.github.io/P/slr-mle}
+}
+between our observed voltage values $\bm{y}$ and the fitted line $\hat{\bm{y}} = X \hat{\bm{β}}$:
+\begin{equation}
+    \hat{\bm{β}} = \argmin_{\bm{β}} || \bm{y} - X \bm{β} ||_2^2.
+\end{equation}
+Our linear regression problem has become standard ordinary least squares (OLS) regression, for which a closed-form solution exists: the so-called normal equations,
+\begin{equation} \label{eq:normal-eqs}
+    \hat{\bm{β}} = (X^T X)^{-1} X^T \bm{y}
+\end{equation}
+As is standard practice and for numerical stability ("don't explicitly invert a matrix if not needed"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit through an implicit solution using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
+
+From this linear fit we thus obtain a slope $\hat{β}_1$. To use our regression as a connection test, we will perform a hypothesis test on this slope. The null hypothesis is that this slope is zero ($H_0: \hat{β} = 0$): the voltage of the tested neuron does not react to spikes of the other tested neuron, and on average it stays flat.
+
+If the slope $β_1$ really were $0$, then we would expect the fitted slope $\hat{β}_1$ to be distributed normally around $0$, as follows:\footnote{
+    \url{https://gregorygundersen.com/blog/2021/09/09/ols-hypothesis-testing/}
+}
+\begin{equation} \label{eq:slope_distrib}
+    \hat{β}_1 \sim \mathcal{N}(0, σ^2 [Q]_{2,2})
+\end{equation}
+where $σ^2$ is the variance of the sampling noise (\cref{eq:sampling_noise}), and $[Q]_{2,2}$ is the second diagonal element of the 'cofactor matrix' $Q$,\footnote{
+    The indices are off by one ($\hat{β}_1$ vs $[Q]_{2,2}$), because the intercept in linear regression is conventionally called $β_0$, and so we start numbering the elements of $\bm{β}$ from $0$; but we number the elements of other vectors/matrices from $1$.
+}
+which is the inverse of the Gram matrix $X^T X$:
+\begin{equation}
+    Q = (X^T X)^{-1}
+\end{equation}
+
+We do not know what the sampling noise $σ^2$ is, but we have a maximum-likelihood estimate $\hat{σ}^2$ for it,\footnote{\url{https://statproofbook.github.io/P/slr-mle}} namely the mean squared error (MSE) of the fit:
+\begin{equation}\label{eq:σhat}
+    \hat{σ}^2 = \frac{1}{n} || \bm{y} - X \bm{\hat{β}} ||_2^2
+\end{equation}
+(where $n = M · N$ is the number of datapoints).
+
+Our final test statistic $t$ to determine whether there is a connection from neuron A
+to neuron B is then the slope of the fit (of B's voltage after neuron A's spikes), normalized by how noisy the parameter fit is:
+\begin{equation} \label{eq:linreg-tstat}
+    t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}
+\end{equation}
+where $\hat{σ}_{\hat{β}_1}$ is the standard error of the slope (\cref{eq:slope_distrib} with \cref{eq:σhat}):
+\begin{equation} \label{eq:linreg-stderr-β}
+    \hat{σ}_{\hat{β}_1} = \sqrt{\hat{σ}^2 [Q]_{2,2}}
+\end{equation}
+
+Unlike in \cref{eq:slope_distrib}, $t$ is no longer strictly normally distributed.\footnote{
+    Instead, it follows a Student's $t$-distribution, with $n - p$ degrees of freedom, where $n = M · N$ is the number of datapoints, and $p = 2$ is the number of parameters of the regression ($β_0$ and $β_1$).
+}
+But when the number of datapoints is quite large, as is the case here, the $t$-distribution becomes practically normal, and our test statistic $t$ will very closely follow the standard normal distribution under the null hypothesis ("the slope is zero").
+
+We can (and do) use this $t$-value as-is in our connection test, i.e. as the test statistic over which the detection threshold is swept.
+
+Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards).}
+we could also assign an actual probability (a $p$-value) to observing slopes as extreme as observed. Because $t$ follows the standard normal distribution under the null-hypothesis, and with $\phi(x)$ the cumulative probability function of this distribution, we have: $p = 2\ \phi(-|t|)$: the probability that a sample smaller than $-|t|$ or larger than $|t|$ is drawn.
+
+% \footnote{
+%     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
+% }
+
+\Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of the described linear regression method, for different number of inputs $N$, and compared to the STA height method. We find a perfect performance (AUC of $1$) for up to $400$ inputs. After that, the AUC starts to drop, but it stays much higher than the STA height method. At the realistic number of inputs $N = 6500$, the linear fit's AUC is still at $0.5$, while the STA height method performs at chance level ($≈ 0.25$)
+
+\begin{figure}
+    \subfloat{
+        \includegraphics[w=0.72]{N_sweep__AUC__STA_height}
+        \includegraphics[w=0.72]{N_sweep__AUC__upstroke}
+    }
+    \captionn
+        {Line fit outperforms STA height as connection test}
+        {AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). \\
+        Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.}
+    \label{fig:N_sweep__AUC__upstroke_vs_STA}
 \end{figure}
 
 
-In summary, we have some evidence (though it should be tested more thoroughly) that our higher-than-expected false postive rate is due to indirect inputs: neurons that synapse onto direct inputs. False positives synapse onto more such direct inputs, and those direct inputs have a stronger influence on the target neuron: a higher firing rate, and more likely to be inhibitory.
+% This section can go to Appendix.
+\clearpage
+\subsection{Relationship to fitting the STA}
 
-Further work could adapt our network topology to be more sparse, so that indirect connections are much rarer, and their effect easier to study.
+For this last method, we emphasized that it does not operate on the STA, but instead uses the individual windows directly. But an analysis of the normal equations (\cref{eq:normal-eqs}) reveals that fitting a line to all the individual windows pooled together is actually very similar to fitting a line to their average, the STA.
 
-% We tested spiketrain correlations as well: https://tfiers.github.io/phd/nb/2022-08-05__Spiketrain-correlations.html
-% (but no signif difference, at any binsize)
+The linear regression on the STA has the following response vector $\overline{\bm{y}}$ and design matrix $\overline{X}$:
+\begin{align}
+    \overline{\bm{y}} \hspace{6em}
+    &=  \hspace{1.6em}
+    \overline{X}  \hspace{2.2em}
+    \overline{\bm{β}}  \hspace{0.7em}
+    + \hspace{1.4em}
+    \overline{\bm{ε}}
+    \\[1em]
+    \frac{1}{N}
+    \begin{bmatrix}
+        y_{1,1} + y_{2,1} + … + y_{N,1} \\
+        y_{1,2} + y_{2,2} + … + y_{N,2} \\
+        \vdots \\
+        y_{1,M} + y_{2,M} + … + y_{N,M}
+    \end{bmatrix}
+    &=
+    \begin{bmatrix}
+        1 & 1 \\
+        1 & 2 \\
+        \vdots & \vdots \\
+        1 & M
+    \end{bmatrix}
+    \begin{bmatrix}
+        β_0 \\
+        β_1
+    \end{bmatrix}
+    +
+    \begin{bmatrix}
+        ε_1 \\
+        ε_2 \\
+        \vdots \\
+        ε_M
+    \end{bmatrix}
+\end{align}
+
+We see that the previous design matrix $X$ consists of $N$ stacked repetitions of the design matrix $\overline{X}$ here.
+
+We can show that both regressions have the same solution for their normal equations, i.e. that
+\begin{align} \label{eq:normal-eqs-equivalent}
+\begin{split}
+    \hat{\bm{β}}
+    &= (X^T X)^{-1} X^T \bm{y} \\
+    = \hat{\overline{\bm{β}}}
+    & = (\overline{X}^T \overline{X})^{-1} \overline{X}^T \overline{\bm{y}}
+\end{split}
+\end{align}
+
+As an example, working out the second element of $X^T \bm{y}$, we find:
+\begin{align}
+    [X^T \bm{y}]_2
+    &= [1\ 2\ … M] · \bm{y_1} + [1\ 2\ … M] · \bm{y_2} + … + [1\ 2\ … M] · \bm{y_N}  \nonumber \\
+    &= [1\ 2\ … M] · (\bm{y_1} + \bm{y_2} + … + \bm{y_N})   \nonumber \\
+    &= [1\ 2\ … M] · N \overline{\bm{y}}   \nonumber \\
+    &= N · [\overline{X}^T \overline{\bm{y}}]_2
+\end{align}
+(where $·$ is the inner or dot product, and $\bm{y_i} = [y_{i,1}\ y_{i,2}\ …\ y_{i,M}]$).
+
+The same is true for the first element of $X^T \bm{y}$ (just with $[1\ 1\ …\ 1]$ instead of $[1\ 2\ …\ M]$), so that
+\begin{equation} \label{eq:XTy-eq}
+    X^T \bm{y} = N · \overline{X}^T \overline{\bm{y}}
+\end{equation}
+
+A similar argument can be made for each of the four elements of the Gram matrix, and we find that $X^T X = N · \overline{X}^T \overline{X}$.\\
+That makes the cofacor matrix:
+\begin{equation} \label{eq:Q-eq}
+    (X^T X)^{-1} = \frac{1}{N} (\overline{X}^T \overline{X})^{-1}
+\end{equation}
+Taking together \cref{eq:XTy-eq,eq:Q-eq}, we indeed find the exact same solutions $\hat{\bm{β}}$ for the line fit (\cref{eq:normal-eqs-equivalent}), whether regressing all individual windows, or their average.
+
+Even though the fitted slope $\hat{β}_1$ is the same, there is a difference in its standard error (\cref{eq:linreg-stderr-β}), and thus also in the test statistic $t$ we'd use as a connection test (\cref{eq:linreg-tstat}).\\
+We can write the standard error on the slope in the first regression (on all the individual windows) as follows:\footnote{
+    where $c$ is shorthand for $\sqrt{\left[\overline{Q}\right]_{2,2} / M}$.
+}
+\begin{align}
+    \hat{σ}_{\hat{β}_1}
+    &= \frac{1}{N}\ c\ || \bm{y} - X \hat{β} ||_2  \\
+    &= \frac{1}{\sqrt{N}}\ c\ \sqrt{\sum_{j=1}^M \frac{1}{N}\sum_{i=1}^N
+    \left( y_{i,j} - (\hat{β}_0 + \hat{β}_1 · j)  \right)^2 }  \label{eq:stderr-wins}
+\end{align}
+
+For the regression of the STA, we have:
+\begin{align}
+    \hat{σ}_{\hat{\overline{β}}_1}
+    &= c\ || \overline{\bm{y}} - \overline{X} \hat{β} || _2 \\
+    &=  c\ \sqrt{\sum_{j=1}^M \left(
+        \left(\frac{1}{N}\sum_{i=1}^N y_{i,j}\right)
+        - (\hat{β}_0 + \hat{β}_1 · j)  \right)^2 }   \label{eq:stderr-STA}
+\end{align}
+
+In other words, the standard error of the STA regression uses the squared error between the fitted line and the average measured voltage, whereas for the regression on all windows, we use the average of the squared errors between the fitted line and all of the individual measured voltages in one timepoint.
+
+These last equations show the advantage of regression with individual windows, versus regressing the STA: the more windows are used (higher $N$) -- i.e. the more presynaptic spikes this possible connection has -- the lower the standard error on the fitted slope will be, and the higher the test statistic $t = \hat{β}_1 / \hat{σ}_{\hat{β}_1}$. This is thanks to the scaling by $1 / \sqrt{N}$ in \cref{eq:stderr-wins}, which is absent in \cref{eq:stderr-STA}.
+
+This is a quantification of a heuristic that could go something like: ``the more `presynaptic' spikes there are, the more certain we can say there is or isn't a connection here''.\footnote{
+    E.g, if two possible connections would have the same fitted slope for their spike-triggered voltages, but one of them has more presynaptic spikes, then that connection would have a higher test statistic, and would be favoured when classifying the connections.
+} And when using just the STA, the knowledge of how many windows were used to calculate it is lost.
+
+Two notes here: first, as the fitted parameters $\bm{β}$ are the same when regressing either all windows or the STA, we could just use the STA for fitting, and then manually add a correction factor $1 / \sqrt{N}$ to the test statistic $t$. This is interesting computationally, as you then don't have to construct the very long design matrix $X$ and response vector $\bm{y}$.\\
+Second, one could argue the standard error of the STA regression \emph{does} already account for the number of windows used: the more windows are averaged together, the less the STA will be noisy and the more it will look like a straight line (at its upstroke portion at least); and the lower the standard error will be. Under this view, an additional correction factor in the test statistic to explicitly account for the number of windows / presynaptic spikes, is not necessary.
+
+
+
+
+% \section{Clustering, \& Hierarchical model fitting}
+
+% \begin{itemize}
+%     \item (Time-permitting)
+% \end{itemize}
+
+
+
+
+% \section{Zhou/Cai's `Spike-triggered regression'}
+
+% \begin{itemize}
+%     \item (Time-permitting)
+% \end{itemize}
+
+
+
+
+% \section{Computational cost}
+
+% \begin{itemize}
+%     \item Timings of each method, extrapolation for larger number of tested connections
+% \end{itemize}
+
+
+
+% \begin{itemize}
+%     \item Conclusions of the N-to-1 experiment
+%     \item Leadup to the network experiments: what we could not yet test (the problem of indirect connections, as e.g. identified in the connectomics challenge)
+% \end{itemize}
+
+\clearpage
+\section{Summary}
+
+In this chapter we wondered whether we could improve upon the most obvious voltage-based connection detection method (namely measuring the height of the STA). We developed and tested three new methods. We found that two of them -- template correlation and linear regression of the upstroke -- indeed performed significantly better as a connection test. The third method we developed (fitting a parametric model to the STA shape) did not perform better as a connection test, but it does provide a method to estimate biophysical parameters of a connection.
+
+As in the previous chapter, all methods in this chapter were tested in the so called N-to-1 setup, where only one neuron's voltage is simulated, while it is stimulated by N independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.

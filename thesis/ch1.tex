@@ -130,7 +130,8 @@ What follows is a short literature review of the current capabilities of voltage
     \includegraphics[w=1.5]{VI-cranial-window}
     \captionn
         {Camera view in voltage imaging}
-        {Fluorescent neurons visible through a cranial window. This is just one imaging plane (i.e. there are more neurons visible above and below this plane). Voltage imaging recordings are thus 3D videos of neural membrane voltages.\\
+        {Fluorescent neurons visible through a cranial window. This is just one imaging plane (i.e. there are more neurons visible above and below this plane). Voltage imaging recordings are thus 3D videos of neural membrane voltages.
+        Scalebars 1 mm and 0.1 mm, respectively.
         Adapted from \cite{Abdelfattah2019BrightPhotostableChemigenetic,Knopfel2019OpticalVoltageImaging}.}
     \label{fig:VI-cranial-window}
 \end{figure}
@@ -151,7 +152,7 @@ Voltage imaging is a type of fluorescence microscopy, itself a type of light mic
 
 These reflecting parts are so called voltage indicator molecules. Such molecules are introduced by the experimenter and gather spontaneously in cell membranes. The amount by which they reflect light back depends on the voltage placed over them. By capturing the reflected light from a sample, repeatedly over time, we thus get a movie showing 1) where cell membranes are, and 2) how the voltages over them change over time.
 
-\subsubsection{In more physical detail}
+\subsubsection{Physical detail}
 The above is a simplified description of the mechanics. This section gives a slightly more detailed description of what happens.
 
 The actual mechanism of light 'reflection' is fluorescence, in which molecules absorb a photon, hold on to it for about one nanosecond, and then re-emit it again, at a longer wavelength. This process is about a million times slower than 'true' reflection (that is, photon scattering), but still a million times faster than the timescales we are interested in (milliseconds, corresponding to the duration of an action potential) and at which we image (with movie frame rates of 500 - 1500 Hz).\cite{Valeur2012MolecularFluorescencePrinciples,Cox2019FundamentalsFluorescenceImaging}
@@ -202,3 +203,14 @@ Voltage imaging can only be performed in relatively short continuous bouts: the 
 Cells replace broken indicator molecules relatively fast however, and experiments have shown that imaged photobleached cells show complete recovery after two days. Even shorter intervals between imaging sessions might be possible.
 
 Because modern indicator molecules are not toxic, cells can be intermittently imaged over long periods -- one study followed the same neurons in vivo over more than a month.
+% [can't find ref anymore]
+
+
+
+\section{Conclusion}
+
+In this first chapter, we described voltage imaging technology, and introduced the idea to use the recordings it generates to reconstruct neural connectivity.
+
+Our aim in this thesis is to test whether this idea is feasible in principle: can we perform network inference from voltage signals? To test this, we will work with simulated data: We'll generate neural activity from a known connectivity, and develop and test different connection detection methods on this simulated data.
+
+\Cref{ch2} describes the simulation: the choices we make for the used neuron model, synapse model, inputs, ..; and their parameters. Having set up our test environment, \cref{ch:STA} introduces the first and simplest connection detection method, and different ways to evaluate its performance. Up to that point, only a simplified network is used (where $N$ Poisson inputs impinge upon a single simulated neuron). \Cref{ch4-network} expands the test to a full recurrent network of simulated neurons. Finally, in \cref{ch5-new-methods}, we introduce and evaluate three new methods for network inference based on voltage signals. \Cref{ch6} concludes the thesis with an overview of possible future research directions and a summary of our findings.
