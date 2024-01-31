@@ -213,9 +213,29 @@ Finally, we looked at the firing rate of the in-between neurons (\cref{fig:net-F
 \end{figure}
 
 
-In summary, we have some evidence (though it should be tested more thoroughly) that our higher-than-expected false postive rate is due to indirect inputs: neurons that synapse onto direct inputs. False positives synapse onto more such direct inputs, and those direct inputs have a stronger influence on the target neuron: a higher firing rate, and more likely to be inhibitory.
+% We tested spiketrain correlations as well: https://tfiers.github.io/phd/nb/2022-08-05__Spiketrain-correlations.html
+% (but no signif difference, at any binsize)
+
+
+In summary, we have some evidence (though it should be tested more thoroughly) that our higher-than-expected false positive rate is due to indirect inputs: neurons that synapse onto direct inputs. False positives synapse onto more such direct inputs, and those direct inputs have a stronger influence on the target neuron: a higher firing rate, and more likely to be inhibitory.
 
 Further work could adapt our network topology to be more sparse, so that indirect connections are much rarer, and their effect easier to study.
 
-% We tested spiketrain correlations as well: https://tfiers.github.io/phd/nb/2022-08-05__Spiketrain-correlations.html
-% (but no signif difference, at any binsize)
+
+
+
+\section{Conclusion}
+
+In this chapter, we extended the N-to-1 testing setup to a full network of simulated neurons. We found that the STA height method could still detect connections. However, unlike in the N-to-1 setup -- with its fully independent inputs -- in the network, the false positive rate exceeded the detection threshold α. We hypothesized that this is due to indirect connections being detected as direct inputs, and found some preliminary evidence that that is indeed the case.
+
+\marginpar{
+    \includegraphics[w=1]{avg_STA}
+    \captionof{figure}{
+        Average STA of all true excitatory connections to recorded neurons in the network. Source: \nburl{2022-09-09__Conntest_with_template_matching}.
+    }
+    \label{fig:avg_STA}
+}
+
+One of the avenues pursued during the investigation of the indirect connections, was to plot their STA and compare it to the `ideal' STA\footnote{
+    The hypothesis was that we would see a voltage bump twice as late as for direct connections, i.e. indicating a disynaptic connection. This investigation was inconclusive, but it did give us ideas for new connection detection methods.
+}. This ideal STA (\cref{fig:avg_STA}) was made by using the ground truth connectivity and averaging all the STAs of the true direct connections. This clean STA gave us the idea to (1) model this shape, and use this model as some sort of `prior' for a stronger connection test; and (2) use it as a template to correlate STAs with. This led us to the new connection tests discussed in the next chapter.

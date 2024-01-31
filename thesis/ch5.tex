@@ -3,20 +3,18 @@
 
 This chapter introduces three new methods to detect synaptic connections from voltage signals.
 
-The first two methods are still based on the STA (spike-triggered average), as in the last chapter. And, also as before, they still use shuffled presynaptic spiketrains\footnote{
+The first two methods are still based on the STA (spike-triggered average), as in \cref{ch3-STA}. And, also as before, they still use shuffled presynaptic spiketrains\footnote{
     A note on terminology: when we write `presynaptic' or `postsynaptic' in this thesis, we often mean the neuron that we are testing as a \emph{possible} presynaptic / postsynaptic connection.
 }
 to provide a null-distribution for the test statistic
 
-The difference is in how the STA is used. In the previous chapter we used the height of the STA (`peak-to-peak', ptp) as a test statistic.\\
+The difference is in how the STA is used. In \cref{ch3-STA} we used the height of the STA (`peak-to-peak', ptp) as a test statistic.\\
 The first new method here instead \emph{correlates} the STA with some template of what the STA of a true connection would look like, to calculate a test statistic.\\
 The second method fits an idealized function to the STA, and uses the goodness-of-fit as a test statistic.
 
 The third method steps away entirely from the STA, and instead uses the data of the different spike-triggered windows directly, without averaging them together in an STA.
 
-% Actually, linear regression on sep windows is same as linreg on the average, it seems after quickly writing out the normal equations (solution for βhat) for both.
-
-
+As the focus was on comparing these new methods with each other and with the first STA test, we tested them in the N-to-1 setup. A further investigating could also test them on the fully recurrent network, to compare their effectiveness against indirect connections.
 
 
 \clearpage
@@ -478,5 +476,3 @@ Second, one could argue the standard error of the STA regression \emph{does} alr
 \section{Summary}
 
 In this chapter we wondered whether we could improve upon the most obvious voltage-based connection detection method (namely measuring the height of the STA). We developed and tested three new methods. We found that two of them -- template correlation and linear regression of the upstroke -- indeed performed significantly better as a connection test. The third method we developed (fitting a parametric model to the STA shape) did not perform better as a connection test, but it does provide a method to estimate biophysical parameters of a connection.
-
-As in the previous chapter, all methods in this chapter were tested in the so called N-to-1 setup, where only one neuron's voltage is simulated, while it is stimulated by N independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.
