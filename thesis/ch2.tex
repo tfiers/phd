@@ -71,7 +71,7 @@ The adaptation current $w$ decays exponentially to zero on its own ($-w$ in \cre
 \end{table}
 
 In this chapter, we will analyse $\d{V}$ as a function of $V$, i.e. analyse it as a dynamical system: will the voltage increase or decrease at the current voltage?
-For conciseness, we call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
+For conciseness in later analysis, we call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
 \Cref{fig:exIF-fit} shows the $F(V)$ curve for an AdEx neuron fit to a real neuron. \Cref{fig:Vm_Izh_vs_AdEx} compares the $F(V)$ curve of an AdEx neuron  with that of another two-dimensional neuron model, the Izhikevich neuron.
 
 In addition to the two differential equations, the AdEx model also consists of an instantaneous reset condition. When the membrane voltage $V$ reaches a certain threshold $θ$, a spike is recorded, $V$ is reset, and $w$ is increased:
@@ -97,6 +97,8 @@ Examples of the signals $V$ and $w$ that this model generates are given later, i
 
 
 \subsection{Analysis}
+
+Further on, we will compare the AdEx neuron with another neuron model, the Izhikevich neuron. We will do this by comparing their fixed points, taking inspiration from the dynamical systems approach as used in e.g. \cite{Strogatz1994NonlinearDynamicsChaos} and \cite{Izhikevich2007DynamicalSystemsNeuroscience}.
 
 Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
@@ -254,15 +256,15 @@ As a result, Izhikevich neurons have an unrealistically slow spike upstroke, exa
 
 \begin{figure}
     \hspace*{-2em}
-    \includegraphics[w=1.5]{testbench-I-Izh-EIF.png}
-    \captionn{The nonlinear response of Izhikevich neurons to subthreshold input currents}{`EIF' stands for exponential integrate-and-fire; it has the same $\d{V}$ as an AdEx neuron. Adaptation currents are negligibly small for both models in this test scenario.
+    \includegraphics[w=1.5]{testbench-I-Izh-AdEx.png}
+    \captionn{The nonlinear response of Izhikevich neurons to subthreshold input currents}{Adaptation currents are negligibly small for both models in this test scenario. Source: \nburl{2021-12-08__biology_vs_Izh_subhtr}
     % Izhikevich parameters from \cite{Izhikevich2007DynamicalSystemsNeuroscience,Humphries2006UnderstandingUsingIzhikevich}, for a Cortical Regular Spiking neuron.
     % EIF parameters chosen to match: $C = 100$ pF, $E_L = -60$~mV, $R = 80\, \si{\mega\ohm}$.
     }
-    \label{fig:testbench-I-Izh-EIF}
+    \label{fig:testbench-I-Izh-AdEx}
 \end{figure}
 
-A second issue is Izhikevich's subthreshold nonlinearity. The effects of this can be seen in \cref{fig:testbench-I-Izh-EIF}. Positive input currents produce stronger responses than equally large negative input currents. This is explained by the quadratic $\d{V}$ shape: positive deviations are attenuated less, and negative deviations more, than a linear neuron would. Real and AdEx neurons do not suffer this assymetry.
+A second issue is Izhikevich's subthreshold nonlinearity. The effects of this can be seen in \cref{fig:testbench-I-Izh-AdEx}. Positive input currents produce stronger responses than equally large negative input currents. This is explained by the quadratic $\d{V}$ shape: positive deviations are attenuated less, and negative deviations more, than a linear neuron would. Real and AdEx neurons do not suffer this assymetry.
 
 This nonlinearity is not visible for small voltage deviations, which is what the postsynaptic potentials we are interested in in this thesis tend to be. There is however an effect of the neuron's average voltage: if this voltage is constantly on the higher side, then inputs -- both negative and positive -- will cause larger responses than if the median voltage was lower.
 
@@ -520,7 +522,7 @@ The act of spike ceiling in itself does have an effect on network inference perf
 % minipage, to avoid breaking the code listing over two pages.
 \lstinputlisting[
     label = {lst:izh_code},
-    caption = {Matlab code simulating the Izhikevich neuron. Lines pertinent to spike ceiling/padding are highlighted. Source: Eugene Izhikevich's 2007 book, \emph{Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting}, section 8.4.1 ("Simple Model of Choice"), p. 274},
+    caption = {Matlab code simulating the Izhikevich neuron. Lines pertinent to spike ceiling/padding are highlighted. Source: Eugene Izhikevich's 2007 book, \emph{Dynamical Systems in Neuroscience: The Geometry of Excitability and Bursting}, section 8.4.1 ("Simple Model of Choice"), p. 274 (\cite{Izhikevich2007DynamicalSystemsNeuroscience}).},
     language=Matlab,
     linebackgroundcolor={%
         \ifnum\value{lstnumber}=4\color{yellow!30}\else
@@ -557,7 +559,10 @@ In other words, if we call our output signal $y$, and with $V_i$ the voltage sam
 
 A typical but conservative level of noise in voltage imaging recordings has a spike-SNR of $10$. If we take as spike height the spike detection threshold minus the leak potential ($θ - E_L$, see \cref{tab:AdEx-params}), we obtain a $σ_\text{noise}$ of $10.5$~mV.
 
-A more realistic model of the voltage imaging-transformation would also incorporate the exponential decay over time of the SNR (with a time constant of about 10 minutes), and the short-term 'smearing in time' of voltage indicators. The latter could be done by passing the voltage signal through a linear filter with some non-instantaneous impulse response.
+A more realistic model of the voltage imaging-transformation would also incorporate the exponential decay over time of the SNR (with a time constant of about 10 minutes), and the short-term 'smearing in time' of voltage indicators.\footnote{
+    See e.g. the example voltage imaging trace in \cref{fig:VI-sigs}: the sharp and high peaks of the electric signal are diluted in time through the low-pass filtering effect of the voltage indicator. See also the `kinetics' column in the  \href{https://docs.google.com/spreadsheets/d/1W9Y3az4i1xdvahpdyqtsTG8F81LXK2T6wzRgsXHN3z0/edit}{spreadsheet} with genetically-encodec voltage indicator (GEVI) characteristics: the listed durations are the time constants of bi-exponential functions fit to the responses of the voltage indicator molecules to a rectangular voltage pulse.
+}
+The latter could be done by passing the voltage signal through a linear filter with some non-instantaneous impulse response.
 
 
 
