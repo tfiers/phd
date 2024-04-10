@@ -76,7 +76,7 @@ The adaptation current $w$ decays exponentially to zero on its own ($-w$ in \cre
 
 In this chapter, we will analyse $\d{V}$ as a function of $V$, i.e. analyse it as a dynamical system: will the voltage increase or decrease at the current voltage?
 For conciseness in later analysis, we call this function $F(V)$. I.e. $F(V) = \d{V} =$ the right-hand-side of \cref{eq:AdEx-V} here, scaled by $1/ C$. We'll mostly analyse $F$ in the absence of synaptic and adaptation currents, i.e. for $I_\syn$ and $w$ both zero.
-\Cref{fig:exIF-fit} shows the $F(V)$ curve for an AdEx neuron fit to a real neuron. \Cref{fig:Vm_Izh_vs_AdEx} compares the $F(V)$ curve of an AdEx neuron  with that of another two-dimensional neuron model, the Izhikevich neuron.
+\Cref{fig:exIF-fit} shows the $F(V)$ curve for an AdEx neuron fit to a real neuron. \Cref{fig:dynsys} compares the $F(V)$ curve of an AdEx neuron  with that of another two-dimensional neuron model, the Izhikevich neuron.
 
 In addition to the two differential equations, the AdEx model also consists of an instantaneous reset condition. When the membrane voltage $V$ reaches a certain threshold $θ$, a spike is recorded, $V$ is reset, and $w$ is increased:
 \begin{align}
