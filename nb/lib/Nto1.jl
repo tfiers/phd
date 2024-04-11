@@ -37,22 +37,50 @@ function get_trains_to_test(
     ]
 end
 
+ConnectionTests.set_STA_length(20ms)  # Note also: there's no tx delay in our Nto1 AdEx sim.
 
-function test_high_firing_inputs(sim::Nto1AdEx.SimData, sig; Nₜ = 100, seed = 1)
-    ConnectionTests.set_STA_length(20ms)
-    high_firing_inputs = get_trains_to_test(sim; Nₜ, seed)
-    test(train) = test_conn(STAHeight(), sig, train.times)
+STA_test(sig, spiketimes) = test_conn(STAHeight(), sig, spiketimes)
+
+function test_inputs(sim::Nto1AdEx.SimData, sig, inputs, test=STA_test)
     rows = []
-    for (conntype, trains) in high_firing_inputs
+    for (conntype, trains) in inputs
         descr = string(conntype)
         @showprogress descr for train in trains
-            t = test(train)
+            t = test(sig, train.times)
             fr = spikerate(train)
             push!(rows, (; conntype, fr, t))
         end
     end
     return rows
 end
+
+test_high_firing_inputs(sim::Nto1AdEx.SimData, sig; Nₜ = 100, seed = 1) = begin
+    high_firing_inputs = get_trains_to_test(sim; Nₜ, seed)
+    test_inputs(sim, sig, high_firing_inputs)
+end
+
+
+(; Vₛ, Eₗ) = Nto1AdEx
+
+function VI_sig(sim; spike_SNR = 40, spike_height = (Vₛ - Eₗ), seed=1)
+    Random.seed!(seed)
+    σ = spike_height / spike_SNR
+    sig = copy(sim.V)
+    sig .+= (σ .* randn(length(sig)))
+    sig
+end
+
+clip!(sig, p = 99) = begin
+    thr = percentile(sig, p)
+    clip_at!(sig, thr)
+end
+
+clip_at!(sig, thr) = begin
+    to_clip = sig .≥ thr
+    sig[to_clip] .= thr
+    sig
+end
+
 
 # end # module
 # using .LibNto1
