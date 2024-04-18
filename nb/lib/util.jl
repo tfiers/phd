@@ -191,3 +191,28 @@ values stored under `name` in each element of the given array.
 extract(name::Symbol, array) = [getproperty(el, name) for el in array]
     # Unlike in Python, the above comprehension syntax returns an array
     # of the same shape as `array` (e.g. a matrix).
+
+
+# -----------------------------------------------------------------------------------------
+
+
+# (Copied from archived VoltoMapSim/misc.jl)
+function bin(spiketimes; duration, binsize)
+    # `spiketimes` is assumed sorted.
+    # `duration` is of the spiketimes signal and co-determines the number of bins.
+    num_bins = ceil(Int, duration / binsize)
+    spikecounts = fill(0, num_bins)
+    # loop counters:
+    spike_nr = 1
+    bin_end_time = binsize
+    for bin in 1:num_bins
+        while spiketimes[spike_nr] < bin_end_time
+            spikecounts[bin] += 1
+            spike_nr += 1
+            if spike_nr > length(spiketimes)
+                return spikecounts
+            end
+        end
+        bin_end_time += binsize
+    end
+end

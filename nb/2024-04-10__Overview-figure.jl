@@ -52,15 +52,24 @@ hist(sig[sig .> -42.1mV] / mV, xlabel="mV");
 
 # ## Test
 
-highest_firing_inputs = get_trains_to_test(sim, Nₜ=10);
+highest_firing_inputs = get_trains_to_test(sim, Nₜ = 10);
 
 linefit_method = ConnectionTests.FitUpstroke(
-    winsize=100,  # 10 ms
-    offset=0,
+    winsize = 100,  # 10 ms
+    offset = 0,
 )
 linefit_test(sig, spiketimes) = test_conn(linefit_method, sig, spiketimes);
 
+# +
+function spike_corr_test(post_spikes, pre_spikes)
+    # weird arg order is remnant of voltage based conntests function signature:
+    # `test(sig, spikes)`  ('big arg first' convention)
+    
+end
+# -
+
 conntest_methods = [
+    ("Spikes-only", spike_corr_test),
     ("STA height", STA_test),
     ("Line fit", linefit_test),
 ];
@@ -71,8 +80,14 @@ include("lib/df.jl")
 rows = []
 
 for (method, f) in conntest_methods
+    println(method)
+    if f == spike_corr_test
+        post_sig = sim.spiketimes
+    else
+        post_sig = sigc
+    end
     t0 = time()
-    spiketrain_rows = test_inputs(sim, sigc, highest_firing_inputs, f)
+    spiketrain_rows = test_inputs(sim, post_sig, highest_firing_inputs, f)
     compute_time = time() - t0
     df = DataFrame(spiketrain_rows)
     sweep = sweep_threshold(df)
@@ -83,6 +98,7 @@ for (method, f) in conntest_methods
         compute_time,
     )
     push!(rows, row)
+    println()
 end
 
 df = DataFrame(rows)
