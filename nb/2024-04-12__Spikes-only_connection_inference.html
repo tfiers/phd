@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024-04-12 &#183; Spikes-only connection inference &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"Macros": {"bold": ["\\boldsymbol{#1}", 1]}}, "tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2024-04-12__Spikes-only_connection_inference.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2024-04-10 &#183; Overview figure" href="2024-04-10__Overview-figure.html">
+    <link rel="prev" title="Voltage-to-wiring, the simulation" href="../index.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2024-04-12 &#183; Spikes-only connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-04-10__Overview-figure.html">
+   2024-04-10 &#183; Overview figure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-01-11__Re-make_network_hops_barplots.html">
+   2024-01-11 &#183; Re-make network hops barplots
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-20__STA_conntest_for_diff_recording_quality_n_durations.html">
+   2023-09-20 &#183; STA conntest for diff recording quality n durations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-13__Clippin_and_Ceilin.html">
+   2023-09-13 &#183; Clippin and Ceilin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-05__Inhibitory_impulse_response_PSP.html">
+   2023-09-05 &#183; Inhibitory impulse response (PSP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-05__ceil_spikes.html">
+   2023-09-05&#160;&#183; Ceil spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-31__STA_conntest.html">
+   2023-08-31__STA_conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-30__STA_examples.html">
+   2023-08-30__STA_examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib.html">
+   2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-22__minimal_diy_ijulia_matplotlib.html">
+   2023-08-22__minimal_diy_ijulia_matplotlib
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.html">
+   2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-16__STA_conntest_pyjulia.html">
+   2023-08-16__STA_conntest_pyjulia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia.html">
+   2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only.html">
+   2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-09__Poisson_cquantile_upperbound.html">
+   2023-08-09__Poisson_cquantile_upperbound
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-05__AdEx_Nto1_we_sweep.html">
+   2023-08-05__AdEx_Nto1_we_sweep
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html">
+   2023-08-02__speedtest_brian_standalone_AdEx_Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__Julia_speedtest_AdEx_Nto1.html">
+   2023-08-02__Julia_speedtest_AdEx_Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-07-26__AdEx_Nto1_we_I_syn.html">
+   2023-07-26__AdEx_Nto1_we_I_syn
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-07-10__AdEx_Nto1_Brian_speedtest.html">
+   2023-07-10__AdEx_Nto1_Brian_speedtest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html">
+   2023-06-23__Vm_traces_AdEx_Izh__Brian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-05-27__synaptic_cond_example.html">
+   2023-05-27__synaptic_cond_example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-04-11__Nto1_AdEx_conntest_methods_comparison.html">
+   2023-04-11 &#8226; Nto1 AdEx sims: conntest method comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__AdEx_Nto1.html">
+   2023-02-07 &#8226; AdEx Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__%5Binput-linefit-wins%5D.html">
+   2023-02-07 &#8226; [input] to &#8216;AdEx Nto1&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__AdEx_Izh_comparison.html">
+   2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__Fit-a-line.html">
+   2023-01-19 &#8226; Fit a line
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__%5Binput%5D.html">
+   2023-01-19 &#8226; [input] to &#8216;Fit a line&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-24__Nto1_with_fixed_lognormal_inputs.html">
+   2022-10-24 &#8226; N-to-1 with lognormal inputs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-23__Spike-triggered-voltage_statistics.html">
+   2022-10-23 &#8226; Spike-triggered voltage statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-17__General_simulator_software_design.html">
+   2022-10-17 &#8226; General simulator software design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-13__Fix_Nto1_non-lognormal_input_rates.html">
+   2022-10-13 &#8226; Find non-lognormal firing rates bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+   2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-07__Conntest_with_faster_curve_fit.html">
+   2022-10-04 &#8226; Use faster curve fit for connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-04__inspect_curve_fit.html">
+   2022-10-04 &#8226; Inspect curve-fitting procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+   2022-09-30 &#8226; Use parametric STA model for connection testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-29__Two-pass_summary.html">
+   2022-09-29 &#8226; Summary of two-pass conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function_pt_2.html">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2024-04-12__Spikes-only_connection_inference.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2024-04-12__Spikes-only_connection_inference.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2024-04-12__Spikes-only_connection_inference.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2024-04-12__Spikes-only_connection_inference.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs">
+   6500 inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   100 inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   10 inputs
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2024-04-12 &#183; Spikes-only connection inference</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#inputs">
+   6500 inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   100 inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   10 inputs
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="spikes-only-connection-inference">
+<h1>2024-04-12 &#183; Spikes-only connection inference<a class="headerlink" href="#spikes-only-connection-inference" title="Permalink to this headline">&#182;</a></h1>
+<p>I am curious yes.<br>
+Small lit rev synthesis:</p>
+<ul class="simple">
+<li><p>best method is gewoon nog steeds simpelweg cross-correlation
+(slide (binned?) spiketrains over each other for some back and front delays; and get peak height).</p></li>
+<li><p>transfer entropy not as good; &#8220;HOTE&#8221; of zoiets (higher order TE) van Ito et al 2011, is wel as good; maar much more expensive.</p></li>
+<li><p>gewone CC vindt inh connecties niet goed. Verbetering van Pastore et al 2018 (&#8220;FNCCH&#8221;.),
+is simpelweg mean centering van het cross-corr signal (zodat pos en neg peaks gelijke kans krijgen in vinden van abs max).</p></li>
+<li><p>De Blasi et al 2019: &#8220;TSPE&#8221;. Also CC based. Same perf as FNCHH. instead of mean subtraction they use an edge filter to find high or low peak.</p></li>
+</ul>
+<p>So conclusion: we&#8217;ll do xcorr with mean centering.<br>
+At first I thought to take it at a fixed delay (we know which of the two is pre and post, and the delay should be &#177; fixed).<br>
+But let&#8217;s just do at a range, then we have nice plots that can be compared with lit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/Nto1.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004;
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004;
+using StatsBase &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<p>So, Nto1, same as prev:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>600
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1.555949 seconds (21.57 k allocations: 912.269 MiB, 0.79% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>No VI necessary ofc.<br>
+(Ok there&#8217;d be time jitter on spikes maybe, dunno about calcium imaging to spikes signal processing).<br>
+(and missed plus spurious spikes yeah. And two spikes close together in time (nonlinear summation)).</p>
+<p>So, let&#8217;s get the post and pre spiketrains.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2817
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1860
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/plot.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004;
+import PythonPlot &#8230; &#10004;
+using Sciplotlib &#8230; &#10004;
+using PhDPlots &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">before</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">.&lt;</span> <span class="n">t</span><span class="p">]</span>
+
+<span class="k">function</span> <span class="n">rasterplot_pre_post</span><span class="p">(</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">5</span><span class="n">seconds</span><span class="p">)</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">newax</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">before</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">post</span><span class="p">),</span> <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">eventplot</span><span class="p">(</span><span class="n">before</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">pre</span><span class="p">),</span>  <span class="n">lineoffsets</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">set</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">ytype</span><span class="o">=</span><span class="ss">:cat</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">"Time (s)"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s">"post"</span><span class="p">,</span> <span class="s">"pre"</span><span class="p">])</span>
+<span class="k">end</span>
+<span class="n">rasterplot_pre_post</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_12_0.png" src="../_images/2024-04-12__Spikes-only_connection_inference_12_0.png">
+</div>
+</div>
+<p>(Interesting, this regular post spiking. Hadn&#8217;t noticed that before &#128584;)</p>
+<p>And the irregular-to-regular transformation is super interesting too !!  <br>
+Given that they have approx the same spikerate.<br>
+Anyway.</p>
+<p>So, time binning.<br>
+(In principle not necessary. But then you need to bin the resulting xcorr signal, or convolve a smoothing kernel over it).</p>
+<p>Which binsize ? (and which offset; but I&#8217;m sure everyone just takes 0 for that)</p>
+<p>dt is 0.1 ms. At 4 Hz or 250 ms between spikes, there&#8217;s 2500 timesteps between &#8216;em.</p>
+<p>What do the guys do?</p>
+<ul class="simple">
+<li><p>I see a 1 ms binsize somewhere in De Blasi 2019&#8217;s text.</p></li>
+<li><p>Pastore et al 2018 seem to have about 100 ms (counting datapoints in their methods figure).</p></li>
+<li><p>Eyten et al 2004 (ref [39] of Pastore 2018, &#8220;following a known normalization approach to the CC values [39]&#8221;) has 5 ms seems.</p></li>
+</ul>
+<p>That&#8217;s a big diff!
+So I guess we&#8217;ll make it a param and try 1, 10, 100, 1000.</p>
+<p>(In 2022-08-05__Spiketrain-correlations, I went from 12.5 to 200)<br>
+But that nb was not about xcorrs, just non-delayed/offset corrs. So that&#8217;s why big sizes make sense.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span>
+
+<span class="n">binsize</span> <span class="o">=</span> <span class="mi">10</span><span class="n">ms</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">bin</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">sim</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="p">;</span> <span class="n">sim</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
+
+<span class="n">cor</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00702
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then for sliding the corr (xcorr = CC), we must decide what happens at the edges.</p>
+<p>The normalization done (/ (Nx * Ny), num spikes in pre and post) is to account for differences in spike rate (&#8220;MFR&#8221;, mean fr) between neurons; this is not the edge normalization.</p>
+<p>So. All formules are continuous time.
+Taking notation of Pastore 2018:
+$<span class="math notranslate nohighlight">\(
+C_{xy}(&#964;) = \frac{1}{\sqrt{N_x N_y}} \sum_{s=1}^{N_x} x(t_s) \ y(t_s - &#964;)
+\)</span>$</p>
+<p>$y<span class="math notranslate nohighlight">\( is the "target" -- I think our 'post'.  
+\)</span>x$ is the &#8220;reference&#8221; &#8211; I think our &#8216;pre&#8217;.<br>
+&#8220;CC measures the frequency at which a target fires relative to the events of the reference&#8221;.\</p>
+<p><span class="math notranslate nohighlight">\(t_s\)</span> is the time of a spike in <span class="math notranslate nohighlight">\(x\)</span></p>
+<p>Say &#964; is 0. Taking this thing literally in continuous time, it&#8217;s always gonna be 0! Nowhere do events have the exact same timing.<br>
+But if we use the simulation time step (or some coarser binning), it&#8217;s: how many timesteps they both have a spike at the same time.
+(A count, cause we&#8217;re summing <span class="math notranslate nohighlight">\(1&#183;1 = 1\)</span>&#8217;s).<br>
+Equivalently (and more literally the formula, with summing over events and up to <span class="math notranslate nohighlight">\(N_x\)</span>): how many of x&#8217;s spikes have a corresponding spike at the same time in y.</p>
+<p>Now with a positive delay &#964;<br>
+(and CC is symmetric (said in Pastore but true in general, could prove but blah): <span class="math notranslate nohighlight">\(C_{xy}(&#964;) = C_{yx}(-&#964;)\)</span>.<br>
+Ah, but not <span class="math notranslate nohighlight">\(C_{xy}(&#964;) = C_{xy}(-&#964;)\)</span> (?)).</p>
+<p>On the &#8216;taking literally&#8217;: yes at exactly &#964;=0 it&#8217;ll be zero (unless, indeed the events have the exact same time). But there&#8217;ll always be a &#964; where the overlapping spike count is 1: namelly &#964; = the time between a spike of x and one of y.<br>
+So yes, in the continuous dt&#8594;0 limit, this <span class="math notranslate nohighlight">\(C_{xy}\)</span> is a &#8216;spike&#8217; train itself: zero everywhere and a &#8220;1&#8221; at every time-delay between every spike of x and every spike of y. (I.e. it&#8217;s got (max) <span class="math notranslate nohighlight">\(N_x&#160;&#183; N_y\)</span> &#8216;spikes&#8217;).</p>
+<p>(OK it could be &#8220;2&#8221; or more if there&#8217;s two spike-pairs with the exact same delay).</p>
+<p>Back to &#964; &gt; 0:</p>
+<p>So for our mental visualization (see raster plot above): x / pre train stays where it is.<br>
+..And y train&#8217;ll move forward, right?<br>
+Numeric example to understand: if x has a spike at <span class="math notranslate nohighlight">\(t_s=1\)</span> s,
+and y one at <span class="math notranslate nohighlight">\(t=1.1\)</span> s, then yes at positive <span class="math notranslate nohighlight">\(&#964; = 0.1\)</span> s, we&#8217;ll have a &#8216;coincidence event&#8217;.</p>
+<p>So, yes, we can mentally shift the y / post train backwards in time in the plot.</p>
+<p>Ok, now what happens at the end. We&#8217;re not gonna consider long delays yeah.<br>
+There was a cool set of concrete numbers in .. again in Pastore 2018 :)<br>
+&#8220;Spatio-temporal filtering procedure&#8221;:</p>
+<ul class="simple">
+<li><p>minimum delay of 1 ms, &#8220;compatible with fast excitatory AMPA synaptic transmission&#8221;</p></li>
+<li><p>maximum delay of (spatial distance between neurons) * (maximum propagation velocity of 400 mm / s)</p></li>
+</ul>
+<p>Of course, we approx know our delay at which to expect coincidences.
+Going to a plot of our PSPs / STAs, e.g. fig 23: <strong>peak of STA at &#177; 6 ms</strong>.<br>
+(That&#8217;s without artifically introduced tx delay remember).<br>
+The max dip of the STA is at about very roughly 50 ms.<br>
+Our (self-chosen) STA windows go up to 100 ms.<br>
+So yeah let&#8217;s take 100 ms max, at least for our mental calculation of the edge problem.<br>
+(We could also e.g. take 20 or 40 or 60 ms).<br>
+Also, this STA peak location thing is relevant for our pre-processing time binning of the spike trains.
+We said 10 ms? Maybe take 1 ms then? Or not binning (i.e. taking 0.1 ms; we have spiketimes arrays now, not dense [0 0 0 1 0 ..] arrays).</p>
+<p>So, the edge problem.<br>
+If we have a max 100 ms aka 0.1 s &#964;.<br>
+Then the diff between &#964; &#8776; 0 ms and &#964; = 100 ms in data length to work with is:</p>
+<ul class="simple">
+<li><p>10 minutes aka 600 seconds</p></li>
+<li><p>versus 599.9 seconds.</p></li>
+</ul>
+<p>So yeah, we&#8217;ll just not normalize at ends :)</p>
+<p>So, if we use <code class="docutils literal notranslate"><span class="pre">cor(x,y)</span></code> of julia&#8217;s StatsBase, that&#8217;s Pearson correlation.<br>
+So already some normalization right. Which one.</p>
+<p>&#8230; todo</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">"""</span>
+<span class="s">Cross correlation CC between spiketrains x ('pre' / 'reference') and y ('post' / 'target').</span>
+<span class="s">= C_xy(&#964;) of Pastore 2018 (but in discrete time).</span>
+
+<span class="s">x and y will be binned (i.e. be dense binary arrays) internally.</span>
+<span class="s">The output vector CC will be computed for a discrete range of time delays &#964;, from 0 to `max_delay`.</span>
+
+<span class="s">(Positive &#964; shifts y backwards in time wrt x).</span>
+
+<span class="s">If T = binsize, then &#964; will be: [0, 1*T, 2*T, &#8230; i*T, &#8230;, D*T]</span>
+
+<span class="s">D = max_delay / binsize.</span>
+<span class="s">Length of the output vector will be `D + 1` (we include i = 0 too).</span>
+
+<span class="s">For e.g. &#964; = 2*T, this is the shortest time between spikes that counts towards CC(&#964;):</span>
+
+<span class="s">x     |     s|      |      |</span>
+<span class="s">y     |      |      |s     |</span>
+
+<span class="s">I.e. 1T.</span>
+<span class="s">This is the longest, i.e. 3T:</span>
+
+<span class="s">x     |s     |      |      |</span>
+<span class="s">y     |      |      |     s|</span>
+
+
+<span class="s">CC(i) thus measures how many of x's spikes have a spike in y</span>
+<span class="s">somewhere from `(i-1)*T` to `(i+1)*T` further in time;</span>
+<span class="s">normalized by both spiketrains' number of spikes.</span>
+<span class="s">"""</span>
+<span class="k">function</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">duration</span><span class="p">,</span> <span class="n">binsize</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">,</span> <span class="n">max_delay</span> <span class="o">=</span> <span class="mi">50</span><span class="n">ms</span><span class="p">)</span>
+    
+    <span class="n">Nx</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">Ny</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="o">&#8730;</span><span class="p">(</span><span class="n">Nx</span> <span class="o">*</span> <span class="n">Ny</span><span class="p">)</span>  <span class="c"># Mean firing rate normalization factor</span>
+    <span class="c"># (to make xcorr funcs of high and low firing neuron-pairs comparable).</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">bin</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">bin</span><span class="p">(</span><span class="n">y</span><span class="p">;</span> <span class="n">duration</span><span class="p">,</span> <span class="n">binsize</span><span class="p">)</span>
+    
+    <span class="n">D</span> <span class="o">=</span> <span class="n">round</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">max_delay</span> <span class="o">/</span> <span class="n">binsize</span><span class="p">)</span>  <span class="c"># Num delays &gt; 0</span>
+    <span class="n">CC</span> <span class="o">=</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">D</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">:</span><span class="n">D</span>
+        <span class="n">CC</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">:</span><span class="n">end</span><span class="p">]</span> <span class="o">.*</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="p">(</span><span class="k">end</span><span class="o">-</span><span class="n">i</span><span class="p">)])</span> <span class="o">/</span> <span class="n">f</span>
+        <span class="c"># Say there's 10 timebins total in both signals, and `i` is e.g. 2,</span>
+        <span class="c"># then this reads: x[3:10], y[1:8] (Which are both 8 elements long).</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">CC</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="inputs">
+<h2>6500 inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim</span><span class="p">));</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeTrain(58522 spikes, 97.5 Hz, [0.00467, 0.0148, 0.045, 0.0473, 0.0584, 0.0758, 0.0927, 0.106, 0.109, 0.11  &#8230;  600, 600, 600, 600, 600, 600, 600, 600, 600, 600])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">newax</span><span class="p">())</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">CC</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">&#964;</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="n">D</span><span class="p">)</span> <span class="o">.*</span> <span class="n">binsize</span> <span class="o">/</span> <span class="n">ms</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">&#964;</span><span class="p">,</span> <span class="n">CC</span><span class="p">;</span> <span class="n">ax</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="sa">L</span><span class="s">"Time after </span><span class="si">$x</span><span class="s">$ spike (ms)"</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="sa">L</span><span class="s">"Probablity of </span><span class="si">$y</span><span class="s">$ spike"</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.232574 seconds (321 allocations: 709.516 MiB, 20.03% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_32_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_32_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mi">10</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.001627 seconds (48 allocations: 9.157 MiB)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_33_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_33_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mf">0.1</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20.234295 seconds (3.07 k allocations: 67.276 GiB, 20.32% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_34_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_34_1.png">
+</div>
+</div>
+<p>Huh! Even for the strongest firing (exc) input, we don&#8217;t really find anything strong&#8230;</p>
+<p>So let&#8217;s do a sim with much less inputs.</p>
+</div>
+<div class="section" id="id1">
+<h2>100 inputs<a class="headerlink" href="#id1" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim100</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span> <span class="n">duration</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.186823 seconds (371 allocations: 58.700 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc100</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim100</span><span class="p">));</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">exc100</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeTrain(8504 spikes, 14.2 Hz, [0.283, 0.343, 0.448, 0.473, 0.575, 0.584, 0.593, 0.811, 0.867, 1.11  &#8230;  600, 600, 600, 600, 600, 600, 600, 600, 600, 600])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">exc100</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim100</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.220343 seconds (344 allocations: 709.517 MiB, 17.21% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_40_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_40_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rasterplot_pre_post</span><span class="p">(</span><span class="n">exc100</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim100</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_41_0.png" src="../_images/2024-04-12__Spikes-only_connection_inference_41_0.png">
+</div>
+</div>
+<p>Oei. Even here not.<br>
+Come on, kan niet he.</p>
+</div>
+<div class="section" id="id2">
+<h2>10 inputs<a class="headerlink" href="#id2" title="Permalink to this headline">&#182;</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim10</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">duration</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.168248 seconds (71 allocations: 47.296 MiB)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">exc10</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">excitatory_inputs</span><span class="p">(</span><span class="n">sim10</span><span class="p">));</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">exc10</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeTrain(4073 spikes, 6.79 Hz, [0.00811, 0.0279, 0.0842, 0.0844, 0.504, 0.537, 0.648, 0.987, 1.13, 1.21  &#8230;  599, 599, 599, 599, 599, 600, 600, 600, 600, 600])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">exc10</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim10</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.207354 seconds (375 allocations: 709.517 MiB, 19.30% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_46_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_46_1.png">
+</div>
+</div>
+<p>Aha, finally :))</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rasterplot_pre_post</span><span class="p">(</span><span class="n">exc10</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim10</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_48_0.png" src="../_images/2024-04-12__Spikes-only_connection_inference_48_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">inh10</span> <span class="o">=</span> <span class="n">highest_firing</span><span class="p">(</span><span class="n">inhibitory_inputs</span><span class="p">(</span><span class="n">sim10</span><span class="p">));</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">inh10</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SpikeTrain(5995 spikes, 9.99 Hz, [0.0576, 0.0778, 0.131, 0.132, 0.164, 0.528, 0.539, 0.627, 0.806, 0.834  &#8230;  599, 599, 599, 600, 600, 600, 600, 600, 600, 600])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">binsize</span> <span class="o">=</span> <span class="mi">1</span><span class="n">ms</span><span class="p">;</span>
+
+<span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">inh10</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim10</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.249489 seconds (344 allocations: 709.517 MiB, 32.61% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_50_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_50_1.png">
+</div>
+</div>
+<p>Ok, so inh no.</p>
+<p>Second highest exc?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">CC</span> <span class="o">=</span> <span class="n">xcorr</span><span class="p">(</span><span class="n">exc10</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">sim10</span><span class="o">.</span><span class="n">spiketimes</span><span class="p">;</span> <span class="n">binsize</span><span class="p">)</span>
+<span class="n">plot_xcorr</span><span class="p">(</span><span class="n">CC</span><span class="p">;</span> <span class="n">binsize</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.476494 seconds (344 allocations: 709.517 MiB, 20.63% gc time)
+</pre></div>
+</div>
+<img alt="../_images/2024-04-12__Spikes-only_connection_inference_52_1.png" src="../_images/2024-04-12__Spikes-only_connection_inference_52_1.png">
+</div>
+</div>
+<p>Kinda, maybe.</p>
+<hr class="docutils">
+<p>Maar dit kan toch niet.<br>
+(spike to spike / xcorr kan toch niet zo slecht zijn).</p>
+<p>Hoe lang zijn recordings in de papers, en hoeveel inputs.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.9"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.9",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.9'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="../index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Voltage-to-wiring, the simulation</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2024-04-10__Overview-figure.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2024-04-10 &#183; Overview figure</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
