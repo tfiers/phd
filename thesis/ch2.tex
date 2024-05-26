@@ -106,7 +106,7 @@ Further on, we will compare the AdEx neuron with another neuron model, the Izhik
 
 Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
-We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is indeed a fixed point -- or rather lies very close to one: the exponential term is negligibly small at $V = E_L$.
+We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is, numerically speaking (though not strictly mathematically), indeed a fixed point: at realistic parameter values, the exponential term is negligibly small at $V = E_L$.
 \marginpar{
     \includegraphics[w=1]{LambertW.png}
     \captionof{figure}{The Lambert $W$ functions for real numbers.}
@@ -116,7 +116,7 @@ The second fixed point has no straightforward expression. The exact solutions fo
 \begin{equation}
     V = E_L - Δ_T W_k \left( -\exp\left( \frac{E_L - V_T}{Δ_T} \right) \right) \label{eq:LambertW}
 \end{equation}
-..where $k = 0$ gives the resting potential, and $k = -1$ the instantaneous firing threshold.\footnote{
+where $k = 0$ gives the resting potential, and $k = -1$ the instantaneous firing threshold.\footnote{
     Here too we see that the true resting potential is almost identical to $E_L$: $W_0$ passes through zero, and its argument is $≈ 0$, because the exponential's argument is negative. For $W_{-1}$ however, \cref{fig:LambertW} shows that the second term is not negligible around $0$.}
 For our cortical RS neuron, this gives us an instantaneous threshold of $E_T = -49.6$ mV.
 
@@ -308,7 +308,7 @@ We simulate the synaptic conductances $g_i$ as exponentially decaying signals (w
     \label{fig:g2}
 }
 
-Note that these are not the so called alpha-synapses. Those are two dimensional and also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
+Note that these are not the so called alpha-synapses. Those have \emph{two} exponential terms and time constants in their differential equation (instead of one, as in \cref{eq:g_i}): they also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
 Simulating a full alpha synapse might increase the realism of our voltage traces, for a small simulation cost. We did not try this however. Foremost because alpha synapses fit to real data often have very fast rise times that are almost indistinguishable from instantaneous jumps.
 
 For efficiency, we give all our excitatory synapses the same reversal potential, $E_\exc$. Idem for the inhibitory synapses, with $E_\inh$. This allows us to factor the synaptic current sum (\cref{eq:I_syn}) as follows:
@@ -427,7 +427,7 @@ Log-normal distributions are usually parametrized with $μ$ and $σ$: the locati
 
 \Citeauthor{Roxin2011DistributionFiringRates} use a mean rate $μ_x$ of $5$ Hz and a variance of the logarithm of the rate $σ^2 = 1.04$ in their figure 2. \Authorref{Hromadka2008SparseRepresentationSounds} recorded neurons in the auditory cortex of awake rats during acoustic stimulation. They find a mean firing rate $μ_x$ of $6.2$ Hz and a median of $2.4$ Hz; no numeric variances are given. \Authorref{OConnor2010NeuralActivityBarrel} recorded neurons in the barrel (whisker) cortex of behaving mice. Ensembled over all layers of the cortex they recorded from, they report $μ_x = 7.4$ Hz, $σ_x = 12.6$ Hz, a median of $1.5$ Hz, and an interquartile range of $9.5$ Hz. This corresponds to a Gaussian variance of $σ^2 = \ln(1 + σ_x^2 / μ_x^2) = 0.30$. The Roxin and O'Connor distributions are also shown in \cref{fig:log-normal}.
 
-Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as our idea for connection inference rests on the number of spikes that can be used to calculate spike-triggered averages (see \cref{ch3-STA}), we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
+Given these data, we choose our parameters $μ$ and $σ$ so that the distribution lies roughly halfway -- on a logarithmic scale -- between O'Connor's and Roxin's, while making sure our firing rates are rather low than high: as our idea for connection inference rests on the number of spikes that can be used to calculate spike-triggered averages (see \cref{ch3-STA}), we don't want to overestimate the number of available input spikes and obtain overly optimistic results.
 
 Our log-normal distribution has a median of $2.96$ Hz, very close to Roxin's $2.97$ Hz. O'Connor's has $6.4$ Hz, which is markedly different from the median of $1.5$ Hz they reported (hinting that their data distribution might not be log-normal).
 
@@ -543,10 +543,14 @@ The act of spike ceiling in itself does have an effect on network inference perf
 
 \FloatBarrier
 \section{Voltage imaging}
+\label{sec:model-voltage-imaging}
 
 The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage traces of which they are a reflection.
 
-We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage. As in the voltage imaging literature, we quantify the amount of this  noise by a `spike-SNR' measure (spike signal-to-noise ratio). This is defined as the height of an average spike relative to the standard deviation of the noise:
+We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage.\footnote{
+    Adding noise with a fixed variance each timestep makes the power of the added noise dependent on the chosen timestep. In this study we do not vary the timestep, but if we did, we would have to account for this when choosing the noise variance.
+}
+As in the voltage imaging literature, we quantify the amount of this  noise by a `spike-SNR' measure (spike signal-to-noise ratio). This is defined as the height of an average spike relative to the standard deviation of the noise:
 \begin{equation}
     \text{spike-SNR} = \frac{\text{spike height}}{σ_\text{noise}}
 \end{equation}

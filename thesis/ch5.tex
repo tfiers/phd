@@ -128,7 +128,8 @@ But even though \cref{eq:PSP} models our simulated \emph{PSPs} well, it does not
     This falsifies our initial implicit hypothesis that STAs are merely noisy reflections of PSPs.
 };
 see for example the average STAs in \cref{fig:corr}.
-First, the bump in the STA does not occur immediately after the presynaptic neuron's spike. This is due to the simulated axonal transmission delay, and it is easily replicated in the model by shifting the PSP function in time. But more interestingly, the STA shows a sort of `dip', where it dives below baseline just after the PSP bump, and flares up again at the ends (a downwards slant in the initial delay period, and an upwards slant at the end of the STA).
+First, the bump in the STA does not occur immediately after the presynaptic neuron's spike. This is due to the simulated axonal transmission delay, and it is easily replicated in the model by shifting the PSP function in time. But more interestingly, the STA shows a sort of `dip', where it dives below baseline just after the PSP bump, and flares up again at the ends (a downwards slant in the initial delay period, and an upwards slant at the end of the STA).\\
+\Cref{fig:N_1_signals} from \cref{ch3-STA} gives a clue to the reason for this dip: when there are no poststynaptic spikes (second and fourth column in \cref{fig:N_1_signals}), there is also no dip visible in the STAs (second and third rows). This dip thus seems related to these postsynaptic spikes, maybe enhancing the PSP right before and during the spike, and suppressing it right after (when the voltage is reset).
 
 \begin{figure}
     \subfloat{
@@ -143,7 +144,7 @@ First, the bump in the STA does not occur immediately after the presynaptic neur
     \label{fig:modelfit}
 \end{figure}
 
-These phenomena thus differentiate an STA from a PSP. We find empirically that they can be parsimonously modelled by subtracting a broad Gaussian curve from the PSP: see \cref{fig:modelfit}, right.\footnote{
+The phenomena of the delay and the `dip' thus differentiate an STA from a PSP. We find empirically that the dip can be parsimonously modelled by subtracting a broad Gaussian curve from the PSP: see \cref{fig:modelfit}, right.\footnote{
     Note that in \cref{fig:modelfit}, we fit an \emph{inhibitory} STA, and the model componentes are thus inverted: the delayed PSP bump (blue) is downwards, and the Gaussian `dip' (orange) is upwards.
 }
 
@@ -251,7 +252,8 @@ We will then perform the following linear regression:
         ε_{N,M}
     \end{bmatrix}
 \end{align}
-I.e. we will regress voltage-after-spike against time-after-spike.
+I.e. we will regress voltage-after-spike against time-after-spike.\\
+Note that the noise term here is not just modelling the Gaussian noise we add ourselves (the voltage imaging noise), but \emph{everything} that is not the increase in the poststynaptic voltage due to a presynaptic spike: this is mainly the effects of other presynaptic neurons, and postsynaptic spikes.
 
 If we assume additive Gaussian noise, i.e.
 \begin{equation} \label{eq:sampling_noise}

@@ -59,8 +59,8 @@ A property of fully random networks is that they are strongly interconnected. In
 \section{External input}
 
 As we no longer have Poisson spike trains providing input to our neurons, we need another way of bootstrapping activity in the network.\\
-Instead of external spikes, each neuron is provided with external input by adding Gaussian noise to its membrane voltage. Every time step ($Δt = 0.1$~ms), a sample drawn from a normal distribution with mean $–0.5$~pA and $σ = 5$~pA is added to the membrane current. (As membrane current is by convention negative, this corresponds to an on-average positive influence on membrane voltage).
-
+Instead of external spikes, each neuron is provided with external input by adding Gaussian noise to its membrane voltage. Every time step ($Δt = 0.1$~ms), a sample drawn from a normal distribution with mean $–0.5$~pA and $σ = 5$~pA is added to the membrane current. (As membrane current is by convention negative, this corresponds to an on-average positive influence on membrane voltage).\\
+Like in the first footnote in \cref{sec:model-voltage-imaging}, this way of adding noise makes the noise power dependent on the timestep. A more principled approach to injecting noise would be to replace our ODE for the neuron voltage (\cref{eq:AdEx-V}) by a stochastic differential equation (SDE); though we did not explore this here.
 
 
 \section{EI balance}
