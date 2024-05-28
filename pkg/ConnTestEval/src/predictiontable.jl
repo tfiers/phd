@@ -22,6 +22,8 @@ struct PredictionTable{NT<:NamedTuple}
 end
 
 PredictionTable(θ, tvals, conntypes) = begin
+    tvals = Vector{Float64}(tvals)
+    conntypes = Vector{Symbol}(conntypes)
     preds = predicted_types(tvals, θ)
     cm = confusion_matrix(conntypes, preds)
     pm = perfmeasures(cm)

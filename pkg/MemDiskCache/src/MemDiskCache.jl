@@ -1,3 +1,10 @@
+"""
+Two interfaces:
+    - `@CachedFunction(f)`; and the simpler:
+    - `@cached expr`.
+
+Scroll down the source here for the latter.
+"""
 module MemDiskCache
 
 using ThreadSafeDicts
@@ -268,7 +275,7 @@ get_runtime(key) = load(filepath(key), "runtime")
 
 
 stringify(ex) = begin
-    if ex.head == :block
+    if ex isa Expr && ex.head == :block
         ex = deepcopy(ex)
         Base.remove_linenums!(ex)
     end

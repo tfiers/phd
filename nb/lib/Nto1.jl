@@ -21,8 +21,9 @@ function get_trains_to_test(
     Nₜ = 100,  # Number of trains of each type, (exc, inh, unc)
     seed = 1,  # For generating unconnected trains (both their frs, and their spikes)
 )
-    exc_inputs = highest_firing(excitatory_inputs(sim))[1:Nₜ]
-    inh_inputs = highest_firing(inhibitory_inputs(sim))[1:Nₜ]
+    first_Nₜ(list) = list[1:min(length(list), Nₜ)]
+    exc_inputs = first_Nₜ(highest_firing(excitatory_inputs(sim)))
+    inh_inputs = first_Nₜ(highest_firing(inhibitory_inputs(sim)))
     both = [exc_inputs..., inh_inputs...]
     fr = spikerate.(both)
     # Seed may not be same as seed in sim: otherwise our 'unconnected'
