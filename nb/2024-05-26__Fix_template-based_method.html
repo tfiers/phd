@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2024-05-26 &#183; Fix template-based method &#8212; Voltage-to-Wiring Sim</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet" href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css">
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css">
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css">
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css">
+    <link rel="stylesheet" type="text/css" href="../_static/my_style_mods.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css">
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css">
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/resize_retina_figures.js"></script>
+    <script src="../_static/build_status.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://unpkg.com/@jupyter-widgets/html-manager@%5E0.20.0/dist/embed-amd.js"></script>
+    <link rel="canonical" href="https://tfiers.github.io/phd/nb/2024-05-26__Fix_template-based_method.html">
+    <link rel="shortcut icon" href="../_static/favicon.ico">
+    <link rel="index" title="Index" href="../genindex.html">
+    <link rel="search" title="Search" href="../search.html">
+    <link rel="next" title="2024-04-12 &#183; Spikes-only connection inference" href="2024-04-12__Spikes-only_connection_inference.html">
+    <link rel="prev" title="2024-05-29 &#183; Residuals linefit" href="2024-05-29__Residuals-linefit.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-121684982-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  <meta name="robots" content="noindex"><meta name="google-site-verification" content="QPn27BqA5LpMmT7Y7mFDLlWCeUw5aVcr74ShytJ3hJU"></head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Voltage-to-Wiring Sim</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption">
+ <span class="caption-text">
+  Notebooks
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-05-29__Residuals-linefit.html">
+   2024-05-29 &#183; Residuals linefit
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   2024-05-26 &#183; Fix template-based method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-04-12__Spikes-only_connection_inference.html">
+   2024-04-12 &#183; Spikes-only connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-04-10__Overview-figure.html">
+   2024-04-10 &#183; Overview figure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2024-01-11__Re-make_network_hops_barplots.html">
+   2024-01-11 &#183; Re-make network hops barplots
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-20__STA_conntest_for_diff_recording_quality_n_durations.html">
+   2023-09-20 &#183; STA conntest for diff recording quality n durations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-13__Clippin_and_Ceilin.html">
+   2023-09-13 &#183; Clippin and Ceilin
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-05__Inhibitory_impulse_response_PSP.html">
+   2023-09-05 &#183; Inhibitory impulse response (PSP)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-09-05__ceil_spikes.html">
+   2023-09-05&#160;&#183; Ceil spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-31__STA_conntest.html">
+   2023-08-31__STA_conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-30__STA_examples.html">
+   2023-08-30__STA_examples
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib.html">
+   2023-08-22__speedtest_end-to-end_nb_worfklow_julia_only__diy_pyplotlib
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-22__minimal_diy_ijulia_matplotlib.html">
+   2023-08-22__minimal_diy_ijulia_matplotlib
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot.html">
+   2023-08-20__speedtest_end-to-end_nb_worfklow_julia_only__pythoncall_pythonplot
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-16__STA_conntest_pyjulia.html">
+   2023-08-16__STA_conntest_pyjulia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia.html">
+   2023-08-10__speedtest_end-to-end_nb_worfklow_pyjulia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only.html">
+   2023-08-10__speedtest_end-to-end_nb_worfklow_julia_only
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-09__Poisson_cquantile_upperbound.html">
+   2023-08-09__Poisson_cquantile_upperbound
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-05__AdEx_Nto1_we_sweep.html">
+   2023-08-05__AdEx_Nto1_we_sweep
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__speedtest_brian_standalone_AdEx_Nto1.html">
+   2023-08-02__speedtest_brian_standalone_AdEx_Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-08-02__Julia_speedtest_AdEx_Nto1.html">
+   2023-08-02__Julia_speedtest_AdEx_Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-07-26__AdEx_Nto1_we_I_syn.html">
+   2023-07-26__AdEx_Nto1_we_I_syn
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-07-10__AdEx_Nto1_Brian_speedtest.html">
+   2023-07-10__AdEx_Nto1_Brian_speedtest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-06-23__Vm_traces_AdEx_Izh__Brian.html">
+   2023-06-23__Vm_traces_AdEx_Izh__Brian
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-05-27__synaptic_cond_example.html">
+   2023-05-27__synaptic_cond_example
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-04-11__Nto1_AdEx_conntest_methods_comparison.html">
+   2023-04-11 &#8226; Nto1 AdEx sims: conntest method comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__AdEx_Nto1.html">
+   2023-02-07 &#8226; AdEx Nto1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__%5Binput-linefit-wins%5D.html">
+   2023-02-07 &#8226; [input] to &#8216;AdEx Nto1&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-02-07__AdEx_Izh_comparison.html">
+   2023-02-07 &#8226; AdEx &#8596; Izhikevich comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__Fit-a-line.html">
+   2023-01-19 &#8226; Fit a line
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2023-01-19__%5Binput%5D.html">
+   2023-01-19 &#8226; [input] to &#8216;Fit a line&#8217;
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-24__Nto1_with_fixed_lognormal_inputs.html">
+   2022-10-24 &#8226; N-to-1 with lognormal inputs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-23__Spike-triggered-voltage_statistics.html">
+   2022-10-23 &#8226; Spike-triggered voltage statistics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-17__General_simulator_software_design.html">
+   2022-10-17 &#8226; General simulator software design
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-13__Fix_Nto1_non-lognormal_input_rates.html">
+   2022-10-13 &#8226; Find non-lognormal firing rates bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-11__Nto1_output_rate__Edit_of_2022-05-02.html">
+   2022-10-11 &#8226; N-to-1 output rate (edit of &#8216;2022-05-02&#8217;)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-07__Conntest_with_faster_curve_fit.html">
+   2022-10-04 &#8226; Use faster curve fit for connection inference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-10-04__inspect_curve_fit.html">
+   2022-10-04 &#8226; Inspect curve-fitting procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-30__Conntest_with_parametric_STA_model.html">
+   2022-09-30 &#8226; Use parametric STA model for connection testing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-29__Two-pass_summary.html">
+   2022-09-29 &#8226; Summary of two-pass conntest
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-15__Two-pass_conntest_ptp-then-cor.html">
+   2022-09-15 &#8226; Two-pass connection test: ptp, then corr with found avg
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function_pt_2.html">
+   2022-09-13 &#8226; Fit simpler model to STA &#8211; part 2
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-13__Fit_simpler_function.html">
+   2022-09-13 &#8226; Fit simpler model to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-11__Fit_function_to_STA.html">
+   2022-09-11 &#8226; Fit function to STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-09__Conntest_with_template_matching.html">
+   2022-09-09 &#8226; Connection test using template matching
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-05__Why-not-detected.html">
+   2022-09-05 &#8226; Why are some connections not detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-09-01__1144_weights.html">
+   2022-09-01 &#8226; 1144 weights
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-29__Visualizing_subnets.html">
+   2022-08-29 &#8226; Visualizing subnets
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-28__Centred_STAs.html">
+   2022-08-28 &#8226; Centred STAs
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-21__Area-under-STA.html">
+   2022-08-21 &#8226; Area under STA (new conntest)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-17__Investigate_correlated_spikers.html">
+   2022-08-17 &#8226; Investigate correlated spikers
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-08-05__Spiketrain-correlations.html">
+   2022-08-05 &#8226; Spiketrain correlations (of unconnected-but-detected)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-26__Multiseed.html">
+   2022-07-26 &#8226; Multiseed
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-23__Record_many.html">
+   2022-07-23 &#8226; Record many neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-15__Network_plus_noise.html">
+   2022-07-15 &#8226; Network + VI Noise
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected.html">
+   2022-07-14 &#8226; Not directly connected but detected
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-05__Network-conntest.html">
+   2022-07-05 &#8226; Network conntest Roxin params
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-01__g_EI.html">
+   2022-07-01 &#8226; g_EI
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-13__Network.html">
+   2022-05-13 &#8226; Network
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-05-02__STA_mean_vs_peak-to-peak.html">
+   2022-05-02&#8226; STA mean vs peak-to-peak
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-04-28__interpolate_N_from_30_to_6000.html">
+   2022-04-28 &#8226; Interpolate N = 30 .. 6000
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-28__total_stimulation.html">
+   2022-03-28 &#8226; The invariant measure: total stimulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-03-02__detection_rate_big-N-to-1.html">
+   2022-03-02 &#8226; Duration &amp; SNR for big-N&#8211;to&#8211;1
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21b__FENS_abstract.html">
+   2022-02-21 &#8226; FENS 2022 Abstract
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__image_window_test.html">
+   2022-02-21 &#8226; Image, window, test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-20__vanilla_julia_fixed_dt_solver.html">
+   2022-02-20 &#8226; Fixed timestep Euler solver in vanilla Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-07__N_to_1_simulation.html">
+   2022-02-07 &#8226; N-to-1 simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-08__lognormal_firing_rates.html">
+   2022-01-08 &#8226; Lognormal input firing rates
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__biology_vs_Izh_subhtr.html">
+   2021-12-08 &#8226; Biology vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-06__local_HH_dV_shape.html">
+   2021-12-06 &#8226; Local shape of
+   <span class="math notranslate nohighlight">
+    \(\dot{V}\)
+   </span>
+   in 2D HH
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-02__LIF_vs_Izh_subthreshold.html">
+   2021-12-02 &#8226; LIF vs Izhikevich subthreshold
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-11__vary_both_inh_strength_and_proportion.html">
+   2021-11-11 &#8226; Vary both inhibitory strength and proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-05__vary_syncond_ratio.html">
+   2021-11-05 &#8226; Vary I/E synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-09-16__vary_E_vs_I.html">
+   2021-09-27 &#8226; Vary E/I proportion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-07-30__inhibitory.html">
+   2021-07-30 &#8226; Inhibitory connections
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__multiple_ROC.html">
+   2021-01-13 &#8226; Multiple ROC&#8217;s
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-06__ROC.html">
+   2021-01-06 &#8226; ROC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__vary_params.html">
+   2021-01-01 &#8226; Influence of simulation params on connection test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-30__test_all_connections.html">
+   2020-12-30 &#8226; Test connection of
+   <em>
+    all
+   </em>
+   incoming neurons
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-12-11__KS_test_exponential_distribution.html">
+   2020-12-11 &#8226; KS test exponential distribution
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__permutation_test.html">
+   2020-11-27 &#8226; Permutation test for
+   <span class="math notranslate nohighlight">
+    \(p(\)
+   </span>
+   connected
+   <span class="math notranslate nohighlight">
+    \()\)
+   </span>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-10-23__Delete_around_spike.html">
+   2020-10-23 &#8226; Delete signal around spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-18__Clip_spikes_before_STA.html">
+   2020-09-18 &#8226; Clip spikes before STA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-09-10__STA_for_different_PSP_shapes.html">
+   2020-09-10 &#8226; STA for &#8800; PSP shapes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-29__STA.html">
+   2020-07-29 &#8226; Spike-triggered averaging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-27__Synaptic_conductances.html">
+   2020-07-27 &#8226; Synaptic conductances
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-06__Single_neuron_sim.html">
+   2020-07-06 &#8226; Single neuron simulation
+  </a>
+ </li>
+</ul>
+<p class="caption">
+ <span class="caption-text">
+  Unpolished Notebooks
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../unpolished_intro.html">
+   Intro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-07-14__Unconnected-but-detected-with-self-bug.html">
+   2022-07-14 &#8226; Not directly connected but detected &#8211; with self-bug
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-21__autobuild_jb_toc.html">
+   2022-02-21 &#8226; Build jb toc automatically
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-02-18__scale_up_N_and_duration.html">
+   2022-02-18 &#8226; Scale up N and duration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2022-01-04__Hello_Julia.html">
+   2022-01-04 &#8226; Hello Julia
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__prototype_new_sim.html">
+   2021-11-18 &#8226; Prototype new sim
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-18__constant_input_spikes.html">
+   2021-11-18 &#8226; Constant input spikes
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-12-08__cortical_HH_vs_Izh_dV_shape.html">
+   2021-12-08 &#8226; Cortical params for Hodgkin-Huxley
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-11-04__control_for_output_rate.html">
+   2021-11-04 &#8226; Control for output spike rate
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-03-10__cond_prob.html">
+   2021-03-10 &#8226; Conditional pdf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-13__conntest_in_codebase.html">
+   2021-01-13 &#8226; Connection test plot functions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-02__full_network_sim_tryout.html">
+   2020-01-02 &#8226; Trying out a full network simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2021-01-01__debug_parallel_calc_STA.html">
+   2021-01-01 &#8226; Debug parallel
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     _calc_STA
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup__spike_indices.html">
+   2020-11-30 &#8226; Sparse spike trains
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-30__speedup.html">
+   2020-11-30 &#8226; Speedup spikes &amp; STA calc
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-27__factor_out_STA.html">
+   2020-11-27 &#8226; Factoring out windowing &amp; averaging code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-11-16__analytical_PSP.html">
+   2020-11-16 Searching for an analytical form for the PSP
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-28__Storing_in_base_units.html">
+   2020-07-28 &#8226; Storing values in base units
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="2020-07-05__Izhikevich_paper_accomp.html">
+   2020-07-05 &#8226; Izhikevich paper testing
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/nb/2024-05-26__Fix_template-based_method.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip" data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF" onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button" href="https://github.com/tfiers/phd"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Source repository"><i class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button" href="https://github.com/tfiers/phd/issues/new?title=Issue%20on%20page%20%2Fnb/2024-05-26__Fix_template-based_method.html&amp;body=Your%20issue%20content%20here."><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/tfiers/phd/edit/main/web/nb/2024-05-26__Fix_template-based_method.ipynb"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left" title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode" title="Fullscreen mode"><i class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://notebooks.gesis.org/binder/v2/gh/tfiers/phd/main?urlpath=tree/web/nb/2024-05-26__Fix_template-based_method.ipynb"><button type="button" class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip" data-placement="left"><img class="binder-button-logo" src="../_static/images/logo_binder.svg" alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>2024-05-26 &#183; Fix template-based method</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="section" id="fix-template-based-method">
+<h1>2024-05-26 &#183; Fix template-based method<a class="headerlink" href="#fix-template-based-method" title="Permalink to this headline">&#182;</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/Nto1.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using Revise &#8230; &#10004; (0.2 s)
+using Units, Nto1AdEx, ConnectionTests, ConnTestEval, MemDiskCache &#8230; &#10004; (0.4 s)
+using StatsBase &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">6500</span>
+<span class="n">duration</span> <span class="o">=</span> <span class="mi">10</span><span class="n">minutes</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>600
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span> <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2.564340 seconds (21.50 k allocations: 912.268 MiB, 10.99% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We won&#8217;t test all 6500 inputs (and also not the highest firing), but a random sample.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">_</span><span class="p">,</span> <span class="n">exc</span><span class="p">),</span>
+ <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">inh</span><span class="p">),</span>
+ <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">unc</span><span class="p">))</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">get_trains_to_test</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">N&#8348;</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">all_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc</span><span class="p">;</span> <span class="n">inh</span><span class="p">;</span> <span class="n">unc</span><span class="p">]</span>
+<span class="n">length</span><span class="p">(</span><span class="n">all_trains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">all_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc</span><span class="p">;</span> <span class="n">inh</span><span class="p">;</span> <span class="n">unc</span><span class="p">]</span>
+<span class="n">tvals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">all_trains</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">STA_test</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">))</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Runtime: 06:51 with 7 threads (and lil interruption). But not threadsafe, adding to a list).<br>
+Single threaded: 09:49.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/plot.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004; (1.2 s)
+import PythonPlot &#8230; &#10004; (2.7 s)
+using Sciplotlib &#8230; &#10004; (0.3 s)
+using PhDPlots &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">tvals</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-05-26__Fix_template-based_method_11_0.png" src="../_images/2024-05-26__Fix_template-based_method_11_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">&#952;</span> <span class="o">=</span> <span class="n">quantile</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.99
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sel_trains</span> <span class="o">=</span> <span class="n">all_trains</span><span class="p">[</span><span class="n">tvals</span> <span class="o">.&#8805;</span> <span class="n">&#952;</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">length</span><span class="p">(</span><span class="n">sel_trains</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>180
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">STA</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">=</span> <span class="n">calc_STA</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">,</span> <span class="n">ConnectionTests</span><span class="o">.</span><span class="n">&#916;t</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">average</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">length</span><span class="p">(</span><span class="n">X</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">=</span> <span class="n">average</span><span class="p">([</span><span class="n">STA</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">sel_trains</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plotSTA</span><span class="p">(</span><span class="n">template</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-05-26__Fix_template-based_method_18_0.png" src="../_images/2024-05-26__Fix_template-based_method_18_0.png">
+</div>
+</div>
+<p>Nice. (We&#8217;ll only use the first 20 ms of this).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">W</span> <span class="o">=</span> <span class="n">ConnectionTests</span><span class="o">.</span><span class="n">STA_length</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">TemplateCorr</span><span class="p">(</span><span class="n">template</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tvals2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">all_trains</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">tvals2</span><span class="p">,</span> <span class="n">test_conn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Ns</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="mi">6500</span><span class="p">]</span>
+<span class="n">seeds</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">conntypes</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">conntypes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">conntype</span><span class="p">,</span> <span class="n">trains</span><span class="p">)</span> <span class="k">in</span> <span class="n">inputs</span>
+        <span class="n">append!</span><span class="p">(</span><span class="n">conntypes</span><span class="p">,</span> <span class="n">repeat</span><span class="p">([</span><span class="n">conntype</span><span class="p">],</span> <span class="n">length</span><span class="p">(</span><span class="n">trains</span><span class="p">)))</span>
+    <span class="k">end</span>
+    <span class="n">conntypes</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows_template</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">N</span> <span class="k">in</span> <span class="n">Ns</span>
+    <span class="k">for</span> <span class="n">seed</span> <span class="k">in</span> <span class="n">seeds</span>
+        <span class="nd">@show</span> <span class="n">N</span> <span class="n">seed</span>
+        <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">;</span> <span class="n">seed</span><span class="p">);</span>
+        <span class="p">((</span><span class="n">_</span><span class="p">,</span> <span class="n">exc</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">inh</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">unc</span><span class="p">))</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">get_trains_to_test</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">N&#8348;</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">));</span>
+        <span class="n">all_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc</span><span class="p">;</span> <span class="n">inh</span><span class="p">;</span> <span class="n">unc</span><span class="p">]</span>
+        <span class="n">tvals</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="nd">@showprogress</span> <span class="s">"pass1"</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">all_trains</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">STA_test</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">))</span>
+        <span class="k">end</span>
+        <span class="n">&#952;</span> <span class="o">=</span> <span class="n">quantile</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">)</span>
+        <span class="n">sel_trains</span> <span class="o">=</span> <span class="n">all_trains</span><span class="p">[</span><span class="n">tvals</span> <span class="o">.&#8805;</span> <span class="n">&#952;</span><span class="p">]</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">average</span><span class="p">([</span><span class="n">STA</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="n">sel_trains</span><span class="p">])</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">template</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="p">]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">TemplateCorr</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+        <span class="n">tvals2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="nd">@showprogress</span> <span class="s">"pass2"</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">all_trains</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">tvals2</span><span class="p">,</span> <span class="n">test_conn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">))</span>
+        <span class="k">end</span>
+        <span class="n">push!</span><span class="p">(</span><span class="n">rows_template</span><span class="p">,</span> <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">&#952;</span><span class="p">,</span> <span class="n">N_sel</span><span class="o">=</span><span class="n">length</span><span class="p">(</span><span class="n">sel_trains</span><span class="p">),</span> <span class="n">tvals</span><span class="p">,</span> <span class="n">tvals2</span><span class="p">,</span> <span class="n">conntypes</span><span class="o">=</span><span class="n">conntypes</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 5
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+N = 5
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:00</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:00</span>
+N = 5
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+N = 5
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+N = 5
+seed = 5
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+N = 20
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+N = 20
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+N = 20
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:03</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+N = 20
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:01</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+N = 20
+seed = 5
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:02</span>
+N = 100
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+N = 100
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:08</span>
+N = 100
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:09</span>
+N = 100
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:10</span>
+N = 100
+seed = 5
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:12</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:11</span>
+N = 400
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:39</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:35</span>
+N = 400
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:34</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:35</span>
+N = 400
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:35</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:35</span>
+N = 400
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:35</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:34</span>
+N = 400
+seed = 5
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:40</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:00:38</span>
+N = 1600
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:31</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:31</span>
+N = 1600
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:25</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:24</span>
+N = 1600
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:27</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:27</span>
+N = 1600
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:19</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:19</span>
+N = 1600
+seed = 5
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:31</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:28</span>
+N = 6500
+seed = 1
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:10:57</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:10:49</span>
+N = 6500
+seed = 2
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:11:41</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:11:31</span>
+N = 6500
+seed = 3
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:08:44</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:08:41</span>
+N = 6500
+seed = 4
+<span class=" -Color -Color-Green">pass1 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:08:34</span>
+<span class=" -Color -Color-Green">pass2 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:08:33</span>
+N = 6500
+seed = 5
+<span class=" -Color -Color-Green">pass1  25%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;                                  |  ETA: 0:08:50</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Total time very approx: 1h10</p>
+<hr class="docutils">
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">MemDiskCache</span><span class="o">.</span><span class="n">set_dir</span><span class="p">(</span><span class="s">"2024-05-26__Fix_template-based_method"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>"C:\\Users\\tfiers\\.julia\\MemDiskCache.jl\\2024-05-26__Fix_template-based_method"
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows_template_c</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">rows_template</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2024-05-26__Fix_template-based_method\rows_template.jld2] &#8230; &#10004; (2.6 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfrows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">row</span> <span class="k">in</span> <span class="n">rows_template_c</span>
+    <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">tvals2</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">tvals2</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">conntypes</span><span class="p">)</span>
+    <span class="n">AUC</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span><span class="o">.</span><span class="n">AUC</span>
+    <span class="n">F1max</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">skipnan</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">))</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">perfrows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">"template-cor"</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">F1max</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/df.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004; (0.5 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">perfrows</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="ss">:N</span><span class="p">)</span>
+<span class="n">combine</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=&gt;</span> <span class="ss">:num_seeds</span><span class="p">,</span> <span class="p">[</span><span class="ss">:AUC</span><span class="p">,</span> <span class="ss">:F1max</span><span class="p">]</span> <span class="o">.=&gt;</span> <span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>6&#215;4 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">N</th><th style="text-align: left;">num_seeds</th><th style="text-align: left;">AUC_mean</th><th style="text-align: left;">F1max_mean</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Int64" style="text-align: left;">Int64</th><th title="Int64" style="text-align: left;">Int64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">5</td><td style="text-align: right;">5</td><td style="text-align: right;">0.98</td><td style="text-align: right;">0.982</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">20</td><td style="text-align: right;">5</td><td style="text-align: right;">0.985</td><td style="text-align: right;">0.986</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">100</td><td style="text-align: right;">5</td><td style="text-align: right;">0.975</td><td style="text-align: right;">0.976</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">400</td><td style="text-align: right;">5</td><td style="text-align: right;">0.977</td><td style="text-align: right;">0.971</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">1600</td><td style="text-align: right;">5</td><td style="text-align: right;">0.884</td><td style="text-align: right;">0.83</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: right;">6500</td><td style="text-align: right;">5</td><td style="text-align: right;">0.511</td><td style="text-align: right;">0.529</td></tr></tbody></table></div></div></div>
+</div>
+<p>:D</p>
+<hr class="docutils">
+<p>We&#8217;ll repeat STA and linefit as well.</p>
+<p>Actually for STA we already have the tvals!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="k">in</span> <span class="n">rows_template_c</span>
+    <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">tvals</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">conntypes</span><span class="p">)</span>
+    <span class="n">AUC</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span><span class="o">.</span><span class="n">AUC</span>
+    <span class="n">F1max</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">skipnan</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">))</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">perfrows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">"STA"</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">F1max</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And now:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">=</span> <span class="n">ConnectionTests</span><span class="o">.</span><span class="n">FitUpstroke</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FitUpstroke(100, 0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">linefit</span><span class="p">()</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">N</span> <span class="k">in</span> <span class="n">Ns</span>
+        <span class="k">for</span> <span class="n">seed</span> <span class="k">in</span> <span class="n">seeds</span>
+            <span class="nd">@show</span> <span class="n">N</span> <span class="n">seed</span>
+            <span class="n">sim</span> <span class="o">=</span> <span class="n">Nto1AdEx</span><span class="o">.</span><span class="n">sim</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">duration</span><span class="p">;</span> <span class="n">seed</span><span class="p">);</span>
+            <span class="p">((</span><span class="n">_</span><span class="p">,</span> <span class="n">exc</span><span class="p">),</span>
+             <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">inh</span><span class="p">),</span>
+             <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">unc</span><span class="p">))</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">=</span> <span class="n">get_trains_to_test</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">N&#8348;</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">trains</span><span class="p">));</span>
+            <span class="n">all_trains</span> <span class="o">=</span> <span class="p">[</span><span class="n">exc</span><span class="p">;</span> <span class="n">inh</span><span class="p">;</span> <span class="n">unc</span><span class="p">]</span>
+            <span class="n">tvals</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">train</span> <span class="k">in</span> <span class="n">all_trains</span>
+                <span class="n">push!</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">test_conn</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">train</span><span class="o">.</span><span class="n">times</span><span class="p">))</span>
+            <span class="k">end</span>
+            <span class="n">push!</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">tvals</span><span class="p">,</span> <span class="n">conntypes</span> <span class="o">=</span> <span class="n">conntypes</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">rows</span>
+<span class="k">end</span>
+
+<span class="n">rows_linefit</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">linefit</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2024-05-26__Fix_template-based_method\linefit().jld2] &#8230; &#10004; (1.9 s)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Approx runtime: 16 minutes.</p>
+<p>Vs the 1h10 for two-pass STA / template corr: 4x faster.</p>
+<hr class="docutils">
+<p>Discovering sth new here &#8211; that makes <code class="docutils literal notranslate"><span class="pre">sweep_threshold</span></code> takes a lot of time and memory for linefit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows_template_c</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="o">.</span><span class="n">tvals</span> <span class="o">|&gt;</span> <span class="n">unique</span> <span class="o">|&gt;</span> <span class="n">length</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rows_linefit</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="o">.</span><span class="n">tvals</span> <span class="o">|&gt;</span> <span class="n">unique</span> <span class="o">|&gt;</span> <span class="n">length</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13000
+</pre></div>
+</div>
+</div>
+</div>
+<p>(Not doing anything about it now)<br>
+(Some info already though: PredictionTable should be fully type stable, so efficient memory representation ig.<br>
+Next step: how big is one such PredictionTable).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">row</span> <span class="k">in</span> <span class="n">rows_linefit</span>
+    <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">tvals</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
+    <span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_threshold</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">conntypes</span><span class="p">)</span>
+    <span class="n">AUC</span> <span class="o">=</span> <span class="n">calc_AUROCs</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span><span class="o">.</span><span class="n">AUC</span>
+    <span class="n">F1max</span> <span class="o">=</span> <span class="n">maximum</span><span class="p">(</span><span class="n">skipnan</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">F1</span><span class="p">))</span>
+    <span class="n">push!</span><span class="p">(</span><span class="n">perfrows</span><span class="p">,</span> <span class="p">(;</span> <span class="n">N</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">"linefit"</span><span class="p">,</span> <span class="n">AUC</span><span class="p">,</span> <span class="n">F1max</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Green">Progress: 100%|&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;| Time: 0:02:39</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">perfrows_c</span> <span class="o">=</span> <span class="nd">@cached</span> <span class="n">perfrows</span><span class="p">;</span>
+<span class="n">deleteat!</span><span class="p">(</span><span class="n">perfrows_c</span><span class="p">,</span> <span class="mi">61</span><span class="p">);</span>  <span class="c"># duplicate row</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading [C:\Users\tfiers\.julia\MemDiskCache.jl\2024-05-26__Fix_template-based_method\perfrows.jld2] &#8230; &#10004; (2.2 s)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/df.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>using DataFrames &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">perfrows_c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>90&#215;5 DataFrame</span></div><div style="float: right;"><span style="font-style: italic;">80 rows omitted</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">N</th><th style="text-align: left;">seed</th><th style="text-align: left;">method</th><th style="text-align: left;">AUC</th><th style="text-align: left;">F1max</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="Int64" style="text-align: left;">Int64</th><th title="Int64" style="text-align: left;">Int64</th><th title="String" style="text-align: left;">String</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: right;">5</td><td style="text-align: right;">1</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">1</td><td style="text-align: right;">1</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: right;">5</td><td style="text-align: right;">2</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">1</td><td style="text-align: right;">1</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: right;">5</td><td style="text-align: right;">3</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">1</td><td style="text-align: right;">1</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: right;">5</td><td style="text-align: right;">4</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">0.9</td><td style="text-align: right;">0.909</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: right;">5</td><td style="text-align: right;">5</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">1</td><td style="text-align: right;">1</td></tr><tr><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td><td style="text-align: right;">&amp;vellip;</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">86</td><td style="text-align: right;">6500</td><td style="text-align: right;">1</td><td style="text-align: left;">linefit</td><td style="text-align: right;">0.469</td><td style="text-align: right;">0.496</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">87</td><td style="text-align: right;">6500</td><td style="text-align: right;">2</td><td style="text-align: left;">linefit</td><td style="text-align: right;">0.495</td><td style="text-align: right;">0.515</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">88</td><td style="text-align: right;">6500</td><td style="text-align: right;">3</td><td style="text-align: left;">linefit</td><td style="text-align: right;">0.489</td><td style="text-align: right;">0.509</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">89</td><td style="text-align: right;">6500</td><td style="text-align: right;">4</td><td style="text-align: left;">linefit</td><td style="text-align: right;">0.511</td><td style="text-align: right;">0.525</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">90</td><td style="text-align: right;">6500</td><td style="text-align: right;">5</td><td style="text-align: left;">linefit</td><td style="text-align: right;">0.481</td><td style="text-align: right;">0.504</td></tr></tbody></table></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gdf</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">[</span><span class="ss">:method</span><span class="p">,</span> <span class="ss">:N</span><span class="p">])</span>
+<span class="n">dfm</span> <span class="o">=</span> <span class="n">combine</span><span class="p">(</span><span class="n">gdf</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=&gt;</span> <span class="ss">:num_seeds</span><span class="p">,</span> <span class="p">[</span><span class="ss">:AUC</span><span class="p">,</span> <span class="ss">:F1max</span><span class="p">]</span> <span class="o">.=&gt;</span> <span class="n">mean</span><span class="p">)</span>
+<span class="n">sort</span><span class="p">(</span><span class="n">dfm</span><span class="p">[</span><span class="n">dfm</span><span class="o">.</span><span class="n">N</span> <span class="o">.&gt;=</span> <span class="mi">400</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="ss">:N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><div style="float: left;"><span>9&#215;5 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;"><table class="data-frame" style="margin-bottom: 6px;"><thead><tr class="header"><th class="rowNumber" style="font-weight: bold; text-align: right;">Row</th><th style="text-align: left;">method</th><th style="text-align: left;">N</th><th style="text-align: left;">num_seeds</th><th style="text-align: left;">AUC_mean</th><th style="text-align: left;">F1max_mean</th></tr><tr class="subheader headerLastRow"><th class="rowNumber" style="font-weight: bold; text-align: right;"></th><th title="String" style="text-align: left;">String</th><th title="Int64" style="text-align: left;">Int64</th><th title="Int64" style="text-align: left;">Int64</th><th title="Float64" style="text-align: left;">Float64</th><th title="Float64" style="text-align: left;">Float64</th></tr></thead><tbody><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">1</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">400</td><td style="text-align: right;">5</td><td style="text-align: right;">0.977</td><td style="text-align: right;">0.971</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">2</td><td style="text-align: left;">STA</td><td style="text-align: right;">400</td><td style="text-align: right;">5</td><td style="text-align: right;">0.962</td><td style="text-align: right;">0.941</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">3</td><td style="text-align: left;">linefit</td><td style="text-align: right;">400</td><td style="text-align: right;">5</td><td style="text-align: right;">0.991</td><td style="text-align: right;">0.966</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">4</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">1600</td><td style="text-align: right;">5</td><td style="text-align: right;">0.884</td><td style="text-align: right;">0.83</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">5</td><td style="text-align: left;">STA</td><td style="text-align: right;">1600</td><td style="text-align: right;">5</td><td style="text-align: right;">0.73</td><td style="text-align: right;">0.687</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">6</td><td style="text-align: left;">linefit</td><td style="text-align: right;">1600</td><td style="text-align: right;">5</td><td style="text-align: right;">0.83</td><td style="text-align: right;">0.771</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">7</td><td style="text-align: left;">template-cor</td><td style="text-align: right;">6500</td><td style="text-align: right;">5</td><td style="text-align: right;">0.511</td><td style="text-align: right;">0.529</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">8</td><td style="text-align: left;">STA</td><td style="text-align: right;">6500</td><td style="text-align: right;">5</td><td style="text-align: right;">0.398</td><td style="text-align: right;">0.471</td></tr><tr><td class="rowNumber" style="font-weight: bold; text-align: right;">9</td><td style="text-align: left;">linefit</td><td style="text-align: right;">6500</td><td style="text-align: right;">5</td><td style="text-align: right;">0.489</td><td style="text-align: right;">0.51</td></tr></tbody></table></div></div></div>
+</div>
+<p>Cool. STA-based two-pass template corr even better than linefit.</p>
+<p>Now plot.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">include</span><span class="p">(</span><span class="s">"lib/plot.jl"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>import PythonCall &#8230; &#10004;
+import PythonPlot &#8230; &#10004;
+using Sciplotlib &#8230; &#10004;
+using PhDPlots &#8230; &#10004;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">chance_AUC</span> <span class="o">=</span> <span class="mf">0.252</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">newax</span><span class="p">()</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">m</span><span class="p">;</span> <span class="n">kw</span><span class="o">...</span><span class="p">)</span> <span class="o">=</span> <span class="k">begin</span>
+    <span class="n">plot_dots_and_means</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">method</span><span class="o">.==</span><span class="n">m</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="ss">:N</span><span class="p">,</span> <span class="ss">:AUC</span><span class="p">;</span>
+        <span class="n">ax</span><span class="p">,</span>
+        <span class="n">xtype</span><span class="o">=</span><span class="ss">:categorical</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">Ns</span><span class="p">,</span>
+        <span class="n">ylim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">xlabel</span> <span class="o">=</span> <span class="sa">L</span><span class="s">"Number of inputs </span><span class="si">$N</span><span class="s">$"</span><span class="p">,</span>
+        <span class="n">kw</span><span class="o">...</span>
+    <span class="p">)</span>
+<span class="k">end</span>
+<span class="n">add_chance_line</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">chance_AUC</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">"--"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"gray"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">"Chance level"</span><span class="p">)</span>
+<span class="n">add_chance_line</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"STA"</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"STA"</span><span class="p">);</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"template-cor"</span><span class="p">,</span> <span class="n">color_means</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"Two-pass STA (template correlation)"</span><span class="p">);</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"linefit"</span><span class="p">,</span> <span class="n">color_means</span><span class="o">=</span><span class="n">C1</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"Fit line"</span><span class="p">);</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">reorder</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2024-05-26__Fix_template-based_method_56_0.png" src="../_images/2024-05-26__Fix_template-based_method_56_0.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">newax</span><span class="p">()</span>
+<span class="n">add_chance_line</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"STA"</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"STA"</span><span class="p">);</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"linefit"</span><span class="p">,</span> <span class="n">color_means</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"Fit line"</span><span class="p">);</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">reorder</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"perf-all-inputs__fitline"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perf-all-inputs__fitline.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2024-05-26__Fix_template-based_method_57_1.png" src="../_images/2024-05-26__Fix_template-based_method_57_1.png">
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">newax</span><span class="p">()</span>
+<span class="n">add_chance_line</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"STA"</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"STA"</span><span class="p">);</span>
+<span class="n">plotAUC</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s">"template-cor"</span><span class="p">,</span> <span class="n">color_means</span><span class="o">=</span><span class="n">C0</span><span class="p">,</span> <span class="n">line_label</span><span class="o">=</span><span class="s">"Two-pass STA (template correlation)"</span><span class="p">);</span>
+<span class="n">legend</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">reorder</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">savefig_phd</span><span class="p">(</span><span class="s">"perf-all-inputs__template-cor"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved at `../thesis/figs/perf-all-inputs__template-cor.pdf`
+</pre></div>
+</div>
+<img alt="../_images/2024-05-26__Fix_template-based_method_58_1.png" src="../_images/2024-05-26__Fix_template-based_method_58_1.png">
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.10"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.10",
+            path: "./nb"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.10'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class="prev-next-area"> 
+    <a class="left-prev" id="prev-link" href="2024-05-29__Residuals-linefit.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">2024-05-29 &#183; Residuals linefit</p>
+        </div>
+    </a>
+    <a class="right-next" id="next-link" href="2024-04-12__Spikes-only_connection_inference.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2024-04-12 &#183; Spikes-only connection inference</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Tomas Fiers<br>
+    
+        &#169; Copyright 2020.<br>
+      </p><div class="extra_footer">
+        <script src="https://hypothes.is/embed.js" async></script>
+
+      </div>
+  
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
