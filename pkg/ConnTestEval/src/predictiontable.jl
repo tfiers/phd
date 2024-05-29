@@ -24,6 +24,7 @@ end
 PredictionTable(θ, tvals, conntypes) = begin
     tvals = Vector{Float64}(tvals)
     conntypes = Vector{Symbol}(conntypes)
+    @assert length(tvals) == length(conntypes)
     preds = predicted_types(tvals, θ)
     cm = confusion_matrix(conntypes, preds)
     pm = perfmeasures(cm)

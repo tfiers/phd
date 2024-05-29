@@ -27,7 +27,7 @@ export paperwidth, pw, marginwidth, mw, maintextwidth, mtw, contentwidth, cw
 
 last_figpath = nothing
 
-function savefig_phd(name, fig = nothing)
+function savefig_phd(name, fig = nothing; filetype="pdf")
     if isnothing(fig)
         if isempty(plt.get_fignums())
             print("No figure in gcf. Supply one as 2nd arg")
@@ -35,7 +35,7 @@ function savefig_phd(name, fig = nothing)
         end
         fig = plt.gcf()
     end
-    path = "../thesis/figs/$name.pdf"
+    path = "../thesis/figs/$name.$filetype"
     fig.savefig(path)
     global last_figpath = path
     print("Saved at `$path`")

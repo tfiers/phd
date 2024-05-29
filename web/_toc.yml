@@ -2,6 +2,8 @@
 
 - part: Notebooks
   chapters:
+    - file: nb/2024-05-29__Residuals-linefit
+    - file: nb/2024-05-26__Fix_template-based_method
     - file: nb/2024-04-12__Spikes-only_connection_inference
     - file: nb/2024-04-10__Overview-figure
     - file: nb/2024-01-11__Re-make_network_hops_barplots

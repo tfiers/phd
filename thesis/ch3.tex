@@ -102,6 +102,12 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 % can redo in new nb :)
 
 
+\section{Window length}
+
+
+
+
+
 \FloatBarrier
 \section{Performance quantification}
 \label{sec:perf_quant}
@@ -202,7 +208,8 @@ To make the AUC scores somewhat more interpretable, we compare them to the AUC o
     \begin{sidecaption}
         {\textbf{Randomly classifying connections yields a chance level AUC $< 0.5$}.\\
         300 random test results, and their performance as connection detector, quantified as area under their ROC curves. Solid black line is the mean, dashed line is the median.\\
-        In every of the 300 simulations, every connection (100 exc, 100 inh, and 100 unconnecteds) was assigned a random `t-value' uniformly between $-1$ and $1$; and then the classification threshold was swept over these t-values.}
+        In every of the 300 simulations, every connection (100 exc, 100 inh, and 100 unconnecteds) was assigned a random `t-value' uniformly between $-1$ and $1$; and then the classification threshold was swept over these t-values.\\
+        Source: \nburl{2023-09-20__STA_conntest_for_diff_recording_quality_n_durations}.}
         [fig:AUC_chance_level]
         \includegraphics{AUC_chance_level}
     \end{sidecaption}
@@ -265,7 +272,7 @@ In the rest of this thesis, we choose to have a fixed EI-balance (4:1 excitatory
     \label{fig:Nto1-high-N}
 }
 
-\underline{Note:} The results in this section were obtained before we switched to using an AdEx neuron model. They still use the Izhikevich neuron model (but with comparable parameters -- which were calculated using the correspondences found in \cref{sec:izh}). Second, in the rest of this chapter, we use a high number $N$ of input spiketrains (6400 in total). In this section however, we use just 27 input spiketrains.\footnote{
+\underline{Note:} The results in this section were obtained before we switched to using an AdEx neuron model. They still use the Izhikevich neuron model (but with comparable parameters -- which were calculated using the correspondences found in \cref{sec:izh}). Second, in the rest of this chapter, we use a high number $N$ of input spiketrains (6500 in total). In this section however, we use just 27 input spiketrains.\footnote{
     Part of the reason for this initially lower number of spiketrains is that we still used our simulator written in Python and Numba here, which was slower than our later Julia simulator. We also still connection-tested \emph{all} inputs, and not just the highest firing (or a random subset). This made iterating with high $N$ prohibitively slow.
 }
 As might be expected, using a lower number of inputs makes connection inference much easier, as can be seen in \cref{fig:Nto1-high-N} (note that here, we test \emph{all} input spiketrains, and not just the highest firing ones as before. This gives a lower overall performance).

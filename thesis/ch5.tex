@@ -60,15 +60,12 @@ In the second step, we correlate this found template with the STAs of all possib
 We find that this correlation-based test statistic outperforms the simple peak-to-peak measure (\cref{fig:N_sweep__AUC__template-corr_vs_STA}).
 
 \begin{figure}
-    \subfloat{
-        \includegraphics[w=0.72]{N_sweep__AUC__STA_height}
-        \includegraphics[w=0.72]{N_sweep__AUC__template-corr}
-    }
+    \includegraphics{perf-all-inputs__template-cor}
     \captionn
     {Correlation outperforms STA height as connection test}
     {Compare also with \cref{fig:N_sweep__AUC__upstroke_vs_STA}.\\
-    AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). Note that for the two highest numbers of inputs $N$, the AUC of the template correlation method falls below chance level. [This is suspicious and must be investigated]. \\
-    Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.}
+    AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}).\\
+    Source: \nburl{2024-05-26__Fix_template-based_method}.}
     \label{fig:N_sweep__AUC__template-corr_vs_STA}
 \end{figure}
 
@@ -253,7 +250,7 @@ We will then perform the following linear regression:
     \end{bmatrix}
 \end{align}
 I.e. we will regress voltage-after-spike against time-after-spike.\\
-Note that the noise term here is not just modelling the Gaussian noise we add ourselves (the voltage imaging noise), but \emph{everything} that is not the increase in the poststynaptic voltage due to a presynaptic spike: this is mainly the effects of other presynaptic neurons, and postsynaptic spikes.
+Note that the noise term here is not just modelling the Gaussian noise we explicitly add ourselves (i.e. the voltage imaging noise); but rather \emph{everything} that is not the increase in the poststynaptic voltage due to a presynaptic spike. This is mainly the effects of other presynaptic neurons, and postsynaptic spikes.
 
 If we assume additive Gaussian noise, i.e.
 \begin{equation} \label{eq:sampling_noise}
@@ -270,7 +267,7 @@ Our linear regression problem has become standard ordinary least squares (OLS) r
 \begin{equation} \label{eq:normal-eqs}
     \hat{\bm{β}} = (X^T X)^{-1} X^T \bm{y}
 \end{equation}
-As is standard practice and for numerical stability ("don't explicitly invert a matrix if not needed"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit through an implicit solution using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
+As is standard practice and for numerical stability ("don't explicitly invert a matrix if not needed"), we instead find the optimal intercept ($\hat{β}_0$) and slope ($\hat{β}_1$) of our linear fit using QR-factorization, via Julia's left-division operator: \texttt{$\hat{\bm{β}}$ = X \textbackslash \ y}.
 
 From this linear fit we thus obtain a slope $\hat{β}_1$. To use our regression as a connection test, we will perform a hypothesis test on this slope. The null hypothesis is that this slope is zero ($H_0: \hat{β} = 0$): the voltage of the tested neuron does not react to spikes of the other tested neuron, and on average it stays flat.
 
@@ -311,8 +308,10 @@ But when the number of datapoints is quite large, as is the case here, the $t$-d
 
 We can (and do) use this $t$-value as-is in our connection test, i.e. as the test statistic over which the detection threshold is swept.
 
-Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards).}
+Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards). \Cref{fig:linefit-residuals} shows that the residuals of a linear regression of an example STA are not symmetric.}
 we could also assign an actual probability (a $p$-value) to observing slopes as extreme as observed. Because $t$ follows the standard normal distribution under the null-hypothesis, and with $\phi(x)$ the cumulative probability function of this distribution, we have: $p = 2\ \phi(-|t|)$: the probability that a sample smaller than $-|t|$ or larger than $|t|$ is drawn.
+
+As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noise $ε$ on the regression does not seem valid. But our goal for this regression was not to build a statistical model of the STA, but rather to use the fit as a tool for connection detection, something at which it is empirically succeeds, notwithstanding the violated statistical assumptions.
 
 % \footnote{
 %     Besides the maximum-likelihood estimator $\hat{σ}^2$, there is also a Bessel-corrected estimator of $σ^2$, namely $s^2 = \frac{n}{n-p} \hat{σ}^2$ (with $p = 2$ the number of parameters in the regression). Unlike $\hat{σ}^2$, this is an unbiased estimator ($\mathbb{E}[s^2] = σ^2$); "but it has a higher MSE".
@@ -321,15 +320,31 @@ we could also assign an actual probability (a $p$-value) to observing slopes as 
 \Cref{fig:N_sweep__AUC__upstroke_vs_STA} shows the performance of the described linear regression method, for different number of inputs $N$, and compared to the STA height method. We find a perfect performance (AUC of $1$) for up to $400$ inputs. After that, the AUC starts to drop, but it stays much higher than the STA height method. At the realistic number of inputs $N = 6500$, the linear fit's AUC is still at $0.5$, while the STA height method performs at chance level ($≈ 0.25$)
 
 \begin{figure}
-    \subfloat{
-        \includegraphics[w=0.72]{N_sweep__AUC__STA_height}
-        \includegraphics[w=0.72]{N_sweep__AUC__upstroke}
-    }
+    \includegraphics{perf-all-inputs__fitline.pdf}
     \captionn
         {Line fit outperforms STA height as connection test}
         {AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). \\
-        Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.}
+        Source: \nburl{2024-05-26__Fix_template-based_method}.}
     \label{fig:N_sweep__AUC__upstroke_vs_STA}
+\end{figure}
+
+
+
+\begin{figure}
+    \begin{subfloat}
+        \includegraphics{residuals_vs_time.png}
+        \includegraphics{residuals_distplot.png}
+    \end{subfloat}
+    \captionn
+        {Residuals of an example regression}
+        {
+        Linear regression of the first 10 ms of the spike-triggered average of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input.
+        Left: Residuals over time.
+        Right: Distribution of residuals marginalized over all timepoints. Vertical black lie indicates both the mean ($-5.9E-12$~mV) and the median ($0.1$~mV).\\
+        The residuals steem homoskedastic and unbiased, but are not symmetrically distributed.\\
+        Source: \nburl{2024-05-29__Residuals-linefit}.
+        }
+    \label{fig:linefit-residuals}
 \end{figure}
 
 

@@ -82,6 +82,7 @@ function plot_dots_and_means(
     color_means = black,
     xlabel = string(xcol),
     ylabel = string(ycol),
+    line_label = nothing,
     kw...
 )
     gd = groupby(df, xcol)
@@ -98,7 +99,7 @@ function plot_dots_and_means(
         xm = dfm[!, xcol]
     end
     plot(x, df[!, ycol], "."; ax, c=color_dots, ms=ms_dots, xtype, xlabel, ylabel, kw...)
-    plot(xm, dfm[!, ycol], ".-"; ax, c=color_means, ms=ms_means, xtype, xlabel, ylabel, kw...)
+    plot(xm, dfm[!, ycol], ".-"; ax, c=color_means, ms=ms_means, xtype, xlabel, ylabel, label=line_label, kw...)
     return ax
 end
 
