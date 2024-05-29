@@ -12,7 +12,7 @@ wget -qO- "https://yihui.org/tinytex/install-bin-unix.sh" | sh
 [2]: https://github.com/rstudio/tinytex-releases
 
 Then install these extra packages in addition to the included ones: \
-`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex bookmark cleveref newunicodechar palatino mathpazo listings lstaddons`
+`$ tlmgr install --with-doc cm-super silence printlen capt-of ltablex relsize xurl chngcntr texdoc pgfplots memoir textcase pdfpages placeins caption microtype multirow makecell siunitx pdflscape biblatex biber bookmark cleveref newunicodechar palatino mathpazo listings lstaddons xpatch`
 
 (In git bash for Windows: `tlmgr.bat`, instead).
 

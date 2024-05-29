@@ -331,17 +331,17 @@ As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noi
 
 
 \begin{figure}
-    \begin{subfloat}
-        \includegraphics{residuals_vs_time.png}
-        \includegraphics{residuals_distplot.png}
-    \end{subfloat}
+    \subfloat{
+        \includegraphics[w=0.7]{residuals_vs_time.png}
+        \includegraphics[w=0.7]{residuals_distplot.png}
+    }
     \captionn
         {Residuals of an example regression}
         {
-        Linear regression of the first 10 ms of the spike-triggered average of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input.
+        Linear regression of the first 10 ms of the spike-triggered average voltage of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input.
         Left: Residuals over time.
-        Right: Distribution of residuals marginalized over all timepoints. Vertical black lie indicates both the mean ($-5.9E-12$~mV) and the median ($0.1$~mV).\\
-        The residuals steem homoskedastic and unbiased, but are not symmetrically distributed.\\
+        Right: Distribution of residuals marginalized over time. Vertical black line indicates both the mean ($-5.9 × 10^{-12}$~mV) and the median ($0.1$~mV).\\
+        The residuals steem homoskedastic and unbiased (zero mean), but are not symmetrically distributed.\\
         Source: \nburl{2024-05-29__Residuals-linefit}.
         }
     \label{fig:linefit-residuals}
@@ -349,7 +349,6 @@ As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noi
 
 
 % This section can go to Appendix.
-\clearpage
 \subsection{Relationship to fitting the STA}
 
 For this last method, we emphasized that it does not operate on the STA, but instead uses the individual windows directly. But an analysis of the normal equations (\cref{eq:normal-eqs}) reveals that fitting a line to all the individual windows pooled together is actually very similar to fitting a line to their average, the STA.
@@ -418,7 +417,7 @@ The same is true for the first element of $X^T \bm{y}$ (just with $[1\ 1\ …\ 1
 \end{equation}
 
 A similar argument can be made for each of the four elements of the Gram matrix, and we find that $X^T X = N · \overline{X}^T \overline{X}$.\\
-That makes the cofacor matrix:
+That makes the cofactor matrix:
 \begin{equation} \label{eq:Q-eq}
     (X^T X)^{-1} = \frac{1}{N} (\overline{X}^T \overline{X})^{-1}
 \end{equation}
