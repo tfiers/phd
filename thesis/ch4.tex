@@ -67,7 +67,9 @@ Like in the first footnote in \cref{sec:model-voltage-imaging}, this way of addi
 
 Similar to the N-to-1 experiments, we make 1 out of 5 neurons inhibitory.
 As before, this is done by setting the synaptic reversal potential at the outputs of inhibitory neurons to $-80$ mV (instead of the $0$ mV for excitatory neurons).
-To make sure that each neuron receives a balanced mix of excitation and inhibition, and given that there are 4:1 excitatory to inhibitory neurons, we make excitatory neurons 4x weaker: their synaptic strength ($Δg$, the instantaneous increase in postsynaptic conductance $g$ on spike arrival) is 4x as small as that of inhibitory neurons.
+To make sure that each neuron receives a balanced mix of excitation and inhibition, and given that there are 4:1 excitatory to inhibitory neurons, we make excitatory neurons 4x weaker: their synaptic strength ($Δg$, the instantaneous increase in postsynaptic conductance $g$ on spike arrival) is 4x as small as that of inhibitory neurons.\footnote{
+    Note that this is only an ``EI-balance'' at the population level: the input to individual neurons will not be exactly balanced and randomly have more excitatory or more inhibitory input.
+}
 
 % Option for appendix, these four figs
 \begin{figure}
@@ -104,13 +106,15 @@ So, to coax more realistic firing rate distributions out of our network, we look
 }
 % Their figures indeed seem to show a lognormal-like distribution of firing rates from their simulatd networks.
 In this paper different synaptic weights are used than the ones described above.
-Normalizing excitatory-to-excitatory (\verb|E→E|) connections to 1, Roxin et al's synaptic weights are:
-\begin{verbatim}
-    E→E: 1
-    E→I: 18 (instead of 1)
-    I→E: 36 (instead of 4)
-    I→I: 31 (instead of 4)
-\end{verbatim}
+Normalizing excitatory-to-excitatory (\verb|E→E|) connections to 1, Roxin et al's synaptic weights are:\\
+\begin{minipage}{\linewidth}
+    \begin{verbatim}
+        E→E: 1
+        E→I: 18 (instead of 1)
+        I→E: 36 (instead of 4)
+        I→I: 31 (instead of 4)
+    \end{verbatim}
+\end{minipage}\\
 We will call these weights `Roxin2011'. The naive, `balancing' weights used in \cref{fig:1144-weights}, we will call `1144'.
 
 Simulating a network with the `Roxin2011' weights indeed increases the firing rates of inhibitory neurons with respect to those of excitatory neurons (\cref{fig:roxin-weights}). The two firing rate distributions are however both as symmetrical as before.\footnote{

@@ -106,8 +106,7 @@ Further on, we will compare the AdEx neuron with another neuron model, the Izhik
 
 Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
-We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is, numerically speaking (though not strictly mathematically), indeed a fixed point: at realistic parameter values, the exponential term is negligibly small at $V = E_L$.
-\footnote{
+We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is, numerically speaking (though not strictly mathematically), indeed a fixed point: at realistic parameter values, the exponential term is negligibly small at $V = E_L$.\footnote{
     For the parameter values of \cref{tab:AdEx-params} e.g, the exponential term in $F(V=E_L)$ works out to $3×10^{-19}$~mV/ms. The machine epsilon for 64-bit floating point numbers in Julia e.g. is $2×10^{-16}$.
 }
 \marginpar{
@@ -143,7 +142,7 @@ At the firing threshold $V = E_T$ (i.e. the second solution to \cref{eq:LambertW
 \begin{equation}
     g_L \left( \exp\left(\frac{E_T - V_T}{Δ_T}\right) - 1 \right)  \label{eq:AdEx-slope}
 \end{equation}
-..which is positive (as $E_T > V_T$), indicating that this is an unstable fixed point: a small deviation of the voltage above $E_T$ will blow up to infinity (i.e, a spike is generated).
+which is positive (as $E_T > V_T$), indicating that this is an unstable fixed point: a small deviation of the voltage above $E_T$ will blow up to infinity (i.e, a spike is generated).
 
 
 \section{Alternative neuron models}

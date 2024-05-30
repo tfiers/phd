@@ -81,9 +81,9 @@ In this thesis, we set out to answer the question: "Is it feasible, in principle
 We also extensively tested a simple existing algorithm -- namely measuring the height of the spike-triggered average (STA), which is a reflection of the postsynaptic potential -- under varying excitatory-inhibitory (EI) conditions, and both in a simplified `N-to-1' setup, and in a fully recurrent network.
 
 We find that voltage-based network inference seems feasible to a limited extent, under realistic voltage imaging conditions ($6500$ EI-balanced inputs to one neuron, 10-minute
-recording, voltage imaging SNR of $40$): the simple algorithm performs considerably better than chance -- though only for the 200 highest-firing inputs.
+recording, voltage imaging SNR of $40$): the simple algorithm performs considerably better than chance.
 
-Two of our newly developed inference methods perform better than the simple algorithm: they perform considerably better than chance when testing \emph{all} inputs (and not just the high firing ones). Our best-performing algorithm correlates STAs with a `template', which is obtained through a first pass of the simple algorithm. This detection method reaches an AUC value of $0.53$ for $6500$ inputs (chance level AUC: $0.25$). At a false positive rate of $5$\%, we detect $33$\% of the neuron's inhibitory inputs, and $13$\% of its excitatory inputs.\\
+Two of our newly developed inference methods perform better than the simple algorithm Our best-performing algorithm correlates STAs with a `template', which is obtained through a first pass of the simple algorithm. This detection method reaches an AUC value of $0.53$ for $6500$ inputs (chance level AUC: $0.25$). At a false positive rate of $5$\%, we detect $33$\% of the neuron's inhibitory inputs, and $13$\% of its excitatory inputs.\\
 This does not seem impressive in absolute terms. But we must note the high number of inputs that we used here (up to $6500$). Studies of spikes-only connection-detection methods typically only test networks with about 100 inputs per neuron \cite{Ito2011ExtendingTransferEntropy,Guyon2014DesignFirstNeuronal}.
 Our methods have near perfect detection performance for up to 400 inputs per neuron.
 % NCC paper: 1000 neurons, each one connected to ±30.
