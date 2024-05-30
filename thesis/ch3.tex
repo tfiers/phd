@@ -76,13 +76,6 @@ To use spike-triggered-averages as an actual connection test, we look specifical
     \label{fig:ceil_n_clip__sigs_and_STAs}
 \end{figure}
 
-As explained in \cref{sec:spike_ceiling}, we modify our simulated voltage trace so that spikes have a consistent height. This modification has an effect on STAs, as is illustrated in \cref{fig:ceil_n_clip__sigs_and_STAs}: the blue trace is the signal without spike ceiling, the orange one with spike ceiling. Their corresponding STAs are shown on the right. Note that the orange STA (made with ceiled spikes) is much noisier than the blue STA (from the unmodified voltage trace).
-
-This suggests a relatively easy intervention to drasticaly de-noise STAs, and presumably increase their effectiveness for network inference: namely to remove the spikes from the signal.
-
-We tried this 'spike clipping' and it indeed drastically denoised the STA; see the green signal and STA in \cref{fig:ceil_n_clip__sigs_and_STAs}.
-We show that this decreased noise in the STA does indeed lead to an increase in network inference performance, by running a connection detection test without and with this spike clipping. The results are shown in \cref{fig:ceil_n_clip_AUCs}: detection performance increases from an AUC of 0.56 for the non-clipped voltage trace, to an AUC of 0.79 for the voltage trace with clipped spikes.
-
 \begin{figure}
     \begin{sidecaption}
         {
@@ -101,10 +94,60 @@ We show that this decreased noise in the STA does indeed lead to an increase in 
 % Where to edit this?
 % can redo in new nb :)
 
+As explained in \cref{sec:spike_ceiling}, we modify our simulated voltage trace so that spikes have a consistent height. This modification has an effect on STAs, as is illustrated in \cref{fig:ceil_n_clip__sigs_and_STAs}: the blue trace is the signal without spike ceiling, the orange one with spike ceiling. Their corresponding STAs are shown on the right. Note that the orange STA (made with ceiled spikes) is much noisier than the blue STA (from the unmodified voltage trace).
 
+This suggests a relatively easy intervention to drasticaly de-noise STAs, and presumably increase their effectiveness for network inference: namely to remove the spikes from the signal.
+
+We tried this 'spike clipping' and it indeed drastically denoised the STA; see the green signal and STA in \cref{fig:ceil_n_clip__sigs_and_STAs}.
+We show that this decreased noise in the STA does indeed lead to an increase in network inference performance, by running a connection detection test without and with this spike clipping. The results are shown in \cref{fig:ceil_n_clip_AUCs}: detection performance increases from an AUC of 0.56 for the non-clipped voltage trace, to an AUC of 0.79 for the voltage trace with clipped spikes.
+
+
+
+\FloatBarrier
+\vspace*{4em}
 \section{Window length}
 
+% \begin{figure}
+%     \begin{sidecaption}
+%         {
+%             \textbf{Example STA}. An STA of a (high-firing) inhibitory input to an AdEx neuron with 6500 inputs, simulated for 10 minutes.
+%             Note the opposite-polarity bump (peaking around $t = 35$~ms) being larger than the IPSP itself (the downwards bump at $t ≈ 5$~ms).
+%             Source: \nburl{2023-04-11__Nto1_AdEx_conntest_methods_comparison}.
+%         }
+%         [fig:STA-longwin-high-N]
+%         \hspace*{2em}
+%         \includegraphics[w=0.9]{STA-longwin-high-N.png}
+%     \end{sidecaption}
+% \end{figure}
+%
+% this stuff is in fig 20 example sta's already; with positive sta.
 
+\begin{figure}
+    \begin{sidecaption}
+        {
+            \textbf{Connection detection performance of the STA method, for two different STA window lengths}.
+            Area under the ROC-curve, AdEx neuron, 10 minute recording, no voltage imaging noise, 5 different random seeds for input spiketrain generation (gray dots; larger dots are their means). All $N$ inputs are tested (instead of just the highest firing ones), in addition to $N$ random unconnected spiketrains.\\
+            Source: \nburl{2024-05-29__STA-winlength}.
+        }
+        [fig:perf-STA-winlength]
+        \includegraphics[w=1.03]{perf-STA-winlength.pdf}
+    \end{sidecaption}
+\end{figure}
+
+We can freely choose the length of the windows that are cut from the postsynaptic voltage signal when computing an STA. In previous STA figures e.g, we chose $100$~ms. This parameter is an important choice: a longer window linearly increases the computation time of the connection inference algorithm; and we find that window length choise strongly influences detection performance, as shown in \cref{fig:perf-STA-winlength}.
+
+Why does the shorter window length ($20$~ms versus $100$~ms) lead to such a strong increase in detection performance?
+One reason is the heuristic we use to determine if a detected connection is excitatory or inhibitory: the STA is referenced to its starting value and is then integrated. I.e. the area below the starting value is subtracted from the area above. If the result is positive, we say the connection is excitatory, and inhibitory otherwise.
+This heuristic works well in the low $N$ (number of inputs) case. But for higher $N$, an interesting phenomenon happens: the broad downwards bump happening after the EPSP\footnote{
+    This is what we model with the Gaussian `dip' in \cref{sec:fitting-a-full-STA-model}.
+}
+becomes larger than the positive bump of the EPSP itself; see the top-left panel of \cref{fig:example_STAs} for an example. This defeats the heuristic, and makes us classify excitatory connections as inhibitory and vice-versa.\footnote{
+    This is the reason that in an earlier version of this thesis, the template-based detection method of \cref{sec:method-STA-template-corr} had a performance \emph{lower} than chance level for high $N$: inputs were detected correctly as connected, but with the wrong polarity.\\
+    Changing to a lower window length has also drastically increased the performance of the simple STA-based method, to a point where it is almost as good as our newly developed methods (\cref{fig:N_sweep__AUC__template-corr_vs_STA,fig:N_sweep__AUC__upstroke_vs_STA}); in the previous version of this thesis, the difference in performance was much larger.
+}
+
+Changing to a shorter window length restores the heuristic's usefulness (in addition to decreasing computation time by a factor of four).
+A question that we did not yet explore is whether a longer window, but with a smarter polarity-heuristic, could perform better still.
 
 
 

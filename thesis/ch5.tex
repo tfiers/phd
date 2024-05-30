@@ -19,6 +19,7 @@ As the focus was on comparing these new methods with each other and with the fir
 
 \clearpage
 \section{STA Template correlation}
+\label{sec:method-STA-template-corr}
 
 % \begin{itemize}
 %     \item Idea for the two-pass test
@@ -64,7 +65,7 @@ We find that this correlation-based test statistic outperforms the simple peak-t
     \captionn
     {Correlation outperforms STA height as connection test}
     {Compare also with \cref{fig:N_sweep__AUC__upstroke_vs_STA}.\\
-    AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}).\\
+    AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All $N$ inputs are tested (instead of just the highest firing ones), in addition to $N$ random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}).\\
     Source: \nburl{2024-05-26__Fix_template-based_method}.}
     \label{fig:N_sweep__AUC__template-corr_vs_STA}
 \end{figure}
@@ -76,6 +77,7 @@ We find that this correlation-based test statistic outperforms the simple peak-t
 \clearpage
 \FloatBarrier
 \section{Fitting a full STA model}
+\label{sec:fitting-a-full-STA-model}
 
 % \begin{itemize}
 %     \item Model design
@@ -323,7 +325,7 @@ As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noi
     \includegraphics{perf-all-inputs__fitline.pdf}
     \captionn
         {Line fit outperforms STA height as connection test}
-        {AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All inputs are tested (instead of just the highest firing ones), in addition to 100 random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). \\
+        {AdEx neuron, 10-minute recording, no voltage imaging noise,  5 different seeds (blue dots). All $N$ inputs are tested (instead of just the highest firing ones), in addition to $N$ random unconnected spiketrains. AUC chance level is at $0.252$ (as in \cref{fig:AUC_chance_level}). \\
         Source: \nburl{2024-05-26__Fix_template-based_method}.}
     \label{fig:N_sweep__AUC__upstroke_vs_STA}
 \end{figure}
@@ -340,8 +342,8 @@ As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noi
         {
         Linear regression of the first 10 ms of the spike-triggered average voltage of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input.
         Left: Residuals over time.
-        Right: Distribution of residuals marginalized over time. Vertical black line indicates both the mean ($-5.9 × 10^{-12}$~mV) and the median ($0.1$~mV).\\
-        The residuals steem homoskedastic and unbiased (zero mean), but are not symmetrically distributed.\\
+        Right: Distribution of residuals marginalized over time; vertical black line indicates both the mean ($-5.9 × 10^{-12}$~mV) and the median ($0.1$~mV).\\
+        The residuals seem to be homoskedastic, but are not symmetrically distributed.\\
         Source: \nburl{2024-05-29__Residuals-linefit}.
         }
     \label{fig:linefit-residuals}
