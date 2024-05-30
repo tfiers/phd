@@ -107,10 +107,15 @@ Further on, we will compare the AdEx neuron with another neuron model, the Izhik
 Where are the fixed points of the dynamical system $\d{V} = F(V)$? I.e, where is $F = 0$? Like other neuron models, there are two fixed points: a stable one at the leak potential $E_L$, and an unstable one at the instantaneous firing threshold (which we'll call $E_T$).
 
 We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potential $E_L$ is, numerically speaking (though not strictly mathematically), indeed a fixed point: at realistic parameter values, the exponential term is negligibly small at $V = E_L$.
+\footnote{
+    For the parameter values of \cref{tab:AdEx-params} e.g, the exponential term in $F(V=E_L)$ works out to $3×10^{-19}$~mV/ms. The machine epsilon for 64-bit floating point numbers in Julia e.g. is $2×10^{-16}$.
+}
 \marginpar{
+    \vspace*{1em}
     \includegraphics[w=1]{LambertW.png}
     \captionof{figure}{The Lambert $W$ functions for real numbers.}
     \label{fig:LambertW}
+    \vspace*{1em}
 }
 The second fixed point has no straightforward expression. The exact solutions for $F$'s roots need the so called Lambert $W$ or `product logarithm' functions $W_0$ and $W_{-1}$ (see \cref{fig:LambertW}). The roots are found at:
 \begin{equation}
@@ -280,12 +285,12 @@ This nonlinearity is not visible for small voltage deviations, which is what the
 One as of yet unexplained term in our neuron model, \cref{eq:AdEx-V}, is the synaptic current $I_\syn$.
 This is the following sum over all input synapses $i$ of the neuron:
 \begin{equation}
-    I_\syn = \sum_i g_i (V - E_i)
+    I_\syn(t) = \sum_i g_i(t) \left( V(t) - E_i \right)
     \label{eq:I_syn}
 \end{equation}
 where $V$ is the global membrane voltage of the neuron, $E_i$ is the reversal potential of that synapse, and $g_i$ is the local synaptic conductance, which is modulated by presynaptic spikes.
 
-For an excitatory synapse, $V < E_i$, making $g_i (V - E_i)$ negative, increasing the membrane voltage according to the sign convention for $I_\syn$ in \cref{eq:AdEx-V}.
+For an excitatory synapse, $E_i > V(t)$, making $g_i(t) \left(V(t) - E_i \right)$ negative, increasing the membrane voltage according to the sign convention for $I_\syn$ in \cref{eq:AdEx-V}.
 
 We simulate the synaptic conductances $g_i$ as exponentially decaying signals (with time constant $τ_g$), and bump them up instantaneously on arrival of a presynaptic spike:
 \begin{gather}
@@ -313,7 +318,7 @@ Simulating a full alpha synapse might increase the realism of our voltage traces
 
 For efficiency, we give all our excitatory synapses the same reversal potential, $E_\exc$. Idem for the inhibitory synapses, with $E_\inh$. This allows us to factor the synaptic current sum (\cref{eq:I_syn}) as follows:
 \begin{equation}
-    I_\syn = (V - E_\exc) \sum_{\exc\ i} g_i \  + \  (V - E_\inh) \sum_{\inh\ i} g_i
+    I_\syn(t) = (V(t) - E_\exc) \sum_{\exc\ i} g_i(t) \  + \  (V(t) - E_\inh) \sum_{\inh\ i} g_i(t)
     \label{eq:I_syn_factor}
 \end{equation}
 
@@ -321,6 +326,8 @@ The sums of conductance signals $g_i(t)$ can also be simplified. Say that the va
 \begin{equation}
     g_i(t) = G_i\ e^{-t/τ_g}
 \end{equation}
+
+\newpage  % for footnote clippin otherwise
 
 With this, and when all synapses have the same time constant $τ_g$, the two sums in \cref{eq:I_syn_factor} can be factored as follows:\footnotemark
 \footnotetext{
@@ -342,7 +349,7 @@ This means that we need to only keep track of two conductance signals: $g_\exc$ 
 
 Our synaptic current sum then becomes simply:
 \begin{equation}
-    I_\syn = (V - E_\exc)\ g_\exc \  + \  (V - E_\inh)\ g_\inh,  \label{eq:I_syn_simple}
+    I_\syn(t) = g_\exc(t) · (V(t) - E_\exc)  \  + \ g_\inh(t) · (V(t) - E_\inh),  \label{eq:I_syn_simple}
 \end{equation}
 and we only need to simulate two differential equations, instead of one for every synapse:
 \begin{align}
@@ -547,6 +554,14 @@ The act of spike ceiling in itself does have an effect on network inference perf
 
 The signals detected by a light microscope in a voltage imaging setup are not the same as the real membrane voltage traces of which they are a reflection.
 
+\marginpar{
+    \vspace*{-5em}
+    \includegraphics[w=1]{VI_noise.pdf}
+    \captionof{figure}{Simulated voltage trace (same as in \cref{fig:Vm_Izh_vs_AdEx}, right), without and with `voltage imaging' (VI) noise added ($σ_\text{noise} = 10.5$~mV).}
+    \label{fig:VI_noise}
+    \vspace*{1em}
+}
+
 We model this lossy transformation by simply adding Gaussian noise to our simulated membrane voltage.\footnote{
     Adding noise with a fixed variance each timestep makes the power of the added noise dependent on the chosen timestep. In this study we do not vary the timestep, but if we did, we would have to account for this when choosing the noise variance.
 }
@@ -554,12 +569,6 @@ As in the voltage imaging literature, we quantify the amount of this  noise by a
 \begin{equation}
     \text{spike-SNR} = \frac{\text{spike height}}{σ_\text{noise}}
 \end{equation}
-
-\marginpar{
-    \includegraphics[w=1]{VI_noise.pdf}
-    \captionof{figure}{Simulated voltage trace (same as in \cref{fig:Vm_Izh_vs_AdEx}, right), without and with `voltage imaging' (VI) noise added ($σ_\text{noise} = 10.5$~mV).}
-    \label{fig:VI_noise}
-}
 
 In other words, if we call our output signal $y$, and with $V_i$ the voltage samples resulting from the numeric integration of \cref{eq:AdEx-V}, we have:
 \begin{gather}
@@ -579,10 +588,10 @@ The latter could be done by passing the voltage signal through a linear filter w
 \section{Software implementation}
 \label{sec:software}
 
-To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. Initially, a custom simulator was written in Python, with numerically expensive parts of the code accelerated using the Numba just-in-time compiler.\cite{Lam2015NumbaLLVMbasedPythona}. Later on, we switched to a custom simulator written in Julia \cite{Bezanson2017JuliaFreshApproach}.\footnote{
+To numerically simulate the model described in this chapter, different software implementations have been used throughout the PhD. Initially, a custom simulator was written in Python, with numerically expensive parts of the code accelerated using the Numba just-in-time compiler \cite{Lam2015NumbaLLVMbasedPythona}. Later on, we switched to a custom simulator written in Julia \cite{Bezanson2017JuliaFreshApproach}.\footnote{
     A slideshow introducing Julia and how it compares to Python and Matplotlib can be found \href{https://tomasfiers.net/posts/julia-for-scientists/}{here}.
 }
-Finally, we also implemented our model in Brian\cite{Stimberg2019BrianIntuitiveEfficient}.
+Finally, we also implemented our model in Brian \cite{Stimberg2019BrianIntuitiveEfficient}.
 After a comparison of compilation and runtimes of the Brian and Julia implementations (\cref{tab:software-timings}), we decided to use the software written in Julia.\footnoteatfoot{
     The Julia implementation is considerably faster than the implementation in `standalone' Brian, which  uses C++ and should thus be comparable in speed. This might be due to me not using Brian optimally, or to the fact that Brian is a general purpose spiking neural network simulator with much more capabilities; and our software was written specifically for the N-to-1 AdEx problem.
 }
