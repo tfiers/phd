@@ -24,14 +24,14 @@ But before moving to real data, there is a lot more realism that could be added 
 For voltage imaging, as mentioned before we could simulate photobleaching over time by exponentially decreasing the SNR, and we could simulate the varying time-resolutions of different voltage sensors by convolving the voltage signal with e.g. a subtle low pass filter.
 Another difficulty that fluorescence imaging poses is light scattering. Photons emitted by one neuron do not all go straight to the microscope sensor, but can bounce off other neurons and intermediate tissue, thus appearing to come from the wrong source. In the  Neural Connectomics Challenge (which we introduce in the next section), this was simulated by spatially embedding the simulated neurons, and mixing the signals emitted by each neuron by a fraction of the signals emitted by neighbouring neurons.
 
-On the neural side, many straightforward additions are possible. We have simulated only one neuron type, with fixed parameters (namely the cortical regular spiking neuron). Instead, we could (1) pick neuron parameters so the dynamical system bifurcates to another neuron type (bursting, accelerating, transient spiking, …)\cite{Naud2008FiringPatternsAdaptive}, and/or (2) draw neuron model parameters from distributions.\\
+On the neural side, many straightforward additions are possible. We have simulated only one neuron type, with fixed parameters (namely the cortical regular spiking neuron). Instead, we could (1) pick neuron parameters so the dynamical system bifurcates to another neuron type (bursting, accelerating, transient spiking, …) \cite{Naud2008FiringPatternsAdaptive}, and/or (2) draw neuron model parameters from distributions.\\
 An important aspect that we have kept fixed up to now is the input firing rate distribution. It would be informative to quantify the effect of different distribution types and parameter values on connection inference performance, and especially on bias towards higher-firing inputs.
 
 Some neural phenomena that we have not yet modelled but that are likely to also have an effect on connection inference are (1) short-term synaptic plasticity, (2) global bursting (a bit more on that in the next section), and (3) oscillations.
 
 On the network side, we only used the simple uniform random connectivity. But the effect on inference of other (and more realistic) topologies such as scale-free networks should be explored too.
 
-As far as the evaluation of methods goes, a path we did not pursue is to predict and evaluate synaptic \emph{strengths}, and not just the existence (yes/no) and polarity (excitatory/inhibitory) of a synaptic connection. This is not often done in network inference studies, but is not unheard of.\cite{Zhang2017SpikeTriggeredRegressionSynaptic}.
+As far as the evaluation of methods goes, a path we did not pursue is to predict and evaluate synaptic \emph{strengths}, and not just the existence (yes/no) and polarity (excitatory/inhibitory) of a synaptic connection. This is not often done in network inference studies, but is not unheard of \cite{Zhang2017SpikeTriggeredRegressionSynaptic}.
 One way could be to quantify how similar the real and the predicted connectivity strenght matrices are.
 
 
@@ -39,11 +39,11 @@ One way could be to quantify how similar the real and the predicted connectivity
 
 There is a vast literature on spike-to-spike (i.e. purely event-based) network inference methods. A lot of these methods are based on information-theoretic measures, such as mutual information and `transfer entropy' between two spiketrains. In practice, this boils down to counting bit-patterns: spiketrains are binned in time, as e.g. $[0, 0, 0, 1, 0, 1, 0, 0, …]$. Two such spiketrains are then overlaid (possibly shifted in time relative to one another), and the patterns that the bits of both form around each spike are gathered and tallied up. (For example: $([0,1,0],\ [0,0,1])$, for a window length of one bin before and one bin after the spike). If one of these patterns is more common than random (i.e. the distribution of patterns has low entropy), then one spiketrain might be connected to another.
 
-These methods generally don't work very well\cite{Das2020SystematicErrorsConnectivity}, and are very data-intensive (the number of possible bit-patterns increases exponentially the longer your windows are). In 2014, a competition was held on spike-based network inference: the Neural Connectomics Challenge or NCC\cite{Guyon2014DesignFirstNeuronal,Orlandi2017FirstConnectomicsChallenge}\footnote{
+These methods generally don't work very well \cite{Das2020SystematicErrorsConnectivity}, and are very data-intensive (the number of possible bit-patterns increases exponentially the longer your windows are). In 2014, a competition was held on spike-based network inference: the Neural Connectomics Challenge or NCC \cite{Guyon2014DesignFirstNeuronal,Orlandi2017FirstConnectomicsChallenge}\footnote{
     \url{https://connectomics.chalearn.org}.
 }.
 The contestants using information-theoretic measures like transfer entropy did not rank high.
-The winning team used `partial correlation' (PC) between binned spiketrains.\cite{Sutera2017SimpleConnectomeInference}
+The winning team used `partial correlation' (PC) between binned spiketrains \cite{Sutera2017SimpleConnectomeInference}.
 PC quantified the association between two spiketrains after the influence of all other spiketrains was removed. The PCs could be efficiently calculated by inverting the correlation matrix between the spiketrains (to obtain the `precision' matrix).
 Trying this method on our data is a straightforward next step.
 
@@ -62,7 +62,7 @@ Implementing Zhang et al.'s method and testing it on our data would be instructi
 
 % [TODO]: cluster, BIC.
 
-A deep-learning based network inference approach might be feasible, because we have sheer-infinite training data: we can generate and simulate as many different neuronal networks as needed. This would fall under the `simulation-based inference' (SBI) nomer.\cite{Cranmer2020FrontierSimulationbasedInference} While SBI techniques have been applied in neuroscience\cite{Goncalves2020TrainingDeepNeural}, they have to our knowledge not yet been used to reconstruct connectivity.
+A deep-learning based network inference approach might be feasible, because we have sheer-infinite training data: we can generate and simulate as many different neuronal networks as needed. This would fall under the `simulation-based inference' (SBI) nomer \cite{Cranmer2020FrontierSimulationbasedInference}. While SBI techniques have been applied in neuroscience \cite{Goncalves2020TrainingDeepNeural}, they have to our knowledge not yet been used to reconstruct connectivity.
 
 % \begin{itemize}
 %     \item Test on real data
@@ -84,7 +84,7 @@ We find that voltage-based network inference seems feasible to a limited extent,
 recording, voltage imaging SNR of $40$): the simple algorithm performs considerably better than chance -- though only for the 200 highest-firing inputs.
 
 Two of our newly developed inference methods perform better than the simple algorithm: they perform considerably better than chance when testing \emph{all} inputs (and not just the high firing ones). Our best-performing algorithm correlates STAs with a `template', which is obtained through a first pass of the simple algorithm. This detection method reaches an AUC value of $0.53$ for $6500$ inputs (chance level AUC: $0.25$). At a false positive rate of $5$\%, we detect $33$\% of the neuron's inhibitory inputs, and $13$\% of its excitatory inputs.\\
-This does not seem impressive in absolute terms. But we must note the high number of inputs that we used here (up to $6500$). Studies of spikes-only connection-detection methods typically only test networks with about 100 inputs per neuron.\cite{Ito2011ExtendingTransferEntropy,Guyon2014DesignFirstNeuronal}
+This does not seem impressive in absolute terms. But we must note the high number of inputs that we used here (up to $6500$). Studies of spikes-only connection-detection methods typically only test networks with about 100 inputs per neuron \cite{Ito2011ExtendingTransferEntropy,Guyon2014DesignFirstNeuronal}.
 Our methods have near perfect detection performance for up to 400 inputs per neuron.
 % NCC paper: 1000 neurons, each one connected to ±30.
 % Ito et al: 1000 neurons, each one has 100 connections.

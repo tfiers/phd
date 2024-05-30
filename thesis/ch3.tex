@@ -349,7 +349,7 @@ When the inhibitory reversal potential lies below this median voltage however, a
 
 We can thus conclude that, for connections to be detectable via the STA test, their synaptic reversal potential may not lie too close to the neuron's median voltage.
 
-In real neurons, the reversal potential of inhibitory inputs lies below the neuron's median membrane voltage. We thus set \vinh to $-65$ mV in the rest of this section. This is the approximate reversal potential of $\mathrm{Cl}^-$, the ion for which GABA\textsubscript{A} channels -- the main inhibitory receptor -- are permeable.\cite{Dayan2001TheoreticalNeuroscienceComputational,Kandel2013PrinciplesNeuralScience}
+In real neurons, the reversal potential of inhibitory inputs lies below the neuron's median membrane voltage. We thus set \vinh to $-65$ mV in the rest of this section. This is the approximate reversal potential of $\mathrm{Cl}^-$, the ion for which GABA\textsubscript{A} channels -- the main inhibitory receptor -- are permeable \cite{Dayan2001TheoreticalNeuroscienceComputational,Kandel2013PrinciplesNeuralScience}.
 
 \begin{figure}
     \subfloat{
@@ -529,4 +529,4 @@ Of the highest firing inputs (100 excitatory, 100 inhibitory), we detect about 6
 
 This is significantly better than chance (AUC at chance level is $0.252$), but there is a lot of room for improvement. In a later chapter (\cref{ch5-new-methods}), we will look for improved connection detection methods. But first, we take another look at our test setup.
 
-In this chapter, only one neuron's voltage was simulated, while being stimulated by $N$ independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections that are detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature.\cite{Orlandi2017FirstConnectomicsChallenge,Das2020SystematicErrorsConnectivity}
+In this chapter, only one neuron's voltage was simulated, while being stimulated by $N$ independent Poisson spiketrains. Real neural networks are often more recurrent and less feedforward than this, and different inputs to the same neuron can be correlated. This is why, in the next chapter, we simulate the voltages of multiple neurons, connected to each other in a fully recurrent neural network. In particular, we want to test the problem of indirect connections that are detected as direct connections -- a well-known problem in the spike-to-spike connection inference literature \cite{Orlandi2017FirstConnectomicsChallenge,Das2020SystematicErrorsConnectivity}.

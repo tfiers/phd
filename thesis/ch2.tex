@@ -12,7 +12,7 @@
 
 \section{The AdEx neuron}
 
-We choose to simulate the `AdEx' point neuron model, or the `adaptive exponential integrate-and-fire' neuron\cite{Brette2005AdaptiveExponentialIntegrateandFirea}, with conductance-based synaptic currents.
+We choose to simulate the `AdEx' point neuron model, or the `adaptive exponential integrate-and-fire' neuron \cite{Brette2005AdaptiveExponentialIntegrateandFirea}, with conductance-based synaptic currents.
 The AdEx neuron is a leaky-integrate-and-fire (LIF) neuron model, with two additions.
 First, the full upstroke of each spike is simulated, as an exponential runoff.
 Second, an extra dynamic variable is added: the adaptation current.
@@ -135,7 +135,7 @@ Also of interest -- especially when comparing with the Izhikevich neuron later -
          + g_L Δ_T \exp\left(\frac{V - V_T}{Δ_T}\right) \right) \notag \\
     &= -g_L + g_L \exp\left(\frac{V - V_T}{Δ_T}\right) \label{eq:dFdV}
 \end{align}
-This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in the AdEx literature\cite{Brette2005AdaptiveExponentialIntegrateandFirea,Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
+This derivative is zero at $V = V_T$. I.e, unlike what is suggested by the `$T$' subscript, and the name `effective threshold potential' given to it in the AdEx literature \cite{Brette2005AdaptiveExponentialIntegrateandFirea,Naud2008FiringPatternsAdaptive}, $V_T$ is not the instantaneous threshold potential (it is not a zero of $F$), but rather the minimum of $F$ (it is the zero of $\d[V]{F}$).
 
 From \cref{eq:dFdV}, we also calculate the slope of $F$ at its two roots. At $V = E_L$, the slope (also known as the leak or input conductance here) is $-g_L$, plus a negligibly small exponential term. The negative sign shows that this is a stable fixed point: in a linearization of $F$ around this point, at voltages below the resting potential, $F$ (i.e. $\d{V}$) is positive and thus $V$ will increase. At voltages above $E_L$, $F$ is negative and $V$ will decrease. Small deviations on either side of the resting potential will thus decay back to this resting potential.
 
@@ -210,7 +210,7 @@ In Izhikevich's book\footnote{\cite{Izhikevich2007DynamicalSystemsNeuroscience},
 \begin{table}[h]
     \begin{sidecaption}
         {\textbf{Translating between Izhikevich and AdEx.}
-        Different symbols used for the same quantities, in \cite{Brette2005AdaptiveExponentialIntegrateandFirea} and in most of this thesis (`AdEx') , and in \cite{Izhikevich2007DynamicalSystemsNeuroscience} (`Izh').
+        Different symbols used for the same quantities, in \cite{Brette2005AdaptiveExponentialIntegrateandFirea} and in most of this thesis (`AdEx'), and in \cite{Izhikevich2007DynamicalSystemsNeuroscience} (`Izh').
         Membrane capacitance $C$ (in farad) is the same in both notations.}
         [tab:AdEx-Izh-compar]
         \begin{tabular}{c c l c}
@@ -412,7 +412,7 @@ Note also that, even though the inhibitory input is four times as strong as the 
 
 In our simplest experimental setup, we simulate just one AdEx neuron.
 Its input is provided by an array of $N$ Poisson neurons, i.e. they each generate spike trains according to a Poisson process.\footnote{
-    This is both a simple and relatively accurate model of real cortical pyramidal firing statistics: the time between two spikes is almost completely independent of preceding inter-spike intervals.\cite{Softky1993HighlyIrregularFiringa}
+    This is both a simple and relatively accurate model of real cortical pyramidal firing statistics: the time between two spikes is almost completely independent of preceding inter-spike intervals \cite{Softky1993HighlyIrregularFiringa}.
 }
 We call this the `N-to-1' setup.
 
@@ -428,7 +428,7 @@ We use that fact to generate spike trains: we draw samples from $\mathrm{Exp}(\l
     \label{fig:log-normal}
 \end{figure}
 
-The firing rates of real neurons often follow a long-tailed distribution: most neurons do not fire much at all, while a few fire a lot.\cite{Mizuseki2013PreconfiguredSkewedDistribution,Hromadka2008SparseRepresentationSounds,Shafi2007VariabilityNeuronalActivity} We recapitulate this in the firing rates $λ$ of our Poisson input neurons, by drawing them from a log-normal distribution. We look to the literature for realistic parameters for this distribution, namely to the modelling paper of \Authorref{Roxin2011DistributionFiringRates}, and the experimental sources it cites \cite{Hromadka2008SparseRepresentationSounds,OConnor2010NeuralActivityBarrel}.
+The firing rates of real neurons often follow a long-tailed distribution: most neurons do not fire much at all, while a few fire a lot \cite{Mizuseki2013PreconfiguredSkewedDistribution,Hromadka2008SparseRepresentationSounds,Shafi2007VariabilityNeuronalActivity}. We recapitulate this in the firing rates $λ$ of our Poisson input neurons, by drawing them from a log-normal distribution. We look to the literature for realistic parameters for this distribution, namely to the modelling paper of \Authorref{Roxin2011DistributionFiringRates}, and the experimental sources it cites \cite{Hromadka2008SparseRepresentationSounds,OConnor2010NeuralActivityBarrel}.
 
 Log-normal distributions are usually parametrized with $μ$ and $σ$: the location and scale of the underlying normal distribution, i.e. after log-transforming the input domain. In the above sources however, the mean $μ_x$ of the data distribution itself is given. We can find $μ$, if $σ$ is known, as $μ = \ln(μ_x) - σ^2 / 2$.
 
