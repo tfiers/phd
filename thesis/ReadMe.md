@@ -24,10 +24,11 @@ Then run, for continuous compilation: `latexmk -pvc -pdf main.tex`.
 
 On font-related errors, running `updmap` might help.
 
-To fix internal links to sidecaptions not working (and instead sending you to top of document), see https://gitlab.com/axelsommerfeldt/caption/-/issues/175#note_1549762142
-I.e. I manually replaced `C:\TinyTeX\texmf-dist\tex\latex\caption\caption-memoir.sto`
-with https://gitlab.com/axelsommerfeldt/caption/-/blob/eb364ba/tex/caption-memoir.sto
+<!-- This caption fix is no longer necessary as of at least june '24 -->
+<!-- To fix internal links to sidecaptions not working (and instead sending you to top of document), see https://gitlab.com/axelsommerfeldt/caption/-/issues/175#note_1549762142
+I.e. I manually replaced `C:\tools\TinyTeX\texmf-dist\tex\latex\caption\caption-memoir.sto`
+with https://gitlab.com/axelsommerfeldt/caption/-/blob/eb364ba/tex/caption-memoir.sto -->
 
-Another manual patch:
-- Replace three `&` by `:` in `C:\TinyTeX\texmf-dist\tex\latex\lstaddons\lstlinebgrd.sty`.
+A manual patch to a used latex package:
+- Replace three `&` by `:` in `C:\tools\TinyTeX\texmf-dist\tex\latex\lstaddons\lstlinebgrd.sty`.
   (Thanks [this comment](https://tex.stackexchange.com/questions/451532/recent-issues-with-lstlinebgrd-package-with-listings-after-the-latters-updates#comment1281207_451538))
