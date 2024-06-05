@@ -118,7 +118,7 @@ We see in \cref{eq:AdEx-V} (for $I_\syn = 0$ and $w = 0$) that the leak potentia
 }
 The second fixed point has no straightforward expression. The exact solutions for $F$'s roots need the so called Lambert $W$ or `product logarithm' functions $W_0$ and $W_{-1}$ (see \cref{fig:LambertW}). The roots are found at:
 \begin{equation}
-    V = E_L - Δ_T W_k \left( -\exp\left( \frac{E_L - V_T}{Δ_T} \right) \right) \label{eq:LambertW}
+    V = E_L - Δ_T W_k \left( -\exp\left( \frac{E_L - V_T}{Δ_T} \right) \right), \label{eq:LambertW}
 \end{equation}
 where $k = 0$ gives the resting potential, and $k = -1$ the instantaneous firing threshold.\footnote{
     Here too we see that the true resting potential is almost identical to $E_L$: $W_0$ passes through zero, and its argument is $≈ 0$, because the exponential's argument is negative. For $W_{-1}$ however, \cref{fig:LambertW} shows that the second term is not negligible around $0$.}
@@ -140,7 +140,7 @@ From \cref{eq:dFdV}, we also calculate the slope of $F$ at its two roots. At $V 
 
 At the firing threshold $V = E_T$ (i.e. the second solution to \cref{eq:LambertW}), the slope is:
 \begin{equation}
-    g_L \left( \exp\left(\frac{E_T - V_T}{Δ_T}\right) - 1 \right)  \label{eq:AdEx-slope}
+    g_L \left( \exp\left(\frac{E_T - V_T}{Δ_T}\right) - 1 \right),  \label{eq:AdEx-slope}
 \end{equation}
 which is positive (as $E_T > V_T$), indicating that this is an unstable fixed point: a small deviation of the voltage above $E_T$ will blow up to infinity (i.e, a spike is generated).
 
@@ -284,7 +284,7 @@ This nonlinearity is not visible for small voltage deviations, which is what the
 One as of yet unexplained term in our neuron model, \cref{eq:AdEx-V}, is the synaptic current $I_\syn$.
 This is the following sum over all input synapses $i$ of the neuron:
 \begin{equation}
-    I_\syn(t) = \sum_i g_i(t) \left( V(t) - E_i \right)
+    I_\syn(t) = \sum_i g_i(t) \left( V(t) - E_i \right),
     \label{eq:I_syn}
 \end{equation}
 where $V$ is the global membrane voltage of the neuron, $E_i$ is the reversal potential of that synapse, and $g_i$ is the local synaptic conductance, which is modulated by presynaptic spikes.
@@ -312,7 +312,7 @@ We simulate the synaptic conductances $g_i$ as exponentially decaying signals (w
     \label{fig:g2}
 }
 
-Note that these are not the so called alpha-synapses. Those have \emph{two} exponential terms and time constants in their differential equation (instead of one, as in \cref{eq:g_i}): they also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
+Note that these are not the so called alpha-synapses. Those have \emph{two} terms (and corresponding time constants) in their differential equation (instead of one, as in \cref{eq:g_i}): they also have an exponential rise, instead of just an exponential decay. (For an infinitely fast rise though, these models are of course the same).
 Simulating a full alpha synapse might increase the realism of our voltage traces, for a small simulation cost. We did not try this however. Foremost because alpha synapses fit to real data often have very fast rise times that are almost indistinguishable from instantaneous jumps.
 
 For efficiency, we give all our excitatory synapses the same reversal potential, $E_\exc$. Idem for the inhibitory synapses, with $E_\inh$. This allows us to factor the synaptic current sum (\cref{eq:I_syn}) as follows:
