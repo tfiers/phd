@@ -127,8 +127,9 @@ But even though \cref{eq:PSP} models our simulated \emph{PSPs} well, it does not
     This falsifies our initial implicit hypothesis that STAs are merely noisy reflections of PSPs.
 };
 see for example the average STAs in \cref{fig:corr}.
-First, the bump in the STA does not occur immediately after the presynaptic neuron's spike. This is due to the simulated axonal transmission delay, and it is easily replicated in the model by shifting the PSP function in time. But more interestingly, the STA shows a sort of `dip', where it dives below baseline just after the PSP bump, and flares up again at the ends (a downwards slant in the initial delay period, and an upwards slant at the end of the STA).\\
-\Cref{fig:N_1_signals} from \cref{ch3-STA} gives a clue to the reason for this dip: when there are no poststynaptic spikes (second and fourth column in \cref{fig:N_1_signals}), there is also no dip visible in the STAs (second and third rows). This dip thus seems related to these postsynaptic spikes, maybe enhancing the PSP right before and during the spike, and suppressing it right after (when the voltage is reset).
+First, the bump in the STA does not occur immediately after the presynaptic neuron's spike. This is due to the simulated axonal transmission delay, and it is easily replicated in the model by shifting the PSP function in time. But more interestingly, the STA shows a sort of `dip', where it dives below baseline just after the PSP bump, and flares up again at the ends (a downwards slant in the initial delay period, and an upwards slant at the end of the STA).\footnote{
+    \Cref{fig:N_1_signals} from \cref{ch3-STA} gives a clue to the reason for this dip: when there are no poststynaptic spikes (second and fourth column in \cref{fig:N_1_signals}), there is also no dip visible in the STAs (second and third rows). This dip thus seems related to these postsynaptic spikes, maybe enhancing the PSP right before and during the spike, and suppressing it right after (when the voltage is reset).
+}
 
 \begin{figure}
     \subfloat{
@@ -310,7 +311,7 @@ But when the number of datapoints is quite large, as is the case here, the $t$-d
 
 We can (and do) use this $t$-value as-is in our connection test, i.e. as the test statistic over which the detection threshold is swept.
 
-Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards). \Cref{fig:linefit-residuals} shows that the residuals of a linear regression of an example STA are not symmetric.}
+Additionally, if our assumptions (linear data-generating process, additive Gaussian noise) would be correct,\footnote{They are not. As one example, consider postsynaptic spikes as one of the sources of noise on the PSP: they are assymetrical (spikes are always upwards, never downwards). \Cref{fig:linefit-residuals} shows that the residuals of a linear regression of an example connection are not symmetric.}
 we could also assign an actual probability (a $p$-value) to observing slopes as extreme as observed. Because $t$ follows the standard normal distribution under the null-hypothesis, and with $\phi(x)$ the cumulative probability function of this distribution, we have: $p = 2\ \phi(-|t|)$: the probability that a sample smaller than $-|t|$ or larger than $|t|$ is drawn.
 
 As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noise $ε$ on the regression does not seem valid. But our goal for this regression was not to build a statistical model of the STA, but rather to use the fit as a tool for connection detection, something at which it empirically succeeds, notwithstanding the violated statistical assumptions.
@@ -340,9 +341,9 @@ As seen in \cref{fig:linefit-residuals}, our assumption of additive Gaussian noi
     \captionn
         {Residuals of an example regression}
         {
-        Linear regression of the first 10 ms of the spike-triggered average voltage of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input.
+        Linear regression of pooled windows of the voltage of an AdEx neuron with 6500 inputs simulated for 10 minutees, for its highest-firing excitatory input; each presynaptic spike correponds to a 10 ms window.
         Left: Residuals over time.
-        Right: Distribution of residuals marginalized over time; vertical black line indicates both the mean ($-5.9 × 10^{-12}$~mV) and the median ($0.1$~mV).\\
+        Right: Residuals marginalized over time; vertical black line indicates both the mean ($-5.9 × 10^{-12}$~mV) and the median ($0.1$~mV).\\
         The residuals seem to be homoskedastic, but are not symmetrically distributed.\\
         Source: \nburl{2024-05-29__Residuals-linefit}.
         }
@@ -490,7 +491,7 @@ Second, one could argue the standard error of the STA regression \emph{does} alr
 %     \item Leadup to the network experiments: what we could not yet test (the problem of indirect connections, as e.g. identified in the connectomics challenge)
 % \end{itemize}
 
-\clearpage
+
 \section{Conclusion}
 
 In this chapter we wondered whether we could improve upon the most obvious voltage-based connection detection method (namely measuring the height of the STA). We developed and tested three new methods. We found that two of them -- template correlation and linear regression of the upstroke -- indeed performed significantly better as a connection test. The third method we developed (fitting a parametric model to the STA shape) did not perform better as a connection test, but it does provide a method to estimate biophysical parameters of a connection.
